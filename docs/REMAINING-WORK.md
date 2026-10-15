@@ -2,7 +2,7 @@
 
 
 
-Snapshot: 15 October 2026, application 0.12.0, protocol 13, user database schema 4.
+Snapshot: 15 October 2026, application 0.13.0, protocol 14, user database schema 4.
 
 
 
@@ -201,3 +201,8 @@ These are future scope, not missing parts of the current assumed-victory encount
 
 
 References: [rule coverage](RULES.md), [training encounters](training-encounters.md), [battle teams](battle-teams.md), [catalog storage](catalog-storage.md). Release validation evidence is in `outputs/compendium/` at the workspace root.
+
+
+## Battlefield milestone (0.13.0)
+
+Implemented typed weather, terrain, screens, rooms, temporary typing, arena hooks and 29 dependent abilities. See [battlefield automation](battlefield.md). Torn World target adjudication, narrative escape, items, transformations and unreviewed move sequencing remain open.

@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, BTreeSet};
 use ts_rs::TS;
 pub(crate) mod abilities;
+pub(crate) mod field;
 mod targeting;
 use targeting::*;
 #[derive(Debug, Clone, Default, Serialize, Deserialize, TS)]
@@ -43,6 +44,8 @@ pub struct Status {
 #[derive(Debug, Clone, Default, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct TurnFlow {
+    #[serde(default)]
+    pub battlefield: field::Battlefield,
     #[serde(default)]
     pub ability_rules: bool,
     #[serde(default)]
@@ -185,6 +188,9 @@ fn confusion(c: &Campaign, p: &Combatant) -> i32 {
     }
 }
 fn ready(c: &Campaign, id: &str) -> Result<()> {
+    if field::pending(c) {
+        return Err(error("Resolve pending battlefield checks first"));
+    }
     if abilities::pending(c) {
         return Err(error(
             "Resolve pending ability triggers before another action",
@@ -455,6 +461,7 @@ fn known_status(k: &str) -> bool {
 }
 fn reaction_pool(c: &Campaign, id: &str, kind: &str, name: &str, cat: &Catalog) -> Result<u32> {
     let p = fighter(c, id)?;
+    field::reaction(c, p, kind, cat)?;
     ready(c, id)?;
     let f = flow(c)?;
     // Table rules: Evasion shares the turn's reaction slot with reaction moves.
@@ -473,7 +480,11 @@ fn reaction_pool(c: &Campaign, id: &str, kind: &str, name: &str, cat: &Catalog) 
     if incoming.target_id != id || incoming.actor_id == id {
         return Err(error("React only to the action targeting you"));
     }
-    let m = move_entry(cat, &incoming.move_name)?;
+    let m = field::move_data(
+        c,
+        fighter(c, &incoming.actor_id)?,
+        &move_entry(cat, &incoming.move_name)?,
+    );
     if kind == "evade" || kind == "clash" {
         if incoming.timing == "after" || incoming.priority >= 6 {
             return Err(error(
@@ -620,13 +631,15 @@ fn ice_damage_pool(c: &Campaign, q: &QueuedAction, modifier: i32, cat: &Catalog)
     let p = fighter(c, &q.actor_id)?;
     let s = rules::effective_sheet(c, p)?;
     let m = move_entry(cat, &q.move_name)?;
-    let species = cat.find("species", "AppId", s.species_id.as_deref().unwrap_or(""));
-    let stab =
-        i32::from(species.is_some_and(|v| ["Type1", "Type2"].iter().any(|k| v[*k] == m["Type"])));
+    let stab = i32::from(field::types(c, p, cat)?.iter().any(|t| m["Type"] == *t));
     let conditional = type_ability(c, p, m["Type"].as_str().unwrap_or(""));
     let n = (rules::score(&s, m["Damage1"].as_str().unwrap_or(""))?
         + m["Power"].as_i64().unwrap_or(0) as i32
-        - 2)
+        - if field::weather(c, Some(fighter(c, &q.target_id)?)) == Some(field::Weather::Snow) {
+            3
+        } else {
+            2
+        })
     .max(1)
         + stab
         + if q.critical { 2 } else { 0 }
@@ -643,7 +656,9 @@ fn ice_damage_pool(c: &Campaign, q: &QueuedAction, modifier: i32, cat: &Catalog)
 }
 pub fn dice_count(c: &Campaign, a: &Action, cat: &Catalog) -> Result<u32> {
     abilities::phase(c, a)?;
+    field::phase(c, a)?;
     let base = match a {
+        Action::Battlefield { command, .. } => return field::dice(c, command),
         Action::ResolveAbility {
             event_id, choice, ..
         } => return abilities::dice(c, event_id, choice),
@@ -809,7 +824,7 @@ pub fn preview(c: &Campaign, a: &Action, cat: &Catalog) -> Result<ActionPreview>
         let (ids, scope) = plan(c, combatant_id, &selected(a), &move_entry(cat, move_name)?)?;
         if let Some(scope) = scope {
             warnings.push(format!(
-                "Field scope: {scope}. GM must record mechanical effects and duration."
+                "Field scope: {scope}. Reviewed battlefield effects can resolve automatically; unsupported effects require GM adjudication."
             ));
         } else {
             let names = redirect(c, ids)
@@ -817,6 +832,35 @@ pub fn preview(c: &Campaign, a: &Action, cat: &Catalog) -> Result<ActionPreview>
                 .map(|id| fighter(c, id).map(|p| p.name.clone()))
                 .collect::<Result<Vec<_>>>()?;
             warnings.push(format!("Affected Pokemon: {}. One accuracy/action for the move; per-target responses, shared damage dice.", names.join(", ")));
+        }
+    }
+    if field::enabled(c) {
+        warnings.push(format!(
+            "Effective weather: {:?}; arena effects: {}",
+            field::weather(c, None),
+            flow(c)?
+                .battlefield
+                .rules
+                .iter()
+                .map(|r| format!("{} ({})", r.kind, r.scope))
+                .collect::<Vec<_>>()
+                .join(", ")
+        ));
+        if let Action::Damage {
+            combatant_id,
+            sequence,
+            pool_modifier,
+            ..
+        } = a
+        {
+            let q = current(c)?;
+            let mut temp = old(c);
+            install_pending(&mut temp, q);
+            let pool = rules::damage_pool(&temp, combatant_id, *sequence, *pool_modifier, cat)?;
+            let source = fighter(c, combatant_id)?;
+            let target = fighter(c, &q.target_id)?;
+            let m = field::move_data(c, source, &move_entry(cat, &q.move_name)?);
+            warnings.push(format!("Damage pool {}: attribute {}, power {}, defense {}, STAB {}, critical {}; field dice {:+}, final field reduction {}",pool.dice,pool.attribute,pool.power,pool.defense,pool.stab,pool.critical,field::bonus(c,source,&m)+field::target_bonus(c,target,&m),field::reduction(c,source,target,&m)));
         }
     }
     if let Some(b) = c.battle.as_ref() {
@@ -899,12 +943,25 @@ pub fn transition(
     cat: &Catalog,
 ) -> Result<(Campaign, String)> {
     abilities::phase(c, a)?;
+    field::phase(c, a)?;
     let mut next = c.clone();
+    if let Action::SwitchPokemon { outgoing_id, .. } = a {
+        if let Ok(p) = fighter(c, outgoing_id) {
+            if field::has(c, "mud", p) && field::grounded(c, p, cat) {
+                return Err(error(
+                    "Muddy terrain blocks grounded Pokemon from switching",
+                ));
+            }
+        }
+    }
     if let Some(description) = targeting_action(c, &mut next, actor, a, &dice, cat)? {
         checkpoint(c, &mut next, &description);
         return Ok((next, description));
     }
     let description = match a {
+        Action::Battlefield { command, reason } => {
+            field::command(&mut next, actor, command, &dice, reason, cat)?
+        }
         Action::ResolveAbility { .. } => abilities::resolve(c, &mut next, actor, a, &dice, cat)?,
         Action::InflictStatus {
             combatant_id,
@@ -1133,11 +1190,19 @@ pub fn transition(
                     "Unresolved initiative tie; GM rerolls the tied combatants",
                 ));
             }
+            if field::enabled(c)
+                && order
+                    .first()
+                    .is_some_and(|p| field::has(c, "Trick Room", p))
+            {
+                order.reverse();
+            }
             let f = flow_mut(&mut next);
             f.order = order.iter().map(|p| p.id.clone()).collect();
             f.started = true;
             f.turn += 1;
             f.cursor = 0;
+            field::start(&mut next, cat)?;
             "Initiative order confirmed; turns started".into()
         }
         Action::PassTurn {
@@ -1196,7 +1261,7 @@ pub fn transition(
                 return Err(error("Success modifier outside bounds"));
             }
             let p = fighter(c, combatant_id)?;
-            let m = move_entry(cat, move_name)?;
+            let m = field::move_data(c, p, &move_entry(cat, move_name)?);
             if matches!(a, Action::AccuracyTargets { .. }) {
                 require_targeting(c)?;
             }
@@ -1223,7 +1288,8 @@ pub fn transition(
                 .as_i64()
                 .unwrap_or(0)
                 .min(0) as i32
-                - abilities::low_accuracy(c, p, &m);
+                - abilities::low_accuracy(c, p, &m)
+                - field::low_accuracy(c, p, &m);
             let shield_penalty = shield_attempt(&mut next, combatant_id, &m)?;
             let pain_exempt = pain_exempt(c, p, &m)?;
             let saved_pain = fighter_mut(&mut next, combatant_id)?.runtime.pain_ignored;
@@ -1506,12 +1572,19 @@ pub fn transition(
             {
                 let p = fighter(c, combatant_id)?;
                 let context = abilities::DamageContext {
+                    field_snapshot: if field::enabled(c) {
+                        Some(field::snapshot(c, cat)?)
+                    } else {
+                        None
+                    },
                     stats: rules::effective_sheet(c, p)?.stats,
                     hp: p.hp,
                     pain_ignored: p.runtime.pain_ignored,
                     counters: p.runtime.ability.counters.clone(),
                     statuses: p.runtime.statuses.clone(),
                     love_resisted_turn: p.runtime.love_resisted_turn,
+                    types: field::types(c, p, cat)?,
+                    field_bonus: field::bonus(c, p, &move_entry(cat, &current(c)?.move_name)?),
                 };
                 flow_mut(&mut damage_campaign).queue[0].damage_context = Some(context);
             }
@@ -1562,7 +1635,15 @@ pub fn transition(
                         .find(|s| s.kind == "Frozen Solid")
                         .ok_or_else(|| error("Ice no longer present"))?;
                     ice.progress += amount;
-                    if ice.progress >= 5 {
+                    if ice.progress
+                        >= if field::weather(c, Some(fighter(c, &q.target_id)?))
+                            == Some(field::Weather::Snow)
+                        {
+                            7
+                        } else {
+                            5
+                        }
+                    {
                         t.runtime.statuses.retain(|s| s.kind != "Frozen Solid");
                     }
                     let pending = flow_mut(&mut next).queue.first_mut().unwrap();
@@ -1608,6 +1689,7 @@ pub fn transition(
                     p.hp = (p.hp - amount).max(0);
                     abilities::hit(&mut next, &q, before_hp, &move_entry(cat, &q.move_name)?)?;
                     finish(&mut next);
+                    field::lifecycle(c, &mut next, cat)?;
                     abilities::lifecycle(c, &mut next)?;
                     sync_labels(&mut next);
                     refresh_initiative(c, &mut next)?;
@@ -1678,7 +1760,35 @@ pub fn transition(
                 thick_fat =
                     abilities::reduction(c, target, &move_data, pool.effectiveness, &q.actor_id);
             }
-            let mut damage = (before - after - shield - thick_fat).max(0);
+            let field_reduction = field::reduction(c, fighter(c, &q.actor_id)?, target, &move_data);
+            let raw_amount = if field::enabled(c) {
+                let Action::Damage {
+                    pool_modifier,
+                    success_modifier,
+                    damage_modifier,
+                    ..
+                } = a
+                else {
+                    unreachable!()
+                };
+                let pool = rules::damage_pool(&temp, &q.actor_id, q.sequence, *pool_modifier, cat)?;
+                let net = (raw_damage_successes as i32 - pool.pain + success_modifier).max(0);
+                if pool.immune {
+                    0
+                } else {
+                    (net.max(1)
+                        + if pool.effectiveness > 0 && net == 0 {
+                            0
+                        } else {
+                            pool.effectiveness
+                        }
+                        + damage_modifier)
+                        .max(0)
+                }
+            } else {
+                before - after
+            };
+            let mut damage = (raw_amount - shield - thick_fat - field_reduction).max(0);
             if holding_back(c, &q) {
                 damage /= 2;
             }
@@ -1714,7 +1824,7 @@ pub fn transition(
             if q.sequence != *sequence {
                 return Err(error("Pending action changed"));
             }
-            if q.field_scope.is_some() {
+            if q.field_scope.is_some() && matches!(a, Action::AdjudicateEffect { .. }) {
                 return Err(error(
                     "Use the field-effect ruling to preserve its scope and duration",
                 ));
@@ -1901,8 +2011,25 @@ pub fn transition(
                 ));
             }
             let mut temp = old(c);
-            end_round(&mut temp, cat)?;
-            abilities::end_round(&mut temp)?;
+            let already_ended =
+                field::enabled(c) && flow(c)?.battlefield.end_round == battle(c)?.round;
+            if !already_ended {
+                end_round(&mut temp, cat)?;
+                abilities::end_round(&mut temp)?;
+                field::end(&mut temp, cat)?;
+            }
+            if field::pending(&temp) {
+                temp.engine = c.engine.clone();
+                field::lifecycle(c, &mut temp, cat)?;
+                sync_labels(&mut temp);
+                checkpoint(c, &mut temp, "Round-end battlefield checks pending");
+                return Ok((
+                    temp,
+                    "Resolve round-end battlefield checks before expiry and round advancement"
+                        .into(),
+                ));
+            }
+            field::expire(&mut temp)?;
             let (mut done, log) = crate::battle::transition(&temp, actor, a, dice, cat)?;
             done.engine = c.engine.clone();
             done.battle_undo = c.battle_undo.clone();
@@ -1972,7 +2099,12 @@ pub fn transition(
             ) {
                 let b = done.battle.as_mut().unwrap();
                 b.flow = Some(TurnFlow {
-                    ability_rules: c.engine == ENGINE,
+                    ability_rules: [ENGINE, ABILITY_ENGINE].contains(&c.engine.as_str()),
+                    battlefield: field::Battlefield {
+                        enabled: c.engine == ENGINE,
+                        sunlight: true,
+                        ..Default::default()
+                    },
                     ..TurnFlow::default()
                 });
                 for p in &mut b.combatants {
@@ -2095,12 +2227,16 @@ pub fn transition(
             if !matches!(a, Action::RollbackBattle { .. } | Action::Override { .. }) {
                 refresh_initiative(c, &mut done)?;
             }
+            if !matches!(a, Action::RollbackBattle { .. }) {
+                field::lifecycle(c, &mut done, cat)?;
+            }
             abilities::lifecycle(c, &mut done)?;
             cleanup_covers(c, &mut done, a);
             sync_labels(&mut done);
             return Ok((done, log));
         }
     };
+    field::lifecycle(c, &mut next, cat)?;
     abilities::lifecycle(c, &mut next)?;
     cleanup_covers(c, &mut next, a);
     refresh_initiative(c, &mut next)?;
@@ -2110,29 +2246,30 @@ pub fn transition(
 }
 fn clash_damage(c: &Campaign, id: &str, move_type: &str, cat: &Catalog) -> Result<i32> {
     let p = fighter(c, id)?;
-    let s = &c.sheets[&p.sheet_id];
-    let species = cat
-        .find("species", "AppId", s.species_id.as_deref().unwrap_or(""))
-        .ok_or_else(|| error("Missing typing"))?;
     let mut damage = 1;
-    for key in ["Type1", "Type2"] {
-        if let Some(t) = species[key].as_str().filter(|t| !t.is_empty()) {
-            let n = rules::type_effect(
-                if move_type == "Fighting" {
-                    "Fight"
-                } else {
-                    move_type
-                },
-                t,
-            )?;
-            if n == -100 {
-                return Ok(0);
+    let move_type = if move_type == "Fighting" {
+        "Fight"
+    } else {
+        move_type
+    };
+    for t in field::types(c, p, cat)? {
+        let n = rules::type_effect(move_type, &t)?;
+        if n == -100 {
+            if move_type == "Ground" && t == "Flying" && field::has(c, "Gravity", p) {
+                continue;
             }
-            damage += n;
+            return Ok(0);
         }
+        damage += n;
+    }
+    if field::weather(c, Some(p)) == Some(field::Weather::StrongWinds)
+        && field::types(c, p, cat)?.iter().any(|t| t == "Flying")
+    {
+        damage = damage.min(1);
     }
     Ok(damage.max(0))
 }
+
 fn set_status(
     c: &mut Campaign,
     id: &str,
@@ -2189,6 +2326,26 @@ fn set_status(
         || abilities::status_immune(c, p, kind)
     {
         return Err(error("Selected ability is immune to this condition"));
+    }
+    let immune = if field::enabled(c) {
+        field::types(c, p, cat)?.iter().any(|t| {
+            (kind.starts_with("Burn") && t == "Fire")
+                || (kind == "Paralysis" && t == "Electric")
+                || (kind.contains("Poison") && ["Poison", "Steel"].contains(&t.as_str()))
+                || (kind == "Frozen Solid" && t == "Ice")
+        })
+    } else {
+        immune
+    };
+    if field::prevents_status(c, p, kind)
+        || (kind == "Burn"
+            && p.runtime
+                .statuses
+                .iter()
+                .any(|s| s.kind.starts_with("Burn"))
+            && field::weather(c, Some(p)) == Some(field::Weather::Rain))
+    {
+        return Err(error("Battlefield prevents this condition"));
     }
     if immune {
         return Err(error("Species type is immune to this condition"));
@@ -2295,11 +2452,27 @@ fn chance_effect(name: &str) -> Option<(&str, u32)> {
         "Thunder Shock" | "Thunderbolt" | "Thunder Punch" => Some(("Paralysis", 1)),
         "Spark" => Some(("Paralysis", 3)),
         "Confusion" => Some(("Confusion", 1)),
+        "Ice Beam" | "Ice Punch" | "Blizzard" | "Powder Snow" => Some(("Frozen Solid", 1)),
+        "Thunder" => Some(("Paralysis", 3)),
+        "Hurricane" => Some(("Confusion", 3)),
         "Hyper Fang" => Some(("Flinch", 1)),
         _ => None,
     }
 }
 fn effect_dice(c: &Campaign, q: &QueuedAction, _cat: &Catalog) -> Result<u32> {
+    if !field::enabled(c)
+        && [
+            "Ice Beam",
+            "Ice Punch",
+            "Blizzard",
+            "Powder Snow",
+            "Thunder",
+            "Hurricane",
+        ]
+        .contains(&q.move_name.as_str())
+    {
+        return Ok(0);
+    }
     Ok(if q.move_name == "Submission" {
         if abilities::enabled(c) && fighter(c, &q.actor_id)?.selected_ability == "Magic Guard" {
             0
@@ -2307,10 +2480,37 @@ fn effect_dice(c: &Campaign, q: &QueuedAction, _cat: &Catalog) -> Result<u32> {
             q.raw_damage_successes
         }
     } else {
-        chance_effect(&q.move_name).map_or(0, |(_, n)| n)
+        chance_effect(&q.move_name).map_or(0, |(kind, n)| {
+            n + u32::from(
+                kind == "Frozen Solid"
+                    && matches!(
+                        field::weather(c, None),
+                        Some(field::Weather::Snow | field::Weather::Hail)
+                    ),
+            )
+        })
     })
 }
 fn effects(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) -> Result<()> {
+    if !field::enabled(c)
+        && [
+            "Ice Beam",
+            "Ice Punch",
+            "Blizzard",
+            "Powder Snow",
+            "Thunder",
+            "Hurricane",
+        ]
+        .contains(&q.move_name.as_str())
+    {
+        return Err(AppError::new(
+            "manual_rule",
+            "This effect requires the battlefield rules upgrade",
+        ));
+    }
+    if field::move_effect(c, q, cat)? {
+        return Ok(());
+    }
     let data = move_entry(cat, &q.move_name)?;
     if abilities::move_immune(c, fighter(c, &q.target_id)?, &data) {
         return Ok(());
@@ -2369,6 +2569,7 @@ fn effects(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) -> Re
                     if ![
                         "Species type is immune to this condition",
                         "Selected ability is immune to this condition",
+                        "Battlefield prevents this condition",
                     ]
                     .contains(&e.message.as_str())
                     {

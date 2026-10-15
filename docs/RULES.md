@@ -55,3 +55,6 @@ New campaigns use `0.5.0-core`. Existing `0.4.0-core`, `0.3.0-core`, `0.2.0-core
 Up to twenty battle steps can be rolled back, including status/Will spending, reaction queues, turn position, end-round ticks and battle ending. Checkpoints restore battle state plus sheet HP/conditions/Will, keeping sheet revisions monotonic when resources change. Original events, dice, receipts, campaign revisions, host and GM identities are retained. Retrying an undone command cannot reapply it. Synchronization, awards, new battles and engine/catalog adoption invalidate prior recovery checkpoints.
 
 Creation, learning, evolution, retraining and Training Point transfers remain handled by the existing offline Rust workflow service. Campaign exceptions and narrative permissions are GM-scoped; ordinary legal operations against accepted resources work offline. Automated training-session earnings and capture dice remain outside this milestone.
+
+
+Battlefield automation in engine 0.6.0-core is described in [battlefield.md](battlefield.md). Historical engine coverage above remains version-specific; the new service adds weather, terrain, barriers, rooms, temporary typing and supported arena hooks. Unsupported mechanics remain explicit.

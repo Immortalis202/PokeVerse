@@ -1,3 +1,4 @@
+import BattlefieldControls from "./BattlefieldControls";
 import type { Catalog } from "./catalog";
 import type { Campaign } from "./bindings/Campaign";
 import type { Action } from "./bindings/Action";
@@ -63,6 +64,12 @@ export default function CoreBattleFlow({
   const why = reason.trim() || "Player battle decision";
   return (
     <section className="panel" aria-label="Core battle turn flow">
+      <BattlefieldControls
+        campaign={campaign}
+        playerId={playerId}
+        execute={execute}
+        disabled={disabled}
+      />
       <h3>Turn and reaction flow</h3>
       <p>
         {!f.started
@@ -272,7 +279,9 @@ export default function CoreBattleFlow({
               </div>
             </>
           )}
-          {["0.4.0-core", "0.5.0-core"].includes(campaign.engine) &&
+          {["0.4.0-core", "0.5.0-core", "0.6.0-core"].includes(
+            campaign.engine,
+          ) &&
             b.combatants
               .filter(
                 (p) =>
@@ -350,9 +359,23 @@ export default function CoreBattleFlow({
             {pending.field_scope && (
               <div>
                 <p>
-                  Field scope: {pending.field_scope}. Weather, terrain and other
-                  mechanical changes require an explicit GM ruling.
+                  Field scope: {pending.field_scope}. Resolve reviewed mechanics
+                  automatically, or record a GM ruling for unsupported effects.
                 </p>
+                {owned(pending.actor_id) && f.battlefield?.enabled && (
+                  <button
+                    disabled={disabled}
+                    onClick={() =>
+                      send({
+                        type: "resolve_effect",
+                        sequence: pending.sequence,
+                        reason: why,
+                      })
+                    }
+                  >
+                    Apply reviewed battlefield effect
+                  </button>
+                )}
                 {gm && (
                   <>
                     <label>

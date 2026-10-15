@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.5.0-core",
-  "release": "0.12.0",
-  "protocol": 13,
+  "engine": "0.6.0-core",
+  "release": "0.13.0",
+  "protocol": 14,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -182,7 +182,18 @@
         "old_battles_without_runtime_or_flow_remain_readable"
       ],
       "scope": "Host validates, rolls and atomically commits; appointed GM controls rulings. Stored state, rollback, revision checks and receipts retain existing guarantees."
+    },
+    {
+      "id": "battlefield",
+      "status": "partial",
+      "source": "RULING 78,88-91; reviewed MASTER move and ability pages",
+      "fixtures": [
+        "field_all_weather_bonuses_and_move_failures",
+        "field_move_resolution_uses_normal_action_and_will_cost",
+        "field_weather_ability_contest_suppression_departure_and_reconnect"
+      ],
+      "scope": "Eight weathers, terrains, screens, rooms, temporary typing and typed arena presets. Torn World target adjudication and narrative Run Away remain manual; no held-item or transformation system."
     }
   ],
-  "ability_registry_hash": "1497ff8892f633294df3cb587b4d5892a8cca6d61b64d1f2a995b6fbdb786a76"
+  "ability_registry_hash": "c52ca353a52106b283770fa8896418659d6567b2384111ca1e2af68a31a58f02"
 }

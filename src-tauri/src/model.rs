@@ -2,15 +2,23 @@ use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 use ts_rs::TS;
 
-pub const ENGINE: &str = "0.5.0-core";
+pub const ENGINE: &str = "0.6.0-core";
+pub const ABILITY_ENGINE: &str = "0.5.0-core";
 pub const TARGET_ENGINE: &str = "0.4.0-core";
 pub const TURN_ENGINE: &str = "0.3.0-core";
 pub const PREVIOUS_ENGINE: &str = "0.2.0-core";
 pub fn core_engine(engine: &str) -> bool {
-    [ENGINE, TARGET_ENGINE, TURN_ENGINE, PREVIOUS_ENGINE].contains(&engine)
+    [
+        ENGINE,
+        ABILITY_ENGINE,
+        TARGET_ENGINE,
+        TURN_ENGINE,
+        PREVIOUS_ENGINE,
+    ]
+    .contains(&engine)
 }
 pub const LEGACY_ENGINE: &str = "0.1.0-manual";
-pub const PROTOCOL: u32 = 13;
+pub const PROTOCOL: u32 = 14;
 pub fn enabled() -> bool {
     true
 }
@@ -402,6 +410,10 @@ pub enum Action {
     CoverAlly {
         combatant_id: String,
         ally_id: String,
+        reason: String,
+    },
+    Battlefield {
+        command: crate::combat::field::FieldCommand,
         reason: String,
     },
     AdjudicateField {

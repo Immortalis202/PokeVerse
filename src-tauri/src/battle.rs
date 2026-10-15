@@ -8,7 +8,7 @@ pub fn transition(
     dice: Vec<u8>,
     catalog: &Catalog,
 ) -> Result<(Campaign, String)> {
-    if [ENGINE, TARGET_ENGINE, TURN_ENGINE].contains(&current.engine.as_str()) {
+    if [ENGINE, ABILITY_ENGINE, TARGET_ENGINE, TURN_ENGINE].contains(&current.engine.as_str()) {
         return crate::combat::transition(current, actor, action, dice, catalog);
     }
     let mut c = current.clone();
@@ -24,7 +24,8 @@ pub fn transition(
         }
     };
     let description = match action {
-        Action::ResolveAbility { .. }
+        Action::Battlefield { .. }
+        | Action::ResolveAbility { .. }
         | Action::InflictStatus { .. }
         | Action::AccuracyTargets { .. }
         | Action::SetBattleRange { .. }
@@ -320,6 +321,7 @@ pub fn transition(
             }
             if ![
                 ENGINE,
+                ABILITY_ENGINE,
                 TARGET_ENGINE,
                 TURN_ENGINE,
                 PREVIOUS_ENGINE,

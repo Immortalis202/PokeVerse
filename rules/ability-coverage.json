@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "engine": "0.5.0-core",
+  "engine": "0.6.0-core",
   "default_status": "manual",
   "entries": {
     "Adaptability": {
@@ -254,6 +254,151 @@
       "page": 554,
       "status": "partial",
       "scope": "Prevents reviewed ability damage, burn/poison ticks and Submission recoil. Confusion and direct move damage remain; weather, held items and entry hazards await their mechanics."
+    },
+    "Drought": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 543
+    },
+    "Drizzle": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 543
+    },
+    "Sand Stream": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 565
+    },
+    "Snow Warning": {
+      "status": "automated",
+      "scope": "Owner chooses Snow or Hail on entry; competing weather abilities use host-rolled Will, and source departure removes its weather.",
+      "page": 568
+    },
+    "Desolate Land": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 543
+    },
+    "Primordial Sea": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 561
+    },
+    "Delta Stream": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 542
+    },
+    "Air Lock": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 536
+    },
+    "Cloud Nine": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 539
+    },
+    "Chlorophyll": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 539
+    },
+    "Swift Swim": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 572
+    },
+    "Sand Rush": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 565
+    },
+    "Slush Rush": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 568
+    },
+    "Solar Power": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 568
+    },
+    "Rain Dish": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 563
+    },
+    "Dry Skin": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 543
+    },
+    "Ice Body": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 550
+    },
+    "Hydration": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 550
+    },
+    "Sand Veil": {
+      "status": "partial",
+      "scope": "Weather damage immunity; the table rule still limits Evasion to once per turn and five total actions per round.",
+      "page": 565
+    },
+    "Snow Cloak": {
+      "status": "partial",
+      "scope": "Weather damage immunity; the table rule still limits Evasion to once per turn and five total actions per round.",
+      "page": 568
+    },
+    "Sand Force": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 565
+    },
+    "Forecast": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 546
+    },
+    "Flower Gift": {
+      "status": "automated",
+      "scope": "Sunny-weather Strength and Special Defense aura using abstract ally range; duplicate sources do not stack.",
+      "page": 545
+    },
+    "Grassy Surge": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 548
+    },
+    "Electric Surge": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 544
+    },
+    "Misty Surge": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 556
+    },
+    "Psychic Surge": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 562
+    },
+    "Surge Surfer": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 572
+    },
+    "Grass Pelt": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 547
     }
   }
 }

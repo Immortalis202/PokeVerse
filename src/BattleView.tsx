@@ -109,6 +109,7 @@ export default function BattleView({
     "0.3.0-core",
     "0.4.0-core",
     "0.5.0-core",
+    "0.6.0-core",
   ].includes(campaign.engine);
   const battle = campaign.battle;
   const actorSheet =
@@ -167,7 +168,7 @@ export default function BattleView({
         {core
           ? `Server checks are automatic and need no host-player approval. ${battle?.automatic_validation === false ? "Battle rule enforcement is OFF: the GM adjudicates exceptions." : "Battle rule enforcement is ON for the supported core rules."} Select a target and roll accuracy, resolve reactions, then roll automatic damage. The host calculates ordinary Pokémon damage pools, defenses, STAB, critical bonuses, pain and type effectiveness, and updates HP. Reviewed effects and turn/reaction controls are available below in the new engine. Other abilities, special effects and lethal wounds remain explicitly adjudicated.`
           : "Upgrade between battles to enable verified core rolls. Previous records are preserved."}
-        {campaign.engine !== "0.5.0-core" && gm && !battle?.active && (
+        {campaign.engine !== "0.6.0-core" && gm && !battle?.active && (
           <button
             disabled={busy}
             onClick={() => execute({ type: "upgrade_rules" })}
@@ -832,9 +833,12 @@ export default function BattleView({
                 Count one action for manual roll
               </label>
               <div className="inline">
-                {["0.3.0-core", "0.4.0-core", "0.5.0-core"].includes(
-                  campaign.engine,
-                ) && (
+                {[
+                  "0.3.0-core",
+                  "0.4.0-core",
+                  "0.5.0-core",
+                  "0.6.0-core",
+                ].includes(campaign.engine) && (
                   <button
                     disabled={busy || !actor || !move}
                     onClick={async () => {
@@ -869,9 +873,12 @@ export default function BattleView({
                       !actor ||
                       !move ||
                       !!pending ||
-                      (["0.3.0-core", "0.4.0-core", "0.5.0-core"].includes(
-                        campaign.engine,
-                      )
+                      ([
+                        "0.3.0-core",
+                        "0.4.0-core",
+                        "0.5.0-core",
+                        "0.6.0-core",
+                      ].includes(campaign.engine)
                         ? !target && chosenMove?.Target !== "Self"
                         : chosenMove?.Category !== "Support" && !target)
                     }
@@ -897,9 +904,12 @@ export default function BattleView({
                     busy ||
                     !actor ||
                     !reason.trim() ||
-                    (["0.3.0-core", "0.4.0-core", "0.5.0-core"].includes(
-                      campaign.engine,
-                    ) &&
+                    ([
+                      "0.3.0-core",
+                      "0.4.0-core",
+                      "0.5.0-core",
+                      "0.6.0-core",
+                    ].includes(campaign.engine) &&
                       battle.automatic_validation)
                   }
                   onClick={() =>
@@ -922,9 +932,12 @@ export default function BattleView({
                       !actor ||
                       !target ||
                       !reason.trim() ||
-                      (["0.3.0-core", "0.4.0-core", "0.5.0-core"].includes(
-                        campaign.engine,
-                      ) &&
+                      ([
+                        "0.3.0-core",
+                        "0.4.0-core",
+                        "0.5.0-core",
+                        "0.6.0-core",
+                      ].includes(campaign.engine) &&
                         battle.automatic_validation)
                     }
                     onClick={() =>

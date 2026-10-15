@@ -480,6 +480,492 @@
       },
       "coverage": "automatic ordinary multi-target damage and Never Miss; rank-limited targeting uses engine 0.4 or later",
       "notes": "Printed card visually reviewed. Automation is limited to the stated coverage."
+    },
+    "sunny-day:Sunny Day": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 468,
+      "fields": {
+        "Effect": "Target Battlefield. Activate Sunny Weather. Duration 4 Rounds.",
+        "Attributes": {
+          "Duration": 4
+        },
+        "AddedEffects": {
+          "TerrainEffect": "Sunny"
+        }
+      },
+      "coverage": "Reviewed battlefield effect, typing, barrier, weather-dependent calculation or chance effect; other unsupported interactions remain adjudicated.",
+      "notes": "Encounter calculations use the shared Rust battlefield service."
+    },
+    "rain-dance:Rain Dance": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 526,
+      "fields": {
+        "Effect": "Target Battlefield. Activate Rain Weather. Duration 4 Rounds.",
+        "Attributes": {
+          "Duration": 4
+        },
+        "AddedEffects": {
+          "TerrainEffect": "Rain"
+        }
+      },
+      "coverage": "Reviewed battlefield effect, typing, barrier, weather-dependent calculation or chance effect; other unsupported interactions remain adjudicated.",
+      "notes": "Encounter calculations use the shared Rust battlefield service."
+    },
+    "sandstorm:Sandstorm": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 519,
+      "fields": {
+        "Effect": "Target Battlefield. Wind Move. Activate Sandstorm Weather. Duration 4 Rounds.",
+        "Attributes": {
+          "Duration": 4,
+          "WindMove": true
+        },
+        "AddedEffects": {
+          "TerrainEffect": "Sandstorm"
+        }
+      },
+      "coverage": "Reviewed battlefield effect, typing, barrier, weather-dependent calculation or chance effect; other unsupported interactions remain adjudicated.",
+      "notes": "Encounter calculations use the shared Rust battlefield service."
+    },
+    "snowscape:Snowscape": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 487,
+      "fields": {
+        "Effect": "Target Battlefield. Activate Snowy Weather. Duration 4 Rounds.",
+        "Attributes": {
+          "Duration": 4
+        },
+        "AddedEffects": {
+          "TerrainEffect": "Snow"
+        }
+      },
+      "coverage": "Reviewed battlefield effect, typing, barrier, weather-dependent calculation or chance effect; other unsupported interactions remain adjudicated.",
+      "notes": "Snowscape activates Snow rather than Hail."
+    },
+    "hail:Hail": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 485,
+      "fields": {
+        "Effect": "Target Battlefield. Activate Hail Weather. Duration 4 Rounds.",
+        "Attributes": {
+          "Duration": 4
+        },
+        "AddedEffects": {
+          "TerrainEffect": "Hail"
+        }
+      },
+      "coverage": "Reviewed battlefield effect, typing, barrier, weather-dependent calculation or chance effect; other unsupported interactions remain adjudicated.",
+      "notes": "Encounter calculations use the shared Rust battlefield service."
+    },
+    "electric-terrain:Electric Terrain": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 452,
+      "fields": {
+        "Effect": "Target Battlefield. Add 1 Extra Damage Dice to all Physical & Special Electric-Type Moves. Pokemon without immunity to Ground will be cured of the Sleep Status. Duration 4 Rounds.",
+        "Attributes": {
+          "Duration": 4
+        },
+        "AddedEffects": {}
+      },
+      "coverage": "Reviewed battlefield effect, typing, barrier, weather-dependent calculation or chance effect; other unsupported interactions remain adjudicated.",
+      "notes": "Encounter calculations use the shared Rust battlefield service."
+    },
+    "grassy-terrain:Grassy Terrain": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 477,
+      "fields": {
+        "Effect": "Target User's side of the field. Add 1 Extra Damage Dice to all Physical & Special Grass-Type Moves. Everyone on the User's side of the field heals 1 HP at the end of each Round. Spend 1 Will Point t activate. Duration 4 Rounds.",
+        "Attributes": {
+          "Duration": 4
+        },
+        "AddedEffects": {
+          "TerrainEffect": "GrassyTerrain"
+        }
+      },
+      "coverage": "Reviewed battlefield effect, typing, barrier, weather-dependent calculation or chance effect; other unsupported interactions remain adjudicated.",
+      "notes": "Encounter calculations use the shared Rust battlefield service."
+    },
+    "misty-terrain:Misty Terrain": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 457,
+      "fields": {
+        "Effect": "Target Battlefield. All Status Ailments and Conditions are cured and no more can be inflicted. Physical & Special Dragon-Type Moves have Power 0. Duration 4 Rounds.",
+        "Attributes": {},
+        "AddedEffects": {
+          "TerrainEffect": "MistyTerrain"
+        }
+      },
+      "coverage": "Reviewed battlefield effect, typing, barrier, weather-dependent calculation or chance effect; other unsupported interactions remain adjudicated.",
+      "notes": "Encounter calculations use the shared Rust battlefield service."
+    },
+    "reflect:Reflect": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 517,
+      "fields": {
+        "Effect": "Target the User's side of the field. Force Field. Activate a Force Field against Physical Damage. Duration 4 Rounds.",
+        "Attributes": {
+          "Duration": 4,
+          "ForceField": {
+            "DamageType": "physical",
+            "DamageReduction": 1
+          }
+        },
+        "AddedEffects": {
+          "Ailments": [
+            {
+              "Type": "Reflect",
+              "Affects": "Targets"
+            }
+          ]
+        }
+      },
+      "coverage": "Reviewed battlefield effect, typing, barrier, weather-dependent calculation or chance effect; other unsupported interactions remain adjudicated.",
+      "notes": "Encounter calculations use the shared Rust battlefield service."
+    },
+    "light-screen:Light Screen": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 513,
+      "fields": {
+        "Effect": "Target the User's side of the field. Force Field. Activate a Force Field against Special Damage. Duration 4 Rounds.",
+        "Attributes": {
+          "Duration": 4,
+          "ForceField": {
+            "DamageType": "special",
+            "DamageReduction": 1
+          }
+        },
+        "AddedEffects": {
+          "Ailments": [
+            {
+              "Type": "LightScreen",
+              "Affects": "Targets"
+            }
+          ]
+        }
+      },
+      "coverage": "Reviewed battlefield effect, typing, barrier, weather-dependent calculation or chance effect; other unsupported interactions remain adjudicated.",
+      "notes": "Encounter calculations use the shared Rust battlefield service."
+    },
+    "trick-room:Trick Room": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 517,
+      "fields": {
+        "Effect": "Target the Battlefield. Invert the order of Initiative. Duration 4 Rounds.",
+        "Attributes": {
+          "Duration": 4
+        },
+        "AddedEffects": {}
+      },
+      "coverage": "Reviewed battlefield effect, typing, barrier, weather-dependent calculation or chance effect; other unsupported interactions remain adjudicated.",
+      "notes": "Encounter calculations use the shared Rust battlefield service."
+    },
+    "wonder-room:Wonder Room": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 517,
+      "fields": {
+        "Effect": "Target the Battlefield. Everyone on the Battlefield will have their Defense and Sp. Defense calculated with Insight instead of Vitality. If using Insight as Sp. Defense optional rule, swap the calculation. Duration 4 Rounds.",
+        "Attributes": {},
+        "AddedEffects": {
+          "Ailments": [
+            {
+              "Type": "WonderRoom",
+              "Affects": "Targets"
+            }
+          ]
+        }
+      },
+      "coverage": "Reviewed battlefield effect, typing, barrier, weather-dependent calculation or chance effect; other unsupported interactions remain adjudicated.",
+      "notes": "Encounter calculations use the shared Rust battlefield service."
+    },
+    "magic-room:Magic Room": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 513,
+      "fields": {
+        "Effect": "Target Battlefield. Held items lose their effects. No items can be used. Duration 4 Rounds.",
+        "Attributes": {
+          "Duration": 4
+        },
+        "AddedEffects": {
+          "Ailments": [
+            {
+              "Type": "MagicRoom",
+              "Affects": "Targets"
+            }
+          ]
+        }
+      },
+      "coverage": "Reviewed battlefield effect, typing, barrier, weather-dependent calculation or chance effect; other unsupported interactions remain adjudicated.",
+      "notes": "Encounter calculations use the shared Rust battlefield service."
+    },
+    "gravity:Gravity": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 511,
+      "fields": {
+        "Effect": "Target Battlefield. Remove the immunity to Ground-Type Moves for everyone in the field. Moves that require jumping or flying get an Extra \"Low Accuracy 2\". Duration 4 Rounds.",
+        "Attributes": {
+          "Duration": 4
+        },
+        "AddedEffects": {
+          "Ailments": [
+            {
+              "Type": "Grounded",
+              "Affects": "Targets"
+            }
+          ],
+          "TerrainEffect": "Gravity"
+        }
+      },
+      "coverage": "Reviewed battlefield effect, typing, barrier, weather-dependent calculation or chance effect; other unsupported interactions remain adjudicated.",
+      "notes": "Encounter calculations use the shared Rust battlefield service."
+    },
+    "soak:Soak": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 526,
+      "fields": {
+        "Effect": "Single Target. Change the Target's Type to Water. (ie Charizard was Fire/Flying, after this Move their Type will be Water) Whole Scene Duration. This effect does not end by switching out the affected Pokemon.",
+        "Attributes": {},
+        "AddedEffects": {
+          "Ailments": [
+            {
+              "Type": "ChangedType",
+              "Affects": "Targets",
+              "TargetType": "Water"
+            }
+          ]
+        }
+      },
+      "coverage": "Reviewed battlefield effect, typing, barrier, weather-dependent calculation or chance effect; other unsupported interactions remain adjudicated.",
+      "notes": "Encounter calculations use the shared Rust battlefield service."
+    },
+    "trick-or-treat:Trick-Or-Treat": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 474,
+      "fields": {
+        "Effect": "Single Target. Add the Ghost Type to the Target's Type. (ie Pikachu will now be \"Electric/Ghost\", Charizard will not be \"Fire/Flying/Ghost\") If the Target already has a third Type attached, replace it.",
+        "Attributes": {},
+        "AddedEffects": {}
+      },
+      "coverage": "Reviewed battlefield effect, typing, barrier, weather-dependent calculation or chance effect; other unsupported interactions remain adjudicated.",
+      "notes": "Encounter calculations use the shared Rust battlefield service."
+    },
+    "defog:Defog": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 470,
+      "fields": {
+        "Effect": "Target Battlefield. Remove all Force Fields, Entry Hazards and Terrains (Misty Terrain, Electric Terrain, etc.) from the Battlefield.",
+        "Attributes": {
+          "DestroyShield": true,
+          "ResetTerrain": true
+        },
+        "AddedEffects": {}
+      },
+      "coverage": "Reviewed battlefield effect, typing, barrier, weather-dependent calculation or chance effect; other unsupported interactions remain adjudicated.",
+      "notes": "Encounter calculations use the shared Rust battlefield service."
+    },
+    "brick-break:Brick Break": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 459,
+      "fields": {
+        "Effect": "Single Target. *If there is a Force field on the Target's side of the field, destroy it and add 2 Extra Dice to the Damage Pool.",
+        "Attributes": {
+          "DestroyShield": true
+        },
+        "AddedEffects": {}
+      },
+      "coverage": "Reviewed battlefield effect, typing, barrier, weather-dependent calculation or chance effect; other unsupported interactions remain adjudicated.",
+      "notes": "Encounter calculations use the shared Rust battlefield service."
+    },
+    "synthesis:Synthesis": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 480,
+      "fields": {
+        "Effect": "Target Self. Basic Heal. If successful, spend 1 Will Point to activate. If Sunny Weather is in effect, this Move becomes a Complete Heal. If performed under Rain, Sandstorm, Hail or Snowy Weather, this Move is a Minor heal and only heals 1 HP.",
+        "Attributes": {},
+        "AddedEffects": {
+          "Heal": {
+            "Type": "Basic",
+            "Target": "Targets",
+            "WillPointCost": 1
+          }
+        }
+      },
+      "coverage": "Reviewed battlefield effect, typing, barrier, weather-dependent calculation or chance effect; other unsupported interactions remain adjudicated.",
+      "notes": "Encounter calculations use the shared Rust battlefield service."
+    },
+    "morning-sun:Morning Sun": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 496,
+      "fields": {
+        "Effect": "Target Self. Basic Heal. If successful, spend 1 Will point to activate. If Sunny Weather is in effect, this Move becomes a Complete Heal. If performed under Rain, Sandstorm, Hail or Snowy Weather, this Move is a Minor heal only heals 1 HP.",
+        "Attributes": {},
+        "AddedEffects": {
+          "Heal": {
+            "Type": "Basic",
+            "Target": "Targets",
+            "WillPointCost": 1
+          }
+        }
+      },
+      "coverage": "Reviewed battlefield effect, typing, barrier, weather-dependent calculation or chance effect; other unsupported interactions remain adjudicated.",
+      "notes": "Encounter calculations use the shared Rust battlefield service."
+    },
+    "moonlight:Moonlight": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 457,
+      "fields": {
+        "Effect": "Target Self. Basic Heal. If successful, spend 1 Will point to activate. Night Time and Sunny Weather increase it to Complete Heal. Rain, Sandstorm and Hail Weather reduceto Minor Heal of 1 HP.",
+        "Attributes": {},
+        "AddedEffects": {
+          "Heal": {
+            "Type": "Basic",
+            "Target": "Targets",
+            "WillPointCost": 1
+          }
+        }
+      },
+      "coverage": "Reviewed battlefield effect, typing, barrier, weather-dependent calculation or chance effect; other unsupported interactions remain adjudicated.",
+      "notes": "Encounter calculations use the shared Rust battlefield service."
+    },
+    "ice-beam:Ice Beam": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 485,
+      "fields": {
+        "Effect": "Single Target. Roll 1 Chance Die to Freeze the Target.",
+        "Attributes": {},
+        "AddedEffects": {
+          "Ailments": [
+            {
+              "Type": "Freeze",
+              "Affects": "Targets",
+              "ChanceDice": 1
+            }
+          ]
+        }
+      },
+      "coverage": "Reviewed battlefield effect, typing, barrier, weather-dependent calculation or chance effect; other unsupported interactions remain adjudicated.",
+      "notes": "Encounter calculations use the shared Rust battlefield service."
+    },
+    "ice-punch:Ice Punch": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 486,
+      "fields": {
+        "Effect": "Single Target. Fist Move. Roll 1 Chance Dice to Freeze the Target.",
+        "Attributes": {
+          "FistMove": true
+        },
+        "AddedEffects": {
+          "Ailments": [
+            {
+              "Type": "Freeze",
+              "ChanceDice": 1,
+              "Affects": "Targets"
+            }
+          ]
+        }
+      },
+      "coverage": "Reviewed battlefield effect, typing, barrier, weather-dependent calculation or chance effect; other unsupported interactions remain adjudicated.",
+      "notes": "Encounter calculations use the shared Rust battlefield service."
+    },
+    "blizzard:Blizzard": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 484,
+      "fields": {
+        "Effect": "All Foes in Range. Low Accuracy 2. Lethal. Wind Move. Roll 1 Chance Die to Freeze those affected. *Sunny Weather increases to Low Accuracy 4. **Hail/Snowy Weather remove Low Accuracy and adds the effect \"Never Miss\".",
+        "Attributes": {
+          "AccuracyReduction": -2,
+          "Lethal": true,
+          "NeverMiss": false,
+          "WindMove": true
+        },
+        "AddedEffects": {
+          "Ailments": [
+            {
+              "Type": "Freeze",
+              "ChanceDice": 1,
+              "Affects": "Targets"
+            }
+          ]
+        }
+      },
+      "coverage": "Reviewed battlefield effect, typing, barrier, weather-dependent calculation or chance effect; other unsupported interactions remain adjudicated.",
+      "notes": "Blizzard Never Miss is conditional on Hail/Snow, resolved by Rust."
+    },
+    "powder-snow:Powder Snow": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 486,
+      "fields": {
+        "Effect": "Target All Foes in Range. Roll 1 Chance Die to Freeze those affected.",
+        "Attributes": {},
+        "AddedEffects": {
+          "Ailments": [
+            {
+              "Type": "Freeze",
+              "ChanceDice": 1,
+              "Affects": "Targets"
+            }
+          ]
+        }
+      },
+      "coverage": "Reviewed battlefield effect, typing, barrier, weather-dependent calculation or chance effect; other unsupported interactions remain adjudicated.",
+      "notes": "Encounter calculations use the shared Rust battlefield service."
+    },
+    "thunder:Thunder": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 454,
+      "fields": {
+        "Effect": "Single Target. Low Accuracy 2. Lethal. Roll 3 Chance Dice to Paralyze the Target. Rain Weather eliminates Low Accuracy. Sunny Weather increases it to Low Accuracy 4. If the Target is Out of Range due to using \"Fly\", \"Bounce\", or \"Sky Drop\" this Move hits anyways.",
+        "Attributes": {
+          "Lethal": true,
+          "AccuracyReduction": -2
+        },
+        "AddedEffects": {
+          "Ailments": [
+            {
+              "Type": "Paralyze",
+              "Affects": "Targets",
+              "ChanceDice": 3
+            }
+          ]
+        }
+      },
+      "coverage": "Reviewed battlefield effect, typing, barrier, weather-dependent calculation or chance effect; other unsupported interactions remain adjudicated.",
+      "notes": "Encounter calculations use the shared Rust battlefield service."
+    },
+    "hurricane:Hurricane": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 471,
+      "fields": {
+        "Effect": "Single Target. Low Accuracy 2. Lethal. Wind Move. Roll 3 Chance Dice to Confuse the Target. Rain Weather eliminates Low Accuracy. Sunny Weather increases to Low Accuracy 4. If the Target is Out of Range due to using \"Fly\", \"Bounce\" or \"Sky Drop\", this Move hits anyways.",
+        "Attributes": {
+          "Lethal": true,
+          "AccuracyReduction": -2,
+          "WindMove": true
+        },
+        "AddedEffects": {
+          "Ailments": [
+            {
+              "Type": "Confuse",
+              "Affects": "Targets",
+              "ChanceDice": 3
+            }
+          ]
+        }
+      },
+      "coverage": "Reviewed battlefield effect, typing, barrier, weather-dependent calculation or chance effect; other unsupported interactions remain adjudicated.",
+      "notes": "Encounter calculations use the shared Rust battlefield service."
+    },
+    "weather-ball:Weather Ball": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 505,
+      "fields": {
+        "Effect": "Single Target. Projectile Move. *If there is a weather condition on the field, add 2 Extra Dice to the Damage Pool. This Move's type will change according to the Weather. Sun/Fire, Rain/Water, Hail or Snow/Ice, Sand/Rock, Wind/Flying.",
+        "Attributes": {
+          "ProjectileMove": true
+        },
+        "AddedEffects": {}
+      },
+      "coverage": "Reviewed battlefield effect, typing, barrier, weather-dependent calculation or chance effect; other unsupported interactions remain adjudicated.",
+      "notes": "Encounter calculations use the shared Rust battlefield service."
     }
   },
   "abilities": {
@@ -930,6 +1416,267 @@
       },
       "coverage": "Prevents reviewed ability damage, burn/poison ticks and Submission recoil. Confusion and direct move damage remain; weather, held items and entry hazards await their mechanics.",
       "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "drought:Drought": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 543,
+      "fields": {
+        "Effect": "When this Pokemon comes out, it automatically starts the effects of Sunny Weather. The effects end when the Pokemon leaves the battle. (In case of stalemate the Pokemon with higher Will might keep the dominant weather)"
+      },
+      "coverage": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "notes": "Reviewed against the supplied ability page; table Evasion override remains in force."
+    },
+    "drizzle:Drizzle": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 543,
+      "fields": {
+        "Effect": "When this Pokemon comes out, it automatically starts the effects of Rain Weather. The effects end when the Pokemon leaves the battle. (In case of stalemate the Pokemon with higher Will might keep the dominant weather)"
+      },
+      "coverage": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "notes": "Reviewed against the supplied ability page; table Evasion override remains in force."
+    },
+    "sand-stream:Sand Stream": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 565,
+      "fields": {
+        "Effect": "When this Pokemon comes out, it automatically starts the effects of Sandstorm Weather. The effects end when the Pokemon leaves the battle. (In case of stalemate the Pokemon with higher Will, might keep the dominant weather)"
+      },
+      "coverage": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "notes": "Reviewed against the supplied ability page; table Evasion override remains in force."
+    },
+    "snow-warning:Snow Warning": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 568,
+      "fields": {
+        "Effect": "When this Pokemon comes out, it automatically starts the effects of Hail/Snow Weather. The effects end when the Pokemon leaves the battle. (In case of stalemate the Pokemon with higher Will might keep the dominant weather)"
+      },
+      "coverage": "Owner chooses Snow or Hail on entry; competing weather abilities use host-rolled Will, and source departure removes its weather.",
+      "notes": "Reviewed against the supplied ability page; table Evasion override remains in force."
+    },
+    "desolate-land:Desolate Land": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 543,
+      "fields": {
+        "Effect": "When this Pokemon comes out, it automatically starts the effects of Desolate Weather. The effects end when the Pokemon leaves the battle. (In case of stalemate, The Pokemon with highest Will might keep the dominant weather). Unique Ability."
+      },
+      "coverage": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "notes": "Reviewed against the supplied ability page; table Evasion override remains in force."
+    },
+    "primordial-sea:Primordial Sea": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 561,
+      "fields": {
+        "Effect": "When this Pokemon comes out, it automatically starts the effects of Typhoon Weather. The effects end when the Pokemon leaves the battle. (In case of stalemate, The Pokemon with highest Will might keep the dominant weather). Unique Ability."
+      },
+      "coverage": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "notes": "Reviewed against the supplied ability page; table Evasion override remains in force."
+    },
+    "delta-stream:Delta Stream": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 542,
+      "fields": {
+        "Effect": "When this Pokemon comes out, it automatically starts the effects of Strong Winds Weather. The effects end when the Pokemon leaves the battle. (In case of stalemate, The Pokemon with highest Will might keep the dominant weather) Unique Ability."
+      },
+      "coverage": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "notes": "Reviewed against the supplied ability page; table Evasion override remains in force."
+    },
+    "air-lock:Air Lock": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 536,
+      "fields": {
+        "Effect": "Negate all the effects of a Weather in the field. If no weather is active, they cannot be activated by Moves or Abilities. If one is already active, it does not disappear but provides no effects. Unique Ability."
+      },
+      "coverage": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "notes": "Reviewed against the supplied ability page; table Evasion override remains in force."
+    },
+    "cloud-nine:Cloud Nine": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 539,
+      "fields": {
+        "Effect": "Negate the effects of Weather Conditions on this Pokemon."
+      },
+      "coverage": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "notes": "Reviewed against the supplied ability page; table Evasion override remains in force."
+    },
+    "chlorophyll:Chlorophyll": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 539,
+      "fields": {
+        "Effect": "While Sunny Weather is active, Increase this Pokemon's Dexterity Attribute by 2."
+      },
+      "coverage": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "notes": "Reviewed against the supplied ability page; table Evasion override remains in force."
+    },
+    "swift-swim:Swift Swim": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 572,
+      "fields": {
+        "Effect": "While Rain Weather is active, Increase this Pokemon's Dexterity Attribute by 2."
+      },
+      "coverage": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "notes": "Reviewed against the supplied ability page; table Evasion override remains in force."
+    },
+    "sand-rush:Sand Rush": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 565,
+      "fields": {
+        "Effect": "While Sandstorm Weather is active, increase the Dexterity Attibute of this Pokemon by 1. The Pokemon is immune to damage from Sandstorm Weather."
+      },
+      "coverage": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "notes": "Reviewed against the supplied ability page; table Evasion override remains in force."
+    },
+    "slush-rush:Slush Rush": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 568,
+      "fields": {
+        "Effect": "While Hail/Snow Weather is active, increase the Dexterity Attribute of this Pokemon by 1. The Pokemon is immune to damage from Hail/Snow Weather."
+      },
+      "coverage": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "notes": "Reviewed Pokerole definition; encounter-only automation. Slush Rush uses the manual +1 Dexterity."
+    },
+    "solar-power:Solar Power": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 568,
+      "fields": {
+        "Effect": "While Sunny Weather is active, Increase this Pokemon's Special Attribute by 2 and deal 1 damage to it at the end of the Round."
+      },
+      "coverage": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "notes": "Reviewed against the supplied ability page; table Evasion override remains in force."
+    },
+    "rain-dish:Rain Dish": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 563,
+      "fields": {
+        "Effect": "While Rain Weather is active, you may restore 1 HP to this Pokemon at the end of each Round."
+      },
+      "coverage": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "notes": "Reviewed against the supplied ability page; table Evasion override remains in force."
+    },
+    "dry-skin:Dry Skin": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 543,
+      "fields": {
+        "Effect": "While Sunny Weather is active, this Pokemon will receive 1 damage at the end of each round. Fire attacks will deal 1 additional Damage to this Pokemon. Water attacks may heal 1 HP to this Pokemon instead of dealing damage."
+      },
+      "coverage": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "notes": "Reviewed against the supplied ability page; table Evasion override remains in force."
+    },
+    "ice-body:Ice Body": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 550,
+      "fields": {
+        "Effect": "If Hail/Snow Weather is active, you may restore 1 HP to this Pokemon at the end of the Round. This Pokemon is immune to damage from Hail weather."
+      },
+      "coverage": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "notes": "Reviewed against the supplied ability page; table Evasion override remains in force."
+    },
+    "hydration:Hydration": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 550,
+      "fields": {
+        "Effect": "When Rain weather is active, this Pokemon will cure all Status Ailments and Conditions it is affected with at the end of the round."
+      },
+      "coverage": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "notes": "Reviewed against the supplied ability page; table Evasion override remains in force."
+    },
+    "sand-veil:Sand Veil": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 565,
+      "fields": {
+        "Effect": "While Sandstorm Weather is active, this Pokemon can use the Evasion Maneuver up to 5 times per Round. The Pokemon is immune to damage from Sandstorm weather."
+      },
+      "coverage": "Weather damage immunity; the table rule still limits Evasion to once per turn and five total actions per round.",
+      "notes": "Reviewed against the supplied ability page; table Evasion override remains in force."
+    },
+    "snow-cloak:Snow Cloak": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 568,
+      "fields": {
+        "Effect": "While Hail/Snow Weather is active, this Pokemon can use the Evasion Maneuver up to 5 times per Round. The Pokemon is immune to damage from Hail/Snow weather."
+      },
+      "coverage": "Weather damage immunity; the table rule still limits Evasion to once per turn and five total actions per round.",
+      "notes": "Reviewed against the supplied ability page; table Evasion override remains in force."
+    },
+    "sand-force:Sand Force": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 565,
+      "fields": {
+        "Effect": "While Sandstorm Weather is active, if this Pokemon uses a Physical or Special Ground, Steel or Rock-Type Move, add 1 Extra die to the Damage Pool of that Move. The Pokemon is immune to damage from Sandstorm Weather."
+      },
+      "coverage": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "notes": "Reviewed against the supplied ability page; table Evasion override remains in force."
+    },
+    "forecast:Forecast": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 546,
+      "fields": {
+        "Effect": "The Type of this Pokemon will change depending on the active weather. Fire-Type under Sun, Water-Type under Rain, Ice-Type under Hail/Snow and Rock-Type under Sand."
+      },
+      "coverage": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "notes": "Reviewed against the supplied ability page; table Evasion override remains in force."
+    },
+    "flower-gift:Flower Gift": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 545,
+      "fields": {
+        "Effect": "While Sunny Weather is active, Increase 2 Points to the Strength and Sp.Defense Attribute of the User and its allies in range."
+      },
+      "coverage": "Sunny-weather Strength and Special Defense aura using abstract ally range; duplicate sources do not stack.",
+      "notes": "Reviewed against the supplied ability page; table Evasion override remains in force."
+    },
+    "grassy-surge:Grassy Surge": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 548,
+      "fields": {
+        "Effect": "When this Pokemon comes out, it automatically starts the effects of the Move Grassy Terrain. (In case of stalemate the Pokemon with higher Will might keep the dominant Terrain)"
+      },
+      "coverage": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "notes": "Reviewed against the supplied ability page; table Evasion override remains in force."
+    },
+    "electric-surge:Electric Surge": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 544,
+      "fields": {
+        "Effect": "When this Pokemon comes out, it automatically starts the effects of the Move Electric Terrain. (In case of stalemate the Pokemon with higher Will might keep the dominant Terrain)"
+      },
+      "coverage": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "notes": "Reviewed against the supplied ability page; table Evasion override remains in force."
+    },
+    "misty-surge:Misty Surge": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 556,
+      "fields": {
+        "Effect": "When this Pokemon comes out, it automatically starts the effects of the Move Misty Terrain. (In case of stalemate the Pokemon with higher Will might keep the dominant Terrain)"
+      },
+      "coverage": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "notes": "Reviewed against the supplied ability page; table Evasion override remains in force."
+    },
+    "psychic-surge:Psychic Surge": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 562,
+      "fields": {
+        "Effect": "When this Pokemon comes out, it automatically starts the effects of the Move Psychic Terrain. (In case of stalemate the Pokemon with higher Will might keep the dominant Terrain)"
+      },
+      "coverage": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "notes": "Reviewed against the supplied ability page; table Evasion override remains in force."
+    },
+    "surge-surfer:Surge Surfer": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 572,
+      "fields": {
+        "Effect": "While Electric Terrain is active, increase this Pokemon's Dexterity Attribute by 2."
+      },
+      "coverage": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "notes": "Reviewed against the supplied ability page; table Evasion override remains in force."
+    },
+    "grass-pelt:Grass Pelt": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 547,
+      "fields": {
+        "Effect": "If Grassy Terrain is active, Increase this Pokemon's Defense by 2."
+      },
+      "coverage": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "notes": "Reviewed against the supplied ability page; table Evasion override remains in force."
     }
   }
 }

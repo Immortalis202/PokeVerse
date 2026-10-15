@@ -23,6 +23,12 @@ pub struct AbilityEvent {
 #[derive(Debug, Clone, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct DamageContext {
+    #[serde(default)]
+    pub field_snapshot: Option<field::FieldSnapshot>,
+    #[serde(default)]
+    pub types: Vec<String>,
+    #[serde(default)]
+    pub field_bonus: i32,
     pub stats: BTreeMap<String, i32>,
     pub hp: i32,
     pub pain_ignored: i32,
@@ -233,7 +239,9 @@ pub fn damage_bonus(
 }
 pub fn move_immune(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> bool {
     enabled(c)
-        && ((p.selected_ability == "Levitate" && m["Type"] == "Ground")
+        && ((p.selected_ability == "Levitate"
+            && m["Type"] == "Ground"
+            && !field::has(c, "Gravity", p))
             || (p.selected_ability == "Soundproof" && m["Attributes"]["SoundMove"] == true))
 }
 pub fn damage_immune(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> bool {
@@ -243,6 +251,7 @@ pub fn damage_immune(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> bool
                 "Flash Fire" => m["Type"] == "Fire",
                 "Sap Sipper" => m["Type"] == "Grass",
                 "Water Absorb" => m["Type"] == "Water",
+                "Dry Skin" if field::enabled(c) => m["Type"] == "Water",
                 "Volt Absorb" => m["Type"] == "Electric",
                 _ => false,
             })
@@ -258,6 +267,7 @@ pub fn reduction(
         return 0;
     }
     match p.selected_ability.as_str() {
+        "Dry Skin" if field::enabled(c) && m["Type"] == "Fire" => -1,
         "Thick Fat" if m["Type"] == "Fire" || m["Type"] == "Ice" => 1,
         "Filter" if effective > 0 && fighter(c, source).is_ok_and(|a| a.side != p.side) => 1,
         "Solid Rock" if effective > 0 => 1,
@@ -326,7 +336,10 @@ pub fn clash_amount(
     if damage_immune(c, p, m) {
         return Ok(0);
     }
-    let reduced = (raw - reduction(c, p, m, raw - 1, source)).max(0);
+    let reduced = (raw
+        - reduction(c, p, m, raw - 1, source)
+        - field::reduction(c, fighter(c, source)?, p, m))
+    .max(0);
     let before_hp = p.hp;
     sturdy(c, id, reduced, before_hp)
 }
@@ -341,6 +354,8 @@ pub fn hit(
     }
     let target = fighter(c, &q.target_id)?.clone();
     let attacker = fighter(c, &q.actor_id)?.clone();
+    let resolved = field::move_data(c, &attacker, m);
+    let m = &resolved;
     if target.hp == 0
         && before_hp > 0
         && attacker.hp > 0
@@ -369,14 +384,19 @@ pub fn hit(
                 state.counters.insert("Sap Sipper".into(), 1);
             }
         }
-        "Water Absorb" if m["Type"] == "Water" => enqueue(
-            c,
-            &target,
-            &target.id,
-            "heal",
-            &q.move_name,
-            &["heal", "decline"],
-        ),
+        "Water Absorb" | "Dry Skin"
+            if m["Type"] == "Water"
+                && (target.selected_ability != "Dry Skin" || field::enabled(c)) =>
+        {
+            enqueue(
+                c,
+                &target,
+                &target.id,
+                "heal",
+                &q.move_name,
+                &["heal", "decline"],
+            )
+        }
         "Volt Absorb" if m["Type"] == "Electric" => enqueue(
             c,
             &target,
@@ -438,6 +458,7 @@ pub fn inflict(
                 "Species type is immune to this condition",
                 "Selected ability is immune to this condition",
                 "Only one Flinch per subject per round",
+                "Battlefield prevents this condition",
             ]
             .contains(&e.message.as_str()) =>
         {
@@ -462,6 +483,7 @@ pub fn inflict(
                 "Species type is immune to this condition",
                 "Selected ability is immune to this condition",
                 "Only one Flinch per subject per round",
+                "Battlefield prevents this condition",
             ]
             .contains(&e.message.as_str()) =>
         {

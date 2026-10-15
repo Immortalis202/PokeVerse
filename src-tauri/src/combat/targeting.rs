@@ -21,7 +21,7 @@ pub struct FieldEffect {
 }
 
 pub(super) fn require_targeting(c: &Campaign) -> Result<()> {
-    if ![ENGINE, TARGET_ENGINE].contains(&c.engine.as_str()) {
+    if ![ENGINE, ABILITY_ENGINE, TARGET_ENGINE].contains(&c.engine.as_str()) {
         return Err(AppError::new(
             "version",
             "Upgrade the engine between battles to use advanced targeting",

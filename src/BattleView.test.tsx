@@ -187,6 +187,22 @@ describe("structured core battle controls", () => {
         automatic_validation: true,
         combatants,
         flow: {
+          battlefield: {
+            enabled: engine === "0.6.0-core",
+            natural: null,
+            weather: null,
+            rules: [],
+            events: [],
+            sheltered: [],
+            known_active: [],
+            start_round: 0,
+            end_round: 0,
+            serial: 0,
+            indoors: false,
+            sunlight: true,
+            corrections: [],
+            species_types: {},
+          },
           started: true,
           order: ["active", "opponent"],
           cursor: 0,
@@ -294,5 +310,18 @@ describe("structured core battle controls", () => {
     const host = core("host", false, "0.5.0-core", false, true);
     expect(host).toContain("Pending: Rough Skin");
     expect(host).not.toContain("Deal 1 neutral damage");
+  });
+  it("exposes battlefield environment, typing and arena controls only to the appointed GM", () => {
+    const gm = core("gm", false, "0.6.0-core");
+    expect(gm).toContain("Apply environment");
+    expect(gm).toContain("Apply temporary typing");
+    expect(gm).toContain("Add arena condition");
+    expect(core("host", false, "0.6.0-core")).not.toContain(
+      "Apply environment",
+    );
+    expect(core("player", false, "0.6.0-core")).toContain("Battlefield");
+    expect(core("player", false, "0.6.0-core")).not.toContain(
+      "Apply temporary typing",
+    );
   });
 });

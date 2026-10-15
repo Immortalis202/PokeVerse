@@ -26,6 +26,7 @@ pub fn effective_sheet(c: &Campaign, p: &Combatant) -> Result<Sheet> {
     s.stats.extend(p.stat_overrides.clone());
     crate::combat::apply_stats(c, p, &mut s);
     s.skills.extend(p.skill_overrides.clone());
+    crate::combat::field::stats(c, p, &mut s);
     s.ability = p.selected_ability.clone();
     if let Some(b) = s.workflow.as_mut() {
         b.profile = p.rules_profile.clone();
@@ -135,6 +136,8 @@ pub fn accuracy(
     let m = catalog
         .find("moves", "Name", name)
         .ok_or_else(|| AppError::new("missing", "Unknown move"))?;
+    crate::combat::field::guard_move(c, p, &m)?;
+    let m = crate::combat::field::move_data(c, p, &m);
     let first = score(&s, m["Accuracy1"].as_str().unwrap_or_default())?;
     let second = match m["Accuracy2"].as_str().unwrap_or_default() {
         "" => 0,
@@ -168,7 +171,7 @@ pub fn accuracy(
 }
 
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
-    if [ENGINE, TARGET_ENGINE, TURN_ENGINE].contains(&c.engine.as_str()) {
+    if [ENGINE, ABILITY_ENGINE, TARGET_ENGINE, TURN_ENGINE].contains(&c.engine.as_str()) {
         return crate::combat::dice_count(c, action, catalog);
     }
     match action {
@@ -257,6 +260,7 @@ pub fn damage_pool(
     let m = catalog
         .find("moves", "Name", &hit.move_name)
         .ok_or_else(|| AppError::new("missing", "Unknown move"))?;
+    let m = crate::combat::field::move_data(c, attacker, &m);
     let defense_source = match m["Category"].as_str() {
         Some("Physical") => "Vitality",
         Some("Special") => "Insight",
@@ -285,36 +289,44 @@ pub fn damage_pool(
             "Champion modifiers require GM adjudication",
         ));
     }
-    let power = m["Power"].as_i64().unwrap() as i32;
+    let lost_type = crate::combat::field::enabled(c)
+        && c.battle
+            .as_ref()
+            .and_then(|b| b.flow.as_ref())
+            .is_some_and(|f| {
+                f.battlefield.rules.iter().any(|r| {
+                    r.scope == format!("combatant:{}", attacker.id)
+                        && r.kind == format!("typing:remove:{}", m["Type"].as_str().unwrap_or(""))
+                })
+            });
+    let power = if lost_type
+        || m["Type"] == "Dragon" && crate::combat::field::has(c, "Misty Terrain", attacker)
+    {
+        0
+    } else {
+        m["Power"].as_i64().unwrap() as i32
+    };
     let defense = crate::creation::profile_stats(&defender)[if defense_source == "Vitality" {
         "Defense"
     } else {
         "SpecialDefense"
     }] + crate::combat::abilities::defense(c, target, defense_source == "Vitality");
-    let types = |s: &Sheet| -> Result<Vec<String>> {
-        if s.kind == "trainer" {
-            return Err(AppError::new("manual_rule", "Trainer damage requires GM adjudication; Pokemon typing rules cannot be assigned to humans"));
-        }
-        let species = catalog
-            .find(
-                "species",
-                "AppId",
-                s.species_id.as_deref().unwrap_or_default(),
-            )
-            .ok_or_else(|| AppError::new("manual_rule", "Missing species typing"))?;
-        let mut result = vec![];
-        for key in ["Type1", "Type2"] {
-            if let Some(t) = species[key].as_str().filter(|t| !t.is_empty()) {
-                if !result.iter().any(|v| v == t) {
-                    result.push(t.to_string());
-                }
-            }
-        }
-        Ok(result)
-    };
+    let defense =
+        crate::combat::field::defense(c, target, defense_source == "Vitality", catalog, defense)?;
     let move_type = m["Type"].as_str().unwrap_or_default();
-    let stab =
-        i32::from(source.kind == "pokemon" && types(&source)?.iter().any(|t| t == move_type));
+    let stab = i32::from(
+        source.kind == "pokemon"
+            && (if crate::combat::field::enabled(c) {
+                context.map_or_else(
+                    || crate::combat::field::types(c, attacker, catalog),
+                    |ctx| Ok(ctx.types.clone()),
+                )?
+            } else {
+                crate::combat::field::types(c, attacker, catalog)?
+            })
+            .iter()
+            .any(|t| t == move_type),
+    );
     let critical = if hit.critical {
         crate::combat::abilities::critical(c, attacker, target)
     } else {
@@ -322,12 +334,23 @@ pub fn damage_pool(
     };
     let mut effectiveness = 0;
     let mut immune = false;
-    for t in types(&defender)? {
+    for t in crate::combat::field::types(c, target, catalog)? {
         let effect = type_effect(move_type, &t)?;
-        immune |= effect == -100;
+        immune |= effect == -100
+            && !(move_type == "Ground"
+                && t == "Flying"
+                && crate::combat::field::has(c, "Gravity", target));
         if effect != -100 {
             effectiveness += effect;
         }
+    }
+    if crate::combat::field::weather(c, Some(target))
+        == Some(crate::combat::field::Weather::StrongWinds)
+        && crate::combat::field::types(c, target, catalog)?
+            .iter()
+            .any(|t| t == "Flying")
+    {
+        effectiveness = effectiveness.min(0);
     }
     let conditional = crate::combat::type_ability(c, attacker, move_type);
     immune |= crate::combat::abilities::damage_immune(c, target, &m);
@@ -343,8 +366,17 @@ pub fn damage_pool(
         stab > 0,
         context.map_or(&attacker.runtime.ability.counters, |ctx| &ctx.counters),
     );
-    let pool =
-        (attribute + power - defense).max(1) + stab + critical + modifier + ability_bonus + extra;
+    let pool = (attribute + power - defense).max(1)
+        + stab
+        + critical
+        + modifier
+        + ability_bonus
+        + extra
+        + crate::combat::field::target_bonus(c, target, &m)
+        + context.map_or_else(
+            || crate::combat::field::bonus(c, attacker, &m),
+            |ctx| ctx.field_bonus,
+        );
     if !(1..=100).contains(&pool) {
         return Err(AppError::new(
             "manual_rule",
