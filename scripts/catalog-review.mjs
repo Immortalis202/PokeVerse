@@ -13,6 +13,23 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
     await readFile(path.join(app, "rules/battle-reviewed.json"), "utf8"),
   );
   const issues = [];
+  const abilityRegistry = JSON.parse(
+    await readFile(path.join(app, "rules/ability-coverage.json"), "utf8"),
+  );
+  const abilityHash = createHash("sha256")
+    .update(
+      (
+        await readFile(path.join(app, "rules/ability-coverage.json"), "utf8")
+      ).replace(/\r\n/g, "\n"),
+    )
+    .digest("hex");
+  const coverageRegistry = JSON.parse(
+    await readFile(path.join(app, "rules/coverage.json"), "utf8"),
+  );
+  if (coverageRegistry.ability_registry_hash !== abilityHash)
+    throw new Error(
+      "Ability registry changed without updating the rules coverage fingerprint",
+    );
   for (const kind of ["species", "moves", "abilities", "items", "natures"]) {
     for (const entry of catalog[kind]) {
       const fields =
@@ -95,7 +112,12 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
       entry.Review = {
         version: 1,
         fields: fieldReview,
-        coverage: evidence?.coverage ?? "GM adjudication",
+        coverage:
+          (kind === "abilities"
+            ? abilityRegistry.entries[entry.Name]?.scope
+            : null) ??
+          evidence?.coverage ??
+          "GM adjudication",
         notes: evidence?.notes ?? null,
       };
       if (
@@ -163,6 +185,26 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
     .digest("hex");
   const output = path.join(root, "outputs/rule-coverage");
   await mkdir(output, { recursive: true });
+  await writeFile(
+    path.join(output, "ability-coverage.json"),
+    JSON.stringify(
+      {
+        version: 1,
+        engine: abilityRegistry.engine,
+        entries: catalog.abilities.map((entry) => ({
+          id: entry.AppId,
+          name: entry.Name,
+          status:
+            abilityRegistry.entries[entry.Name]?.status ??
+            abilityRegistry.default_status,
+          scope: entry.Review.coverage,
+          page: abilityRegistry.entries[entry.Name]?.page ?? null,
+        })),
+      },
+      null,
+      2,
+    ),
+  );
   await writeFile(
     path.join(output, "catalog-review.json"),
     JSON.stringify(

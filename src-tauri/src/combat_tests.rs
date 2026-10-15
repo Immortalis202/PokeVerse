@@ -1,6 +1,8 @@
 use super::*;
 use crate::combat::{CombatState, TurnFlow};
 use crate::rules;
+#[path = "combat_tests/ability_tests.rs"]
+mod ability_tests;
 #[path = "combat_tests/targeting_tests.rs"]
 mod targeting_tests;
 fn fixture(name: &str) -> (Campaign, String, String) {

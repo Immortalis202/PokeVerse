@@ -1,0 +1,259 @@
+{
+  "version": 1,
+  "engine": "0.5.0-core",
+  "default_status": "manual",
+  "entries": {
+    "Adaptability": {
+      "status": "automated",
+      "scope": "Add one damage die for a matching-type damaging move, in addition to ordinary STAB.",
+      "page": 536
+    },
+    "Aftermath": {
+      "status": "automated",
+      "scope": "Fainting to a non-ranged Physical hit deals two ability damage to the attacker, bypassing Sturdy.",
+      "page": 536
+    },
+    "Battle Armor": {
+      "status": "automated",
+      "scope": "Opposing critical attacks receive no critical bonus damage dice.",
+      "page": 538
+    },
+    "Cute Charm": {
+      "status": "automated",
+      "scope": "A non-ranged Physical hit queues three chance dice; a six inflicts In Love with the ability holder.",
+      "page": 541
+    },
+    "Effect Spore": {
+      "status": "automated",
+      "scope": "A non-ranged Physical hit queues three chance dice and one independent uniform status selector: Poison, Paralysis or Sleep.",
+      "page": 544
+    },
+    "Filter": {
+      "status": "automated",
+      "scope": "Reduce super-effective damage from an opposing move by one.",
+      "page": 545
+    },
+    "Flame Body": {
+      "status": "automated",
+      "scope": "A non-ranged Physical hit queues three chance dice; a six inflicts second-degree Burn.",
+      "page": 545
+    },
+    "Flash Fire": {
+      "status": "automated",
+      "scope": "Immune to Fire damage. First Fire hit enables one extra Fire damage die until scene end.",
+      "page": 545
+    },
+    "Fur Coat": {
+      "status": "automated",
+      "scope": "Reduce Physical move damage by two.",
+      "page": 546
+    },
+    "Guts": {
+      "status": "automated",
+      "scope": "While Burned, Frozen, Paralyzed, Poisoned or Asleep, add two temporary Strength.",
+      "page": 548
+    },
+    "Hustle": {
+      "status": "automated",
+      "scope": "Physical moves lose one accuracy success and gain two damage dice.",
+      "page": 550
+    },
+    "Immunity": {
+      "status": "automated",
+      "scope": "Prevents poison damage; does not prevent the Poison condition.",
+      "page": 551
+    },
+    "Inner Focus": {
+      "status": "automated",
+      "scope": "Immune to Flinch and Intimidate; narrative intimidation resistance remains manual.",
+      "page": 551
+    },
+    "Insomnia": {
+      "status": "automated",
+      "scope": "Immune to Sleep; unreviewed Rest/items remain manual.",
+      "page": 551
+    },
+    "Intimidate": {
+      "status": "partial",
+      "scope": "Entry-only rank-limited Strength reduction, non-stacking, removed when source leaves or faints. GM range defaults to all deployed foes; stable IDs break excess-target ties. An explicit GM range correction updates affected targets.",
+      "page": 552
+    },
+    "Iron Barbs": {
+      "status": "automated",
+      "scope": "A non-ranged Physical hit queues the owner choice: one neutral damage or two neutral damage dice.",
+      "page": 552
+    },
+    "Iron Fist": {
+      "status": "automated",
+      "scope": "Add one damage die when the reviewed move metadata marks FistMove.",
+      "page": 552
+    },
+    "Levitate": {
+      "status": "partial",
+      "scope": "Ground move immunity automated; terrain and entry-hazard effects remain manual.",
+      "page": 553
+    },
+    "Limber": {
+      "status": "automated",
+      "scope": "Immune to Paralysis.",
+      "page": 553
+    },
+    "Magma Armor": {
+      "status": "automated",
+      "scope": "Immune to Frozen Solid.",
+      "page": 554
+    },
+    "Marvel Scale": {
+      "status": "automated",
+      "scope": "A major status ailment grants two Defense, without modifying Vitality or Special Defense.",
+      "page": 555
+    },
+    "Moxie": {
+      "status": "automated",
+      "scope": "A move knockout of a foe adds one temporary Strength, capped at three; current multi-target damage retains its snapshot.",
+      "page": 556
+    },
+    "Multiscale": {
+      "status": "automated",
+      "scope": "Reduce move damage by one when HP is full at that hit.",
+      "page": 556
+    },
+    "Poison Point": {
+      "status": "automated",
+      "scope": "A non-ranged Physical hit queues three chance dice; a six inflicts Poison.",
+      "page": 560
+    },
+    "Rough Skin": {
+      "status": "automated",
+      "scope": "A non-ranged Physical hit queues the owner choice: one neutral damage or two neutral damage dice.",
+      "page": 564
+    },
+    "Sap Sipper": {
+      "status": "automated",
+      "scope": "Immune to Grass damage. First Grass hit grants one temporary Strength; scene-use flag survives recall.",
+      "page": 565
+    },
+    "Shell Armor": {
+      "status": "automated",
+      "scope": "Opposing critical attacks receive no critical bonus damage dice.",
+      "page": 567
+    },
+    "Shield Dust": {
+      "status": "automated",
+      "scope": "Blocks opposing move effects triggered by chance dice; direct GM statuses are not inferred chance effects.",
+      "page": 567
+    },
+    "Sniper": {
+      "status": "automated",
+      "scope": "A critical hit adds three damage dice in place of two.",
+      "page": 568
+    },
+    "Solid Rock": {
+      "status": "automated",
+      "scope": "Reduce super-effective move damage by one.",
+      "page": 568
+    },
+    "Soundproof": {
+      "status": "automated",
+      "scope": "Immune to damage and added effects of moves marked SoundMove.",
+      "page": 569
+    },
+    "Speed Boost": {
+      "status": "automated",
+      "scope": "End of each active round adds one temporary Dexterity, capped at three; recall clears temporary counters.",
+      "page": 569
+    },
+    "Static": {
+      "status": "automated",
+      "scope": "A non-ranged Physical hit queues three chance dice; a six inflicts Paralysis.",
+      "page": 570
+    },
+    "Sturdy": {
+      "status": "automated",
+      "scope": "Once per scene, ordinary damaging move or Clash damage that would faint the Pokemon leaves one HP. Indirect, self and reviewed set damage do not activate it.",
+      "page": 571
+    },
+    "Synchronize": {
+      "status": "partial",
+      "scope": "Reflect source-tracked statuses once, respecting immunities. GM status edits without an inflictor have no inferred source.",
+      "page": 573
+    },
+    "Technician": {
+      "status": "automated",
+      "scope": "Add one damage die for Physical/Special moves with Power 1 or 2; special/manual formulas remain adjudicated.",
+      "page": 573
+    },
+    "Vital Spirit": {
+      "status": "automated",
+      "scope": "Immune to Sleep; unreviewed Rest/items remain manual.",
+      "page": 577
+    },
+    "Volt Absorb": {
+      "status": "automated",
+      "scope": "Immune to Electric damage; owner may restore one HP per hit, without an action or revival.",
+      "page": 577
+    },
+    "Water Absorb": {
+      "status": "automated",
+      "scope": "Immune to Water damage; owner may restore one HP per hit, without an action or revival.",
+      "page": 577
+    },
+    "Water Veil": {
+      "status": "automated",
+      "scope": "Immune to every Burn degree.",
+      "page": 578
+    },
+    "Torrent": {
+      "status": "manual",
+      "scope": "Printed text grants 2 damage dice but icon grants 1. GM ruling required.",
+      "page": 574
+    },
+    "Blaze": {
+      "status": "automated",
+      "scope": "Ignore pain for Fire accuracy/damage; add two Fire damage dice at half HP or less."
+    },
+    "Overgrow": {
+      "status": "automated",
+      "scope": "Ignore pain for Grass accuracy/damage; add two Grass damage dice at half HP or less."
+    },
+    "Swarm": {
+      "status": "automated",
+      "scope": "Ignore pain for Bug accuracy/damage; add two Bug damage dice at half HP or less."
+    },
+    "Own Tempo": {
+      "status": "automated",
+      "scope": "Immune to Confusion."
+    },
+    "Oblivious": {
+      "status": "partial",
+      "scope": "Immune to In Love; other feeling-related and narrative effects remain GM-adjudicated."
+    },
+    "Thick Fat": {
+      "status": "automated",
+      "scope": "Reduce Fire and Ice move damage by one."
+    },
+    "Huge Power": {
+      "status": "automated",
+      "scope": "Shared creation service applies the reviewed rank-based permanent Strength modifier, without repeated battle addition."
+    },
+    "Pure Power": {
+      "status": "automated",
+      "scope": "Shared creation service applies the reviewed rank-based permanent Strength modifier, without repeated battle addition."
+    },
+    "Damp": {
+      "page": 541,
+      "status": "automated",
+      "scope": "While active, prevents the five named explosion/burn moves and Aftermath damage."
+    },
+    "Long Reach": {
+      "page": 554,
+      "status": "automated",
+      "scope": "All moves count as ranged for reviewed contact-trigger interactions; spatial movement remains manual."
+    },
+    "Magic Guard": {
+      "page": 554,
+      "status": "partial",
+      "scope": "Prevents reviewed ability damage, burn/poison ticks and Submission recoil. Confusion and direct move damage remain; weather, held items and entry hazards await their mechanics."
+    }
+  }
+}

@@ -53,6 +53,7 @@ const campaign: Campaign = {
 function fighter(id: string): Combatant {
   return {
     runtime: {
+      ability: { flags: [], counters: {} },
       will: 0,
       pain_ignored: 0,
       chance_round: 0,
@@ -162,7 +163,13 @@ describe("registered battle teams", () => {
 });
 
 describe("structured core battle controls", () => {
-  function core(player: string, queued = false, engine = "0.3.0-core", field = false) {
+  function core(
+    player: string,
+    queued = false,
+    engine = "0.3.0-core",
+    field = false,
+    ability = false,
+  ) {
     const combatants = ["active", "opponent"].map(fighter);
     combatants[0].runtime.will = 6;
     combatants[0].runtime.will_enabled = true;
@@ -188,6 +195,21 @@ describe("structured core battle controls", () => {
           reacted: [],
           window: queued && !field,
           deferred: null,
+          ability_rules: engine === "0.5.0-core",
+          ability_events: ability
+            ? [
+                {
+                  id: "trigger",
+                  combatant_id: "active",
+                  target_id: "opponent",
+                  ability: "Rough Skin",
+                  kind: "retaliate",
+                  move_name: "Tackle",
+                  choices: ["neutral", "roll"],
+                },
+              ]
+            : [],
+          intimidate: {},
           ranges: {},
           covers: {},
           field_effects: [],
@@ -212,6 +234,7 @@ describe("structured core battle controls", () => {
                   shared_dice: [],
                   damage_modifiers: null,
                   defense_key: "",
+                  damage_context: null,
                 },
               ]
             : [],
@@ -250,10 +273,26 @@ describe("structured core battle controls", () => {
     expect(player).toContain("Multiple targets and battlefield moves");
     expect(player).toContain("Preview target legality and accuracy");
     expect(player).not.toContain("Confirm selected Pokémon in range");
-    expect(core("gm", false, "0.4.0-core")).toContain("Confirm selected Pokémon in range");
+    expect(core("gm", false, "0.4.0-core")).toContain(
+      "Confirm selected Pokémon in range",
+    );
     const gmField = core("gm", true, "0.4.0-core", true);
     expect(gmField).toContain("Record field effect and finish action");
     expect(gmField).not.toContain("Resolve automatic damage");
-    expect(core("host", true, "0.4.0-core", true)).not.toContain("Record field effect and finish action");
+    expect(core("host", true, "0.4.0-core", true)).not.toContain(
+      "Record field effect and finish action",
+    );
+  });
+  it("lets the ability owner choose retaliation while the separate host only observes", () => {
+    const player = core("player", false, "0.5.0-core", false, true);
+    expect(player).toContain("Pending: Rough Skin");
+    expect(player).toContain("Deal 1 neutral damage");
+    expect(player).not.toContain("Record manual ability resolution");
+    expect(core("gm", false, "0.5.0-core", false, true)).toContain(
+      "Record manual ability resolution",
+    );
+    const host = core("host", false, "0.5.0-core", false, true);
+    expect(host).toContain("Pending: Rough Skin");
+    expect(host).not.toContain("Deal 1 neutral damage");
   });
 });

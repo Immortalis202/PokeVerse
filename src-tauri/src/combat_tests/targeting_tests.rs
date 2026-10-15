@@ -1,6 +1,6 @@
 use super::*;
 
-fn multi(name: &str) -> (Campaign, String, String, String) {
+pub(super) fn multi(name: &str) -> (Campaign, String, String, String) {
     let (mut c, a, t) = fixture(name);
     let source = c.battle.as_ref().unwrap().combatants[0].sheet_id.clone();
     c.sheets.get_mut(&source).unwrap().rank = "Standard".into();
@@ -17,7 +17,7 @@ fn multi(name: &str) -> (Campaign, String, String, String) {
     c.battle.as_mut().unwrap().combatants.push(p);
     (c, a, t, high)
 }
-fn attack(a: &str, targets: Vec<String>, name: &str) -> Action {
+pub(super) fn attack(a: &str, targets: Vec<String>, name: &str) -> Action {
     Action::AccuracyTargets {
         combatant_id: a.into(),
         target_ids: targets,
@@ -27,13 +27,13 @@ fn attack(a: &str, targets: Vec<String>, name: &str) -> Action {
         reason: "Reviewed targeting test".into(),
     }
 }
-fn roll(c: &Campaign, actor: &str, a: &Action, face: u8) -> Campaign {
+pub(super) fn roll(c: &Campaign, actor: &str, a: &Action, face: u8) -> Campaign {
     let n = rules::dice_count(c, a, &catalog()).unwrap();
     battle::transition(c, actor, a, vec![face; n as usize], &catalog())
         .unwrap()
         .0
 }
-fn pass(c: &Campaign) -> Campaign {
+pub(super) fn pass(c: &Campaign) -> Campaign {
     let q = c
         .battle
         .as_ref()
@@ -53,7 +53,7 @@ fn pass(c: &Campaign) -> Campaign {
         },
     )
 }
-fn damage_command(c: &Campaign) -> Action {
+pub(super) fn damage_command(c: &Campaign) -> Action {
     let q = &c.battle.as_ref().unwrap().flow.as_ref().unwrap().queue[0];
     Action::Damage {
         combatant_id: q.actor_id.clone(),

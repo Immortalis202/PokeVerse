@@ -3,11 +3,14 @@ use crate::{catalog::Catalog, model::*, rules};
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, BTreeSet};
 use ts_rs::TS;
+pub(crate) mod abilities;
 mod targeting;
 use targeting::*;
 #[derive(Debug, Clone, Default, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct CombatState {
+    #[serde(default)]
+    pub ability: abilities::AbilityState,
     pub will: i32,
     pub pain_ignored: i32,
     pub chance_round: u32,
@@ -29,7 +32,7 @@ pub struct CombatState {
     pub adjudicated_round: u32,
     pub modifiers: BTreeMap<String, i32>,
 }
-#[derive(Debug, Clone, Serialize, Deserialize, TS)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct Status {
     pub kind: String,
@@ -40,6 +43,12 @@ pub struct Status {
 #[derive(Debug, Clone, Default, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct TurnFlow {
+    #[serde(default)]
+    pub ability_rules: bool,
+    #[serde(default)]
+    pub ability_events: Vec<abilities::AbilityEvent>,
+    #[serde(default)]
+    pub intimidate: BTreeMap<String, Vec<String>>,
     pub started: bool,
     pub order: Vec<String>,
     pub cursor: usize,
@@ -60,6 +69,8 @@ pub struct TurnFlow {
 #[derive(Debug, Clone, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct QueuedAction {
+    #[serde(default)]
+    pub damage_context: Option<abilities::DamageContext>,
     pub actor_id: String,
     pub target_id: String,
     pub move_name: String,
@@ -174,6 +185,11 @@ fn confusion(c: &Campaign, p: &Combatant) -> i32 {
     }
 }
 fn ready(c: &Campaign, id: &str) -> Result<()> {
+    if abilities::pending(c) {
+        return Err(error(
+            "Resolve pending ability triggers before another action",
+        ));
+    }
     let b = battle(c)?;
     let p = fighter(c, id)?;
     crate::teams::ready(p, b.round)?;
@@ -260,12 +276,10 @@ fn finish(c: &mut Campaign) {
         return;
     }
     flow_mut(c).queue.remove(0);
-    while flow(c)
-        .unwrap()
-        .queue
-        .first()
-        .is_some_and(|q| q.cancelled || fighter(c, &q.actor_id).is_ok_and(|p| p.hp == 0))
-    {
+    while flow(c).unwrap().queue.first().is_some_and(|q| {
+        q.cancelled
+            || (q.damage_context.is_none() && fighter(c, &q.actor_id).is_ok_and(|p| p.hp == 0))
+    }) {
         flow_mut(c).queue.remove(0);
     }
     if flow(c).unwrap().queue.is_empty() {
@@ -291,6 +305,11 @@ fn close(c: &mut Campaign) {
     }
 }
 fn current(c: &Campaign) -> Result<&QueuedAction> {
+    if abilities::pending(c) {
+        return Err(error(
+            "Resolve pending ability triggers before continuing the move",
+        ));
+    }
     let f = flow(c)?;
     if f.window {
         return Err(error("The target must react or pass before resolution"));
@@ -302,7 +321,7 @@ fn move_entry(catalog: &Catalog, name: &str) -> Result<serde_json::Value> {
         .find("moves", "Name", name)
         .ok_or_else(|| error("Unknown move"))
 }
-pub fn apply_stats(_c: &Campaign, p: &Combatant, s: &mut Sheet) {
+pub fn apply_stats(c: &Campaign, p: &Combatant, s: &mut Sheet) {
     for (key, amount) in &p.runtime.modifiers {
         if let Some(v) = s.stats.get_mut(key) {
             *v = (*v + amount).clamp(1, 10);
@@ -313,6 +332,7 @@ pub fn apply_stats(_c: &Campaign, p: &Combatant, s: &mut Sheet) {
             *v = (*v - 2).max(0);
         }
     }
+    abilities::stats(c, p, s);
 }
 fn check_count(dice: &[u8], count: u32) -> Result<()> {
     if dice.len() != count as usize || dice.iter().any(|d| !(1..=6).contains(d)) {
@@ -622,7 +642,11 @@ fn ice_damage_pool(c: &Campaign, q: &QueuedAction, modifier: i32, cat: &Catalog)
     Ok(n as u32)
 }
 pub fn dice_count(c: &Campaign, a: &Action, cat: &Catalog) -> Result<u32> {
+    abilities::phase(c, a)?;
     let base = match a {
+        Action::ResolveAbility {
+            event_id, choice, ..
+        } => return abilities::dice(c, event_id, choice),
         Action::CoverAlly {
             combatant_id,
             ally_id,
@@ -665,7 +689,7 @@ pub fn dice_count(c: &Campaign, a: &Action, cat: &Catalog) -> Result<u32> {
         }
         Action::ResolveEffect { .. } => {
             let q = current(c)?;
-            effect_dice(q, cat)?
+            effect_dice(c, q, cat)?
         }
         Action::Accuracy { combatant_id, .. } | Action::AccuracyTargets { combatant_id, .. } => {
             ready(c, combatant_id)?;
@@ -747,11 +771,16 @@ fn holding_back(c: &Campaign, q: &QueuedAction) -> bool {
     let Ok(p) = fighter(c, &q.actor_id) else {
         return false;
     };
-    if p.runtime.love_resisted_turn == flow(c).map_or(0, |f| f.turn) {
+    let resisted = q
+        .damage_context
+        .as_ref()
+        .map_or(p.runtime.love_resisted_turn, |ctx| ctx.love_resisted_turn);
+    if resisted == flow(c).map_or(0, |f| f.turn) {
         return false;
     }
-    p.runtime
-        .statuses
+    q.damage_context
+        .as_ref()
+        .map_or(&p.runtime.statuses, |ctx| &ctx.statuses)
         .iter()
         .filter(|s| s.kind == "In Love")
         .any(|s| {
@@ -792,6 +821,16 @@ pub fn preview(c: &Campaign, a: &Action, cat: &Catalog) -> Result<ActionPreview>
     }
     if let Some(b) = c.battle.as_ref() {
         for p in b.combatants.iter().filter(|p| p.deployed) {
+            if abilities::enabled(c) {
+                warnings.push(format!(
+                    "{} / {}: {}",
+                    p.name,
+                    p.selected_ability,
+                    abilities::coverage(&p.selected_ability)
+                        .unwrap_or("Ability mechanics require explicit GM adjudication")
+                ));
+                continue;
+            }
             if let Some(v) = cat.find("abilities", "Name", &p.selected_ability) {
                 if let Some(note) = v["Review"]["notes"].as_str() {
                     warnings.push(format!("{} / {}: {note}", p.name, p.selected_ability));
@@ -859,12 +898,38 @@ pub fn transition(
     dice: Vec<u8>,
     cat: &Catalog,
 ) -> Result<(Campaign, String)> {
+    abilities::phase(c, a)?;
     let mut next = c.clone();
     if let Some(description) = targeting_action(c, &mut next, actor, a, &dice, cat)? {
         checkpoint(c, &mut next, &description);
         return Ok((next, description));
     }
     let description = match a {
+        Action::ResolveAbility { .. } => abilities::resolve(c, &mut next, actor, a, &dice, cat)?,
+        Action::InflictStatus {
+            combatant_id,
+            source_id,
+            kind,
+            detail,
+            rounds,
+            reason: r,
+        } => {
+            gm(c, actor)?;
+            reason(r)?;
+            if !abilities::enabled(c) {
+                return Err(error("Upgrade the engine to track ability status sources"));
+            }
+            abilities::inflict(
+                &mut next,
+                source_id,
+                combatant_id,
+                kind,
+                detail,
+                *rounds,
+                cat,
+            )?;
+            format!("GM recorded {kind} from {source_id} to {combatant_id}: {r}")
+        }
         Action::SetBattleRange { .. }
         | Action::CoverAlly { .. }
         | Action::AdjudicateField { .. }
@@ -923,6 +988,7 @@ pub fn transition(
                         field_scope: None,
                         shared_dice: vec![],
                         damage_modifiers: None,
+                        damage_context: None,
                         defense_key: String::new(),
                     });
                     flow_mut(&mut next).window = false;
@@ -990,6 +1056,14 @@ pub fn transition(
             {
                 return Err(error("No ambiguous severe status to adjudicate"));
             }
+            if abilities::enabled(c)
+                && *damage > 0
+                && (p.selected_ability == "Magic Guard"
+                    || (p.selected_ability == "Immunity"
+                        && !p.runtime.statuses.iter().any(|s| s.kind == "Burn 3")))
+            {
+                return Err(error("Immunity prevents poison damage; use an explicit resource override for another damage source"));
+            }
             p.runtime.adjudicated_round = round;
             p.hp = (p.hp - damage).max(0);
             format!("GM resolved ambiguous severe status for round {round}: {damage} damage. {r}")
@@ -1027,7 +1101,7 @@ pub fn transition(
         Action::StartTurns => {
             gm(c, actor)?;
             let b = battle(c)?;
-            if flow(c)?.started || !flow(c)?.queue.is_empty() {
+            if flow(c)?.started || !flow(c)?.queue.is_empty() || abilities::pending(c) {
                 return Err(error("Turns already started"));
             }
             let mut order = b
@@ -1148,7 +1222,8 @@ pub fn transition(
             let low = m["Attributes"]["AccuracyReduction"]
                 .as_i64()
                 .unwrap_or(0)
-                .min(0) as i32;
+                .min(0) as i32
+                - abilities::low_accuracy(c, p, &m);
             let shield_penalty = shield_attempt(&mut next, combatant_id, &m)?;
             let pain_exempt = pain_exempt(c, p, &m)?;
             let saved_pain = fighter_mut(&mut next, combatant_id)?.runtime.pain_ignored;
@@ -1193,6 +1268,7 @@ pub fn transition(
                     field_scope: None,
                     shared_dice: vec![],
                     damage_modifiers: None,
+                    damage_context: None,
                     defense_key: String::new(),
                 });
                 let q = flow_mut(&mut next).queue.last_mut().unwrap();
@@ -1244,6 +1320,7 @@ pub fn transition(
                     .as_i64()
                     .unwrap_or(0)
                     .min(0) as i32
+                    - abilities::low_accuracy(c, p, &move_entry(cat, move_name)?)
             } else {
                 0
             };
@@ -1282,21 +1359,46 @@ pub fn transition(
                     if kind == "clash" {
                         let attack = move_entry(cat, &incoming.move_name)?;
                         let defend = move_entry(cat, move_name)?;
-                        let to_def = clash_damage(
+                        let mut to_def = clash_damage(
                             c,
                             &incoming.target_id,
                             attack["Type"].as_str().unwrap_or(""),
                             cat,
                         )?;
-                        let to_att = clash_damage(
+                        let mut to_att = clash_damage(
                             c,
                             &incoming.actor_id,
                             defend["Type"].as_str().unwrap_or(""),
                             cat,
                         )?;
+                        if abilities::enabled(c) {
+                            to_def = abilities::clash_amount(
+                                &mut next,
+                                &incoming.target_id,
+                                &attack,
+                                to_def,
+                                &incoming.actor_id,
+                            )?;
+                            to_att = abilities::clash_amount(
+                                &mut next,
+                                &incoming.actor_id,
+                                &defend,
+                                to_att,
+                                &incoming.target_id,
+                            )?;
+                        }
+                        let attacker_hp = fighter(c, &incoming.actor_id)?.hp;
                         fighter_mut(&mut next, &incoming.target_id)?.hp = (p.hp - to_def).max(0);
                         let attacker = fighter_mut(&mut next, &incoming.actor_id)?;
                         attacker.hp = (attacker.hp - to_att).max(0);
+                        abilities::hit(&mut next, &incoming, p.hp, &attack)?;
+                        let counter = QueuedAction {
+                            actor_id: incoming.target_id.clone(),
+                            target_id: incoming.actor_id.clone(),
+                            move_name: move_name.clone(),
+                            ..incoming.clone()
+                        };
+                        abilities::hit(&mut next, &counter, attacker_hp, &defend)?;
                     }
                 }
                 close(&mut next);
@@ -1350,6 +1452,7 @@ pub fn transition(
                         field_scope: None,
                         shared_dice: vec![],
                         damage_modifiers: None,
+                        damage_context: None,
                         defense_key: String::new(),
                     });
                     let can_clash = m["Target"] != "Self"
@@ -1396,6 +1499,23 @@ pub fn transition(
             ..
         } => {
             owner(c, actor, combatant_id)?;
+            let mut damage_campaign = c.clone();
+            if abilities::enabled(c)
+                && !current(c)?.targets.is_empty()
+                && current(c)?.damage_context.is_none()
+            {
+                let p = fighter(c, combatant_id)?;
+                let context = abilities::DamageContext {
+                    stats: rules::effective_sheet(c, p)?.stats,
+                    hp: p.hp,
+                    pain_ignored: p.runtime.pain_ignored,
+                    counters: p.runtime.ability.counters.clone(),
+                    statuses: p.runtime.statuses.clone(),
+                    love_resisted_turn: p.runtime.love_resisted_turn,
+                };
+                flow_mut(&mut damage_campaign).queue[0].damage_context = Some(context);
+            }
+            let c = &damage_campaign;
             let q = current(c)?.clone();
             if q.actor_id != *combatant_id || q.sequence != *sequence || q.damage_done {
                 return Err(error("Resolve the first pending action"));
@@ -1484,8 +1604,13 @@ pub fn transition(
                     }
                     let amount = (1 + damage_modifier).max(0);
                     let p = fighter_mut(&mut next, &q.target_id)?;
+                    let before_hp = p.hp;
                     p.hp = (p.hp - amount).max(0);
+                    abilities::hit(&mut next, &q, before_hp, &move_entry(cat, &q.move_name)?)?;
                     finish(&mut next);
+                    abilities::lifecycle(c, &mut next)?;
+                    sync_labels(&mut next);
+                    refresh_initiative(c, &mut next)?;
                     checkpoint(c, &mut next, "Sonic Boom set damage");
                     return Ok((next,format!("Sonic Boom: {amount} typeless set damage; defenses/shields bypassed. {r}")));
                 }
@@ -1528,7 +1653,7 @@ pub fn transition(
             let after = fighter(&done, &q.target_id)?.hp;
             let shield = fighter(c, &q.target_id)?.runtime.shield;
             let target = fighter(c, &q.target_id)?;
-            let thick_fat = i32::from(
+            let mut thick_fat = i32::from(
                 target.selected_ability == "Thick Fat"
                     && ["Fire", "Ice"].contains(
                         &move_entry(cat, &q.move_name)?["Type"]
@@ -1536,9 +1661,29 @@ pub fn transition(
                             .unwrap_or(""),
                     ),
             );
+            let move_data = move_entry(cat, &q.move_name)?;
+            if abilities::enabled(c) {
+                let mut pool_campaign = old(c);
+                install_pending(&mut pool_campaign, &q);
+                let Action::Damage { pool_modifier, .. } = a else {
+                    unreachable!()
+                };
+                let pool = rules::damage_pool(
+                    &pool_campaign,
+                    &q.actor_id,
+                    q.sequence,
+                    *pool_modifier,
+                    cat,
+                )?;
+                thick_fat =
+                    abilities::reduction(c, target, &move_data, pool.effectiveness, &q.actor_id);
+            }
             let mut damage = (before - after - shield - thick_fat).max(0);
             if holding_back(c, &q) {
                 damage /= 2;
+            }
+            if !abilities::damage_immune(c, target, &move_data) {
+                damage = abilities::sturdy(&mut done, &q.target_id, damage, before)?;
             }
             fighter_mut(&mut done, &q.target_id)?.hp = (before - damage).max(0);
             fighter_mut(&mut done, &q.target_id)?.runtime.shield = 0;
@@ -1546,6 +1691,7 @@ pub fn transition(
             qa.damage_done = true;
             qa.damage = damage;
             qa.raw_damage_successes = raw_damage_successes;
+            abilities::hit(&mut done, &q, before, &move_data)?;
             next = done;
             if no_effect(&q.move_name, cat)?
                 || ((shield > 0 || holding_back(c, &q))
@@ -1581,7 +1727,7 @@ pub fn transition(
                 if m["Category"] != "Support" && !q.damage_done {
                     return Err(error("Resolve damage first"));
                 }
-                check_count(&dice, effect_dice(&q, cat)?)?;
+                check_count(&dice, effect_dice(c, &q, cat)?)?;
                 effects(&mut next, &q, &dice, cat)?;
             }
             finish(&mut next);
@@ -1746,7 +1892,8 @@ pub fn transition(
         }
         Action::NextRound => {
             gm(c, actor)?;
-            if !flow(c)?.queue.is_empty()
+            if abilities::pending(c)
+                || !flow(c)?.queue.is_empty()
                 || (battle(c)?.automatic_validation && !flow(c)?.order.is_empty())
             {
                 return Err(error(
@@ -1755,6 +1902,7 @@ pub fn transition(
             }
             let mut temp = old(c);
             end_round(&mut temp, cat)?;
+            abilities::end_round(&mut temp)?;
             let (mut done, log) = crate::battle::transition(&temp, actor, a, dice, cat)?;
             done.engine = c.engine.clone();
             done.battle_undo = c.battle_undo.clone();
@@ -1800,7 +1948,7 @@ pub fn transition(
                 .battle
                 .as_ref()
                 .and_then(|b| b.flow.as_ref())
-                .is_some_and(|f| !f.queue.is_empty())
+                .is_some_and(|f| !f.queue.is_empty() || !f.ability_events.is_empty())
             {
                 return Err(error("Resolve the complete pending chain first"));
             }
@@ -1823,7 +1971,10 @@ pub fn transition(
                 Action::StartBattle { .. } | Action::StartTeamBattle { .. }
             ) {
                 let b = done.battle.as_mut().unwrap();
-                b.flow = Some(TurnFlow::default());
+                b.flow = Some(TurnFlow {
+                    ability_rules: c.engine == ENGINE,
+                    ..TurnFlow::default()
+                });
                 for p in &mut b.combatants {
                     p.runtime.will = done.sheets[&p.sheet_id]
                         .workflow
@@ -1944,11 +2095,13 @@ pub fn transition(
             if !matches!(a, Action::RollbackBattle { .. } | Action::Override { .. }) {
                 refresh_initiative(c, &mut done)?;
             }
+            abilities::lifecycle(c, &mut done)?;
             cleanup_covers(c, &mut done, a);
             sync_labels(&mut done);
             return Ok((done, log));
         }
     };
+    abilities::lifecycle(c, &mut next)?;
     cleanup_covers(c, &mut next, a);
     refresh_initiative(c, &mut next)?;
     sync_labels(&mut next);
@@ -2033,6 +2186,7 @@ fn set_status(
     });
     if (kind == "Confusion" && p.selected_ability == "Own Tempo")
         || (kind == "In Love" && p.selected_ability == "Oblivious")
+        || abilities::status_immune(c, p, kind)
     {
         return Err(error("Selected ability is immune to this condition"));
     }
@@ -2080,6 +2234,7 @@ fn set_status(
     Ok(())
 }
 fn end_round(c: &mut Campaign, _cat: &Catalog) -> Result<()> {
+    let abilities_on = abilities::enabled(c);
     let b = c.battle.as_mut().unwrap();
     for p in &mut b.combatants {
         if p.hp == 0 {
@@ -2090,16 +2245,20 @@ fn end_round(c: &mut Campaign, _cat: &Catalog) -> Result<()> {
         }
         if p.runtime.statuses.iter().any(|s| {
             ["Burn 3", "Badly Poisoned"].contains(&s.kind.as_str())
+                && !abilities::status_damage_immune(abilities_on, p, &s.kind)
                 && p.runtime.adjudicated_round != b.round
         }) {
             return Err(AppError::new("manual_rule","Severe status escalation conflicts between pp.84-86; record the GM severe-status outcome before advancing"));
         }
         for s in &p.runtime.statuses {
-            let damage = match s.kind.as_str() {
-                "Burn" => 1,
-                "Burn 2" => 2,
-                "Poison" => 2,
-                _ => 0,
+            let damage = if abilities::status_damage_immune(abilities_on, p, &s.kind) {
+                0
+            } else {
+                match s.kind.as_str() {
+                    "Burn" => 1,
+                    "Burn 2" | "Poison" => 2,
+                    _ => 0,
+                }
             };
             p.hp = (p.hp - damage).max(0);
         }
@@ -2140,14 +2299,22 @@ fn chance_effect(name: &str) -> Option<(&str, u32)> {
         _ => None,
     }
 }
-fn effect_dice(q: &QueuedAction, _cat: &Catalog) -> Result<u32> {
+fn effect_dice(c: &Campaign, q: &QueuedAction, _cat: &Catalog) -> Result<u32> {
     Ok(if q.move_name == "Submission" {
-        q.raw_damage_successes
+        if abilities::enabled(c) && fighter(c, &q.actor_id)?.selected_ability == "Magic Guard" {
+            0
+        } else {
+            q.raw_damage_successes
+        }
     } else {
         chance_effect(&q.move_name).map_or(0, |(_, n)| n)
     })
 }
 fn effects(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) -> Result<()> {
+    let data = move_entry(cat, &q.move_name)?;
+    if abilities::move_immune(c, fighter(c, &q.target_id)?, &data) {
+        return Ok(());
+    }
     match q.move_name.as_str() {
         "Protect" => {
             fighter_mut(c, &q.actor_id)?.runtime.shield = 3;
@@ -2178,7 +2345,13 @@ fn effects(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) -> Re
             rt.recharge_round = round + 1;
         }
         "Submission" => {
-            let damage = rules::successes(dice);
+            let damage = if abilities::enabled(c)
+                && fighter(c, &q.actor_id)?.selected_ability == "Magic Guard"
+            {
+                0
+            } else {
+                rules::successes(dice)
+            };
             let p = fighter_mut(c, &q.actor_id)?;
             p.hp = (p.hp - damage).max(0);
         }
@@ -2186,8 +2359,13 @@ fn effects(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) -> Re
             let (kind, _) = chance_effect(name).unwrap();
             let already_flinched = kind == "Flinch"
                 && fighter(c, &q.target_id)?.runtime.flinch_round == battle(c)?.round;
-            if dice.contains(&6) && !already_flinched {
-                if let Err(e) = set_status(c, &q.target_id, kind, "", None, cat) {
+            let dust = abilities::enabled(c)
+                && fighter(c, &q.target_id)?.selected_ability == "Shield Dust"
+                && fighter(c, &q.actor_id)?.side != fighter(c, &q.target_id)?.side;
+            if dice.contains(&6) && !already_flinched && !dust {
+                if let Err(e) =
+                    abilities::inflict(c, &q.actor_id, &q.target_id, kind, "", None, cat)
+                {
                     if ![
                         "Species type is immune to this condition",
                         "Selected ability is immune to this condition",

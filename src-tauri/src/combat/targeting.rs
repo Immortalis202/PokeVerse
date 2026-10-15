@@ -21,7 +21,7 @@ pub struct FieldEffect {
 }
 
 pub(super) fn require_targeting(c: &Campaign) -> Result<()> {
-    if c.engine != ENGINE {
+    if ![ENGINE, TARGET_ENGINE].contains(&c.engine.as_str()) {
         return Err(AppError::new(
             "version",
             "Upgrade the engine between battles to use advanced targeting",
@@ -264,6 +264,9 @@ pub(super) fn prepare_targets(c: &mut Campaign) {
                         .get(&q.defense_key)
                         .copied()
                         .unwrap_or(0)
+                        + fighter(c, &t.target_id)
+                            .map(|p| abilities::defense(c, p, q.defense_key == "Defense"))
+                            .unwrap_or(0)
                 })
                 .unwrap_or(0);
             (-score, t.target_id.clone())

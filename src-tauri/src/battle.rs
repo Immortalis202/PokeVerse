@@ -8,7 +8,7 @@ pub fn transition(
     dice: Vec<u8>,
     catalog: &Catalog,
 ) -> Result<(Campaign, String)> {
-    if [ENGINE, TURN_ENGINE].contains(&current.engine.as_str()) {
+    if [ENGINE, TARGET_ENGINE, TURN_ENGINE].contains(&current.engine.as_str()) {
         return crate::combat::transition(current, actor, action, dice, catalog);
     }
     let mut c = current.clone();
@@ -24,7 +24,9 @@ pub fn transition(
         }
     };
     let description = match action {
-        Action::AccuracyTargets { .. }
+        Action::ResolveAbility { .. }
+        | Action::InflictStatus { .. }
+        | Action::AccuracyTargets { .. }
         | Action::SetBattleRange { .. }
         | Action::CoverAlly { .. }
         | Action::AdjudicateField { .. }
@@ -316,7 +318,15 @@ pub fn transition(
                     "Upgrade rules between battles",
                 ));
             }
-            if ![ENGINE, TURN_ENGINE, PREVIOUS_ENGINE, LEGACY_ENGINE].contains(&c.engine.as_str()) {
+            if ![
+                ENGINE,
+                TARGET_ENGINE,
+                TURN_ENGINE,
+                PREVIOUS_ENGINE,
+                LEGACY_ENGINE,
+            ]
+            .contains(&c.engine.as_str())
+            {
                 return Err(AppError::new("version", "Unsupported campaign engine"));
             }
             c.engine = ENGINE.into();

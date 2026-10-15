@@ -824,7 +824,7 @@ pub fn preview(
         }
         if !["Huge Power", "Pure Power"].contains(&s.ability.as_str()) && !s.ability.is_empty() {
             warnings.push(format!(
-                "{}: conditional/reactive ability effects remain manual",
+                "{}: conditional/reactive effects apply only in battle when supported; unreviewed interactions require GM adjudication",
                 s.ability
             ));
         }

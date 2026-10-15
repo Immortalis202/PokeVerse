@@ -2,7 +2,7 @@
 
 
 
-Snapshot: 15 October 2026, application 0.11.0, protocol 12, user database schema 4.
+Snapshot: 15 October 2026, application 0.12.0, protocol 13, user database schema 4.
 
 
 
@@ -108,7 +108,9 @@ A reviewed coverage matrix and field-level audit queue are implemented in 0.10.0
 
 - [ ] Implement structured status modifiers, durations, expiry and resource changes, including the remaining Will-related battle mechanics.
 
-- [ ] Extend ability automation beyond the supported permanent modifiers to reviewed conditional and reactive effects.
+- [x] Add the first reviewed ability milestone: 51 supported definitions, entry/round/hit hooks, owner decisions, chance dice, status provenance, receipts and rollback.
+
+- [ ] Complete the remaining ability definitions and interactions requiring weather/terrain, held items, form changes, suppression or complex redirection. See [battle abilities](battle-abilities.md).
 
 - [ ] Cover special move formulas/effects: fixed or varied damage, chance dice, recoil, recovery, shields, recharge, rampage, successive actions and other recorded special attributes.
 

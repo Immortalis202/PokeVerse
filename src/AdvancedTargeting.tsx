@@ -41,7 +41,8 @@ export default function AdvancedTargeting({
     };
   }, [move, catalog]);
   const b = campaign.battle;
-  if (campaign.engine !== "0.4.0-core" || !b?.active) return null;
+  if (!["0.4.0-core", "0.5.0-core"].includes(campaign.engine) || !b?.active)
+    return null;
   const gm = campaign.gm_id === playerId;
   const active = b.combatants.filter(
     (p) => p.deployed && p.hp > 0 && p.available_round <= b.round,

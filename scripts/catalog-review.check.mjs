@@ -106,6 +106,7 @@ test("coverage and PDF fingerprints are preserved with a complete field-level qu
     const tests =
       readFileSync("src-tauri/src/combat_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/targeting_tests.rs", "utf8") +
+      readFileSync("src-tauri/src/combat_tests/ability_tests.rs", "utf8") +
       readFileSync("src-tauri/src/tests.rs", "utf8");
     const coverage = JSON.parse(readFileSync("rules/coverage.json", "utf8"));
     for (const entry of coverage.entries)
@@ -114,6 +115,62 @@ test("coverage and PDF fingerprints are preserved with a complete field-level qu
           tests.includes(`fn ${fixture}(`),
           `Missing coverage fixture ${fixture}`,
         );
+  } finally {
+    db.close();
+  }
+});
+test("ability inventory exposes reviewed scopes and preserves manual boundaries", () => {
+  const registry = JSON.parse(
+    readFileSync("rules/ability-coverage.json", "utf8"),
+  );
+  const coverage = JSON.parse(readFileSync("rules/coverage.json", "utf8"));
+  assert.equal(
+    coverage.ability_registry_hash,
+    createHash("sha256")
+      .update(
+        readFileSync("rules/ability-coverage.json", "utf8").replace(
+          /\r\n/g,
+          "\n",
+        ),
+      )
+      .digest("hex"),
+  );
+  const inventory = JSON.parse(
+    readFileSync("../outputs/rule-coverage/ability-coverage.json", "utf8"),
+  );
+  assert.equal(inventory.entries.length, 305);
+  assert.equal(
+    inventory.entries.filter((e) => e.status !== "manual").length,
+    51,
+  );
+  assert.equal(
+    Object.values(registry.entries).filter((e) => e.status !== "manual").length,
+    51,
+  );
+  assert.equal(
+    inventory.entries.find((e) => e.name === "Static").status,
+    "automated",
+  );
+  assert.equal(
+    inventory.entries.find((e) => e.name === "Torrent").status,
+    "manual",
+  );
+  assert.equal(
+    inventory.entries.find((e) => e.name === "Mold Breaker").status,
+    "manual",
+  );
+  const db = new DatabaseSync("src-tauri/resources/catalog.db", {
+    readOnly: true,
+  });
+  try {
+    const raw = db
+      .prepare(
+        "select data from entries where kind='abilities' and name='Static'",
+      )
+      .get();
+    const ability = JSON.parse(raw.data);
+    assert.equal(ability.Review.fields.Effect.status, "reviewed");
+    assert.ok(ability.Review.coverage.includes("three chance dice"));
   } finally {
     db.close();
   }

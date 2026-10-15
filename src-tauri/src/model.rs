@@ -2,14 +2,15 @@ use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 use ts_rs::TS;
 
-pub const ENGINE: &str = "0.4.0-core";
+pub const ENGINE: &str = "0.5.0-core";
+pub const TARGET_ENGINE: &str = "0.4.0-core";
 pub const TURN_ENGINE: &str = "0.3.0-core";
 pub const PREVIOUS_ENGINE: &str = "0.2.0-core";
 pub fn core_engine(engine: &str) -> bool {
-    [ENGINE, TURN_ENGINE, PREVIOUS_ENGINE].contains(&engine)
+    [ENGINE, TARGET_ENGINE, TURN_ENGINE, PREVIOUS_ENGINE].contains(&engine)
 }
 pub const LEGACY_ENGINE: &str = "0.1.0-manual";
-pub const PROTOCOL: u32 = 12;
+pub const PROTOCOL: u32 = 13;
 pub fn enabled() -> bool {
     true
 }
@@ -380,6 +381,19 @@ pub enum Action {
         reason: String,
     },
     StartTurns,
+    ResolveAbility {
+        event_id: String,
+        choice: String,
+        reason: String,
+    },
+    InflictStatus {
+        combatant_id: String,
+        source_id: String,
+        kind: String,
+        detail: String,
+        rounds: Option<u32>,
+        reason: String,
+    },
     SetBattleRange {
         combatant_id: String,
         in_range_ids: Vec<String>,

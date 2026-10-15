@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.4.0-core",
-  "release": "0.11.0",
-  "protocol": 12,
+  "engine": "0.5.0-core",
+  "release": "0.12.0",
+  "protocol": 13,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -133,11 +133,15 @@
     {
       "id": "conditional-abilities",
       "status": "partial",
-      "source": "MASTER 539,558,572,574",
+      "source": "MASTER 534-535 and reviewed ability cards; see ability-coverage.json",
       "fixtures": [
-        "conditional_ability_snapshot_removes_pain_and_adds_two_damage_dice"
+        "conditional_ability_snapshot_removes_pain_and_adds_two_damage_dice",
+        "ability_damage_pools_use_reviewed_modifiers_and_critical_immunity",
+        "contact_triggers_use_host_chance_dice_and_no_additional_action",
+        "synchronize_reflects_once_and_shield_dust_blocks_foe_chance_effects",
+        "moxie_does_not_change_damage_dice_midway_through_an_area_move"
       ],
-      "scope": "Blaze, Overgrow and Swarm remove matching move pain and add 2 damage dice at half HP. Thick Fat reduces Fire/Ice damage by 1. Own Tempo and Oblivious provide named status immunities. Torrent text/icon conflict remains manual. Other ability interactions remain manual."
+      "scope": "Reviewed damage/accuracy modifiers, immunities, sourced status reflection, entry Intimidate, contact triggers, Sturdy, Moxie and Speed Boost. Optional triggers use owner/GM decisions with host dice, receipts and rollback. Unsupported ability mechanics remain visibly manual."
     },
     {
       "id": "rampage-successive-charge",
@@ -179,5 +183,6 @@
       ],
       "scope": "Host validates, rolls and atomically commits; appointed GM controls rulings. Stored state, rollback, revision checks and receipts retain existing guarantees."
     }
-  ]
+  ],
+  "ability_registry_hash": "1497ff8892f633294df3cb587b4d5892a8cca6d61b64d1f2a995b6fbdb786a76"
 }

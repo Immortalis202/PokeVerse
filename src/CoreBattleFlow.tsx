@@ -27,6 +27,7 @@ export default function CoreBattleFlow({
   const [iceActor, setIceActor] = useState(""),
     [iceTarget, setIceTarget] = useState(""),
     [iceMove, setIceMove] = useState("");
+  const [statusSource, setStatusSource] = useState("");
   const [kind, setKind] = useState("Burn"),
     [detail, setDetail] = useState(""),
     [statusTarget, setStatusTarget] = useState("");
@@ -271,7 +272,7 @@ export default function CoreBattleFlow({
               </div>
             </>
           )}
-          {campaign.engine === "0.4.0-core" &&
+          {["0.4.0-core", "0.5.0-core"].includes(campaign.engine) &&
             b.combatants
               .filter(
                 (p) =>
@@ -641,6 +642,24 @@ export default function CoreBattleFlow({
                 onChange={(e) => setDuration(Number(e.target.value))}
               />
             </label>
+            {f.ability_rules && (
+              <label>
+                Status inflictor (optional; enables Synchronize)
+                <select
+                  value={statusSource}
+                  onChange={(e) => setStatusSource(e.target.value)}
+                >
+                  <option value="">No inferred source / GM correction</option>
+                  {b.combatants
+                    .filter((p) => p.deployed)
+                    .map((p) => (
+                      <option key={p.id} value={p.id}>
+                        {p.name}
+                      </option>
+                    ))}
+                </select>
+              </label>
+            )}
             <label>
               Disabled move / beloved ID
               <input
@@ -655,15 +674,27 @@ export default function CoreBattleFlow({
                 key={String(remove)}
                 disabled={disabled || !statusTarget || !reason.trim()}
                 onClick={() =>
-                  send({
-                    type: "set_status",
-                    combatant_id: statusTarget,
-                    kind,
-                    detail,
-                    rounds: duration || null,
-                    remove,
-                    reason,
-                  })
+                  send(
+                    !remove && statusSource
+                      ? {
+                          type: "inflict_status",
+                          combatant_id: statusTarget,
+                          source_id: statusSource,
+                          kind,
+                          detail,
+                          rounds: duration || null,
+                          reason,
+                        }
+                      : {
+                          type: "set_status",
+                          combatant_id: statusTarget,
+                          kind,
+                          detail,
+                          rounds: duration || null,
+                          remove,
+                          reason,
+                        },
+                  )
                 }
               >
                 {remove ? "Remove" : "Apply"} condition

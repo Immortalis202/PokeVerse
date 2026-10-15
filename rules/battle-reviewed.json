@@ -478,7 +478,7 @@
         },
         "AddedEffects": {}
       },
-      "coverage": "reviewed metadata; multi-target resolution remains GM-adjudicated",
+      "coverage": "automatic ordinary multi-target damage and Never Miss; rank-limited targeting uses engine 0.4 or later",
       "notes": "Printed card visually reviewed. Automation is limited to the stated coverage."
     }
   },
@@ -490,7 +490,7 @@
         "Description": "The inner and outer fire on this Pokemon's body will burn incredibly fierce just before fading.",
         "Effect": "Pain Penalization won't reduce successes from Accuracy or Damage rolls of Fire-Type Moves used by this Pokemon. Fire-Type Moves get 2 Extra dice to their Damage Pool when this Pokemon is at half HP or less."
       },
-      "coverage": "reviewed conditional effect"
+      "coverage": "Existing reviewed battle/permanent effect; Oblivious narrative feeling effects remain manual."
     },
     "overgrow:Overgrow": {
       "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
@@ -499,7 +499,7 @@
         "Description": "When this Pokemon is hurt, it will grow huge plants on its body to defend itself, these plants are very strong but wither quickly.",
         "Effect": "Pain Penalization won't reduce successes from Accuracy or Damage rolls of Grass-Type Moves used by this Pokemon. Grass-Type Moves get 2 Extra dice to their Damage Pool when this Pokemon is at half HP or less."
       },
-      "coverage": "reviewed conditional effect"
+      "coverage": "Existing reviewed battle/permanent effect; Oblivious narrative feeling effects remain manual."
     },
     "swarm:Swarm": {
       "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
@@ -508,7 +508,7 @@
         "Description": "The Pokemon enters a hive mind state when its life is on the line, calling upon a swarm to aid it in battle.",
         "Effect": "Pain Penalization won't reduce successes from Accuracy or Damage rolls of Bug-Type Moves used by this Pokemon. Bug-Type Moves get 2 Extra dice to their Damage Pool when this Pokemon is at half HP or less."
       },
-      "coverage": "reviewed conditional effect"
+      "coverage": "Existing reviewed battle/permanent effect; Oblivious narrative feeling effects remain manual."
     },
     "own-tempo:Own Tempo": {
       "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
@@ -517,7 +517,7 @@
         "Description": "This Pokemon will do everything at its own pace, peer pressure will be ignored. Its behavior reflexive and calm... maybe too calm.",
         "Effect": "This Pokemon is not affected by the Confused Status Condition."
       },
-      "coverage": "reviewed named status immunity"
+      "coverage": "Existing reviewed battle/permanent effect; Oblivious narrative feeling effects remain manual."
     },
     "oblivious:Oblivious": {
       "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
@@ -526,7 +526,7 @@
         "Description": "This Pokemon will rarely have a satisfactory social interaction; too self-absorbed to take hints or cues in any relationship.",
         "Effect": "This Pokemon is not affected by the Love Status. It is immune to the effects of moves that affect its feelings such as Taunt, Charm, Captivate etc. at Storyteller's discretion."
       },
-      "coverage": "reviewed named status immunity"
+      "coverage": "Existing reviewed battle/permanent effect; Oblivious narrative feeling effects remain manual."
     },
     "thick-fat:Thick Fat": {
       "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
@@ -535,7 +535,7 @@
         "Description": "This Pokemon's body has a thick layer of blubber that protects it against against harsh temperatures.",
         "Effect": "Reduce by 1 the damage taken from Fire and Ice-Type moves."
       },
-      "coverage": "reviewed conditional effect"
+      "coverage": "Existing reviewed battle/permanent effect; Oblivious narrative feeling effects remain manual."
     },
     "torrent:Torrent": {
       "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
@@ -543,6 +543,393 @@
       "fields": {},
       "coverage": "GM adjudication required",
       "notes": "Text grants 2 extra Water damage dice; printed icon grants 1. No automatic bonus is chosen."
+    },
+    "adaptability:Adaptability": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 536,
+      "fields": {
+        "Effect": "Whenever this Pokemon uses a Physical or Special Move that matches their Type, add 1 Extra die to the Damage pool of that Move."
+      },
+      "coverage": "Add one damage die for a matching-type damaging move, in addition to ordinary STAB.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "aftermath:Aftermath": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 536,
+      "fields": {
+        "Effect": "If this Pokemon faints due to a Non-Ranged Physical Move, the User of that attack is dealt 2 Damage."
+      },
+      "coverage": "Fainting to a non-ranged Physical hit deals two ability damage to the attacker, bypassing Sturdy.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "battle-armor:Battle Armor": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 538,
+      "fields": {
+        "Effect": "If a foe lands a Critical Hit on this Pokemon, it won't get any Bonus Dice on its Damage Dice pool for it."
+      },
+      "coverage": "Opposing critical attacks receive no critical bonus damage dice.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "cute-charm:Cute Charm": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 541,
+      "fields": {
+        "Effect": "If this Pokemon is hit with a Non-Ranged Physical Move, roll 3 Chance Dice to make the foe fall in Love."
+      },
+      "coverage": "A non-ranged Physical hit queues three chance dice; a six inflicts In Love with the ability holder.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "effect-spore:Effect Spore": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 544,
+      "fields": {
+        "Effect": "If hit by a Non-Ranged Physical Move, the Pokemon rolls 3 Chance Dice to Poison, Paralyze or Sleep the foe at random."
+      },
+      "coverage": "A non-ranged Physical hit queues three chance dice and one independent uniform status selector: Poison, Paralysis or Sleep.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "filter:Filter": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 545,
+      "fields": {
+        "Effect": "If a foe uses a Move that would deal Super Effective Damage to this Pokemon, reduce by 1 the total Damage from that attack."
+      },
+      "coverage": "Reduce super-effective damage from an opposing move by one.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "flame-body:Flame Body": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 545,
+      "fields": {
+        "Effect": "When hit by a Non-Ranged Physical Move, this Pokemon rolls 3 Chance Dice to inflict 2nd degree Burn on the foe."
+      },
+      "coverage": "A non-ranged Physical hit queues three chance dice; a six inflicts second-degree Burn.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "flash-fire:Flash Fire": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 545,
+      "fields": {
+        "Effect": "The first time this Pokemon is hit by a Fire-Type move, add 1 Extra die to the Damage Pool of Fire-type Moves this Pokemon uses until the end of the scene. Fire-type moves do not deal damage to this Pokemon."
+      },
+      "coverage": "Immune to Fire damage. First Fire hit enables one extra Fire damage die until scene end.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "fur-coat:Fur Coat": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 546,
+      "fields": {
+        "Effect": "Reduce by 2 the Damage dealt to this Pokemon by All Physical Moves."
+      },
+      "coverage": "Reduce Physical move damage by two.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "guts:Guts": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 548,
+      "fields": {
+        "Effect": "While affected by a Status Ailment (Burn, Frozen, Paralysis, Poison, Sleep), Increase this Pokemon's Strength Attribute by 2."
+      },
+      "coverage": "While Burned, Frozen, Paralyzed, Poisoned or Asleep, add two temporary Strength.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "hustle:Hustle": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 550,
+      "fields": {
+        "Effect": "This Pokemon gets an Extra Low Accuracy 1 and adds 2 Extra Dice to the Damage pool for all its Physical Moves."
+      },
+      "coverage": "Physical moves lose one accuracy success and gain two damage dice.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "immunity:Immunity": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 551,
+      "fields": {
+        "Effect": "This Pokemon does not receive damage from Poison and Badly Poisoned Status Ailments."
+      },
+      "coverage": "Prevents poison damage; does not prevent the Poison condition.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "inner-focus:Inner Focus": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 551,
+      "fields": {
+        "Effect": "This Pokemon does not Flinch. The Ability Intimidate does not have any effect against this Pokemon. Outside of battle this Pokemon is able to resist intimidation tactics, fear and stress better than others."
+      },
+      "coverage": "Immune to Flinch and Intimidate; narrative intimidation resistance remains manual.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "insomnia:Insomnia": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 551,
+      "fields": {
+        "Effect": "This Pokemon is immune to the Sleep Status. Moves and Items that self-inflict Sleep will fail."
+      },
+      "coverage": "Immune to Sleep; unreviewed Rest/items remain manual.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "intimidate:Intimidate": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 552,
+      "fields": {
+        "Effect": "When this Pokemon comes into battle, Reduce by 1 the Strength of All foes in Range. This effect will last for as long as this Pokemon is out. Outside of battle, wild Pokemon will avoid the party if this Pokemon is out."
+      },
+      "coverage": "Entry-only rank-limited Strength reduction, non-stacking, removed when source leaves or faints. GM range defaults to all deployed foes; stable IDs break excess-target ties.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "iron-barbs:Iron Barbs": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 552,
+      "fields": {
+        "Effect": "If this Pokemon is hit with a Non-Ranged Physical Move choose one: - Deal 1 Neutral Damage against the attacker. - Roll 2 Dice of Neutral Damage against the attacker."
+      },
+      "coverage": "Reviewed battle effect; narrative uses are manual.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "iron-fist:Iron Fist": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 552,
+      "fields": {
+        "Effect": "Add 1 Dice to the Damage Pool of Fist Based moves."
+      },
+      "coverage": "Add one damage die when the reviewed move metadata marks FistMove.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "levitate:Levitate": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 553,
+      "fields": {
+        "Effect": "This Pokemon has immunity to Ground-Type moves and effects active on the battlefield such as Terrains and certain Entry Hazards."
+      },
+      "coverage": "Ground move immunity automated; terrain and entry-hazard effects remain manual.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "limber:Limber": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 553,
+      "fields": {
+        "Effect": "This Pokemon is immune to Paralysis Status Ailment."
+      },
+      "coverage": "Immune to Paralysis.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "magma-armor:Magma Armor": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 554,
+      "fields": {
+        "Effect": "This Pokemon is immune to the Frozen Status Ailment. "
+      },
+      "coverage": "Immune to Frozen Solid.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "marvel-scale:Marvel Scale": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 555,
+      "fields": {
+        "Effect": "If this Pokemon has a Status Ailment, Increase its Defense Attribute by 2"
+      },
+      "coverage": "A major status ailment grants two Defense, without modifying Vitality or Special Defense.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "moxie:Moxie": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 556,
+      "fields": {
+        "Effect": "If a foe faints because of a Physical or Special Move used by this Pokemon, Increase its Strength Attribute by 1. Up to 3 points can be increased this way."
+      },
+      "coverage": "A move knockout of a foe adds one temporary Strength, capped at three; current multi-target damage retains its snapshot.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "multiscale:Multiscale": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 556,
+      "fields": {
+        "Effect": "While this Pokemon at full health, Reduce by 1 the damage taken by the next Physical or Special Move it receives."
+      },
+      "coverage": "Reduce move damage by one when HP is full at that hit.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "poison-point:Poison Point": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 560,
+      "fields": {
+        "Effect": "If this Pokemon is hit by a Non-Ranged Physical Move, Roll 3 Chance Dice to inflict Poison on the foe."
+      },
+      "coverage": "A non-ranged Physical hit queues three chance dice; a six inflicts Poison.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "rough-skin:Rough Skin": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 564,
+      "fields": {
+        "Effect": "If this Pokemon is hit with a Non-Ranged Physical Move choose one: - Deal 1 Neutral Damage against the attacker. - Roll 2 Dice of Neutral Damage against the attacker."
+      },
+      "coverage": "Reviewed battle effect; narrative uses are manual.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "sap-sipper:Sap Sipper": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 565,
+      "fields": {
+        "Effect": "The first time this Pokemon is hit by a Grass-type attack, Increase its Strength Attribute by 1 instead of dealing damage. Grass-type moves do not deal damage to this Pokemon."
+      },
+      "coverage": "Immune to Grass damage. First Grass hit grants one temporary Strength; scene-use flag survives recall.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "shell-armor:Shell Armor": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 567,
+      "fields": {
+        "Effect": "Whenever a foe lands a Critical Hit on this Pokemon, it won't get Bonus Damage Dice for that attack."
+      },
+      "coverage": "Opposing critical attacks receive no critical bonus damage dice.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "shield-dust:Shield Dust": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 567,
+      "fields": {
+        "Effect": "This Pokemon is not affected by any effects triggered by Chance Dice of foes."
+      },
+      "coverage": "Blocks opposing move effects triggered by chance dice; direct GM statuses are not inferred chance effects.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "sniper:Sniper": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 568,
+      "fields": {
+        "Effect": "When this Pokemon lands a Critical Hit, it will get 3 Bonus Dice to the Damage Pool of its Move instead of the regular 2."
+      },
+      "coverage": "A critical hit adds three damage dice in place of two.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "solid-rock:Solid Rock": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 568,
+      "fields": {
+        "Effect": "If this Pokemon is hit by a Move that is Super-Effective, reduce by 1 the total Damage dealt to it."
+      },
+      "coverage": "Reduce super-effective move damage by one.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "soundproof:Soundproof": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 569,
+      "fields": {
+        "Effect": "This Pokemon is immune to the Damage and Added Effects of all Sound-based moves."
+      },
+      "coverage": "Immune to damage and added effects of moves marked SoundMove.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "speed-boost:Speed Boost": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 569,
+      "fields": {
+        "Effect": "At the end of the Round, Increase this Pokemon's Dexterity Attribute by 1. Up to 3 Points might be added this way."
+      },
+      "coverage": "End of each active round adds one temporary Dexterity, capped at three; recall clears temporary counters.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "static:Static": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 570,
+      "fields": {
+        "Effect": "When hit by a Non-Ranged Physical Move, this Pokemon rolls 3 Chance Dice to inflict Paralysis on the foe."
+      },
+      "coverage": "A non-ranged Physical hit queues three chance dice; a six inflicts Paralysis.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "sturdy:Sturdy": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 571,
+      "fields": {
+        "Effect": "The first time this Pokemon would reach 0 HP due to damage from a Move, it will remain at 1 HP instead. Status Ailments/Conditions, Weather, and Self-inflicted damage do not trigger this effect. The Pokemon can only benefit from Sturdy once per scene."
+      },
+      "coverage": "Once per scene, ordinary damaging move or Clash damage that would faint the Pokemon leaves one HP. Indirect, self and reviewed set damage do not activate it.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "synchronize:Synchronize": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 573,
+      "fields": {
+        "Effect": "Whenever a foe inflicts a Status Ailment or Condition to this Pokemon, the same Status is inflicted into the foe. this Ability does not ignore a foe's immunity to certain Status Ailments/Conditions."
+      },
+      "coverage": "Reflect source-tracked statuses once, respecting immunities. GM status edits without an inflictor have no inferred source.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "technician:Technician": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 573,
+      "fields": {
+        "Effect": "Add 1 Extra die to the Damage pool of all Physical or Special Moves with Power 1 or 2 this Pokemon performs."
+      },
+      "coverage": "Add one damage die for Physical/Special moves with Power 1 or 2; special/manual formulas remain adjudicated.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "vital-spirit:Vital Spirit": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 577,
+      "fields": {
+        "Effect": "This Pokemon is immune to the Sleep status. Moves or Items that self-inflict Sleep will fail."
+      },
+      "coverage": "Immune to Sleep; unreviewed Rest/items remain manual.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "volt-absorb:Volt Absorb": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 577,
+      "fields": {
+        "Effect": "When this Pokemon is hit by an Electric-Type Move, you may restore 1 HP instead of receiving damage. Electric-Type Moves do not deal damage to this Pokemon."
+      },
+      "coverage": "Immune to Electric damage; owner may restore one HP per hit, without an action or revival.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "water-absorb:Water Absorb": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 577,
+      "fields": {
+        "Effect": "When this Pokemon is hit by a Water-Type Move, you may restore 1 HP instead of receiving damage. Water-Type Moves do not deal damage to this Pokemon."
+      },
+      "coverage": "Immune to Water damage; owner may restore one HP per hit, without an action or revival.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "water-veil:Water Veil": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 578,
+      "fields": {
+        "Effect": "The Pokemon is immune to all Burn degrees."
+      },
+      "coverage": "Immune to every Burn degree.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "damp:Damp": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 541,
+      "fields": {
+        "Effect": "No one in the field will be able to use the moves: Self-Destruct, Explosion, Misty Explosion, Mind Blown, and Burn Up while this Pokemon is in the field. The Ability Aftermath does not activate if this Pokemon is in the field."
+      },
+      "coverage": "While active, prevents the five named explosion/burn moves and Aftermath damage.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "long-reach:Long Reach": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 554,
+      "fields": {
+        "Effect": "All Moves used by this Pokemon are considered to have the \"Ranged\" Added Effect"
+      },
+      "coverage": "All moves count as ranged for reviewed contact-trigger interactions; spatial movement remains manual.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
+    },
+    "magic-guard:Magic Guard": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 554,
+      "fields": {
+        "Effect": "The Pokemon only receives damage from Physical and Special Moves, Ongoing Damage, Confusion status, Pain Split, Destiny Bond, Perish Song & Self-Damaging Moves. Immune to damage from: Abilities, Status Ailments, Entry Hazards, Recoil, Held Items, or Weather. It can still have Status Ailments inflicted."
+      },
+      "coverage": "Prevents reviewed ability damage, burn/poison ticks and Submission recoil. Confusion and direct move damage remain; weather, held items and entry hazards await their mechanics.",
+      "notes": "Battle effect text and icons visually reviewed; narrative description is not marked reviewed."
     }
   }
 }

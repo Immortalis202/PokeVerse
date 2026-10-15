@@ -1,5 +1,5 @@
 //! Pokerole 3.0 corebook: pp. 35–36, 56–57, 61–62, 79–80.
-//! Base rolls only: abilities, status effects, Will and battlefield modifiers require GM input.
+//! Shared ordinary pools with versioned reviewed battle hooks; unsupported interactions require GM adjudication.
 use crate::{catalog::Catalog, model::*};
 use serde_json::Value;
 
@@ -88,6 +88,7 @@ pub fn accuracy(
     modifier: i32,
     catalog: &Catalog,
 ) -> Result<(u32, Value)> {
+    crate::combat::abilities::move_guard(c, name)?;
     if !core_engine(&c.engine) {
         return Err(AppError::new(
             "version",
@@ -124,6 +125,7 @@ pub fn accuracy(
         ));
     }
     let s = effective_sheet(c, p)?;
+    crate::combat::abilities::guard(c, p)?;
     if automatic && !s.moves.iter().any(|m| m == name) {
         return Err(AppError::new(
             "validation",
@@ -166,7 +168,7 @@ pub fn accuracy(
 }
 
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
-    if [ENGINE, TURN_ENGINE].contains(&c.engine.as_str()) {
+    if [ENGINE, TARGET_ENGINE, TURN_ENGINE].contains(&c.engine.as_str()) {
         return crate::combat::dice_count(c, action, catalog);
     }
     match action {
@@ -235,13 +237,22 @@ pub fn damage_pool(
         .iter()
         .find(|p| p.id == hit.target_id && p.deployed)
         .ok_or_else(|| AppError::new("missing", "Missing attack target"))?;
-    if b.automatic_validation && (attacker.hp == 0 || target.hp == 0) {
+    if b.automatic_validation
+        && ((attacker.hp == 0 && crate::combat::abilities::context(c, key, sequence).is_none())
+            || target.hp == 0)
+    {
         return Err(AppError::new(
             "battle",
             "A combatant fainted; GM must cancel or adjudicate this attack",
         ));
     }
-    let source = effective_sheet(c, attacker)?;
+    let mut source = effective_sheet(c, attacker)?;
+    crate::combat::abilities::guard(c, attacker)?;
+    let context = crate::combat::abilities::context(c, key, sequence);
+    if let Some(ctx) = context {
+        source.stats = ctx.stats.clone();
+    }
+    let attack_hp = context.map_or(attacker.hp, |ctx| ctx.hp);
     let defender = effective_sheet(c, target)?;
     let m = catalog
         .find("moves", "Name", &hit.move_name)
@@ -279,7 +290,7 @@ pub fn damage_pool(
         "Defense"
     } else {
         "SpecialDefense"
-    }];
+    }] + crate::combat::abilities::defense(c, target, defense_source == "Vitality");
     let types = |s: &Sheet| -> Result<Vec<String>> {
         if s.kind == "trainer" {
             return Err(AppError::new("manual_rule", "Trainer damage requires GM adjudication; Pokemon typing rules cannot be assigned to humans"));
@@ -304,7 +315,11 @@ pub fn damage_pool(
     let move_type = m["Type"].as_str().unwrap_or_default();
     let stab =
         i32::from(source.kind == "pokemon" && types(&source)?.iter().any(|t| t == move_type));
-    let critical = if hit.critical { 2 } else { 0 };
+    let critical = if hit.critical {
+        crate::combat::abilities::critical(c, attacker, target)
+    } else {
+        0
+    };
     let mut effectiveness = 0;
     let mut immune = false;
     for t in types(&defender)? {
@@ -315,12 +330,21 @@ pub fn damage_pool(
         }
     }
     let conditional = crate::combat::type_ability(c, attacker, move_type);
-    let ability_bonus = if conditional && attacker.hp <= attacker.max_hp / 2 {
+    immune |= crate::combat::abilities::damage_immune(c, target, &m);
+    let ability_bonus = if conditional && attack_hp <= attacker.max_hp / 2 {
         2
     } else {
         0
     };
-    let pool = (attribute + power - defense).max(1) + stab + critical + modifier + ability_bonus;
+    let extra = crate::combat::abilities::damage_bonus(
+        c,
+        attacker,
+        &m,
+        stab > 0,
+        context.map_or(&attacker.runtime.ability.counters, |ctx| &ctx.counters),
+    );
+    let pool =
+        (attribute + power - defense).max(1) + stab + critical + modifier + ability_bonus + extra;
     if !(1..=100).contains(&pool) {
         return Err(AppError::new(
             "manual_rule",
@@ -337,7 +361,9 @@ pub fn damage_pool(
         pain: if attribute_source == "Vitality" || conditional {
             0
         } else {
-            (pain(attacker.hp, attacker.max_hp) - attacker.runtime.pain_ignored).max(0)
+            (pain(attack_hp, attacker.max_hp)
+                - context.map_or(attacker.runtime.pain_ignored, |ctx| ctx.pain_ignored))
+            .max(0)
         },
         effectiveness,
         immune,

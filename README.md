@@ -1,8 +1,8 @@
-# PokeVerse v0.11.0
+# PokeVerse v0.12.0
 
 Windows desktop workspace for Pokerole 3.0. Built with Tauri 2, React/TypeScript, and Rust. Each installation keeps its library locally and can host a persistent campaign over LAN or a private VPN.
 
-The default Nocturne workspace uses RodeoPokemon's dark purple palette, a compact navigation rail and a toolbar with campaign, connection and separate host/GM status. Creation, progression, training encounters and battles retain their existing workflows. Version 0.11.0 uses protocol 12 and retains database schema 4; all room clients must use matching builds.
+The default Nocturne workspace uses RodeoPokemon's dark purple palette, a compact navigation rail and a toolbar with campaign, connection and separate host/GM status. Creation, progression, training encounters and battles retain their existing workflows. Version 0.12.0 uses protocol 13 and retains database schema 4; all room clients must use matching builds.
 
 ## Run
 
@@ -60,9 +60,9 @@ Open **Training encounters** after selecting a campaign in Room. The appointed G
 
 The supplied `POKEROLE COREBOOK 3.0 RULING.pdf` and `POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf` are now the rule references. See [the rule coverage matrix](docs/RULES.md) for page references, implemented formulas, and remaining work. The PDFs are not bundled into the installer.
 
-New campaigns use engine `0.4.0-core`: explicit turns, multi-target attacks with shared damage dice, field-effect records, area Clash, Cover an Ally, Evasion/Clash, Will spending, structured major statuses and reviewed effects. Shared Rust calculations retain ordinary damage, defenses, STAB, critical bonuses and flat type adjustments. Reviewed Champion sheets inherit Master battle bonuses. Legal creation/progression recalculates permanent derived resources while preserving wounds and spent Will.
+New campaigns use engine `0.5.0-core`: explicit turns, multi-target attacks with shared damage dice, field-effect records, area Clash, Cover an Ally, Evasion/Clash, Will spending, structured major statuses and reviewed effects. Shared Rust calculations retain ordinary damage, defenses, STAB, critical bonuses and flat type adjustments. Reviewed Champion sheets inherit Master battle bonuses. Legal creation/progression recalculates permanent derived resources while preserving wounds and spent Will.
 
-Existing campaigns retain `0.3.0-core`, `0.2.0-core` or `0.1.0-manual` until the appointed GM upgrades between battles. Previous battle records remain readable. Matching 0.11.0 builds, protocol 12 and catalog hashes are required. This update adds defaulted JSON fields and leaves user database schema 4 unchanged.
+Existing campaigns retain `0.4.0-core`, `0.3.0-core`, `0.2.0-core` or `0.1.0-manual` until the appointed GM upgrades between battles. Previous battle records remain readable. Matching 0.12.0 builds, protocol 13 and catalog hashes are required. This update adds defaulted JSON fields and leaves user database schema 4 unchanged.
 
 **Coverage is explicitly partial.** Protect, Recover, Agility, Thunder Shock/Confusion chance effects, Sonic Boom set damage, Submission recoil and Hyper Beam recharge have reviewed definitions. Selected conditional abilities are supported. Other special effects, multi-target chains, varied damage, rampage/successive actions, weather, temporary typing, trainer damage and lethal wounds remain GM-adjudicated. See [rule coverage](docs/RULES.md) and [machine-readable coverage](rules/coverage.json). Full PDF verification remains open; field-level review reports are generated under the workspace's `outputs/rule-coverage/`.
 
@@ -106,6 +106,8 @@ Reference catalog storage uses a bundled read-only SQLite database, indexed look
 
 ## Offline compendium
 
-Open **Compendium** to browse all 1,200 species/forms, moves, abilities, items and natures. Species have Stats, Abilities, Evolutions and Learnset tabs. Related entries open in the detail pane; Back restores the preceding tab and scroll position while preserving the list, filters and page. Missing or ambiguous exact references remain visible. Recorded requirements and metadata warnings are reference information, not character-specific eligibility. Details are queried from the bundled read-only SQLite catalog; this release keeps protocol 12 and user schema 4.
+Open **Compendium** to browse all 1,200 species/forms, moves, abilities, items and natures. Species have Stats, Abilities, Evolutions and Learnset tabs. Related entries open in the detail pane; Back restores the preceding tab and scroll position while preserving the list, filters and page. Missing or ambiguous exact references remain visible. Recorded requirements and metadata warnings are reference information, not character-specific eligibility. Details are queried from the bundled read-only SQLite catalog; this release keeps protocol 13 and user schema 4.
 
 The Stats tab uses a violet corebook-style species card. Filled dots show the corrected species baseline; outlined dots extend to its species limit. Numeric minimum/maximum labels and accessible score descriptions accompany the dots. These are species reference scores, not allocated character points.
+
+Ability automation, triggers and manual boundaries: [battle abilities](docs/battle-abilities.md).
