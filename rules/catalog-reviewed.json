@@ -1,0 +1,95 @@
+{
+  "version": 1,
+  "species": {
+    "0025:pikachu": {
+      "pdf_page": 9,
+      "stage": 2,
+      "moves_reviewed": ["Thunder", "Extreme Speed", "Volt Tackle"],
+      "fields": {
+        "BaseHP": 4,
+        "Strength": 2,
+        "MaxStrength": 4,
+        "Dexterity": 2,
+        "MaxDexterity": 5,
+        "Vitality": 1,
+        "MaxVitality": 3,
+        "Special": 2,
+        "MaxSpecial": 4,
+        "Insight": 2,
+        "MaxInsight": 4,
+        "Ability1": "Static",
+        "Ability2": "Lightning Rod"
+      },
+      "review": "Visual PDF review: second stage; evolves with Thunder Stone. Regional choice remains a GM condition. Reviewed Advanced/Expert move icons."
+    },
+    "0010:caterpie": {
+      "pdf_page": 4,
+      "stage": 1,
+      "fields": {
+        "BaseHP": 3,
+        "Strength": 1,
+        "MaxStrength": 3,
+        "Dexterity": 2,
+        "MaxDexterity": 4,
+        "Vitality": 1,
+        "MaxVitality": 3,
+        "Special": 1,
+        "MaxSpecial": 3,
+        "Insight": 1,
+        "MaxInsight": 3,
+        "Ability1": "Shield Dust",
+        "Ability2": "Run Away"
+      },
+      "evolution_speed": "Fast",
+      "review": "Visual PDF review: first stage, Fast evolution."
+    },
+    "0011:metapod": {
+      "pdf_page": 4,
+      "stage": 2,
+      "fields": {
+        "BaseHP": 4,
+        "Strength": 1,
+        "MaxStrength": 3,
+        "Dexterity": 1,
+        "MaxDexterity": 3,
+        "Vitality": 2,
+        "MaxVitality": 5,
+        "Special": 1,
+        "MaxSpecial": 3,
+        "Insight": 1,
+        "MaxInsight": 3,
+        "Ability1": "Shed Skin",
+        "Ability2": ""
+      },
+      "evolution_speed": "Fast",
+      "review": "Visual PDF review: second stage, Fast evolution."
+    },
+    "0183:marill": {
+      "pdf_page": 59,
+      "stage": 2,
+      "fields": {
+        "BaseHP": 5,
+        "Strength": 1,
+        "MaxStrength": 3,
+        "Dexterity": 1,
+        "MaxDexterity": 3,
+        "Vitality": 2,
+        "MaxVitality": 4,
+        "Special": 1,
+        "MaxSpecial": 3,
+        "Insight": 1,
+        "MaxInsight": 3,
+        "Ability1": "Thick Fat",
+        "Ability2": "Huge Power"
+      },
+      "evolution_speed": "Medium",
+      "review": "Visual PDF review: second stage, Medium evolution."
+    },
+    "0026:raichu-alolan-form": {
+      "pdf_page": 9,
+      "stage": 3,
+      "fields": { "Special": 3, "MaxSpecial": 6 },
+      "review": "Visual PDF review: vector overpainting must not count dots twice."
+    }
+  }
+}

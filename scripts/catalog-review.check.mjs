@@ -1,0 +1,120 @@
+import { test } from "node:test";
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { DatabaseSync } from "node:sqlite";
+import { compendiumDetail } from "./compendium-preview.mjs";
+test("review evidence corrects owned catalog data and keeps source JSON unchanged", () => {
+  const db = new DatabaseSync("src-tauri/resources/catalog.db", {
+    readOnly: true,
+  });
+  try {
+    const move = (name) =>
+      JSON.parse(
+        db
+          .prepare("select data from entries where kind='moves' and name=?")
+          .get(name).data,
+      );
+    assert.equal(move("Submission").Type, "Fight");
+    assert.equal(
+      JSON.parse(
+        readFileSync("../Pokerole-Data/v3.0/Moves/Submission.json", "utf8"),
+      ).Type,
+      "Fighting",
+    );
+    assert.equal(move("Protect").Review.fields.Effect.status, "reviewed");
+    assert.equal(move("Protect").Review.fields.Effect.page, 498);
+    const pikachu = JSON.parse(
+      db
+        .prepare(
+          "select data from entries where kind='species' and name='Pikachu'",
+        )
+        .get().data,
+    );
+    assert.equal(pikachu.Review.fields.BaseHP.page, 142);
+    assert.equal(pikachu.Review.fields.BaseHP.pdf_page, 9);
+    const torrent = JSON.parse(
+      db
+        .prepare(
+          "select data from entries where kind='abilities' and name='Torrent'",
+        )
+        .get().data,
+    );
+    assert.match(torrent.Review.notes, /icon grants 1/);
+    assert.equal(torrent.Review.fields.Effect.status, "unverified");
+    const species = JSON.parse(
+      db
+        .prepare(
+          "select data from entries where kind='species' and name='Eevee'",
+        )
+        .get().data,
+    );
+    assert.equal(species.Review.fields.Moves.status, "unverified");
+    assert.ok(
+      compendiumDetail(db, "species", species.AppId).warnings.some((w) =>
+        w.includes("Moves"),
+      ),
+    );
+  } finally {
+    db.close();
+  }
+});
+test("coverage and PDF fingerprints are preserved with a complete field-level queue", () => {
+  const db = new DatabaseSync("src-tauri/resources/catalog.db", {
+    readOnly: true,
+  });
+  try {
+    const meta = Object.fromEntries(
+      db
+        .prepare("select * from metadata")
+        .all()
+        .map((r) => [r.key, JSON.parse(r.value)]),
+    );
+    for (const [name, hash] of Object.entries(meta.review_sources))
+      assert.equal(
+        createHash("sha256")
+          .update(readFileSync(`../Pokerole-Data/${name}`))
+          .digest("hex"),
+        hash,
+      );
+    assert.equal(
+      createHash("sha256")
+        .update(readFileSync("rules/coverage.json"))
+        .digest("hex"),
+      meta.rules_coverage_hash,
+    );
+    const queue = JSON.parse(
+      readFileSync("../outputs/rule-coverage/catalog-review.json", "utf8"),
+    );
+    assert.equal(queue.total_entries, 2658);
+    assert.equal(
+      queue.issues.filter((i) => i.status === "missing_reference").length,
+      35,
+    );
+    assert.equal(
+      queue.issues.filter((i) => i.status === "missing_asset").length,
+      168,
+    );
+    assert.ok(
+      queue.issues.some(
+        (i) =>
+          i.name === "Eevee" &&
+          i.field === "Moves" &&
+          i.status === "unverified",
+      ),
+    );
+    const tests =
+      readFileSync("src-tauri/src/combat_tests.rs", "utf8") +
+      readFileSync("src-tauri/src/combat_tests/targeting_tests.rs", "utf8") +
+      readFileSync("src-tauri/src/tests.rs", "utf8");
+    const coverage = JSON.parse(readFileSync("rules/coverage.json", "utf8"));
+    for (const entry of coverage.entries)
+      for (const fixture of entry.fixtures)
+        assert.ok(
+          tests.includes(`fn ${fixture}(`),
+          `Missing coverage fixture ${fixture}`,
+        );
+  } finally {
+    db.close();
+  }
+});

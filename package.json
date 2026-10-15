@@ -1,0 +1,34 @@
+{
+  "name": "pokeverse",
+  "version": "0.11.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "catalog": "node scripts/catalog.mjs",
+    "dev": "npm run catalog && vite --host 127.0.0.1 --port 1420",
+    "build": "npm run catalog && tsc --noEmit && vite build",
+    "tauri": "tauri",
+    "desktop": "tauri dev",
+    "package": "tauri build",
+    "test": "vitest run && node --test scripts/catalog-preview.check.mjs scripts/habitats.check.mjs scripts/compendium.check.mjs scripts/catalog-review.check.mjs",
+    "test:rust": "npm run catalog && cargo test --manifest-path src-tauri/Cargo.toml --lib",
+    "bindings": "npm run catalog && cargo test --manifest-path src-tauri/Cargo.toml export_bindings",
+    "format": "prettier --write src scripts package.json tsconfig.json vite.config.ts index.html README.md && cargo fmt --manifest-path src-tauri/Cargo.toml"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2.0.0",
+    "lucide-react": "^0.468.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "prettier": "^3.9.9",
+    "typescript": "~5.7.2",
+    "vite": "^6.0.0",
+    "vitest": "^5.0.3"
+  }
+}

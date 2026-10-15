@@ -1,0 +1,32 @@
+{
+  "edition": "Pokerole 3.0",
+  "sources": {
+    "allocations": "RULING p.41 (visually reviewed)",
+    "rank_up": "RULING p.107 (visually reviewed)",
+    "retraining": "RULING p.112 (visually reviewed)",
+    "learning": "RULING pp.109–111",
+    "evolution": "RULING pp.108–109",
+    "abilities": "POKEDEX MASTER pp.534–535, Huge Power/Pure Power entries"
+  },
+  "ranks": [
+    "Starter",
+    "Rookie",
+    "Standard",
+    "Advanced",
+    "Expert",
+    "Ace",
+    "Master",
+    "Champion"
+  ],
+  "attribute_social_totals": [0, 2, 4, 6, 8, 10, 10, 14],
+  "skill_totals": [5, 10, 14, 17, 19, 20, 22, 25],
+  "skill_caps": [1, 2, 3, 4, 5, 5, 5, 5],
+  "rank_up_costs": [5, 15, 25, 30, 35, 40, 50],
+  "retraining_costs": [1, 10, 20, 25, 30, 35, 40, 45],
+  "move_stage_costs": [2, 4, 6],
+  "overrank_per_rank_stage_costs": [5, 15, 20],
+  "evolution_speed_costs": { "Fast": 10, "Medium": 30, "Slow": 50 },
+  "pre_evolution_recall_costs": { "Second": 5, "Final": 10 },
+  "tm_tr_cost": 5,
+  "overrank_bond_minimum": 7
+}

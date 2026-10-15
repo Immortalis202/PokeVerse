@@ -1,0 +1,183 @@
+{
+  "version": 1,
+  "engine": "0.4.0-core",
+  "release": "0.11.0",
+  "protocol": 12,
+  "schema": 4,
+  "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
+  "entries": [
+    {
+      "id": "ordinary-rolls",
+      "status": "automated",
+      "source": "RULING 35-36,56-62",
+      "fixtures": [
+        "core_low_accuracy_and_pain_remove_successes_not_dice",
+        "core_critical_margins_and_never_miss_still_require_accuracy"
+      ],
+      "scope": "Initiative, listed accuracy, five actions, ordinary Pokemon damage; numeric formulas remain subject to catalog review."
+    },
+    {
+      "id": "champion",
+      "status": "automated",
+      "source": "RULING 30-31",
+      "fixtures": [
+        "champion_inherits_master_skill_bonus_and_new_state_survives_storage"
+      ],
+      "scope": "Reviewed Champion sheets inherit Master skill/defense/initiative benefits; legacy unreviewed Champion sheets still require review."
+    },
+    {
+      "id": "turns-reactions",
+      "status": "partial",
+      "source": "RULING 57-59,70-72",
+      "fixtures": [
+        "turn_order_and_reaction_budget_are_host_enforced",
+        "reaction_moves_resolve_before_main_and_cannot_repeat_per_turn",
+        "held_turn_can_resume_and_then_returns_to_the_delayed_actor",
+        "multi_target_accuracy_is_single_and_damage_reuses_prefix_highest_defense_first",
+        "cover_checks_loyalty_redirects_and_holding_preserves_it",
+        "pending_multi_target_state_survives_serialization_and_rollback"
+      ],
+      "scope": "Single- and multi-target actions, target-specific responses, rank caps, increasing priority chains, early/late resolution, held turns and Will/Loyalty-gated Cover an Ally. GM confirms abstract range."
+    },
+    {
+      "id": "evasion-clash",
+      "status": "partial",
+      "source": "RULING 70-71,80",
+      "fixtures": [
+        "never_miss_forbids_evasion_but_allows_clash",
+        "area_fills_rank_capacity_with_foes_then_allies_and_requires_area_clash",
+        "clash_can_answer_a_new_counterattack_after_reacting_in_the_same_turn"
+      ],
+      "scope": "Target-specific Evasion, Never Miss restriction, action budgets and area-versus-area Clash. Table overrides: Evasion once per turn, Clash per eligible incoming attack. Successful Area Clash deflects the whole area attack; Clash damage applies to the two participants."
+    },
+    {
+      "id": "will",
+      "status": "automated",
+      "source": "RULING 28,62",
+      "fixtures": [
+        "will_fate_survives_penalties_and_cannot_mix_with_chance",
+        "status_duration_and_pending_fate_expire_without_reusing_turn_identity",
+        "rollback_restores_turn_state_statuses_and_will",
+        "zero_will_faints_at_scene_end_and_rollback_restores_sheet_resources",
+        "will_corrections_require_gm_and_enforce_the_derived_cap"
+      ],
+      "scope": "GM authorizes narrative prerequisite once per encounter; pain relief, one failed action die reroll per roll/round, unremovable single-roll success, and scene-end fainting at zero Will. Recovery remains outside this milestone."
+    },
+    {
+      "id": "statuses",
+      "status": "partial",
+      "source": "RULING 84-87",
+      "fixtures": [
+        "structured_status_immunity_and_round_damage",
+        "sleep_recovery_consumes_actions_and_flinch_spends_the_next_turn",
+        "reapplication_escalates_poison_and_does_not_reset_active_duration"
+      ],
+      "scope": "Type immunities, Paralysis, Sleep, Confusion, Flinch, Disable, In Love, timed expiry and switch cleanup. Severe burn/poison escalation has contradictory values and requires a recorded GM outcome."
+    },
+    {
+      "id": "frozen",
+      "status": "partial",
+      "source": "RULING 85-86",
+      "fixtures": [
+        "frozen_subject_can_break_ice_at_round_end_without_losing_its_hp"
+      ],
+      "scope": "Ordinary move attempts against 5 HP/defenses 2 ice before next round; successful super-effective move breaks ice. Snow and special damage against ice require adjudication."
+    },
+    {
+      "id": "healing-shields",
+      "status": "partial",
+      "source": "RULING 73,78,82; MASTER 498,501",
+      "fixtures": [
+        "protect_uses_will_without_pain_and_reduces_damage_by_three",
+        "healing_debits_will_caps_recovery_and_cannot_revive"
+      ],
+      "scope": "Protect, Recover, Slack Off and Soft Boiled. One shield attempt/round, consecutive penalty 2/4/8; Basic Heal capped at 3 HP/round and spends Will. Other shields/heals remain manual."
+    },
+    {
+      "id": "chance-effects",
+      "status": "partial",
+      "source": "RULING 83; MASTER 454,494,510",
+      "fixtures": [
+        "chance_effects_trigger_only_on_six_and_agility_does_not_edit_the_sheet"
+      ],
+      "scope": "Reviewed Thunder Shock, Thunderbolt, Thunder Punch, Spark, Hyper Fang and Confusion; chance dice succeed on 6, spend no extra action, respect named immunities and per-round Flinch limits. Other entries remain manual."
+    },
+    {
+      "id": "set-damage",
+      "status": "partial",
+      "source": "RULING 61,81; MASTER 502",
+      "fixtures": [
+        "sonic_boom_ignores_shield_and_recoil_is_based_on_raw_damage_successes"
+      ],
+      "scope": "Sonic Boom always 1 typeless damage, bypassing defenses and shields. Other fixed and varied formulas remain manual."
+    },
+    {
+      "id": "recoil-recharge",
+      "status": "partial",
+      "source": "RULING 81,83; MASTER 463,494",
+      "fixtures": [
+        "sonic_boom_ignores_shield_and_recoil_is_based_on_raw_damage_successes",
+        "recharge_is_paid_next_round_and_does_not_spend_will"
+      ],
+      "scope": "Submission rerolls raw damage successes against user. Hyper Beam adds one recharge action next round after an un-cancelled hit. Other definitions remain manual."
+    },
+    {
+      "id": "temporary-modifiers",
+      "status": "partial",
+      "source": "RULING 74-75; MASTER 510",
+      "fixtures": [
+        "chance_effects_trigger_only_on_six_and_agility_does_not_edit_the_sheet"
+      ],
+      "scope": "Agility uses an encounter-only Dexterity +2, not a permanent sheet edit; comprehensive signed modifier channels and other moves require review."
+    },
+    {
+      "id": "conditional-abilities",
+      "status": "partial",
+      "source": "MASTER 539,558,572,574",
+      "fixtures": [
+        "conditional_ability_snapshot_removes_pain_and_adds_two_damage_dice"
+      ],
+      "scope": "Blaze, Overgrow and Swarm remove matching move pain and add 2 damage dice at half HP. Thick Fat reduces Fire/Ice damage by 1. Own Tempo and Oblivious provide named status immunities. Torrent text/icon conflict remains manual. Other ability interactions remain manual."
+    },
+    {
+      "id": "rampage-successive-charge",
+      "status": "manual",
+      "source": "RULING 76,81-83",
+      "fixtures": [],
+      "scope": "Repeated-move exceptions, charge timing and successive multi-hit actions need a separate reviewed state machine; strict ordinary repeat restrictions remain active."
+    },
+    {
+      "id": "weather-terrain-typing",
+      "status": "partial",
+      "source": "RULING 88-98",
+      "fixtures": [
+        "field_moves_record_scope_expire_and_cannot_be_evaded"
+      ],
+      "scope": "Battlefield/allied/opposing-side targeting, GM-recorded persistent field effects, durations, expiry and removal. Mechanical weather/terrain/force-field effects and temporary typing remain manual."
+    },
+    {
+      "id": "trainer-lethal",
+      "status": "manual",
+      "source": "RULING 63,65-73,79",
+      "fixtures": [],
+      "scope": "Human-target and optional lethal damage need separate resource rules. Ordinary Pokemon damage does not imply these are supported."
+    },
+    {
+      "id": "catalog",
+      "status": "partial",
+      "source": "MASTER all; supplied JSON",
+      "fixtures": [],
+      "scope": "Every field is labelled reviewed/unverified. Complete queue preserves stable IDs, source hashes, missing references and missing assets. Unverified is not a claim that data is wrong."
+    },
+    {
+      "id": "authority-recovery",
+      "status": "automated",
+      "source": "Application policy",
+      "fixtures": [
+        "separate_host_gm_and_player_preserve_core_state_and_receipts",
+        "old_battles_without_runtime_or_flow_remain_readable"
+      ],
+      "scope": "Host validates, rolls and atomically commits; appointed GM controls rulings. Stored state, rollback, revision checks and receipts retain existing guarantees."
+    }
+  ]
+}

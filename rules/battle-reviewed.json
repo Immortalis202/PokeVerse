@@ -1,0 +1,548 @@
+{
+  "version": 1,
+  "moves": {
+    "extreme-speed:Extreme Speed": {
+      "source": "POKEROLE COREBOOK 3.0 RULING.pdf",
+      "page": 58,
+      "fields": {
+        "Damage1": "Strength/Dexterity"
+      },
+      "coverage": "automated ordinary damage and early reaction",
+      "notes": "Corebook reaction example explicitly uses Strength/Dexterity + 3; catalog Strength-only formula corrected."
+    },
+    "dragon-tail:Dragon Tail": {
+      "source": "POKEROLE COREBOOK 3.0 RULING.pdf",
+      "page": 59,
+      "fields": {
+        "Accuracy1": "Dexterity"
+      },
+      "coverage": "partial: damage and late reaction; switching requires adjudication",
+      "notes": "Corebook example explicitly uses Dexterity + Brawl; supplied Strength formula corrected."
+    },
+    "protect:Protect": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 498,
+      "fields": {
+        "Type": "Normal",
+        "Category": "Support",
+        "Power": 0,
+        "Accuracy1": "Will",
+        "Accuracy2": "Alert",
+        "Damage1": "",
+        "Damage2": "",
+        "Target": "Self",
+        "Effect": "Target Self. Reaction 5. Shield Move. Reduce 3 Damage this Pokemon would receive from a Physical or Special Move. Negate the Added Effects of Moves that target the user.",
+        "Attributes": {
+          "ShieldMove": true,
+          "Reaction": "5"
+        },
+        "AddedEffects": {}
+      },
+      "coverage": "automatic shield and escalating accuracy penalty",
+      "notes": "Printed page visually reviewed; runtime behavior is limited to the stated coverage."
+    },
+    "recover:Recover": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 498,
+      "fields": {
+        "Type": "Normal",
+        "Category": "Support",
+        "Power": 0,
+        "Accuracy1": "Special",
+        "Accuracy2": "Nature",
+        "Damage1": "",
+        "Damage2": "",
+        "Target": "Self",
+        "Effect": "Target Self. Basic Heal. If successful, spend 1 Will point to activate.",
+        "Attributes": {},
+        "AddedEffects": {
+          "Heal": {
+            "Type": "Basic",
+            "Target": "Targets",
+            "WillPointCost": 1
+          }
+        }
+      },
+      "coverage": "automatic Basic Heal and Will debit",
+      "notes": "Printed page visually reviewed; runtime behavior is limited to the stated coverage."
+    },
+    "quick-attack:Quick Attack": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 498,
+      "fields": {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 2,
+        "Accuracy1": "Dexterity",
+        "Accuracy2": "Brawl",
+        "Damage1": "Strength/Dexterity",
+        "Damage2": "",
+        "Target": "Foe",
+        "Effect": "Single Target. Reaction 1. Out of battle, double the Pokemon's movement speed.",
+        "Attributes": {
+          "Reaction": "1"
+        },
+        "AddedEffects": {}
+      },
+      "coverage": "automatic single-target damage and early reaction",
+      "notes": "Printed page visually reviewed; runtime behavior is limited to the stated coverage."
+    },
+    "agility:Agility": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 510,
+      "fields": {
+        "Type": "Psychic",
+        "Category": "Support",
+        "Power": 0,
+        "Accuracy1": "Dexterity",
+        "Accuracy2": "Athletic",
+        "Damage1": "",
+        "Damage2": "",
+        "Target": "Self",
+        "Effect": "Target Self. Increase the User's Dexterity by 2.",
+        "Attributes": {},
+        "AddedEffects": {
+          "StatChanges": [
+            {
+              "Stats": [
+                "Dexterity"
+              ],
+              "Stages": 2,
+              "Affects": "User"
+            }
+          ]
+        }
+      },
+      "coverage": "automatic Dexterity modifier",
+      "notes": "Printed page visually reviewed; runtime behavior is limited to the stated coverage."
+    },
+    "confusion:Confusion": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 510,
+      "fields": {
+        "Type": "Psychic",
+        "Category": "Special",
+        "Power": 2,
+        "Accuracy1": "Insight",
+        "Accuracy2": "Channel",
+        "Damage1": "Special",
+        "Damage2": "",
+        "Target": "Foe",
+        "Effect": "Single Target. Roll 1 Chance Die to Confuse the Target.",
+        "Attributes": {},
+        "AddedEffects": {
+          "Ailments": [
+            {
+              "Type": "Confuse",
+              "ChanceDice": 1,
+              "Affects": "Targets"
+            }
+          ]
+        }
+      },
+      "coverage": "automatic chance die and Confusion",
+      "notes": "Printed page visually reviewed; runtime behavior is limited to the stated coverage."
+    },
+    "submission:Submission": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 463,
+      "fields": {
+        "Type": "Fight",
+        "Category": "Physical",
+        "Power": 3,
+        "Accuracy1": "Strength",
+        "Accuracy2": "Brawl",
+        "Damage1": "Strength",
+        "Damage2": "",
+        "Target": "Foe",
+        "Effect": "Single Target. Low Accuracy 2. Recoil.",
+        "Attributes": {
+          "Recoil": true,
+          "AccuracyReduction": -2
+        },
+        "AddedEffects": {}
+      },
+      "coverage": "automatic ordinary damage and recoil",
+      "notes": "Printed page visually reviewed; runtime behavior is limited to the stated coverage."
+    },
+    "hyper-beam:Hyper Beam": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 494,
+      "fields": {
+        "Type": "Normal",
+        "Category": "Special",
+        "Power": 6,
+        "Accuracy1": "Special",
+        "Accuracy2": "Channel",
+        "Damage1": "Special",
+        "Damage2": "",
+        "Target": "Foe",
+        "Effect": "Single Target. Low Accuracy 1. Must Recharge. Lethal.",
+        "Attributes": {
+          "Lethal": true,
+          "MustRecharge": true,
+          "AccuracyReduction": -1
+        },
+        "AddedEffects": {}
+      },
+      "coverage": "automatic ordinary damage and recharge; lethal intent remains manual",
+      "notes": "Printed page visually reviewed; runtime behavior is limited to the stated coverage."
+    },
+    "sonic-boom:Sonic Boom": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 502,
+      "fields": {
+        "Type": "Normal",
+        "Category": "Special",
+        "Power": 0,
+        "Accuracy1": "Special",
+        "Accuracy2": "Stealth",
+        "Damage1": "SetDamage",
+        "Damage2": "",
+        "Target": "Foe",
+        "Effect": "Single Target. This Move always inflict 1 Typeless damage. Ignore Defenses, Force Fields, Shield Moves, Cover, Out of Range, Type or Ability that would prevent this damage.",
+        "Attributes": {
+          "IgnoreDefenses": true,
+          "IgnoreShield": true
+        },
+        "AddedEffects": {}
+      },
+      "coverage": "automatic typeless set damage",
+      "notes": "Printed page visually reviewed; runtime behavior is limited to the stated coverage."
+    },
+    "thunder-shock:Thunder Shock": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 454,
+      "fields": {
+        "Type": "Electric",
+        "Category": "Special",
+        "Power": 2,
+        "Accuracy1": "Dexterity",
+        "Accuracy2": "Channel",
+        "Damage1": "Special",
+        "Damage2": "",
+        "Target": "Foe",
+        "Effect": "Single Target. Roll 1 Chance die to Paralyze the Target.",
+        "Attributes": {},
+        "AddedEffects": {
+          "Ailments": [
+            {
+              "Type": "Paralyze",
+              "Affects": "Targets",
+              "ChanceDice": 1
+            }
+          ]
+        }
+      },
+      "coverage": "automatic damage and paralysis chance",
+      "notes": "Printed card visually reviewed. Automation is limited to the stated coverage."
+    },
+    "thunderbolt:Thunderbolt": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 454,
+      "fields": {
+        "Type": "Electric",
+        "Category": "Special",
+        "Power": 3,
+        "Accuracy1": "Dexterity",
+        "Accuracy2": "Channel",
+        "Damage1": "Special",
+        "Damage2": "",
+        "Target": "Foe",
+        "Effect": "Single Target. Roll 1 Chance die to Paralyze the Target.",
+        "Attributes": {},
+        "AddedEffects": {
+          "Ailments": [
+            {
+              "Type": "Paralyze",
+              "Affects": "Targets",
+              "ChanceDice": 1
+            }
+          ]
+        }
+      },
+      "coverage": "automatic damage and paralysis chance",
+      "notes": "Printed card visually reviewed. Automation is limited to the stated coverage."
+    },
+    "thunder-punch:Thunder Punch": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 454,
+      "fields": {
+        "Type": "Electric",
+        "Category": "Physical",
+        "Power": 3,
+        "Accuracy1": "Strength",
+        "Accuracy2": "Brawl",
+        "Damage1": "Strength",
+        "Damage2": "",
+        "Target": "Foe",
+        "Effect": "Single Target. Fist Move. Roll 1 Chance die to Paralyze the Target.",
+        "Attributes": {
+          "FistMove": true
+        },
+        "AddedEffects": {
+          "Ailments": [
+            {
+              "Type": "Paralyze",
+              "Affects": "Targets",
+              "ChanceDice": 1
+            }
+          ]
+        }
+      },
+      "coverage": "automatic damage and paralysis chance; contact ability interactions remain manual",
+      "notes": "Printed card visually reviewed. Automation is limited to the stated coverage."
+    },
+    "spark:Spark": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 454,
+      "fields": {
+        "Type": "Electric",
+        "Category": "Physical",
+        "Power": 2,
+        "Accuracy1": "Dexterity",
+        "Accuracy2": "Athletic",
+        "Damage1": "Strength",
+        "Damage2": "",
+        "Target": "Foe",
+        "Effect": "Single Target. Roll 3 Chance Dice to Paralyze the Target.",
+        "Attributes": {},
+        "AddedEffects": {
+          "Ailments": [
+            {
+              "Type": "Paralyze",
+              "Affects": "Targets",
+              "ChanceDice": 3
+            }
+          ]
+        }
+      },
+      "coverage": "automatic damage and paralysis chance",
+      "notes": "Printed card visually reviewed. Automation is limited to the stated coverage."
+    },
+    "hyper-fang:Hyper Fang": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 494,
+      "fields": {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 3,
+        "Accuracy1": "Strength",
+        "Accuracy2": "Brawl",
+        "Damage1": "Strength",
+        "Damage2": "",
+        "Target": "Foe",
+        "Effect": "Single Target. Bite Move. Roll 1 Chance die to Flinch the Target.",
+        "Attributes": {
+          "BiteMove": true
+        },
+        "AddedEffects": {
+          "Ailments": [
+            {
+              "Type": "Flinch",
+              "Affects": "Targets",
+              "ChanceDice": 1
+            }
+          ]
+        }
+      },
+      "coverage": "automatic damage and flinch chance; bite ability interactions remain manual",
+      "notes": "Printed card visually reviewed. Automation is limited to the stated coverage."
+    },
+    "slack-off:Slack Off": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 501,
+      "fields": {
+        "Type": "Normal",
+        "Category": "Support",
+        "Power": 0,
+        "Accuracy1": "Vitality",
+        "Accuracy2": "Nature",
+        "Damage1": "",
+        "Damage2": "",
+        "Target": "Self",
+        "Effect": "Target Self. Basic Heal. If successful, spend 1 Will point to activate.",
+        "Attributes": {},
+        "AddedEffects": {
+          "Heal": {
+            "Type": "Basic",
+            "Target": "Targets",
+            "WillPointCost": 1
+          }
+        }
+      },
+      "coverage": "automatic Basic Heal and Will debit",
+      "notes": "Printed card visually reviewed. Automation is limited to the stated coverage."
+    },
+    "soft-boiled:Soft Boiled": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 501,
+      "fields": {
+        "Type": "Normal",
+        "Category": "Support",
+        "Power": 0,
+        "Accuracy1": "Insight",
+        "Accuracy2": "Nature",
+        "Damage1": "",
+        "Damage2": "",
+        "Target": "Self",
+        "Effect": "Target Self. Basic Heal. If successful, spend 1 Will point to activate. Out of battle, this Move can be used on allies.",
+        "Attributes": {},
+        "AddedEffects": {
+          "Heal": {
+            "Type": "Basic",
+            "Target": "Targets",
+            "WillPointCost": 1
+          }
+        }
+      },
+      "coverage": "automatic in-battle Basic Heal; out-of-battle allies remain manual",
+      "notes": "Printed card visually reviewed. Automation is limited to the stated coverage."
+    },
+    "splash:Splash": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 502,
+      "fields": {
+        "Type": "Normal",
+        "Category": "Support",
+        "Power": 0,
+        "Accuracy1": "Dexterity",
+        "Accuracy2": "Athletic",
+        "Damage1": "",
+        "Damage2": "",
+        "Target": "Self",
+        "Effect": "Target Self. No effect.",
+        "Attributes": {},
+        "AddedEffects": {}
+      },
+      "coverage": "automatic no-effect action",
+      "notes": "Printed card visually reviewed. Automation is limited to the stated coverage."
+    },
+    "tackle:Tackle": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 503,
+      "fields": {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 2,
+        "Accuracy1": "Dexterity/Strength",
+        "Accuracy2": "Athletic",
+        "Damage1": "Strength",
+        "Damage2": "",
+        "Target": "Foe",
+        "Effect": "Single Target. ",
+        "Attributes": {},
+        "AddedEffects": {}
+      },
+      "coverage": "automatic ordinary single-target damage",
+      "notes": "Printed card visually reviewed. Automation is limited to the stated coverage."
+    },
+    "slash:Slash": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 501,
+      "fields": {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 3,
+        "Accuracy1": "Dexterity",
+        "Accuracy2": "Brawl",
+        "Damage1": "Strength",
+        "Damage2": "",
+        "Target": "Foe",
+        "Effect": "Single Target. Lethal. High Critical. Cutter Move.",
+        "Attributes": {
+          "HighCritical": true,
+          "Lethal": true,
+          "CutterMove": true
+        },
+        "AddedEffects": {}
+      },
+      "coverage": "automatic ordinary high-critical damage; lethal intent and cutter ability interactions remain manual",
+      "notes": "Printed card visually reviewed. Automation is limited to the stated coverage."
+    },
+    "swift:Swift": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 503,
+      "fields": {
+        "Type": "Normal",
+        "Category": "Special",
+        "Power": 2,
+        "Accuracy1": "Dexterity",
+        "Accuracy2": "Channel",
+        "Damage1": "Special",
+        "Damage2": "",
+        "Target": "All Foes",
+        "Effect": "Target All Foes in Range. Never Miss.",
+        "Attributes": {
+          "NeverMiss": true
+        },
+        "AddedEffects": {}
+      },
+      "coverage": "reviewed metadata; multi-target resolution remains GM-adjudicated",
+      "notes": "Printed card visually reviewed. Automation is limited to the stated coverage."
+    }
+  },
+  "abilities": {
+    "blaze:Blaze": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 539,
+      "fields": {
+        "Description": "The inner and outer fire on this Pokemon's body will burn incredibly fierce just before fading.",
+        "Effect": "Pain Penalization won't reduce successes from Accuracy or Damage rolls of Fire-Type Moves used by this Pokemon. Fire-Type Moves get 2 Extra dice to their Damage Pool when this Pokemon is at half HP or less."
+      },
+      "coverage": "reviewed conditional effect"
+    },
+    "overgrow:Overgrow": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 558,
+      "fields": {
+        "Description": "When this Pokemon is hurt, it will grow huge plants on its body to defend itself, these plants are very strong but wither quickly.",
+        "Effect": "Pain Penalization won't reduce successes from Accuracy or Damage rolls of Grass-Type Moves used by this Pokemon. Grass-Type Moves get 2 Extra dice to their Damage Pool when this Pokemon is at half HP or less."
+      },
+      "coverage": "reviewed conditional effect"
+    },
+    "swarm:Swarm": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 572,
+      "fields": {
+        "Description": "The Pokemon enters a hive mind state when its life is on the line, calling upon a swarm to aid it in battle.",
+        "Effect": "Pain Penalization won't reduce successes from Accuracy or Damage rolls of Bug-Type Moves used by this Pokemon. Bug-Type Moves get 2 Extra dice to their Damage Pool when this Pokemon is at half HP or less."
+      },
+      "coverage": "reviewed conditional effect"
+    },
+    "own-tempo:Own Tempo": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 558,
+      "fields": {
+        "Description": "This Pokemon will do everything at its own pace, peer pressure will be ignored. Its behavior reflexive and calm... maybe too calm.",
+        "Effect": "This Pokemon is not affected by the Confused Status Condition."
+      },
+      "coverage": "reviewed named status immunity"
+    },
+    "oblivious:Oblivious": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 558,
+      "fields": {
+        "Description": "This Pokemon will rarely have a satisfactory social interaction; too self-absorbed to take hints or cues in any relationship.",
+        "Effect": "This Pokemon is not affected by the Love Status. It is immune to the effects of moves that affect its feelings such as Taunt, Charm, Captivate etc. at Storyteller's discretion."
+      },
+      "coverage": "reviewed named status immunity"
+    },
+    "thick-fat:Thick Fat": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 574,
+      "fields": {
+        "Description": "This Pokemon's body has a thick layer of blubber that protects it against against harsh temperatures.",
+        "Effect": "Reduce by 1 the damage taken from Fire and Ice-Type moves."
+      },
+      "coverage": "reviewed conditional effect"
+    },
+    "torrent:Torrent": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 574,
+      "fields": {},
+      "coverage": "GM adjudication required",
+      "notes": "Text grants 2 extra Water damage dice; printed icon grants 1. No automatic bonus is chosen."
+    }
+  }
+}

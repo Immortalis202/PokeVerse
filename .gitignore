@@ -1,0 +1,12 @@
+node_modules/
+dist/
+public/catalog.json
+public/sprites/
+src-tauri/resources/
+src-tauri/target/
+src-tauri/gen/
+*.db
+*.db-wal
+*.db-shm
+test-results/
+tmp/

@@ -1,0 +1,15 @@
+# Reference catalog storage
+
+The build pipeline reads supplied Pokerole JSON and application corrections without changing source files. It creates `src-tauri/resources/catalog.db` (SQLite schema version 1), bundled separately from `library.db` and `campaigns.db`. Installed catalogs open read-only with a 2 MiB SQLite page cache. No catalog JSON is embedded in the executable or shipped to the webview.
+
+`entries` stores indexed IDs, names, types, ordering and lightweight summaries, plus each complete corrected record as a JSON payload. `species_stats`, `learnsets`, `species_abilities` and `evolutions` expose mechanical relationships directly to SQL. Complete records are decoded only when requested. The shared rules service uses indexed lookup and a bounded 128-record FIFO cache; catalog clones share the connection and cache. Unknown/missing entries fail validation.
+
+The `get_catalog` command returns version metadata, reference warnings and picker summaries only. `catalog_entry` returns one full record. `search_catalog` filters in SQLite and returns up to 150 summaries with a total and offset. The Compendium pages through results and fetches selected details. `compendium_detail(kind, id)` is a typed read-only command that returns one record, exact resolved references with stable application IDs, recorded requirements and metadata review warnings. Missing or ambiguous names remain unlinked; no first-match fallback is used. The browser preview implements the same response. Pokémon summary records also include recommended rank and existing Legendary/GoodStarter flags. Editors load only their selected species/ability; battle move details load when selected. Rules legality and prices remain in Rust.
+
+The build retains the legacy source hash and fingerprints the corrected rules plus reviewed habitat data. Character IDs, campaign membership and progression receipts are preserved. Version 0.8.0 retains protocol 9 and user database schema 4 so rooms require matching builds and catalogs. Existing campaigns explicitly adopt a changed catalog through the GM training encounter flow.
+
+`habitats` and `species_habitats` import the current manually reviewed CSV at build time. Accepted `habitat_ids` are authoritative. Provenance retains conditions, pending/excluded decisions and review notes; only included relations enter random pools. Habitat queries return pages of 150 summaries. Seeded training encounter generation uses the complete accepted pool without rarity weights. See [training encounters](training-encounters.md).
+
+Browser development previews query the same database through local Vite middleware. Production catalog access uses Tauri. There is no production JSON fallback.
+
+Generate with `npm run catalog`; validate with `npm run build`, `npm test`, and `cargo test --manifest-path src-tauri/Cargo.toml --lib`. SQLite regressions cover read-only access, normalized stats, bounded cache, summary size, paginated/type-filtered search, literal search input and missing/unsupported catalogs. Existing creation, battle, progression and synchronization tests exercise the new store.
