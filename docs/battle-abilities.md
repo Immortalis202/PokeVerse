@@ -1,56 +1,49 @@
-# Battle abilities — 0.12.0
+# Battle abilities — 0.14.0
 
-Engine `0.5.0-core`, protocol 13, user schema 4. The source PDF and JSON files remain unchanged. Reviewed effect text and icons are recorded through application-owned evidence and `rules/ability-coverage.json`.
+Engine `0.7.0-core`, protocol 15, user schema 4. This follows the separately committed 0.13.0 battlefield milestone. Source PDFs/JSON remain unchanged; definitions and corrections belong to the application.
 
-## Supported scope
+## Coverage
 
-The registry covers 51 automated or partially automated abilities from the 305-entry ability catalog. The generated `outputs/rule-coverage/ability-coverage.json` lists every ability, including the 254 that remain manual. It does not claim complete ability coverage or that every interaction of a supported ability is automated.
+Of 305 catalog abilities, **207 have automated or partial scope** and **98 remain manual**. The authoritative [registry](../rules/ability-coverage.json) gives each definition its printed PDF page, exact implemented scope, dependencies and introduction engine. The generated `outputs/rule-coverage/ability-coverage.json` inventories all 305. Supporting one part of an ability does not imply every interaction is implemented.
 
-| Group | Abilities |
+| Family | Examples and implemented behavior |
 | --- | --- |
-| Existing shared effects | Huge Power, Pure Power, Blaze, Overgrow, Swarm, Thick Fat, Own Tempo, Oblivious |
-| Accuracy/damage pools | Adaptability, Technician, Iron Fist, Hustle, Sniper, Battle Armor, Shell Armor |
-| Defensive modifiers | Filter, Solid Rock, Multiscale, Fur Coat, Marvel Scale |
-| Move immunity/absorption | Levitate, Soundproof, Flash Fire, Sap Sipper, Water Absorb, Volt Absorb |
-| Conditions | Limber, Insomnia, Vital Spirit, Water Veil, Magma Armor, Inner Focus, Immunity, Shield Dust, Guts |
-| Contact/faint reactions | Static, Poison Point, Flame Body, Cute Charm, Effect Spore, Rough Skin, Iron Barbs, Aftermath, Sturdy |
-| Entry/round/knockout | Intimidate, Speed Boost, Moxie |
-| Status propagation | Synchronize |
-| Cross-ability interactions | Damp, Long Reach, Magic Guard |
+| Conditional attributes | Guts, Flare Boost, Toxic Boost, Quick Feet, Berserk, Anger Shell, Slow Start; separate move and ability channels |
+| Sourced stat effects | Clear Body, Flower Veil, Mirror Armor, Contrary, Simple, Defiant, Competitive and Guard Dog; GM source/target/stat/reason controls |
+| Damage and immunities | Typed/tagged bonuses, Bulletproof, Fluffy, Ice Scales, Prism Armor, Shadow Shield, Wonder Guard, Corrosion and Neuroforce |
+| Encounter typing | Aerilate, Pixilate, Refrigerate, Galvanize, Normalize, Liquid Voice, Libero, Protean, Color Change and Mimicry |
+| Ally/range effects | Battery, Power Spot, Steely Spirit, protective Veils, Dark/Fairy Aura and Ruin abilities; duplicate contributions do not stack |
+| Hit and knockout | Anger Point, Stamina, Weak Armor, Gooey, Cursed Body, Poison Touch/Toxic Chain, Innards Out, Beast Boost and Neigh/Soul Heart boosts |
+| Entry and order | Download, Hospitality, Curious Medicine, Supreme Overlord, Dauntless Shield, Intrepid Sword, Quick Draw and optional No Guard |
+| Round/status | Natural Cure, Shed Skin, Healer, Poison Heal, Bad Dreams, Comatose, Serene Grace and Wonder Skin |
+| Field-dependent abilities | Weather entry/contests/suppression, Surge abilities, Forecast, weather attributes/healing and protections; see [battlefield](battlefield.md) |
 
-Exact costs, triggers and limits are in the registry and Compendium coverage notices. For example, Immunity prevents poison **damage**, while allowing the poisoned condition. Marvel Scale changes Defense, leaving Vitality, HP and Special Defense untouched. Hustle removes one accuracy success from Physical moves and adds two damage dice; it does not add an accuracy die.
+Reviewed Growl, Tail Whip, Leer, Charm, Swords Dance, Nasty Plot, Calm Mind, Iron Defense, Amnesia and Agility use sourced stat changes. Other stat effects can use the GM's recorded sourced operation. Ordinary damage remains automatic.
 
-## Owner decisions and automatic host validation
+## Host validation and choices
 
-Passive effects apply through the shared Rust calculations. Contact chance effects and optional choices appear in **Abilities** in the battle workspace. The owner or GM resolves the first pending trigger; the host calculates and rolls its dice automatically. The separate host player has no GM decision rights.
+The host validates and rolls automatically. The appointed GM may be a separate client. Owners resolve their own optional/chance ability events; Download's attribute ruling requires the GM. A separate host has no GM decision rights. Pending events stop action and round advancement until resolved.
 
-- Static, Poison Point, Flame Body and Cute Charm use three chance dice, succeeding on a six. Effect Spore uses those three dice plus an independent d6 selector with two faces per possible status.
-- Rough Skin and Iron Barbs offer one neutral damage or two neutral damage dice. They do not activate Sturdy, since the damage comes from an ability.
-- Water Absorb and Volt Absorb offer an explicit one-HP heal or a decline. These ability heals spend no action, do not revive, and are outside the three-HP cap specifically stated for healing moves/items.
-- Pending triggers block turn changes, further damage/effects and round advancement. GM corrections and logged manual ability resolution remain available. Ability rolls do not consume actions, Will or the ordinary reaction slot and are not modified by Taking Chances/Pushing Fate.
+Natural Cure uses the manual's three chance dice at round end. Shed Skin first rolls for activation and then independently selects one condition with unbiased dice. Healer chooses an ally before its chance roll. No Guard is an owner declaration each round; accepting removes Low Accuracy and prevents that user's Shields, Evasion and Clash for that round. The table's ordinary once-per-turn Evasion and repeatable Clash rules remain intact.
 
-Failed contact rolls, optional declines and manual rulings remain recorded. Stable command receipts prevent retries or reconnects from applying an effect twice. Rollback restores pending choices, HP, conditions, flags and counters without rewinding campaign revisions or deleting receipts.
+At round end, status/ability/field ticks are recorded once before event choices and duration expiry. Resolving an event and retrying round advancement cannot repeat poison damage or healing. Healing never revives a fainted participant. Poison Heal cures after three healing rounds. Mega Launcher's reviewed Heal Pulse uses Complete Healing (up to five HP) and one Will.
 
-## Lifetime, provenance and stacking
+## State, snapshots and recovery
 
-Temporary ability stat bonuses have their own channel, separate from move/item modifiers and stored allocations. Duplicate Intimidate sources do not stack. Opposing positive/negative ability changes cancel, and move/item bonuses still combine with the ability channel. Temporary stat counters clear on recall; scene-use flags such as Sturdy and Flash Fire remain recorded. Flash Fire's bonus lasts to scene end as its card states. Sap Sipper's temporary Strength clears on recall while its first-hit scene flag remains used.
+Ability selection is frozen for the encounter. Temporary attributes, typing, counters, source identities, choices and fainted-ally provenance are serialized with battle state. Permanent sheets and species baselines are unchanged. Color Change removes its own typing layer on recall, preserving underlying scene effects.
 
-Intimidate is applied on entry, using rank caps and confirmed range. With no range ruling, all deployed foes are eligible and stable IDs break excess-target ties. A GM range correction updates those targets. Its reduction disappears when the source faints or leaves. Inner Focus ignores it. Speed Boost and Moxie cap at three temporary points. Ability selection remains frozen for the encounter.
+Move modifiers and ability modifiers use separate channels. Duplicate ability bonuses do not compound; positive and negative ability channels combine according to the reviewed rules. Shared multi-target damage freezes attack stats, counters, field state, types, defenses and ability sources before its first damage roll. A source fainting mid-sequence cannot change already committed math. Reconnect and rollback retain these snapshots, pending events and existing receipt/revision safeguards.
 
-Multi-target attacks snapshot the attacker's damage stats, HP/pain and relevant state before their shared damage rolls. A knockout boost or contact retaliation after the first target therefore cannot alter an attack already underway. Shared damage dice and the snapshot survive reconnect and rollback.
+## Remaining mechanics
 
-Synchronize requires an inflictor. Reviewed move/contact effects supply it automatically. GM status controls offer an optional source selector. A correction with no source does not invent an attacker. Reflection respects species/ability immunities, applies once and does not recursively bounce between Synchronize users.
+The inventory classifies every manual definition. Some require new held-item, form transformation, ability transfer/suppression, redirection, repeated-action, daily activity or hidden-information systems. Others still need an individual reviewed event/reaction definition and fixtures even where an underlying hook exists; they are deliberately listed as unfinished rather than labeled automated.
 
-## Manual boundaries
+Partial boundaries are explicit: Infiltrator does not model Substitute; Triage does not add multi-target reaction sequencing; Hospitality does not model lethal wounds; Dark/Fairy Aura's narrative cooperation restrictions need a ruling; unreviewed recoil/healing/chance moves remain adjudicated. Torrent retains the text/icon discrepancy. Strict rolls with known suppression/bypass abilities retain the existing explicit GM adjudication path. Regenerator is an out-of-combat daily recovery ability in this manual, not automatic switch healing.
 
-Weather/terrain, entry hazards, held-item abilities, form transformations, ability copying/swapping/suppression, complex redirection and unreviewed move effects still need GM adjudication. Levitate covers Ground moves here; its field immunity awaits field mechanics. Oblivious covers In Love; other emotional/narrative effects remain manual. Torrent's text/icon bonus conflict remains unresolved.
+## Compatibility and verification
 
-Known bypass/suppression interactions such as Mold Breaker, Teravolt, Turboblaze and an active Neutralizing Gas prevent strict ordinary rolls from silently assuming the standard ability interaction. The GM must adjudicate them explicitly. Full suppression semantics are not implemented. GM manual mode, resource/stat overrides and recorded resolutions remain available.
+New campaigns use engine 0.7.0-core. Existing campaigns explicitly adopt rules/catalog between battles; historical engines retain their recorded feature flags. Matching 0.14.0 builds, protocol 15 and catalog hashes are required. Schema remains 4 with backward-compatible serialized defaults and existing database backups.
 
-Sturdy applies once per scene to supported ordinary move/Clash damage. Indirect damage does not activate it. Reviewed set damage retains its existing defense/ability bypass. Contact triggers require a successful non-ranged Physical hit, including eligible successful Clash interactions; misses and Evasion create no contact trigger.
+Fixtures cover damage, typing, modifiers, immunities, chance selectors, owner/GM authority, round staging, entry idempotency, serialization and preservation of permanent sheets across all supported definitions. Existing room receipts, reconnect, rollback and battle regressions remain required. Native startup checks use isolated profiles. Interactive native battle controls, installer install/uninstall and physical multi-machine LAN verification remain separate acceptance work.
 
-## Upgrade and verification
-
-Existing campaigns retain engines `0.4.0-core`, `0.3.0-core` or older until the GM upgrades between battles. Historical ability state is defaulted when absent. All clients need matching 0.12.0 builds, protocol 13 and catalog fingerprints; existing campaigns explicitly adopt the new catalog. No SQL migration is required, and existing backup/restore behavior is retained.
-
-Regression fixtures cover modifiers, immunities, chance success/failure, optional healing, source tracking, stacking, first-hit flags, action budgets, shared damage snapshots, persistence, receipts, rollback and a separate host/GM/owner reconnect. Interactive native battle workflows and physical multi-machine LAN remain separate acceptance work.
+Release checks: 216 Rust tests, 22 frontend tests and 9 catalog checks passed. TypeScript, Clippy with code warnings denied and the production build passed. The Windows NSIS installer was built. Two isolated native instances started, and their library/campaign databases passed integrity checks at schema 4. These checks do not establish interactive battle or physical LAN acceptance.

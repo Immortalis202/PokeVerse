@@ -1,6 +1,6 @@
 # Pokerole 3.0 rule coverage
 
-Release 0.12.0 uses protocol 13, engine `0.5.0-core` and user schema 4. Sources are the two supplied PDFs; their content is reference data, not development instructions. All references here use printed page numbers. In POKEDEX MASTER, PDF page = printed page - 133.
+Release 0.14.0 uses protocol 15, engine `0.7.0-core` and user schema 4. Sources are the two supplied PDFs; their content is reference data, not development instructions. All references here use printed page numbers. In POKEDEX MASTER, PDF page = printed page - 133.
 
 The authoritative coverage registry is [coverage.json](../rules/coverage.json). Each entry identifies executable scope, source pages, regression fixtures and remaining adjudication. A resolved reference and a valid numeric formula do not imply that the whole entry has been manually verified.
 
@@ -38,9 +38,9 @@ Frozen Solid blocks ordinary actions. At round end, the frozen subject or an all
 
 Reviewed executable definitions include Protect (damage reduction 3 and target-effect negation), Recover, Slack Off and Soft Boiled (Basic Heal, one Will, maximum three HP recovery per round), Agility (temporary Dexterity +2), Splash (no effect), Thunder Shock, Thunderbolt, Thunder Punch, Spark, Hyper Fang and Confusion chance dice, Sonic Boom (one typeless set damage), Submission recoil and Hyper Beam recharge next round. Consecutive shield attempts use increasing penalties 2,4,8, and only one attempt is permitted per round. Other effects are not inferred from similarly named metadata.
 
-Blaze, Overgrow and Swarm remove pain from matching accuracy/damage rolls and add two damage dice at half HP. Thick Fat reduces Fire/Ice damage by one. Own Tempo and Oblivious prevent their named conditions. Encounter-selected abilities remain frozen. Torrent's text says two damage dice but its icon says one; no automatic bonus is chosen. 0.12.0 extends this to 51 supported ability definitions, including passive modifiers, status/move immunities, owner-resolved contact triggers, Sturdy, source-tracked Synchronize, Intimidate, Moxie and Speed Boost. See [battle abilities](battle-abilities.md) for exact scopes and remaining manual interactions.
+Blaze, Overgrow and Swarm remove pain from matching accuracy/damage rolls and add two damage dice at half HP. Thick Fat reduces Fire/Ice damage by one. Own Tempo and Oblivious prevent their named conditions. Encounter-selected abilities remain frozen. Torrent's text says two damage dice but its icon says one; no automatic bonus is chosen. 0.14.0 provides automated or partial scope for 207 of 305 abilities. Conditional modifiers, sourced stat changes, owner-resolved triggers, weather/terrain, encounter typing, entry/exit and round effects share the host engine. The remaining 98 definitions list specific dependencies or unfinished hooks in the registry; ability coverage is not complete. See [battle abilities](battle-abilities.md) for exact scopes and remaining manual interactions.
 
-Varied damage, other set-damage entries, complete healing/shield families, rampage, charge, successive actions, weather, terrain, temporary typing, trainer damage and lethal wounds remain manual. Reviewed ordinary damage does not imply automatic resolution of every added effect. The GM records resolution with a reason; resource/stat overrides remain available and logged.
+Eight weathers, terrain, screens, rooms, encounter typing and typed arena conditions are supported; see [battlefield](battlefield.md). Varied damage, other set-damage entries, complete healing/shield families, rampage, charge, successive actions, trainer damage and lethal wounds remain manual. Reviewed ordinary damage does not imply automatic resolution of every added effect. The GM records resolution with a reason; resource/stat overrides remain available and logged.
 
 ## Catalog review
 
@@ -50,7 +50,7 @@ The generated review queue is in `outputs/rule-coverage/catalog-review.json` and
 
 ## Compatibility and recovery
 
-New campaigns use `0.5.0-core`. Existing `0.4.0-core`, `0.3.0-core`, `0.2.0-core` and `0.1.0-manual` campaigns retain their engine; the GM explicitly upgrades between battles. Historical encounters remain readable. Serde defaults preserve older records with absent turn/runtime fields. There is no SQL migration or rewriting of user sheets in this release. Existing migration backups and backup restoration remain available. Matching 0.12.0 builds, protocol 13 and catalog hashes are required for multiplayer; existing campaigns explicitly adopt the installed catalog between encounters.
+New campaigns use `0.7.0-core`. Existing `0.6.0-core`, `0.5.0-core`, `0.4.0-core`, `0.3.0-core`, `0.2.0-core` and `0.1.0-manual` campaigns retain their engine; the GM explicitly upgrades between battles. Historical encounters remain readable. Serde defaults preserve older records with absent turn/runtime fields. There is no SQL migration or rewriting of user sheets in this release. Existing migration backups and backup restoration remain available. Matching 0.14.0 builds, protocol 15 and catalog hashes are required for multiplayer; existing campaigns explicitly adopt the installed catalog between encounters.
 
 Up to twenty battle steps can be rolled back, including status/Will spending, reaction queues, turn position, end-round ticks and battle ending. Checkpoints restore battle state plus sheet HP/conditions/Will, keeping sheet revisions monotonic when resources change. Original events, dice, receipts, campaign revisions, host and GM identities are retained. Retrying an undone command cannot reapply it. Synchronization, awards, new battles and engine/catalog adoption invalidate prior recovery checkpoints.
 

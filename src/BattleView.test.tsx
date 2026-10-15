@@ -187,8 +187,14 @@ describe("structured core battle controls", () => {
         automatic_validation: true,
         combatants,
         flow: {
+          extra: {
+            enabled: engine === "0.7.0-core",
+            active: [],
+            fainted: [],
+            round_started: 0,
+          },
           battlefield: {
-            enabled: engine === "0.6.0-core",
+            enabled: ["0.6.0-core", "0.7.0-core"].includes(engine),
             natural: null,
             weather: null,
             rules: [],
@@ -211,7 +217,9 @@ describe("structured core battle controls", () => {
           reacted: [],
           window: queued && !field,
           deferred: null,
-          ability_rules: engine === "0.5.0-core",
+          ability_rules: ["0.5.0-core", "0.6.0-core", "0.7.0-core"].includes(
+            engine,
+          ),
           ability_events: ability
             ? [
                 {
@@ -322,6 +330,20 @@ describe("structured core battle controls", () => {
     expect(core("player", false, "0.6.0-core")).toContain("Battlefield");
     expect(core("player", false, "0.6.0-core")).not.toContain(
       "Apply temporary typing",
+    );
+  });
+  it("reserves sourced stat effects for the GM in the extended ability engine", () => {
+    expect(core("gm", false, "0.7.0-core")).toContain(
+      "Apply sourced stat effect",
+    );
+    expect(core("player", false, "0.7.0-core")).not.toContain(
+      "Apply sourced stat effect",
+    );
+    expect(core("host", false, "0.7.0-core")).not.toContain(
+      "Apply sourced stat effect",
+    );
+    expect(core("gm", false, "0.6.0-core")).not.toContain(
+      "Apply sourced stat effect",
     );
   });
 });

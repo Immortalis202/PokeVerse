@@ -18,6 +18,8 @@ pub enum Weather {
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct FieldSnapshot {
     pub weather: Option<Weather>,
+    #[serde(default)]
+    pub defenses: BTreeMap<String, [i32; 2]>,
     pub types: BTreeMap<String, Vec<String>>,
 }
 fn frozen(c: &Campaign) -> Option<&FieldSnapshot> {
@@ -33,7 +35,37 @@ fn frozen(c: &Campaign) -> Option<&FieldSnapshot> {
         .as_ref()
 }
 pub fn snapshot(c: &Campaign, cat: &Catalog) -> Result<FieldSnapshot> {
+    let mut defenses = BTreeMap::new();
+    for p in battle(c)?
+        .combatants
+        .iter()
+        .filter(|p| p.deployed && c.sheets[&p.sheet_id].kind == "pokemon")
+    {
+        let stats = crate::creation::profile_stats(&rules::effective_sheet(c, p)?);
+        defenses.insert(
+            p.id.clone(),
+            [
+                defense(
+                    c,
+                    p,
+                    true,
+                    cat,
+                    stats["Defense"] + abilities::defense(c, p, true),
+                )?
+                .max(1),
+                defense(
+                    c,
+                    p,
+                    false,
+                    cat,
+                    stats["SpecialDefense"] + abilities::defense(c, p, false),
+                )?
+                .max(1),
+            ],
+        );
+    }
     Ok(FieldSnapshot {
+        defenses,
         weather: weather(c, None),
         types: battle(c)?
             .combatants
@@ -298,6 +330,9 @@ pub fn types(c: &Campaign, p: &Combatant, cat: &Catalog) -> Result<Vec<String>> 
     if let Some(ts) = frozen(c).and_then(|f| f.types.get(&p.id)) {
         return Ok(ts.clone());
     }
+    live_types(c, p, cat)
+}
+pub fn live_types(c: &Campaign, p: &Combatant, cat: &Catalog) -> Result<Vec<String>> {
     let s = &c.sheets[&p.sheet_id];
     if s.kind != "pokemon" {
         return Err(AppError::new(
@@ -316,6 +351,30 @@ pub fn types(c: &Campaign, p: &Combatant, cat: &Catalog) -> Result<Vec<String>> 
         .collect();
     if !enabled(c) {
         return Ok(ts);
+    }
+    if extra::enabled(c) && p.selected_ability == "Mimicry" {
+        let terrain = state(c)
+            .unwrap()
+            .rules
+            .iter()
+            .rev()
+            .find(|r| r.kind.ends_with("Terrain") && applies(&r.scope, p));
+        if let Some(t) = terrain {
+            let ty = match t.kind.as_str() {
+                "Electric Terrain" => "Electric",
+                "Grassy Terrain" => "Grass",
+                "Misty Terrain" => "Fairy",
+                "Psychic Terrain" => "Psychic",
+                _ => "",
+            };
+            if !ty.is_empty() {
+                if ts.is_empty() {
+                    ts.push(ty.into());
+                } else {
+                    ts[0] = ty.into();
+                }
+            }
+        }
     }
     if p.selected_ability == "Forecast" {
         if let Some(t) = match weather(c, Some(p)) {
@@ -370,49 +429,53 @@ pub fn stats(c: &Campaign, p: &Combatant, s: &mut Sheet) {
     if !enabled(c) {
         return;
     }
-    let w = weather(c, Some(p));
-    let flower =
-        matches!(w, Some(Weather::Sunny | Weather::Desolate)) && aura(c, p, "Flower Gift", true);
-    if flower {
-        let own = match p.selected_ability.as_str() {
-            "Guts"
-                if p.runtime.statuses.iter().any(|s| {
-                    s.kind.starts_with("Burn")
-                        || s.kind.contains("Poison")
-                        || ["Sleep", "Paralysis", "Frozen Solid"].contains(&s.kind.as_str())
-                }) =>
-            {
-                2
+    if !extra::enabled(c) {
+        let w = weather(c, Some(p));
+        let flower = matches!(w, Some(Weather::Sunny | Weather::Desolate))
+            && aura(c, p, "Flower Gift", true);
+        if flower {
+            let own = match p.selected_ability.as_str() {
+                "Guts"
+                    if p.runtime.statuses.iter().any(|s| {
+                        s.kind.starts_with("Burn")
+                            || s.kind.contains("Poison")
+                            || ["Sleep", "Paralysis", "Frozen Solid"].contains(&s.kind.as_str())
+                    }) =>
+                {
+                    2
+                }
+                "Moxie" | "Sap Sipper" => *p
+                    .runtime
+                    .ability
+                    .counters
+                    .get(&p.selected_ability)
+                    .unwrap_or(&0),
+                _ => 0,
+            };
+            let v = s.stats.entry("Strength".into()).or_default();
+            *v = (*v + (2 - own).max(0)).clamp(1, 10);
+        }
+        let bonus = match p.selected_ability.as_str() {
+            "Chlorophyll" if matches!(w, Some(Weather::Sunny | Weather::Desolate)) => {
+                Some(("Dexterity", 2))
             }
-            "Moxie" | "Sap Sipper" => *p
-                .runtime
-                .ability
-                .counters
-                .get(&p.selected_ability)
-                .unwrap_or(&0),
-            _ => 0,
+            "Swift Swim" if matches!(w, Some(Weather::Rain | Weather::Typhoon)) => {
+                Some(("Dexterity", 2))
+            }
+            "Sand Rush" if w == Some(Weather::Sandstorm) => Some(("Dexterity", 1)),
+            "Slush Rush" if matches!(w, Some(Weather::Snow | Weather::Hail)) => {
+                Some(("Dexterity", 1))
+            }
+            "Solar Power" if matches!(w, Some(Weather::Sunny | Weather::Desolate)) => {
+                Some(("Special", 2))
+            }
+            "Surge Surfer" if has(c, "Electric Terrain", p) => Some(("Dexterity", 2)),
+            _ => None,
         };
-        let v = s.stats.entry("Strength".into()).or_default();
-        *v = (*v + (2 - own).max(0)).clamp(1, 10);
-    }
-    let bonus = match p.selected_ability.as_str() {
-        "Chlorophyll" if matches!(w, Some(Weather::Sunny | Weather::Desolate)) => {
-            Some(("Dexterity", 2))
+        if let Some((key, n)) = bonus {
+            let v = s.stats.entry(key.into()).or_default();
+            *v = (*v + n).clamp(1, 10);
         }
-        "Swift Swim" if matches!(w, Some(Weather::Rain | Weather::Typhoon)) => {
-            Some(("Dexterity", 2))
-        }
-        "Sand Rush" if w == Some(Weather::Sandstorm) => Some(("Dexterity", 1)),
-        "Slush Rush" if matches!(w, Some(Weather::Snow | Weather::Hail)) => Some(("Dexterity", 1)),
-        "Solar Power" if matches!(w, Some(Weather::Sunny | Weather::Desolate)) => {
-            Some(("Special", 2))
-        }
-        "Surge Surfer" if has(c, "Electric Terrain", p) => Some(("Dexterity", 2)),
-        _ => None,
-    };
-    if let Some((key, n)) = bonus {
-        let v = s.stats.entry(key.into()).or_default();
-        *v = (*v + n).clamp(1, 10);
     }
     if has(c, "mud", p)
         && p.selected_ability != "Levitate"
@@ -447,9 +510,31 @@ pub fn defense(
         return Ok(base);
     }
     let ts = types(c, p, cat).unwrap_or_default();
+    defense_for_types(c, p, physical, &ts, base)
+}
+pub fn order_defense(c: &Campaign, p: &Combatant, physical: bool, base: i32) -> Result<i32> {
+    if !enabled(c) {
+        return Ok(base);
+    }
+    let ts = state(c)
+        .unwrap()
+        .species_types
+        .get(&p.id)
+        .cloned()
+        .unwrap_or_default();
+    defense_for_types(c, p, physical, &ts, base)
+}
+fn defense_for_types(
+    c: &Campaign,
+    p: &Combatant,
+    physical: bool,
+    ts: &[String],
+    base: i32,
+) -> Result<i32> {
     let w = weather(c, Some(p));
     let mut n = base;
-    if !physical
+    if !extra::enabled(c)
+        && !physical
         && matches!(w, Some(Weather::Sunny | Weather::Desolate))
         && aura(c, p, "Flower Gift", true)
     {
@@ -473,17 +558,22 @@ pub fn defense(
     }
     n += i32::from(!physical && w == Some(Weather::Sandstorm) && ts.iter().any(|t| t == "Rock"));
     n += i32::from(physical && w == Some(Weather::Snow) && ts.iter().any(|t| t == "Ice"));
-    if physical && p.selected_ability == "Grass Pelt" && has(c, "Grassy Terrain", p) {
+    if !extra::enabled(c)
+        && physical
+        && p.selected_ability == "Grass Pelt"
+        && has(c, "Grassy Terrain", p)
+    {
         n += 2;
     }
     Ok(n)
 }
 pub fn low_accuracy(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> i32 {
-    if !enabled(c) {
+    if !enabled(c) || extra::no_guard(c, p) {
         return 0;
     }
     i32::from(
         has(c, "fog", p)
+            && !(extra::enabled(c) && aura(c, p, "Illuminate", true))
             && ["Foe", "All Foes", "Random Foe", "Area"]
                 .contains(&m["Target"].as_str().unwrap_or("")),
     ) + if has(c, "Gravity", p)
@@ -504,6 +594,7 @@ pub fn low_accuracy(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> i32 {
     }
 }
 pub fn guard_move(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> Result<()> {
+    extra::reaction(c, p, "move", Some(m))?;
     if !enabled(c) {
         return Ok(());
     }
@@ -562,7 +653,8 @@ pub fn bonus(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> i32 {
             n += 1;
         }
     }
-    if p.selected_ability == "Sand Force"
+    if !extra::enabled(c)
+        && p.selected_ability == "Sand Force"
         && weather(c, Some(p)) == Some(Weather::Sandstorm)
         && ["Ground", "Steel", "Rock"].contains(&t)
     {
@@ -627,7 +719,7 @@ fn heal(c: &mut Campaign, id: &str, n: i32, limited: bool) -> Result<()> {
     let n = n
         .min(p.max_hp - p.hp)
         .min(if limited {
-            (3 - p.runtime.healed).max(0)
+            ((if n >= 5 { 5 } else { 3 }) - p.runtime.healed).max(0)
         } else {
             n
         })
@@ -640,7 +732,10 @@ fn heal(c: &mut Campaign, id: &str, n: i32, limited: bool) -> Result<()> {
 }
 fn hurt(c: &mut Campaign, id: &str, n: i32, t: &str, cat: &Catalog) -> Result<()> {
     let p = fighter(c, id)?;
-    if p.hp == 0 || p.selected_ability == "Magic Guard" {
+    if p.hp == 0
+        || p.selected_ability == "Magic Guard"
+        || (extra::enabled(c) && p.selected_ability == "Wonder Guard")
+    {
         return Ok(());
     }
     let mut amount = n;
@@ -679,7 +774,13 @@ fn set_weather(c: &mut Campaign, w: WeatherSource) -> Result<()> {
     if w.weather == Weather::Sunny && !state(c).unwrap().sunlight {
         return Err(error("Sunny weather requires reachable sunlight"));
     }
-    if let Some(old) = weather(c, None) {
+    if let Some(old) = state(c)
+        .unwrap()
+        .weather
+        .as_ref()
+        .map(|w| w.weather)
+        .or(state(c).unwrap().natural)
+    {
         if old == Weather::StrongWinds && old != w.weather {
             return Err(error("Strong Winds cannot be overridden"));
         }
@@ -876,9 +977,11 @@ pub fn end(c: &mut Campaign, cat: &Catalog) -> Result<()> {
         let sand = ts
             .iter()
             .any(|t| ["Rock", "Ground", "Steel"].contains(&t.as_str()))
-            || ["Sand Rush", "Sand Veil", "Sand Force"].contains(&p.selected_ability.as_str());
+            || ["Sand Rush", "Sand Veil", "Sand Force"].contains(&p.selected_ability.as_str())
+            || (super::extra::enabled(c) && p.selected_ability == "Overcoat");
         let hail = ts.contains(&"Ice".into())
-            || ["Ice Body", "Snow Cloak", "Slush Rush"].contains(&p.selected_ability.as_str());
+            || ["Ice Body", "Snow Cloak", "Slush Rush"].contains(&p.selected_ability.as_str())
+            || (super::extra::enabled(c) && p.selected_ability == "Overcoat");
         if !state(c).unwrap().sheltered.contains(&p.id)
             && ((w == Some(Weather::Sandstorm) && !sand) || (w == Some(Weather::Hail) && !hail))
         {
@@ -970,7 +1073,7 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
     }
     let entries = battle(c)?.combatants.clone();
     for p in &entries {
-        let ts = types(c, p, cat).unwrap_or_default();
+        let ts = live_types(c, p, cat).unwrap_or_default();
         state_mut(c).species_types.insert(p.id.clone(), ts);
     }
     let active_ids: BTreeSet<String> = battle(c)?
@@ -982,6 +1085,7 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
     let old = state(c).unwrap().known_active.clone();
     if state(c).unwrap().weather.as_ref().is_some_and(|w| {
         w.source.starts_with("ability:")
+            && w.rounds.is_none()
             && !active_ids.contains(w.source.trim_start_matches("ability:"))
     }) {
         state_mut(c).weather = None;
@@ -998,6 +1102,7 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
         }
         let weather = match p.selected_ability.as_str() {
             "Drought" => Some(Weather::Sunny),
+            "Orichalcum Pulse" if extra::enabled(c) => Some(Weather::Sunny),
             "Drizzle" => Some(Weather::Rain),
             "Sand Stream" => Some(Weather::Sandstorm),
             "Desolate Land" => Some(Weather::Desolate),
@@ -1018,6 +1123,7 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
         let terrain = match p.selected_ability.as_str() {
             "Grassy Surge" => Some("Grassy Terrain"),
             "Electric Surge" => Some("Electric Terrain"),
+            "Hadron Engine" if extra::enabled(c) => Some("Electric Terrain"),
             "Misty Surge" => Some("Misty Terrain"),
             "Psychic Surge" => Some("Psychic Terrain"),
             _ => None,
@@ -1467,6 +1573,7 @@ pub fn move_data(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> serde_js
             m["Type"] = serde_json::json!(t);
         }
     }
+    extra::move_data(c, p, &mut m);
     m
 }
 pub fn target_bonus(c: &Campaign, target: &Combatant, m: &serde_json::Value) -> i32 {
@@ -1488,8 +1595,8 @@ pub fn aura(c: &Campaign, target: &Combatant, ability: &str, include_self: bool)
     if !enabled(c) {
         return false;
     }
-    battle(c).is_ok_and(|b| {
-        b.combatants
+    battle(c).is_ok_and(|_| {
+        extra::participants(c)
             .iter()
             .filter(|q| {
                 q.deployed && q.hp > 0 && q.side == target.side && q.selected_ability == ability
@@ -1497,8 +1604,7 @@ pub fn aura(c: &Campaign, target: &Combatant, ability: &str, include_self: bool)
             .any(|q| {
                 let cap = [1, 2, 3, 4, 5, 6, 8, 10]
                     [crate::creation::rank(&c.sheets[&q.sheet_id].rank).unwrap_or(0)];
-                let mut ids: Vec<_> = b
-                    .combatants
+                let mut ids: Vec<_> = extra::participants(c)
                     .iter()
                     .filter(|p| {
                         p.deployed
@@ -1513,9 +1619,69 @@ pub fn aura(c: &Campaign, target: &Combatant, ability: &str, include_self: bool)
                     })
                     .map(|p| p.id.as_str())
                     .collect();
-                ids.sort();
+                ids.sort_by_key(|id| (*id != q.id.as_str(), *id));
                 ids.truncate(cap);
                 ids.contains(&target.id.as_str())
             })
     })
+}
+
+pub fn change_type(c: &mut Campaign, id: &str, mode: &str, types: &[String]) -> Result<()> {
+    type_rule(c, id, mode, types)
+}
+pub fn change_type_inactive(c: &mut Campaign, id: &str) {
+    let scope = format!("combatant:{id}");
+    state_mut(c)
+        .rules
+        .retain(|r| !(r.scope == scope && r.source == "color-change"));
+}
+
+pub fn move_heal(c: &mut Campaign, id: &str, n: i32) -> Result<()> {
+    heal(c, id, n, true)
+}
+pub fn color_change(c: &mut Campaign, id: &str, t: &str) -> Result<()> {
+    fighter(c, id)?;
+    let scope = format!("combatant:{id}");
+    state_mut(c)
+        .rules
+        .retain(|r| !(r.scope == scope && r.source == "color-change"));
+    insert(
+        c,
+        &format!("typing:replace:{t}"),
+        "color-change",
+        &scope,
+        None,
+        0,
+    );
+    Ok(())
+}
+
+pub fn sand_spit(c: &mut Campaign, id: &str) -> Result<()> {
+    let raw = state(c)
+        .unwrap()
+        .weather
+        .as_ref()
+        .map(|w| w.weather)
+        .or(state(c).unwrap().natural);
+    if raw == Some(Weather::Sandstorm) {
+        return Ok(());
+    }
+    let mut candidates = vec![WeatherSource {
+        weather: Weather::Sandstorm,
+        source: format!("ability:{id}"),
+        rounds: Some(4),
+    }];
+    if let Some(old) = state(c).unwrap().weather.clone().filter(|w| {
+        w.source.starts_with("ability:") && active(c, w.source.trim_start_matches("ability:"))
+    }) {
+        candidates.insert(0, old);
+    }
+    if candidates.len() > 1 {
+        let n = candidates.iter().map(|w| will(c, &w.source)).sum();
+        enqueue(c, "", "weather-contest", n, 0, 0, "Neutral");
+        state_mut(c).events.last_mut().unwrap().contenders = candidates;
+    } else if let Err(e) = set_weather(c, candidates.remove(0)) {
+        state_mut(c).corrections.push(e.message);
+    }
+    Ok(())
 }

@@ -79,7 +79,9 @@ test("coverage and PDF fingerprints are preserved with a complete field-level qu
       );
     assert.equal(
       createHash("sha256")
-        .update(readFileSync("rules/coverage.json"))
+        .update(
+          readFileSync("rules/coverage.json", "utf8").replace(/\r\n/g, "\n"),
+        )
         .digest("hex"),
       meta.rules_coverage_hash,
     );
@@ -108,6 +110,7 @@ test("coverage and PDF fingerprints are preserved with a complete field-level qu
       readFileSync("src-tauri/src/combat_tests/targeting_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/ability_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/field_tests.rs", "utf8") +
+      readFileSync("src-tauri/src/combat_tests/extra_tests.rs", "utf8") +
       readFileSync("src-tauri/src/tests.rs", "utf8");
     const coverage = JSON.parse(readFileSync("rules/coverage.json", "utf8"));
     for (const entry of coverage.entries)
@@ -142,11 +145,11 @@ test("ability inventory exposes reviewed scopes and preserves manual boundaries"
   assert.equal(inventory.entries.length, 305);
   assert.equal(
     inventory.entries.filter((e) => e.status !== "manual").length,
-    80,
+    207,
   );
   assert.equal(
     Object.values(registry.entries).filter((e) => e.status !== "manual").length,
-    80,
+    207,
   );
   assert.equal(
     inventory.entries.find((e) => e.name === "Static").status,
@@ -159,6 +162,19 @@ test("ability inventory exposes reviewed scopes and preserves manual boundaries"
   assert.equal(
     inventory.entries.find((e) => e.name === "Mold Breaker").status,
     "manual",
+  );
+  for (const entry of inventory.entries) {
+    if (entry.status === "manual")
+      assert.ok(entry.dependencies.length, entry.name);
+    else assert.ok(entry.page && entry.scope, entry.name);
+  }
+  assert.equal(
+    inventory.entries.find((e) => e.name === "Color Change").status,
+    "automated",
+  );
+  assert.equal(
+    inventory.entries.find((e) => e.name === "Infiltrator").status,
+    "partial",
   );
   const db = new DatabaseSync("src-tauri/resources/catalog.db", {
     readOnly: true,

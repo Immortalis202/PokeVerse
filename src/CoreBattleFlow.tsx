@@ -279,7 +279,7 @@ export default function CoreBattleFlow({
               </div>
             </>
           )}
-          {["0.4.0-core", "0.5.0-core", "0.6.0-core"].includes(
+          {["0.4.0-core", "0.5.0-core", "0.6.0-core", "0.7.0-core"].includes(
             campaign.engine,
           ) &&
             b.combatants

@@ -200,6 +200,14 @@ export default function BattlefieldControls({
           Record GM resolution of pending event
         </button>
       )}
+      <p>
+        {active
+          .map(
+            (p) =>
+              `${p.name}: ${(field.species_types[p.id] ?? []).join(" / ") || "Typeless / unresolved"}`,
+          )
+          .join(" � ")}
+      </p>
       {field.rules.map((rule) => (
         <div className="list-row" key={rule.id}>
           <span>

@@ -157,7 +157,8 @@ pub fn accuracy(
         0
     };
     let pool = first
-        .checked_add(second)
+        .checked_add(crate::combat::extra::accuracy_bonus(c, p, &m))
+        .and_then(|v| v.checked_add(second))
         .and_then(|v| v.checked_add(rank_bonus))
         .and_then(|v| v.checked_add(modifier))
         .ok_or_else(|| AppError::new("limit", "Pool overflow"))?;
@@ -171,7 +172,15 @@ pub fn accuracy(
 }
 
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
-    if [ENGINE, ABILITY_ENGINE, TARGET_ENGINE, TURN_ENGINE].contains(&c.engine.as_str()) {
+    if [
+        ENGINE,
+        FIELD_ENGINE,
+        ABILITY_ENGINE,
+        TARGET_ENGINE,
+        TURN_ENGINE,
+    ]
+    .contains(&c.engine.as_str())
+    {
         return crate::combat::dice_count(c, action, catalog);
     }
     match action {
@@ -313,6 +322,11 @@ pub fn damage_pool(
     }] + crate::combat::abilities::defense(c, target, defense_source == "Vitality");
     let defense =
         crate::combat::field::defense(c, target, defense_source == "Vitality", catalog, defense)?;
+    let defense = context
+        .and_then(|ctx| ctx.field_snapshot.as_ref())
+        .and_then(|f| f.defenses.get(&target.id))
+        .map_or(defense, |d| d[usize::from(defense_source != "Vitality")])
+        .max(1);
     let move_type = m["Type"].as_str().unwrap_or_default();
     let stab = i32::from(
         source.kind == "pokemon"
@@ -327,7 +341,15 @@ pub fn damage_pool(
             .iter()
             .any(|t| t == move_type),
     );
-    let critical = if hit.critical {
+    let critical = if hit.critical
+        || (crate::combat::extra::enabled(c)
+            && attacker.selected_ability == "Merciless"
+            && target
+                .runtime
+                .statuses
+                .iter()
+                .any(|s| s.kind.contains("Poison")))
+    {
         crate::combat::abilities::critical(c, attacker, target)
     } else {
         0
@@ -335,7 +357,20 @@ pub fn damage_pool(
     let mut effectiveness = 0;
     let mut immune = false;
     for t in crate::combat::field::types(c, target, catalog)? {
-        let effect = type_effect(move_type, &t)?;
+        let effect = if crate::combat::extra::ignores_ghost(c, attacker, move_type, &t) {
+            0
+        } else {
+            type_effect(move_type, &t)?
+        };
+        let effect = if crate::combat::extra::enabled(c)
+            && attacker.selected_ability == "Corrosion"
+            && move_type == "Poison"
+            && effect == -100
+        {
+            0
+        } else {
+            effect
+        };
         immune |= effect == -100
             && !(move_type == "Ground"
                 && t == "Flying"
@@ -353,19 +388,30 @@ pub fn damage_pool(
         effectiveness = effectiveness.min(0);
     }
     let conditional = crate::combat::type_ability(c, attacker, move_type);
-    immune |= crate::combat::abilities::damage_immune(c, target, &m);
+    let corrosion = crate::combat::extra::enabled(c)
+        && attacker.selected_ability == "Corrosion"
+        && move_type == "Poison";
+    immune |= !corrosion
+        && (crate::combat::abilities::damage_immune(c, target, &m)
+            || crate::combat::extra::source_immune(c, attacker, target, effectiveness));
     let ability_bonus = if conditional && attack_hp <= attacker.max_hp / 2 {
         2
     } else {
         0
     };
-    let extra = crate::combat::abilities::damage_bonus(
+    let original_bonus = crate::combat::abilities::damage_bonus(
         c,
         attacker,
         &m,
         stab > 0,
         context.map_or(&attacker.runtime.ability.counters, |ctx| &ctx.counters),
     );
+    let additional = crate::combat::extra::bonus(c, attacker, target, &m);
+    let extra = if additional < 0 {
+        additional
+    } else {
+        original_bonus.max(additional)
+    };
     let pool = (attribute + power - defense).max(1)
         + stab
         + critical
@@ -377,6 +423,11 @@ pub fn damage_pool(
             || crate::combat::field::bonus(c, attacker, &m),
             |ctx| ctx.field_bonus,
         );
+    let pool = if crate::combat::extra::enabled(c) {
+        pool.max(1)
+    } else {
+        pool
+    };
     if !(1..=100).contains(&pool) {
         return Err(AppError::new(
             "manual_rule",

@@ -1253,7 +1253,7 @@ export default function App() {
                   </div>
                   <div className="list-row">
                     <span>Engine</span>
-                    <strong>0.3.0 · Turns, reactions and reviewed effects</strong>
+                    <strong>0.7.0 · Battlefield and reviewed abilities</strong>
                   </div>
                   <div className="list-row">
                     <span>Transport</span>
@@ -1269,10 +1269,11 @@ export default function App() {
                   </label>
                   <div className="notice">
                     Shared Rust rules calculate supported rolls, derived stats,
-                    turn order, reactions, Will and reviewed status/effect definitions.
-                    Unreviewed effects and conflicting manual entries require
-                    recorded GM adjudication. Compendium warnings distinguish
-                    verified fields from resolved references.
+                    turn order, reactions, Will and reviewed status/effect
+                    definitions. Unreviewed effects and conflicting manual
+                    entries require recorded GM adjudication. Compendium
+                    warnings distinguish verified fields from resolved
+                    references.
                   </div>
                   <details>
                     <summary>
@@ -1293,7 +1294,7 @@ export default function App() {
           <span>
             <span className="dot online" /> Your library stays with you.
           </span>
-          <span>POKEROLE 3.0 · v0.13.0</span>
+          <span>POKEROLE 3.0 · v0.14.0</span>
         </footer>
       </div>
       {editor && (

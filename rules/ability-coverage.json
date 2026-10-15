@@ -1,404 +1,2247 @@
 {
   "version": 1,
-  "engine": "0.6.0-core",
+  "engine": "0.7.0-core",
   "default_status": "manual",
   "entries": {
     "Adaptability": {
       "status": "automated",
       "scope": "Add one damage die for a matching-type damaging move, in addition to ordinary STAB.",
-      "page": 536
+      "page": 536,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Aerilate": {
+      "status": "automated",
+      "scope": "Reviewed move-type conversion affects STAB, effectiveness and immunity; the resulting matching type gains one damage die.",
+      "page": 536,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
     },
     "Aftermath": {
       "status": "automated",
       "scope": "Fainting to a non-ranged Physical hit deals two ability damage to the attacker, bypassing Sturdy.",
-      "page": 536
-    },
-    "Battle Armor": {
-      "status": "automated",
-      "scope": "Opposing critical attacks receive no critical bonus damage dice.",
-      "page": 538
-    },
-    "Cute Charm": {
-      "status": "automated",
-      "scope": "A non-ranged Physical hit queues three chance dice; a six inflicts In Love with the ability holder.",
-      "page": 541
-    },
-    "Effect Spore": {
-      "status": "automated",
-      "scope": "A non-ranged Physical hit queues three chance dice and one independent uniform status selector: Poison, Paralysis or Sleep.",
-      "page": 544
-    },
-    "Filter": {
-      "status": "automated",
-      "scope": "Reduce super-effective damage from an opposing move by one.",
-      "page": 545
-    },
-    "Flame Body": {
-      "status": "automated",
-      "scope": "A non-ranged Physical hit queues three chance dice; a six inflicts second-degree Burn.",
-      "page": 545
-    },
-    "Flash Fire": {
-      "status": "automated",
-      "scope": "Immune to Fire damage. First Fire hit enables one extra Fire damage die until scene end.",
-      "page": 545
-    },
-    "Fur Coat": {
-      "status": "automated",
-      "scope": "Reduce Physical move damage by two.",
-      "page": 546
-    },
-    "Guts": {
-      "status": "automated",
-      "scope": "While Burned, Frozen, Paralyzed, Poisoned or Asleep, add two temporary Strength.",
-      "page": 548
-    },
-    "Hustle": {
-      "status": "automated",
-      "scope": "Physical moves lose one accuracy success and gain two damage dice.",
-      "page": 550
-    },
-    "Immunity": {
-      "status": "automated",
-      "scope": "Prevents poison damage; does not prevent the Poison condition.",
-      "page": 551
-    },
-    "Inner Focus": {
-      "status": "automated",
-      "scope": "Immune to Flinch and Intimidate; narrative intimidation resistance remains manual.",
-      "page": 551
-    },
-    "Insomnia": {
-      "status": "automated",
-      "scope": "Immune to Sleep; unreviewed Rest/items remain manual.",
-      "page": 551
-    },
-    "Intimidate": {
-      "status": "partial",
-      "scope": "Entry-only rank-limited Strength reduction, non-stacking, removed when source leaves or faints. GM range defaults to all deployed foes; stable IDs break excess-target ties. An explicit GM range correction updates affected targets.",
-      "page": 552
-    },
-    "Iron Barbs": {
-      "status": "automated",
-      "scope": "A non-ranged Physical hit queues the owner choice: one neutral damage or two neutral damage dice.",
-      "page": 552
-    },
-    "Iron Fist": {
-      "status": "automated",
-      "scope": "Add one damage die when the reviewed move metadata marks FistMove.",
-      "page": 552
-    },
-    "Levitate": {
-      "status": "partial",
-      "scope": "Ground move immunity automated; terrain and entry-hazard effects remain manual.",
-      "page": 553
-    },
-    "Limber": {
-      "status": "automated",
-      "scope": "Immune to Paralysis.",
-      "page": 553
-    },
-    "Magma Armor": {
-      "status": "automated",
-      "scope": "Immune to Frozen Solid.",
-      "page": 554
-    },
-    "Marvel Scale": {
-      "status": "automated",
-      "scope": "A major status ailment grants two Defense, without modifying Vitality or Special Defense.",
-      "page": 555
-    },
-    "Moxie": {
-      "status": "automated",
-      "scope": "A move knockout of a foe adds one temporary Strength, capped at three; current multi-target damage retains its snapshot.",
-      "page": 556
-    },
-    "Multiscale": {
-      "status": "automated",
-      "scope": "Reduce move damage by one when HP is full at that hit.",
-      "page": 556
-    },
-    "Poison Point": {
-      "status": "automated",
-      "scope": "A non-ranged Physical hit queues three chance dice; a six inflicts Poison.",
-      "page": 560
-    },
-    "Rough Skin": {
-      "status": "automated",
-      "scope": "A non-ranged Physical hit queues the owner choice: one neutral damage or two neutral damage dice.",
-      "page": 564
-    },
-    "Sap Sipper": {
-      "status": "automated",
-      "scope": "Immune to Grass damage. First Grass hit grants one temporary Strength; scene-use flag survives recall.",
-      "page": 565
-    },
-    "Shell Armor": {
-      "status": "automated",
-      "scope": "Opposing critical attacks receive no critical bonus damage dice.",
-      "page": 567
-    },
-    "Shield Dust": {
-      "status": "automated",
-      "scope": "Blocks opposing move effects triggered by chance dice; direct GM statuses are not inferred chance effects.",
-      "page": 567
-    },
-    "Sniper": {
-      "status": "automated",
-      "scope": "A critical hit adds three damage dice in place of two.",
-      "page": 568
-    },
-    "Solid Rock": {
-      "status": "automated",
-      "scope": "Reduce super-effective move damage by one.",
-      "page": 568
-    },
-    "Soundproof": {
-      "status": "automated",
-      "scope": "Immune to damage and added effects of moves marked SoundMove.",
-      "page": 569
-    },
-    "Speed Boost": {
-      "status": "automated",
-      "scope": "End of each active round adds one temporary Dexterity, capped at three; recall clears temporary counters.",
-      "page": 569
-    },
-    "Static": {
-      "status": "automated",
-      "scope": "A non-ranged Physical hit queues three chance dice; a six inflicts Paralysis.",
-      "page": 570
-    },
-    "Sturdy": {
-      "status": "automated",
-      "scope": "Once per scene, ordinary damaging move or Clash damage that would faint the Pokemon leaves one HP. Indirect, self and reviewed set damage do not activate it.",
-      "page": 571
-    },
-    "Synchronize": {
-      "status": "partial",
-      "scope": "Reflect source-tracked statuses once, respecting immunities. GM status edits without an inflictor have no inferred source.",
-      "page": 573
-    },
-    "Technician": {
-      "status": "automated",
-      "scope": "Add one damage die for Physical/Special moves with Power 1 or 2; special/manual formulas remain adjudicated.",
-      "page": 573
-    },
-    "Vital Spirit": {
-      "status": "automated",
-      "scope": "Immune to Sleep; unreviewed Rest/items remain manual.",
-      "page": 577
-    },
-    "Volt Absorb": {
-      "status": "automated",
-      "scope": "Immune to Electric damage; owner may restore one HP per hit, without an action or revival.",
-      "page": 577
-    },
-    "Water Absorb": {
-      "status": "automated",
-      "scope": "Immune to Water damage; owner may restore one HP per hit, without an action or revival.",
-      "page": 577
-    },
-    "Water Veil": {
-      "status": "automated",
-      "scope": "Immune to every Burn degree.",
-      "page": 578
-    },
-    "Torrent": {
-      "status": "manual",
-      "scope": "Printed text grants 2 damage dice but icon grants 1. GM ruling required.",
-      "page": 574
-    },
-    "Blaze": {
-      "status": "automated",
-      "scope": "Ignore pain for Fire accuracy/damage; add two Fire damage dice at half HP or less."
-    },
-    "Overgrow": {
-      "status": "automated",
-      "scope": "Ignore pain for Grass accuracy/damage; add two Grass damage dice at half HP or less."
-    },
-    "Swarm": {
-      "status": "automated",
-      "scope": "Ignore pain for Bug accuracy/damage; add two Bug damage dice at half HP or less."
-    },
-    "Own Tempo": {
-      "status": "automated",
-      "scope": "Immune to Confusion."
-    },
-    "Oblivious": {
-      "status": "partial",
-      "scope": "Immune to In Love; other feeling-related and narrative effects remain GM-adjudicated."
-    },
-    "Thick Fat": {
-      "status": "automated",
-      "scope": "Reduce Fire and Ice move damage by one."
-    },
-    "Huge Power": {
-      "status": "automated",
-      "scope": "Shared creation service applies the reviewed rank-based permanent Strength modifier, without repeated battle addition."
-    },
-    "Pure Power": {
-      "status": "automated",
-      "scope": "Shared creation service applies the reviewed rank-based permanent Strength modifier, without repeated battle addition."
-    },
-    "Damp": {
-      "page": 541,
-      "status": "automated",
-      "scope": "While active, prevents the five named explosion/burn moves and Aftermath damage."
-    },
-    "Long Reach": {
-      "page": 554,
-      "status": "automated",
-      "scope": "All moves count as ranged for reviewed contact-trigger interactions; spatial movement remains manual."
-    },
-    "Magic Guard": {
-      "page": 554,
-      "status": "partial",
-      "scope": "Prevents reviewed ability damage, burn/poison ticks and Submission recoil. Confusion and direct move damage remain; weather, held items and entry hazards await their mechanics."
-    },
-    "Drought": {
-      "status": "automated",
-      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
-      "page": 543
-    },
-    "Drizzle": {
-      "status": "automated",
-      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
-      "page": 543
-    },
-    "Sand Stream": {
-      "status": "automated",
-      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
-      "page": 565
-    },
-    "Snow Warning": {
-      "status": "automated",
-      "scope": "Owner chooses Snow or Hail on entry; competing weather abilities use host-rolled Will, and source departure removes its weather.",
-      "page": 568
-    },
-    "Desolate Land": {
-      "status": "automated",
-      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
-      "page": 543
-    },
-    "Primordial Sea": {
-      "status": "automated",
-      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
-      "page": 561
-    },
-    "Delta Stream": {
-      "status": "automated",
-      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
-      "page": 542
+      "page": 536,
+      "introduced_engine": "0.5.0-core"
     },
     "Air Lock": {
       "status": "automated",
       "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
-      "page": 536
+      "page": 536,
+      "introduced_engine": "0.6.0-core"
     },
-    "Cloud Nine": {
+    "Analytic": {
       "status": "automated",
-      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "scope": "Add one damage die against a target with higher recorded initiative.",
+      "page": 536,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Anger Point": {
+      "status": "automated",
+      "scope": "A critical hit raises Strength by three in the separate ability channel.",
+      "page": 536,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Anger Shell": {
+      "status": "automated",
+      "scope": "At half HP or lower, add one Strength, Special and Dexterity and subtract one Defense and Special Defense.",
+      "page": 536,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Anticipation": {
+      "status": "manual",
+      "scope": "Requires a private GM/owner information-reveal operation with reviewed move classification.",
+      "page": 537,
+      "dependencies": [
+        "hidden-information-preview"
+      ]
+    },
+    "Arena Trap": {
+      "status": "partial",
+      "scope": "Block ordinary recall for eligible targets in confirmed abstract range, with rank target caps and reviewed Ground/Steel/Ghost exceptions. GM switching overrides remain explicit.",
+      "page": 537,
+      "dependencies": [
+        "forced-switch-move-resolution"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Armor Tail": {
+      "status": "manual",
+      "scope": "Requires additional reviewed reaction-target legality or initiative-order integration.",
+      "page": 537,
+      "dependencies": [
+        "reviewed-reaction-and-order-definitions"
+      ]
+    },
+    "Aroma Veil": {
+      "status": "partial",
+      "scope": "In-range allies and user ignore In Love and reviewed Taunt, Torment, Spite, Attract, Disable, Encore and Heal Block effects.",
+      "page": 537,
+      "dependencies": [
+        "unreviewed-move-effects"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "As One": {
+      "status": "manual",
+      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "page": 537,
+      "dependencies": [
+        "form-transformation"
+      ]
+    },
+    "Aura Break": {
+      "status": "partial",
+      "scope": "Reviewed range-limited Dark/Fairy damage aura and Aura Break inversion. Duplicate sources do not stack; attack/cooperation narrative restrictions require a GM ruling.",
+      "page": 537,
+      "dependencies": [
+        "narrative-relationship-rulings"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Bad Dreams": {
+      "status": "automated",
+      "scope": "At round end, each sleeping active participant loses one HP; indirect-damage immunities apply.",
+      "page": 537,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Ball Fetch": {
+      "status": "manual",
+      "scope": "Requires noncombat item gathering or daily recovery; no video-game battle substitute is applied.",
+      "page": 538,
+      "dependencies": [
+        "outside-battle-activities"
+      ]
+    },
+    "Battery": {
+      "status": "automated",
+      "scope": "In-range allies gain one Special and one Special-move damage die; separate attribute and damage channels do not duplicate ability contributions.",
+      "page": 538,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Battle Armor": {
+      "status": "automated",
+      "scope": "Opposing critical attacks receive no critical bonus damage dice.",
+      "page": 538,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Beads of Ruin": {
+      "status": "automated",
+      "scope": "Reduce the named defense/attribute by two in confirmed rank-limited range. Ruin holders and relevant stat protections are exempt; duplicate auras do not stack.",
+      "page": 538,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Beast Boost": {
+      "status": "automated",
+      "scope": "A move knockout grants one point to the highest current attribute, maximum three points. Tied attributes require an owner choice.",
+      "page": 538,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Berserk": {
+      "status": "automated",
+      "scope": "At half HP or lower, gain two temporary Special.",
+      "page": 538,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Big Pecks": {
+      "status": "partial",
+      "scope": "Protect the reviewed stat changes through sourced battle effects and supported moves; Clear Body also rejects external increases and Flower Veil protects in-range allies.",
+      "page": 538,
+      "dependencies": [
+        "unreviewed-stat-moves"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Blaze": {
+      "status": "automated",
+      "scope": "Ignore pain for Fire accuracy/damage; add two Fire damage dice at half HP or less.",
+      "introduced_engine": "0.5.0-core",
       "page": 539
+    },
+    "Bulletproof": {
+      "status": "automated",
+      "scope": "Reduce ranged Physical damage and named ball/blast/bomb/cannon/projectile Special damage by one.",
+      "page": 539,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Cheek Pouch": {
+      "status": "manual",
+      "scope": "Requires held-item ownership, consumption, transfer or activation hooks.",
+      "page": 539,
+      "dependencies": [
+        "held-item-system"
+      ]
+    },
+    "Chilling Neigh": {
+      "status": "automated",
+      "scope": "A foe fainting from the user's damaging move grants one Strength or Special according to the definition, to a maximum of three.",
+      "page": 539,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
     },
     "Chlorophyll": {
       "status": "automated",
       "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
-      "page": 539
+      "page": 539,
+      "introduced_engine": "0.6.0-core"
     },
-    "Swift Swim": {
+    "Clear Body": {
+      "status": "partial",
+      "scope": "Protect the reviewed stat changes through sourced battle effects and supported moves; Clear Body also rejects external increases and Flower Veil protects in-range allies.",
+      "page": 539,
+      "dependencies": [
+        "unreviewed-stat-moves"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Cloud Nine": {
       "status": "automated",
       "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
-      "page": 572
+      "page": 539,
+      "introduced_engine": "0.6.0-core"
     },
-    "Sand Rush": {
+    "Color Change": {
+      "status": "automated",
+      "scope": "A damaging hit replaces encounter typing with its type. Recall restores the underlying scene typing, without changing the permanent sheet.",
+      "page": 540,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Comatose": {
+      "status": "automated",
+      "scope": "Record permanent Sleep while allowing actions; other supported ailments are prevented and ordinary wake-up controls are rejected.",
+      "page": 540,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Commander": {
+      "status": "manual",
+      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "page": 540,
+      "dependencies": [
+        "form-transformation"
+      ]
+    },
+    "Competitive": {
+      "status": "partial",
+      "scope": "Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct.",
+      "page": 540,
+      "dependencies": [
+        "unreviewed-stat-moves",
+        "forced-switch-move-resolution"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Compound Eyes": {
+      "status": "automated",
+      "scope": "Add two accuracy dice to moves with a recorded Low Accuracy penalty.",
+      "page": 540,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Contrary": {
+      "status": "partial",
+      "scope": "Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct.",
+      "page": 540,
+      "dependencies": [
+        "unreviewed-stat-moves",
+        "forced-switch-move-resolution"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Corrosion": {
+      "status": "partial",
+      "scope": "Source-tracked Poison bypasses type/status poison immunity; global battlefield status restrictions still apply.",
+      "page": 540,
+      "dependencies": [
+        "ability-bypass-interactions"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Costar": {
+      "status": "manual",
+      "scope": "Requires copied/transferred ability identity or attribute provenance and lifetime rules.",
+      "page": 541,
+      "dependencies": [
+        "ability-copy-and-transfer"
+      ]
+    },
+    "Cotton Down": {
+      "status": "manual",
+      "scope": "Requires a reviewed area-recipient selection and sourced stat entry/hit definition.",
+      "page": 541,
+      "dependencies": [
+        "reviewed-area-stat-hooks"
+      ]
+    },
+    "Cud Chew": {
+      "status": "manual",
+      "scope": "Requires held-item ownership, consumption, transfer or activation hooks.",
+      "page": 541,
+      "dependencies": [
+        "held-item-system"
+      ]
+    },
+    "Curious Medicine": {
+      "status": "automated",
+      "scope": "On entry, remove recorded move and temporary ability attribute changes on in-range allies. Continuous field auras continue to apply.",
+      "page": 541,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Cursed Body": {
+      "status": "automated",
+      "scope": "After damage, roll three chance dice to Disable the used move; retain distinct disabled moves, maximum three.",
+      "page": 541,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Cute Charm": {
+      "status": "automated",
+      "scope": "A non-ranged Physical hit queues three chance dice; a six inflicts In Love with the ability holder.",
+      "page": 541,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Damp": {
+      "page": 541,
+      "status": "automated",
+      "scope": "While active, prevents the five named explosion/burn moves and Aftermath damage.",
+      "introduced_engine": "0.5.0-core"
+    },
+    "Dancer": {
+      "status": "manual",
+      "scope": "Requires repeated moves, restricted move selection or per-action choices/checks beyond the current action chain.",
+      "page": 542,
+      "dependencies": [
+        "additional-action-sequencing"
+      ]
+    },
+    "Dark Aura": {
+      "status": "partial",
+      "scope": "Reviewed range-limited Dark/Fairy damage aura and Aura Break inversion. Duplicate sources do not stack; attack/cooperation narrative restrictions require a GM ruling.",
+      "page": 542,
+      "dependencies": [
+        "narrative-relationship-rulings"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Dauntless Shield": {
+      "status": "partial",
+      "scope": "On entry, add two temporary Defense or Strength respectively. Outside-battle narrative effects are GM adjudicated.",
+      "page": 542,
+      "dependencies": [
+        "narrative-effects"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Dazzling": {
+      "status": "manual",
+      "scope": "Requires additional reviewed reaction-target legality or initiative-order integration.",
+      "page": 542,
+      "dependencies": [
+        "reviewed-reaction-and-order-definitions"
+      ]
+    },
+    "Defeatist": {
+      "status": "manual",
+      "scope": "Requires repeated moves, restricted move selection or per-action choices/checks beyond the current action chain.",
+      "page": 542,
+      "dependencies": [
+        "additional-action-sequencing"
+      ]
+    },
+    "Defiant": {
+      "status": "partial",
+      "scope": "Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct.",
+      "page": 542,
+      "dependencies": [
+        "unreviewed-stat-moves",
+        "forced-switch-move-resolution"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Delta Stream": {
       "status": "automated",
       "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
-      "page": 565
+      "page": 542,
+      "introduced_engine": "0.6.0-core"
     },
-    "Slush Rush": {
+    "Desolate Land": {
       "status": "automated",
       "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
-      "page": 568
+      "page": 543,
+      "introduced_engine": "0.6.0-core"
     },
-    "Solar Power": {
+    "Disguise": {
+      "status": "partial",
+      "scope": "Negate the first damaging hit in a scene. Cosmetic disguise and species/form transformations remain manual.",
+      "page": 543,
+      "dependencies": [
+        "form-transformation"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Download": {
+      "status": "automated",
+      "scope": "On entry the appointed GM chooses Strength or Special, adding one temporary point; the separate host and owner cannot make that ruling.",
+      "page": 543,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Dragon Maw": {
+      "status": "automated",
+      "scope": "Add two damage dice for the definition's Dragon or Electric type.",
+      "page": 543,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Drizzle": {
       "status": "automated",
       "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
-      "page": 568
+      "page": 543,
+      "introduced_engine": "0.6.0-core"
     },
-    "Rain Dish": {
+    "Drought": {
       "status": "automated",
       "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
-      "page": 563
+      "page": 543,
+      "introduced_engine": "0.6.0-core"
     },
     "Dry Skin": {
       "status": "automated",
       "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
-      "page": 543
+      "page": 543,
+      "introduced_engine": "0.6.0-core"
     },
-    "Ice Body": {
+    "Early Bird": {
+      "status": "manual",
+      "scope": "Requires accuracy penalty provenance, environmental timing or reviewed recovery thresholds.",
+      "page": 544,
+      "dependencies": [
+        "reviewed-accuracy-and-recovery-definitions"
+      ]
+    },
+    "Earth Eater": {
       "status": "automated",
-      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
-      "page": 550
+      "scope": "Ground damage immunity and an owner choice to heal one HP; Gravity disables these Ground immunities.",
+      "page": 544,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
     },
-    "Hydration": {
+    "Effect Spore": {
       "status": "automated",
-      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
-      "page": 550
-    },
-    "Sand Veil": {
-      "status": "partial",
-      "scope": "Weather damage immunity; the table rule still limits Evasion to once per turn and five total actions per round.",
-      "page": 565
-    },
-    "Snow Cloak": {
-      "status": "partial",
-      "scope": "Weather damage immunity; the table rule still limits Evasion to once per turn and five total actions per round.",
-      "page": 568
-    },
-    "Sand Force": {
-      "status": "automated",
-      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
-      "page": 565
-    },
-    "Forecast": {
-      "status": "automated",
-      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
-      "page": 546
-    },
-    "Flower Gift": {
-      "status": "automated",
-      "scope": "Sunny-weather Strength and Special Defense aura using abstract ally range; duplicate sources do not stack.",
-      "page": 545
-    },
-    "Grassy Surge": {
-      "status": "automated",
-      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
-      "page": 548
+      "scope": "A non-ranged Physical hit queues three chance dice and one independent uniform status selector: Poison, Paralysis or Sleep.",
+      "page": 544,
+      "introduced_engine": "0.5.0-core"
     },
     "Electric Surge": {
       "status": "automated",
       "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
-      "page": 544
+      "page": 544,
+      "introduced_engine": "0.6.0-core"
     },
-    "Misty Surge": {
+    "Electromorphosis": {
+      "status": "partial",
+      "scope": "A qualifying damaging hit charges the next Electric attack for two extra damage dice. Shared damage snapshots preserve the charge across targets.",
+      "page": 544,
+      "dependencies": [
+        "support-move-charge-consumption"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Embody Aspect": {
+      "status": "manual",
+      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "page": 544,
+      "dependencies": [
+        "form-transformation"
+      ]
+    },
+    "Emergency Exit": {
+      "status": "manual",
+      "scope": "Requires requested/forced switching with reserves and reviewed timing.",
+      "page": 544,
+      "dependencies": [
+        "forced-switch-resolution"
+      ]
+    },
+    "Fairy Aura": {
+      "status": "partial",
+      "scope": "Reviewed range-limited Dark/Fairy damage aura and Aura Break inversion. Duplicate sources do not stack; attack/cooperation narrative restrictions require a GM ruling.",
+      "page": 545,
+      "dependencies": [
+        "narrative-relationship-rulings"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Filter": {
+      "status": "automated",
+      "scope": "Reduce super-effective damage from an opposing move by one.",
+      "page": 545,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Flame Body": {
+      "status": "automated",
+      "scope": "A non-ranged Physical hit queues three chance dice; a six inflicts second-degree Burn.",
+      "page": 545,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Flare Boost": {
+      "status": "automated",
+      "scope": "While the reviewed ailment is present, add two Special, Strength or Dexterity respectively. Quick Feet also ignores paralysis effects.",
+      "page": 545,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Flash Fire": {
+      "status": "automated",
+      "scope": "Immune to Fire damage. First Fire hit enables one extra Fire damage die until scene end.",
+      "page": 545,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Flower Gift": {
+      "status": "automated",
+      "scope": "Sunny-weather Strength and Special Defense aura using abstract ally range; duplicate sources do not stack.",
+      "page": 545,
+      "introduced_engine": "0.6.0-core"
+    },
+    "Flower Veil": {
+      "status": "partial",
+      "scope": "Protect the reviewed stat changes through sourced battle effects and supported moves; Clear Body also rejects external increases and Flower Veil protects in-range allies.",
+      "page": 545,
+      "dependencies": [
+        "unreviewed-stat-moves"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Fluffy": {
+      "status": "automated",
+      "scope": "Reduce Physical damage by two and increase Fire damage by two, applying both for Physical Fire hits.",
+      "page": 546,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Forecast": {
       "status": "automated",
       "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
-      "page": 556
+      "page": 546,
+      "introduced_engine": "0.6.0-core"
     },
-    "Psychic Surge": {
-      "status": "automated",
-      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
-      "page": 562
+    "Forewarn": {
+      "status": "manual",
+      "scope": "Requires a private GM/owner information-reveal operation with reviewed move classification.",
+      "page": 546,
+      "dependencies": [
+        "hidden-information-preview"
+      ]
     },
-    "Surge Surfer": {
+    "Friend Guard": {
       "status": "automated",
-      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
-      "page": 572
+      "scope": "Prevent damage from allied moves, while leaving hostile and condition damage unchanged.",
+      "page": 546,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Frisk": {
+      "status": "manual",
+      "scope": "Requires held-item ownership, consumption, transfer or activation hooks.",
+      "page": 546,
+      "dependencies": [
+        "held-item-system"
+      ]
+    },
+    "Full Metal Body": {
+      "status": "partial",
+      "scope": "Protect the reviewed stat changes through sourced battle effects and supported moves; Clear Body also rejects external increases and Flower Veil protects in-range allies.",
+      "page": 546,
+      "dependencies": [
+        "unreviewed-stat-moves"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Fur Coat": {
+      "status": "automated",
+      "scope": "Reduce Physical move damage by two.",
+      "page": 546,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Gale Wings": {
+      "status": "manual",
+      "scope": "Requires additional reviewed reaction-target legality or initiative-order integration.",
+      "page": 547,
+      "dependencies": [
+        "reviewed-reaction-and-order-definitions"
+      ]
+    },
+    "Galvanize": {
+      "status": "automated",
+      "scope": "Reviewed move-type conversion affects STAB, effectiveness and immunity; the resulting matching type gains one damage die.",
+      "page": 547,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Gluttony": {
+      "status": "manual",
+      "scope": "Requires held-item ownership, consumption, transfer or activation hooks.",
+      "page": 547,
+      "dependencies": [
+        "held-item-system"
+      ]
+    },
+    "Good As Gold": {
+      "status": "manual",
+      "scope": "Requires reviewed Support targeting/reversal before the reaction chain is opened.",
+      "page": 547,
+      "dependencies": [
+        "support-target-interception"
+      ]
+    },
+    "Gooey": {
+      "status": "automated",
+      "scope": "The first hostile non-ranged Physical hit applies a sourced one-point Dexterity reduction to its attacker; Long Reach avoids it.",
+      "page": 547,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Gorilla Tactics": {
+      "status": "manual",
+      "scope": "Requires repeated moves, restricted move selection or per-action choices/checks beyond the current action chain.",
+      "page": 547,
+      "dependencies": [
+        "additional-action-sequencing"
+      ]
     },
     "Grass Pelt": {
       "status": "automated",
       "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
-      "page": 547
+      "page": 547,
+      "introduced_engine": "0.6.0-core"
+    },
+    "Grassy Surge": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 548,
+      "introduced_engine": "0.6.0-core"
+    },
+    "Grim Neigh": {
+      "status": "automated",
+      "scope": "A foe fainting from the user's damaging move grants one Strength or Special according to the definition, to a maximum of three.",
+      "page": 548,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Guard Dog": {
+      "status": "partial",
+      "scope": "Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct.",
+      "page": 548,
+      "dependencies": [
+        "unreviewed-stat-moves",
+        "forced-switch-move-resolution"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Gulp Missile": {
+      "status": "manual",
+      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "page": 548,
+      "dependencies": [
+        "form-transformation"
+      ]
+    },
+    "Guts": {
+      "status": "automated",
+      "scope": "While Burned, Frozen, Paralyzed, Poisoned or Asleep, add two temporary Strength.",
+      "page": 548,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Hadron Engine": {
+      "status": "partial",
+      "scope": "Add two Special under Electric Terrain or two Strength under Sunny/Desolate respectively. Weather/terrain activation follows the reviewed field definition.",
+      "page": 548,
+      "dependencies": [
+        "held-booster-item-system"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Harvest": {
+      "status": "manual",
+      "scope": "Requires held-item ownership, consumption, transfer or activation hooks.",
+      "page": 548,
+      "dependencies": [
+        "held-item-system"
+      ]
+    },
+    "Healer": {
+      "status": "automated",
+      "scope": "At round end choose an active affected ally, then roll three chance dice to cure its recorded conditions. Owner choices block round advance until resolved.",
+      "page": 549,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Heatproof": {
+      "status": "automated",
+      "scope": "Reduce Fire damage by two and ignore first- and second-degree Burn damage.",
+      "page": 549,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Heavy Metal": {
+      "status": "manual",
+      "scope": "Requires reviewed weight/gender inputs and formulas in the shared damage calculation.",
+      "page": 549,
+      "dependencies": [
+        "weight-and-gender-formulas"
+      ]
+    },
+    "Honey Gather": {
+      "status": "manual",
+      "scope": "Requires noncombat item gathering or daily recovery; no video-game battle substitute is applied.",
+      "page": 549,
+      "dependencies": [
+        "outside-battle-activities"
+      ]
+    },
+    "Hospitality": {
+      "status": "partial",
+      "scope": "On entry the owner may spend one Will to heal one wounded active ally by three HP. No revival; lethal wounds remain manual.",
+      "page": 549,
+      "dependencies": [
+        "lethal-resource-system"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Huge Power": {
+      "status": "automated",
+      "scope": "Shared creation service applies the reviewed rank-based permanent Strength modifier, without repeated battle addition.",
+      "introduced_engine": "0.5.0-core",
+      "page": 549
+    },
+    "Hunger Switch": {
+      "status": "manual",
+      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "page": 549,
+      "dependencies": [
+        "form-transformation"
+      ]
+    },
+    "Hustle": {
+      "status": "automated",
+      "scope": "Physical moves lose one accuracy success and gain two damage dice.",
+      "page": 550,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Hydration": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 550,
+      "introduced_engine": "0.6.0-core"
+    },
+    "Hyper Cutter": {
+      "status": "partial",
+      "scope": "Protect the reviewed stat changes through sourced battle effects and supported moves; Clear Body also rejects external increases and Flower Veil protects in-range allies.",
+      "page": 550,
+      "dependencies": [
+        "unreviewed-stat-moves"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Ice Body": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 550,
+      "introduced_engine": "0.6.0-core"
+    },
+    "Ice Face": {
+      "status": "manual",
+      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "page": 550,
+      "dependencies": [
+        "form-transformation"
+      ]
+    },
+    "Ice Scales": {
+      "status": "automated",
+      "scope": "Reduce Special move damage by two.",
+      "page": 550,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Illuminate": {
+      "status": "partial",
+      "scope": "In-range user/allies ignore the supported fog/visibility accuracy penalty; narrative encounter effects remain manual.",
+      "page": 550,
+      "dependencies": [
+        "narrative-encounter-effects"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Illusion": {
+      "status": "manual",
+      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "page": 551,
+      "dependencies": [
+        "form-transformation"
+      ]
+    },
+    "Immunity": {
+      "status": "automated",
+      "scope": "Prevents poison damage; does not prevent the Poison condition.",
+      "page": 551,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Imposter": {
+      "status": "manual",
+      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "page": 551,
+      "dependencies": [
+        "form-transformation"
+      ]
+    },
+    "Infiltrator": {
+      "status": "partial",
+      "scope": "Bypass supported shields, Reflect, Light Screen, Aurora Veil and Cover an Ally. Substitute decoys are not modeled.",
+      "page": 551,
+      "dependencies": [
+        "substitute-decoy-system"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Innards Out": {
+      "status": "automated",
+      "scope": "When fainting to a hit, deal pre-hit remaining HP to the attacker as indirect ability damage.",
+      "page": 551,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Inner Focus": {
+      "status": "automated",
+      "scope": "Immune to Flinch and Intimidate; narrative intimidation resistance remains manual.",
+      "page": 551,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Insomnia": {
+      "status": "automated",
+      "scope": "Immune to Sleep; unreviewed Rest/items remain manual.",
+      "page": 551,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Intimidate": {
+      "status": "partial",
+      "scope": "Entry-only rank-limited Strength reduction, non-stacking, removed when source leaves or faints. GM range defaults to all deployed foes; stable IDs break excess-target ties. An explicit GM range correction updates affected targets.",
+      "page": 552,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Intrepid Sword": {
+      "status": "partial",
+      "scope": "On entry, add two temporary Defense or Strength respectively. Outside-battle narrative effects are GM adjudicated.",
+      "page": 552,
+      "dependencies": [
+        "narrative-effects"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Iron Barbs": {
+      "status": "automated",
+      "scope": "A non-ranged Physical hit queues the owner choice: one neutral damage or two neutral damage dice.",
+      "page": 552,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Iron Fist": {
+      "status": "automated",
+      "scope": "Add one damage die when the reviewed move metadata marks FistMove.",
+      "page": 552,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Justified": {
+      "status": "manual",
+      "scope": "Existing hook families are available; this individual definition and its ordering still require implementation and fixtures.",
+      "page": 552,
+      "dependencies": [
+        "reviewed-event-definitions"
+      ]
+    },
+    "Keen Eye": {
+      "status": "manual",
+      "scope": "Requires accuracy penalty provenance, environmental timing or reviewed recovery thresholds.",
+      "page": 552,
+      "dependencies": [
+        "reviewed-accuracy-and-recovery-definitions"
+      ]
+    },
+    "Klutz": {
+      "status": "manual",
+      "scope": "Requires held-item ownership, consumption, transfer or activation hooks.",
+      "page": 552,
+      "dependencies": [
+        "held-item-system"
+      ]
+    },
+    "Leaf Guard": {
+      "status": "automated",
+      "scope": "Under Sunny/Desolate weather, prevent supported status ailments.",
+      "page": 553,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Levitate": {
+      "status": "partial",
+      "scope": "Ground move immunity automated; terrain and entry-hazard effects remain manual.",
+      "page": 553,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Libero": {
+      "status": "automated",
+      "scope": "At a qualifying move attempt, replace encounter typing with the move type. Libero includes Support; Protean requires a damaging move.",
+      "page": 553,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Light Metal": {
+      "status": "manual",
+      "scope": "Requires reviewed weight/gender inputs and formulas in the shared damage calculation.",
+      "page": 553,
+      "dependencies": [
+        "weight-and-gender-formulas"
+      ]
+    },
+    "Lightning Rod": {
+      "status": "manual",
+      "scope": "Requires interception/redirection choices and an ordered target replacement system.",
+      "page": 553,
+      "dependencies": [
+        "move-redirection"
+      ]
+    },
+    "Limber": {
+      "status": "automated",
+      "scope": "Immune to Paralysis.",
+      "page": 553,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Lingering Aroma": {
+      "status": "manual",
+      "scope": "Requires copied/transferred ability identity or attribute provenance and lifetime rules.",
+      "page": 553,
+      "dependencies": [
+        "ability-copy-and-transfer"
+      ]
+    },
+    "Liquid Ooze": {
+      "status": "manual",
+      "scope": "Existing hook families are available; this individual definition and its ordering still require implementation and fixtures.",
+      "page": 554,
+      "dependencies": [
+        "reviewed-event-definitions"
+      ]
+    },
+    "Liquid Voice": {
+      "status": "automated",
+      "scope": "Convert sound-tagged moves to Water before STAB, effectiveness and immunity calculations.",
+      "page": 554,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Long Reach": {
+      "page": 554,
+      "status": "automated",
+      "scope": "All moves count as ranged for reviewed contact-trigger interactions; spatial movement remains manual.",
+      "introduced_engine": "0.5.0-core"
+    },
+    "Magic Bounce": {
+      "status": "manual",
+      "scope": "Requires reviewed Support targeting/reversal before the reaction chain is opened.",
+      "page": 554,
+      "dependencies": [
+        "support-target-interception"
+      ]
+    },
+    "Magic Guard": {
+      "page": 554,
+      "status": "partial",
+      "scope": "Prevents reviewed ability damage, burn/poison ticks and Submission recoil. Confusion and direct move damage remain; weather, held items and entry hazards await their mechanics.",
+      "introduced_engine": "0.5.0-core"
+    },
+    "Magician": {
+      "status": "manual",
+      "scope": "Requires held-item ownership, consumption, transfer or activation hooks.",
+      "page": 554,
+      "dependencies": [
+        "held-item-system"
+      ]
+    },
+    "Magma Armor": {
+      "status": "automated",
+      "scope": "Immune to Frozen Solid.",
+      "page": 554,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Magnet Pull": {
+      "status": "partial",
+      "scope": "Block ordinary recall for eligible targets in confirmed abstract range, with rank target caps and reviewed Ground/Steel/Ghost exceptions. GM switching overrides remain explicit.",
+      "page": 555,
+      "dependencies": [
+        "forced-switch-move-resolution"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Marvel Scale": {
+      "status": "automated",
+      "scope": "A major status ailment grants two Defense, without modifying Vitality or Special Defense.",
+      "page": 555,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Mega Launcher": {
+      "status": "partial",
+      "scope": "Pulse/Aura damaging moves gain two damage dice. Heal Pulse uses five-HP Complete Healing and one Will.",
+      "page": 555,
+      "dependencies": [
+        "other-pulse-healing-definitions"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Merciless": {
+      "status": "automated",
+      "scope": "Moves against Poisoned or Badly Poisoned targets receive the reviewed critical bonus.",
+      "page": 555,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Mimicry": {
+      "status": "automated",
+      "scope": "Scoped terrain changes the primary encounter type while preserving a distinct secondary type.",
+      "page": 555,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Mind's Eye": {
+      "status": "manual",
+      "scope": "Requires accuracy penalty provenance, environmental timing or reviewed recovery thresholds.",
+      "page": null,
+      "dependencies": [
+        "reviewed-accuracy-and-recovery-definitions"
+      ]
+    },
+    "Minus": {
+      "status": "automated",
+      "scope": "Gain two Special while an active ally has the opposite ability.",
+      "page": 555,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Mirror Armor": {
+      "status": "partial",
+      "scope": "Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct.",
+      "page": 556,
+      "dependencies": [
+        "unreviewed-stat-moves",
+        "forced-switch-move-resolution"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Misty Surge": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 556,
+      "introduced_engine": "0.6.0-core"
+    },
+    "Mold Breaker": {
+      "status": "manual",
+      "scope": "Requires scoped ability suppression/bypass with restoration; strict rolls retain explicit adjudication.",
+      "page": 556,
+      "dependencies": [
+        "ability-suppression-and-bypass"
+      ]
+    },
+    "Moody": {
+      "status": "manual",
+      "scope": "Requires independent unbiased attribute increase/reduction choices and their recorded provenance.",
+      "page": 556,
+      "dependencies": [
+        "random-attribute-selection"
+      ]
+    },
+    "Motor Drive": {
+      "status": "manual",
+      "scope": "Existing hook families are available; this individual definition and its ordering still require implementation and fixtures.",
+      "page": 556,
+      "dependencies": [
+        "reviewed-event-definitions"
+      ]
+    },
+    "Moxie": {
+      "status": "automated",
+      "scope": "A move knockout of a foe adds one temporary Strength, capped at three; current multi-target damage retains its snapshot.",
+      "page": 556,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Multiscale": {
+      "status": "automated",
+      "scope": "Reduce move damage by one when HP is full at that hit.",
+      "page": 556,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Multitype": {
+      "status": "manual",
+      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "page": 557,
+      "dependencies": [
+        "form-transformation"
+      ]
+    },
+    "Mummy": {
+      "status": "manual",
+      "scope": "Requires copied/transferred ability identity or attribute provenance and lifetime rules.",
+      "page": 557,
+      "dependencies": [
+        "ability-copy-and-transfer"
+      ]
+    },
+    "Mycelium Might": {
+      "status": "manual",
+      "scope": "Requires scoped ability suppression/bypass with restoration; strict rolls retain explicit adjudication.",
+      "page": 557,
+      "dependencies": [
+        "ability-suppression-and-bypass"
+      ]
+    },
+    "Natural Cure": {
+      "status": "automated",
+      "scope": "At round end, roll three chance dice to cure all recorded conditions; this is not video-game switch healing.",
+      "page": 557,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Neuroforce": {
+      "status": "automated",
+      "scope": "Deal one extra final damage when a move is super effective; immunity still wins.",
+      "page": 557,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Neutralizing Gas": {
+      "status": "manual",
+      "scope": "Requires scoped ability suppression/bypass with restoration; strict rolls retain explicit adjudication.",
+      "page": 557,
+      "dependencies": [
+        "ability-suppression-and-bypass"
+      ]
+    },
+    "No Guard": {
+      "status": "automated",
+      "scope": "At round start the owner may declare No Guard: remove Low Accuracy, but prohibit its Shields, Evasion and Clash for that round.",
+      "page": 557,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Normalize": {
+      "status": "automated",
+      "scope": "Reviewed move-type conversion affects STAB, effectiveness and immunity; the resulting matching type gains one damage die.",
+      "page": 558,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Oblivious": {
+      "status": "partial",
+      "scope": "Immune to In Love; other feeling-related and narrative effects remain GM-adjudicated.",
+      "introduced_engine": "0.5.0-core",
+      "page": 558
+    },
+    "Opportunist": {
+      "status": "manual",
+      "scope": "Requires copied/transferred ability identity or attribute provenance and lifetime rules.",
+      "page": 558,
+      "dependencies": [
+        "ability-copy-and-transfer"
+      ]
+    },
+    "Orichalcum Pulse": {
+      "status": "partial",
+      "scope": "Add two Special under Electric Terrain or two Strength under Sunny/Desolate respectively. Weather/terrain activation follows the reviewed field definition.",
+      "page": 558,
+      "dependencies": [
+        "held-booster-item-system"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Overcoat": {
+      "status": "automated",
+      "scope": "Prevent supported powder effects and Sandstorm/Hail exposure damage; other weather mechanics retain their normal effects.",
+      "page": 558,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Overgrow": {
+      "status": "automated",
+      "scope": "Ignore pain for Grass accuracy/damage; add two Grass damage dice at half HP or less.",
+      "introduced_engine": "0.5.0-core",
+      "page": 558
+    },
+    "Own Tempo": {
+      "status": "automated",
+      "scope": "Immune to Confusion.",
+      "introduced_engine": "0.5.0-core",
+      "page": 558
+    },
+    "Parental Bond": {
+      "status": "manual",
+      "scope": "Requires repeated moves, restricted move selection or per-action choices/checks beyond the current action chain.",
+      "page": 559,
+      "dependencies": [
+        "additional-action-sequencing"
+      ]
+    },
+    "Pastel Veil": {
+      "status": "automated",
+      "scope": "In-range user/allies are protected from the definition's Poison or Sleep ailment.",
+      "page": 559,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Perish Body": {
+      "status": "manual",
+      "scope": "Existing hook families are available; this individual definition and its ordering still require implementation and fixtures.",
+      "page": 559,
+      "dependencies": [
+        "reviewed-event-definitions"
+      ]
+    },
+    "Pickpocket": {
+      "status": "manual",
+      "scope": "Requires held-item ownership, consumption, transfer or activation hooks.",
+      "page": 559,
+      "dependencies": [
+        "held-item-system"
+      ]
+    },
+    "Pickup": {
+      "status": "manual",
+      "scope": "Requires held-item ownership, consumption, transfer or activation hooks.",
+      "page": 559,
+      "dependencies": [
+        "held-item-system"
+      ]
+    },
+    "Pixilate": {
+      "status": "automated",
+      "scope": "Reviewed move-type conversion affects STAB, effectiveness and immunity; the resulting matching type gains one damage die.",
+      "page": 559,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Plus": {
+      "status": "automated",
+      "scope": "Gain two Special while an active ally has the opposite ability.",
+      "page": 559,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Poison Heal": {
+      "status": "automated",
+      "scope": "Poison causes no damage; heal one HP at each round end and cure Poison after three such rounds, without revival.",
+      "page": 560,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Poison Point": {
+      "status": "automated",
+      "scope": "A non-ranged Physical hit queues three chance dice; a six inflicts Poison.",
+      "page": 560,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Poison Puppeteer": {
+      "status": "automated",
+      "scope": "Source-tracked move infliction of Poison/Badly Poisoned also inflicts Confusion; unsourced corrections do not invent an attacker.",
+      "page": 560,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Poison Touch": {
+      "status": "automated",
+      "scope": "A hostile non-ranged Physical hit rolls the reviewed two/three chance dice for Poison/Badly Poisoned, respecting source-aware immunity and Wonder Skin.",
+      "page": 560,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Power Construct": {
+      "status": "manual",
+      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "page": 560,
+      "dependencies": [
+        "form-transformation"
+      ]
+    },
+    "Power Spot": {
+      "status": "automated",
+      "scope": "In-range allies gain the reviewed one damage die, with Steely Spirit applying to Steel and including its user; duplicate damage bonuses do not stack.",
+      "page": 560,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Power of Alchemy": {
+      "status": "manual",
+      "scope": "Requires copied/transferred ability identity or attribute provenance and lifetime rules.",
+      "page": 560,
+      "dependencies": [
+        "ability-copy-and-transfer"
+      ]
+    },
+    "Prankster": {
+      "status": "manual",
+      "scope": "Requires additional reviewed reaction-target legality or initiative-order integration.",
+      "page": 561,
+      "dependencies": [
+        "reviewed-reaction-and-order-definitions"
+      ]
+    },
+    "Pressure": {
+      "status": "manual",
+      "scope": "Existing hook families are available; this individual definition and its ordering still require implementation and fixtures.",
+      "page": 561,
+      "dependencies": [
+        "reviewed-event-definitions"
+      ]
+    },
+    "Primordial Sea": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 561,
+      "introduced_engine": "0.6.0-core"
+    },
+    "Prism Armor": {
+      "status": "automated",
+      "scope": "Reduce super-effective move damage by two.",
+      "page": 561,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Propeller Tail": {
+      "status": "manual",
+      "scope": "Requires interception/redirection choices and an ordered target replacement system.",
+      "page": 561,
+      "dependencies": [
+        "move-redirection"
+      ]
+    },
+    "Protean": {
+      "status": "automated",
+      "scope": "At a qualifying move attempt, replace encounter typing with the move type. Libero includes Support; Protean requires a damaging move.",
+      "page": 561,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Protosynthesis": {
+      "status": "partial",
+      "scope": "Under qualifying weather/terrain boost the highest attribute by one, or Dexterity by two; tied highest attributes require an owner choice.",
+      "page": 561,
+      "dependencies": [
+        "held-booster-item-system"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Psychic Surge": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 562,
+      "introduced_engine": "0.6.0-core"
+    },
+    "Punk Rock": {
+      "status": "automated",
+      "scope": "Sound-tagged moves gain one damage die; incoming sound move damage is reduced by two.",
+      "page": 562,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Pure Power": {
+      "status": "automated",
+      "scope": "Shared creation service applies the reviewed rank-based permanent Strength modifier, without repeated battle addition.",
+      "introduced_engine": "0.5.0-core",
+      "page": 562
+    },
+    "Purifying Salt": {
+      "status": "automated",
+      "scope": "Prevent supported ailments and reduce Ghost damage by three.",
+      "page": 562,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Quark Drive": {
+      "status": "partial",
+      "scope": "Under qualifying weather/terrain boost the highest attribute by one, or Dexterity by two; tied highest attributes require an owner choice.",
+      "page": 562,
+      "dependencies": [
+        "held-booster-item-system"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Queenly Majesty": {
+      "status": "manual",
+      "scope": "Requires additional reviewed reaction-target legality or initiative-order integration.",
+      "page": 562,
+      "dependencies": [
+        "reviewed-reaction-and-order-definitions"
+      ]
+    },
+    "Quick Draw": {
+      "status": "automated",
+      "scope": "At round start roll three chance dice; success puts the user first, with regular initiative resolving ties.",
+      "page": 562,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Quick Feet": {
+      "status": "automated",
+      "scope": "While the reviewed ailment is present, add two Special, Strength or Dexterity respectively. Quick Feet also ignores paralysis effects.",
+      "page": 563,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "RKS System": {
+      "status": "manual",
+      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "page": 564,
+      "dependencies": [
+        "form-transformation"
+      ]
+    },
+    "Rain Dish": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 563,
+      "introduced_engine": "0.6.0-core"
+    },
+    "Rattled": {
+      "status": "automated",
+      "scope": "Reviewed hit/Flinch triggers apply their named once-only attribute or defense changes. Fire/Water immunity and Burn protection apply where defined; boosts use a separate ability channel.",
+      "page": 563,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Receiver": {
+      "status": "manual",
+      "scope": "Requires copied/transferred ability identity or attribute provenance and lifetime rules.",
+      "page": 563,
+      "dependencies": [
+        "ability-copy-and-transfer"
+      ]
+    },
+    "Reckless": {
+      "status": "partial",
+      "scope": "Recoil-tagged moves and reviewed Submission gain two damage dice; other unreviewed recoil formulas still need GM resolution.",
+      "page": 563,
+      "dependencies": [
+        "unreviewed-recoil-moves"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Refrigerate": {
+      "status": "automated",
+      "scope": "Reviewed move-type conversion affects STAB, effectiveness and immunity; the resulting matching type gains one damage die.",
+      "page": 563,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Regenerator": {
+      "status": "manual",
+      "scope": "Requires noncombat item gathering or daily recovery; no video-game battle substitute is applied.",
+      "page": 563,
+      "dependencies": [
+        "outside-battle-activities"
+      ]
+    },
+    "Ripen": {
+      "status": "manual",
+      "scope": "Requires held-item ownership, consumption, transfer or activation hooks.",
+      "page": 564,
+      "dependencies": [
+        "held-item-system"
+      ]
+    },
+    "Rivalry": {
+      "status": "manual",
+      "scope": "Requires reviewed weight/gender inputs and formulas in the shared damage calculation.",
+      "page": 564,
+      "dependencies": [
+        "weight-and-gender-formulas"
+      ]
+    },
+    "Rock Head": {
+      "status": "partial",
+      "scope": "Ignore the supported Submission recoil; other recoil moves require reviewed definitions.",
+      "page": 564,
+      "dependencies": [
+        "unreviewed-recoil-moves"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Rocky Payload": {
+      "status": "automated",
+      "scope": "Add one damage die for the definition's Rock, Steel, Bite, Cutter, non-ranged Physical or Wind move condition; use catalog tags rather than inferred move prose.",
+      "page": 564,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Rough Skin": {
+      "status": "automated",
+      "scope": "A non-ranged Physical hit queues the owner choice: one neutral damage or two neutral damage dice.",
+      "page": 564,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Run Away": {
+      "status": "partial",
+      "scope": "Ignore supported Blocked recall restrictions. Narrative escape and capture consequences require GM adjudication.",
+      "page": 564,
+      "dependencies": [
+        "narrative-escape-effects"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Sand Force": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 565,
+      "introduced_engine": "0.6.0-core"
+    },
+    "Sand Rush": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 565,
+      "introduced_engine": "0.6.0-core"
+    },
+    "Sand Spit": {
+      "status": "automated",
+      "scope": "A non-ranged Physical hit starts four rounds of Sandstorm, without refreshing active Sandstorm. Competing ability weather uses the field contest service.",
+      "page": 565,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Sand Stream": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 565,
+      "introduced_engine": "0.6.0-core"
+    },
+    "Sand Veil": {
+      "status": "partial",
+      "scope": "Weather damage immunity; the table rule still limits Evasion to once per turn and five total actions per round.",
+      "page": 565,
+      "introduced_engine": "0.6.0-core"
+    },
+    "Sap Sipper": {
+      "status": "automated",
+      "scope": "Immune to Grass damage. First Grass hit grants one temporary Strength; scene-use flag survives recall.",
+      "page": 565,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Schooling": {
+      "status": "manual",
+      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "page": 565,
+      "dependencies": [
+        "form-transformation"
+      ]
+    },
+    "Scrappy": {
+      "status": "automated",
+      "scope": "Normal and Fight moves ignore Ghost type immunity.",
+      "page": 566,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Screen Cleaner": {
+      "status": "manual",
+      "scope": "Existing hook families are available; this individual definition and its ordering still require implementation and fixtures.",
+      "page": 566,
+      "dependencies": [
+        "reviewed-event-definitions"
+      ]
+    },
+    "Seed Sower": {
+      "status": "manual",
+      "scope": "Existing hook families are available; this individual definition and its ordering still require implementation and fixtures.",
+      "page": 566,
+      "dependencies": [
+        "reviewed-event-definitions"
+      ]
+    },
+    "Serene Grace": {
+      "status": "partial",
+      "scope": "Add two chance dice to supported move added effects; unreviewed chance effects still need GM resolution.",
+      "page": 566,
+      "dependencies": [
+        "unreviewed-chance-moves"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Shadow Shield": {
+      "status": "automated",
+      "scope": "At full HP reduce move damage by two; naturally becomes available again after healing to full.",
+      "page": 566,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Shadow Tag": {
+      "status": "partial",
+      "scope": "Block ordinary recall for eligible targets in confirmed abstract range, with rank target caps and reviewed Ground/Steel/Ghost exceptions. GM switching overrides remain explicit.",
+      "page": 566,
+      "dependencies": [
+        "forced-switch-move-resolution"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Sharpness": {
+      "status": "automated",
+      "scope": "Add one damage die for the definition's Rock, Steel, Bite, Cutter, non-ranged Physical or Wind move condition; use catalog tags rather than inferred move prose.",
+      "page": 566,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Shed Skin": {
+      "status": "automated",
+      "scope": "At round end roll three chance dice; success removes one uniformly selected recorded condition using independent rejection-sampled dice.",
+      "page": 567,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Sheer Force": {
+      "status": "manual",
+      "scope": "Requires reviewed effect suppression, resistance, switch timing or counterpart attribute provenance.",
+      "page": 567,
+      "dependencies": [
+        "reviewed-damage-provenance"
+      ]
+    },
+    "Shell Armor": {
+      "status": "automated",
+      "scope": "Opposing critical attacks receive no critical bonus damage dice.",
+      "page": 567,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Shield Dust": {
+      "status": "automated",
+      "scope": "Blocks opposing move effects triggered by chance dice; direct GM statuses are not inferred chance effects.",
+      "page": 567,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Shields Down": {
+      "status": "manual",
+      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "page": 567,
+      "dependencies": [
+        "form-transformation"
+      ]
+    },
+    "Simple": {
+      "status": "partial",
+      "scope": "Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct.",
+      "page": 567,
+      "dependencies": [
+        "unreviewed-stat-moves",
+        "forced-switch-move-resolution"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Skill Link": {
+      "status": "manual",
+      "scope": "Requires repeated moves, restricted move selection or per-action choices/checks beyond the current action chain.",
+      "page": 567,
+      "dependencies": [
+        "additional-action-sequencing"
+      ]
+    },
+    "Slow Start": {
+      "status": "automated",
+      "scope": "Act last for three rounds after entry, then gain two Strength/Dexterity and act first; regular initiative resolves equal priority groups.",
+      "page": 568,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Slush Rush": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 568,
+      "introduced_engine": "0.6.0-core"
+    },
+    "Sniper": {
+      "status": "automated",
+      "scope": "A critical hit adds three damage dice in place of two.",
+      "page": 568,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Snow Cloak": {
+      "status": "partial",
+      "scope": "Weather damage immunity; the table rule still limits Evasion to once per turn and five total actions per round.",
+      "page": 568,
+      "introduced_engine": "0.6.0-core"
+    },
+    "Snow Warning": {
+      "status": "automated",
+      "scope": "Owner chooses Snow or Hail on entry; competing weather abilities use host-rolled Will, and source departure removes its weather.",
+      "page": 568,
+      "introduced_engine": "0.6.0-core"
+    },
+    "Solar Power": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 568,
+      "introduced_engine": "0.6.0-core"
+    },
+    "Solid Rock": {
+      "status": "automated",
+      "scope": "Reduce super-effective move damage by one.",
+      "page": 568,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Soul Heart": {
+      "status": "automated",
+      "scope": "A foe fainting from the user's damaging move grants one Strength or Special according to the definition, to a maximum of three.",
+      "page": 569,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Soundproof": {
+      "status": "automated",
+      "scope": "Immune to damage and added effects of moves marked SoundMove.",
+      "page": 569,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Speed Boost": {
+      "status": "automated",
+      "scope": "End of each active round adds one temporary Dexterity, capped at three; recall clears temporary counters.",
+      "page": 569,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Stakeout": {
+      "status": "manual",
+      "scope": "Requires reviewed effect suppression, resistance, switch timing or counterpart attribute provenance.",
+      "page": 569,
+      "dependencies": [
+        "reviewed-damage-provenance"
+      ]
+    },
+    "Stall": {
+      "status": "manual",
+      "scope": "Requires additional reviewed reaction-target legality or initiative-order integration.",
+      "page": 569,
+      "dependencies": [
+        "reviewed-reaction-and-order-definitions"
+      ]
+    },
+    "Stalwart": {
+      "status": "manual",
+      "scope": "Requires interception/redirection choices and an ordered target replacement system.",
+      "page": 569,
+      "dependencies": [
+        "move-redirection"
+      ]
+    },
+    "Stamina": {
+      "status": "automated",
+      "scope": "Reviewed hit/Flinch triggers apply their named once-only attribute or defense changes. Fire/Water immunity and Burn protection apply where defined; boosts use a separate ability channel.",
+      "page": 569,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Stance Change": {
+      "status": "manual",
+      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "page": 570,
+      "dependencies": [
+        "form-transformation"
+      ]
+    },
+    "Static": {
+      "status": "automated",
+      "scope": "A non-ranged Physical hit queues three chance dice; a six inflicts Paralysis.",
+      "page": 570,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Steadfast": {
+      "status": "automated",
+      "scope": "Reviewed hit/Flinch triggers apply their named once-only attribute or defense changes. Fire/Water immunity and Burn protection apply where defined; boosts use a separate ability channel.",
+      "page": 570,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Steam Engine": {
+      "status": "automated",
+      "scope": "Reviewed hit/Flinch triggers apply their named once-only attribute or defense changes. Fire/Water immunity and Burn protection apply where defined; boosts use a separate ability channel.",
+      "page": 570,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Steelworker": {
+      "status": "automated",
+      "scope": "Add one damage die for the definition's Rock, Steel, Bite, Cutter, non-ranged Physical or Wind move condition; use catalog tags rather than inferred move prose.",
+      "page": 570,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Steely Spirit": {
+      "status": "automated",
+      "scope": "In-range allies gain the reviewed one damage die, with Steely Spirit applying to Steel and including its user; duplicate damage bonuses do not stack.",
+      "page": 570,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Stench": {
+      "status": "manual",
+      "scope": "Existing hook families are available; this individual definition and its ordering still require implementation and fixtures.",
+      "page": 570,
+      "dependencies": [
+        "reviewed-event-definitions"
+      ]
+    },
+    "Sticky Hold": {
+      "status": "manual",
+      "scope": "Requires held-item ownership, consumption, transfer or activation hooks.",
+      "page": 571,
+      "dependencies": [
+        "held-item-system"
+      ]
+    },
+    "Storm Drain": {
+      "status": "manual",
+      "scope": "Requires interception/redirection choices and an ordered target replacement system.",
+      "page": 571,
+      "dependencies": [
+        "move-redirection"
+      ]
+    },
+    "Strong Jaw": {
+      "status": "automated",
+      "scope": "Add one damage die for the definition's Rock, Steel, Bite, Cutter, non-ranged Physical or Wind move condition; use catalog tags rather than inferred move prose.",
+      "page": 571,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Sturdy": {
+      "status": "automated",
+      "scope": "Once per scene, ordinary damaging move or Clash damage that would faint the Pokemon leaves one HP. Indirect, self and reviewed set damage do not activate it.",
+      "page": 571,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Suction Cups": {
+      "status": "manual",
+      "scope": "Requires requested/forced switching with reserves and reviewed timing.",
+      "page": 571,
+      "dependencies": [
+        "forced-switch-resolution"
+      ]
+    },
+    "Super Luck": {
+      "status": "automated",
+      "scope": "Reduce the accuracy-success margin needed for critical damage by one, including High Critical moves.",
+      "page": 571,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Supersweet Syrup": {
+      "status": "manual",
+      "scope": "Requires a reviewed area-recipient selection and sourced stat entry/hit definition.",
+      "page": 571,
+      "dependencies": [
+        "reviewed-area-stat-hooks"
+      ]
+    },
+    "Supreme Overlord": {
+      "status": "automated",
+      "scope": "On entry gain one Strength and Special for each recorded fainted ally, maximum three.",
+      "page": 572,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Surge Surfer": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 572,
+      "introduced_engine": "0.6.0-core"
+    },
+    "Swarm": {
+      "status": "automated",
+      "scope": "Ignore pain for Bug accuracy/damage; add two Bug damage dice at half HP or less.",
+      "introduced_engine": "0.5.0-core",
+      "page": 572
+    },
+    "Sweet Veil": {
+      "status": "automated",
+      "scope": "In-range user/allies are protected from the definition's Poison or Sleep ailment.",
+      "page": 572,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Swift Swim": {
+      "status": "automated",
+      "scope": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
+      "page": 572,
+      "introduced_engine": "0.6.0-core"
+    },
+    "Sword of Ruin": {
+      "status": "automated",
+      "scope": "Reduce the named defense/attribute by two in confirmed rank-limited range. Ruin holders and relevant stat protections are exempt; duplicate auras do not stack.",
+      "page": 572,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Symbiosis": {
+      "status": "manual",
+      "scope": "Requires held-item ownership, consumption, transfer or activation hooks.",
+      "page": 572,
+      "dependencies": [
+        "held-item-system"
+      ]
+    },
+    "Synchronize": {
+      "status": "partial",
+      "scope": "Reflect source-tracked statuses once, respecting immunities. GM status edits without an inflictor have no inferred source.",
+      "page": 573,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Tablets of Ruin": {
+      "status": "automated",
+      "scope": "Reduce the named defense/attribute by two in confirmed rank-limited range. Ruin holders and relevant stat protections are exempt; duplicate auras do not stack.",
+      "page": 573,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Tangled Feet": {
+      "status": "manual",
+      "scope": "Requires accuracy penalty provenance, environmental timing or reviewed recovery thresholds.",
+      "page": 573,
+      "dependencies": [
+        "reviewed-accuracy-and-recovery-definitions"
+      ]
+    },
+    "Tangling Hair": {
+      "status": "automated",
+      "scope": "The first hostile non-ranged Physical hit applies a sourced one-point Dexterity reduction to its attacker; Long Reach avoids it.",
+      "page": 573,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Technician": {
+      "status": "automated",
+      "scope": "Add one damage die for Physical/Special moves with Power 1 or 2; special/manual formulas remain adjudicated.",
+      "page": 573,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Telepathy": {
+      "status": "automated",
+      "scope": "Prevent damage from allied moves, while leaving hostile and condition damage unchanged.",
+      "page": 573,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Tera Shell": {
+      "status": "manual",
+      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "page": 573,
+      "dependencies": [
+        "form-transformation"
+      ]
+    },
+    "Tera Shift": {
+      "status": "manual",
+      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "page": 574,
+      "dependencies": [
+        "form-transformation"
+      ]
+    },
+    "Teraform Zero": {
+      "status": "manual",
+      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "page": 574,
+      "dependencies": [
+        "form-transformation"
+      ]
+    },
+    "Teravolt": {
+      "status": "manual",
+      "scope": "Requires scoped ability suppression/bypass with restoration; strict rolls retain explicit adjudication.",
+      "page": 574,
+      "dependencies": [
+        "ability-suppression-and-bypass"
+      ]
+    },
+    "Thermal Exchange": {
+      "status": "automated",
+      "scope": "Reviewed hit/Flinch triggers apply their named once-only attribute or defense changes. Fire/Water immunity and Burn protection apply where defined; boosts use a separate ability channel.",
+      "page": 574,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Thick Fat": {
+      "status": "automated",
+      "scope": "Reduce Fire and Ice move damage by one.",
+      "introduced_engine": "0.5.0-core",
+      "page": 574
+    },
+    "Tinted Lens": {
+      "status": "manual",
+      "scope": "Requires reviewed effect suppression, resistance, switch timing or counterpart attribute provenance.",
+      "page": 574,
+      "dependencies": [
+        "reviewed-damage-provenance"
+      ]
+    },
+    "Torrent": {
+      "status": "manual",
+      "scope": "Printed text grants 2 damage dice but icon grants 1. GM ruling required.",
+      "page": 574,
+      "dependencies": [
+        "conflicting-manual-metadata"
+      ]
+    },
+    "Tough Claws": {
+      "status": "automated",
+      "scope": "Add one damage die for the definition's Rock, Steel, Bite, Cutter, non-ranged Physical or Wind move condition; use catalog tags rather than inferred move prose.",
+      "page": 575,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Toxic Boost": {
+      "status": "automated",
+      "scope": "While the reviewed ailment is present, add two Special, Strength or Dexterity respectively. Quick Feet also ignores paralysis effects.",
+      "page": 575,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Toxic Chain": {
+      "status": "automated",
+      "scope": "A hostile non-ranged Physical hit rolls the reviewed two/three chance dice for Poison/Badly Poisoned, respecting source-aware immunity and Wonder Skin.",
+      "page": 575,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Toxic Debris": {
+      "status": "manual",
+      "scope": "Existing hook families are available; this individual definition and its ordering still require implementation and fixtures.",
+      "page": 575,
+      "dependencies": [
+        "reviewed-event-definitions"
+      ]
+    },
+    "Trace": {
+      "status": "manual",
+      "scope": "Requires copied/transferred ability identity or attribute provenance and lifetime rules.",
+      "page": 575,
+      "dependencies": [
+        "ability-copy-and-transfer"
+      ]
+    },
+    "Transistor": {
+      "status": "automated",
+      "scope": "Add two damage dice for the definition's Dragon or Electric type.",
+      "page": 575,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Triage": {
+      "status": "partial",
+      "scope": "Reviewed self-healing/support cure moves gain Reaction 1. Multi-target/ally reaction sequencing and other healing definitions remain manual.",
+      "page": 575,
+      "dependencies": [
+        "multi-target-reaction-sequencing",
+        "unreviewed-healing-moves"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Truant": {
+      "status": "manual",
+      "scope": "Requires repeated moves, restricted move selection or per-action choices/checks beyond the current action chain.",
+      "page": 576,
+      "dependencies": [
+        "additional-action-sequencing"
+      ]
+    },
+    "Turboblaze": {
+      "status": "manual",
+      "scope": "Requires scoped ability suppression/bypass with restoration; strict rolls retain explicit adjudication.",
+      "page": 576,
+      "dependencies": [
+        "ability-suppression-and-bypass"
+      ]
+    },
+    "Unaware": {
+      "status": "manual",
+      "scope": "Requires reviewed effect suppression, resistance, switch timing or counterpart attribute provenance.",
+      "page": 576,
+      "dependencies": [
+        "reviewed-damage-provenance"
+      ]
+    },
+    "Unburden": {
+      "status": "manual",
+      "scope": "Requires held-item ownership, consumption, transfer or activation hooks.",
+      "page": 576,
+      "dependencies": [
+        "held-item-system"
+      ]
+    },
+    "Unnerve": {
+      "status": "manual",
+      "scope": "Requires held-item ownership, consumption, transfer or activation hooks.",
+      "page": 576,
+      "dependencies": [
+        "held-item-system"
+      ]
+    },
+    "Unseen Fist": {
+      "status": "manual",
+      "scope": "Requires reviewed effect suppression, resistance, switch timing or counterpart attribute provenance.",
+      "page": 576,
+      "dependencies": [
+        "reviewed-damage-provenance"
+      ]
+    },
+    "Vessel of Ruin": {
+      "status": "automated",
+      "scope": "Reduce the named defense/attribute by two in confirmed rank-limited range. Ruin holders and relevant stat protections are exempt; duplicate auras do not stack.",
+      "page": 576,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Victory Star": {
+      "status": "manual",
+      "scope": "Requires accuracy penalty provenance, environmental timing or reviewed recovery thresholds.",
+      "page": 577,
+      "dependencies": [
+        "reviewed-accuracy-and-recovery-definitions"
+      ]
+    },
+    "Vital Spirit": {
+      "status": "automated",
+      "scope": "Immune to Sleep; unreviewed Rest/items remain manual.",
+      "page": 577,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Volt Absorb": {
+      "status": "automated",
+      "scope": "Immune to Electric damage; owner may restore one HP per hit, without an action or revival.",
+      "page": 577,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Wandering Spirit": {
+      "status": "manual",
+      "scope": "Requires copied/transferred ability identity or attribute provenance and lifetime rules.",
+      "page": 577,
+      "dependencies": [
+        "ability-copy-and-transfer"
+      ]
+    },
+    "Water Absorb": {
+      "status": "automated",
+      "scope": "Immune to Water damage; owner may restore one HP per hit, without an action or revival.",
+      "page": 577,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Water Bubble": {
+      "status": "automated",
+      "scope": "Water moves gain two damage dice; reduce incoming Fire damage by one and ignore first/second Burn damage.",
+      "page": 577,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Water Compaction": {
+      "status": "automated",
+      "scope": "Reviewed hit/Flinch triggers apply their named once-only attribute or defense changes. Fire/Water immunity and Burn protection apply where defined; boosts use a separate ability channel.",
+      "page": 577,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Water Veil": {
+      "status": "automated",
+      "scope": "Immune to every Burn degree.",
+      "page": 578,
+      "introduced_engine": "0.5.0-core"
+    },
+    "Weak Armor": {
+      "status": "automated",
+      "scope": "Reviewed hit/Flinch triggers apply their named once-only attribute or defense changes. Fire/Water immunity and Burn protection apply where defined; boosts use a separate ability channel.",
+      "page": 578,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Well-Baked Body": {
+      "status": "automated",
+      "scope": "Reviewed hit/Flinch triggers apply their named once-only attribute or defense changes. Fire/Water immunity and Burn protection apply where defined; boosts use a separate ability channel.",
+      "page": 578,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "White Smoke": {
+      "status": "partial",
+      "scope": "Protect the reviewed stat changes through sourced battle effects and supported moves; Clear Body also rejects external increases and Flower Veil protects in-range allies.",
+      "page": 578,
+      "dependencies": [
+        "unreviewed-stat-moves"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Wimp Out": {
+      "status": "manual",
+      "scope": "Requires requested/forced switching with reserves and reviewed timing.",
+      "page": 578,
+      "dependencies": [
+        "forced-switch-resolution"
+      ]
+    },
+    "Wind Power": {
+      "status": "partial",
+      "scope": "A qualifying damaging hit charges the next Electric attack for two extra damage dice. Shared damage snapshots preserve the charge across targets.",
+      "page": 578,
+      "dependencies": [
+        "support-move-charge-consumption"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Wind Rider": {
+      "status": "automated",
+      "scope": "Add one damage die for the definition's Rock, Steel, Bite, Cutter, non-ranged Physical or Wind move condition; use catalog tags rather than inferred move prose.",
+      "page": 578,
+      "dependencies": [],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Wonder Guard": {
+      "status": "partial",
+      "scope": "Prevent non-super-effective move damage and supported indirect damage; condition damage still applies.",
+      "page": 579,
+      "dependencies": [
+        "ability-bypass-interactions"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Wonder Skin": {
+      "status": "partial",
+      "scope": "Reduce chance dice for supported incoming added effects by two; independent selectors remain independent.",
+      "page": 579,
+      "dependencies": [
+        "unreviewed-chance-moves"
+      ],
+      "introduced_engine": "0.7.0-core"
+    },
+    "Zen Mode": {
+      "status": "manual",
+      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "page": 579,
+      "dependencies": [
+        "form-transformation"
+      ]
+    },
+    "Zero to Hero": {
+      "status": "manual",
+      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "page": 579,
+      "dependencies": [
+        "form-transformation"
+      ]
     }
   }
 }

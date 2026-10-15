@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, BTreeSet};
 use ts_rs::TS;
 pub(crate) mod abilities;
+pub(crate) mod extra;
 pub(crate) mod field;
 mod targeting;
 use targeting::*;
@@ -44,6 +45,8 @@ pub struct Status {
 #[derive(Debug, Clone, Default, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct TurnFlow {
+    #[serde(default)]
+    pub extra: extra::ExtraState,
     #[serde(default)]
     pub battlefield: field::Battlefield,
     #[serde(default)]
@@ -205,7 +208,7 @@ fn ready(c: &Campaign, id: &str) -> Result<()> {
     if p.hp == 0 || p.actions >= 5 {
         return Err(error("Fainted or all five actions spent"));
     }
-    if status(p, "Sleep")
+    if (status(p, "Sleep") && !(extra::enabled(c) && p.selected_ability == "Comatose"))
         || status(p, "Frozen Solid")
         || status(p, "Flinch")
         || (p.runtime.recharge_actions > 0 && p.runtime.recharge_round <= b.round)
@@ -328,6 +331,10 @@ fn move_entry(catalog: &Catalog, name: &str) -> Result<serde_json::Value> {
         .ok_or_else(|| error("Unknown move"))
 }
 pub fn apply_stats(c: &Campaign, p: &Combatant, s: &mut Sheet) {
+    if extra::enabled(c) {
+        extra::apply_stats(c, p, s);
+        return;
+    }
     for (key, amount) in &p.runtime.modifiers {
         if let Some(v) = s.stats.get_mut(key) {
             *v = (*v + amount).clamp(1, 10);
@@ -462,6 +469,7 @@ fn known_status(k: &str) -> bool {
 fn reaction_pool(c: &Campaign, id: &str, kind: &str, name: &str, cat: &Catalog) -> Result<u32> {
     let p = fighter(c, id)?;
     field::reaction(c, p, kind, cat)?;
+    extra::reaction(c, p, kind, None)?;
     ready(c, id)?;
     let f = flow(c)?;
     // Table rules: Evasion shares the turn's reaction slot with reaction moves.
@@ -543,7 +551,8 @@ fn reaction_pool(c: &Campaign, id: &str, kind: &str, name: &str, cat: &Catalog) 
     if kind != "move" {
         return Err(error("Choose evade, clash or a reaction move"));
     }
-    let m = move_entry(cat, name)?;
+    let m = field::move_data(c, p, &move_entry(cat, name)?);
+    extra::reaction(c, p, kind, Some(&m))?;
     let number = |key| {
         m["Attributes"][key]
             .as_str()
@@ -683,6 +692,11 @@ pub fn dice_count(c: &Campaign, a: &Action, cat: &Catalog) -> Result<u32> {
             combatant_id, kind, ..
         } => {
             let p = fighter(c, combatant_id)?;
+            if extra::enabled(c) && p.selected_ability == "Comatose" && kind == "sleep" {
+                return Err(error(
+                    "Comatose sleep is permanent and does not prevent acting",
+                ));
+            }
             let s = rules::effective_sheet(c, p)?;
             let n = match kind.as_str() {
                 "burn" => {
@@ -827,7 +841,7 @@ pub fn preview(c: &Campaign, a: &Action, cat: &Catalog) -> Result<ActionPreview>
                 "Field scope: {scope}. Reviewed battlefield effects can resolve automatically; unsupported effects require GM adjudication."
             ));
         } else {
-            let names = redirect(c, ids)
+            let names = redirect(c, combatant_id, ids)
                 .iter()
                 .map(|id| fighter(c, id).map(|p| p.name.clone()))
                 .collect::<Result<Vec<_>>>()?;
@@ -870,7 +884,7 @@ pub fn preview(c: &Campaign, a: &Action, cat: &Catalog) -> Result<ActionPreview>
                     "{} / {}: {}",
                     p.name,
                     p.selected_ability,
-                    abilities::coverage(&p.selected_ability)
+                    abilities::coverage(c, &p.selected_ability)
                         .unwrap_or("Ability mechanics require explicit GM adjudication")
                 ));
                 continue;
@@ -945,9 +959,20 @@ pub fn transition(
     abilities::phase(c, a)?;
     field::phase(c, a)?;
     let mut next = c.clone();
-    if let Action::SwitchPokemon { outgoing_id, .. } = a {
+    if let Action::SwitchPokemon {
+        outgoing_id,
+        gm_override,
+        ..
+    } = a
+    {
         if let Ok(p) = fighter(c, outgoing_id) {
-            if field::has(c, "mud", p) && field::grounded(c, p, cat) {
+            if !*gm_override
+                && (if extra::enabled(c) {
+                    extra::blocked(c, p, cat)
+                } else {
+                    field::has(c, "mud", p) && field::grounded(c, p, cat)
+                })
+            {
                 return Err(error(
                     "Muddy terrain blocks grounded Pokemon from switching",
                 ));
@@ -959,6 +984,24 @@ pub fn transition(
         return Ok((next, description));
     }
     let description = match a {
+        Action::BattleStat {
+            source_id,
+            combatant_id,
+            stat,
+            change,
+            reason: r,
+        } => {
+            gm(c, actor)?;
+            reason(r)?;
+            if !extra::enabled(c) {
+                return Err(error("Upgrade ability rules between battles"));
+            }
+            if !flow(c)?.queue.is_empty() {
+                return Err(error("Resolve the pending attack before a stat ruling"));
+            }
+            extra::change_stat(&mut next, source_id, combatant_id, stat, *change)?;
+            format!("Sourced stat change {source_id} -> {combatant_id}, {stat} {change:+}: {r}")
+        }
         Action::Battlefield { command, reason } => {
             field::command(&mut next, actor, command, &dice, reason, cat)?
         }
@@ -1027,13 +1070,7 @@ pub fn transition(
                         move_name: move_name.clone(),
                         sequence: c.revision + 1,
                         successes: net,
-                        critical: net
-                            >= required as i32
-                                + if m["Attributes"]["HighCritical"] == true {
-                                    2
-                                } else {
-                                    3
-                                },
+                        critical: net >= required as i32 + extra::critical_margin(c, p, &m),
                         timing: "main".into(),
                         priority: 0,
                         cancelled: false,
@@ -1184,7 +1221,9 @@ pub fn transition(
             }
             order.sort_by_key(|p| (-p.initiative, -base(p).unwrap()));
             if order.windows(2).any(|v| {
-                v[0].initiative == v[1].initiative && base(v[0]).unwrap() == base(v[1]).unwrap()
+                extra::order_group(c, v[0]) == extra::order_group(c, v[1])
+                    && v[0].initiative == v[1].initiative
+                    && base(v[0]).unwrap() == base(v[1]).unwrap()
             }) {
                 return Err(error(
                     "Unresolved initiative tie; GM rerolls the tied combatants",
@@ -1197,12 +1236,14 @@ pub fn transition(
             {
                 order.reverse();
             }
+            extra::order(c, &mut order);
             let f = flow_mut(&mut next);
             f.order = order.iter().map(|p| p.id.clone()).collect();
             f.started = true;
             f.turn += 1;
             f.cursor = 0;
             field::start(&mut next, cat)?;
+            extra::round_start(&mut next)?;
             "Initiative order confirmed; turns started".into()
         }
         Action::PassTurn {
@@ -1224,7 +1265,10 @@ pub fn transition(
                 p.actions += 1;
                 p.runtime.recharge_actions -= 1;
             } else {
-                if status(p, "Sleep") && battle(c)?.automatic_validation {
+                if status(p, "Sleep")
+                    && battle(c)?.automatic_validation
+                    && !(extra::enabled(c) && p.selected_ability == "Comatose")
+                {
                     return Err(error(
                         "Check Sleep at the start of this turn; waking consumes an action",
                     ));
@@ -1270,7 +1314,7 @@ pub fn transition(
                 return Err(error("GM must record the randomly selected foe"));
             }
             break_cover(&mut next, combatant_id);
-            let targets = redirect(&next, targets);
+            let targets = redirect(&next, combatant_id, targets);
             let target = targets
                 .first()
                 .cloned()
@@ -1303,19 +1347,14 @@ pub fn transition(
                     + i32::from(p.runtime.fate_pending);
             fighter_mut(&mut next, combatant_id)?.runtime.pain_ignored = saved_pain;
             let required = p.actions + 1;
+            extra::accuracy_attempt(&mut next, combatant_id, &m, cat)?;
             fighter_mut(&mut next, combatant_id)?.actions += 1;
             fighter_mut(&mut next, combatant_id)?
                 .used_moves
                 .push(move_name.clone());
             if net >= required as i32 {
                 let critical = m["Category"] != "Support"
-                    && net
-                        >= required as i32
-                            + if m["Attributes"]["HighCritical"] == true {
-                                2
-                            } else {
-                                3
-                            };
+                    && net >= required as i32 + extra::critical_margin(c, p, &m);
                 flow_mut(&mut next).queue.push(QueuedAction {
                     actor_id: combatant_id.clone(),
                     target_id: target.clone(),
@@ -1362,6 +1401,7 @@ pub fn transition(
                 }
                 prepare_targets(&mut next);
             } else {
+                extra::consume_charge(&mut next, combatant_id, &m);
                 if confusion(c, p) > 0 {
                     fighter_mut(&mut next, combatant_id)?.hp = (p.hp - 1).max(0);
                 }
@@ -1382,11 +1422,13 @@ pub fn transition(
             let incoming = flow(c)?.queue.last().unwrap().clone();
             let p = fighter(c, combatant_id)?;
             let low = if kind == "move" {
-                move_entry(cat, move_name)?["Attributes"]["AccuracyReduction"]
+                let resolved_move = field::move_data(c, p, &move_entry(cat, move_name)?);
+                resolved_move["Attributes"]["AccuracyReduction"]
                     .as_i64()
                     .unwrap_or(0)
                     .min(0) as i32
-                    - abilities::low_accuracy(c, p, &move_entry(cat, move_name)?)
+                    - abilities::low_accuracy(c, p, &resolved_move)
+                    - field::low_accuracy(c, p, &resolved_move)
             } else {
                 0
             };
@@ -1469,7 +1511,7 @@ pub fn transition(
                 }
                 close(&mut next);
             } else {
-                let m = move_entry(cat, move_name)?;
+                let m = field::move_data(c, p, &move_entry(cat, move_name)?);
                 let (timing, priority) = if let Some(n) = m["Attributes"]["Reaction"]
                     .as_str()
                     .and_then(|n| n.parse::<i32>().ok())
@@ -1488,6 +1530,7 @@ pub fn transition(
                 fighter_mut(&mut next, combatant_id)?
                     .used_moves
                     .push(move_name.clone());
+                extra::accuracy_attempt(&mut next, combatant_id, &m, cat)?;
                 if net >= required as i32 {
                     flow_mut(&mut next).queue.push(QueuedAction {
                         actor_id: combatant_id.clone(),
@@ -1500,13 +1543,7 @@ pub fn transition(
                         sequence: c.revision + 1,
                         successes: net,
                         critical: m["Category"] != "Support"
-                            && net
-                                >= required as i32
-                                    + if m["Attributes"]["HighCritical"] == true {
-                                        2
-                                    } else {
-                                        3
-                                    },
+                            && net >= required as i32 + extra::critical_margin(c, p, &m),
                         timing: timing.into(),
                         priority,
                         cancelled: false,
@@ -1572,6 +1609,11 @@ pub fn transition(
             {
                 let p = fighter(c, combatant_id)?;
                 let context = abilities::DamageContext {
+                    ability_sources: if extra::enabled(c) {
+                        battle(c)?.combatants.clone()
+                    } else {
+                        vec![]
+                    },
                     field_snapshot: if field::enabled(c) {
                         Some(field::snapshot(c, cat)?)
                     } else {
@@ -1691,6 +1733,7 @@ pub fn transition(
                     finish(&mut next);
                     field::lifecycle(c, &mut next, cat)?;
                     abilities::lifecycle(c, &mut next)?;
+                    extra::lifecycle(c, &mut next, cat)?;
                     sync_labels(&mut next);
                     refresh_initiative(c, &mut next)?;
                     checkpoint(c, &mut next, "Sonic Boom set damage");
@@ -1733,7 +1776,14 @@ pub fn transition(
             done.battle_undo = c.battle_undo.clone();
             let before = fighter(c, &q.target_id)?.hp;
             let after = fighter(&done, &q.target_id)?.hp;
-            let shield = fighter(c, &q.target_id)?.runtime.shield;
+            let shield = if extra::enabled(c)
+                && fighter(c, &q.actor_id)?.selected_ability == "Infiltrator"
+                && fighter(c, &q.actor_id)?.side != fighter(c, &q.target_id)?.side
+            {
+                0
+            } else {
+                fighter(c, &q.target_id)?.runtime.shield
+            };
             let target = fighter(c, &q.target_id)?;
             let mut thick_fat = i32::from(
                 target.selected_ability == "Thick Fat"
@@ -1743,7 +1793,8 @@ pub fn transition(
                             .unwrap_or(""),
                     ),
             );
-            let move_data = move_entry(cat, &q.move_name)?;
+            let move_data =
+                field::move_data(c, fighter(c, &q.actor_id)?, &move_entry(cat, &q.move_name)?);
             if abilities::enabled(c) {
                 let mut pool_campaign = old(c);
                 install_pending(&mut pool_campaign, &q);
@@ -1789,6 +1840,14 @@ pub fn transition(
                 before - after
             };
             let mut damage = (raw_amount - shield - thick_fat - field_reduction).max(0);
+            if field::enabled(c) {
+                let Action::Damage { pool_modifier, .. } = a else {
+                    unreachable!()
+                };
+                if rules::damage_pool(&temp, &q.actor_id, q.sequence, *pool_modifier, cat)?.immune {
+                    damage = 0;
+                }
+            }
             if holding_back(c, &q) {
                 damage /= 2;
             }
@@ -1802,6 +1861,11 @@ pub fn transition(
             qa.damage = damage;
             qa.raw_damage_successes = raw_damage_successes;
             abilities::hit(&mut done, &q, before, &move_data)?;
+            extra::consume_charge(
+                &mut done,
+                &q.actor_id,
+                &field::move_data(c, fighter(c, &q.actor_id)?, &move_data),
+            );
             next = done;
             if no_effect(&q.move_name, cat)?
                 || ((shield > 0 || holding_back(c, &q))
@@ -2016,11 +2080,14 @@ pub fn transition(
             if !already_ended {
                 end_round(&mut temp, cat)?;
                 abilities::end_round(&mut temp)?;
+                extra::end_round(&mut temp)?;
                 field::end(&mut temp, cat)?;
             }
-            if field::pending(&temp) {
+            if field::pending(&temp) || abilities::pending(&temp) {
                 temp.engine = c.engine.clone();
                 field::lifecycle(c, &mut temp, cat)?;
+                abilities::lifecycle(c, &mut temp)?;
+                extra::lifecycle(c, &mut temp, cat)?;
                 sync_labels(&mut temp);
                 checkpoint(c, &mut temp, "Round-end battlefield checks pending");
                 return Ok((
@@ -2099,9 +2166,14 @@ pub fn transition(
             ) {
                 let b = done.battle.as_mut().unwrap();
                 b.flow = Some(TurnFlow {
-                    ability_rules: [ENGINE, ABILITY_ENGINE].contains(&c.engine.as_str()),
-                    battlefield: field::Battlefield {
+                    ability_rules: [ENGINE, FIELD_ENGINE, ABILITY_ENGINE]
+                        .contains(&c.engine.as_str()),
+                    extra: extra::ExtraState {
                         enabled: c.engine == ENGINE,
+                        ..Default::default()
+                    },
+                    battlefield: field::Battlefield {
+                        enabled: [ENGINE, FIELD_ENGINE].contains(&c.engine.as_str()),
                         sunlight: true,
                         ..Default::default()
                     },
@@ -2231,6 +2303,9 @@ pub fn transition(
                 field::lifecycle(c, &mut done, cat)?;
             }
             abilities::lifecycle(c, &mut done)?;
+            if !matches!(a, Action::RollbackBattle { .. }) {
+                extra::lifecycle(c, &mut done, cat)?;
+            }
             cleanup_covers(c, &mut done, a);
             sync_labels(&mut done);
             return Ok((done, log));
@@ -2238,6 +2313,7 @@ pub fn transition(
     };
     field::lifecycle(c, &mut next, cat)?;
     abilities::lifecycle(c, &mut next)?;
+    extra::lifecycle(c, &mut next, cat)?;
     cleanup_covers(c, &mut next, a);
     refresh_initiative(c, &mut next)?;
     sync_labels(&mut next);
@@ -2277,6 +2353,17 @@ fn set_status(
     detail: &str,
     rounds: Option<u32>,
     cat: &Catalog,
+) -> Result<()> {
+    set_status_from(c, id, kind, detail, rounds, cat, None)
+}
+fn set_status_from(
+    c: &mut Campaign,
+    id: &str,
+    kind: &str,
+    detail: &str,
+    rounds: Option<u32>,
+    cat: &Catalog,
+    source: Option<&str>,
 ) -> Result<()> {
     if ![
         "Burn",
@@ -2321,9 +2408,14 @@ fn set_status(
                     || (kind == "Frozen Solid" && t == "Ice")
             })
     });
-    if (kind == "Confusion" && p.selected_ability == "Own Tempo")
-        || (kind == "In Love" && p.selected_ability == "Oblivious")
-        || abilities::status_immune(c, p, kind)
+    let corrosion = extra::enabled(c)
+        && kind.contains("Poison")
+        && source.is_some_and(|id| fighter(c, id).is_ok_and(|p| p.selected_ability == "Corrosion"));
+    if !corrosion
+        && ((kind == "Confusion" && p.selected_ability == "Own Tempo")
+            || (kind == "In Love" && p.selected_ability == "Oblivious")
+            || abilities::status_immune(c, p, kind)
+            || extra::status_immune(c, p, kind, source))
     {
         return Err(error("Selected ability is immune to this condition"));
     }
@@ -2347,7 +2439,7 @@ fn set_status(
     {
         return Err(error("Battlefield prevents this condition"));
     }
-    if immune {
+    if immune && !corrosion {
         return Err(error("Species type is immune to this condition"));
     }
     let round = battle(c)?.round;
@@ -2381,17 +2473,22 @@ fn set_status(
     } else if kind != "Disable" && p.runtime.statuses.iter().any(|s| s.kind == kind) {
         return Ok(());
     }
-    p.runtime.statuses.retain(|s| s.kind != kind);
+    p.runtime
+        .statuses
+        .retain(|s| s.kind != kind || (kind == "Disable" && s.detail != detail));
+    let applied = kind.clone();
     p.runtime.statuses.push(Status {
         kind,
         detail: detail.into(),
         rounds,
         progress: 0,
     });
+    extra::after_status(c, id, &applied)?;
     Ok(())
 }
 fn end_round(c: &mut Campaign, _cat: &Catalog) -> Result<()> {
     let abilities_on = abilities::enabled(c);
+    let extended = extra::enabled(c);
     let b = c.battle.as_mut().unwrap();
     for p in &mut b.combatants {
         if p.hp == 0 {
@@ -2402,13 +2499,16 @@ fn end_round(c: &mut Campaign, _cat: &Catalog) -> Result<()> {
         }
         if p.runtime.statuses.iter().any(|s| {
             ["Burn 3", "Badly Poisoned"].contains(&s.kind.as_str())
-                && !abilities::status_damage_immune(abilities_on, p, &s.kind)
+                && !(abilities::status_damage_immune(abilities_on, p, &s.kind)
+                    || (extended && extra::status_damage_immune(p, &s.kind)))
                 && p.runtime.adjudicated_round != b.round
         }) {
             return Err(AppError::new("manual_rule","Severe status escalation conflicts between pp.84-86; record the GM severe-status outcome before advancing"));
         }
         for s in &p.runtime.statuses {
-            let damage = if abilities::status_damage_immune(abilities_on, p, &s.kind) {
+            let damage = if abilities::status_damage_immune(abilities_on, p, &s.kind)
+                || (extended && extra::status_damage_immune(p, &s.kind))
+            {
                 0
             } else {
                 match s.kind.as_str() {
@@ -2474,20 +2574,32 @@ fn effect_dice(c: &Campaign, q: &QueuedAction, _cat: &Catalog) -> Result<u32> {
         return Ok(0);
     }
     Ok(if q.move_name == "Submission" {
-        if abilities::enabled(c) && fighter(c, &q.actor_id)?.selected_ability == "Magic Guard" {
+        if abilities::enabled(c)
+            && (fighter(c, &q.actor_id)?.selected_ability == "Magic Guard"
+                || (extra::enabled(c) && fighter(c, &q.actor_id)?.selected_ability == "Rock Head"))
+        {
             0
         } else {
             q.raw_damage_successes
         }
     } else {
         chance_effect(&q.move_name).map_or(0, |(kind, n)| {
-            n + u32::from(
+            let mut n = n + u32::from(
                 kind == "Frozen Solid"
                     && matches!(
                         field::weather(c, None),
                         Some(field::Weather::Snow | field::Weather::Hail)
                     ),
-            )
+            );
+            if extra::enabled(c) {
+                if fighter(c, &q.actor_id).is_ok_and(|p| p.selected_ability == "Serene Grace") {
+                    n += 2;
+                }
+                if fighter(c, &q.target_id).is_ok_and(|p| p.selected_ability == "Wonder Skin") {
+                    n = n.saturating_sub(2);
+                }
+            }
+            n
         })
     })
 }
@@ -2507,6 +2619,16 @@ fn effects(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) -> Re
             "manual_rule",
             "This effect requires the battlefield rules upgrade",
         ));
+    }
+    if extra::effects_immune(
+        c,
+        fighter(c, &q.target_id)?,
+        &move_entry(cat, &q.move_name)?,
+    ) {
+        return Ok(());
+    }
+    if extra::move_effect(c, q)? {
+        return Ok(());
     }
     if field::move_effect(c, q, cat)? {
         return Ok(());
@@ -2546,7 +2668,9 @@ fn effects(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) -> Re
         }
         "Submission" => {
             let damage = if abilities::enabled(c)
-                && fighter(c, &q.actor_id)?.selected_ability == "Magic Guard"
+                && (fighter(c, &q.actor_id)?.selected_ability == "Magic Guard"
+                    || (extra::enabled(c)
+                        && fighter(c, &q.actor_id)?.selected_ability == "Rock Head"))
             {
                 0
             } else {

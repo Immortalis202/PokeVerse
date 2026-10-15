@@ -1,18 +1,10 @@
 # PokeVerse — remaining work
 
-
-
-Snapshot: 15 October 2026, application 0.13.0, protocol 14, user database schema 4.
-
-
+Snapshot: 15 October 2026, application 0.14.0, protocol 15, user database schema 4.
 
 The Training Point milestone below is implemented. Remaining battle, catalog and native acceptance work stays open.
 
-
-
 ## Existing foundation
-
-
 
 - Offline trainer/Pokémon creation and named progression operations, with shared Rust validation, derived resources, budgets and reviewed costs.
 
@@ -24,23 +16,13 @@ The Training Point milestone below is implemented. Remaining battle, catalog and
 
 - Offline Compendium for all 1,200 species/forms, linked references and violet minimum/maximum species cards.
 
-
-
 These foundations do not imply complete rule coverage. Legal offline progression already works; GM approval is needed for exceptions and narrative permissions, rather than every ordinary edit or purchase.
-
-
 
 ## 1. Completed: trainer Training Point pool and player distribution
 
-
-
 ### Required behavior
 
-
-
 The GM awards a general Training Point balance to a campaign trainer. The player decides how to distribute accepted points among that trainer's Pokémon. Awards must no longer require the GM to choose individual Pokémon, including awards from training encounters.
-
-
 
 - [x] Add a clear trainer pool display and a player distribution workflow with amount, recipient and final review.
 
@@ -60,11 +42,7 @@ The GM awards a general Training Point balance to a campaign trainer. The player
 
 - [x] Update typed commands/bindings, encounter outcomes, synchronization, history, version/compatibility checks and migration backups where required by the final design.
 
-
-
 ### Adopted decisions
-
-
 
 - Distribution is one-for-one. Disobedience never silently reduces an accepted pool transfer; specific earning formulas remain manual.
 
@@ -72,15 +50,9 @@ The GM awards a general Training Point balance to a campaign trainer. The player
 
 - Matching 0.9.0 clients use trainer awards immediately. Historical Pokémon awards and balances remain unchanged; legacy trainer XP stays separate. No database migration is needed.
 
-
-
 Validation details: [Training Points](training-points.md). Full interactive Windows acceptance remains pending in section 4.
 
-
-
 ### Acceptance
-
-
 
 - [x] GM awards 100 points to a trainer; the player distributes 40 and 30 to two Pokémon, leaving 30 in the trainer pool.
 
@@ -92,15 +64,9 @@ Validation details: [Training Points](training-points.md). Full interactive Wind
 
 - [x] Historical awards and current Pokémon balances survive upgrade, backup restoration and repeated imports.
 
-
-
 ## 2. Battle rule coverage
 
-
-
-A reviewed coverage matrix and field-level audit queue are implemented in 0.10.0. Explicit single-target turns/reactions, held-turn recovery, Evasion/Clash, Will, major statuses and ice breaking have fixtures. Selected healing/shield/chance/recoil/recharge/set-damage effects and conditional abilities are implemented. 0.11.0 adds multi-target ordinary attacks, rank-limited area selection, shared damage dice, field-effect records, area Clash and Cover an Ally. Multi-target reaction moves, repeated-action exceptions, remaining abilities and automatic weather/terrain mechanics remain open. See [advanced targeting](battle-targeting.md). See [RULES.md](RULES.md) and [coverage.json](../rules/coverage.json).
-
-
+A reviewed coverage matrix and field-level audit queue are implemented in 0.10.0. Explicit single-target turns/reactions, held-turn recovery, Evasion/Clash, Will, major statuses and ice breaking have fixtures. Selected healing/shield/chance/recoil/recharge/set-damage effects and conditional abilities are implemented. 0.11.0 adds multi-target ordinary attacks, rank-limited area selection, shared damage dice, field-effect records, area Clash and Cover an Ally. 0.13.0 adds typed weather, terrain, force fields, rooms, temporary typing and arena conditions. 0.14.0 adds conditional/reactive ability families, bringing automated or partial ability scopes to 207 of 305. Multi-target reaction moves, repeated-action exceptions and the individually listed remaining ability definitions remain open. See [advanced targeting](battle-targeting.md). See [RULES.md](RULES.md) and [coverage.json](../rules/coverage.json).
 
 - [x] Verify Champion battle roll/rank inheritance and implement the supported bonuses. Champion creation/progression is already supported; reviewed Champion sheets inherit Master battle bonuses.
 
@@ -110,27 +76,25 @@ A reviewed coverage matrix and field-level audit queue are implemented in 0.10.0
 
 - [x] Add the first reviewed ability milestone: 51 supported definitions, entry/round/hit hooks, owner decisions, chance dice, status provenance, receipts and rollback.
 
-- [ ] Complete the remaining ability definitions and interactions requiring weather/terrain, held items, form changes, suppression or complex redirection. See [battle abilities](battle-abilities.md).
+- [x] Add weather/terrain-dependent and extended conditional/reactive ability families.
+
+- [ ] Complete the remaining 98 ability definitions, including held items, form changes, suppression, redirection and individually listed unimplemented event/reaction definitions. See [battle abilities](battle-abilities.md).
 
 - [ ] Cover special move formulas/effects: fixed or varied damage, chance dice, recoil, recovery, shields, recharge, rampage, successive actions and other recorded special attributes.
 
 - [x] Enforce Never Miss's evasion prohibition; supported accuracy still needs its success check.
 
-- [ ] Review temporary typing, battlefield effects and lethal-wound mechanics before automating them.
+- [x] Review and implement supported temporary typing, battlefield effects and arena conditions.
+
+- [ ] Implement separate lethal-wound mechanics.
 
 - [ ] Implement trainer-target damage separately; ordinary automatic Pokémon damage must not imply support for human targets.
 
 - [x] Retain manual adjudication, logged overrides, idempotency and rollback as coverage expands.
 
-
-
 Acceptance: each automated mechanic has reviewed fixtures and end-to-end tests; unsupported mechanics remain clearly identified. Existing ordinary damage automation must continue to work.
 
-
-
 ## 3. Catalog fidelity and missing assets
-
-
 
 - [ ] Complete manual review of unresolved species baselines/limits, forms, move ranks, evolution stages and prerequisites. Preserve the application-owned correction layer and original source files.
 
@@ -142,19 +106,11 @@ Acceptance: each automated mechanic has reviewed fixtures and end-to-end tests; 
 
 - [x] Keep the manually accepted habitat CSV authoritative; preserve exclusions, pending decisions and conditional notes during rebuilds.
 
-
-
 Counts are this release's snapshot and should be rechecked after catalog updates. Unresolved metadata must not be silently accepted into strict character/battle workflows.
-
-
 
 ## 4. Windows and multiplayer acceptance verification
 
-
-
 Automated Rust/frontend/catalog regressions, browser layouts and isolated Windows startup have passed. Full interactive native acceptance and actual installer installation/uninstallation remain unverified.
-
-
 
 - [ ] Install/upgrade/uninstall in isolated Windows installations and verify offline catalog/sprite availability and personal data preservation.
 
@@ -168,15 +124,9 @@ Automated Rust/frontend/catalog regressions, browser layouts and isolated Window
 
 - [ ] Verify direct LAN hosting/joining and clear connection errors on separate machines. Record any virtual-LAN setup separately from application networking.
 
-
-
 ## 5. Deliberately deferred features
 
-
-
 These are future scope, not missing parts of the current assumed-victory encounter flow.
-
-
 
 - Automated training-session rolls, earning formulas, attempt limits and Will recovery.
 
@@ -188,20 +138,13 @@ These are future scope, not missing parts of the current assumed-victory encount
 
 - Habitat editing and character-creation shortcuts inside the Compendium.
 
-
-
 ## Documentation follow-up
-
-
 
 - [x] Reconcile older wording in [RULES.md](RULES.md) and the README with the completed creation/progression service, particularly HP recalculation and evolution/move-learning statements. Do not present old manual-only descriptions as current behavior.
 
 - [ ] Update the coverage matrix and validation reports whenever a backlog item becomes implemented and verified.
 
-
-
 References: [rule coverage](RULES.md), [training encounters](training-encounters.md), [battle teams](battle-teams.md), [catalog storage](catalog-storage.md). Release validation evidence is in `outputs/compendium/` at the workspace root.
-
 
 ## Battlefield milestone (0.13.0)
 

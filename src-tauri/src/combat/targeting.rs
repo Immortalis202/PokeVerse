@@ -21,7 +21,7 @@ pub struct FieldEffect {
 }
 
 pub(super) fn require_targeting(c: &Campaign) -> Result<()> {
-    if ![ENGINE, ABILITY_ENGINE, TARGET_ENGINE].contains(&c.engine.as_str()) {
+    if ![ENGINE, FIELD_ENGINE, ABILITY_ENGINE, TARGET_ENGINE].contains(&c.engine.as_str()) {
         return Err(AppError::new(
             "version",
             "Upgrade the engine between battles to use advanced targeting",
@@ -205,7 +205,10 @@ pub(super) fn cleanup_covers(before: &Campaign, next: &mut Campaign, a: &Action)
     }
 }
 
-pub(super) fn redirect(c: &Campaign, ids: Vec<String>) -> Vec<String> {
+pub(super) fn redirect(c: &Campaign, source: &str, ids: Vec<String>) -> Vec<String> {
+    if extra::enabled(c) && fighter(c, source).is_ok_and(|p| p.selected_ability == "Infiltrator") {
+        return ids;
+    }
     let mut result = vec![];
     for id in ids {
         let key = flow(c)
@@ -269,6 +272,9 @@ pub(super) fn prepare_targets(c: &mut Campaign) {
                             .unwrap_or(0)
                 })
                 .unwrap_or(0);
+            let score = fighter(c, &t.target_id)
+                .and_then(|p| field::order_defense(c, p, q.defense_key == "Defense", score))
+                .unwrap_or(score);
             (-score, t.target_id.clone())
         });
     }
@@ -350,6 +356,9 @@ pub(super) fn cover_pool(c: &Campaign, id: &str, ally: &str) -> Result<u32> {
         .queue
         .last()
         .ok_or_else(|| error("No incoming attack to intercept"))?;
+    if extra::enabled(c) && fighter(c, &q.actor_id)?.selected_ability == "Infiltrator" {
+        return Err(error("Infiltrator bypasses Cover an Ally"));
+    }
     if !f.window
         || q.target_id != ally
         || p.side != t.side

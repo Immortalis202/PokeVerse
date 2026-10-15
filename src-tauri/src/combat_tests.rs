@@ -3,6 +3,8 @@ use crate::combat::{CombatState, TurnFlow};
 use crate::rules;
 #[path = "combat_tests/ability_tests.rs"]
 mod ability_tests;
+#[path = "combat_tests/extra_tests.rs"]
+mod extra_tests;
 #[path = "combat_tests/field_tests.rs"]
 mod field_tests;
 #[path = "combat_tests/targeting_tests.rs"]

@@ -1677,6 +1677,1149 @@
       },
       "coverage": "Reviewed encounter effects through the typed battlefield service; source, duration, suppression, host checks and rollback are tracked.",
       "notes": "Reviewed against the supplied ability page; table Evasion override remains in force."
+    },
+    "aerilate:Aerilate": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 536,
+      "fields": {
+        "Effect": "Normal-Type Moves that the Pokemon uses will deal damage as if they were Flying-Type, affecting STAB, weakness and resistance. Add 1 Extra die to the Damage Pool of Flying moves."
+      },
+      "coverage": "Reviewed move-type conversion affects STAB, effectiveness and immunity; the resulting matching type gains one damage die.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "pixilate:Pixilate": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 559,
+      "fields": {
+        "Effect": "Normal-Type Moves that the Pokemon uses will deal damage as if they were Fairy-Type. Affecting STAB, weakness and resistance. Add 1 Extra die to the Damage Pool of Fairy Moves."
+      },
+      "coverage": "Reviewed move-type conversion affects STAB, effectiveness and immunity; the resulting matching type gains one damage die.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "galvanize:Galvanize": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 547,
+      "fields": {
+        "Effect": "Normal-Type Moves that this Pokemon uses will deal damage as if they were Electric-Type, affecting STAB, weakness and resistance. Add 1 Extra Die of Damage to Electric Moves."
+      },
+      "coverage": "Reviewed move-type conversion affects STAB, effectiveness and immunity; the resulting matching type gains one damage die.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "refrigerate:Refrigerate": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 563,
+      "fields": {
+        "Effect": "Normal-Type Moves that the Pokemon uses will deal damage as if they were Ice-Type. Affecting STAB, weakness and resistance. Add 1 Extra die to the Damage Pool of Ice moves."
+      },
+      "coverage": "Reviewed move-type conversion affects STAB, effectiveness and immunity; the resulting matching type gains one damage die.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "normalize:Normalize": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 558,
+      "fields": {
+        "Effect": "All the moves known by this Pokemon are considered Normal-Type. Affecting STAB, weaknesses, immunities, and resistances. Add 1 Extra die of Damage Pool of Normal Moves."
+      },
+      "coverage": "Reviewed move-type conversion affects STAB, effectiveness and immunity; the resulting matching type gains one damage die.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "analytic:Analytic": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 536,
+      "fields": {
+        "Effect": "If this Pokemon has a lower initiative than its target, Add 1 Extra die to all of their Damage Pools."
+      },
+      "coverage": "Add one damage die against a target with higher recorded initiative.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "anger-point:Anger Point": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 536,
+      "fields": {
+        "Effect": "If a foe lands a Critical Hit on this Pokemon, increase this Pokemon's Strength Attribute by 3."
+      },
+      "coverage": "A critical hit raises Strength by three in the separate ability channel.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "anger-shell:Anger Shell": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 536,
+      "fields": {
+        "Effect": "When this Pokemon's HP is half or less, increase its Strength, Special, and Dexterity Attributes by 1 but Reduce its Defense and Sp. Defense by 1."
+      },
+      "coverage": "At half HP or lower, add one Strength, Special and Dexterity and subtract one Defense and Special Defense.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "arena-trap:Arena Trap": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 537,
+      "fields": {
+        "Effect": "Pokemon entering or already on the foe's side of the field become blocked as long as this Pokemon is on the field. Pokemon with immunity to Ground-Type Moves are not affected."
+      },
+      "coverage": "Block ordinary recall for eligible targets in confirmed abstract range, with rank target caps and reviewed Ground/Steel/Ghost exceptions. GM switching overrides remain explicit.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "magnet-pull:Magnet Pull": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 555,
+      "fields": {
+        "Effect": "Other than the user, all Steel-Type Pokemon on the field are Blocked."
+      },
+      "coverage": "Block ordinary recall for eligible targets in confirmed abstract range, with rank target caps and reviewed Ground/Steel/Ghost exceptions. GM switching overrides remain explicit.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "shadow-tag:Shadow Tag": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 566,
+      "fields": {
+        "Effect": "All Targets in Range become Blocked. Ghost-type Pokemon are immune to this effect. Pokemon with the same ability are immune to this effect."
+      },
+      "coverage": "Block ordinary recall for eligible targets in confirmed abstract range, with rank target caps and reviewed Ground/Steel/Ghost exceptions. GM switching overrides remain explicit.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "aroma-veil:Aroma Veil": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 537,
+      "fields": {
+        "Effect": "User and Allies in Range are immune to the \"Love\" Status Condition and the effects of the moves: Taunt, Torment, Spite, Attract, Disable, Encore, and Heal Block."
+      },
+      "coverage": "In-range allies and user ignore In Love and reviewed Taunt, Torment, Spite, Attract, Disable, Encore and Heal Block effects.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "dark-aura:Dark Aura": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 542,
+      "fields": {
+        "Effect": "Increase 2 dice to all Damage Pools of Dark-Type Moves of all Pokemon in the field. This effect does not stack with itself. Pokemon and Trainers on the field will not cooperate with each other. Unique Ability."
+      },
+      "coverage": "Reviewed range-limited Dark/Fairy damage aura and Aura Break inversion. Duplicate sources do not stack; attack/cooperation narrative restrictions require a GM ruling.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "fairy-aura:Fairy Aura": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 545,
+      "fields": {
+        "Effect": "Increase 2 dice to all Damage Pools of Fairy-Type Moves of all Pokemon in the field. This effect does not stack. Pokemon and Trainers on the field will not attack the user of this Ability. Unique Ability."
+      },
+      "coverage": "Reviewed range-limited Dark/Fairy damage aura and Aura Break inversion. Duplicate sources do not stack; attack/cooperation narrative restrictions require a GM ruling.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "aura-break:Aura Break": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 537,
+      "fields": {
+        "Effect": "Invert the effects that the Abilities Dark Aura and Fairy Aura have on their users. If said Abilities would increase a Dice Pool for their User, reduce it instead. Unique Ability."
+      },
+      "coverage": "Reviewed range-limited Dark/Fairy damage aura and Aura Break inversion. Duplicate sources do not stack; attack/cooperation narrative restrictions require a GM ruling.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "bad-dreams:Bad Dreams": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 537,
+      "fields": {
+        "Effect": "At the end of the Round, deal 1 Damage to anyone in the battlefield that has the Sleep Status Condition. Unique Ability."
+      },
+      "coverage": "At round end, each sleeping active participant loses one HP; indirect-damage immunities apply.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "battery:Battery": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 538,
+      "fields": {
+        "Effect": "Increase by 1 the Special Attribute of all Ally Pokemon in Range. Ally Pokemon get 1 Extra die to all their Special Move's Damage pool. The User does not get these effects."
+      },
+      "coverage": "In-range allies gain one Special and one Special-move damage die; separate attribute and damage channels do not duplicate ability contributions.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "beads-of-ruin:Beads of Ruin": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 538,
+      "fields": {
+        "Effect": "Reduce by 2 the Special Defense of everyone in the field, except this Pokemon. This Pokemon is immune to the effects of the Abilities: Beads of Ruin, Sword of Ruin, Tablets of Ruin, and Vessel of Ruin. Unique Ability."
+      },
+      "coverage": "Reduce the named defense/attribute by two in confirmed rank-limited range. Ruin holders and relevant stat protections are exempt; duplicate auras do not stack.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "sword-of-ruin:Sword of Ruin": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 572,
+      "fields": {
+        "Effect": "Reduce by 2 the Defense of everyone in the field, except this Pokemon. This Pokemon is immune to the effects of the Abilities: Beads of Ruin, Sword of Ruin, Tablets of Ruin, and Vessel of Ruin. Unique Ability."
+      },
+      "coverage": "Reduce the named defense/attribute by two in confirmed rank-limited range. Ruin holders and relevant stat protections are exempt; duplicate auras do not stack.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "tablets-of-ruin:Tablets of Ruin": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 573,
+      "fields": {
+        "Effect": "Reduce by 2 the Strength of everyone in the field, except this Pokemon. This Pokemon in immune to the effects of the Abilities: Beads of Ruin, Sword of Ruin, Tablets of Ruin, and Vessel of Ruin. Unique Ability."
+      },
+      "coverage": "Reduce the named defense/attribute by two in confirmed rank-limited range. Ruin holders and relevant stat protections are exempt; duplicate auras do not stack.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "vessel-of-ruin:Vessel of Ruin": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 576,
+      "fields": {
+        "Effect": "Reduce by 2 the Special of everyone in the field, except this Pokemon. This Pokemon is immune to the effects of the Abilities: Beads of Ruin, Sword of Ruin, Tablets of Ruin, and Vessel of Ruin. Unique Ability."
+      },
+      "coverage": "Reduce the named defense/attribute by two in confirmed rank-limited range. Ruin holders and relevant stat protections are exempt; duplicate auras do not stack.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "beast-boost:Beast Boost": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 538,
+      "fields": {
+        "Effect": "If a foe faints because of an attack dealt by this Ultra-Beast, Increase by 1 their highest Attribute. Up to 3 points can be increased this way. Unique Ability."
+      },
+      "coverage": "A move knockout grants one point to the highest current attribute, maximum three points. Tied attributes require an owner choice.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "berserk:Berserk": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 538,
+      "fields": {
+        "Effect": "When this Pokemon's HP is half or less, Increase its Special Attribute by 2."
+      },
+      "coverage": "At half HP or lower, gain two temporary Special.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "big-pecks:Big Pecks": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 538,
+      "fields": {
+        "Effect": "This Pokemon cannot have its Defense reduced."
+      },
+      "coverage": "Protect the reviewed stat changes through sourced battle effects and supported moves; Clear Body also rejects external increases and Flower Veil protects in-range allies.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "hyper-cutter:Hyper Cutter": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 550,
+      "fields": {
+        "Effect": "This Pokemon can't have its Strength Attribute reduced by Moves, Abilities, or Items. This Pokemon can still Reduce its own Strength Attribute."
+      },
+      "coverage": "Protect the reviewed stat changes through sourced battle effects and supported moves; Clear Body also rejects external increases and Flower Veil protects in-range allies.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "clear-body:Clear Body": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 539,
+      "fields": {
+        "Effect": "Other Pokemon cannot Increase or Reduce the Attributes of this Pokemon. This Pokemon can still Increase or Reduce its own Attributes."
+      },
+      "coverage": "Protect the reviewed stat changes through sourced battle effects and supported moves; Clear Body also rejects external increases and Flower Veil protects in-range allies.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "full-metal-body:Full Metal Body": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 546,
+      "fields": {
+        "Effect": "Other Pokemon cannot Reduce the Attributes of this Pokemon. This Pokemon can still Reduce its own Attributes. Unique Ability."
+      },
+      "coverage": "Protect the reviewed stat changes through sourced battle effects and supported moves; Clear Body also rejects external increases and Flower Veil protects in-range allies.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "white-smoke:White Smoke": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 578,
+      "fields": {
+        "Effect": "Other Pokemon cannot reduce the Attributes of this Pokemon. This Pokemon can still Reduce its own Attributes."
+      },
+      "coverage": "Protect the reviewed stat changes through sourced battle effects and supported moves; Clear Body also rejects external increases and Flower Veil protects in-range allies.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "flower-veil:Flower Veil": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 545,
+      "fields": {
+        "Effect": "User and allies in range can't have their Attributes/Traits reduced. User and allies in range can't have any Status Ailment inflicted on them. Previously inflicted or self-inflicted Attribute reductions and/or ailments remain."
+      },
+      "coverage": "Protect the reviewed stat changes through sourced battle effects and supported moves; Clear Body also rejects external increases and Flower Veil protects in-range allies.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "bulletproof:Bulletproof": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 539,
+      "fields": {
+        "Effect": "Reduce by 1 all damage from Ranged Physical Moves dealt to this Pokemon. Reduce by 1 all damage from Special Moves with the words: Ball, Blast, Bomb, Cannon, Octazooka, Puff, Shot, Sphere, and Wrecker on their name."
+      },
+      "coverage": "Reduce ranged Physical damage and named ball/blast/bomb/cannon/projectile Special damage by one.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "chilling-neigh:Chilling Neigh": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 539,
+      "fields": {
+        "Effect": "If a foe faints because of a Physical or Special Move dealt by this Pokemon, Increase its Strength Attribute by 1. Up to 3 points can be increased this way."
+      },
+      "coverage": "A foe fainting from the user's damaging move grants one Strength or Special according to the definition, to a maximum of three.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "grim-neigh:Grim Neigh": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 548,
+      "fields": {
+        "Effect": "If a foe faints because of a Physical or Special dealt by this Pokemon, Increase its Special Attribute by 1. Up to 3 points can be increased this way."
+      },
+      "coverage": "A foe fainting from the user's damaging move grants one Strength or Special according to the definition, to a maximum of three.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "soul-heart:Soul Heart": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 569,
+      "fields": {
+        "Effect": "If a foe faints because of a Physical or Special Move used by this Pokemon, Increase its Special Attribute by 1. Up to 3 points can be increased this way."
+      },
+      "coverage": "A foe fainting from the user's damaging move grants one Strength or Special according to the definition, to a maximum of three.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "color-change:Color Change": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 540,
+      "fields": {
+        "Effect": "When this Pokemon is dealt damage it will temporarily change its type to match the type of the move that just hit it. The effect ends if the Pokemon is removed from battle."
+      },
+      "coverage": "A damaging hit replaces encounter typing with its type. Recall restores the underlying scene typing, without changing the permanent sheet.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "comatose:Comatose": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 540,
+      "fields": {
+        "Effect": "The Pokemon permanently has the “Sleep” Status Ailment but it is immune to its effects. This Pokemon can't be inflicted other Status Ailment or Condition. Moves and Abilities affecting Asleep Pokemon still have an effect on it."
+      },
+      "coverage": "Record permanent Sleep while allowing actions; other supported ailments are prevented and ordinary wake-up controls are rejected.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "competitive:Competitive": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 540,
+      "fields": {
+        "Effect": "The first time this Pokemon gets an Attribute reduced by a foe during a battle, Increase its Special by 2. "
+      },
+      "coverage": "Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "defiant:Defiant": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 542,
+      "fields": {
+        "Effect": "The first time this Pokemon has an Attribute reduced during a battle, Increase its Strength by 2."
+      },
+      "coverage": "Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "guard-dog:Guard Dog": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 548,
+      "fields": {
+        "Effect": "If a foe uses a Move, Ability or Item to reduce this Pokemon's Strength Attribute, negate that effect and increase it by 2 instead. This Pokemon is immune to the effect of Switcher Moves that would remove it from battle."
+      },
+      "coverage": "Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "mirror-armor:Mirror Armor": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 556,
+      "fields": {
+        "Effect": "All Effects Reducing Attributes/Traits used by a foe, that target this Pokemon or its side of the field will have their effects redirected into the foe's instead."
+      },
+      "coverage": "Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "contrary:Contrary": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 540,
+      "fields": {
+        "Effect": "If anything would reduce an Attribute of this Pokemon, increase it instead. If anything would increase an Attribute of this Pokemon, reduce it instead."
+      },
+      "coverage": "Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "simple:Simple": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 567,
+      "fields": {
+        "Effect": "If this Pokemon gets an Attribute reduced, reduce it by 1 more Point. If this Pokemon gets an Attribute increased, increase it by 1 more Point."
+      },
+      "coverage": "Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "compound-eyes:Compound Eyes": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 540,
+      "fields": {
+        "Effect": "This Pokemon gets 2 Extra Dice on the Accuracy Pool of any move with Low Accuracy. "
+      },
+      "coverage": "Add two accuracy dice to moves with a recorded Low Accuracy penalty.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "corrosion:Corrosion": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 540,
+      "fields": {
+        "Effect": "Ignore any immunity the foe has to Poison-Type Damage and/or to be inflicted Poison and Badly Poisoned Status Ailments."
+      },
+      "coverage": "Source-tracked Poison bypasses type/status poison immunity; global battlefield status restrictions still apply.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "curious-medicine:Curious Medicine": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 541,
+      "fields": {
+        "Effect": "When this Pokemon comes into battle, remove all Attribute Increases and Reductions on all Ally Pokemon in range. Outside of battle, the Pokemon is able to create potions that may heal HP or deal damage at the storyteller's discretion."
+      },
+      "coverage": "On entry, remove recorded move and temporary ability attribute changes on in-range allies. Continuous field auras continue to apply.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "cursed-body:Cursed Body": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 541,
+      "fields": {
+        "Effect": "Whenever this Pokemon is dealt damage with a Physical or Special Move, Roll 3 Chance Dice to Disable that Move. Up to 3 Moves may be disabled this way."
+      },
+      "coverage": "After damage, roll three chance dice to Disable the used move; retain distinct disabled moves, maximum three.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "dauntless-shield:Dauntless Shield": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 542,
+      "fields": {
+        "Effect": "Whenever this Pokemon enters battle, Increase 2 its Defense by 2. Outside of battle, this Pokemon is immune to physical damage. Unique Ability."
+      },
+      "coverage": "On entry, add two temporary Defense or Strength respectively. Outside-battle narrative effects are GM adjudicated.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "intrepid-sword:Intrepid Sword": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 552,
+      "fields": {
+        "Effect": "Whenever this Pokemon enters battle, Increase its Strength by 2. Outside of battle, this Pokemon can cut through any surface. Unique Ability"
+      },
+      "coverage": "On entry, add two temporary Defense or Strength respectively. Outside-battle narrative effects are GM adjudicated.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "disguise:Disguise": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 543,
+      "fields": {
+        "Effect": "The first time this Pokemon would receive damage due to a Physical or Special Move, reduce that damage to zero. Entry Hazards, Weather Conditions and Status Ailments do not trigger this Ability. Unique Ability."
+      },
+      "coverage": "Negate the first damaging hit in a scene. Cosmetic disguise and species/form transformations remain manual.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "download:Download": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 543,
+      "fields": {
+        "Effect": "When this Pokemon comes out it will scan its foes and give information about them. It will then Increase 1 Point to either its Strength or Special Attribute at Storyteller's discretion. Unique Ability."
+      },
+      "coverage": "On entry the appointed GM chooses Strength or Special, adding one temporary point; the separate host and owner cannot make that ruling.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "dragon-maw:Dragon Maw": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 543,
+      "fields": {
+        "Effect": "All Physical or special Dragon-Type Moves that this Pokemons uses have 2 Extra dice on their Damage Pool. This effect does not apply to Moves with set damage."
+      },
+      "coverage": "Add two damage dice for the definition's Dragon or Electric type.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "transistor:Transistor": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 575,
+      "fields": {
+        "Effect": "Add 2 Extra dice to the Damage Pool of all Physical or Special Electric-Type Moves that this Pokemon performs."
+      },
+      "coverage": "Add two damage dice for the definition's Dragon or Electric type.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "earth-eater:Earth Eater": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 544,
+      "fields": {
+        "Effect": "Whenever this Pokemon is hit by a Ground-Type Move, you may Heal 1 HP instead of receiving damage. Ground-type moves do not deal damage to this Pokemon."
+      },
+      "coverage": "Ground damage immunity and an owner choice to heal one HP; Gravity disables these Ground immunities.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "electromorphosis:Electromorphosis": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 544,
+      "fields": {
+        "Effect": "If this Pokemon receives Damage from a Physical or Special Move, Add 2 Extra Dice to the Damage Dice Pool of its next Electric Move."
+      },
+      "coverage": "A qualifying damaging hit charges the next Electric attack for two extra damage dice. Shared damage snapshots preserve the charge across targets.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "wind-power:Wind Power": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 578,
+      "fields": {
+        "Effect": "Whenever this Pokemon receives damage from a wind Move, Add 2 Extra Dice to the Damage pool of the next Electric-Type Move this Pokemon performs. This effect does not stack."
+      },
+      "coverage": "A qualifying damaging hit charges the next Electric attack for two extra damage dice. Shared damage snapshots preserve the charge across targets.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "flare-boost:Flare Boost": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 545,
+      "fields": {
+        "Effect": "If this Pokemon gets any degree of Burn, Increase 2 points to its Special Attribute."
+      },
+      "coverage": "While the reviewed ailment is present, add two Special, Strength or Dexterity respectively. Quick Feet also ignores paralysis effects.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "toxic-boost:Toxic Boost": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 575,
+      "fields": {
+        "Effect": "If this Pokemon gets the Poison or Badly Poison Status, Increase its Strength Attribute by 2."
+      },
+      "coverage": "While the reviewed ailment is present, add two Special, Strength or Dexterity respectively. Quick Feet also ignores paralysis effects.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "quick-feet:Quick Feet": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 563,
+      "fields": {
+        "Effect": "While affected by a Status Ailment (Burn, Frozen, Paralysis, Poison, Sleep), Increase this Pokemon's Dexterity Attribute by 2. If inflicted by Paralysis, this Ability prevents its effects."
+      },
+      "coverage": "While the reviewed ailment is present, add two Special, Strength or Dexterity respectively. Quick Feet also ignores paralysis effects.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "fluffy:Fluffy": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 546,
+      "fields": {
+        "Effect": "Reduce by 2 the Damage dealt to this Pokemon by All Physical Moves. Increase by 2 the Damage dealt to this Pokemon by Fire-Type Moves."
+      },
+      "coverage": "Reduce Physical damage by two and increase Fire damage by two, applying both for Physical Fire hits.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "friend-guard:Friend Guard": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 546,
+      "fields": {
+        "Effect": "This Pokemon does not receive damage from Moves performed by allies. Added effects may still apply."
+      },
+      "coverage": "Prevent damage from allied moves, while leaving hostile and condition damage unchanged.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "telepathy:Telepathy": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 573,
+      "fields": {
+        "Effect": "This Pokemon won't receive damage from Moves performed by its allies."
+      },
+      "coverage": "Prevent damage from allied moves, while leaving hostile and condition damage unchanged.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "gooey:Gooey": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 547,
+      "fields": {
+        "Effect": "The first time a foe hits this Pokemon with a Non-Ranged Physical Move, reduce 1 Point to their Dexterity Attribute."
+      },
+      "coverage": "The first hostile non-ranged Physical hit applies a sourced one-point Dexterity reduction to its attacker; Long Reach avoids it.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "tangling-hair:Tangling Hair": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 573,
+      "fields": {
+        "Effect": "The first time a foe hits this Pokemon with a Non-Ranged Physical Move, Reduce its Dexterity Attribute by 1."
+      },
+      "coverage": "The first hostile non-ranged Physical hit applies a sourced one-point Dexterity reduction to its attacker; Long Reach avoids it.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "hadron-engine:Hadron Engine": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 548,
+      "fields": {
+        "Effect": "When this Pokemon comes out, it automatically starts the effects of the Move Electric Terrain. (In the case of a stalemate the Pokemon with higher Will might keep the dominant Terrain). While Electric Terrain is active, increase this Pokemon's Special Attribute by 2."
+      },
+      "coverage": "Add two Special under Electric Terrain or two Strength under Sunny/Desolate respectively. Weather/terrain activation follows the reviewed field definition.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "orichalcum-pulse:Orichalcum Pulse": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 558,
+      "fields": {
+        "Effect": "When this Pokemon comes out, it automatically starts the effects of the Sunny Weather. (In case of stalemate the Pokemon with higher Will might keep the dominant Terrain). While Sunny Weather is active, increase this Pokemon's Strength Attribute by 2."
+      },
+      "coverage": "Add two Special under Electric Terrain or two Strength under Sunny/Desolate respectively. Weather/terrain activation follows the reviewed field definition.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "healer:Healer": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 549,
+      "fields": {
+        "Effect": "If an Ally on the battle field has a Status Ailment, at the End of the Round this Pokemon rolls 3 Chance Dice to heal it. Outside of battle it can heal Status Ailments by spending 1 Will Point."
+      },
+      "coverage": "At round end choose an active affected ally, then roll three chance dice to cure its recorded conditions. Owner choices block round advance until resolved.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "heatproof:Heatproof": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 549,
+      "fields": {
+        "Effect": "1st and 2nd Degree Burns deal no Damage to this Pokemon. If this Pokemon is hit by a Fire-Type Move, Reduce the total damage dealt by 2."
+      },
+      "coverage": "Reduce Fire damage by two and ignore first- and second-degree Burn damage.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "hospitality:Hospitality": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 549,
+      "fields": {
+        "Effect": "When this Pokemon comes out, it can spend a Will Point to heal up to 3 HP from a damaged Ally. Lethal Damage is not healed with this effect. Outside of battle it can remove the bitter taste from all healing Herbs."
+      },
+      "coverage": "On entry the owner may spend one Will to heal one wounded active ally by three HP. No revival; lethal wounds remain manual.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "ice-scales:Ice Scales": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 550,
+      "fields": {
+        "Effect": "Reduce by 2 the Damage dealt to this Pokemon by All Special Moves."
+      },
+      "coverage": "Reduce Special move damage by two.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "illuminate:Illuminate": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 550,
+      "fields": {
+        "Effect": "Increases the chance of random, non-hostile, wild Pokemon encounters. If there were enviromental challenges, or difficulty penalties due to reduced visibility, this Pokemon and it's allies in range are immune to the effects."
+      },
+      "coverage": "In-range user/allies ignore the supported fog/visibility accuracy penalty; narrative encounter effects remain manual.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "infiltrator:Infiltrator": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 551,
+      "fields": {
+        "Effect": "This Pokemon ignores all Shield Moves, Force Fields, Substitutes and Cover active on the foe's side of the field."
+      },
+      "coverage": "Bypass supported shields, Reflect, Light Screen, Aurora Veil and Cover an Ally. Substitute decoys are not modeled.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "innards-out:Innards Out": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 551,
+      "fields": {
+        "Effect": "If this Pokemon would faint due to damage from a Physical or Special Move, inflict damage on the attacker equal to the remaining HP the user had."
+      },
+      "coverage": "When fainting to a hit, deal pre-hit remaining HP to the attacker as indirect ability damage.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "leaf-guard:Leaf Guard": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 553,
+      "fields": {
+        "Effect": "While Sunny Weather is active, this Pokemon can't have any Status Ailments or Conditions inflicted. Previously inflicted ailments/conditions remain."
+      },
+      "coverage": "Under Sunny/Desolate weather, prevent supported status ailments.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "libero:Libero": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 553,
+      "fields": {
+        "Effect": "Whenever this Pokemon is about to roll the Accuracy of a Move, change its type to match that of the Move. If the Move is Physical or Special and deals damage, use the appropriate STAB on the Damage Roll."
+      },
+      "coverage": "At a qualifying move attempt, replace encounter typing with the move type. Libero includes Support; Protean requires a damaging move.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "protean:Protean": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 561,
+      "fields": {
+        "Effect": "Before this Pokemon uses a Physical or Special Move, change its Type to that of the Move it intends to use. Use the appropriate STAB on the Damage Pool."
+      },
+      "coverage": "At a qualifying move attempt, replace encounter typing with the move type. Libero includes Support; Protean requires a damaging move.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "liquid-voice:Liquid Voice": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 554,
+      "fields": {
+        "Effect": "All Sound-Based Moves this Pokemon uses are considered to be Water-Type."
+      },
+      "coverage": "Convert sound-tagged moves to Water before STAB, effectiveness and immunity calculations.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "mega-launcher:Mega Launcher": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 555,
+      "fields": {
+        "Effect": "Add 2 Extra Dice to the Damage pool of moves with the keyword \"Pulse\" and \"Aura\" on their name. Healing Moves with the keyword \"Pulse\" become Complete Heals"
+      },
+      "coverage": "Pulse/Aura damaging moves gain two damage dice. Heal Pulse uses five-HP Complete Healing and one Will.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "merciless:Merciless": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 555,
+      "fields": {
+        "Effect": "If the Foe is inflicted with Poison or Badly Poison, all of this Pokemon Moves are considered to be Critical Hits. This Pokemon will not hold back when using Lethal Damage Moves at Storyteller's discretion."
+      },
+      "coverage": "Moves against Poisoned or Badly Poisoned targets receive the reviewed critical bonus.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "mimicry:Mimicry": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 555,
+      "fields": {
+        "Effect": "If there is a Terrain Move active on the field (i.e. Electric Terrain, Psychic Terrain etc.) Change this Pokemon's main type to match that of the active Terrain. Restore its original main type if the terrain effects end."
+      },
+      "coverage": "Scoped terrain changes the primary encounter type while preserving a distinct secondary type.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "plus:Plus": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 559,
+      "fields": {
+        "Effect": "If an ally Pokemon has the ability \"Minus\", Increase by 2 the Special Attribute of this Pokemon."
+      },
+      "coverage": "Gain two Special while an active ally has the opposite ability.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "minus:Minus": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 555,
+      "fields": {
+        "Effect": "If an ally Pokemon on the field has the ability \"Plus\" (p.559), Increase by 2 the Special Attribute of this Pokemon."
+      },
+      "coverage": "Gain two Special while an active ally has the opposite ability.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "natural-cure:Natural Cure": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 557,
+      "fields": {
+        "Effect": "At the end of the Round, if this Pokemon has a Status Ailment or Condition, Roll 3 Chance Dice to heal it."
+      },
+      "coverage": "At round end, roll three chance dice to cure all recorded conditions; this is not video-game switch healing.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "neuroforce:Neuroforce": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 557,
+      "fields": {
+        "Effect": "This Pokemon will deal 1 Extra Damage on any Move that is Super Effective against a foe."
+      },
+      "coverage": "Deal one extra final damage when a move is super effective; immunity still wins.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "no-guard:No Guard": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 557,
+      "fields": {
+        "Effect": "At the start of the Round, you may declare you won't use Shield Moves, Evasion or Clash Maneuvers. If you do, roll all moves of this Pokemon as if they had no Low Accuracy."
+      },
+      "coverage": "At round start the owner may declare No Guard: remove Low Accuracy, but prohibit its Shields, Evasion and Clash for that round.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "overcoat:Overcoat": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 558,
+      "fields": {
+        "Effect": "This Pokemon won't recieve damage from Hail or Sandstorm weather. This Pokémon is immune to the added effects of Powder Moves."
+      },
+      "coverage": "Prevent supported powder effects and Sandstorm/Hail exposure damage; other weather mechanics retain their normal effects.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "pastel-veil:Pastel Veil": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 559,
+      "fields": {
+        "Effect": "User and Allies in range are immune to Poison and Badly Poison. If the condition was inflicted before this Pokemon came out, it remains."
+      },
+      "coverage": "In-range user/allies are protected from the definition's Poison or Sleep ailment.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "sweet-veil:Sweet Veil": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 572,
+      "fields": {
+        "Effect": "Increase the chance of wild Pokemon encounters at Storyteller's discretion. The Pokemon and allies in range are immune to the Sleep status."
+      },
+      "coverage": "In-range user/allies are protected from the definition's Poison or Sleep ailment.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "poison-heal:Poison Heal": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 560,
+      "fields": {
+        "Effect": "If this Pokemon becomes poisoned or badly poisoned. It will Heal 1 HP at the end of each round instead of receiving damage. The Poison will be completely absorbed and healed after 3 Rounds."
+      },
+      "coverage": "Poison causes no damage; heal one HP at each round end and cure Poison after three such rounds, without revival.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "poison-puppeteer:Poison Puppeteer": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 560,
+      "fields": {
+        "Effect": "If a Target gets the Poison or Badly Poison Status ailments as the direct result of a Move used by this Pokemon, inflict Confusion on them as well. Unique Ability."
+      },
+      "coverage": "Source-tracked move infliction of Poison/Badly Poisoned also inflicts Confusion; unsourced corrections do not invent an attacker.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "poison-touch:Poison Touch": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 560,
+      "fields": {
+        "Effect": "If this Pokemon hits a foe with a Non-Ranged Physical Move, Roll 2 Chance Dice to Inflict Poison on the foe."
+      },
+      "coverage": "A hostile non-ranged Physical hit rolls the reviewed two/three chance dice for Poison/Badly Poisoned, respecting source-aware immunity and Wonder Skin.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "toxic-chain:Toxic Chain": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 575,
+      "fields": {
+        "Effect": "If this Pokemon hits a foe with a Non-Ranged Physical Move, Roll 3 Chance Dice to Inflict Badly Poison on the foe."
+      },
+      "coverage": "A hostile non-ranged Physical hit rolls the reviewed two/three chance dice for Poison/Badly Poisoned, respecting source-aware immunity and Wonder Skin.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "power-spot:Power Spot": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 560,
+      "fields": {
+        "Effect": "Add 1 Extra die to the Damage Pools from Physical and Special Moves by Allies in Range. This Effect does not stack in the same Allies if multiple Pokemon have this Ability."
+      },
+      "coverage": "In-range allies gain the reviewed one damage die, with Steely Spirit applying to Steel and including its user; duplicate damage bonuses do not stack.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "steely-spirit:Steely Spirit": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 570,
+      "fields": {
+        "Effect": "Steel-Type Moves used by this Pokemon and Allies in Range get 1 Extra Die to their Damage Pool."
+      },
+      "coverage": "In-range allies gain the reviewed one damage die, with Steely Spirit applying to Steel and including its user; duplicate damage bonuses do not stack.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "prism-armor:Prism Armor": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 561,
+      "fields": {
+        "Effect": "Reduce by 2 the total Damage dealt to this Pokemon by a Super Effective Move."
+      },
+      "coverage": "Reduce super-effective move damage by two.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "protosynthesis:Protosynthesis": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 561,
+      "fields": {
+        "Effect": "While Sunny Weather is active, increase this Pokemon's highest Attribute by 1. If their highest Attribute is Dexterity, increase it by 2. Unique Ability."
+      },
+      "coverage": "Under qualifying weather/terrain boost the highest attribute by one, or Dexterity by two; tied highest attributes require an owner choice.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "quark-drive:Quark Drive": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 562,
+      "fields": {
+        "Effect": "If Electric Terrain is active, increase this Pokemon's highest Attribute by 1. If their highest Attribute is Dexterity, increase it by 2. Unique Ability."
+      },
+      "coverage": "Under qualifying weather/terrain boost the highest attribute by one, or Dexterity by two; tied highest attributes require an owner choice.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "punk-rock:Punk Rock": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 562,
+      "fields": {
+        "Effect": "Sound-Based Moves this Pokemon uses get 1 Extra die to their Damage Pool. Sound-Based Moves used against this Pokemon have their total Damage reduced by 2."
+      },
+      "coverage": "Sound-tagged moves gain one damage die; incoming sound move damage is reduced by two.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "purifying-salt:Purifying Salt": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 562,
+      "fields": {
+        "Effect": "This Pokemon can't have any Status Ailment inflicted on them. Previously inflicted Ailments remain. Ghost-Type Moves used against this Pokemon have their total Damage Reduced by 3."
+      },
+      "coverage": "Prevent supported ailments and reduce Ghost damage by three.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "quick-draw:Quick Draw": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 562,
+      "fields": {
+        "Effect": "Roll 3 Chance Dice at the beginning of each Round. If successful, this Pokemon goes first in the initiative order of that Round. In ccase of stalemate, regular initiative order prevails."
+      },
+      "coverage": "At round start roll three chance dice; success puts the user first, with regular initiative resolving ties.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "rattled:Rattled": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 563,
+      "fields": {
+        "Effect": "The first time this Pokemon is hit by a Bug, Dark, or Ghost-Type Move, or if a foe has the Ability \"Intimidate\", Increase its Dexterity Attribute by 1."
+      },
+      "coverage": "Reviewed hit/Flinch triggers apply their named once-only attribute or defense changes. Fire/Water immunity and Burn protection apply where defined; boosts use a separate ability channel.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "steadfast:Steadfast": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 570,
+      "fields": {
+        "Effect": "The first time this Pokemon is affected by Flinch, Increase its Dexterity Attribute by 1."
+      },
+      "coverage": "Reviewed hit/Flinch triggers apply their named once-only attribute or defense changes. Fire/Water immunity and Burn protection apply where defined; boosts use a separate ability channel.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "steam-engine:Steam Engine": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 570,
+      "fields": {
+        "Effect": "The first time this Pokemon is dealt damage with a Fire or Water-Type Move. Increase 3 Points to its Dexterity Atribute."
+      },
+      "coverage": "Reviewed hit/Flinch triggers apply their named once-only attribute or defense changes. Fire/Water immunity and Burn protection apply where defined; boosts use a separate ability channel.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "thermal-exchange:Thermal Exchange": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 574,
+      "fields": {
+        "Effect": "This Pokemon is immune to all Burn degrees. The first time this Pokemon is hit by a Fire-Type Move, Increase its Strength Attribute by 1. This effect does not prevent damage from Fire-Type Moves."
+      },
+      "coverage": "Reviewed hit/Flinch triggers apply their named once-only attribute or defense changes. Fire/Water immunity and Burn protection apply where defined; boosts use a separate ability channel.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "weak-armor:Weak Armor": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 578,
+      "fields": {
+        "Effect": "The first time this Pokemon is hit by any Physical Move, Increase its Dexterity Attribute by 1 and Reduce its Defense by 1."
+      },
+      "coverage": "Reviewed hit/Flinch triggers apply their named once-only attribute or defense changes. Fire/Water immunity and Burn protection apply where defined; boosts use a separate ability channel.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "stamina:Stamina": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 569,
+      "fields": {
+        "Effect": "The first time this Pokemon receives Damage from a Physical or Special Move, Increase its Defense and Special Defense by 1."
+      },
+      "coverage": "Reviewed hit/Flinch triggers apply their named once-only attribute or defense changes. Fire/Water immunity and Burn protection apply where defined; boosts use a separate ability channel.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "water-compaction:Water Compaction": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 577,
+      "fields": {
+        "Effect": "The first time this Pokemon is hit by a Water-Type Move, Increase its Defense by 2. Water-type moves do not deal damage to this Pokemon."
+      },
+      "coverage": "Reviewed hit/Flinch triggers apply their named once-only attribute or defense changes. Fire/Water immunity and Burn protection apply where defined; boosts use a separate ability channel.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "well-baked-body:Well-Baked Body": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 578,
+      "fields": {
+        "Effect": "The first time this Pokemon is hit by a Fire-Type Move, Increase its Defense by 2. Fire-type moves do not deal damage to this Pokemon."
+      },
+      "coverage": "Reviewed hit/Flinch triggers apply their named once-only attribute or defense changes. Fire/Water immunity and Burn protection apply where defined; boosts use a separate ability channel.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "reckless:Reckless": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 563,
+      "fields": {
+        "Effect": "When this Pokemon performs a Move with Recoil as an Added Effect, Add 2 Extra dice to the Damage Pool of that Move."
+      },
+      "coverage": "Recoil-tagged moves and reviewed Submission gain two damage dice; other unreviewed recoil formulas still need GM resolution.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "rock-head:Rock Head": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 564,
+      "fields": {
+        "Effect": "This Pokemon will not receive damage from Recoil."
+      },
+      "coverage": "Ignore the supported Submission recoil; other recoil moves require reviewed definitions.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "rocky-payload:Rocky Payload": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 564,
+      "fields": {
+        "Effect": "All Physical or Special Rock-Type Moves this Pokemon uses get 1 Extra die to their Damage Pool."
+      },
+      "coverage": "Add one damage die for the definition's Rock, Steel, Bite, Cutter, non-ranged Physical or Wind move condition; use catalog tags rather than inferred move prose.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "steelworker:Steelworker": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 570,
+      "fields": {
+        "Effect": "Steel-Type Moves used by this Pokemon get 1 Extra Die to their Damage Pool."
+      },
+      "coverage": "Add one damage die for the definition's Rock, Steel, Bite, Cutter, non-ranged Physical or Wind move condition; use catalog tags rather than inferred move prose.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "strong-jaw:Strong Jaw": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 571,
+      "fields": {
+        "Effect": "Add 1 Extra Die to the Damage Pool of all Bite Moves."
+      },
+      "coverage": "Add one damage die for the definition's Rock, Steel, Bite, Cutter, non-ranged Physical or Wind move condition; use catalog tags rather than inferred move prose.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "sharpness:Sharpness": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 566,
+      "fields": {
+        "Effect": "Add 1 Extra die to the Damage Pool of all Cutter Moves."
+      },
+      "coverage": "Add one damage die for the definition's Rock, Steel, Bite, Cutter, non-ranged Physical or Wind move condition; use catalog tags rather than inferred move prose.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "tough-claws:Tough Claws": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 575,
+      "fields": {
+        "Effect": "Add 1 Extra die to the Damage Pool of all non-Ranged Physical Moves this Pokemon performs."
+      },
+      "coverage": "Add one damage die for the definition's Rock, Steel, Bite, Cutter, non-ranged Physical or Wind move condition; use catalog tags rather than inferred move prose.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "wind-rider:Wind Rider": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 578,
+      "fields": {
+        "Effect": "Add 1 Extra Die to the Damage Pool of all Wind Moves."
+      },
+      "coverage": "Add one damage die for the definition's Rock, Steel, Bite, Cutter, non-ranged Physical or Wind move condition; use catalog tags rather than inferred move prose.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "run-away-ability:Run Away": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 564,
+      "fields": {
+        "Effect": "This Pokemon cannot be Blocked. It may also obtain bonus dice to escape from battle, Pokeballs or captivity at Storyteller's discretion."
+      },
+      "coverage": "Ignore supported Blocked recall restrictions. Narrative escape and capture consequences require GM adjudication.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "sand-spit:Sand Spit": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 565,
+      "fields": {
+        "Effect": "If this Pokemon is hit with a Non-Ranged Physical Move, it starts the effects of Sandstorm Weather. The effect lasts 4 rounds. This effect does not reactivate until the Sandstorm Weather is removed."
+      },
+      "coverage": "A non-ranged Physical hit starts four rounds of Sandstorm, without refreshing active Sandstorm. Competing ability weather uses the field contest service.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "scrappy:Scrappy": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 566,
+      "fields": {
+        "Effect": "This Pokemon can hit Ghost-type Pokemon with Normal and Fighting Type Moves. Apply resistances or weaknesses to the foe if it has a secondary type."
+      },
+      "coverage": "Normal and Fight moves ignore Ghost type immunity.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "serene-grace:Serene Grace": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 566,
+      "fields": {
+        "Effect": "This Pokemon adds 2 Extra Chance Dice to all Moves with effects that use them. (e.g. A move has 3 Chance Dice to Flinch the foe, this Pokemon will roll 5 Dice)"
+      },
+      "coverage": "Add two chance dice to supported move added effects; unreviewed chance effects still need GM resolution.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "shadow-shield:Shadow Shield": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 566,
+      "fields": {
+        "Effect": "If this Pokemon is at full health, Reduce by 2 the damage dealt by the next Physical or Special Move targeting it. This effect cannot be ignored by Moves or Abilities."
+      },
+      "coverage": "At full HP reduce move damage by two; naturally becomes available again after healing to full.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "shed-skin:Shed Skin": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 567,
+      "fields": {
+        "Effect": "At the end of the round, if this Pokemon has a Status Ailment/Condition, Roll 3 Chance Dice to heal it. If affected by multiple Ailments/Conditions, one will be healed at random."
+      },
+      "coverage": "At round end roll three chance dice; success removes one uniformly selected recorded condition using independent rejection-sampled dice.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "slow-start:Slow Start": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 568,
+      "fields": {
+        "Effect": "During the first three Rounds of a battle, this Pokemon will always go last in the initiative order. After those Rounds are over, Increase its Strength and Dexterity Attributes by 2 and now it will always go first in the initiative order. This effect resets if the Pokemon is called out of combat."
+      },
+      "coverage": "Act last for three rounds after entry, then gain two Strength/Dexterity and act first; regular initiative resolves equal priority groups.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "super-luck:Super Luck": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 571,
+      "fields": {
+        "Effect": "All Physical and Special Moves of this Pokemon have \"High Critical\" as an Added Effect. If the Move already had \"High Critical\" the effect stacks and this Pokemon only requires 1 more Success on the Accuracy roll to land a Critical instead of 2."
+      },
+      "coverage": "Reduce the accuracy-success margin needed for critical damage by one, including High Critical moves.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "supreme-overlord:Supreme Overlord": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 572,
+      "fields": {
+        "Effect": "When this Pokemon comes into battle, Increase its Strength and Special Attributes by 1 for every Ally that has Fainted in-battle. Up to 3 points can be increased this way."
+      },
+      "coverage": "On entry gain one Strength and Special for each recorded fainted ally, maximum three.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "triage:Triage": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 575,
+      "fields": {
+        "Effect": "All Support Moves of this Pokemon with the effect of Basic Heal, Cure Status are considered to have: \"Reaction 1\" as Added Effect."
+      },
+      "coverage": "Reviewed self-healing/support cure moves gain Reaction 1. Multi-target/ally reaction sequencing and other healing definitions remain manual.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "water-bubble:Water Bubble": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 577,
+      "fields": {
+        "Effect": "Reduce by 1 the total damage dealt to this Pokemon by Fire-Type Moves. 1st and 2nd Degree Burns deal no Damage to this Pokemon. Add 2 Extra Dice to the Damage Pool of this Pokemon's Water-Type Moves."
+      },
+      "coverage": "Water moves gain two damage dice; reduce incoming Fire damage by one and ignore first/second Burn damage.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "wonder-guard:Wonder Guard": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 579,
+      "fields": {
+        "Effect": "This Pokemon only receives damage from Status Ailments/Conditions, and Moves that deal Super Effective damage against it. This Pokemon is immune to damage from other sources like weather conditions and entry hazards. Unique Ability."
+      },
+      "coverage": "Prevent non-super-effective move damage and supported indirect damage; condition damage still applies.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
+    },
+    "wonder-skin:Wonder Skin": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 579,
+      "fields": {
+        "Effect": "Reduce up to 2 Chance Dice from Effects of Moves or Abilities that target this Pokemon. (Example: The move Ember has 1 Chance Dice to Burn the foe, against this Pokemon it has zero Chance Dice)."
+      },
+      "coverage": "Reduce chance dice for supported incoming added effects by two; independent selectors remain independent.",
+      "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
     }
   }
 }

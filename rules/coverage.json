@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.6.0-core",
-  "release": "0.13.0",
-  "protocol": 14,
+  "engine": "0.7.0-core",
+  "release": "0.14.0",
+  "protocol": 15,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -157,7 +157,7 @@
       "fixtures": [
         "field_moves_record_scope_expire_and_cannot_be_evaded"
       ],
-      "scope": "Battlefield/allied/opposing-side targeting, GM-recorded persistent field effects, durations, expiry and removal. Mechanical weather/terrain/force-field effects and temporary typing remain manual."
+      "scope": "Typed weather, terrain, force fields, rooms and temporary typing use the shared battlefield service. Unreviewed field moves and narrative effects retain GM adjudication."
     },
     {
       "id": "trainer-lethal",
@@ -193,7 +193,37 @@
         "field_weather_ability_contest_suppression_departure_and_reconnect"
       ],
       "scope": "Eight weathers, terrains, screens, rooms, temporary typing and typed arena presets. Torn World target adjudication and narrative Run Away remain manual; no held-item or transformation system."
+    },
+    {
+      "id": "extended-abilities",
+      "status": "partial",
+      "source": "MASTER 536-579; per-definition pages in ability-coverage.json",
+      "fixtures": [
+        "extra_damage_families_use_reviewed_types_tags_and_final_reductions",
+        "extra_conversion_and_scrappy_apply_to_damage_stab_and_immunity",
+        "extra_conditional_stats_and_ability_channels_do_not_duplicate_bonuses",
+        "extra_sourced_stats_trigger_protection_reflection_and_once_only_retaliation",
+        "extra_hit_reactions_cover_immunity_defenses_disguise_and_fainting",
+        "extra_poison_heal_ticks_once_cures_after_three_rounds_and_does_not_revive",
+        "extra_chance_modifiers_and_effect_spore_selector_do_not_share_dice",
+        "extra_no_guard_choice_disables_defenses_and_low_accuracy_for_one_round",
+        "extra_entry_decisions_enforce_gm_role_and_hospitality_will",
+        "extra_end_round_cure_precedes_round_expiry_without_duplicate_status_damage",
+        "extra_corrosion_and_protective_auras_keep_self_infliction_distinct",
+        "extra_typing_traps_and_infiltrator_use_encounter_state",
+        "extra_mimicry_preserves_secondary_type_and_highest_attribute_ties_need_a_choice",
+        "extra_color_change_restores_underlying_scene_typing_and_libero_changes_before_damage",
+        "extra_cursed_body_tracks_distinct_disabled_moves_and_shed_skin_selects_without_bias",
+        "extra_quick_draw_and_slow_start_preserve_round_order_rules",
+        "extra_beast_boost_requires_a_tie_choice_and_sand_spit_does_not_refresh",
+        "extra_sourced_stat_api_requires_gm_and_mega_launcher_uses_complete_healing",
+        "extra_catalog_abilities_preserve_sheets_and_reconnect_without_repeating_entry_events",
+        "extra_paralysis_and_weather_immunity_do_not_rewrite_historical_engines",
+        "extra_converted_hits_use_the_same_type_for_reduction_reactions_and_immunity",
+        "extra_pending_round_choices_preserve_knockout_provenance"
+      ],
+      "scope": "207 abilities have automated or partial scope. Conditional stats, sourced stat reactions, damage modifiers, typing, chance events, healing, entry/exit and round hooks. All remaining definitions list concrete dependencies; the catalog is not complete."
     }
   ],
-  "ability_registry_hash": "c52ca353a52106b283770fa8896418659d6567b2384111ca1e2af68a31a58f02"
+  "ability_registry_hash": "534a51d067a4ebc0a05fe882aca6ec99be4390647d0dc5e8fd4542745338d355"
 }

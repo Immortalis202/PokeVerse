@@ -181,7 +181,12 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
   }
   catalog.review_sources = sources;
   catalog.rules_coverage_hash = createHash("sha256")
-    .update(await readFile(path.join(app, "rules/coverage.json")))
+    .update(
+      (await readFile(path.join(app, "rules/coverage.json"), "utf8")).replace(
+        /\r\n/g,
+        "\n",
+      ),
+    )
     .digest("hex");
   const output = path.join(root, "outputs/rule-coverage");
   await mkdir(output, { recursive: true });
@@ -199,6 +204,7 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
             abilityRegistry.default_status,
           scope: entry.Review.coverage,
           page: abilityRegistry.entries[entry.Name]?.page ?? null,
+          dependencies: abilityRegistry.entries[entry.Name]?.dependencies ?? [],
         })),
       },
       null,

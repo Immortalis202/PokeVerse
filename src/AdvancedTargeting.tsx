@@ -42,7 +42,9 @@ export default function AdvancedTargeting({
   }, [move, catalog]);
   const b = campaign.battle;
   if (
-    !["0.4.0-core", "0.5.0-core", "0.6.0-core"].includes(campaign.engine) ||
+    !["0.4.0-core", "0.5.0-core", "0.6.0-core", "0.7.0-core"].includes(
+      campaign.engine,
+    ) ||
     !b?.active
   )
     return null;

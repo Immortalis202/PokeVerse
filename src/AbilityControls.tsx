@@ -16,6 +16,10 @@ export default function AbilityControls({
 }) {
   const [reason, setReason] = useState(""),
     [notice, setNotice] = useState("");
+  const [statSource, setStatSource] = useState(""),
+    [statTarget, setStatTarget] = useState(""),
+    [stat, setStat] = useState("Strength"),
+    [change, setChange] = useState(-1);
   const b = campaign.battle,
     f = b?.flow;
   if (!b?.active || !f?.ability_rules) return null;
@@ -23,7 +27,9 @@ export default function AbilityControls({
   const event = f.ability_events[0];
   const owner = event && b.combatants.find((p) => p.id === event.combatant_id);
   const target = event && b.combatants.find((p) => p.id === event.target_id);
-  const owned = owner && (gm || owner.owner_id === playerId);
+  const owned =
+    owner &&
+    (gm || (event?.kind !== "extra-download" && owner.owner_id === playerId));
   const command = (choice: string): Action => ({
     type: "resolve_ability",
     event_id: event!.id,
@@ -67,6 +73,105 @@ export default function AbilityControls({
             </div>
           ))}
       </div>
+      {gm && f.extra?.enabled && (
+        <details>
+          <summary>Sourced battle stat ruling</summary>
+          <p>
+            Record the source of a manual stat effect so protections and
+            reactive abilities can resolve. Permanent sheets are unchanged.
+          </p>
+          <div className="form-grid">
+            <label>
+              Source Pokémon
+              <select
+                value={statSource}
+                onChange={(e) => setStatSource(e.target.value)}
+              >
+                <option value="">Choose</option>
+                {b.combatants
+                  .filter((p) => p.deployed)
+                  .map((p) => (
+                    <option key={p.id} value={p.id}>
+                      {p.name}
+                    </option>
+                  ))}
+              </select>
+            </label>
+            <label>
+              Affected Pokémon
+              <select
+                value={statTarget}
+                onChange={(e) => setStatTarget(e.target.value)}
+              >
+                <option value="">Choose</option>
+                {b.combatants
+                  .filter((p) => p.deployed)
+                  .map((p) => (
+                    <option key={p.id} value={p.id}>
+                      {p.name}
+                    </option>
+                  ))}
+              </select>
+            </label>
+            <label>
+              Attribute / defense
+              <select value={stat} onChange={(e) => setStat(e.target.value)}>
+                {[
+                  "Strength",
+                  "Dexterity",
+                  "Vitality",
+                  "Special",
+                  "Insight",
+                  "Defense",
+                  "SpecialDefense",
+                ].map((k) => (
+                  <option key={k}>{k}</option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Change
+              <input
+                type="number"
+                min={-3}
+                max={3}
+                value={change}
+                onChange={(e) => setChange(Number(e.target.value))}
+              />
+            </label>
+            <label>
+              Recorded reason
+              <input
+                value={reason}
+                maxLength={1000}
+                onChange={(e) => setReason(e.target.value)}
+              />
+            </label>
+          </div>
+          <button
+            disabled={
+              disabled ||
+              !!event ||
+              !statSource ||
+              !statTarget ||
+              !reason.trim() ||
+              change === 0
+            }
+            onClick={() =>
+              execute({
+                type: "battle_stat",
+                source_id: statSource,
+                combatant_id: statTarget,
+                stat,
+                change,
+                reason,
+              })
+            }
+          >
+            Apply sourced stat effect
+          </button>
+        </details>
+      )}
       {event && (
         <div className="notice" role="status">
           <h4>Pending: {event.ability}</h4>
@@ -101,7 +206,12 @@ export default function AbilityControls({
                           ? "Roll ability dice"
                           : choice === "heal"
                             ? "Restore 1 HP"
-                            : "Decline healing"}
+                            : choice === "decline"
+                              ? "Decline"
+                              : choice === "activate"
+                                ? "Activate No Guard"
+                                : (b.combatants.find((p) => p.id === choice)
+                                    ?.name ?? `Select ${choice}`)}
                     </button>
                   </span>
                 ))}
