@@ -349,6 +349,13 @@ pub fn live_types(c: &Campaign, p: &Combatant, cat: &Catalog) -> Result<Vec<Stri
         .filter(|t| !t.is_empty())
         .map(str::to_owned)
         .collect();
+    if special::enabled(c) {
+        for t in &mut ts {
+            if t == "Fighting" {
+                *t = "Fight".into();
+            }
+        }
+    }
     if !enabled(c) {
         return Ok(ts);
     }
@@ -683,7 +690,22 @@ pub fn reduction(
     if has(c, "flowers", source) {
         n += 2;
     }
+    if special::vulnerable(c, &target.id, m["Name"].as_str().unwrap_or("")) {
+        n -= 2;
+    }
     if source.selected_ability != "Infiltrator"
+        && !(special::enabled(c)
+            && (m["Attributes"]["SoundMove"] == true
+                || [
+                    "Phantom Force",
+                    "Shadow Force",
+                    "Hyperspace Hole",
+                    "Hyperspace Fury",
+                    "Doom Desire",
+                    "Future Sight",
+                ]
+                .contains(&m["Name"].as_str().unwrap_or(""))
+                || special::vulnerable(c, &target.id, m["Name"].as_str().unwrap_or(""))))
         && !["Brick Break", "Psychic Fangs"].contains(&m["Name"].as_str().unwrap_or(""))
     {
         n += state(c)
@@ -712,6 +734,9 @@ pub fn prevents_status(c: &Campaign, p: &Combatant, kind: &str) -> bool {
         }
 }
 fn heal(c: &mut Campaign, id: &str, n: i32, limited: bool) -> Result<()> {
+    if special::healing_blocked(c, id) {
+        return Ok(());
+    }
     let p = fighter_mut(c, id)?;
     if p.hp == 0 {
         return Ok(());
@@ -1574,6 +1599,7 @@ pub fn move_data(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> serde_js
         }
     }
     extra::move_data(c, p, &mut m);
+    special::move_data(c, p, &mut m);
     m
 }
 pub fn target_bonus(c: &Campaign, target: &Combatant, m: &serde_json::Value) -> i32 {

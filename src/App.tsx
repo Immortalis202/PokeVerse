@@ -1253,7 +1253,7 @@ export default function App() {
                   </div>
                   <div className="list-row">
                     <span>Engine</span>
-                    <strong>0.7.0 · Battlefield and reviewed abilities</strong>
+                    <strong>0.8.0 · Special moves and battle automation</strong>
                   </div>
                   <div className="list-row">
                     <span>Transport</span>
@@ -1294,7 +1294,7 @@ export default function App() {
           <span>
             <span className="dot online" /> Your library stays with you.
           </span>
-          <span>POKEROLE 3.0 · v0.14.0</span>
+          <span>POKEROLE 3.0 · v0.15.0</span>
         </footer>
       </div>
       {editor && (

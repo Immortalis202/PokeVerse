@@ -21,7 +21,15 @@ pub struct FieldEffect {
 }
 
 pub(super) fn require_targeting(c: &Campaign) -> Result<()> {
-    if ![ENGINE, FIELD_ENGINE, ABILITY_ENGINE, TARGET_ENGINE].contains(&c.engine.as_str()) {
+    if ![
+        ENGINE,
+        EXTRA_ENGINE,
+        FIELD_ENGINE,
+        ABILITY_ENGINE,
+        TARGET_ENGINE,
+    ]
+    .contains(&c.engine.as_str())
+    {
         return Err(AppError::new(
             "version",
             "Upgrade the engine between battles to use advanced targeting",
@@ -66,6 +74,54 @@ pub(super) fn plan(
     m: &serde_json::Value,
 ) -> Result<(Vec<String>, Option<String>)> {
     let p = fighter(c, id)?;
+    if special::enabled(c) && ["Wish", "Lunar Blessing"].contains(&m["Name"].as_str().unwrap_or(""))
+    {
+        if requested.len() != 1 {
+            return Err(error("Choose the user or one active ally"));
+        }
+        let t = fighter(c, &requested[0])?;
+        if t.hp == 0 || t.side != p.side {
+            return Err(error("Choose a living allied target"));
+        }
+        return Ok((requested.to_vec(), None));
+    }
+    if special::enabled(c)
+        && m["Name"] == "Expanding Force"
+        && field::has(c, "Psychic Terrain", p)
+        && requested.len() == 2
+    {
+        let cap = [1, 2, 3, 4, 5, 6, 8, 10]
+            [crate::creation::rank(&c.sheets[&p.sheet_id].rank).unwrap_or(0)];
+        if cap < 2 || requested[0] == requested[1] {
+            return Err(error(
+                "Expanding Force targets exceed the rank cap or repeat an identity",
+            ));
+        }
+        for key in requested {
+            let t = fighter(c, key)?;
+            if t.hp == 0
+                || t.side == p.side
+                || flow(c)?
+                    .ranges
+                    .get(id)
+                    .is_some_and(|range| !range.contains(key))
+            {
+                return Err(error("Choose two available foes in range"));
+            }
+            special::target_guard(c, key, m)?;
+        }
+        return Ok((requested.to_vec(), None));
+    }
+    if special::enabled(c) && m["Name"] == "Revival Blessing" {
+        if requested.len() != 1 {
+            return Err(error("Choose one fainted registered ally"));
+        }
+        let target = special::registered(c, &requested[0])?;
+        if target.side != p.side || target.hp != 0 {
+            return Err(error("Revival Blessing requires a fainted ally"));
+        }
+        return Ok((requested.to_vec(), None));
+    }
     let pattern = m["Target"].as_str().unwrap_or("");
     let advanced = !["Self", "Foe", "Ally"].contains(&pattern);
     if advanced {
@@ -107,7 +163,7 @@ pub(super) fn plan(
             .combatants
             .iter()
             .filter(active)
-            .filter(|v| v.id != id && in_range(&v.id))
+            .filter(|v| v.id != id && in_range(&v.id) && special::target_guard(c, &v.id, m).is_ok())
             .collect();
         all.sort_by_key(|v| (v.side == p.side, v.id.clone()));
         let expected: Vec<_> = all.into_iter().take(cap).map(|v| v.id.clone()).collect();
@@ -134,6 +190,7 @@ pub(super) fn plan(
     }
     for key in &ids {
         let t = fighter(c, key)?;
+        special::target_guard(c, key, m)?;
         if t.hp == 0 || t.available_round > battle(c)?.round || !in_range(key) {
             return Err(error(
                 "Target is fainted, unavailable or outside the GM-confirmed range",
@@ -205,7 +262,10 @@ pub(super) fn cleanup_covers(before: &Campaign, next: &mut Campaign, a: &Action)
     }
 }
 
-pub(super) fn redirect(c: &Campaign, source: &str, ids: Vec<String>) -> Vec<String> {
+pub(super) fn redirect(c: &Campaign, source: &str, ids: Vec<String>, bypass: bool) -> Vec<String> {
+    if special::enabled(c) && bypass {
+        return ids;
+    }
     if extra::enabled(c) && fighter(c, source).is_ok_and(|p| p.selected_ability == "Infiltrator") {
         return ids;
     }
@@ -346,7 +406,7 @@ pub(super) fn damage_dice(
     Ok(rules::damage_pool(&temp, &q.actor_id, q.sequence, modifier, cat)?.dice)
 }
 
-pub(super) fn cover_pool(c: &Campaign, id: &str, ally: &str) -> Result<u32> {
+pub(super) fn cover_pool(c: &Campaign, id: &str, ally: &str, cat: &Catalog) -> Result<u32> {
     require_targeting(c)?;
     ready(c, id)?;
     let p = fighter(c, id)?;
@@ -356,6 +416,14 @@ pub(super) fn cover_pool(c: &Campaign, id: &str, ally: &str) -> Result<u32> {
         .queue
         .last()
         .ok_or_else(|| error("No incoming attack to intercept"))?;
+    let m = move_entry(cat, &q.move_name)?;
+    if special::enabled(c)
+        && (m["Attributes"]["SoundMove"] == true
+            || ["Phantom Force", "Shadow Force"].contains(&q.move_name.as_str())
+            || special::vulnerable(c, ally, &q.move_name))
+    {
+        return Err(error("This move bypasses Cover"));
+    }
     if extra::enabled(c) && fighter(c, &q.actor_id)?.selected_ability == "Infiltrator" {
         return Err(error("Infiltrator bypasses Cover an Ally"));
     }
@@ -429,7 +497,7 @@ pub(super) fn targeting_action(
         } => {
             owner(c, actor, combatant_id)?;
             reason(r)?;
-            let base = cover_pool(c, combatant_id, ally_id)?;
+            let base = cover_pool(c, combatant_id, ally_id, cat)?;
             check_count(dice, dice_count(c, a, cat)?)?;
             let p = fighter(c, combatant_id)?;
             let saved_pain = p.runtime.pain_ignored;

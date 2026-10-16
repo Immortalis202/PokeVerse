@@ -23,12 +23,21 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
       ).replace(/\r\n/g, "\n"),
     )
     .digest("hex");
+  const specialText = (
+    await readFile(path.join(app, "rules/special-moves.json"), "utf8")
+  ).replace(/\r\n/g, "\n");
+  const specialRegistry = JSON.parse(specialText);
+  const specialHash = createHash("sha256").update(specialText).digest("hex");
   const coverageRegistry = JSON.parse(
     await readFile(path.join(app, "rules/coverage.json"), "utf8"),
   );
   if (coverageRegistry.ability_registry_hash !== abilityHash)
     throw new Error(
       "Ability registry changed without updating the rules coverage fingerprint",
+    );
+  if (coverageRegistry.special_registry_hash !== specialHash)
+    throw new Error(
+      "Special move registry changed without updating the coverage fingerprint",
     );
   for (const kind of ["species", "moves", "abilities", "items", "natures"]) {
     for (const entry of catalog[kind]) {
@@ -109,6 +118,8 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
             pdf_page: entry.Creation?.pdf_page ?? null,
           });
       }
+      if (kind === "moves" && specialRegistry.entries[entry.Name])
+        entry.SpecialRules = specialRegistry.entries[entry.Name];
       entry.Review = {
         version: 1,
         fields: fieldReview,
@@ -116,6 +127,7 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
           (kind === "abilities"
             ? abilityRegistry.entries[entry.Name]?.scope
             : null) ??
+          entry.SpecialRules?.scope ??
           evidence?.coverage ??
           "GM adjudication",
         notes: evidence?.notes ?? null,
@@ -190,6 +202,20 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
     .digest("hex");
   const output = path.join(root, "outputs/rule-coverage");
   await mkdir(output, { recursive: true });
+  await writeFile(
+    path.join(output, "special-move-coverage.json"),
+    JSON.stringify(
+      {
+        version: 1,
+        engine: specialRegistry.engine,
+        entries: catalog.moves
+          .filter((e) => e.SpecialRules)
+          .map((e) => ({ id: e.AppId, name: e.Name, ...e.SpecialRules })),
+      },
+      null,
+      2,
+    ),
+  );
   await writeFile(
     path.join(output, "ability-coverage.json"),
     JSON.stringify(

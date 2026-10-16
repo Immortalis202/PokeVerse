@@ -111,6 +111,7 @@ test("coverage and PDF fingerprints are preserved with a complete field-level qu
       readFileSync("src-tauri/src/combat_tests/ability_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/field_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/extra_tests.rs", "utf8") +
+      readFileSync("src-tauri/src/combat_tests/special_tests.rs", "utf8") +
       readFileSync("src-tauri/src/tests.rs", "utf8");
     const coverage = JSON.parse(readFileSync("rules/coverage.json", "utf8"));
     for (const entry of coverage.entries)
@@ -145,11 +146,11 @@ test("ability inventory exposes reviewed scopes and preserves manual boundaries"
   assert.equal(inventory.entries.length, 305);
   assert.equal(
     inventory.entries.filter((e) => e.status !== "manual").length,
-    207,
+    209,
   );
   assert.equal(
     Object.values(registry.entries).filter((e) => e.status !== "manual").length,
-    207,
+    209,
   );
   assert.equal(
     inventory.entries.find((e) => e.name === "Static").status,
@@ -188,6 +189,46 @@ test("ability inventory exposes reviewed scopes and preserves manual boundaries"
     const ability = JSON.parse(raw.data);
     assert.equal(ability.Review.fields.Effect.status, "reviewed");
     assert.ok(ability.Review.coverage.includes("three chance dice"));
+  } finally {
+    db.close();
+  }
+});
+
+test("special move inventory has stable IDs, manual boundaries and a compatibility fingerprint", () => {
+  const registry = JSON.parse(readFileSync("rules/special-moves.json", "utf8"));
+  const coverage = JSON.parse(readFileSync("rules/coverage.json", "utf8"));
+  assert.equal(
+    coverage.special_registry_hash,
+    createHash("sha256")
+      .update(
+        readFileSync("rules/special-moves.json", "utf8").replace(/\r\n/g, "\n"),
+      )
+      .digest("hex"),
+  );
+  const inventory = JSON.parse(
+    readFileSync("../outputs/rule-coverage/special-move-coverage.json", "utf8"),
+  );
+  assert.equal(inventory.entries.length, 213);
+  assert.equal(registry.entries["Max Guard"].status, "manual");
+  assert.ok(
+    registry.entries["Bide"].dependencies.includes("manual-wording-decision"),
+  );
+  const db = new DatabaseSync("src-tauri/resources/catalog.db", {
+    readOnly: true,
+  });
+  try {
+    for (const e of inventory.entries) {
+      const row = db
+        .prepare("select data from entries where kind='moves' and id=?")
+        .get(e.id);
+      assert.ok(row, e.name);
+      const move = JSON.parse(row.data);
+      assert.equal(move.Name, e.name);
+      assert.equal(move.SpecialRules.status, e.status);
+      assert.ok(e.id && e.scope && e.families.length, e.name);
+      if (e.status === "automated") assert.ok(e.page, e.name);
+      else assert.ok(e.dependencies.length, e.name);
+    }
   } finally {
     db.close();
   }

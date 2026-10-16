@@ -119,12 +119,16 @@ pub fn accuracy(
             "Combatant is fainted or has used all five actions",
         ));
     }
-    if automatic && p.used_moves.iter().any(|m| m == name) {
+    if automatic
+        && p.used_moves.iter().any(|m| m == name)
+        && !crate::combat::special::repeat(c, key, name)
+    {
         return Err(AppError::new(
             "battle",
             "Move already attempted this round; special repeat effects need GM adjudication",
         ));
     }
+    crate::combat::special::accuracy_guard(c, key, name)?;
     let s = effective_sheet(c, p)?;
     crate::combat::abilities::guard(c, p)?;
     if automatic && !s.moves.iter().any(|m| m == name) {
@@ -137,6 +141,7 @@ pub fn accuracy(
         .find("moves", "Name", name)
         .ok_or_else(|| AppError::new("missing", "Unknown move"))?;
     crate::combat::field::guard_move(c, p, &m)?;
+    crate::combat::special::guard(c, key, &m, catalog)?;
     let m = crate::combat::field::move_data(c, p, &m);
     let first = score(&s, m["Accuracy1"].as_str().unwrap_or_default())?;
     let second = match m["Accuracy2"].as_str().unwrap_or_default() {
@@ -158,6 +163,18 @@ pub fn accuracy(
     };
     let pool = first
         .checked_add(crate::combat::extra::accuracy_bonus(c, p, &m))
+        .and_then(|v| {
+            v.checked_add(
+                if crate::combat::special::enabled(c)
+                    && p.selected_ability == "Skill Link"
+                    && crate::combat::special::limit(&m) > 1
+                {
+                    2
+                } else {
+                    0
+                },
+            )
+        })
         .and_then(|v| v.checked_add(second))
         .and_then(|v| v.checked_add(rank_bonus))
         .and_then(|v| v.checked_add(modifier))
@@ -174,6 +191,7 @@ pub fn accuracy(
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
     if [
         ENGINE,
+        EXTRA_ENGINE,
         FIELD_ENGINE,
         ABILITY_ENGINE,
         TARGET_ENGINE,
@@ -270,6 +288,10 @@ pub fn damage_pool(
         .find("moves", "Name", &hit.move_name)
         .ok_or_else(|| AppError::new("missing", "Unknown move"))?;
     let m = crate::combat::field::move_data(c, attacker, &m);
+    if let Some(pool) = crate::combat::special::formula(c, attacker, target, &m, modifier, catalog)?
+    {
+        return Ok(pool);
+    }
     let defense_source = match m["Category"].as_str() {
         Some("Physical") => "Vitality",
         Some("Special") => "Insight",
@@ -327,6 +349,12 @@ pub fn damage_pool(
         .and_then(|f| f.defenses.get(&target.id))
         .map_or(defense, |d| d[usize::from(defense_source != "Vitality")])
         .max(1);
+    let defense = if crate::combat::special::enabled(c) && m["Attributes"]["IgnoreDefenses"] == true
+    {
+        0
+    } else {
+        defense
+    };
     let move_type = m["Type"].as_str().unwrap_or_default();
     let stab = i32::from(
         source.kind == "pokemon"
@@ -374,7 +402,8 @@ pub fn damage_pool(
         immune |= effect == -100
             && !(move_type == "Ground"
                 && t == "Flying"
-                && crate::combat::field::has(c, "Gravity", target));
+                && (crate::combat::field::has(c, "Gravity", target)
+                    || crate::combat::special::roost(c, &target.id)));
         if effect != -100 {
             effectiveness += effect;
         }
@@ -418,6 +447,11 @@ pub fn damage_pool(
         + modifier
         + ability_bonus
         + extra
+        + if let Some(n) = context.and_then(|ctx| ctx.special_bonus.get(&target.id)) {
+            *n
+        } else {
+            crate::combat::special::bonus(c, attacker, target, &m, catalog)?
+        }
         + crate::combat::field::target_bonus(c, target, &m)
         + context.map_or_else(
             || crate::combat::field::bonus(c, attacker, &m),

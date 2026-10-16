@@ -24,6 +24,8 @@ pub struct AbilityEvent {
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct DamageContext {
     #[serde(default)]
+    pub special_bonus: BTreeMap<String, i32>,
+    #[serde(default)]
     pub ability_sources: Vec<Combatant>,
     #[serde(default)]
     pub field_snapshot: Option<field::FieldSnapshot>,
@@ -141,6 +143,7 @@ pub fn coverage(c: &Campaign, name: &str) -> Option<&'static str> {
     });
     let entry = &REGISTRY["entries"][name];
     if (entry["introduced_engine"] == "0.7.0-core" && !extra::enabled(c))
+        || (entry["introduced_engine"] == "0.8.0-core" && !special::enabled(c))
         || (entry["introduced_engine"] == "0.6.0-core" && !field::enabled(c))
     {
         return Some("This ability requires a newer encounter engine; upgrade between battles or record a GM ruling");
@@ -252,7 +255,8 @@ pub fn move_immune(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> bool {
     enabled(c)
         && ((p.selected_ability == "Levitate"
             && m["Type"] == "Ground"
-            && !field::has(c, "Gravity", p))
+            && !field::has(c, "Gravity", p)
+            && !special::roost(c, &p.id))
             || (p.selected_ability == "Soundproof" && m["Attributes"]["SoundMove"] == true))
 }
 pub fn damage_immune(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> bool {
@@ -587,8 +591,9 @@ pub fn resolve(
     } else if e.kind.starts_with("extra-") {
         extra::resolve(next, actor, &e, choice, results, cat)?;
     } else if e.kind == "heal" && choice == "heal" {
+        let allowed = !special::healing_blocked(c, &e.target_id);
         let p = fighter_mut(next, &e.target_id)?;
-        if p.hp > 0 {
+        if p.hp > 0 && allowed {
             p.hp = (p.hp + 1).min(p.max_hp);
         }
     } else if e.kind == "retaliate" {

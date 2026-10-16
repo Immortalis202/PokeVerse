@@ -1,0 +1,2148 @@
+{
+  "version": 1,
+  "engine": "0.8.0-core",
+  "release": "0.15.0",
+  "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+  "sources_note": "Printed page numbers; PDF page = printed page - 133. Family rules: RULING 61,73-83.",
+  "entries": {
+    "Absorb": {
+      "id": "absorb:Absorb",
+      "families": [
+        "drain"
+      ],
+      "status": "automated",
+      "scope": "Restore half of final damage, rounded down, under the three-HP healing cap. No Will charge for unlabelled drain; Liquid Ooze reverses the recovery.",
+      "page": 475,
+      "dependencies": []
+    },
+    "Aqua Ring": {
+      "id": "aqua-ring:Aqua Ring",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 524,
+      "dependencies": []
+    },
+    "Arm Thrust": {
+      "id": "arm-thrust:Arm Thrust",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 458,
+      "dependencies": []
+    },
+    "Aromatherapy": {
+      "id": "aromatherapy:Aromatherapy",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 475,
+      "dependencies": []
+    },
+    "Assurance": {
+      "id": "assurance:Assurance",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 443,
+      "dependencies": []
+    },
+    "Avalanche": {
+      "id": "avalanche:Avalanche",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 484,
+      "dependencies": []
+    },
+    "Baneful Bunker": {
+      "id": "baneful-bunker:Baneful Bunker",
+      "families": [
+        "shields"
+      ],
+      "status": "automated",
+      "scope": "Reviewed Shield reduction, effect protection, category/priority restrictions and contact retaliation. Caster attempts share the once-per-round limit and exponential consecutive-round accuracy penalty.",
+      "page": 507,
+      "dependencies": []
+    },
+    "Barb Barrage": {
+      "id": "barb-barrage:Barb Barrage",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 507,
+      "dependencies": []
+    },
+    "Barrage": {
+      "id": "barrage:Barrage",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 487,
+      "dependencies": []
+    },
+    "Beak Blast": {
+      "id": "beak-blast:Beak Blast",
+      "families": [
+        "charge"
+      ],
+      "status": "automated",
+      "scope": "Stored accuracy, preparation/release actions on later turns, target response timing, weather shortcuts, out-of-range/vulnerability and reviewed preparation effects. Recall cancels the stored charge.",
+      "page": 469,
+      "dependencies": []
+    },
+    "Bide": {
+      "id": "bide:Bide",
+      "families": [
+        "fixed-varied"
+      ],
+      "status": "partial",
+      "scope": "Ambiguous printed User/Target damage basis requires a recorded GM choice; then tracks two incoming attacks and releases the chosen literal basis.",
+      "page": 488,
+      "dependencies": [
+        "manual-wording-decision"
+      ]
+    },
+    "Bitter Blade": {
+      "id": "bitter-blade:Bitter Blade",
+      "families": [
+        "drain"
+      ],
+      "status": "automated",
+      "scope": "Restore half of final damage, rounded down, under the three-HP healing cap. No Will charge for unlabelled drain; Liquid Ooze reverses the recovery.",
+      "page": 464,
+      "dependencies": []
+    },
+    "Bitter Malice": {
+      "id": "bitter-malice:Bitter Malice",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 472,
+      "dependencies": []
+    },
+    "Blast Burn": {
+      "id": "blast-burn:Blast Burn",
+      "families": [
+        "recharge"
+      ],
+      "status": "automated",
+      "scope": "A successful un-cancelled hit creates one next-round recharge action. Obligations stack across moves and survive recall.",
+      "page": 464,
+      "dependencies": []
+    },
+    "Bolt Beak": {
+      "id": "bolt-beak:Bolt Beak",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 451,
+      "dependencies": []
+    },
+    "Bone Rush": {
+      "id": "bone-rush:Bone Rush",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 481,
+      "dependencies": []
+    },
+    "Bonemerang": {
+      "id": "bonemerang:Bonemerang",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 481,
+      "dependencies": []
+    },
+    "Bounce": {
+      "id": "bounce:Bounce",
+      "families": [
+        "charge"
+      ],
+      "status": "automated",
+      "scope": "Stored accuracy, preparation/release actions on later turns, target response timing, weather shortcuts, out-of-range/vulnerability and reviewed preparation effects. Recall cancels the stored charge.",
+      "page": 469,
+      "dependencies": []
+    },
+    "Bouncy Bubble": {
+      "id": "bouncy-bubble:Bouncy Bubble",
+      "families": [
+        "drain"
+      ],
+      "status": "automated",
+      "scope": "Restore half of final damage, rounded down, under the three-HP healing cap. No Will charge for unlabelled drain; Liquid Ooze reverses the recovery.",
+      "page": 524,
+      "dependencies": []
+    },
+    "Brave Bird": {
+      "id": "brave-bird:Brave Bird",
+      "families": [
+        "recoil"
+      ],
+      "status": "automated",
+      "scope": "Roll raw damage successes again as recoil dice. Rock Head/Magic Guard and reviewed user/target secondary effects apply separately.",
+      "page": 470,
+      "dependencies": []
+    },
+    "Brine": {
+      "id": "brine:Brine",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 524,
+      "dependencies": []
+    },
+    "Bullet Seed": {
+      "id": "bullet-seed:Bullet Seed",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 475,
+      "dependencies": []
+    },
+    "Burning Bulwark": {
+      "id": "burning-bulwark:Burning Bulwark",
+      "families": [
+        "shields"
+      ],
+      "status": "automated",
+      "scope": "Reviewed Shield reduction, effect protection, category/priority restrictions and contact retaliation. Caster attempts share the once-per-round limit and exponential consecutive-round accuracy penalty.",
+      "page": 465,
+      "dependencies": []
+    },
+    "Chloroblast": {
+      "id": "cloroblast:Chloroblast",
+      "families": [
+        "recoil"
+      ],
+      "status": "automated",
+      "scope": "Roll raw damage successes again as recoil dice. Rock Head/Magic Guard and reviewed user/target secondary effects apply separately.",
+      "page": 475,
+      "dependencies": []
+    },
+    "Collision Course": {
+      "id": "collision-course:Collision Course",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 459,
+      "dependencies": []
+    },
+    "Comet Punch": {
+      "id": "comet-punch:Comet Punch",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 489,
+      "dependencies": []
+    },
+    "Comeuppance": {
+      "id": "comeuppance:Comeuppance",
+      "families": [
+        "fixed-varied"
+      ],
+      "status": "automated",
+      "scope": "Exact card formula replaces ordinary damage pools; typed immunity/effectiveness, named caps and prerequisites are checked. No invented video-game formulas or lethal-wound resources.",
+      "page": 444,
+      "dependencies": []
+    },
+    "Counter": {
+      "id": "counter:Counter",
+      "families": [
+        "fixed-varied"
+      ],
+      "status": "automated",
+      "scope": "Exact card formula replaces ordinary damage pools; typed immunity/effectiveness, named caps and prerequisites are checked. No invented video-game formulas or lethal-wound resources.",
+      "page": 460,
+      "dependencies": []
+    },
+    "Crafty Shield": {
+      "id": "crafty-shield:Crafty Shield",
+      "families": [
+        "shields"
+      ],
+      "status": "automated",
+      "scope": "Reviewed Shield reduction, effect protection, category/priority restrictions and contact retaliation. Caster attempts share the once-per-round limit and exponential consecutive-round accuracy penalty.",
+      "page": 456,
+      "dependencies": []
+    },
+    "Crush Grip": {
+      "id": "crush-grip:Crush Grip",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 490,
+      "dependencies": []
+    },
+    "Detect": {
+      "id": "detect:Detect",
+      "families": [
+        "shields"
+      ],
+      "status": "automated",
+      "scope": "Reviewed Shield reduction, effect protection, category/priority restrictions and contact retaliation. Caster attempts share the once-per-round limit and exponential consecutive-round accuracy penalty.",
+      "page": 460,
+      "dependencies": []
+    },
+    "Dig": {
+      "id": "dig:Dig",
+      "families": [
+        "charge"
+      ],
+      "status": "automated",
+      "scope": "Stored accuracy, preparation/release actions on later turns, target response timing, weather shortcuts, out-of-range/vulnerability and reviewed preparation effects. Recall cancels the stored charge.",
+      "page": 481,
+      "dependencies": []
+    },
+    "Dive": {
+      "id": "dive:Dive",
+      "families": [
+        "charge"
+      ],
+      "status": "automated",
+      "scope": "Stored accuracy, preparation/release actions on later turns, target response timing, weather shortcuts, out-of-range/vulnerability and reviewed preparation effects. Recall cancels the stored charge.",
+      "page": 525,
+      "dependencies": []
+    },
+    "Double Hit": {
+      "id": "double-hit:Double Hit",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 490,
+      "dependencies": []
+    },
+    "Double Iron Bash": {
+      "id": "double-iron-bash:Double Iron Bash",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 520,
+      "dependencies": []
+    },
+    "Double Kick": {
+      "id": "double-kick:Double Kick",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 460,
+      "dependencies": []
+    },
+    "Double Slap": {
+      "id": "double-slap:Double Slap",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 490,
+      "dependencies": []
+    },
+    "Double-Edge": {
+      "id": "double-edge:Double-Edge",
+      "families": [
+        "recoil"
+      ],
+      "status": "automated",
+      "scope": "Roll raw damage successes again as recoil dice. Rock Head/Magic Guard and reviewed user/target secondary effects apply separately.",
+      "page": 490,
+      "dependencies": []
+    },
+    "Dragon Darts": {
+      "id": "dragon-darts:Dragon Darts",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 449,
+      "dependencies": []
+    },
+    "Dragon Energy": {
+      "id": "dragon-energy:Dragon Energy",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 449,
+      "dependencies": []
+    },
+    "Dragon Rage": {
+      "id": "dragon-rage:Dragon Rage",
+      "families": [
+        "fixed-varied"
+      ],
+      "status": "automated",
+      "scope": "Exact card formula replaces ordinary damage pools; typed immunity/effectiveness, named caps and prerequisites are checked. No invented video-game formulas or lethal-wound resources.",
+      "page": 449,
+      "dependencies": []
+    },
+    "Drain Punch": {
+      "id": "drain-punch:Drain Punch",
+      "families": [
+        "drain"
+      ],
+      "status": "automated",
+      "scope": "Restore half of final damage, rounded down, under the three-HP healing cap. No Will charge for unlabelled drain; Liquid Ooze reverses the recovery.",
+      "page": 460,
+      "dependencies": []
+    },
+    "Draining Kiss": {
+      "id": "draining-kiss:Draining Kiss",
+      "families": [
+        "drain"
+      ],
+      "status": "automated",
+      "scope": "Restore half of final damage, rounded down, under the three-HP healing cap. No Will charge for unlabelled drain; Liquid Ooze reverses the recovery.",
+      "page": 456,
+      "dependencies": []
+    },
+    "Dream Eater": {
+      "id": "dream-eater:Dream Eater",
+      "families": [
+        "drain"
+      ],
+      "status": "automated",
+      "scope": "Restore half of final damage, rounded down, under the three-HP healing cap. No Will charge for unlabelled drain; Liquid Ooze reverses the recovery.",
+      "page": 510,
+      "dependencies": []
+    },
+    "Dual Chop": {
+      "id": "dual-chop:Dual Chop",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 450,
+      "dependencies": []
+    },
+    "Dual Wingbeat": {
+      "id": "dual-wingbeat:Dual Wingbeat",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 470,
+      "dependencies": []
+    },
+    "Echoed Voice": {
+      "id": "echoed-voice:Echoed Voice",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 491,
+      "dependencies": []
+    },
+    "Electro Ball": {
+      "id": "electro-ball:Electro Ball",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 452,
+      "dependencies": []
+    },
+    "Electro Drift": {
+      "id": "electro-drift:Electro Drift",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 452,
+      "dependencies": []
+    },
+    "Electro Shot": {
+      "id": "electro-shot:Electro Shot",
+      "families": [
+        "charge"
+      ],
+      "status": "automated",
+      "scope": "Stored accuracy, preparation/release actions on later turns, target response timing, weather shortcuts, out-of-range/vulnerability and reviewed preparation effects. Recall cancels the stored charge.",
+      "page": 452,
+      "dependencies": []
+    },
+    "Endeavor": {
+      "id": "endeavor:Endeavor",
+      "families": [
+        "fixed-varied"
+      ],
+      "status": "automated",
+      "scope": "Exact card formula replaces ordinary damage pools; typed immunity/effectiveness, named caps and prerequisites are checked. No invented video-game formulas or lethal-wound resources.",
+      "page": 491,
+      "dependencies": []
+    },
+    "Endure": {
+      "id": "endure:Endure",
+      "families": [
+        "shields"
+      ],
+      "status": "automated",
+      "scope": "Reviewed Shield reduction, effect protection, category/priority restrictions and contact retaliation. Caster attempts share the once-per-round limit and exponential consecutive-round accuracy penalty.",
+      "page": 491,
+      "dependencies": []
+    },
+    "Eruption": {
+      "id": "eruption:Eruption",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 465,
+      "dependencies": []
+    },
+    "Eternabeam": {
+      "id": "eternabeam:Eternabeam",
+      "families": [
+        "recharge"
+      ],
+      "status": "automated",
+      "scope": "A successful un-cancelled hit creates one next-round recharge action. Obligations stack across moves and survive recall.",
+      "page": 450,
+      "dependencies": []
+    },
+    "Expanding Force": {
+      "id": "expanding-force:Expanding Force",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 511,
+      "dependencies": []
+    },
+    "Facade": {
+      "id": "facade:Facade",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 491,
+      "dependencies": []
+    },
+    "Final Gambit": {
+      "id": "final-gambit:Final Gambit",
+      "families": [
+        "fixed-varied"
+      ],
+      "status": "automated",
+      "scope": "Exact card formula replaces ordinary damage pools; typed immunity/effectiveness, named caps and prerequisites are checked. No invented video-game formulas or lethal-wound resources.",
+      "page": 460,
+      "dependencies": []
+    },
+    "Fishious Rend": {
+      "id": "fishious-rend:Fishious Rend",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 525,
+      "dependencies": []
+    },
+    "Fissure": {
+      "id": "fissure:Fissure",
+      "families": [
+        "fixed-varied"
+      ],
+      "status": "automated",
+      "scope": "Exact card formula replaces ordinary damage pools; typed immunity/effectiveness, named caps and prerequisites are checked. No invented video-game formulas or lethal-wound resources.",
+      "page": 482,
+      "dependencies": []
+    },
+    "Flail": {
+      "id": "flail:Flail",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 492,
+      "dependencies": []
+    },
+    "Flare Blitz": {
+      "id": "flare-blitz:Flare Blitz",
+      "families": [
+        "recoil"
+      ],
+      "status": "automated",
+      "scope": "Roll raw damage successes again as recoil dice. Rock Head/Magic Guard and reviewed user/target secondary effects apply separately.",
+      "page": 466,
+      "dependencies": []
+    },
+    "Floral Healing": {
+      "id": "floral-healing:Floral Healing",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 457,
+      "dependencies": []
+    },
+    "Fly": {
+      "id": "fly:Fly",
+      "families": [
+        "charge"
+      ],
+      "status": "automated",
+      "scope": "Stored accuracy, preparation/release actions on later turns, target response timing, weather shortcuts, out-of-range/vulnerability and reviewed preparation effects. Recall cancels the stored charge.",
+      "page": 470,
+      "dependencies": []
+    },
+    "Focus Punch": {
+      "id": "focus-punch:Focus Punch",
+      "families": [
+        "charge"
+      ],
+      "status": "automated",
+      "scope": "Stored accuracy, preparation/release actions on later turns, target response timing, weather shortcuts, out-of-range/vulnerability and reviewed preparation effects. Recall cancels the stored charge.",
+      "page": 460,
+      "dependencies": []
+    },
+    "Freeze Shock": {
+      "id": "freeze-shock:Freeze Shock",
+      "families": [
+        "charge"
+      ],
+      "status": "automated",
+      "scope": "Stored accuracy, preparation/release actions on later turns, target response timing, weather shortcuts, out-of-range/vulnerability and reviewed preparation effects. Recall cancels the stored charge.",
+      "page": 484,
+      "dependencies": []
+    },
+    "Frenzy Plant": {
+      "id": "frenzy-plant:Frenzy Plant",
+      "families": [
+        "recharge"
+      ],
+      "status": "automated",
+      "scope": "A successful un-cancelled hit creates one next-round recharge action. Obligations stack across moves and survive recall.",
+      "page": 476,
+      "dependencies": []
+    },
+    "Frustration": {
+      "id": "frustration:Frustration",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 492,
+      "dependencies": []
+    },
+    "Fury Attack": {
+      "id": "fury-attack:Fury Attack",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 492,
+      "dependencies": []
+    },
+    "Fury Cutter": {
+      "id": "fury-cutter:Fury Cutter",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 440,
+      "dependencies": []
+    },
+    "Fury Swipes": {
+      "id": "fury-swipes:Fury Swipes",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 493,
+      "dependencies": []
+    },
+    "Fusion Bolt": {
+      "id": "fusion-bolt:Fusion Bolt",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 452,
+      "dependencies": []
+    },
+    "Fusion Flare": {
+      "id": "fusion-flare:Fusion Flare",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 466,
+      "dependencies": []
+    },
+    "Gear Grind": {
+      "id": "gear-grind:Gear Grind",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 521,
+      "dependencies": []
+    },
+    "Geomancy": {
+      "id": "geomancy:Geomancy",
+      "families": [
+        "charge"
+      ],
+      "status": "automated",
+      "scope": "Stored accuracy, preparation/release actions on later turns, target response timing, weather shortcuts, out-of-range/vulnerability and reviewed preparation effects. Recall cancels the stored charge.",
+      "page": 457,
+      "dependencies": []
+    },
+    "Giga Drain": {
+      "id": "giga-drain:Giga Drain",
+      "families": [
+        "drain"
+      ],
+      "status": "automated",
+      "scope": "Restore half of final damage, rounded down, under the three-HP healing cap. No Will charge for unlabelled drain; Liquid Ooze reverses the recovery.",
+      "page": 476,
+      "dependencies": []
+    },
+    "Giga Impact": {
+      "id": "giga-impact:Giga Impact",
+      "families": [
+        "recharge"
+      ],
+      "status": "automated",
+      "scope": "A successful un-cancelled hit creates one next-round recharge action. Obligations stack across moves and survive recall.",
+      "page": 493,
+      "dependencies": []
+    },
+    "Grass Knot": {
+      "id": "grass-knot:Grass Knot",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 476,
+      "dependencies": []
+    },
+    "Guillotine": {
+      "id": "guillotine:Guillotine",
+      "families": [
+        "fixed-varied"
+      ],
+      "status": "automated",
+      "scope": "Exact card formula replaces ordinary damage pools; typed immunity/effectiveness, named caps and prerequisites are checked. No invented video-game formulas or lethal-wound resources.",
+      "page": 493,
+      "dependencies": []
+    },
+    "Gyro Ball": {
+      "id": "gyro-ball:Gyro Ball",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 521,
+      "dependencies": []
+    },
+    "Hard Press": {
+      "id": "hard-press:Hard Press",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 521,
+      "dependencies": []
+    },
+    "Head Charge": {
+      "id": "head-charge:Head Charge",
+      "families": [
+        "recoil"
+      ],
+      "status": "automated",
+      "scope": "Roll raw damage successes again as recoil dice. Rock Head/Magic Guard and reviewed user/target secondary effects apply separately.",
+      "page": 493,
+      "dependencies": []
+    },
+    "Head Smash": {
+      "id": "head-smash:Head Smash",
+      "families": [
+        "recoil"
+      ],
+      "status": "automated",
+      "scope": "Roll raw damage successes again as recoil dice. Rock Head/Magic Guard and reviewed user/target secondary effects apply separately.",
+      "page": 518,
+      "dependencies": []
+    },
+    "Heal Bell": {
+      "id": "heal-bell:Heal Bell",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 493,
+      "dependencies": []
+    },
+    "Heal Block": {
+      "id": "heal-block:Heal Block",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 512,
+      "dependencies": []
+    },
+    "Heal Order": {
+      "id": "heal-order:Heal Order",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 440,
+      "dependencies": []
+    },
+    "Heal Pulse": {
+      "id": "heal-pulse:Heal Pulse",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 512,
+      "dependencies": []
+    },
+    "Healing Wish": {
+      "id": "healing-wish:Healing Wish",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 512,
+      "dependencies": []
+    },
+    "Heat Crash": {
+      "id": "heat-crash:Heat Crash",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 466,
+      "dependencies": []
+    },
+    "Heavy Slam": {
+      "id": "heavy-slam:Heavy Slam",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 521,
+      "dependencies": []
+    },
+    "Hex": {
+      "id": "hex:Hex",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 473,
+      "dependencies": []
+    },
+    "Horn Drill": {
+      "id": "horn-drill:Horn Drill",
+      "families": [
+        "fixed-varied"
+      ],
+      "status": "automated",
+      "scope": "Exact card formula replaces ordinary damage pools; typed immunity/effectiveness, named caps and prerequisites are checked. No invented video-game formulas or lethal-wound resources.",
+      "page": 494,
+      "dependencies": []
+    },
+    "Horn Leech": {
+      "id": "horn-leech:Horn Leech",
+      "families": [
+        "drain"
+      ],
+      "status": "automated",
+      "scope": "Restore half of final damage, rounded down, under the three-HP healing cap. No Will charge for unlabelled drain; Liquid Ooze reverses the recovery.",
+      "page": 477,
+      "dependencies": []
+    },
+    "Hydro Cannon": {
+      "id": "hydro-cannon:Hydro Cannon",
+      "families": [
+        "recharge"
+      ],
+      "status": "automated",
+      "scope": "A successful un-cancelled hit creates one next-round recharge action. Obligations stack across moves and survive recall.",
+      "page": 525,
+      "dependencies": []
+    },
+    "Hyper Beam": {
+      "id": "hyper-beam:Hyper Beam",
+      "families": [
+        "recharge"
+      ],
+      "status": "automated",
+      "scope": "A successful un-cancelled hit creates one next-round recharge action. Obligations stack across moves and survive recall.",
+      "page": 494,
+      "dependencies": []
+    },
+    "Ice Ball": {
+      "id": "ice-ball:Ice Ball",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 485,
+      "dependencies": []
+    },
+    "Ice Burn": {
+      "id": "ice-burn:Ice Burn",
+      "families": [
+        "charge"
+      ],
+      "status": "automated",
+      "scope": "Stored accuracy, preparation/release actions on later turns, target response timing, weather shortcuts, out-of-range/vulnerability and reviewed preparation effects. Recall cancels the stored charge.",
+      "page": 485,
+      "dependencies": []
+    },
+    "Icicle Spear": {
+      "id": "icicle-spear:Icicle Spear",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 486,
+      "dependencies": []
+    },
+    "Ingrain": {
+      "id": "ingrain:Ingrain",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 477,
+      "dependencies": []
+    },
+    "Jungle Healing": {
+      "id": "jungle-healing:Jungle Healing",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 477,
+      "dependencies": []
+    },
+    "King's Shield": {
+      "id": "king's-shield:King's Shield",
+      "families": [
+        "shields"
+      ],
+      "status": "automated",
+      "scope": "Reviewed Shield reduction, effect protection, category/priority restrictions and contact retaliation. Caster attempts share the once-per-round limit and exponential consecutive-round accuracy penalty.",
+      "page": 521,
+      "dependencies": []
+    },
+    "Last Respects": {
+      "id": "last-respects:Last Respects",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 473,
+      "dependencies": []
+    },
+    "Leech Life": {
+      "id": "leech-life:Leech Life",
+      "families": [
+        "drain"
+      ],
+      "status": "automated",
+      "scope": "Restore half of final damage, rounded down, under the three-HP healing cap. No Will charge for unlabelled drain; Liquid Ooze reverses the recovery.",
+      "page": 441,
+      "dependencies": []
+    },
+    "Leech Seed": {
+      "id": "leech-seed:Leech Seed",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 478,
+      "dependencies": []
+    },
+    "Life Dew": {
+      "id": "life-dew:Life Dew",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 525,
+      "dependencies": []
+    },
+    "Light Of Ruin": {
+      "id": "light-of-ruin:Light Of Ruin",
+      "families": [
+        "recoil"
+      ],
+      "status": "automated",
+      "scope": "Roll raw damage successes again as recoil dice. Rock Head/Magic Guard and reviewed user/target secondary effects apply separately.",
+      "page": 457,
+      "dependencies": []
+    },
+    "Low Kick": {
+      "id": "low-kick:Low Kick",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 461,
+      "dependencies": []
+    },
+    "Lunar Blessing": {
+      "id": "lumina-crash:Lunar Blessing",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 513,
+      "dependencies": []
+    },
+    "Lunar Dance": {
+      "id": "lunar-dance:Lunar Dance",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 513,
+      "dependencies": []
+    },
+    "Magnitude": {
+      "id": "magnitude:Magnitude",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 482,
+      "dependencies": []
+    },
+    "Mat Block": {
+      "id": "mat-block:Mat Block",
+      "families": [
+        "shields"
+      ],
+      "status": "automated",
+      "scope": "Reviewed Shield reduction, effect protection, category/priority restrictions and contact retaliation. Caster attempts share the once-per-round limit and exponential consecutive-round accuracy penalty.",
+      "page": 461,
+      "dependencies": []
+    },
+    "Matcha Gotcha": {
+      "id": "matcha-gotcha:Matcha Gotcha",
+      "families": [
+        "drain"
+      ],
+      "status": "automated",
+      "scope": "Restore half of final damage, rounded down, under the three-HP healing cap. No Will charge for unlabelled drain; Liquid Ooze reverses the recovery.",
+      "page": 478,
+      "dependencies": []
+    },
+    "Max Guard": {
+      "id": "max_guard:Max Guard",
+      "families": [
+        "shields"
+      ],
+      "status": "manual",
+      "scope": "Requires a Max transformation system; no ordinary shield substitute is silently applied.",
+      "page": null,
+      "dependencies": [
+        "max-transformation",
+        "individual-card-page-review"
+      ]
+    },
+    "Mega Drain": {
+      "id": "mega-drain:Mega Drain",
+      "families": [
+        "drain"
+      ],
+      "status": "automated",
+      "scope": "Restore half of final damage, rounded down, under the three-HP healing cap. No Will charge for unlabelled drain; Liquid Ooze reverses the recovery.",
+      "page": 478,
+      "dependencies": []
+    },
+    "Metal Burst": {
+      "id": "metal-burst:Metal Burst",
+      "families": [
+        "fixed-varied"
+      ],
+      "status": "automated",
+      "scope": "Exact card formula replaces ordinary damage pools; typed immunity/effectiveness, named caps and prerequisites are checked. No invented video-game formulas or lethal-wound resources.",
+      "page": 522,
+      "dependencies": []
+    },
+    "Meteor Assault": {
+      "id": "meteor-assault:Meteor Assault",
+      "families": [
+        "recharge"
+      ],
+      "status": "automated",
+      "scope": "A successful un-cancelled hit creates one next-round recharge action. Obligations stack across moves and survive recall.",
+      "page": 461,
+      "dependencies": []
+    },
+    "Meteor Beam": {
+      "id": "meteor-beam:Meteor Beam",
+      "families": [
+        "charge"
+      ],
+      "status": "automated",
+      "scope": "Stored accuracy, preparation/release actions on later turns, target response timing, weather shortcuts, out-of-range/vulnerability and reviewed preparation effects. Recall cancels the stored charge.",
+      "page": 518,
+      "dependencies": []
+    },
+    "Milk Drink": {
+      "id": "milk-drink:Milk Drink",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 496,
+      "dependencies": []
+    },
+    "Mind Blown": {
+      "id": "mind-blown:Mind Blown",
+      "families": [
+        "recoil"
+      ],
+      "status": "automated",
+      "scope": "Roll raw damage successes again as recoil dice. Rock Head/Magic Guard and reviewed user/target secondary effects apply separately.",
+      "page": 467,
+      "dependencies": []
+    },
+    "Mirror Coat": {
+      "id": "mirror-coat:Mirror Coat",
+      "families": [
+        "fixed-varied"
+      ],
+      "status": "automated",
+      "scope": "Exact card formula replaces ordinary damage pools; typed immunity/effectiveness, named caps and prerequisites are checked. No invented video-game formulas or lethal-wound resources.",
+      "page": 514,
+      "dependencies": []
+    },
+    "Moonlight": {
+      "id": "moonlight:Moonlight",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 457,
+      "dependencies": []
+    },
+    "Morning Sun": {
+      "id": "morning-sun:Morning Sun",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 496,
+      "dependencies": []
+    },
+    "Nature's Madness": {
+      "id": "nature's-madness:Nature's Madness",
+      "families": [
+        "fixed-varied"
+      ],
+      "status": "automated",
+      "scope": "Exact card formula replaces ordinary damage pools; typed immunity/effectiveness, named caps and prerequisites are checked. No invented video-game formulas or lethal-wound resources.",
+      "page": 458,
+      "dependencies": []
+    },
+    "Night Shade": {
+      "id": "night-shade:Night Shade",
+      "families": [
+        "fixed-varied"
+      ],
+      "status": "automated",
+      "scope": "Exact card formula replaces ordinary damage pools; typed immunity/effectiveness, named caps and prerequisites are checked. No invented video-game formulas or lethal-wound resources.",
+      "page": 473,
+      "dependencies": []
+    },
+    "Obstruct": {
+      "id": "obstruct:Obstruct",
+      "families": [
+        "shields"
+      ],
+      "status": "automated",
+      "scope": "Reviewed Shield reduction, effect protection, category/priority restrictions and contact retaliation. Caster attempts share the once-per-round limit and exponential consecutive-round accuracy penalty.",
+      "page": 446,
+      "dependencies": []
+    },
+    "Outrage": {
+      "id": "outrage:Outrage",
+      "families": [
+        "rampage"
+      ],
+      "status": "automated",
+      "scope": "Up to three uses per round, own-turn/Clash accounting, explicit ending and Confusion. Evasion requires ending the rampage first.",
+      "page": 450,
+      "dependencies": []
+    },
+    "Pain Split": {
+      "id": "pain-split:Pain Split",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 497,
+      "dependencies": []
+    },
+    "Parabolic Charge": {
+      "id": "parabolic-charge:Parabolic Charge",
+      "families": [
+        "drain"
+      ],
+      "status": "automated",
+      "scope": "Restore half of final damage, rounded down, under the three-HP healing cap. No Will charge for unlabelled drain; Liquid Ooze reverses the recovery.",
+      "page": 453,
+      "dependencies": []
+    },
+    "Payback": {
+      "id": "payback:Payback",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 446,
+      "dependencies": []
+    },
+    "Petal Dance": {
+      "id": "petal-dance:Petal Dance",
+      "families": [
+        "rampage"
+      ],
+      "status": "automated",
+      "scope": "Up to three uses per round, own-turn/Clash accounting, explicit ending and Confusion. Evasion requires ending the rampage first.",
+      "page": 478,
+      "dependencies": []
+    },
+    "Phantom Force": {
+      "id": "phantom-force:Phantom Force",
+      "families": [
+        "charge"
+      ],
+      "status": "automated",
+      "scope": "Stored accuracy, preparation/release actions on later turns, target response timing, weather shortcuts, out-of-range/vulnerability and reviewed preparation effects. Recall cancels the stored charge.",
+      "page": 473,
+      "dependencies": []
+    },
+    "Pin Missile": {
+      "id": "pin-missile:Pin Missile",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 441,
+      "dependencies": []
+    },
+    "Pollen Puff": {
+      "id": "pollen-puff:Pollen Puff",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 441,
+      "dependencies": []
+    },
+    "Population Bomb": {
+      "id": "population-bomb:Population Bomb",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 497,
+      "dependencies": []
+    },
+    "Power Trip": {
+      "id": "power-trip:Power Trip",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 446,
+      "dependencies": []
+    },
+    "Present": {
+      "id": "present:Present",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 497,
+      "dependencies": []
+    },
+    "Prismatic Laser": {
+      "id": "prismatic-laser:Prismatic Laser",
+      "families": [
+        "recharge"
+      ],
+      "status": "automated",
+      "scope": "A successful un-cancelled hit creates one next-round recharge action. Obligations stack across moves and survive recall.",
+      "page": 514,
+      "dependencies": []
+    },
+    "Protect": {
+      "id": "protect:Protect",
+      "families": [
+        "shields"
+      ],
+      "status": "automated",
+      "scope": "Reviewed Shield reduction, effect protection, category/priority restrictions and contact retaliation. Caster attempts share the once-per-round limit and exponential consecutive-round accuracy penalty.",
+      "page": 498,
+      "dependencies": []
+    },
+    "Psychic Noise": {
+      "id": "psychic-noise:Psychic Noise",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 516,
+      "dependencies": []
+    },
+    "Psycho Shift": {
+      "id": "psycho-shift:Psycho Shift",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 516,
+      "dependencies": []
+    },
+    "Psywave": {
+      "id": "psywave:Psywave",
+      "families": [
+        "fixed-varied"
+      ],
+      "status": "automated",
+      "scope": "Exact card formula replaces ordinary damage pools; typed immunity/effectiveness, named caps and prerequisites are checked. No invented video-game formulas or lethal-wound resources.",
+      "page": 517,
+      "dependencies": []
+    },
+    "Punishment": {
+      "id": "punishment:Punishment",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 446,
+      "dependencies": []
+    },
+    "Purify": {
+      "id": "purify:Purify",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 508,
+      "dependencies": []
+    },
+    "Quick Guard": {
+      "id": "quick-guard:Quick Guard",
+      "families": [
+        "shields"
+      ],
+      "status": "automated",
+      "scope": "Reviewed Shield reduction, effect protection, category/priority restrictions and contact retaliation. Caster attempts share the once-per-round limit and exponential consecutive-round accuracy penalty.",
+      "page": 462,
+      "dependencies": []
+    },
+    "Rage Fist": {
+      "id": "rage-fist:Rage Fist",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 474,
+      "dependencies": []
+    },
+    "Raging Fury": {
+      "id": "raging-fury:Raging Fury",
+      "families": [
+        "rampage"
+      ],
+      "status": "automated",
+      "scope": "Up to three uses per round, own-turn/Clash accounting, explicit ending and Confusion. Evasion requires ending the rampage first.",
+      "page": 467,
+      "dependencies": []
+    },
+    "Razor Wind": {
+      "id": "razor-wind:Razor Wind",
+      "families": [
+        "charge"
+      ],
+      "status": "automated",
+      "scope": "Stored accuracy, preparation/release actions on later turns, target response timing, weather shortcuts, out-of-range/vulnerability and reviewed preparation effects. Recall cancels the stored charge.",
+      "page": 498,
+      "dependencies": []
+    },
+    "Recover": {
+      "id": "recover:Recover",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 498,
+      "dependencies": []
+    },
+    "Refresh": {
+      "id": "refresh:Refresh",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 499,
+      "dependencies": []
+    },
+    "Rest": {
+      "id": "rest:Rest",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 515,
+      "dependencies": []
+    },
+    "Retaliate": {
+      "id": "retaliate:Retaliate",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 499,
+      "dependencies": []
+    },
+    "Return": {
+      "id": "return:Return",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 499,
+      "dependencies": []
+    },
+    "Reversal": {
+      "id": "reversal:Reversal",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 462,
+      "dependencies": []
+    },
+    "Revival Blessing": {
+      "id": "revival-blessing:Revival Blessing",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 499,
+      "dependencies": []
+    },
+    "Rising Voltage": {
+      "id": "rising-voltage:Rising Voltage",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 453,
+      "dependencies": []
+    },
+    "Roar Of Time": {
+      "id": "roar-of-time:Roar Of Time",
+      "families": [
+        "recharge"
+      ],
+      "status": "automated",
+      "scope": "A successful un-cancelled hit creates one next-round recharge action. Obligations stack across moves and survive recall.",
+      "page": 450,
+      "dependencies": []
+    },
+    "Rock Blast": {
+      "id": "rock-blast:Rock Blast",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 518,
+      "dependencies": []
+    },
+    "Rock Wrecker": {
+      "id": "rock-wrecker:Rock Wrecker",
+      "families": [
+        "recharge"
+      ],
+      "status": "automated",
+      "scope": "A successful un-cancelled hit creates one next-round recharge action. Obligations stack across moves and survive recall.",
+      "page": 519,
+      "dependencies": []
+    },
+    "Rollout": {
+      "id": "rollout:Rollout",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 519,
+      "dependencies": []
+    },
+    "Roost": {
+      "id": "roost:Roost",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 471,
+      "dependencies": []
+    },
+    "Scale Shot": {
+      "id": "scale-shot:Scale Shot",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 450,
+      "dependencies": []
+    },
+    "Seismic Toss": {
+      "id": "seismic-toss:Seismic Toss",
+      "families": [
+        "fixed-varied"
+      ],
+      "status": "automated",
+      "scope": "Exact card formula replaces ordinary damage pools; typed immunity/effectiveness, named caps and prerequisites are checked. No invented video-game formulas or lethal-wound resources.",
+      "page": 463,
+      "dependencies": []
+    },
+    "Shadow Force": {
+      "id": "shadow-force:Shadow Force",
+      "families": [
+        "charge"
+      ],
+      "status": "partial",
+      "scope": "Charge, range/barrier bypass and encounter HP healing debt are automated. Enforcing the 24-hour debt after leaving the encounter needs persistent recovery tracking and remains manual.",
+      "page": 474,
+      "dependencies": [
+        "persistent-recovery-restrictions"
+      ]
+    },
+    "Sheer Cold": {
+      "id": "sheer-cold:Sheer Cold",
+      "families": [
+        "fixed-varied"
+      ],
+      "status": "automated",
+      "scope": "Exact card formula replaces ordinary damage pools; typed immunity/effectiveness, named caps and prerequisites are checked. No invented video-game formulas or lethal-wound resources.",
+      "page": 486,
+      "dependencies": []
+    },
+    "Shore Up": {
+      "id": "shore-up:Shore Up",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 483,
+      "dependencies": []
+    },
+    "Silk Trap": {
+      "id": "silk-trap:Silk Trap",
+      "families": [
+        "shields"
+      ],
+      "status": "automated",
+      "scope": "Reviewed Shield reduction, effect protection, category/priority restrictions and contact retaliation. Caster attempts share the once-per-round limit and exponential consecutive-round accuracy penalty.",
+      "page": 442,
+      "dependencies": []
+    },
+    "Skull Bash": {
+      "id": "skull-bash:Skull Bash",
+      "families": [
+        "charge"
+      ],
+      "status": "automated",
+      "scope": "Stored accuracy, preparation/release actions on later turns, target response timing, weather shortcuts, out-of-range/vulnerability and reviewed preparation effects. Recall cancels the stored charge.",
+      "page": 501,
+      "dependencies": []
+    },
+    "Sky Attack": {
+      "id": "sky-attack:Sky Attack",
+      "families": [
+        "charge"
+      ],
+      "status": "automated",
+      "scope": "Stored accuracy, preparation/release actions on later turns, target response timing, weather shortcuts, out-of-range/vulnerability and reviewed preparation effects. Recall cancels the stored charge.",
+      "page": 471,
+      "dependencies": []
+    },
+    "Sky Drop": {
+      "id": "sky-drop:Sky Drop",
+      "families": [
+        "charge"
+      ],
+      "status": "automated",
+      "scope": "Stored accuracy, preparation/release actions on later turns, target response timing, weather shortcuts, out-of-range/vulnerability and reviewed preparation effects. Recall cancels the stored charge.",
+      "page": 471,
+      "dependencies": []
+    },
+    "Slack Off": {
+      "id": "slack-off:Slack Off",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 501,
+      "dependencies": []
+    },
+    "Smelling Salts": {
+      "id": "smelling-salts:Smelling Salts",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 501,
+      "dependencies": []
+    },
+    "Snatch": {
+      "id": "snatch:Snatch",
+      "families": [
+        "shields"
+      ],
+      "status": "partial",
+      "scope": "Transfers supported move modifiers, shields, healing targeting and typed side effects. Substitute decoys, ability-modifier transfer and unmodelled field effects require GM adjudication.",
+      "page": 447,
+      "dependencies": [
+        "substitute-and-ability-modifier-transfer"
+      ]
+    },
+    "Soft Boiled": {
+      "id": "soft-boiled:Soft Boiled",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 501,
+      "dependencies": []
+    },
+    "Solar Beam": {
+      "id": "solar-beam:Solar Beam",
+      "families": [
+        "charge"
+      ],
+      "status": "automated",
+      "scope": "Stored accuracy, preparation/release actions on later turns, target response timing, weather shortcuts, out-of-range/vulnerability and reviewed preparation effects. Recall cancels the stored charge.",
+      "page": 479,
+      "dependencies": []
+    },
+    "Solar Blade": {
+      "id": "solar-blade:Solar Blade",
+      "families": [
+        "charge"
+      ],
+      "status": "automated",
+      "scope": "Stored accuracy, preparation/release actions on later turns, target response timing, weather shortcuts, out-of-range/vulnerability and reviewed preparation effects. Recall cancels the stored charge.",
+      "page": 479,
+      "dependencies": []
+    },
+    "Sonic Boom": {
+      "id": "sonic-boom:Sonic Boom",
+      "families": [
+        "fixed-varied"
+      ],
+      "status": "automated",
+      "scope": "Exact card formula replaces ordinary damage pools; typed immunity/effectiveness, named caps and prerequisites are checked. No invented video-game formulas or lethal-wound resources.",
+      "page": 502,
+      "dependencies": []
+    },
+    "Sparkling Aria": {
+      "id": "sparkling-aria:Sparkling Aria",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 526,
+      "dependencies": []
+    },
+    "Sparkly Swirl": {
+      "id": "sparkly-swirl:Sparkly Swirl",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 458,
+      "dependencies": []
+    },
+    "Spike Cannon": {
+      "id": "spike-cannon:Spike Cannon",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 502,
+      "dependencies": []
+    },
+    "Spiky Shield": {
+      "id": "spiky-shield:Spiky Shield",
+      "families": [
+        "shields"
+      ],
+      "status": "automated",
+      "scope": "Reviewed Shield reduction, effect protection, category/priority restrictions and contact retaliation. Caster attempts share the once-per-round limit and exponential consecutive-round accuracy penalty.",
+      "page": 479,
+      "dependencies": []
+    },
+    "Spit Up": {
+      "id": "spit-up:Spit Up",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 502,
+      "dependencies": []
+    },
+    "Steel Beam": {
+      "id": "steel-beam:Steel Beam",
+      "families": [
+        "recoil"
+      ],
+      "status": "automated",
+      "scope": "Roll raw damage successes again as recoil dice. Rock Head/Magic Guard and reviewed user/target secondary effects apply separately.",
+      "page": 523,
+      "dependencies": []
+    },
+    "Stockpile": {
+      "id": "stockpile:Stockpile",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 502,
+      "dependencies": []
+    },
+    "Stored Power": {
+      "id": "stored-power:Stored Power",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 515,
+      "dependencies": []
+    },
+    "Strength Sap": {
+      "id": "strength-sap:Strength Sap",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 480,
+      "dependencies": []
+    },
+    "Submission": {
+      "id": "submission:Submission",
+      "families": [
+        "recoil"
+      ],
+      "status": "automated",
+      "scope": "Roll raw damage successes again as recoil dice. Rock Head/Magic Guard and reviewed user/target secondary effects apply separately.",
+      "page": 463,
+      "dependencies": []
+    },
+    "Super Fang": {
+      "id": "super-fang:Super Fang",
+      "families": [
+        "fixed-varied"
+      ],
+      "status": "automated",
+      "scope": "Exact card formula replaces ordinary damage pools; typed immunity/effectiveness, named caps and prerequisites are checked. No invented video-game formulas or lethal-wound resources.",
+      "page": 503,
+      "dependencies": []
+    },
+    "Surging Strikes": {
+      "id": "surging-strikes:Surging Strikes",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 527,
+      "dependencies": []
+    },
+    "Swallow": {
+      "id": "swallow:Swallow",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 503,
+      "dependencies": []
+    },
+    "Synthesis": {
+      "id": "synthesis:Synthesis",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 480,
+      "dependencies": []
+    },
+    "Tachyon Cutter": {
+      "id": "tachyon-cutter:Tachyon Cutter",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 523,
+      "dependencies": []
+    },
+    "Tail Slap": {
+      "id": "tail-slap:Tail Slap",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 503,
+      "dependencies": []
+    },
+    "Take Down": {
+      "id": "take-down:Take Down",
+      "families": [
+        "recoil"
+      ],
+      "status": "automated",
+      "scope": "Roll raw damage successes again as recoil dice. Rock Head/Magic Guard and reviewed user/target secondary effects apply separately.",
+      "page": 504,
+      "dependencies": []
+    },
+    "Take Heart": {
+      "id": "take-heart:Take Heart",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 515,
+      "dependencies": []
+    },
+    "Thrash": {
+      "id": "thrash:Thrash",
+      "families": [
+        "rampage"
+      ],
+      "status": "automated",
+      "scope": "Up to three uses per round, own-turn/Clash accounting, explicit ending and Confusion. Evasion requires ending the rampage first.",
+      "page": 504,
+      "dependencies": []
+    },
+    "Triple Arrows": {
+      "id": "triple_arrows:Triple Arrows",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 463,
+      "dependencies": []
+    },
+    "Triple Axel": {
+      "id": "triple-axel:Triple Axel",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 487,
+      "dependencies": []
+    },
+    "Triple Dive": {
+      "id": "triple-dive:Triple Dive",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 527,
+      "dependencies": []
+    },
+    "Triple Kick": {
+      "id": "triple-kick:Triple Kick",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 463,
+      "dependencies": []
+    },
+    "Trump Card": {
+      "id": "trump-card:Trump Card",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 505,
+      "dependencies": []
+    },
+    "Twin Beam": {
+      "id": "twin-beam:Twin Beam",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 517,
+      "dependencies": []
+    },
+    "Twineedle": {
+      "id": "twineedle:Twineedle",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 443,
+      "dependencies": []
+    },
+    "Veevee Volley": {
+      "id": "veevee-volley:Veevee Volley",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 505,
+      "dependencies": []
+    },
+    "Venoshock": {
+      "id": "venoshock:Venoshock",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 509,
+      "dependencies": []
+    },
+    "Volt Tackle": {
+      "id": "volt-tackle:Volt Tackle",
+      "families": [
+        "recoil"
+      ],
+      "status": "automated",
+      "scope": "Roll raw damage successes again as recoil dice. Rock Head/Magic Guard and reviewed user/target secondary effects apply separately.",
+      "page": 455,
+      "dependencies": []
+    },
+    "Wake-Up Slap": {
+      "id": "wake-up-slap:Wake-Up Slap",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 464,
+      "dependencies": []
+    },
+    "Water Shuriken": {
+      "id": "water-shuriken:Water Shuriken",
+      "families": [
+        "successive"
+      ],
+      "status": "automated",
+      "scope": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "page": 527,
+      "dependencies": []
+    },
+    "Water Spout": {
+      "id": "water-spout:Water Spout",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 527,
+      "dependencies": []
+    },
+    "Wave Crash": {
+      "id": "wave-crash:Wave Crash",
+      "families": [
+        "recoil"
+      ],
+      "status": "automated",
+      "scope": "Roll raw damage successes again as recoil dice. Rock Head/Magic Guard and reviewed user/target secondary effects apply separately.",
+      "page": 528,
+      "dependencies": []
+    },
+    "Wide Guard": {
+      "id": "wide-guard:Wide Guard",
+      "families": [
+        "shields"
+      ],
+      "status": "automated",
+      "scope": "Reviewed Shield reduction, effect protection, category/priority restrictions and contact retaliation. Caster attempts share the once-per-round limit and exponential consecutive-round accuracy penalty.",
+      "page": 519,
+      "dependencies": []
+    },
+    "Wild Charge": {
+      "id": "wild-charge:Wild Charge",
+      "families": [
+        "recoil"
+      ],
+      "status": "automated",
+      "scope": "Roll raw damage successes again as recoil dice. Rock Head/Magic Guard and reviewed user/target secondary effects apply separately.",
+      "page": 455,
+      "dependencies": []
+    },
+    "Wish": {
+      "id": "wish:Wish",
+      "families": [
+        "healing-recovery"
+      ],
+      "status": "automated",
+      "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
+      "page": 505,
+      "dependencies": []
+    },
+    "Wood Hammer": {
+      "id": "wood-hammer:Wood Hammer",
+      "families": [
+        "recoil"
+      ],
+      "status": "automated",
+      "scope": "Roll raw damage successes again as recoil dice. Rock Head/Magic Guard and reviewed user/target secondary effects apply separately.",
+      "page": 480,
+      "dependencies": []
+    },
+    "Wring Out": {
+      "id": "wring-out:Wring Out",
+      "families": [
+        "conditional-damage"
+      ],
+      "status": "automated",
+      "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "page": 506,
+      "dependencies": []
+    }
+  }
+}

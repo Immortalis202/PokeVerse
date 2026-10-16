@@ -45,6 +45,12 @@ export default function CoreBattleFlow({
     pending = f.queue[0];
   const damaging =
     pending &&
+    !(
+      (f.special?.enabled && pending.move_name === "Present") ||
+      (f.special?.enabled &&
+        pending.move_name === "Bide" &&
+        !f.special.bides[pending.actor_id])
+    ) &&
     catalog.moves.find((m) => m.Name === pending.move_name)?.Category !==
       "Support";
   const defender = b.combatants.find((p) => p.id === incoming?.target_id);
@@ -279,9 +285,13 @@ export default function CoreBattleFlow({
               </div>
             </>
           )}
-          {["0.4.0-core", "0.5.0-core", "0.6.0-core", "0.7.0-core"].includes(
-            campaign.engine,
-          ) &&
+          {[
+            "0.4.0-core",
+            "0.5.0-core",
+            "0.6.0-core",
+            "0.7.0-core",
+            "0.8.0-core",
+          ].includes(campaign.engine) &&
             b.combatants
               .filter(
                 (p) =>

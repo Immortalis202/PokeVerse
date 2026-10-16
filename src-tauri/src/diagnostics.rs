@@ -8,7 +8,11 @@ static LOG: OnceLock<Mutex<PathBuf>> = OnceLock::new();
 pub fn initialize(directory: &std::path::Path) {
     let _ = std::fs::create_dir_all(directory.join("logs"));
     let _ = LOG.set(Mutex::new(directory.join("logs/app.log")));
-    record("startup engine=0.2.0-core");
+    record(&format!(
+        "startup engine={} app={}",
+        crate::model::ENGINE,
+        env!("CARGO_PKG_VERSION")
+    ));
 }
 // Deliberately record codes only: no room token, credentials, character notes, or payloads.
 pub fn record(code: &str) {

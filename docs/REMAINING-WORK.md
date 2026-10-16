@@ -1,6 +1,6 @@
 # PokeVerse — remaining work
 
-Snapshot: 15 October 2026, application 0.14.0, protocol 15, user database schema 4.
+Snapshot: 16 October 2026, application 0.15.0, protocol 16, user database schema 4.
 
 The Training Point milestone below is implemented. Remaining battle, catalog and native acceptance work stays open.
 
@@ -66,7 +66,7 @@ Validation details: [Training Points](training-points.md). Full interactive Wind
 
 ## 2. Battle rule coverage
 
-A reviewed coverage matrix and field-level audit queue are implemented in 0.10.0. Explicit single-target turns/reactions, held-turn recovery, Evasion/Clash, Will, major statuses and ice breaking have fixtures. Selected healing/shield/chance/recoil/recharge/set-damage effects and conditional abilities are implemented. 0.11.0 adds multi-target ordinary attacks, rank-limited area selection, shared damage dice, field-effect records, area Clash and Cover an Ally. 0.13.0 adds typed weather, terrain, force fields, rooms, temporary typing and arena conditions. 0.14.0 adds conditional/reactive ability families, bringing automated or partial ability scopes to 207 of 305. Multi-target reaction moves, repeated-action exceptions and the individually listed remaining ability definitions remain open. See [advanced targeting](battle-targeting.md). See [RULES.md](RULES.md) and [coverage.json](../rules/coverage.json).
+A reviewed coverage matrix and field-level audit queue are implemented in 0.10.0. Explicit single-target turns/reactions, held-turn recovery, Evasion/Clash, Will, major statuses and ice breaking have fixtures. Selected healing/shield/chance/recoil/recharge/set-damage effects and conditional abilities are implemented. 0.11.0 adds multi-target ordinary attacks, rank-limited area selection, shared damage dice, field-effect records, area Clash and Cover an Ally. 0.13.0 adds typed weather, terrain, force fields, rooms, temporary typing and arena conditions. 0.14.0 adds conditional/reactive ability families, bringing automated or partial ability scopes to 209 of 305. 0.15.0 adds reviewed charge, rampage, successive-action and healing/shield families. Multi-target reaction moves and individually listed remaining ability definitions remain open. See [advanced targeting](battle-targeting.md). See [RULES.md](RULES.md) and [coverage.json](../rules/coverage.json).
 
 - [x] Verify Champion battle roll/rank inheritance and implement the supported bonuses. Champion creation/progression is already supported; reviewed Champion sheets inherit Master battle bonuses.
 
@@ -78,17 +78,15 @@ A reviewed coverage matrix and field-level audit queue are implemented in 0.10.0
 
 - [x] Add weather/terrain-dependent and extended conditional/reactive ability families.
 
-- [ ] Complete the remaining 98 ability definitions, including held items, form changes, suppression, redirection and individually listed unimplemented event/reaction definitions. See [battle abilities](battle-abilities.md).
+- [ ] Complete the remaining 96 ability definitions, including held items, form changes, suppression, redirection and individually listed unimplemented event/reaction definitions. See [battle abilities](battle-abilities.md).
 
-- [ ] Cover special move formulas/effects: fixed or varied damage, chance dice, recoil, recovery, shields, recharge, rampage, successive actions and other recorded special attributes.
+- [x] Add reviewed special move families in 0.15.0: healing, shields, fixed/variable pools, charge, rampage, successive actions (including reaction sequences), recharge and recoil. See [special moves](battle-special-moves.md).
+
+- [ ] Resolve the remaining special-move boundaries: Bide wording requires a recorded GM choice; Snatch decoys and ability modifiers need new systems; Shadow Force recovery restrictions outside the encounter need persistent tracking; Max Guard requires transformations. Other unreviewed move interactions remain explicit adjudication.
 
 - [x] Enforce Never Miss's evasion prohibition; supported accuracy still needs its success check.
 
 - [x] Review and implement supported temporary typing, battlefield effects and arena conditions.
-
-- [ ] Implement separate lethal-wound mechanics.
-
-- [ ] Implement trainer-target damage separately; ordinary automatic Pokémon damage must not imply support for human targets.
 
 - [x] Retain manual adjudication, logged overrides, idempotency and rollback as coverage expands.
 
@@ -128,7 +126,7 @@ Automated Rust/frontend/catalog regressions, browser layouts and isolated Window
 
 These are future scope, not missing parts of the current assumed-victory encounter flow.
 
-- Automated training-session rolls, earning formulas, attempt limits and Will recovery.
+- Automated training-session rolls, earning formulas and attempt limits.
 
 - Capture dice, ball consumption and automated capture success.
 
@@ -137,6 +135,10 @@ These are future scope, not missing parts of the current assumed-victory encount
 - Full evolution-tree diagrams; the Compendium currently supports direct relationships and navigation through them.
 
 - Habitat editing and character-creation shortcuts inside the Compendium.
+
+## Excluded from project scope
+
+Trainer-target damage, lethal wounds and automatic Will recovery are excluded from the implementation roadmap. Manual GM resource corrections remain available.
 
 ## Documentation follow-up
 

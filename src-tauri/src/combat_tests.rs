@@ -7,6 +7,8 @@ mod ability_tests;
 mod extra_tests;
 #[path = "combat_tests/field_tests.rs"]
 mod field_tests;
+#[path = "combat_tests/special_tests.rs"]
+mod special_tests;
 #[path = "combat_tests/targeting_tests.rs"]
 mod targeting_tests;
 fn fixture(name: &str) -> (Campaign, String, String) {

@@ -147,23 +147,10 @@
       "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
       "page": 463,
       "fields": {
-        "Type": "Fight",
-        "Category": "Physical",
-        "Power": 3,
-        "Accuracy1": "Strength",
-        "Accuracy2": "Brawl",
-        "Damage1": "Strength",
-        "Damage2": "",
-        "Target": "Foe",
-        "Effect": "Single Target. Low Accuracy 2. Recoil.",
-        "Attributes": {
-          "Recoil": true,
-          "AccuracyReduction": -2
-        },
-        "AddedEffects": {}
+        "Type": "Fight"
       },
-      "coverage": "automatic ordinary damage and recoil",
-      "notes": "Printed page visually reviewed; runtime behavior is limited to the stated coverage."
+      "coverage": "Roll raw damage successes again as recoil dice. Rock Head/Magic Guard and reviewed user/target secondary effects apply separately.",
+      "notes": "Application-owned Pokerole correction; original JSON remains unchanged. Family rules and card wording take precedence over conflicting tags."
     },
     "hyper-beam:Hyper Beam": {
       "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
@@ -966,6 +953,214 @@
       },
       "coverage": "Reviewed battlefield effect, typing, barrier, weather-dependent calculation or chance effect; other unsupported interactions remain adjudicated.",
       "notes": "Encounter calculations use the shared Rust battlefield service."
+    },
+    "arm-thrust:Arm Thrust": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 458,
+      "fields": {
+        "Type": "Fight"
+      },
+      "coverage": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "notes": "Application-owned Pokerole correction; original JSON remains unchanged. Family rules and card wording take precedence over conflicting tags."
+    },
+    "collision-course:Collision Course": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 459,
+      "fields": {
+        "Type": "Fight"
+      },
+      "coverage": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "notes": "Application-owned Pokerole correction; original JSON remains unchanged. Family rules and card wording take precedence over conflicting tags."
+    },
+    "counter:Counter": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 460,
+      "fields": {
+        "Type": "Fight"
+      },
+      "coverage": "Exact card formula replaces ordinary damage pools; typed immunity/effectiveness, named caps and prerequisites are checked. No invented video-game formulas or lethal-wound resources.",
+      "notes": "Application-owned Pokerole correction; original JSON remains unchanged. Family rules and card wording take precedence over conflicting tags."
+    },
+    "detect:Detect": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 460,
+      "fields": {
+        "Type": "Fight"
+      },
+      "coverage": "Reviewed Shield reduction, effect protection, category/priority restrictions and contact retaliation. Caster attempts share the once-per-round limit and exponential consecutive-round accuracy penalty.",
+      "notes": "Application-owned Pokerole correction; original JSON remains unchanged. Family rules and card wording take precedence over conflicting tags."
+    },
+    "double-kick:Double Kick": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 460,
+      "fields": {
+        "Type": "Fight"
+      },
+      "coverage": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "notes": "Application-owned Pokerole correction; original JSON remains unchanged. Family rules and card wording take precedence over conflicting tags."
+    },
+    "double-slap:Double Slap": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 490,
+      "fields": {
+        "Attributes": {
+          "SuccessiveActions": true,
+          "AccuracyReduction": -1
+        }
+      },
+      "coverage": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "notes": "Application-owned Pokerole correction; original JSON remains unchanged. Family rules and card wording take precedence over conflicting tags."
+    },
+    "drain-punch:Drain Punch": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 460,
+      "fields": {
+        "Type": "Fight"
+      },
+      "coverage": "Restore half of final damage, rounded down, under the three-HP healing cap. No Will charge for unlabelled drain; Liquid Ooze reverses the recovery.",
+      "notes": "Application-owned Pokerole correction; original JSON remains unchanged. Family rules and card wording take precedence over conflicting tags."
+    },
+    "final-gambit:Final Gambit": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 460,
+      "fields": {
+        "Type": "Fight"
+      },
+      "coverage": "Exact card formula replaces ordinary damage pools; typed immunity/effectiveness, named caps and prerequisites are checked. No invented video-game formulas or lethal-wound resources.",
+      "notes": "Application-owned Pokerole correction; original JSON remains unchanged. Family rules and card wording take precedence over conflicting tags."
+    },
+    "focus-punch:Focus Punch": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 460,
+      "fields": {
+        "Type": "Fight"
+      },
+      "coverage": "Stored accuracy, preparation/release actions on later turns, target response timing, weather shortcuts, out-of-range/vulnerability and reviewed preparation effects. Recall cancels the stored charge.",
+      "notes": "Application-owned Pokerole correction; original JSON remains unchanged. Family rules and card wording take precedence over conflicting tags."
+    },
+    "low-kick:Low Kick": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 461,
+      "fields": {
+        "Type": "Fight"
+      },
+      "coverage": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "notes": "Application-owned Pokerole correction; original JSON remains unchanged. Family rules and card wording take precedence over conflicting tags."
+    },
+    "mat-block:Mat Block": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 461,
+      "fields": {
+        "Type": "Fight"
+      },
+      "coverage": "Reviewed Shield reduction, effect protection, category/priority restrictions and contact retaliation. Caster attempts share the once-per-round limit and exponential consecutive-round accuracy penalty.",
+      "notes": "Application-owned Pokerole correction; original JSON remains unchanged. Family rules and card wording take precedence over conflicting tags."
+    },
+    "matcha-gotcha:Matcha Gotcha": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 478,
+      "fields": {
+        "Attributes": {
+          "AccuracyReduction": -1,
+          "ProjectileMove": true
+        }
+      },
+      "coverage": "Restore half of final damage, rounded down, under the three-HP healing cap. No Will charge for unlabelled drain; Liquid Ooze reverses the recovery.",
+      "notes": "Application-owned Pokerole correction; original JSON remains unchanged. Family rules and card wording take precedence over conflicting tags."
+    },
+    "meteor-assault:Meteor Assault": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 461,
+      "fields": {
+        "Type": "Fight"
+      },
+      "coverage": "A successful un-cancelled hit creates one next-round recharge action. Obligations stack across moves and survive recall.",
+      "notes": "Application-owned Pokerole correction; original JSON remains unchanged. Family rules and card wording take precedence over conflicting tags."
+    },
+    "quick-guard:Quick Guard": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 462,
+      "fields": {
+        "Type": "Fight"
+      },
+      "coverage": "Reviewed Shield reduction, effect protection, category/priority restrictions and contact retaliation. Caster attempts share the once-per-round limit and exponential consecutive-round accuracy penalty.",
+      "notes": "Application-owned Pokerole correction; original JSON remains unchanged. Family rules and card wording take precedence over conflicting tags."
+    },
+    "reversal:Reversal": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 462,
+      "fields": {
+        "Type": "Fight"
+      },
+      "coverage": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "notes": "Application-owned Pokerole correction; original JSON remains unchanged. Family rules and card wording take precedence over conflicting tags."
+    },
+    "seismic-toss:Seismic Toss": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 463,
+      "fields": {
+        "Type": "Fight"
+      },
+      "coverage": "Exact card formula replaces ordinary damage pools; typed immunity/effectiveness, named caps and prerequisites are checked. No invented video-game formulas or lethal-wound resources.",
+      "notes": "Application-owned Pokerole correction; original JSON remains unchanged. Family rules and card wording take precedence over conflicting tags."
+    },
+    "triple_arrows:Triple Arrows": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 463,
+      "fields": {
+        "Type": "Fight",
+        "Attributes": {
+          "Ranged": true,
+          "TripleAction": true
+        }
+      },
+      "coverage": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "notes": "Application-owned Pokerole correction; original JSON remains unchanged. Family rules and card wording take precedence over conflicting tags."
+    },
+    "triple-axel:Triple Axel": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 487,
+      "fields": {
+        "Attributes": {
+          "AccuracyReduction": 0,
+          "TripleAction": true
+        }
+      },
+      "coverage": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "notes": "Application-owned Pokerole correction; original JSON remains unchanged. Family rules and card wording take precedence over conflicting tags."
+    },
+    "triple-kick:Triple Kick": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 463,
+      "fields": {
+        "Type": "Fight"
+      },
+      "coverage": "Commit up to the card limit and five-action budget in one turn, with independent accuracy rolls, one target, individual hit responses and reviewed per-hit effects. Evasion remains once per turn.",
+      "notes": "Application-owned Pokerole correction; original JSON remains unchanged. Family rules and card wording take precedence over conflicting tags."
+    },
+    "wake-up-slap:Wake-Up Slap": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 464,
+      "fields": {
+        "Type": "Fight"
+      },
+      "coverage": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
+      "notes": "Application-owned Pokerole correction; original JSON remains unchanged. Family rules and card wording take precedence over conflicting tags."
+    },
+    "shadow-force:Shadow Force": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 474,
+      "fields": {
+        "Attributes": {
+          "Lethal": true,
+          "Charge": true,
+          "IgnoreShield": true,
+          "Unique": true,
+          "IgnoreDefenses": true
+        }
+      },
+      "coverage": "Charge, range/barrier bypass and encounter HP healing debt are automated. Enforcing the 24-hour debt after leaving the encounter needs persistent recovery tracking and remains manual.",
+      "notes": "Application-owned Pokerole correction; original JSON remains unchanged. Family rules and card wording take precedence over conflicting tags."
     }
   },
   "abilities": {

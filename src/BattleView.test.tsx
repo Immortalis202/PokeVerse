@@ -187,14 +187,29 @@ describe("structured core battle controls", () => {
         automatic_validation: true,
         combatants,
         flow: {
+          special: {
+            enabled: engine === "0.8.0-core",
+            bides: {},
+            charges: {},
+            rampages: {},
+            shields: {},
+            effects: [],
+            history: [],
+            parameters: {},
+            selections: {},
+            random: {},
+            series: null,
+          },
           extra: {
-            enabled: engine === "0.7.0-core",
+            enabled: ["0.7.0-core", "0.8.0-core"].includes(engine),
             active: [],
             fainted: [],
             round_started: 0,
           },
           battlefield: {
-            enabled: ["0.6.0-core", "0.7.0-core"].includes(engine),
+            enabled: ["0.6.0-core", "0.7.0-core", "0.8.0-core"].includes(
+              engine,
+            ),
             natural: null,
             weather: null,
             rules: [],
@@ -217,9 +232,12 @@ describe("structured core battle controls", () => {
           reacted: [],
           window: queued && !field,
           deferred: null,
-          ability_rules: ["0.5.0-core", "0.6.0-core", "0.7.0-core"].includes(
-            engine,
-          ),
+          ability_rules: [
+            "0.5.0-core",
+            "0.6.0-core",
+            "0.7.0-core",
+            "0.8.0-core",
+          ].includes(engine),
           ability_events: ability
             ? [
                 {
@@ -240,6 +258,7 @@ describe("structured core battle controls", () => {
           queue: queued
             ? [
                 {
+                  special_index: 0,
                   actor_id: "opponent",
                   target_id: "active",
                   move_name: "Tackle",
@@ -344,6 +363,17 @@ describe("structured core battle controls", () => {
     );
     expect(core("gm", false, "0.6.0-core")).not.toContain(
       "Apply sourced stat effect",
+    );
+  });
+  it("exposes successive sequences and keeps physical parameters exclusive to the GM", () => {
+    const gm = core("gm", false, "0.8.0-core");
+    expect(gm).toContain("Special move automation");
+    expect(gm).toContain("Commit successive");
+    expect(gm).toContain("Use as a reaction");
+    expect(gm).toContain("Weight override");
+    expect(core("host", false, "0.8.0-core")).not.toContain("Weight override");
+    expect(core("player", false, "0.7.0-core")).not.toContain(
+      "Special move automation",
     );
   });
 });

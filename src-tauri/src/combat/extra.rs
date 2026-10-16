@@ -140,11 +140,11 @@ fn protected(c: &Campaign, p: &Combatant, key: &str) -> bool {
 }
 pub fn apply_stats(c: &Campaign, p: &Combatant, s: &mut Sheet) {
     for (key, amount) in &p.runtime.modifiers {
-        let n = match p.selected_ability.as_str() {
+        let n = special::modifier(c, p, key).unwrap_or_else(|| match p.selected_ability.as_str() {
             "Contrary" => -*amount,
             "Simple" => amount + amount.signum(),
             _ => *amount,
-        };
+        });
         if let Some(v) = s.stats.get_mut(key) {
             *v = (*v + n).clamp(1, 10);
         }
@@ -270,11 +270,12 @@ pub fn defense(c: &Campaign, p: &Combatant, physical: bool) -> i32 {
         negative = negative.min(-2);
     }
     let move_mod = *p.runtime.modifiers.get(key).unwrap_or(&0);
-    let move_mod = match p.selected_ability.as_str() {
-        "Contrary" => -move_mod,
-        "Simple" => move_mod + move_mod.signum(),
-        _ => move_mod,
-    };
+    let move_mod =
+        special::modifier(c, p, key).unwrap_or_else(|| match p.selected_ability.as_str() {
+            "Contrary" => -move_mod,
+            "Simple" => move_mod + move_mod.signum(),
+            _ => move_mod,
+        });
     positive + negative + move_mod
 }
 pub fn move_data(c: &Campaign, p: &Combatant, m: &mut serde_json::Value) {
@@ -758,9 +759,17 @@ fn apply_stat(
         }
         return Ok(());
     }
+    let reviewed = if special::enabled(c) {
+        Some(special::record_modifier(c, source, id, key, n)?)
+    } else {
+        None
+    };
     let rt = &mut fighter_mut(c, id)?.runtime;
     let old = *rt.modifiers.get(key).unwrap_or(&0);
-    rt.modifiers.insert(key.into(), (old + n).clamp(-3, 3));
+    rt.modifiers.insert(
+        key.into(),
+        reviewed.unwrap_or_else(|| (old + n).clamp(-3, 3)),
+    );
     if n < 0 && p.selected_ability == "Defiant" {
         once(c, id, "Defiant", &[("Strength", 2)])?;
     }
@@ -870,8 +879,12 @@ pub fn end_round(c: &mut Campaign) -> Result<()> {
         if p.selected_ability == "Poison Heal"
             && p.runtime.statuses.iter().any(|s| s.kind.contains("Poison"))
         {
+            if special::enabled(c) {
+                special::heal(c, &p.id, 1, false)?;
+            }
+            let modern = special::enabled(c);
             let p = fighter_mut(c, &p.id)?;
-            if p.hp > 0 {
+            if !modern && p.hp > 0 {
                 p.hp = (p.hp + 1).min(p.max_hp);
             }
             let n = p
@@ -1001,6 +1014,7 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
                         .cloned()
                         .collect::<Vec<_>>()
                     {
+                        special::clear_modifiers(c, &t.id);
                         fighter_mut(c, &t.id)?.runtime.modifiers.clear();
                         fighter_mut(c, &t.id)?
                             .runtime
@@ -1157,9 +1171,13 @@ pub fn resolve(
                 return Err(error("Hospitality needs one Will"));
             }
             p.runtime.will -= 1;
-            let p = fighter_mut(c, choice)?;
-            if p.hp > 0 {
-                p.hp = (p.hp + 3).min(p.max_hp);
+            if special::enabled(c) {
+                special::heal(c, choice, 3, false)?;
+            } else {
+                let p = fighter_mut(c, choice)?;
+                if p.hp > 0 {
+                    p.hp = (p.hp + 3).min(p.max_hp);
+                }
             }
         }
         "extra-disable" if faces.contains(&6) => {
@@ -1246,6 +1264,9 @@ pub fn resolve(
 }
 
 pub fn critical_margin(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> i32 {
+    if special::enabled(c) && m["Attributes"]["AlwaysCrit"] == true {
+        return -1000;
+    }
     let base = if m["Attributes"]["HighCritical"] == true {
         2
     } else {

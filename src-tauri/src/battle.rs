@@ -10,6 +10,7 @@ pub fn transition(
 ) -> Result<(Campaign, String)> {
     if [
         ENGINE,
+        EXTRA_ENGINE,
         FIELD_ENGINE,
         ABILITY_ENGINE,
         TARGET_ENGINE,
@@ -32,7 +33,8 @@ pub fn transition(
         }
     };
     let description = match action {
-        Action::BattleStat { .. }
+        Action::SpecialMove { .. }
+        | Action::BattleStat { .. }
         | Action::Battlefield { .. }
         | Action::ResolveAbility { .. }
         | Action::InflictStatus { .. }
@@ -330,6 +332,7 @@ pub fn transition(
             }
             if ![
                 ENGINE,
+                EXTRA_ENGINE,
                 FIELD_ENGINE,
                 ABILITY_ENGINE,
                 TARGET_ENGINE,

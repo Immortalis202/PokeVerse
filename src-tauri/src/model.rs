@@ -2,7 +2,8 @@ use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 use ts_rs::TS;
 
-pub const ENGINE: &str = "0.7.0-core";
+pub const ENGINE: &str = "0.8.0-core";
+pub const EXTRA_ENGINE: &str = "0.7.0-core";
 pub const FIELD_ENGINE: &str = "0.6.0-core";
 pub const ABILITY_ENGINE: &str = "0.5.0-core";
 pub const TARGET_ENGINE: &str = "0.4.0-core";
@@ -11,6 +12,7 @@ pub const PREVIOUS_ENGINE: &str = "0.2.0-core";
 pub fn core_engine(engine: &str) -> bool {
     [
         ENGINE,
+        EXTRA_ENGINE,
         FIELD_ENGINE,
         ABILITY_ENGINE,
         TARGET_ENGINE,
@@ -20,7 +22,7 @@ pub fn core_engine(engine: &str) -> bool {
     .contains(&engine)
 }
 pub const LEGACY_ENGINE: &str = "0.1.0-manual";
-pub const PROTOCOL: u32 = 15;
+pub const PROTOCOL: u32 = 16;
 pub fn enabled() -> bool {
     true
 }
@@ -412,6 +414,10 @@ pub enum Action {
     CoverAlly {
         combatant_id: String,
         ally_id: String,
+        reason: String,
+    },
+    SpecialMove {
+        command: crate::combat::special::SpecialCommand,
         reason: String,
     },
     BattleStat {
