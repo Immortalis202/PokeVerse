@@ -872,7 +872,7 @@ pub fn move_effect(c: &mut Campaign, q: &QueuedAction, cat: &Catalog) -> Result<
             return Err(error("Overlapping different terrains need a GM ruling: remove the conflicting terrain before resolution"));
         }
         if name == "Grassy Terrain" {
-            let p = fighter_mut(c, &q.actor_id)?;
+            let p = fighter_mut(c, &tactics::payer(c, &q.actor_id))?;
             if p.runtime.will < 1 {
                 return Err(error("Grassy Terrain requires one Will"));
             }
@@ -909,7 +909,7 @@ pub fn move_effect(c: &mut Campaign, q: &QueuedAction, cat: &Catalog) -> Result<
                 Some(Weather::Rain | Weather::Sandstorm | Weather::Hail) => 1,
                 _ => 3,
             };
-            let p = fighter_mut(c, &q.actor_id)?;
+            let p = fighter_mut(c, &tactics::payer(c, &q.actor_id))?;
             if p.runtime.will < 1 {
                 return Err(error("Healing requires one Will"));
             }
@@ -933,10 +933,25 @@ pub fn move_effect(c: &mut Campaign, q: &QueuedAction, cat: &Catalog) -> Result<
     Ok(true)
 }
 fn reverse_remaining(c: &mut Campaign) {
+    let modern = tactics::enabled(c);
+    let stalled = if modern {
+        battle(c)
+            .unwrap()
+            .combatants
+            .iter()
+            .filter(|p| p.selected_ability == "Stall")
+            .map(|p| p.id.clone())
+            .collect::<BTreeSet<_>>()
+    } else {
+        BTreeSet::new()
+    };
     let f = flow_mut(c);
     if f.started && !f.order.is_empty() {
         let start = (f.cursor + 1).min(f.order.len());
         f.order[start..].reverse();
+        if modern {
+            f.order[start..].sort_by_key(|id| stalled.contains(id));
+        }
     }
 }
 fn cure_terrain(c: &mut Campaign, cat: &Catalog) -> Result<()> {
@@ -1600,6 +1615,7 @@ pub fn move_data(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> serde_js
     }
     extra::move_data(c, p, &mut m);
     special::move_data(c, p, &mut m);
+    tactics::move_data(c, p, &mut m);
     m
 }
 pub fn target_bonus(c: &Campaign, target: &Combatant, m: &serde_json::Value) -> i32 {

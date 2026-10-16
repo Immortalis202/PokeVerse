@@ -34,16 +34,13 @@ pub(super) fn roll(c: &Campaign, actor: &str, a: &Action, face: u8) -> Campaign 
         .0
 }
 pub(super) fn pass(c: &Campaign) -> Campaign {
-    let q = c
-        .battle
-        .as_ref()
-        .unwrap()
-        .flow
-        .as_ref()
-        .unwrap()
-        .queue
-        .last()
-        .unwrap();
+    let flow = c.battle.as_ref().unwrap().flow.as_ref().unwrap();
+    let q = if flow.tactics.enabled {
+        flow.queue.first()
+    } else {
+        flow.queue.last()
+    }
+    .unwrap();
     decision(
         c,
         "gm",

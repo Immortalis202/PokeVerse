@@ -23,6 +23,7 @@ pub struct FieldEffect {
 pub(super) fn require_targeting(c: &Campaign) -> Result<()> {
     if ![
         ENGINE,
+        SPECIAL_ENGINE,
         EXTRA_ENGINE,
         FIELD_ENGINE,
         ABILITY_ENGINE,
@@ -303,9 +304,10 @@ pub(super) fn prepare_targets(c: &mut Campaign) {
         .find(|t| !t.responded && !t.avoided && fighter(c, &t.target_id).is_ok_and(|p| p.hp > 0));
     if let Some(t) = next_response {
         let key = t.target_id.clone();
+        let automatic = key == actor || tactics::automatic_response(c, &q, &key);
         let q = flow_mut(c).queue.first_mut().unwrap();
         q.target_id = key.clone();
-        if key == actor {
+        if automatic {
             q.targets
                 .iter_mut()
                 .find(|t| t.target_id == key)
@@ -316,6 +318,9 @@ pub(super) fn prepare_targets(c: &mut Campaign) {
             flow_mut(c).window = true;
         }
         return;
+    }
+    if tactics::enabled(c) {
+        flow_mut(c).window = false;
     }
     let mut ordered = q.targets.clone();
     if q.damage_modifiers.is_none() {
@@ -352,7 +357,13 @@ pub(super) fn prepare_targets(c: &mut Campaign) {
 }
 
 pub(super) fn responded(c: &mut Campaign) {
-    if let Some(q) = flow_mut(c).queue.last_mut() {
+    let enabled = tactics::enabled(c);
+    let q = if enabled {
+        flow_mut(c).queue.first_mut()
+    } else {
+        flow_mut(c).queue.last_mut()
+    };
+    if let Some(q) = q {
         for t in &mut q.targets {
             if t.target_id == q.target_id {
                 t.responded = true;
@@ -362,7 +373,12 @@ pub(super) fn responded(c: &mut Campaign) {
 }
 
 pub(super) fn avoid(c: &mut Campaign, whole_area: bool) {
-    let q = flow_mut(c).queue.last_mut().unwrap();
+    let enabled = tactics::enabled(c);
+    let q = if enabled {
+        flow_mut(c).queue.first_mut().unwrap()
+    } else {
+        flow_mut(c).queue.last_mut().unwrap()
+    };
     if q.targets.is_empty() {
         q.cancelled = true;
     } else {
@@ -412,10 +428,7 @@ pub(super) fn cover_pool(c: &Campaign, id: &str, ally: &str, cat: &Catalog) -> R
     let p = fighter(c, id)?;
     let t = fighter(c, ally)?;
     let f = flow(c)?;
-    let q = f
-        .queue
-        .last()
-        .ok_or_else(|| error("No incoming attack to intercept"))?;
+    let q = incoming(c)?;
     let m = move_entry(cat, &q.move_name)?;
     if special::enabled(c)
         && (m["Attributes"]["SoundMove"] == true
@@ -517,7 +530,12 @@ pub(super) fn targeting_action(
                 flow_mut(next)
                     .covers
                     .insert(ally_id.clone(), combatant_id.clone());
-                let q = flow_mut(next).queue.last_mut().unwrap();
+                let enabled = tactics::enabled(c);
+                let q = if enabled {
+                    flow_mut(next).queue.first_mut().unwrap()
+                } else {
+                    flow_mut(next).queue.last_mut().unwrap()
+                };
                 q.target_id = combatant_id.clone();
                 let duplicate = q
                     .targets
@@ -551,6 +569,9 @@ pub(super) fn targeting_action(
             if q.sequence != *sequence {
                 return Err(error("Pending field action changed"));
             }
+            let original = q.clone();
+            let q = tactics::effect_target(next, &original, cat)?.unwrap_or(original);
+            tactics::clear_payer(next);
             let scope = q
                 .field_scope
                 .clone()

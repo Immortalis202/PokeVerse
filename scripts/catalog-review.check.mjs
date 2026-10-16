@@ -16,6 +16,21 @@ test("review evidence corrects owned catalog data and keeps source JSON unchange
           .get(name).data,
       );
     assert.equal(move("Submission").Type, "Fight");
+    assert.equal(move("Magic Coat").Target, "Self");
+    assert.equal(
+      JSON.parse(
+        readFileSync("../Pokerole-Data/v3.0/Moves/Magic Coat.json", "utf8"),
+      ).Target,
+      "Foe's Battlefield",
+    );
+    assert.match(move("Follow Me").Effect, /Reaction 5/);
+    assert.match(
+      JSON.parse(
+        readFileSync("../Pokerole-Data/v3.0/Moves/Follow Me.json", "utf8"),
+      ).Effect,
+      /Reaction 4/,
+    );
+
     assert.equal(
       JSON.parse(
         readFileSync("../Pokerole-Data/v3.0/Moves/Submission.json", "utf8"),
@@ -112,6 +127,7 @@ test("coverage and PDF fingerprints are preserved with a complete field-level qu
       readFileSync("src-tauri/src/combat_tests/field_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/extra_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/special_tests.rs", "utf8") +
+      readFileSync("src-tauri/src/combat_tests/tactics_tests.rs", "utf8") +
       readFileSync("src-tauri/src/tests.rs", "utf8");
     const coverage = JSON.parse(readFileSync("rules/coverage.json", "utf8"));
     for (const entry of coverage.entries)
@@ -146,11 +162,11 @@ test("ability inventory exposes reviewed scopes and preserves manual boundaries"
   assert.equal(inventory.entries.length, 305);
   assert.equal(
     inventory.entries.filter((e) => e.status !== "manual").length,
-    209,
+    224,
   );
   assert.equal(
     Object.values(registry.entries).filter((e) => e.status !== "manual").length,
-    209,
+    224,
   );
   assert.equal(
     inventory.entries.find((e) => e.name === "Static").status,
@@ -229,6 +245,41 @@ test("special move inventory has stable IDs, manual boundaries and a compatibili
       if (e.status === "automated") assert.ok(e.page, e.name);
       else assert.ok(e.dependencies.length, e.name);
     }
+  } finally {
+    db.close();
+  }
+});
+
+test("targeting registry is fingerprinted and catalog definitions preserve exact IDs and boundaries", () => {
+  const text = readFileSync("rules/tactics-reviewed.json", "utf8").replace(
+    /\r\n/g,
+    "\n",
+  );
+  const registry = JSON.parse(text),
+    coverage = JSON.parse(readFileSync("rules/coverage.json", "utf8"));
+  assert.equal(
+    coverage.tactics_registry_hash,
+    createHash("sha256").update(text).digest("hex"),
+  );
+  const inventory = JSON.parse(
+    readFileSync("../outputs/rule-coverage/tactics-coverage.json", "utf8"),
+  );
+  const db = new DatabaseSync("src-tauri/resources/catalog.db", {
+    readOnly: true,
+  });
+  try {
+    for (const e of inventory.entries) {
+      const row = db
+        .prepare("select data from entries where kind=? and id=?")
+        .get(e.kind, e.id);
+      assert.ok(row, e.name);
+      const value = JSON.parse(row.data);
+      assert.equal(value.Name, e.name);
+      assert.equal(value.TacticsRules.scope, e.scope);
+      assert.ok(e.page, e.name);
+      if (e.status === "partial") assert.ok(e.dependencies.length, e.name);
+    }
+    assert.equal(registry.moves["Shed Tail"].status, "manual");
   } finally {
     db.close();
   }

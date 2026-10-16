@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.8.0-core",
-  "release": "0.15.0",
-  "protocol": 16,
+  "engine": "0.9.0-core",
+  "release": "0.16.0",
+  "protocol": 17,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -258,8 +258,43 @@
         "special_sky_uppercut_always_hits_its_printed_airborne_charge_targets"
       ],
       "scope": "Stateful healing/shields, fixed/varied and conditional pools, charge, rampage, successive actions, recharge and recoil. Explicit manual boundaries remain per move; excluded resource systems stay excluded."
+    },
+    {
+      "id": "targeting-reactions",
+      "status": "partial",
+      "source": "RULING 68-72,83; MASTER card pages in tactics-reviewed.json",
+      "scope": "Multi-target and field reactions, shared damage/responses, highest-only multi-Clash counter-damage, reviewed redirection/interception/priority abilities and controlled switcher effects. Decoys, unsupported Support effects and conflicting printed timing remain explicit.",
+      "fixtures": [
+        "tactics_multi_target_reaction_resolves_each_response_then_resumes_the_original_attack",
+        "tactics_redirection_uses_live_ability_sources_and_bypass_preserves_the_chosen_target",
+        "tactics_competing_redirectors_require_an_exact_gm_choice",
+        "tactics_reaction_blockers_leave_maneuvers_available_and_check_allied_range",
+        "tactics_magic_bounce_reflects_once_without_charging_the_reflector_an_action",
+        "tactics_good_as_gold_blocks_foe_and_ally_support_but_not_self_or_field_effects",
+        "tactics_foe_switches_use_only_the_owners_registered_reserves_and_suction_cups_blocks",
+        "tactics_user_switches_preserve_the_slot_and_remaining_actions_without_changing_sheets",
+        "tactics_ability_switch_crossing_is_once_per_threshold_and_not_an_automatic_battle_end",
+        "tactics_prankster_keeps_printed_priority_and_conflicting_late_timing_needs_a_ruling",
+        "tactics_pending_choices_and_targeting_state_survive_serialization_and_rollback",
+        "tactics_multiple_clashes_apply_the_highest_counter_damage_once",
+        "tactics_ally_switch_refunds_an_action_and_lets_the_incoming_reserve_react",
+        "tactics_baton_pass_transfers_move_boosts_and_blocks_self_boosting_until_recipient_faints",
+        "tactics_rage_powder_only_attracts_damage_moves_and_lures_expire_on_source_departure",
+        "tactics_stall_remains_last_when_trick_room_changes_only_uncompleted_turns",
+        "tactics_evasion_is_not_refreshed_between_successive_hits_but_clash_can_answer_the_next_hit",
+        "tactics_no_reserve_requires_a_gm_outcome_and_ending_preserves_the_recorded_engine",
+        "tactics_reflected_leech_seed_spends_original_will_and_preserves_effect_source",
+        "tactics_unsupported_foe_field_effect_keeps_its_reflected_scope_in_the_gm_record",
+        "tactics_magic_coat_requires_a_recorded_duration_and_consumes_only_the_selected_scope",
+        "tactics_older_engine_keeps_its_reaction_path_and_rejects_new_commands",
+        "tactics_room_owner_replacement_is_host_validated_idempotent_stale_checked_and_reconnectable",
+        "tactics_bystander_follow_me_intercepts_without_spending_the_original_targets_reaction",
+        "tactics_rage_powder_respects_the_manuals_grass_and_overcoat_immunity",
+        "tactics_legacy_missing_trainer_links_queue_a_gm_ruling_instead_of_cancelling_damage"
+      ]
     }
   ],
-  "ability_registry_hash": "cfc167343df4d700d552ad4188da09139c0171237e722756185d6101b0ce3894",
-  "special_registry_hash": "f751cb2777215cc3b8411553963a225baf743f8bdeed9fc6b2da5c907d4109d8"
+  "ability_registry_hash": "6ebb073b86db660e282a10bb6c6f96fbdfdbc2120414d82601621a22122ac244",
+  "special_registry_hash": "f751cb2777215cc3b8411553963a225baf743f8bdeed9fc6b2da5c907d4109d8",
+  "tactics_registry_hash": "d85804ec03739e81958f6a36949ae845b79b29535187f7d6e9b6ec9d8e1ea516"
 }

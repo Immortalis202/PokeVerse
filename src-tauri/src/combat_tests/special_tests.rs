@@ -1,7 +1,7 @@
 use super::targeting_tests::{damage_command, pass, roll};
 use super::*;
 use crate::combat::{field, special};
-fn setup(name: &str) -> (Campaign, String, String) {
+pub(super) fn setup(name: &str) -> (Campaign, String, String) {
     let (mut c, a, t) = fixture(name);
     let f = c.battle.as_mut().unwrap().flow.as_mut().unwrap();
     f.special.enabled = true;

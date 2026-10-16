@@ -28,6 +28,11 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
   ).replace(/\r\n/g, "\n");
   const specialRegistry = JSON.parse(specialText);
   const specialHash = createHash("sha256").update(specialText).digest("hex");
+  const tacticsText = (
+    await readFile(path.join(app, "rules/tactics-reviewed.json"), "utf8")
+  ).replace(/\r\n/g, "\n");
+  const tacticsRegistry = JSON.parse(tacticsText);
+  const tacticsHash = createHash("sha256").update(tacticsText).digest("hex");
   const coverageRegistry = JSON.parse(
     await readFile(path.join(app, "rules/coverage.json"), "utf8"),
   );
@@ -38,6 +43,10 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
   if (coverageRegistry.special_registry_hash !== specialHash)
     throw new Error(
       "Special move registry changed without updating the coverage fingerprint",
+    );
+  if (coverageRegistry.tactics_registry_hash !== tacticsHash)
+    throw new Error(
+      "Targeting registry changed without updating the rules coverage fingerprint",
     );
   for (const kind of ["species", "moves", "abilities", "items", "natures"]) {
     for (const entry of catalog[kind]) {
@@ -120,6 +129,8 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
       }
       if (kind === "moves" && specialRegistry.entries[entry.Name])
         entry.SpecialRules = specialRegistry.entries[entry.Name];
+      if (tacticsRegistry[kind]?.[entry.Name])
+        entry.TacticsRules = tacticsRegistry[kind][entry.Name];
       entry.Review = {
         version: 1,
         fields: fieldReview,
@@ -127,6 +138,7 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
           (kind === "abilities"
             ? abilityRegistry.entries[entry.Name]?.scope
             : null) ??
+          entry.TacticsRules?.scope ??
           entry.SpecialRules?.scope ??
           evidence?.coverage ??
           "GM adjudication",
@@ -202,6 +214,27 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
     .digest("hex");
   const output = path.join(root, "outputs/rule-coverage");
   await mkdir(output, { recursive: true });
+  await writeFile(
+    path.join(output, "tactics-coverage.json"),
+    JSON.stringify(
+      {
+        version: 1,
+        engine: tacticsRegistry.engine,
+        entries: ["moves", "abilities"].flatMap((kind) =>
+          catalog[kind]
+            .filter((e) => e.TacticsRules)
+            .map((e) => ({
+              ...e.TacticsRules,
+              kind,
+              id: e.AppId,
+              name: e.Name,
+            })),
+        ),
+      },
+      null,
+      2,
+    ),
+  );
   await writeFile(
     path.join(output, "special-move-coverage.json"),
     JSON.stringify(

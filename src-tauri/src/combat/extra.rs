@@ -71,6 +71,9 @@ fn own_stat(c: &Campaign, p: &Combatant, key: &str) -> i32 {
         ("Quick Feet", "Dexterity") if ailment(p) => 2,
         ("Moxie", "Strength") => count(p, "Moxie"),
         ("Sap Sipper", "Strength") => count(p, "Sap Sipper"),
+        ("Lightning Rod" | "Storm Drain", "Special") if tactics::enabled(c) => {
+            count(p, &p.selected_ability)
+        }
         ("Speed Boost", "Dexterity") => count(p, "Speed Boost"),
         ("Huge Power" | "Pure Power", "Strength") => 2,
         ("Chlorophyll", "Dexterity")
@@ -731,6 +734,9 @@ fn apply_stat(
     n: i32,
     reflected: bool,
 ) -> Result<()> {
+    if tactics::baton_blocked(c, source, id, key, n) {
+        return Err(error("Baton Pass prevents this user from raising its own attributes until the recipient faints or the encounter ends"));
+    }
     if ![
         "Strength",
         "Dexterity",
@@ -1463,6 +1469,9 @@ fn highest_active(c: &Campaign, p: &Combatant) -> bool {
 pub fn order_group(c: &Campaign, p: &Combatant) -> i32 {
     if !enabled(c) {
         return 0;
+    }
+    if tactics::enabled(c) && p.selected_ability == "Stall" {
+        return 2;
     }
     if count(p, "Quick Draw round") == battle(c).map_or(0, |b| b.round as i32) {
         return -1;

@@ -22,6 +22,7 @@ export default function AdvancedTargeting({
   const [targets, setTargets] = useState<string[]>([]),
     [reason, setReason] = useState("");
   const [notice, setNotice] = useState("");
+  const [asReaction, setAsReaction] = useState(false);
   const [m, setMoveDetail] = useState<Move | null>(null);
   useEffect(() => {
     let stale = false;
@@ -48,6 +49,7 @@ export default function AdvancedTargeting({
       "0.6.0-core",
       "0.7.0-core",
       "0.8.0-core",
+      "0.9.0-core",
     ].includes(campaign.engine) ||
     !b?.active
   )
@@ -63,15 +65,27 @@ export default function AdvancedTargeting({
     setTargets((v) =>
       v.includes(id) ? v.filter((k) => k !== id) : [...v, id],
     );
-  const action: Action = {
-    type: "accuracy_targets",
-    combatant_id: actor,
-    target_ids: automatic ? [] : targets,
-    move_name: move,
-    pool_modifier: 0,
-    success_modifier: 0,
-    reason: reason.trim() || `${move} targeting`,
-  };
+  const action: Action =
+    asReaction && b.flow?.tactics?.enabled
+      ? {
+          type: "tactics",
+          command: {
+            kind: "Reaction",
+            combatant_id: actor,
+            move_name: move,
+            target_ids: automatic ? [] : targets,
+          },
+          reason: reason.trim() || `${move} reaction targets`,
+        }
+      : {
+          type: "accuracy_targets",
+          combatant_id: actor,
+          target_ids: automatic ? [] : targets,
+          move_name: move,
+          pool_modifier: 0,
+          success_modifier: 0,
+          reason: reason.trim() || `${move} targeting`,
+        };
   async function preview() {
     try {
       const v = await api.previewBattleAction(campaign, action);
@@ -89,6 +103,16 @@ export default function AdvancedTargeting({
         defense to lowest. Area moves automatically include foes first, then
         allies in range.
       </p>
+      {b.flow?.tactics?.enabled && (
+        <label className="checkbox">
+          <input
+            type="checkbox"
+            checked={asReaction}
+            onChange={(e) => setAsReaction(e.target.checked)}
+          />
+          Use selected targets for a reaction move
+        </label>
+      )}
       <div className="form-grid">
         <label>
           Acting Pokémon
@@ -180,10 +204,15 @@ export default function AdvancedTargeting({
         </button>
         <button
           className="primary"
-          disabled={disabled || !actor || !m || !!b.flow?.queue.length}
+          disabled={
+            disabled ||
+            !actor ||
+            !m ||
+            (asReaction ? !b.flow?.window : !!b.flow?.queue.length)
+          }
           onClick={() => execute(action)}
         >
-          Roll targeted move
+          {asReaction ? "Roll targeted reaction" : "Roll targeted move"}
         </button>
         {gm && (
           <button

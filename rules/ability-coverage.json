@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "engine": "0.8.0-core",
+  "engine": "0.9.0-core",
   "default_status": "manual",
   "entries": {
     "Adaptability": {
@@ -67,12 +67,11 @@
       "introduced_engine": "0.7.0-core"
     },
     "Armor Tail": {
-      "status": "manual",
-      "scope": "Requires additional reviewed reaction-target legality or initiative-order integration.",
+      "status": "automated",
+      "scope": "Prevent Physical/Special reaction-tagged moves from targeting the user or allies in its confirmed range, including late and ability-granted tags. Support moves and maneuvers remain distinct.",
       "page": 537,
-      "dependencies": [
-        "reviewed-reaction-and-order-definitions"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.9.0-core"
     },
     "Aroma Veil": {
       "status": "partial",
@@ -342,12 +341,11 @@
       "introduced_engine": "0.7.0-core"
     },
     "Dazzling": {
-      "status": "manual",
-      "scope": "Requires additional reviewed reaction-target legality or initiative-order integration.",
+      "status": "automated",
+      "scope": "Prevent foe reaction moves targeting this holder, including typed ability-granted reactions. Maneuvers Evasion/Clash remain available.",
       "page": 542,
-      "dependencies": [
-        "reviewed-reaction-and-order-definitions"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.9.0-core"
     },
     "Defeatist": {
       "status": "manual",
@@ -465,12 +463,11 @@
       ]
     },
     "Emergency Exit": {
-      "status": "manual",
-      "scope": "Requires requested/forced switching with reserves and reviewed timing.",
+      "status": "automated",
+      "scope": "Crossing to half HP or less queues a controlled owner/GM reserve choice, ignoring Block. Switcher icon uses inherited initiative and remaining actions. One completed switcher effect per affected trainer per round; no reserve needs an explicit GM outcome.",
       "page": 544,
-      "dependencies": [
-        "forced-switch-resolution"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.9.0-core"
     },
     "Fairy Aura": {
       "status": "partial",
@@ -573,12 +570,14 @@
       "introduced_engine": "0.5.0-core"
     },
     "Gale Wings": {
-      "status": "manual",
-      "scope": "Requires additional reviewed reaction-target legality or initiative-order integration.",
+      "status": "partial",
+      "scope": "Add Reaction 1 to Flying moves without imposing a video-game full-HP requirement. Retain higher printed early priority; conflicting Late Reaction needs a recorded timing ruling. Charge reactions still need adjudication.",
       "page": 547,
       "dependencies": [
-        "reviewed-reaction-and-order-definitions"
-      ]
+        "conflicting-late-priority-ruling",
+        "charge-reaction-definition"
+      ],
+      "introduced_engine": "0.9.0-core"
     },
     "Galvanize": {
       "status": "automated",
@@ -596,12 +595,11 @@
       ]
     },
     "Good As Gold": {
-      "status": "manual",
-      "scope": "Requires reviewed Support targeting/reversal before the reaction chain is opened.",
+      "status": "automated",
+      "scope": "Block foe and ally Support effects on the holder. Self effects and effects targeting a battlefield side remain distinct.",
       "page": 547,
-      "dependencies": [
-        "support-target-interception"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.9.0-core"
     },
     "Gooey": {
       "status": "automated",
@@ -912,12 +910,11 @@
       ]
     },
     "Lightning Rod": {
-      "status": "manual",
-      "scope": "Requires interception/redirection choices and an ordered target replacement system.",
+      "status": "automated",
+      "scope": "Single-target Electric redirection from any active participant, Electric damage immunity and a first-hit Special +1 ability channel. Competing redirectors require a logged GM choice.",
       "page": 553,
-      "dependencies": [
-        "move-redirection"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.9.0-core"
     },
     "Limber": {
       "status": "automated",
@@ -954,12 +951,13 @@
       "introduced_engine": "0.5.0-core"
     },
     "Magic Bounce": {
-      "status": "manual",
-      "scope": "Requires reviewed Support targeting/reversal before the reaction chain is opened.",
+      "status": "partial",
+      "scope": "Reflect executable foe Support effects aimed at the holder or its side, once, without extra actions/accuracy. Preserve original resource payer and reflected effect source. Unimplemented Support effects still require adjudication; manual field records retain reflected scope.",
       "page": 554,
       "dependencies": [
-        "support-target-interception"
-      ]
+        "unsupported-support-effects"
+      ],
+      "introduced_engine": "0.9.0-core"
     },
     "Magic Guard": {
       "page": 554,
@@ -1292,12 +1290,14 @@
       ]
     },
     "Prankster": {
-      "status": "manual",
-      "scope": "Requires additional reviewed reaction-target legality or initiative-order integration.",
+      "status": "partial",
+      "scope": "Add Reaction 1 to Support moves. Retain higher printed early reaction priority; conflicting Late Reaction requires a recorded printed/ability timing ruling. Unsupported move effects and charge reaction exceptions remain explicit.",
       "page": 561,
       "dependencies": [
-        "reviewed-reaction-and-order-definitions"
-      ]
+        "conflicting-late-priority-ruling",
+        "charge-reaction-definition"
+      ],
+      "introduced_engine": "0.9.0-core"
     },
     "Pressure": {
       "status": "manual",
@@ -1321,12 +1321,11 @@
       "introduced_engine": "0.7.0-core"
     },
     "Propeller Tail": {
-      "status": "manual",
-      "scope": "Requires interception/redirection choices and an ordered target replacement system.",
+      "status": "automated",
+      "scope": "Bypass move/ability target redirection, including lures, attractors and support reflection. Cover is a separate maneuver.",
       "page": 561,
-      "dependencies": [
-        "move-redirection"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.9.0-core"
     },
     "Protean": {
       "status": "automated",
@@ -1380,12 +1379,11 @@
       "introduced_engine": "0.7.0-core"
     },
     "Queenly Majesty": {
-      "status": "manual",
-      "scope": "Requires additional reviewed reaction-target legality or initiative-order integration.",
+      "status": "automated",
+      "scope": "Prevent foe reaction moves targeting this holder. Maneuvers Evasion/Clash remain available.",
       "page": 562,
-      "dependencies": [
-        "reviewed-reaction-and-order-definitions"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.9.0-core"
     },
     "Quick Draw": {
       "status": "automated",
@@ -1724,20 +1722,18 @@
       ]
     },
     "Stall": {
-      "status": "manual",
-      "scope": "Requires additional reviewed reaction-target legality or initiative-order integration.",
+      "status": "automated",
+      "scope": "Always sort last in initiative, including Trick Room and remaining-order changes; completed turns are not replayed.",
       "page": 569,
-      "dependencies": [
-        "reviewed-reaction-and-order-definitions"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.9.0-core"
     },
     "Stalwart": {
-      "status": "manual",
-      "scope": "Requires interception/redirection choices and an ordered target replacement system.",
+      "status": "automated",
+      "scope": "Bypass move/ability target redirection, including lures, attractors and support reflection. Cover is a separate maneuver.",
       "page": 569,
-      "dependencies": [
-        "move-redirection"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.9.0-core"
     },
     "Stamina": {
       "status": "automated",
@@ -1805,12 +1801,11 @@
       ]
     },
     "Storm Drain": {
-      "status": "manual",
-      "scope": "Requires interception/redirection choices and an ordered target replacement system.",
+      "status": "automated",
+      "scope": "Single-target Water redirection from any active participant, Water damage immunity and a first-hit Special +1 ability channel. Competing redirectors require a logged GM choice.",
       "page": 571,
-      "dependencies": [
-        "move-redirection"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.9.0-core"
     },
     "Strong Jaw": {
       "status": "automated",
@@ -1826,12 +1821,11 @@
       "introduced_engine": "0.5.0-core"
     },
     "Suction Cups": {
-      "status": "manual",
-      "scope": "Requires requested/forced switching with reserves and reviewed timing.",
+      "status": "automated",
+      "scope": "Prevent forced switches originating from foes. Outside-battle capture/flavor effects remain manual.",
       "page": 571,
-      "dependencies": [
-        "forced-switch-resolution"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.9.0-core"
     },
     "Super Luck": {
       "status": "automated",
@@ -2043,11 +2037,10 @@
     },
     "Triage": {
       "status": "partial",
-      "scope": "Reviewed self-healing/support cure moves gain Reaction 1. Multi-target/ally reaction sequencing and other healing definitions remain manual.",
+      "scope": "Reviewed Basic Heal and status-cure Support moves gain Reaction 1, including selected allies and multi-target cures. Existing action, capacity, target, Will and phase validation apply. Unsupported healing/cure definitions remain manual.",
       "page": 575,
       "dependencies": [
-        "multi-target-reaction-sequencing",
-        "unreviewed-healing-moves"
+        "unsupported-healing-cure-definitions"
       ],
       "introduced_engine": "0.7.0-core"
     },
@@ -2184,12 +2177,11 @@
       "introduced_engine": "0.7.0-core"
     },
     "Wimp Out": {
-      "status": "manual",
-      "scope": "Requires requested/forced switching with reserves and reviewed timing.",
+      "status": "automated",
+      "scope": "Crossing to half HP or less queues a controlled owner/GM reserve choice, ignoring Block. Switcher icon uses inherited initiative and remaining actions. One completed switcher effect per affected trainer per round; no reserve needs an explicit GM outcome.",
       "page": 578,
-      "dependencies": [
-        "forced-switch-resolution"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.9.0-core"
     },
     "Wind Power": {
       "status": "partial",

@@ -142,7 +142,8 @@ pub fn coverage(c: &Campaign, name: &str) -> Option<&'static str> {
             .expect("valid owned ability registry")
     });
     let entry = &REGISTRY["entries"][name];
-    if (entry["introduced_engine"] == "0.7.0-core" && !extra::enabled(c))
+    if (entry["introduced_engine"] == "0.9.0-core" && !tactics::enabled(c))
+        || (entry["introduced_engine"] == "0.7.0-core" && !extra::enabled(c))
         || (entry["introduced_engine"] == "0.8.0-core" && !special::enabled(c))
         || (entry["introduced_engine"] == "0.6.0-core" && !field::enabled(c))
     {
@@ -260,7 +261,8 @@ pub fn move_immune(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> bool {
             || (p.selected_ability == "Soundproof" && m["Attributes"]["SoundMove"] == true))
 }
 pub fn damage_immune(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> bool {
-    extra::immune(c, p, m)
+    tactics::damage_immune(c, p, m)
+        || extra::immune(c, p, m)
         || move_immune(c, p, m)
         || (enabled(c)
             && match p.selected_ability.as_str() {
@@ -351,8 +353,8 @@ pub fn sturdy(c: &mut Campaign, target: &str, amount: i32, before_hp: i32) -> Re
         Ok(amount)
     }
 }
-pub fn clash_amount(
-    c: &mut Campaign,
+pub fn clash_reduced(
+    c: &Campaign,
     id: &str,
     m: &serde_json::Value,
     raw: i32,
@@ -366,8 +368,18 @@ pub fn clash_amount(
         - reduction(c, p, m, raw - 1, source)
         - field::reduction(c, fighter(c, source)?, p, m))
     .max(0);
-    let before_hp = p.hp;
-    sturdy(c, id, reduced, before_hp)
+    Ok(reduced)
+}
+pub fn clash_amount(
+    c: &mut Campaign,
+    id: &str,
+    m: &serde_json::Value,
+    raw: i32,
+    source: &str,
+) -> Result<i32> {
+    let reduced = clash_reduced(c, id, m, raw, source)?;
+    let hp = fighter(c, id)?.hp;
+    sturdy(c, id, reduced, hp)
 }
 pub fn hit(
     c: &mut Campaign,
@@ -434,6 +446,7 @@ pub fn hit(
         _ => {}
     }
     extra::hit(c, q, before_hp, m)?;
+    tactics::hit(c, q, m)?;
     if move_immune(c, &target, m)
         || !contact(m)
         || attacker.hp == 0

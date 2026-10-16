@@ -219,10 +219,7 @@ pub fn dice(c: &Campaign, cmd: &SpecialCommand, cat: &Catalog) -> Result<u32> {
                 ));
             }
             let base = if *reaction {
-                let incoming = flow(c)?
-                    .queue
-                    .last()
-                    .ok_or_else(|| error("No incoming attack"))?;
+                let incoming = incoming(c)?;
                 if incoming.actor_id != *target_id {
                     return Err(error("A successive reaction targets the incoming attacker"));
                 }
@@ -798,7 +795,7 @@ pub fn after_accuracy(
     Ok(())
 }
 pub fn lifecycle(_before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<()> {
-    if !enabled(c) {
+    if !enabled(c) || c.battle.as_ref().is_none_or(|b| !b.active) {
         return Ok(());
     }
     if !preparing(c) && enabled(_before) {
@@ -977,7 +974,8 @@ pub fn heal(c: &mut Campaign, id: &str, n: i32, revive: bool) -> Result<()> {
     Ok(())
 }
 fn spend(c: &mut Campaign, id: &str, n: i32) -> Result<()> {
-    let p = fighter_mut(c, id)?;
+    let id = tactics::payer(c, id);
+    let p = fighter_mut(c, &id)?;
     if p.runtime.will < n {
         return Err(error(
             "This healing effect requires accepted remaining Will",
@@ -2533,7 +2531,7 @@ pub fn reaction_guard(c: &Campaign, id: &str, kind: &str, name: &str, cat: &Cata
             "Bide forgoes Evasion and Clash against the next two attacks",
         ));
     }
-    if let Some(q) = flow(c)?.queue.last() {
+    if let Ok(q) = incoming(c) {
         if vulnerable(c, id, &q.move_name) {
             return Err(error(
                 "A vulnerable charging target cannot react to this move",

@@ -41,7 +41,7 @@ export default function CoreBattleFlow({
   const owned = (id: string) =>
     gm || b.combatants.find((p) => p.id === id)?.owner_id === playerId;
   const current = b.combatants.find((p) => p.id === f.order[f.cursor]);
-  const incoming = f.queue.at(-1),
+  const incoming = f.tactics?.enabled ? f.queue[0] : f.queue.at(-1),
     pending = f.queue[0];
   const damaging =
     pending &&
@@ -291,6 +291,7 @@ export default function CoreBattleFlow({
             "0.6.0-core",
             "0.7.0-core",
             "0.8.0-core",
+            "0.9.0-core",
           ].includes(campaign.engine) &&
             b.combatants
               .filter(

@@ -1161,6 +1161,33 @@
       },
       "coverage": "Charge, range/barrier bypass and encounter HP healing debt are automated. Enforcing the 24-hour debt after leaving the encounter needs persistent recovery tracking and remains manual.",
       "notes": "Application-owned Pokerole correction; original JSON remains unchanged. Family rules and card wording take precedence over conflicting tags."
+    },
+    "follow-me:Follow Me": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 492,
+      "fields": {
+        "Effect": "Target Self. Reaction 5. All foe moves able to do so target the user. Duration 1 Round."
+      },
+      "coverage": "One-round single-target lure. Redirect eligible foe moves, including unresolved incoming attacks before damage commits; multiple competing sources require a recorded GM choice.",
+      "notes": "Application-owned correction from visually reviewed printed card. Source JSON unchanged."
+    },
+    "magic-coat:Magic Coat": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 513,
+      "fields": {
+        "Target": "Self"
+      },
+      "coverage": "Self-targeted Reaction 4; no stated duration, so a recorded GM duration choice is required. Reflect incoming foe Support effects on the user or its side once; resource payer and reflected source stay distinct. Unsupported effects remain adjudicated.",
+      "notes": "Application-owned correction from visually reviewed printed card. Source JSON unchanged."
+    },
+    "circle-throw:Circle Throw": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 459,
+      "fields": {
+        "Type": "Fight"
+      },
+      "coverage": "Reviewed switcher effect: conscious same-trainer/owner/side reserve, inherited slot/initiative/remaining actions, one completed switcher effect per trainer per round; explicit no-reserve outcome, ownership and retry checks.",
+      "notes": "Application-owned correction from visually reviewed printed card. Source JSON unchanged."
     }
   },
   "abilities": {

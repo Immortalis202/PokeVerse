@@ -7,6 +7,7 @@ pub(crate) mod abilities;
 pub(crate) mod extra;
 pub(crate) mod field;
 pub(crate) mod special;
+pub(crate) mod tactics;
 mod targeting;
 use targeting::*;
 #[derive(Debug, Clone, Default, Serialize, Deserialize, TS)]
@@ -48,6 +49,8 @@ pub struct Status {
 pub struct TurnFlow {
     #[serde(default)]
     pub special: special::SpecialState,
+    #[serde(default)]
+    pub tactics: tactics::TacticsState,
     #[serde(default)]
     pub extra: extra::ExtraState,
     #[serde(default)]
@@ -328,6 +331,15 @@ fn close(c: &mut Campaign) {
         }
     }
 }
+fn incoming(c: &Campaign) -> Result<&QueuedAction> {
+    let f = flow(c)?;
+    (if tactics::enabled(c) {
+        f.queue.first()
+    } else {
+        f.queue.last()
+    })
+    .ok_or_else(|| error("No incoming action"))
+}
 fn current(c: &Campaign) -> Result<&QueuedAction> {
     if abilities::pending(c) {
         return Err(error(
@@ -500,9 +512,11 @@ fn reaction_pool(c: &Campaign, id: &str, kind: &str, name: &str, cat: &Catalog) 
     if !f.window {
         return Err(error("Reaction window must be open"));
     }
-    let incoming = f.queue.last().ok_or_else(|| error("No incoming action"))?;
-    if incoming.target_id != id || incoming.actor_id == id {
-        return Err(error("React only to the action targeting you"));
+    let incoming = incoming(c)?;
+    if incoming.actor_id == id
+        || (incoming.target_id != id && !(tactics::enabled(c) && kind == "move"))
+    {
+        return Err(error("Maneuvers answer attacks targeting you; reaction moves can intervene during another participant's action"));
     }
     let m = field::move_data(
         c,
@@ -582,6 +596,7 @@ fn reaction_pool(c: &Campaign, id: &str, kind: &str, name: &str, cat: &Catalog) 
             .and_then(|s| s.parse::<i32>().ok())
             .or_else(|| m["Attributes"][key].as_i64().map(|n| n as i32))
     };
+    tactics::priority_guard(c, p, &m)?;
     let (timing, n) = if let Some(n) = number("Reaction") {
         ("before", n)
     } else if let Some(n) = number("LateReaction") {
@@ -596,7 +611,8 @@ fn reaction_pool(c: &Campaign, id: &str, kind: &str, name: &str, cat: &Catalog) 
             "Reaction priority must increase; early reactions cannot answer late reactions",
         ));
     }
-    if m["Target"] != "Self"
+    if !tactics::enabled(c)
+        && m["Target"] != "Self"
         && m["Target"] != "Foe"
         && !(special::enabled(c) && special::ally_shield(&m))
     {
@@ -690,9 +706,11 @@ fn ice_damage_pool(c: &Campaign, q: &QueuedAction, modifier: i32, cat: &Catalog)
     Ok(n as u32)
 }
 pub fn dice_count(c: &Campaign, a: &Action, cat: &Catalog) -> Result<u32> {
+    tactics::phase(c, a)?;
     abilities::phase(c, a)?;
     field::phase(c, a)?;
     let base = match a {
+        Action::Tactics { command, .. } => return tactics::dice(c, command, cat),
         Action::SpecialMove { command, .. } => return special::dice(c, command, cat),
         Action::Battlefield { command, .. } => return field::dice(c, command),
         Action::ResolveAbility {
@@ -872,6 +890,7 @@ pub fn preview(c: &Campaign, a: &Action, cat: &Catalog) -> Result<ActionPreview>
     let dice = rules::dice_count(c, a, cat)?;
     let mut warnings=vec!["Preview rolls no dice and spends no resources. The host validates the current revision on commit.".into()];
     warnings.extend(special::preview_notes(c, a, cat)?);
+    warnings.extend(tactics::preview_notes(c, a, cat)?);
     if let Action::AccuracyTargets {
         combatant_id,
         move_name,
@@ -963,7 +982,7 @@ pub fn preview(c: &Campaign, a: &Action, cat: &Catalog) -> Result<ActionPreview>
             }
         }
     }
-    warnings.push("Unreviewed added effects, weather, temporary typing, lethal wounds and trainer damage require recorded GM adjudication.".into());
+    warnings.push("Unreviewed added effects require recorded GM adjudication. Trainer-target damage, lethal wounds and automatic Will recovery are excluded.".into());
     Ok(ActionPreview {
         dice,
         warnings,
@@ -1006,6 +1025,7 @@ pub fn transition(
     dice: Vec<u8>,
     cat: &Catalog,
 ) -> Result<(Campaign, String)> {
+    tactics::phase(c, a)?;
     abilities::phase(c, a)?;
     field::phase(c, a)?;
     let mut next = c.clone();
@@ -1034,6 +1054,24 @@ pub fn transition(
         return Ok((next, description));
     }
     let description = match a {
+        Action::Tactics { command, reason } => {
+            tactics::command(&mut next, actor, command, &dice, reason, cat)?
+        }
+        Action::React {
+            combatant_id,
+            kind,
+            move_name,
+            reason,
+        } if tactics::enabled(c) && kind == "move" => tactics::react(
+            &mut next,
+            actor,
+            combatant_id,
+            move_name,
+            None,
+            &dice,
+            reason,
+            cat,
+        )?,
         Action::SpecialMove { command, reason } => {
             special::command(&mut next, actor, command, &dice, reason, cat)?
         }
@@ -1375,6 +1413,7 @@ pub fn transition(
                 m["Attributes"]["SoundMove"] == true
                     || ["Phantom Force", "Shadow Force"].contains(&move_name.as_str()),
             );
+            let targets = tactics::redirect_move(c, combatant_id, targets, &m, cat)?;
             let target = targets
                 .first()
                 .cloned()
@@ -1445,13 +1484,15 @@ pub fn transition(
                 });
                 let q = flow_mut(&mut next).queue.last_mut().unwrap();
                 q.field_scope = field_scope;
-                q.defense_key = if m["Category"] == "Physical" {
+                q.defense_key = if tactics::enabled(c) && m["Category"] == "Support" {
+                    "Support"
+                } else if m["Category"] == "Physical" {
                     "Defense"
                 } else {
                     "SpecialDefense"
                 }
                 .into();
-                if targets.len() > 1 {
+                if targets.len() > 1 || (tactics::enabled(c) && !targets.is_empty()) {
                     q.targets = targets
                         .into_iter()
                         .map(|target_id| TargetImpact {
@@ -1488,7 +1529,7 @@ pub fn transition(
             reason(r)?;
             let base = reaction_pool(c, combatant_id, kind, move_name, cat)?;
             check_count(&dice, dice_count(c, a, cat)?)?;
-            let incoming = flow(c)?.queue.last().unwrap().clone();
+            let incoming = incoming(c)?.clone();
             let p = fighter(c, combatant_id)?;
             let low = if kind == "move" {
                 let resolved_move = field::move_data(c, p, &move_entry(cat, move_name)?);
@@ -1556,13 +1597,18 @@ pub fn transition(
                                 to_def,
                                 &incoming.actor_id,
                             )?;
-                            to_att = abilities::clash_amount(
-                                &mut next,
-                                &incoming.actor_id,
-                                &defend,
-                                to_att,
-                                &incoming.target_id,
-                            )?;
+                            if tactics::enabled(c) && incoming.targets.len() > 1 {
+                                tactics::queue_clash(&mut next, &incoming, move_name, to_att, cat)?;
+                                to_att = 0;
+                            } else {
+                                to_att = abilities::clash_amount(
+                                    &mut next,
+                                    &incoming.actor_id,
+                                    &defend,
+                                    to_att,
+                                    &incoming.target_id,
+                                )?;
+                            }
                         }
                         let attacker_hp = fighter(c, &incoming.actor_id)?.hp;
                         fighter_mut(&mut next, &incoming.target_id)?.hp = (p.hp - to_def).max(0);
@@ -1575,7 +1621,9 @@ pub fn transition(
                             move_name: move_name.clone(),
                             ..incoming.clone()
                         };
-                        abilities::hit(&mut next, &counter, attacker_hp, &defend)?;
+                        if !(tactics::enabled(c) && incoming.targets.len() > 1) {
+                            abilities::hit(&mut next, &counter, attacker_hp, &defend)?;
+                        }
                     }
                 }
                 close(&mut next);
@@ -1675,7 +1723,7 @@ pub fn transition(
             owner(c, actor, combatant_id)?;
             reason(r)?;
             let f = flow(c)?;
-            if !f.window || f.queue.last().is_none_or(|q| q.target_id != *combatant_id) {
+            if !f.window || incoming(c).map_or(true, |q| q.target_id != *combatant_id) {
                 return Err(error("Only the current targeted combatant can pass"));
             }
             responded(&mut next);
@@ -1816,6 +1864,7 @@ pub fn transition(
             }
             if special::enabled(c) && special::formula_name(&q.move_name) {
                 let log = special::resolve_formula(&mut next, actor, &q, a, &dice, cat)?;
+                tactics::lifecycle(c, &mut next, cat)?;
                 field::lifecycle(c, &mut next, cat)?;
                 abilities::lifecycle(c, &mut next)?;
                 extra::lifecycle(c, &mut next, cat)?;
@@ -1852,6 +1901,7 @@ pub fn transition(
                     p.hp = (p.hp - amount).max(0);
                     abilities::hit(&mut next, &q, before_hp, &move_entry(cat, &q.move_name)?)?;
                     finish(&mut next);
+                    tactics::lifecycle(c, &mut next, cat)?;
                     field::lifecycle(c, &mut next, cat)?;
                     abilities::lifecycle(c, &mut next)?;
                     extra::lifecycle(c, &mut next, cat)?;
@@ -2224,6 +2274,7 @@ pub fn transition(
             }
             if field::pending(&temp) || abilities::pending(&temp) || special::ticks_pending(&temp) {
                 temp.engine = c.engine.clone();
+                tactics::lifecycle(c, &mut temp, cat)?;
                 field::lifecycle(c, &mut temp, cat)?;
                 abilities::lifecycle(c, &mut temp)?;
                 extra::lifecycle(c, &mut temp, cat)?;
@@ -2307,18 +2358,30 @@ pub fn transition(
             ) {
                 let b = done.battle.as_mut().unwrap();
                 b.flow = Some(TurnFlow {
-                    special: special::SpecialState {
+                    tactics: tactics::TacticsState {
                         enabled: c.engine == ENGINE,
                         ..Default::default()
                     },
-                    ability_rules: [ENGINE, EXTRA_ENGINE, FIELD_ENGINE, ABILITY_ENGINE]
-                        .contains(&c.engine.as_str()),
+                    special: special::SpecialState {
+                        enabled: [ENGINE, SPECIAL_ENGINE].contains(&c.engine.as_str()),
+                        ..Default::default()
+                    },
+                    ability_rules: [
+                        ENGINE,
+                        SPECIAL_ENGINE,
+                        EXTRA_ENGINE,
+                        FIELD_ENGINE,
+                        ABILITY_ENGINE,
+                    ]
+                    .contains(&c.engine.as_str()),
                     extra: extra::ExtraState {
-                        enabled: [ENGINE, EXTRA_ENGINE].contains(&c.engine.as_str()),
+                        enabled: [ENGINE, SPECIAL_ENGINE, EXTRA_ENGINE]
+                            .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     battlefield: field::Battlefield {
-                        enabled: [ENGINE, FIELD_ENGINE].contains(&c.engine.as_str()),
+                        enabled: [ENGINE, SPECIAL_ENGINE, EXTRA_ENGINE, FIELD_ENGINE]
+                            .contains(&c.engine.as_str()),
                         sunlight: true,
                         ..Default::default()
                     },
@@ -2445,6 +2508,7 @@ pub fn transition(
                 refresh_initiative(c, &mut done)?;
             }
             if !matches!(a, Action::RollbackBattle { .. }) {
+                tactics::lifecycle(c, &mut done, cat)?;
                 field::lifecycle(c, &mut done, cat)?;
             }
             abilities::lifecycle(c, &mut done)?;
@@ -2457,6 +2521,7 @@ pub fn transition(
             return Ok((done, log));
         }
     };
+    tactics::lifecycle(c, &mut next, cat)?;
     field::lifecycle(c, &mut next, cat)?;
     abilities::lifecycle(c, &mut next)?;
     extra::lifecycle(c, &mut next, cat)?;
@@ -2754,6 +2819,20 @@ fn effect_dice(c: &Campaign, q: &QueuedAction, _cat: &Catalog) -> Result<u32> {
     })
 }
 fn effects(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) -> Result<()> {
+    if let Some(redirected) = tactics::effect_target(c, q, cat)? {
+        if redirected.cancelled {
+            return Ok(());
+        }
+        let result = effects_inner(c, &redirected, dice, cat);
+        tactics::clear_payer(c);
+        return result;
+    }
+    effects_inner(c, q, dice, cat)
+}
+fn effects_inner(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) -> Result<()> {
+    if tactics::move_effect(c, q, cat)? {
+        return Ok(());
+    }
     if special::effects(c, q, dice, cat)? {
         return Ok(());
     }

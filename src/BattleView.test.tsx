@@ -187,8 +187,22 @@ describe("structured core battle controls", () => {
         automatic_validation: true,
         combatants,
         flow: {
+          tactics: {
+            enabled: engine === "0.9.0-core",
+            lures: [],
+            switches: [],
+            switchers: {},
+            redirect_choices: {},
+            priority_choices: {},
+            coat_rules: {},
+            clash_damage: {},
+            clash_pending: {},
+            baton: {},
+            history: [],
+            payer: null,
+          },
           special: {
-            enabled: engine === "0.8.0-core",
+            enabled: ["0.8.0-core", "0.9.0-core"].includes(engine),
             bides: {},
             charges: {},
             rampages: {},
@@ -201,15 +215,20 @@ describe("structured core battle controls", () => {
             series: null,
           },
           extra: {
-            enabled: ["0.7.0-core", "0.8.0-core"].includes(engine),
+            enabled: ["0.7.0-core", "0.8.0-core", "0.9.0-core"].includes(
+              engine,
+            ),
             active: [],
             fainted: [],
             round_started: 0,
           },
           battlefield: {
-            enabled: ["0.6.0-core", "0.7.0-core", "0.8.0-core"].includes(
-              engine,
-            ),
+            enabled: [
+              "0.6.0-core",
+              "0.7.0-core",
+              "0.8.0-core",
+              "0.9.0-core",
+            ].includes(engine),
             natural: null,
             weather: null,
             rules: [],
@@ -237,6 +256,7 @@ describe("structured core battle controls", () => {
             "0.6.0-core",
             "0.7.0-core",
             "0.8.0-core",
+            "0.9.0-core",
           ].includes(engine),
           ability_events: ability
             ? [
@@ -374,6 +394,22 @@ describe("structured core battle controls", () => {
     expect(core("host", false, "0.8.0-core")).not.toContain("Weight override");
     expect(core("player", false, "0.7.0-core")).not.toContain(
       "Special move automation",
+    );
+  });
+  it("exposes targeted reactions and reserves GM timing/redirector rulings for the GM", () => {
+    const gm = core("gm", false, "0.9.0-core");
+    expect(gm).toContain("Use selected targets for a reaction move");
+    expect(gm).toContain("Targeting and replacements");
+    expect(gm).toContain("Record competing redirector");
+    expect(gm).toContain("Record Magic Coat duration");
+    const player = core("player", false, "0.9.0-core");
+    expect(player).toContain("Targeting and replacements");
+    expect(player).not.toContain("Record priority ruling");
+    expect(core("host", false, "0.9.0-core")).not.toContain(
+      "Record competing redirector",
+    );
+    expect(core("gm", false, "0.8.0-core")).not.toContain(
+      "Targeting and replacements",
     );
   });
 });
