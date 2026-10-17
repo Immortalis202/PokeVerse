@@ -1,6 +1,8 @@
 use crate::{battle, catalog::Catalog, model::*, room, store::Store, sync};
 #[path = "combat_tests.rs"]
 mod combat_tests;
+#[path = "scenario_3v3_tests.rs"]
+mod scenario_3v3_tests;
 #[path = "team_tests.rs"]
 mod team_tests;
 use std::{

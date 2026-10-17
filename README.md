@@ -44,6 +44,8 @@ Open **Training encounters** after selecting a campaign in Room. The appointed G
 
 ## Implemented
 
+Headless battle verification: run `npm run test:3v3` for the complete gym encounter and real localhost host/client replay, without launching the desktop app. See [scenario coverage and test isolation](docs/headless-3v3.md).
+
 - Guided trainer/Pokémon creation and legacy review; eight ranks, trainer age bonuses, species baselines/limits, rank allocation totals, skills, socials, Happiness/Loyalty and derived HP/Will/defenses/initiative/move capacity.
 - Offline rank-up, free unused allocations, priced retraining, move learning/replacement/forgetting, pre-evolution recall, over-ranking, TM/TR consumption, evolution preparation and completion. Narrative permissions and awards require campaign-scoped GM approval.
 - Ordinary available abilities are distinct from the selected battle ability. Huge Power/Pure Power use permanent modifiers without consuming points; conditional abilities use reviewed battle definitions where supported. Encounter ability and rules profile are frozen.

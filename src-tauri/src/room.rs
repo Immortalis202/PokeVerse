@@ -35,6 +35,9 @@ fn hash(s: &str) -> String {
 }
 
 pub struct Host {
+    // No wire/API switch: deterministic rolls exist only in Rust test builds.
+    #[cfg(test)]
+    pub(crate) test_roll: Mutex<Option<(String, Vec<u8>)>>,
     pub store: SharedStore,
     pub catalog: Arc<Catalog>,
     pub campaign_id: String,
@@ -136,6 +139,22 @@ impl Host {
         let dice: Vec<u8> = (0..count)
             .map(|_| rand::rng().random_range(1..=6))
             .collect();
+        #[cfg(test)]
+        let dice = match lock(&self.test_roll)?.take() {
+            Some((command_id, faces)) => {
+                if command_id != cmd.id
+                    || faces.len() != count as usize
+                    || faces.iter().any(|face| !(1..=6).contains(face))
+                {
+                    return Err(AppError::new(
+                        "test_dice",
+                        "Scripted roll does not match this command",
+                    ));
+                }
+                faces
+            }
+            None => dice,
+        };
         let (mut next, description) =
             battle::transition(&current, actor, &cmd.action, dice.clone(), &self.catalog)?;
         next.revision = current
@@ -238,7 +257,26 @@ pub async fn start(
     port: u16,
     notify: Notify,
 ) -> Result<Hosting> {
-    let listener = tokio::net::TcpListener::bind(("0.0.0.0", port)).await?;
+    start_bound(store, catalog, campaign_id, port, notify, "0.0.0.0").await
+}
+#[cfg(test)]
+pub(crate) async fn start_loopback(
+    store: SharedStore,
+    catalog: Arc<Catalog>,
+    campaign_id: String,
+    notify: Notify,
+) -> Result<Hosting> {
+    start_bound(store, catalog, campaign_id, 0, notify, "127.0.0.1").await
+}
+async fn start_bound(
+    store: SharedStore,
+    catalog: Arc<Catalog>,
+    campaign_id: String,
+    port: u16,
+    notify: Notify,
+    bind: &str,
+) -> Result<Hosting> {
+    let listener = tokio::net::TcpListener::bind((bind, port)).await?;
     let port = listener.local_addr()?.port();
     let (changes, _) = broadcast::channel(64);
     let token = {
@@ -260,6 +298,8 @@ pub async fn start(
     };
     let (shutdown, _) = tokio::sync::watch::channel(false);
     let host = Arc::new(Host {
+        #[cfg(test)]
+        test_roll: Mutex::new(None),
         store,
         catalog,
         campaign_id: campaign_id.clone(),
