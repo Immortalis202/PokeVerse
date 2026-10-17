@@ -205,8 +205,11 @@ pub fn apply_stats(c: &Campaign, p: &Combatant, s: &mut Sheet) {
             }
         }
         let permanent = if key == "Strength"
-            && ["Huge Power", "Pure Power"].contains(&p.selected_ability.as_str())
-        {
+            && ["Huge Power", "Pure Power"].contains(&if ability_changes::enabled(c) {
+                c.sheets[&p.sheet_id].ability.as_str()
+            } else {
+                p.selected_ability.as_str()
+            }) {
             2
         } else {
             0

@@ -1137,7 +1137,14 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
         .iter()
         .filter(|p| active_ids.contains(&p.id) && !old.contains(&p.id))
     {
-        if has(c, "minefield", p) {
+        if has(c, "minefield", p)
+            && (!ability_changes::enabled(c)
+                || !before.battle.as_ref().is_some_and(|b| {
+                    b.combatants
+                        .iter()
+                        .any(|q| q.id == p.id && q.deployed && q.hp > 0)
+                }))
+        {
             hurt(c, &p.id, 1, "Neutral", cat)?;
         }
         let weather = match p.selected_ability.as_str() {

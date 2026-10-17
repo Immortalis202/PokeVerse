@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.10.0-core",
-  "release": "0.17.0",
-  "protocol": 18,
+  "engine": "0.11.0-core",
+  "release": "0.18.0",
+  "protocol": 19,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -304,9 +304,20 @@
         "decoys_snatch_preserves_hp_and_uses_new_user_defenses",
         "decoys_shed_tail_transfers_to_registered_reserve"
       ]
+    },
+    {
+      "id": "temporary-abilities",
+      "status": "partial",
+      "source": "MASTER 480,500,507,515,534,557,575",
+      "scope": "Skill Swap, Role Play, Worry Seed, Simple Beam, Gastro Acid, host-random Trace and foe-only Neutralizing Gas; versioned encounter state, shared stat/damage hooks, provenance and restoration. Opposing Gas requires explicit GM ruling; other copying, held-item and transformation systems remain separate.",
+      "fixtures": [
+        "ability_changes_moves_use_normal_accuracy_and_persist_through_switching",
+        "ability_changes_trace_uses_host_dice_owner_permissions_and_restores_on_exit",
+        "ability_changes_huge_power_bonus_tracks_the_effective_ability_once"
+      ]
     }
   ],
-  "ability_registry_hash": "ae93bf4e8ada4ae58f83daddf4092a2e87aee8361c0d798c518c9f82cb5f502c",
-  "special_registry_hash": "8abdd3397299099b800c877a438fbfa620efd12e7033a7bd0c2c418fc1b630da",
+  "ability_registry_hash": "c8fac1ee584b2ef8eadf389ea494fb6a62eca2d0ec4e0221151b4c242cea8f04",
+  "special_registry_hash": "d984302375b329116f9b315c01c06e881b7d6b5ca869c2263c50052e3e761102",
   "tactics_registry_hash": "ee6fed55b8201e9959a5e143f1cef57fe5c9b4f81656d01e04e5cb9649fd1d7b"
 }

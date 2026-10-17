@@ -187,6 +187,17 @@ describe("structured core battle controls", () => {
         automatic_validation: true,
         combatants,
         flow: {
+          ability_changes: {
+            enabled: false,
+            originals: {},
+            assignments: {},
+            negated: [],
+            suppressed: [],
+            trace: {},
+            active: [],
+            gas_rulings: [],
+            history: [],
+          },
           decoys: {
             enabled: engine === "0.10.0-core",
             active:

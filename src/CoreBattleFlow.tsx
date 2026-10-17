@@ -293,6 +293,7 @@ export default function CoreBattleFlow({
             "0.8.0-core",
             "0.9.0-core",
             "0.10.0-core",
+            "0.11.0-core",
           ].includes(campaign.engine) &&
             b.combatants
               .filter(

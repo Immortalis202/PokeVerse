@@ -29,7 +29,9 @@ export default function AbilityControls({
   const target = event && b.combatants.find((p) => p.id === event.target_id);
   const owned =
     owner &&
-    (gm || (event?.kind !== "extra-download" && owner.owner_id === playerId));
+    (gm ||
+      (!["extra-download", "ability-gas"].includes(event?.kind ?? "") &&
+        owner.owner_id === playerId));
   const command = (choice: string): Action => ({
     type: "resolve_ability",
     event_id: event!.id,
@@ -50,18 +52,38 @@ export default function AbilityControls({
     <section className="panel" aria-label="Battle ability automation">
       <h3>Abilities</h3>
       <p>
-        Selected battle abilities are fixed for this encounter. Supported
-        passive effects apply automatically. Unsupported interactions require a
-        GM ruling.
+        Permanent abilities stay on the sheet. Temporary copying, swapping and
+        suppression are recorded below. Supported passive effects apply
+        automatically. Unsupported interactions require a GM ruling.
       </p>
+      {f.ability_changes?.enabled && (
+        <details>
+          <summary>Temporary ability history</summary>
+          {f.ability_changes.history.map((entry, i) => (
+            <p key={i}>{entry}</p>
+          ))}
+        </details>
+      )}
       <div className="toolbar">
         {b.combatants
           .filter((p) => p.deployed)
           .map((p) => (
             <div key={p.id}>
               <strong>
-                {p.name}: {p.selected_ability || "No ability"}
+                {p.name}:{" "}
+                {p.selected_ability ||
+                  (f.ability_changes?.suppressed.includes(p.id)
+                    ? "Ability negated"
+                    : "No ability")}
               </strong>
+              {f.ability_changes?.enabled && (
+                <p>
+                  Original: {f.ability_changes.originals[p.id] || "None"}
+                  {f.ability_changes.assignments[p.id]
+                    ? ` · Assigned: ${f.ability_changes.assignments[p.id]}`
+                    : ""}
+                </p>
+              )}
               <p>
                 {Object.entries(p.runtime.ability.counters)
                   .map(([name, value]) => `${name}: ${value}`)
@@ -176,9 +198,14 @@ export default function AbilityControls({
         <div className="notice" role="status">
           <h4>Pending: {event.ability}</h4>
           <p>
-            {owner?.name} → {target?.name} after {event.move_name}. Resolve this
-            trigger before continuing the battle. It does not spend another
-            action.
+            {owner?.name} →{" "}
+            {event.kind === "ability-trace"
+              ? "random eligible foe"
+              : event.kind === "ability-gas"
+                ? "opposing Gas sources"
+                : target?.name}{" "}
+            after {event.move_name}. Resolve this trigger before continuing the
+            battle. It does not spend another action.
           </p>
           {owned && (
             <>
@@ -208,14 +235,16 @@ export default function AbilityControls({
                             ? "Restore 1 HP"
                             : choice === "decline"
                               ? "Decline"
-                              : choice === "activate"
-                                ? "Activate No Guard"
-                                : (b.combatants.find((p) => p.id === choice)
-                                    ?.name ?? `Select ${choice}`)}
+                              : choice === "simultaneous"
+                                ? "Confirm both Gas emitters remain active"
+                                : choice === "activate"
+                                  ? "Activate No Guard"
+                                  : (b.combatants.find((p) => p.id === choice)
+                                      ?.name ?? `Select ${choice}`)}
                     </button>
                   </span>
                 ))}
-                {gm && (
+                {gm && event.kind !== "ability-gas" && (
                   <button
                     disabled={disabled || !reason.trim()}
                     onClick={() => execute(command("manual"))}

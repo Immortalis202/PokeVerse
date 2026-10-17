@@ -69,12 +69,13 @@ pub fn guard(c: &Campaign, source: &Combatant) -> Result<()> {
     if enabled(c)
         && c.battle.as_ref().is_some_and(|b| b.automatic_validation)
         && (["Mold Breaker", "Teravolt", "Turboblaze"].contains(&source.selected_ability.as_str())
-            || c.battle
-                .as_ref()
-                .unwrap()
-                .combatants
-                .iter()
-                .any(|p| p.deployed && p.hp > 0 && p.selected_ability == "Neutralizing Gas"))
+            || (!ability_changes::enabled(c)
+                && c.battle
+                    .as_ref()
+                    .unwrap()
+                    .combatants
+                    .iter()
+                    .any(|p| p.deployed && p.hp > 0 && p.selected_ability == "Neutralizing Gas")))
     {
         return Err(AppError::new("manual_rule","Ability suppression/bypass requires a GM ruling; automatic rolls cannot assume the ordinary ability interaction"));
     }
@@ -142,7 +143,8 @@ pub fn coverage(c: &Campaign, name: &str) -> Option<&'static str> {
             .expect("valid owned ability registry")
     });
     let entry = &REGISTRY["entries"][name];
-    if (entry["introduced_engine"] == "0.10.0-core" && !decoys::enabled(c))
+    if (entry["introduced_engine"] == "0.11.0-core" && !ability_changes::enabled(c))
+        || (entry["introduced_engine"] == "0.10.0-core" && !decoys::enabled(c))
         || (entry["introduced_engine"] == "0.9.0-core" && !tactics::enabled(c))
         || (entry["introduced_engine"] == "0.7.0-core" && !extra::enabled(c))
         || (entry["introduced_engine"] == "0.8.0-core" && !special::enabled(c))
@@ -553,10 +555,19 @@ pub fn dice(c: &Campaign, event_id: &str, choice: &str) -> Result<u32> {
         .filter(|e| e.id == event_id)
         .ok_or_else(|| error("Resolve the first pending ability trigger"))?;
     if choice == "manual" {
+        if e.kind == "ability-gas" {
+            return Err(error("Choose the explicit Gas stalemate policy; a generic manual acknowledgment cannot select its mechanics"));
+        }
         return Ok(0);
     }
     if !e.choices.iter().any(|v| v == choice) {
         return Err(error("Choose one of the recorded ability options"));
+    }
+    if e.kind == "ability-gas" {
+        return Ok(0);
+    }
+    if e.kind == "ability-trace" {
+        return Ok(ability_changes::trace_dice(e));
     }
     if let Some(n) = extra::dice(c, e, choice) {
         return Ok(n);
@@ -604,9 +615,17 @@ pub fn resolve(
     let count = dice(c, event_id, choice)?;
     check_count(results, count)?;
     let e = flow(c)?.ability_events[0].clone();
-    owner(c, actor, &e.combatant_id)?;
+    if e.kind == "ability-gas" {
+        gm(c, actor)?;
+    } else {
+        owner(c, actor, &e.combatant_id)?;
+    }
     if choice == "manual" {
         gm(c, actor)?;
+    } else if e.kind == "ability-gas" {
+        ability_changes::gas_ruling(next, &e, actor)?;
+    } else if e.kind == "ability-trace" {
+        ability_changes::resolve_trace(next, &e, results, cat)?;
     } else if e.kind.starts_with("extra-") {
         extra::resolve(next, actor, &e, choice, results, cat)?;
     } else if e.kind == "heal" && choice == "heal" {
@@ -701,6 +720,12 @@ pub fn lifecycle(before: &Campaign, next: &mut Campaign) -> Result<()> {
             active.contains(&p.id)
                 && p.selected_ability == "Intimidate"
                 && (!old.contains(&p.id)
+                    || (ability_changes::enabled(next)
+                        && before
+                            .battle
+                            .as_ref()
+                            .and_then(|b| b.combatants.iter().find(|q| q.id == p.id))
+                            .is_some_and(|q| q.selected_ability != p.selected_ability))
                     || before
                         .battle
                         .as_ref()

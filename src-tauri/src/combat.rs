@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, BTreeSet};
 use ts_rs::TS;
 pub(crate) mod abilities;
+pub(crate) mod ability_changes;
 pub(crate) mod decoys;
 pub(crate) mod extra;
 pub(crate) mod field;
@@ -48,6 +49,8 @@ pub struct Status {
 #[derive(Debug, Clone, Default, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct TurnFlow {
+    #[serde(default)]
+    pub ability_changes: ability_changes::AbilityChanges,
     #[serde(default)]
     pub decoys: decoys::DecoyState,
     #[serde(default)]
@@ -896,6 +899,9 @@ pub fn preview(c: &Campaign, a: &Action, cat: &Catalog) -> Result<ActionPreview>
     if decoys::enabled(c) {
         warnings.push("Decoys: 2 HP; frozen defenses; move effects blocked, environment and existing status still apply. Dynamax, Max Moves and Z-Moves are out of scope.".into());
     }
+    if ability_changes::enabled(c) {
+        warnings.push("Temporary abilities: scene assignments persist through switching; Trace ends on exit; Gas negates foes in rank-limited range. See ability history for originals and current effects.".into());
+    }
     warnings.extend(tactics::preview_notes(c, a, cat)?);
     if let Action::AccuracyTargets {
         combatant_id,
@@ -954,6 +960,18 @@ pub fn preview(c: &Campaign, a: &Action, cat: &Catalog) -> Result<ActionPreview>
     }
     if let Some(b) = c.battle.as_ref() {
         for p in b.combatants.iter().filter(|p| p.deployed) {
+            if ability_changes::enabled(c) && flow(c)?.ability_changes.suppressed.contains(&p.id) {
+                warnings.push(format!(
+                    "{}: battle ability negated; original {}",
+                    p.name,
+                    flow(c)?
+                        .ability_changes
+                        .originals
+                        .get(&p.id)
+                        .map_or("unresolved", String::as_str)
+                ));
+                continue;
+            }
             if abilities::enabled(c) {
                 warnings.push(format!(
                     "{} / {}: {}",
@@ -1056,6 +1074,14 @@ pub fn transition(
         }
     }
     if let Some(description) = targeting_action(c, &mut next, actor, a, &dice, cat)? {
+        if ability_changes::enabled(&next) {
+            ability_changes::lifecycle(c, &mut next, cat)?;
+            field::lifecycle(c, &mut next, cat)?;
+            abilities::lifecycle(c, &mut next)?;
+            extra::lifecycle(c, &mut next, cat)?;
+            refresh_initiative(c, &mut next)?;
+            sync_labels(&mut next);
+        }
         checkpoint(c, &mut next, &description);
         return Ok((next, description));
     }
@@ -1882,6 +1908,7 @@ pub fn transition(
             }
             if special::enabled(c) && special::formula_name(&q.move_name) {
                 let log = special::resolve_formula(&mut next, actor, &q, a, &dice, cat)?;
+                ability_changes::lifecycle(c, &mut next, cat)?;
                 tactics::lifecycle(c, &mut next, cat)?;
                 field::lifecycle(c, &mut next, cat)?;
                 abilities::lifecycle(c, &mut next)?;
@@ -1924,6 +1951,7 @@ pub fn transition(
                         abilities::hit(&mut next, &q, before_hp, &m)?;
                     }
                     finish(&mut next);
+                    ability_changes::lifecycle(c, &mut next, cat)?;
                     tactics::lifecycle(c, &mut next, cat)?;
                     field::lifecycle(c, &mut next, cat)?;
                     abilities::lifecycle(c, &mut next)?;
@@ -1985,7 +2013,19 @@ pub fn transition(
             } else {
                 fighter(c, &q.target_id)?.runtime.shield
             };
-            let target = fighter(c, &q.target_id)?;
+            let target_snapshot = ability_changes::frozen_subject(
+                c,
+                &q.actor_id,
+                q.sequence,
+                fighter(c, &q.target_id)?,
+            );
+            let target = &target_snapshot;
+            let source_snapshot = ability_changes::frozen_subject(
+                c,
+                &q.actor_id,
+                q.sequence,
+                fighter(c, &q.actor_id)?,
+            );
             let mut thick_fat = i32::from(
                 target.selected_ability == "Thick Fat"
                     && ["Fire", "Ice"].contains(
@@ -1994,8 +2034,7 @@ pub fn transition(
                             .unwrap_or(""),
                     ),
             );
-            let move_data =
-                field::move_data(c, fighter(c, &q.actor_id)?, &move_entry(cat, &q.move_name)?);
+            let move_data = field::move_data(c, &source_snapshot, &move_entry(cat, &q.move_name)?);
             if abilities::enabled(c) {
                 let mut pool_campaign = old(c);
                 install_pending(&mut pool_campaign, &q);
@@ -2317,6 +2356,7 @@ pub fn transition(
             }
             if field::pending(&temp) || abilities::pending(&temp) || special::ticks_pending(&temp) {
                 temp.engine = c.engine.clone();
+                ability_changes::lifecycle(c, &mut temp, cat)?;
                 tactics::lifecycle(c, &mut temp, cat)?;
                 field::lifecycle(c, &mut temp, cat)?;
                 abilities::lifecycle(c, &mut temp)?;
@@ -2401,21 +2441,27 @@ pub fn transition(
             ) {
                 let b = done.battle.as_mut().unwrap();
                 b.flow = Some(TurnFlow {
-                    decoys: decoys::DecoyState {
+                    ability_changes: ability_changes::AbilityChanges {
                         enabled: c.engine == ENGINE,
                         ..Default::default()
                     },
+                    decoys: decoys::DecoyState {
+                        enabled: [ENGINE, DECOY_ENGINE].contains(&c.engine.as_str()),
+                        ..Default::default()
+                    },
                     tactics: tactics::TacticsState {
-                        enabled: [ENGINE, TACTICS_ENGINE].contains(&c.engine.as_str()),
+                        enabled: [ENGINE, DECOY_ENGINE, TACTICS_ENGINE]
+                            .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     special: special::SpecialState {
-                        enabled: [ENGINE, TACTICS_ENGINE, SPECIAL_ENGINE]
+                        enabled: [ENGINE, DECOY_ENGINE, TACTICS_ENGINE, SPECIAL_ENGINE]
                             .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     ability_rules: [
                         ENGINE,
+                        DECOY_ENGINE,
                         TACTICS_ENGINE,
                         SPECIAL_ENGINE,
                         EXTRA_ENGINE,
@@ -2424,13 +2470,20 @@ pub fn transition(
                     ]
                     .contains(&c.engine.as_str()),
                     extra: extra::ExtraState {
-                        enabled: [ENGINE, TACTICS_ENGINE, SPECIAL_ENGINE, EXTRA_ENGINE]
-                            .contains(&c.engine.as_str()),
+                        enabled: [
+                            ENGINE,
+                            DECOY_ENGINE,
+                            TACTICS_ENGINE,
+                            SPECIAL_ENGINE,
+                            EXTRA_ENGINE,
+                        ]
+                        .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            DECOY_ENGINE,
                             TACTICS_ENGINE,
                             SPECIAL_ENGINE,
                             EXTRA_ENGINE,
@@ -2563,6 +2616,7 @@ pub fn transition(
                 refresh_initiative(c, &mut done)?;
             }
             if !matches!(a, Action::RollbackBattle { .. }) {
+                ability_changes::lifecycle(c, &mut done, cat)?;
                 tactics::lifecycle(c, &mut done, cat)?;
                 field::lifecycle(c, &mut done, cat)?;
             }
@@ -2577,6 +2631,7 @@ pub fn transition(
             return Ok((done, log));
         }
     };
+    ability_changes::lifecycle(c, &mut next, cat)?;
     tactics::lifecycle(c, &mut next, cat)?;
     field::lifecycle(c, &mut next, cat)?;
     abilities::lifecycle(c, &mut next)?;
@@ -2927,6 +2982,9 @@ fn effects_inner(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog)
         fighter(c, &q.target_id)?,
         &move_entry(cat, &q.move_name)?,
     ) {
+        return Ok(());
+    }
+    if ability_changes::move_effect(c, q, cat)? {
         return Ok(());
     }
     if extra::move_effect(c, q)? {

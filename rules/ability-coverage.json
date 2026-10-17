@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "engine": "0.10.0-core",
+  "engine": "0.11.0-core",
   "default_status": "manual",
   "entries": {
     "Adaptability": {
@@ -1121,12 +1121,13 @@
       "introduced_engine": "0.7.0-core"
     },
     "Neutralizing Gas": {
-      "status": "manual",
-      "scope": "Requires scoped ability suppression/bypass with restoration; strict rolls retain explicit adjudication.",
+      "status": "partial",
+      "scope": "Negates foes in abstract range subject to rank target cap; restores on source departure, fainting or range change. Unique abilities prevail. Opposing Gas stalemates require GM ruling.",
       "page": 557,
       "dependencies": [
-        "ability-suppression-and-bypass"
-      ]
+        "GM ruling for opposing Gas stalemates"
+      ],
+      "introduced_engine": "0.11.0-core"
     },
     "No Guard": {
       "status": "automated",
@@ -2019,12 +2020,11 @@
       ]
     },
     "Trace": {
-      "status": "manual",
-      "scope": "Requires copied/transferred ability identity or attribute provenance and lifetime rules.",
+      "status": "automated",
+      "scope": "Host-rolled random eligible foe on entry; copied ability activates through shared hooks and ends on departure. Unique abilities cannot be copied.",
       "page": 575,
-      "dependencies": [
-        "ability-copy-and-transfer"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.11.0-core"
     },
     "Transistor": {
       "status": "automated",

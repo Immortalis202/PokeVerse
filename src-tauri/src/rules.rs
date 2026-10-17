@@ -191,6 +191,7 @@ pub fn accuracy(
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
     if [
         ENGINE,
+        DECOY_ENGINE,
         TACTICS_ENGINE,
         SPECIAL_ENGINE,
         EXTRA_ENGINE,
@@ -269,6 +270,11 @@ pub fn damage_pool(
         .iter()
         .find(|p| p.id == hit.target_id && p.deployed)
         .ok_or_else(|| AppError::new("missing", "Missing attack target"))?;
+    let frozen_attacker =
+        crate::combat::ability_changes::frozen_subject(c, key, sequence, attacker);
+    let frozen_target = crate::combat::ability_changes::frozen_subject(c, key, sequence, target);
+    let attacker = &frozen_attacker;
+    let target = &frozen_target;
     if b.automatic_validation
         && ((attacker.hp == 0 && crate::combat::abilities::context(c, key, sequence).is_none())
             || target.hp == 0)

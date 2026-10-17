@@ -45,3 +45,5 @@ The network test additionally checks duplicate receipts, stale revisions, anothe
 Verified on 17 October 2026: **306 Rust tests passed**, including both scenario tests, and Clippy passed for all targets with warnings denied. Windows emitted its existing incremental-cache hard-link fallback warning; checks succeeded. No battle-rule defect requiring a production behavior change was found during this milestone.
 
 This adds tests and test infrastructure; application 0.17.0, engine `0.10.0-core`, protocol 18 and user schema 4 are unchanged. No installer rebuild or native UI launch is needed. It is one controlled gym encounter, not exhaustive species/move/ability coverage or physical multi-machine LAN acceptance. Dynamax, Max Moves and Z-Moves remain excluded.
+
+The 0.18.0 suite also runs a strict Ralts/Trace variant through the same four-installation driver. It verifies host-random copying, owner authority, full campaign agreement after each command, duplicate receipts, GM rollback, reconnect and reopening the host database.

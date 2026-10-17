@@ -57,7 +57,7 @@ fn request(sheet: &Sheet, trainer: Option<&Sheet>) -> WorkflowRequest {
         reason: "Validated headless gym fixture".into(),
     }
 }
-fn fixture(owners: &[String; 4]) -> (Campaign, Action) {
+fn fixture(owners: &[String; 4], trace: bool) -> (Campaign, Action) {
     let cat = catalog();
     let mut c = Campaign::new(
         "Headless 3v3 gym".into(),
@@ -104,6 +104,12 @@ fn fixture(owners: &[String; 4]) -> (Campaign, Action) {
             p.moves = ["Tackle", "Quick Attack", "Swift", "Bite"]
                 .map(String::from)
                 .into();
+            if trace && role == 1 && n == 0 {
+                p.name = "Trace Ralts".into();
+                p.species_id = Some("0280:ralts".into());
+                p.ability = "Trace".into();
+                p.moves = vec!["Growl".into(), "Confusion".into()];
+            }
             let mut build = creation::build(&p, &cat);
             build.origin = "starter".into();
             build.allocations.clear();
@@ -228,6 +234,9 @@ struct Driver {
 }
 impl Driver {
     async fn new(network: bool) -> Self {
+        Self::with_trace(network, false).await
+    }
+    async fn with_trace(network: bool, trace: bool) -> Self {
         let dirs: Vec<_> = (0..if network { 4 } else { 0 })
             .map(|_| tempfile::tempdir().unwrap())
             .collect();
@@ -240,7 +249,7 @@ impl Driver {
         } else {
             ["host", "player-1", "player-2", "gm"].map(String::from)
         };
-        let (c, start) = fixture(&owners);
+        let (c, start) = fixture(&owners, trace);
         let cat = catalog();
         let net = if network {
             stores[0].lock().unwrap().put_campaign(&c).unwrap();
@@ -1028,4 +1037,55 @@ async fn scenario_3v3_websocket_matches_engine_receipts_and_reconnect() {
     tokio::time::timeout(Duration::from_secs(120), scenario(true))
         .await
         .expect("WebSocket scenario deadline exceeded");
+}
+
+#[tokio::test]
+async fn scenario_3v3_trace_websocket_owner_receipts_rollback_reconnect() {
+    tokio::time::timeout(Duration::from_secs(60), async {
+        let mut d = Driver::with_trace(true, true).await;
+        d.step(3, d.start.clone(), 1, None).await;
+        let trace = d.pokemon(1, 0);
+        assert!(d.f().ability_changes.enabled);
+        let e = d.f().ability_events[0].clone();
+        assert_eq!(e.kind, "ability-trace");
+        let action = Action::ResolveAbility {
+            event_id: e.id,
+            choice: "roll".into(),
+            reason: "Host selects random eligible gym foe".into(),
+        };
+        d.reject(0, action.clone(), "own").await;
+        let before = serde_json::to_value(d.b()).unwrap();
+        d.step(1, action.clone(), 4, None).await;
+        assert_eq!(d.p(&trace).selected_ability, "Run Away");
+        assert_eq!(d.c.sheets[&d.p(&trace).sheet_id].ability, "Trace");
+        let receipt = d.last.clone().unwrap();
+        d.retry(&receipt).await;
+        d.reconnect(1).await;
+        d.reconnect(3).await;
+        let event = d.c.battle_undo.last().unwrap().event_sequence;
+        d.step(
+            3,
+            Action::RollbackBattle {
+                event_sequence: event,
+                reason: "Restore Trace entry choice".into(),
+            },
+            1,
+            None,
+        )
+        .await;
+        assert_eq!(serde_json::to_value(d.b()).unwrap(), before);
+        d.retry(&receipt).await;
+        d.step(1, action, 4, None).await;
+        d.reconnect(1).await;
+        if let Some(net) = d.net.take() {
+            net.close().await;
+        }
+        let reopened = Store::open(d._dirs[0].path()).unwrap();
+        assert_eq!(
+            serde_json::to_value(reopened.campaigns().unwrap().remove(0)).unwrap(),
+            serde_json::to_value(&d.c).unwrap()
+        );
+    })
+    .await
+    .expect("Trace 3v3 deadline exceeded");
 }

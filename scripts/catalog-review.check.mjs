@@ -124,6 +124,7 @@ test("coverage and PDF fingerprints are preserved with a complete field-level qu
       readFileSync("src-tauri/src/combat_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/targeting_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/ability_tests.rs", "utf8") +
+      readFileSync("src-tauri/src/combat_tests/ability_change_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/field_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/extra_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/special_tests.rs", "utf8") +
@@ -162,11 +163,11 @@ test("ability inventory exposes reviewed scopes and preserves manual boundaries"
   assert.equal(inventory.entries.length, 305);
   assert.equal(
     inventory.entries.filter((e) => e.status !== "manual").length,
-    225,
+    227,
   );
   assert.equal(
     Object.values(registry.entries).filter((e) => e.status !== "manual").length,
-    225,
+    227,
   );
   assert.equal(
     inventory.entries.find((e) => e.name === "Static").status,
@@ -224,7 +225,7 @@ test("special move inventory has stable IDs, manual boundaries and a compatibili
   const inventory = JSON.parse(
     readFileSync("../outputs/rule-coverage/special-move-coverage.json", "utf8"),
   );
-  assert.equal(inventory.entries.length, 216);
+  assert.equal(inventory.entries.length, 221);
   assert.equal(registry.entries["Max Guard"].status, "manual");
   assert.ok(
     registry.entries["Bide"].dependencies.includes("manual-wording-decision"),

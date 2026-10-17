@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "engine": "0.10.0-core",
+  "engine": "0.11.0-core",
   "release": "0.15.0",
   "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
   "sources_note": "Printed page numbers; PDF page = printed page - 133. Family rules: RULING 61,73-83.",
@@ -2176,6 +2176,56 @@
       "page": 505,
       "dependencies": [],
       "introduced_engine": "0.10.0-core"
+    },
+    "Worry Seed": {
+      "id": "worry-seed:Worry Seed",
+      "families": [
+        "ability-change"
+      ],
+      "status": "automated",
+      "scope": "Replace target ability with Insomnia for the scene, including after switching. Unique restrictions remain explicit and GM-resolvable; permanent sheets are unchanged.",
+      "page": 480,
+      "dependencies": []
+    },
+    "Simple Beam": {
+      "id": "simple-beam:Simple Beam",
+      "families": [
+        "ability-change"
+      ],
+      "status": "automated",
+      "scope": "Replace target ability with Simple for the scene, including after switching. Unique restrictions remain explicit and GM-resolvable; permanent sheets are unchanged.",
+      "page": 500,
+      "dependencies": []
+    },
+    "Gastro Acid": {
+      "id": "gastro-acid:Gastro Acid",
+      "families": [
+        "ability-change"
+      ],
+      "status": "automated",
+      "scope": "Negate target ability for the scene. Unique restrictions remain explicit and GM-resolvable; permanent sheets are unchanged.",
+      "page": 507,
+      "dependencies": []
+    },
+    "Role Play": {
+      "id": "role-play:Role Play",
+      "families": [
+        "ability-change"
+      ],
+      "status": "automated",
+      "scope": "Copy target ability for the scene; unique abilities cannot be copied. Unique restrictions remain explicit and GM-resolvable; permanent sheets are unchanged.",
+      "page": 515,
+      "dependencies": []
+    },
+    "Skill Swap": {
+      "id": "skill-swap:Skill Swap",
+      "families": [
+        "ability-change"
+      ],
+      "status": "automated",
+      "scope": "Exchange abilities for the scene, including after switching; unique abilities cannot be switched. Unique restrictions remain explicit and GM-resolvable; permanent sheets are unchanged.",
+      "page": 515,
+      "dependencies": []
     }
   }
 }

@@ -1,6 +1,8 @@
 use super::*;
 use crate::combat::{CombatState, TurnFlow};
 use crate::rules;
+#[path = "combat_tests/ability_change_tests.rs"]
+mod ability_change_tests;
 #[path = "combat_tests/ability_tests.rs"]
 mod ability_tests;
 #[path = "combat_tests/extra_tests.rs"]
