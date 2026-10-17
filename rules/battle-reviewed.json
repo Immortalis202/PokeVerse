@@ -1188,6 +1188,15 @@
       },
       "coverage": "Reviewed switcher effect: conscious same-trainer/owner/side reserve, inherited slot/initiative/remaining actions, one completed switcher effect per trainer per round; explicit no-reserve outcome, ownership and retry checks.",
       "notes": "Application-owned correction from visually reviewed printed card. Source JSON unchanged."
+    },
+    "substitute:Substitute": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 502,
+      "fields": {
+        "Attributes": {}
+      },
+      "coverage": "automated decoy creation; not a Switcher Move",
+      "notes": "Printed card has no Switcher icon/text; supplied JSON SwitcherMove removed in application correction layer."
     }
   },
   "abilities": {

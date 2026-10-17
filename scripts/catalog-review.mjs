@@ -145,6 +145,13 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
         notes: evidence?.notes ?? null,
       };
       if (
+        kind === "moves" &&
+        (entry.Attributes?.MaxMove || entry.Attributes?.ZMove)
+      ) {
+        entry.Review.coverage =
+          "Out of scope: Dynamax, Max Moves (including Max Guard) and Z-Moves. Available in the Compendium for reference only.";
+      }
+      if (
         evidence?.notes &&
         evidence.coverage?.includes("GM adjudication required")
       )

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "engine": "0.8.0-core",
+  "engine": "0.10.0-core",
   "release": "0.15.0",
   "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
   "sources_note": "Printed page numbers; PDF page = printed page - 133. Family rules: RULING 61,73-83.",
@@ -1123,11 +1123,10 @@
         "shields"
       ],
       "status": "manual",
-      "scope": "Requires a Max transformation system; no ordinary shield substitute is silently applied.",
+      "scope": "Out of scope: Dynamax, Max Moves including Max Guard, and Z-Moves are explicitly excluded.",
       "page": null,
       "dependencies": [
-        "max-transformation",
-        "individual-card-page-review"
+        "out-of-scope-dynamax"
       ]
     },
     "Mega Drain": {
@@ -1718,10 +1717,11 @@
         "shields"
       ],
       "status": "partial",
-      "scope": "Transfers supported move modifiers, shields, healing targeting and typed side effects. Substitute decoys, ability-modifier transfer and unmodelled field effects require GM adjudication.",
+      "scope": "Transfers supported move modifiers, shields, healing targeting and typed side effects. Decoys transfer remaining HP and reset defenses to the user. Ability-modifier transfer and unmodelled effects remain manual.",
       "page": 447,
       "dependencies": [
-        "substitute-and-ability-modifier-transfer"
+        "ability-modifier-transfer",
+        "unmodelled-effects"
       ]
     },
     "Soft Boiled": {
@@ -2143,6 +2143,39 @@
       "scope": "Reviewed conditional damage dice from HP, Dexterity, Happiness, Will, weight, fields, ordered hit history or successive-hit index; explicit caps and source provenance.",
       "page": 506,
       "dependencies": []
+    },
+    "Substitute": {
+      "id": "substitute:Substitute",
+      "families": [
+        "decoys"
+      ],
+      "status": "automated",
+      "scope": "Pay 2 HP and create a 2 HP encounter decoy with frozen current defenses. Move damage hits the decoy without overflow or target added effects; targeted Support effects are blocked. Shield, cover, sound and named bypass, environment, transfer and cleanup follow p.531.",
+      "page": 502,
+      "dependencies": [],
+      "introduced_engine": "0.10.0-core"
+    },
+    "Shed Tail": {
+      "id": "shed-tail:Shed Tail",
+      "families": [
+        "decoys"
+      ],
+      "status": "automated",
+      "scope": "Pay 2 HP, create a 2 HP decoy with frozen casting defenses and choose a registered reserve through controlled switching; the replacement inherits that decoy.",
+      "page": 500,
+      "dependencies": [],
+      "introduced_engine": "0.10.0-core"
+    },
+    "Tidy Up": {
+      "id": "tidy-up:Tidy Up",
+      "families": [
+        "decoys"
+      ],
+      "status": "automated",
+      "scope": "Remove all active decoys and recorded entry hazards across the field; increase user Strength and Dexterity by 1.",
+      "page": 505,
+      "dependencies": [],
+      "introduced_engine": "0.10.0-core"
     }
   }
 }

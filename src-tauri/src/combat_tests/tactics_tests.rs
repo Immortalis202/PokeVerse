@@ -742,6 +742,15 @@ async fn tactics_room_owner_replacement_is_host_validated_idempotent_stale_check
     }
     c.host_id = hs.player_id.clone();
     c.gm_id = gm_id.clone();
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .decoys
+        .enabled = true;
+    crate::combat::decoys::cast(&mut c, &a, "Substitute", &catalog()).unwrap();
     hs.put_campaign(&c).unwrap();
     let shared = Arc::new(Mutex::new(hs));
     let cat = Arc::new(catalog());
@@ -785,6 +794,8 @@ async fn tactics_room_owner_replacement_is_host_validated_idempotent_stale_check
     let (owner, snapshot) = room::join(ps, cat, join, notify).await.unwrap();
     assert!(fighter(&snapshot, &reserve).deployed);
     assert!(f(&snapshot).tactics.switches.is_empty());
+    assert_eq!(f(&snapshot).decoys.active[&a].hp, 2);
+    assert_eq!(f(&snapshot).decoys.history, f(&next).decoys.history);
     owner.task.abort();
     gm.task.abort();
     let _ = host.stop.take().unwrap().send(());
@@ -888,4 +899,457 @@ fn tactics_field_reaction_keeps_its_side_scope_and_resumes_main_damage_after_the
     assert_eq!(f(&c).queue[0].move_name, "Tackle");
     assert_eq!(f(&c).turn, before);
     assert!(!f(&c).window);
+}
+
+// Decoys deliberately use the authoritative action path rather than a separate simulator.
+fn decoy_setup(name: &str) -> (Campaign, String, String) {
+    let (mut c, a, t) = setup(name);
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .decoys
+        .enabled = true;
+    (c, a, t)
+}
+#[test]
+fn decoys_creation_freezes_defenses_and_no_damage_overflows() {
+    let (c, a, t) = decoy_setup("Substitute");
+    let hp = fighter(&c, &a).hp;
+    let c = hit(&c, &a, &a, "Substitute");
+    let mut c = effect(&c);
+    assert_eq!(fighter(&c, &a).hp, hp - 2);
+    assert_eq!(f(&c).decoys.active[&a].hp, 2);
+    assert!(f(&c).tactics.switches.is_empty());
+    let defenses = f(&c).decoys.active[&a].defenses;
+    crate::combat::extra::change_stat(&mut c, &a, &a, "Defense", 3).unwrap();
+    assert_eq!(f(&c).decoys.active[&a].defenses, defenses);
+    turn(&mut c, &t);
+    learn(&mut c, &t, "Tackle");
+    let c = hit(&c, &t, &a, "Tackle");
+    let c = pass(&c);
+    let q = &f(&c).queue[0];
+    assert_eq!(
+        crate::combat::decoys::pool_defense(
+            &c,
+            &q.actor_id,
+            &q.target_id,
+            &catalog().find("moves", "Name", "Tackle").unwrap(),
+            true
+        ),
+        Some(defenses[0])
+    );
+    let before = fighter(&c, &a).hp;
+    let c = run(&c, "gm", &super::targeting_tests::damage_command(&c), 6);
+    assert_eq!(fighter(&c, &a).hp, before);
+    assert!(!f(&c).decoys.active.contains_key(&a));
+    assert!(f(&c)
+        .decoys
+        .history
+        .iter()
+        .any(|s| s.contains("no overflow")));
+}
+#[test]
+fn decoys_broken_target_still_blocks_added_effects() {
+    let (mut c, a, t) = decoy_setup("Thunderbolt");
+    crate::combat::decoys::cast(&mut c, &t, "Substitute", &catalog()).unwrap();
+    let c = hit(&c, &a, &t, "Thunderbolt");
+    let c = pass(&c);
+    let before = fighter(&c, &t).hp;
+    let c = run(&c, "gm", &super::targeting_tests::damage_command(&c), 6);
+    assert_eq!(fighter(&c, &t).hp, before);
+    assert!(!f(&c).decoys.active.contains_key(&t));
+    assert!(!f(&c).decoys.intercepted.is_empty());
+    let c = effect(&c);
+    assert!(fighter(&c, &t).runtime.statuses.is_empty());
+    assert!(f(&c).decoys.intercepted.is_empty());
+}
+#[test]
+fn decoys_support_is_blocked_but_shields_protect_the_decoy() {
+    let (mut c, a, t) = decoy_setup("Growl");
+    crate::combat::decoys::cast(&mut c, &t, "Substitute", &catalog()).unwrap();
+    // Growl is Sound and must bypass, so use a non-sound Support move instead.
+    learn(&mut c, &a, "Leer");
+    let c = hit(&c, &a, &t, "Leer");
+    let c = pass(&c);
+    let mut c = effect(&c);
+    assert!(fighter(&c, &t).runtime.modifiers.is_empty());
+    turn(&mut c, &t);
+    learn(&mut c, &t, "Protect");
+    let c = hit(&c, &t, &t, "Protect");
+    let c = effect(&c);
+    assert!(f(&c).special.shields.contains_key(&t));
+    assert_eq!(f(&c).decoys.active[&t].hp, 2);
+}
+#[test]
+fn decoys_sound_and_infiltrator_bypass_without_damaging_decoy_or_mutating_sheets() {
+    for (move_name, selected) in [
+        ("Hyper Voice", ""),
+        ("Tackle", "Infiltrator"),
+        ("Chip Away", ""),
+    ] {
+        let (mut c, a, t) = decoy_setup(move_name);
+        ability(&mut c, &a, selected);
+        crate::combat::decoys::cast(&mut c, &t, "Substitute", &catalog()).unwrap();
+        let sheets = serde_json::to_value(&c.sheets).unwrap();
+        let c = hit(&c, &a, &t, move_name);
+        let c = pass(&c);
+        let before = fighter(&c, &t).hp;
+        let c = run(&c, "gm", &super::targeting_tests::damage_command(&c), 4);
+        assert!(fighter(&c, &t).hp < before, "{move_name}");
+        assert_eq!(f(&c).decoys.active[&t].hp, 2);
+        assert_eq!(serde_json::to_value(&c.sheets).unwrap(), sheets);
+    }
+}
+#[test]
+fn decoys_fixed_damage_hits_decoy_without_overflow() {
+    let (mut c, a, t) = decoy_setup("Dragon Rage");
+    crate::combat::decoys::cast(&mut c, &t, "Substitute", &catalog()).unwrap();
+    let c = hit(&c, &a, &t, "Dragon Rage");
+    let c = pass(&c);
+    let before = fighter(&c, &t).hp;
+    let c = damage(&c);
+    assert_eq!(fighter(&c, &t).hp, before);
+    assert!(!f(&c).decoys.active.contains_key(&t));
+}
+#[test]
+fn decoys_snatch_preserves_hp_and_uses_new_user_defenses() {
+    let (mut c, a, t) = decoy_setup("Snatch");
+    crate::combat::decoys::cast(&mut c, &t, "Substitute", &catalog()).unwrap();
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .decoys
+        .active
+        .get_mut(&t)
+        .unwrap()
+        .hp = 1;
+    crate::combat::extra::change_stat(&mut c, &a, &a, "Defense", 2).unwrap();
+    crate::combat::extra::change_stat(&mut c, &t, &t, "Defense", 3).unwrap();
+    let c = hit(&c, &a, &t, "Snatch");
+    let c = pass(&c);
+    let c = effect(&c);
+    assert!(!f(&c).decoys.active.contains_key(&t));
+    assert_eq!(f(&c).decoys.active[&a].hp, 1);
+    let expected = field::snapshot(&c, &catalog()).unwrap().defenses[&a][0];
+    assert_eq!(f(&c).decoys.active[&a].defenses[0], expected);
+}
+#[test]
+fn decoys_shed_tail_transfers_to_registered_reserve() {
+    let (mut c, a, _) = decoy_setup("Shed Tail");
+    let reserve = add(&mut c, &a, false);
+    let hp = fighter(&c, &a).hp;
+    let c = hit(&c, &a, &a, "Shed Tail");
+    let c = effect(&c);
+    let snapshot = f(&c).decoys.active[&a].clone();
+    assert_eq!(fighter(&c, &a).hp, hp - 2);
+    let c = run(
+        &c,
+        "gm",
+        &tac(tactics::TacticsCommand::Switch {
+            request_id: f(&c).tactics.switches[0].id.clone(),
+            incoming_id: Some(reserve.clone()),
+            ruling: "replace".into(),
+        }),
+        4,
+    );
+    assert!(!f(&c).decoys.active.contains_key(&a));
+    assert_eq!(f(&c).decoys.active[&reserve].defenses, snapshot.defenses);
+    assert_eq!(f(&c).decoys.active[&reserve].hp, 2);
+    assert_eq!(fighter(&c, &reserve).hp, fighter(&c, &reserve).max_hp);
+}
+#[test]
+fn decoys_serialize_rollback_and_departure_cleanup_preserve_state() {
+    let (c, a, _) = decoy_setup("Substitute");
+    let c = hit(&c, &a, &a, "Substitute");
+    let mut c = effect(&c);
+    let json = serde_json::to_string(&c).unwrap();
+    let restored: Campaign = serde_json::from_str(&json).unwrap();
+    assert_eq!(f(&restored).decoys.active[&a].hp, 2);
+    let c0 = run(
+        &c,
+        "gm",
+        &Action::RollbackBattle {
+            event_sequence: c.battle_undo.last().unwrap().event_sequence,
+            reason: "Restore pre-cast checkpoint".into(),
+        },
+        4,
+    );
+    assert!(f(&c0).decoys.active.is_empty());
+    c.battle
+        .as_mut()
+        .unwrap()
+        .combatants
+        .iter_mut()
+        .find(|p| p.id == a)
+        .unwrap()
+        .deployed = false;
+    crate::combat::decoys::lifecycle(&mut c);
+    assert!(f(&c).decoys.active.is_empty());
+}
+#[test]
+fn decoys_dynamax_and_z_moves_are_explicitly_excluded_and_old_engines_unchanged() {
+    let (mut c, a, _) = decoy_setup("Max Guard");
+    for name in ["Max Guard", "Breakneck Blitz"] {
+        let data = catalog().find("moves", "Name", name).unwrap();
+        let err = crate::combat::special::guard(&c, &a, &data, &catalog()).unwrap_err();
+        assert_eq!(err.code, "out_of_scope");
+    }
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .decoys
+        .enabled = false;
+    c.engine = TACTICS_ENGINE.into();
+    assert!(crate::combat::decoys::cast(&mut c, &a, "Substitute", &catalog()).is_err());
+    assert!(core_engine(&c.engine));
+}
+
+#[test]
+fn decoys_weather_and_existing_poison_hit_owner_not_decoy() {
+    let (mut c, a, _) = decoy_setup("Substitute");
+    crate::combat::decoys::cast(&mut c, &a, "Substitute", &catalog()).unwrap();
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .battlefield
+        .natural = Some(field::Weather::Hail);
+    let before = fighter(&c, &a).hp;
+    field::end(&mut c, &catalog()).unwrap();
+    assert_eq!(fighter(&c, &a).hp, before - 1);
+    assert_eq!(f(&c).decoys.active[&a].hp, 2);
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .order
+        .clear();
+    c.battle
+        .as_mut()
+        .unwrap()
+        .combatants
+        .iter_mut()
+        .find(|p| p.id == a)
+        .unwrap()
+        .runtime
+        .statuses
+        .push(crate::combat::Status {
+            kind: "Poison".into(),
+            detail: "Existing ailment".into(),
+            rounds: None,
+            progress: 0,
+        });
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .battlefield
+        .end_round = 0;
+    let before = fighter(&c, &a).hp;
+    let c = run(&c, "gm", &Action::NextRound, 4);
+    assert!(fighter(&c, &a).hp < before);
+    assert_eq!(f(&c).decoys.active[&a].hp, 2);
+}
+#[test]
+fn decoys_tidy_up_removes_both_sides_and_cast_can_faint_without_reviving() {
+    let (mut c, a, t) = decoy_setup("Tidy Up");
+    crate::combat::decoys::cast(&mut c, &a, "Substitute", &catalog()).unwrap();
+    crate::combat::decoys::cast(&mut c, &t, "Substitute", &catalog()).unwrap();
+    let c = run(&c, "gm", &action(&a, vec![], "Tidy Up"), 4);
+    let mut c = effect(&c);
+    assert!(f(&c).decoys.active.is_empty());
+    assert_eq!(fighter(&c, &a).runtime.modifiers["Strength"], 1);
+    c.battle
+        .as_mut()
+        .unwrap()
+        .combatants
+        .iter_mut()
+        .find(|p| p.id == a)
+        .unwrap()
+        .hp = 1;
+    crate::combat::decoys::cast(&mut c, &a, "Substitute", &catalog()).unwrap();
+    crate::combat::decoys::lifecycle(&mut c);
+    assert_eq!(fighter(&c, &a).hp, 0);
+    assert!(f(&c).decoys.active.is_empty());
+}
+#[test]
+fn decoys_shared_attack_isolates_damage_and_does_not_consume_owner_sturdy() {
+    let (mut c, a, t) = decoy_setup("Swift");
+    let other = add(&mut c, &t, true);
+    ability(&mut c, &t, "Sturdy");
+    crate::combat::decoys::cast(&mut c, &t, "Substitute", &catalog()).unwrap();
+    let before = fighter(&c, &t).hp;
+    let other_hp = fighter(&c, &other).hp;
+    let c = run(
+        &c,
+        "gm",
+        &action(&a, vec![t.clone(), other.clone()], "Swift"),
+        4,
+    );
+    let c = pass(&c);
+    let mut c = pass(&c);
+    while !f(&c).queue.is_empty() {
+        c = run(&c, "gm", &super::targeting_tests::damage_command(&c), 6);
+    }
+    assert_eq!(fighter(&c, &t).hp, before);
+    assert!(fighter(&c, &other).hp < other_hp);
+    assert!(!fighter(&c, &t).runtime.ability.flags.contains("Sturdy"));
+}
+#[test]
+fn decoys_successive_hits_break_then_damage_owner_on_the_next_hit() {
+    let (mut c, a, t) = decoy_setup("Double Kick");
+    crate::combat::decoys::cast(&mut c, &t, "Substitute", &catalog()).unwrap();
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .decoys
+        .active
+        .get_mut(&t)
+        .unwrap()
+        .hp = 1;
+    let before = fighter(&c, &t).hp;
+    let c = run(
+        &c,
+        "gm",
+        &Action::SpecialMove {
+            command: crate::combat::special::SpecialCommand::Successive {
+                combatant_id: a.clone(),
+                target_id: t.clone(),
+                move_name: "Double Kick".into(),
+                attempts: 2,
+                reaction: false,
+            },
+            reason: "Two hits versus decoy".into(),
+        },
+        6,
+    );
+    let c = pass(&c);
+    let mut c = run(&c, "gm", &super::targeting_tests::damage_command(&c), 6);
+    if !f(&c).queue.is_empty() && f(&c).queue[0].damage_done {
+        c = effect(&c);
+    }
+    assert_eq!(fighter(&c, &t).hp, before);
+    let c = pass(&c);
+    let c = run(&c, "gm", &super::targeting_tests::damage_command(&c), 6);
+    assert!(fighter(&c, &t).hp < before);
+}
+
+#[test]
+fn decoys_do_not_cancel_user_switcher_or_burn_up_type_cost() {
+    for name in ["U-Turn", "Burn Up"] {
+        let (mut c, a, t) = decoy_setup(name);
+        let _reserve = add(&mut c, &a, false);
+        if name == "Burn Up" {
+            field::change_type(&mut c, &a, "replace", &["Fire".into()]).unwrap();
+        }
+        crate::combat::decoys::cast(&mut c, &t, "Substitute", &catalog()).unwrap();
+        let c = pass(&hit(&c, &a, &t, name));
+        let c = run(&c, "gm", &super::targeting_tests::damage_command(&c), 6);
+        let c = effect(&c);
+        if name == "U-Turn" {
+            assert_eq!(f(&c).tactics.switches[0].outgoing, a);
+        } else {
+            assert!(!field::types(&c, fighter(&c, &a), &catalog())
+                .unwrap()
+                .contains(&"Fire".into()));
+        }
+    }
+}
+#[test]
+fn decoys_sonic_boom_damages_decoy_and_unseen_fist_only_bypasses_non_ranged_physical() {
+    let (mut c, a, t) = decoy_setup("Sonic Boom");
+    crate::combat::decoys::cast(&mut c, &t, "Substitute", &catalog()).unwrap();
+    let before = fighter(&c, &t).hp;
+    let c = pass(&hit(&c, &a, &t, "Sonic Boom"));
+    let c = damage(&c);
+    assert_eq!(fighter(&c, &t).hp, before);
+    assert_eq!(f(&c).decoys.active[&t].hp, 1);
+    let (mut c, a, t) = decoy_setup("Tackle");
+    ability(&mut c, &a, "Unseen Fist");
+    crate::combat::decoys::cast(&mut c, &t, "Substitute", &catalog()).unwrap();
+    for (name, expected) in [("Tackle", false), ("Swift", true)] {
+        let m = catalog().find("moves", "Name", name).unwrap();
+        assert_eq!(
+            crate::combat::decoys::protected_subject(&c, &a, &t, &m),
+            expected
+        );
+    }
+}
+
+#[test]
+fn decoys_clash_hits_both_decoys_without_harming_or_triggering_the_owners() {
+    let (mut c, a, t) = decoy_setup("Tackle");
+    learn(&mut c, &t, "Low Kick");
+    for id in [&a, &t] {
+        crate::combat::decoys::cast(&mut c, id, "Substitute", &catalog()).unwrap();
+        ability(&mut c, id, "Sturdy");
+    }
+    let ahp = fighter(&c, &a).hp;
+    let thp = fighter(&c, &t).hp;
+    let mut incoming = action(&a, vec![t.clone()], "Tackle");
+    if let Action::AccuracyTargets {
+        success_modifier, ..
+    } = &mut incoming
+    {
+        *success_modifier = -7;
+    }
+    let c = run(&c, "gm", &incoming, 4);
+    let c = run(
+        &c,
+        "gm",
+        &Action::React {
+            combatant_id: t.clone(),
+            kind: "clash".into(),
+            move_name: "Low Kick".into(),
+            reason: "Clash with both participants behind decoys".into(),
+        },
+        6,
+    );
+    assert_eq!(fighter(&c, &a).hp, ahp);
+    assert_eq!(fighter(&c, &t).hp, thp);
+    assert!(
+        f(&c)
+            .decoys
+            .history
+            .iter()
+            .filter(|e| e.contains("hits"))
+            .count()
+            >= 2
+    );
+    assert!(!fighter(&c, &a).runtime.ability.flags.contains("Sturdy"));
+    assert!(!fighter(&c, &t).runtime.ability.flags.contains("Sturdy"));
+}
+
+#[test]
+fn decoys_unreviewed_user_effect_is_not_silently_discarded() {
+    let (mut c, a, t) = decoy_setup("Superpower");
+    crate::combat::decoys::cast(&mut c, &t, "Substitute", &catalog()).unwrap();
+    let c = pass(&hit(&c, &a, &t, "Superpower"));
+    let c = run(&c, "gm", &super::targeting_tests::damage_command(&c), 6);
+    let command = Action::ResolveEffect {
+        sequence: f(&c).queue[0].sequence,
+        reason: "Resolve user effect".into(),
+    };
+    let n = rules::dice_count(&c, &command, &catalog()).unwrap();
+    let err = battle::transition(&c, "gm", &command, vec![6; n as usize], &catalog()).unwrap_err();
+    assert_eq!(err.code, "manual_rule");
+    assert!(err.message.contains("unsupported user effect"));
 }

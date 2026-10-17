@@ -2,7 +2,8 @@ use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 use ts_rs::TS;
 
-pub const ENGINE: &str = "0.9.0-core";
+pub const ENGINE: &str = "0.10.0-core";
+pub const TACTICS_ENGINE: &str = "0.9.0-core";
 pub const SPECIAL_ENGINE: &str = "0.8.0-core";
 pub const EXTRA_ENGINE: &str = "0.7.0-core";
 pub const FIELD_ENGINE: &str = "0.6.0-core";
@@ -13,6 +14,7 @@ pub const PREVIOUS_ENGINE: &str = "0.2.0-core";
 pub fn core_engine(engine: &str) -> bool {
     [
         ENGINE,
+        TACTICS_ENGINE,
         SPECIAL_ENGINE,
         EXTRA_ENGINE,
         FIELD_ENGINE,
@@ -24,7 +26,7 @@ pub fn core_engine(engine: &str) -> bool {
     .contains(&engine)
 }
 pub const LEGACY_ENGINE: &str = "0.1.0-manual";
-pub const PROTOCOL: u32 = 17;
+pub const PROTOCOL: u32 = 18;
 pub fn enabled() -> bool {
     true
 }

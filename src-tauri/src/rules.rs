@@ -191,6 +191,7 @@ pub fn accuracy(
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
     if [
         ENGINE,
+        TACTICS_ENGINE,
         SPECIAL_ENGINE,
         EXTRA_ENGINE,
         FIELD_ENGINE,
@@ -350,6 +351,9 @@ pub fn damage_pool(
         .and_then(|f| f.defenses.get(&target.id))
         .map_or(defense, |d| d[usize::from(defense_source != "Vitality")])
         .max(1);
+    let defense =
+        crate::combat::decoys::pool_defense(c, key, &target.id, &m, defense_source == "Vitality")
+            .unwrap_or(defense);
     let defense = if crate::combat::special::enabled(c) && m["Attributes"]["IgnoreDefenses"] == true
     {
         0
@@ -421,7 +425,8 @@ pub fn damage_pool(
     let corrosion = crate::combat::extra::enabled(c)
         && attacker.selected_ability == "Corrosion"
         && move_type == "Poison";
-    immune |= !corrosion
+    immune |= !crate::combat::decoys::protected_subject(c, key, &target.id, &m)
+        && !corrosion
         && (crate::combat::abilities::damage_immune(c, target, &m)
             || crate::combat::extra::source_immune(c, attacker, target, effectiveness));
     let ability_bonus = if conditional && attack_hp <= attacker.max_hp / 2 {

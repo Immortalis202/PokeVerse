@@ -22,9 +22,9 @@ Family rules: RULING pp.61,73â€“83; lifting and Snatch details in MASTER pp.531â
 The registry covers 213 selected family definitions: 209 have automated scopes, three are partial and one is manual. This is not a claim that all 892 moves or every interaction is automated.
 
 - Bide: explicit GM choice resolves the printed User/Target ambiguity; the chosen basis is recorded and then calculated automatically.
-- Snatch: supported move modifiers, shields, healing targeting and typed side effects transfer. Substitute decoys, ability-modifier transfer and unmodelled effects remain GM adjudication.
+- Snatch: supported move modifiers, shields, healing targeting and typed side effects transfer. Decoys are implemented in 0.17.0; ability-modifier transfer and unmodelled effects remain GM adjudication.
 - Shadow Force: preparation, bypass and healing debt inside the encounter are supported. Enforcing its 24-hour debt after leaving the encounter remains manual.
-- Max Guard: requires an unimplemented Max transformation system.
+- Max Guard: explicitly out of scope with Dynamax, all Max Moves and Z-Moves.
 - Missing weights, painful Sky Drop lifting and other unspecified parameters require a logged GM value. No video-game lifting or move formula is substituted.
 
 Trainer-target damage, lethal wounds and automatic Will recovery remain excluded. Transformation/copying/suppression and held-item systems remain separate work.
@@ -42,3 +42,7 @@ Native startup checks use two isolated profiles. Interactive Windows battle play
 - TypeScript, production Vite build, Clippy with warnings denied, and Git whitespace checks passed. Windows reported an incremental-cache hard-link fallback warning; compilation and checks completed.
 - Windows NSIS installer built successfully (`PokeVerse_0.15.0_x64-setup.exe`). Two hidden isolated installations started with app 0.15.0 / engine 0.8.0-core. Both library and campaign databases passed integrity checks and retained schema 4.
 - Interactive Windows battles, installer install/uninstall and physical multi-machine LAN play remain unverified.
+
+### Decoy extension (0.17.0)
+
+The current registry has 216 selected definitions (212 automated scopes, three partial, one excluded/manual). [Decoy rules](battle-decoys.md) add Substitute, Shed Tail and Tidy Up, and extend Snatch. This does not claim complete coverage of all 892 moves.

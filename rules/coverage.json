@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.9.0-core",
-  "release": "0.16.0",
-  "protocol": 17,
+  "engine": "0.10.0-core",
+  "release": "0.17.0",
+  "protocol": 18,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -292,9 +292,21 @@
         "tactics_rage_powder_respects_the_manuals_grass_and_overcoat_immunity",
         "tactics_legacy_missing_trainer_links_queue_a_gm_ruling_instead_of_cancelling_damage"
       ]
+    },
+    {
+      "id": "substitute-decoys",
+      "status": "automated",
+      "source": "MASTER 500,502,505,531; RULING sound rules",
+      "scope": "Encounter-only 2 HP decoys, frozen defenses, no overflow/added effects, explicit bypasses, Snatch and Shed Tail transfer, cleanup, history and synchronization. Dynamax, Max Moves and Z-Moves excluded.",
+      "fixtures": [
+        "decoys_creation_freezes_defenses_and_no_damage_overflows",
+        "decoys_broken_target_still_blocks_added_effects",
+        "decoys_snatch_preserves_hp_and_uses_new_user_defenses",
+        "decoys_shed_tail_transfers_to_registered_reserve"
+      ]
     }
   ],
-  "ability_registry_hash": "6ebb073b86db660e282a10bb6c6f96fbdfdbc2120414d82601621a22122ac244",
-  "special_registry_hash": "f751cb2777215cc3b8411553963a225baf743f8bdeed9fc6b2da5c907d4109d8",
-  "tactics_registry_hash": "d85804ec03739e81958f6a36949ae845b79b29535187f7d6e9b6ec9d8e1ea516"
+  "ability_registry_hash": "ae93bf4e8ada4ae58f83daddf4092a2e87aee8361c0d798c518c9f82cb5f502c",
+  "special_registry_hash": "8abdd3397299099b800c877a438fbfa620efd12e7033a7bd0c2c418fc1b630da",
+  "tactics_registry_hash": "ee6fed55b8201e9959a5e143f1cef57fe5c9b4f81656d01e04e5cb9649fd1d7b"
 }

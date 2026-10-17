@@ -142,7 +142,8 @@ pub fn coverage(c: &Campaign, name: &str) -> Option<&'static str> {
             .expect("valid owned ability registry")
     });
     let entry = &REGISTRY["entries"][name];
-    if (entry["introduced_engine"] == "0.9.0-core" && !tactics::enabled(c))
+    if (entry["introduced_engine"] == "0.10.0-core" && !decoys::enabled(c))
+        || (entry["introduced_engine"] == "0.9.0-core" && !tactics::enabled(c))
         || (entry["introduced_engine"] == "0.7.0-core" && !extra::enabled(c))
         || (entry["introduced_engine"] == "0.8.0-core" && !special::enabled(c))
         || (entry["introduced_engine"] == "0.6.0-core" && !field::enabled(c))
@@ -361,11 +362,12 @@ pub fn clash_reduced(
     source: &str,
 ) -> Result<i32> {
     let p = fighter(c, id)?;
-    if damage_immune(c, p, m) {
+    let subject = decoys::damage_subject(c, source, p, m);
+    if damage_immune(c, &subject, m) {
         return Ok(0);
     }
     let reduced = (raw
-        - reduction(c, p, m, raw - 1, source)
+        - reduction(c, &subject, m, raw - 1, source)
         - field::reduction(c, fighter(c, source)?, p, m))
     .max(0);
     Ok(reduced)
@@ -378,6 +380,10 @@ pub fn clash_amount(
     source: &str,
 ) -> Result<i32> {
     let reduced = clash_reduced(c, id, m, raw, source)?;
+    let protected = decoys::protected_subject(c, source, id, m);
+    if protected {
+        return Ok(reduced);
+    }
     let hp = fighter(c, id)?.hp;
     sturdy(c, id, reduced, hp)
 }

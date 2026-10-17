@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "engine": "0.9.0-core",
+  "engine": "0.10.0-core",
   "default_status": "manual",
   "entries": {
     "Adaptability": {
@@ -803,12 +803,10 @@
       ]
     },
     "Infiltrator": {
-      "status": "partial",
-      "scope": "Bypass supported shields, Reflect, Light Screen, Aurora Veil and Cover an Ally. Substitute decoys are not modeled.",
+      "status": "automated",
+      "scope": "Bypasses supported shields, Reflect, Light Screen, Aurora Veil, Cover an Ally and Substitute/Shed Tail decoys. Decoy bypass requires engine 0.10.0-core.",
       "page": 551,
-      "dependencies": [
-        "substitute-decoy-system"
-      ],
+      "dependencies": [],
       "introduced_engine": "0.7.0-core"
     },
     "Innards Out": {
@@ -2085,12 +2083,13 @@
       ]
     },
     "Unseen Fist": {
-      "status": "manual",
-      "scope": "Requires reviewed effect suppression, resistance, switch timing or counterpart attribute provenance.",
+      "status": "partial",
+      "scope": "Non-ranged Physical Moves bypass Substitute/Shed Tail decoys. Remaining shield, force-field and Cover bypass hooks require implementation.",
       "page": 576,
       "dependencies": [
-        "reviewed-damage-provenance"
-      ]
+        "shield-force-field-cover-bypass"
+      ],
+      "introduced_engine": "0.10.0-core"
     },
     "Vessel of Ruin": {
       "status": "automated",

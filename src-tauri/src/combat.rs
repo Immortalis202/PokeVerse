@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, BTreeSet};
 use ts_rs::TS;
 pub(crate) mod abilities;
+pub(crate) mod decoys;
 pub(crate) mod extra;
 pub(crate) mod field;
 pub(crate) mod special;
@@ -47,6 +48,8 @@ pub struct Status {
 #[derive(Debug, Clone, Default, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct TurnFlow {
+    #[serde(default)]
+    pub decoys: decoys::DecoyState,
     #[serde(default)]
     pub special: special::SpecialState,
     #[serde(default)]
@@ -890,6 +893,9 @@ pub fn preview(c: &Campaign, a: &Action, cat: &Catalog) -> Result<ActionPreview>
     let dice = rules::dice_count(c, a, cat)?;
     let mut warnings=vec!["Preview rolls no dice and spends no resources. The host validates the current revision on commit.".into()];
     warnings.extend(special::preview_notes(c, a, cat)?);
+    if decoys::enabled(c) {
+        warnings.push("Decoys: 2 HP; frozen defenses; move effects blocked, environment and existing status still apply. Dynamax, Max Moves and Z-Moves are out of scope.".into());
+    }
     warnings.extend(tactics::preview_notes(c, a, cat)?);
     if let Action::AccuracyTargets {
         combatant_id,
@@ -1611,17 +1617,29 @@ pub fn transition(
                             }
                         }
                         let attacker_hp = fighter(c, &incoming.actor_id)?.hp;
-                        fighter_mut(&mut next, &incoming.target_id)?.hp = (p.hp - to_def).max(0);
-                        let attacker = fighter_mut(&mut next, &incoming.actor_id)?;
-                        attacker.hp = (attacker.hp - to_att).max(0);
-                        abilities::hit(&mut next, &incoming, p.hp, &attack)?;
                         let counter = QueuedAction {
                             actor_id: incoming.target_id.clone(),
                             target_id: incoming.actor_id.clone(),
                             move_name: move_name.clone(),
                             ..incoming.clone()
                         };
-                        if !(tactics::enabled(c) && incoming.targets.len() > 1) {
+                        let deferred_counter = tactics::enabled(c) && incoming.targets.len() > 1;
+                        let def_decoy = decoys::damage(&mut next, &incoming, &attack, to_def);
+                        let att_decoy = !deferred_counter
+                            && decoys::damage(&mut next, &counter, &defend, to_att);
+                        // Apply simultaneous damage before either hit callback; never overwrite retaliation HP.
+                        if !def_decoy {
+                            fighter_mut(&mut next, &incoming.target_id)?.hp =
+                                (p.hp - to_def).max(0);
+                        }
+                        if !deferred_counter && !att_decoy {
+                            fighter_mut(&mut next, &incoming.actor_id)?.hp =
+                                (attacker_hp - to_att).max(0);
+                        }
+                        if !def_decoy {
+                            abilities::hit(&mut next, &incoming, p.hp, &attack)?;
+                        }
+                        if !deferred_counter && !att_decoy {
                             abilities::hit(&mut next, &counter, attacker_hp, &defend)?;
                         }
                     }
@@ -1869,6 +1887,7 @@ pub fn transition(
                 abilities::lifecycle(c, &mut next)?;
                 extra::lifecycle(c, &mut next, cat)?;
                 special::lifecycle(c, &mut next, cat)?;
+                decoys::lifecycle(&mut next);
                 sync_labels(&mut next);
                 checkpoint(c, &mut next, &log);
                 return Ok((next, log));
@@ -1896,16 +1915,21 @@ pub fn transition(
                         return Err(error("Set damage has no dice/success modifiers; final adjustment must be -20 to 20"));
                     }
                     let amount = (1 + damage_modifier).max(0);
-                    let p = fighter_mut(&mut next, &q.target_id)?;
-                    let before_hp = p.hp;
-                    p.hp = (p.hp - amount).max(0);
-                    abilities::hit(&mut next, &q, before_hp, &move_entry(cat, &q.move_name)?)?;
+                    let m = move_entry(cat, &q.move_name)?;
+                    let decoy_hit = decoys::damage(&mut next, &q, &m, amount);
+                    if !decoy_hit {
+                        let p = fighter_mut(&mut next, &q.target_id)?;
+                        let before_hp = p.hp;
+                        p.hp = (p.hp - amount).max(0);
+                        abilities::hit(&mut next, &q, before_hp, &m)?;
+                    }
                     finish(&mut next);
                     tactics::lifecycle(c, &mut next, cat)?;
                     field::lifecycle(c, &mut next, cat)?;
                     abilities::lifecycle(c, &mut next)?;
                     extra::lifecycle(c, &mut next, cat)?;
                     special::lifecycle(c, &mut next, cat)?;
+                    decoys::lifecycle(&mut next);
                     sync_labels(&mut next);
                     refresh_initiative(c, &mut next)?;
                     checkpoint(c, &mut next, "Sonic Boom set damage");
@@ -1985,8 +2009,13 @@ pub fn transition(
                     *pool_modifier,
                     cat,
                 )?;
-                thick_fat =
-                    abilities::reduction(c, target, &move_data, pool.effectiveness, &q.actor_id);
+                thick_fat = abilities::reduction(
+                    c,
+                    &decoys::damage_subject(c, &q.actor_id, target, &move_data),
+                    &move_data,
+                    pool.effectiveness,
+                    &q.actor_id,
+                );
             }
             let field_reduction = field::reduction(c, fighter(c, &q.actor_id)?, target, &move_data);
             let raw_amount = if field::enabled(c) {
@@ -2029,16 +2058,23 @@ pub fn transition(
                 damage /= 2;
             }
             damage = special::before_damage(&mut done, &q, &move_data, damage, cat)?;
-            if !abilities::damage_immune(c, target, &move_data) {
+            let decoy_hit = decoys::damage(&mut done, &q, &move_data, damage);
+            if !decoy_hit && !abilities::damage_immune(c, target, &move_data) {
                 damage = abilities::sturdy(&mut done, &q.target_id, damage, before)?;
             }
-            fighter_mut(&mut done, &q.target_id)?.hp = (before - damage).max(0);
+            fighter_mut(&mut done, &q.target_id)?.hp = if decoy_hit {
+                before
+            } else {
+                (before - damage).max(0)
+            };
             fighter_mut(&mut done, &q.target_id)?.runtime.shield = 0;
             let qa = flow_mut(&mut done).queue.first_mut().unwrap();
             qa.damage_done = true;
-            qa.damage = damage;
+            qa.damage = if decoy_hit { 0 } else { damage };
             qa.raw_damage_successes = raw_damage_successes;
-            abilities::hit(&mut done, &q, before, &move_data)?;
+            if !decoy_hit {
+                abilities::hit(&mut done, &q, before, &move_data)?;
+            }
             let actual_damage = (before - fighter(&done, &q.target_id)?.hp).max(0);
             special::hit(
                 &mut done,
@@ -2060,7 +2096,14 @@ pub fn transition(
             {
                 finish(&mut next);
             }
-            format!("{log} Shield reduction {shield}; final damage {damage}. Additional effects require their reviewed resolution.")
+            format!(
+                "{log} Shield reduction {shield}; final damage {damage}. {}",
+                if decoy_hit {
+                    "Decoy intercepted this hit; Pokemon HP unchanged and target added effects blocked."
+                } else {
+                    "Additional effects require their reviewed resolution."
+                }
+            )
         }
         Action::ResolveEffect {
             sequence,
@@ -2358,16 +2401,22 @@ pub fn transition(
             ) {
                 let b = done.battle.as_mut().unwrap();
                 b.flow = Some(TurnFlow {
-                    tactics: tactics::TacticsState {
+                    decoys: decoys::DecoyState {
                         enabled: c.engine == ENGINE,
                         ..Default::default()
                     },
+                    tactics: tactics::TacticsState {
+                        enabled: [ENGINE, TACTICS_ENGINE].contains(&c.engine.as_str()),
+                        ..Default::default()
+                    },
                     special: special::SpecialState {
-                        enabled: [ENGINE, SPECIAL_ENGINE].contains(&c.engine.as_str()),
+                        enabled: [ENGINE, TACTICS_ENGINE, SPECIAL_ENGINE]
+                            .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     ability_rules: [
                         ENGINE,
+                        TACTICS_ENGINE,
                         SPECIAL_ENGINE,
                         EXTRA_ENGINE,
                         FIELD_ENGINE,
@@ -2375,13 +2424,19 @@ pub fn transition(
                     ]
                     .contains(&c.engine.as_str()),
                     extra: extra::ExtraState {
-                        enabled: [ENGINE, SPECIAL_ENGINE, EXTRA_ENGINE]
+                        enabled: [ENGINE, TACTICS_ENGINE, SPECIAL_ENGINE, EXTRA_ENGINE]
                             .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     battlefield: field::Battlefield {
-                        enabled: [ENGINE, SPECIAL_ENGINE, EXTRA_ENGINE, FIELD_ENGINE]
-                            .contains(&c.engine.as_str()),
+                        enabled: [
+                            ENGINE,
+                            TACTICS_ENGINE,
+                            SPECIAL_ENGINE,
+                            EXTRA_ENGINE,
+                            FIELD_ENGINE,
+                        ]
+                        .contains(&c.engine.as_str()),
                         sunlight: true,
                         ..Default::default()
                     },
@@ -2515,6 +2570,7 @@ pub fn transition(
             if !matches!(a, Action::RollbackBattle { .. }) {
                 extra::lifecycle(c, &mut done, cat)?;
                 special::lifecycle(c, &mut done, cat)?;
+                decoys::lifecycle(&mut done);
             }
             cleanup_covers(c, &mut done, a);
             sync_labels(&mut done);
@@ -2526,6 +2582,7 @@ pub fn transition(
     abilities::lifecycle(c, &mut next)?;
     extra::lifecycle(c, &mut next, cat)?;
     special::lifecycle(c, &mut next, cat)?;
+    decoys::lifecycle(&mut next);
     cleanup_covers(c, &mut next, a);
     refresh_initiative(c, &mut next)?;
     sync_labels(&mut next);
@@ -2819,6 +2876,10 @@ fn effect_dice(c: &Campaign, q: &QueuedAction, _cat: &Catalog) -> Result<u32> {
     })
 }
 fn effects(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) -> Result<()> {
+    let m = move_entry(cat, &q.move_name)?;
+    if m["Category"] == "Support" && decoys::blocks_effects(c, q, &m) {
+        return Ok(());
+    }
     if let Some(redirected) = tactics::effect_target(c, q, cat)? {
         if redirected.cancelled {
             return Ok(());
@@ -2834,6 +2895,15 @@ fn effects_inner(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog)
         return Ok(());
     }
     if special::effects(c, q, dice, cat)? {
+        return Ok(());
+    }
+    let data = move_entry(cat, &q.move_name)?;
+    if decoys::blocks_effects(c, q, &data) {
+        if ["Burn Up", "Double Shock"].contains(&q.move_name.as_str()) {
+            field::move_effect(c, q, cat)?;
+        } else if decoys::unreviewed_user_clause(&data["AddedEffects"]) {
+            return Err(AppError::new("manual_rule", "Decoy blocks target effects, but this move has an unsupported user effect; record its GM resolution explicitly"));
+        }
         return Ok(());
     }
     if !field::enabled(c)

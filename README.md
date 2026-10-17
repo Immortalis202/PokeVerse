@@ -60,9 +60,9 @@ Open **Training encounters** after selecting a campaign in Room. The appointed G
 
 The supplied `POKEROLE COREBOOK 3.0 RULING.pdf` and `POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf` are now the rule references. See [the rule coverage matrix](docs/RULES.md) for page references, implemented formulas, and remaining work. The PDFs are not bundled into the installer.
 
-New campaigns use engine `0.9.0-core`: explicit turns, multi-target attacks with shared damage dice, field-effect records, area Clash, Cover an Ally, Evasion/Clash, Will spending, structured major statuses and reviewed effects. Shared Rust calculations retain ordinary damage, defenses, STAB, critical bonuses and flat type adjustments. Reviewed Champion sheets inherit Master battle bonuses. Legal creation/progression recalculates permanent derived resources while preserving wounds and spent Will.
+New campaigns use engine `0.10.0-core`: explicit turns, multi-target attacks with shared damage dice, field-effect records, area Clash, Cover an Ally, Evasion/Clash, Will spending, structured major statuses and reviewed effects. Shared Rust calculations retain ordinary damage, defenses, STAB, critical bonuses and flat type adjustments. Reviewed Champion sheets inherit Master battle bonuses. Legal creation/progression recalculates permanent derived resources while preserving wounds and spent Will.
 
-Existing campaigns retain `0.8.0-core`, `0.7.0-core`, `0.6.0-core`, `0.5.0-core`, `0.4.0-core`, `0.3.0-core`, `0.2.0-core` or `0.1.0-manual` until the appointed GM upgrades between battles. Previous battle records remain readable. Matching 0.16.0 builds, protocol 17 and catalog hashes are required. This update adds defaulted JSON fields and leaves user database schema 4 unchanged.
+Existing campaigns retain `0.9.0-core`, `0.8.0-core`, `0.7.0-core`, `0.6.0-core`, `0.5.0-core`, `0.4.0-core`, `0.3.0-core`, `0.2.0-core` or `0.1.0-manual` until the appointed GM upgrades between battles. Previous battle records remain readable. Matching 0.17.0 builds, protocol 18 and catalog hashes are required. This update adds defaulted JSON fields and leaves user database schema 4 unchanged.
 
 **Coverage is explicitly partial.** Reviewed special-move families, weather/terrain/temporary typing and 224 automated or partial ability scopes are supported. Bide's ambiguity, Snatch decoys, persistent Shadow Force recovery debt, transformations and the remaining ability dependencies are explicit. Trainer-target damage, lethal wounds and automatic Will recovery are excluded. See [rule coverage](docs/RULES.md), [special moves](docs/battle-special-moves.md) and [machine-readable coverage](rules/coverage.json). Full catalog verification remains open; field-level review reports are generated under the workspace's `outputs/rule-coverage/`.
 
@@ -112,8 +112,8 @@ The Stats tab uses a violet corebook-style species card. Filled dots show the co
 
 Ability automation, triggers and manual boundaries: [battle abilities](docs/battle-abilities.md).
 
-
 Special moves in 0.15.0: [reviewed behavior, controls and explicit limits](docs/battle-special-moves.md). Healing/shields, fixed and conditional damage, charge, rampage, successive actions, recharge and recoil use host-authoritative Rust resolution. Protocol 16 and matching builds are required; historical battles keep their engine. Trainer-target damage, lethal wounds and automatic Will recovery are excluded.
 
-
 Targeting/reactions in 0.16.0: [multi-target responses, redirection and controlled replacements](docs/battle-reactions.md). Reviewed abilities and switcher moves use the host engine; protocol 17 and matching builds are required. Pending owner choices, GM rulings and rollback retain stable encounter identities.
+
+Decoys in 0.17.0: [Substitute, Shed Tail and Snatch](docs/battle-decoys.md). Dynamax, all Max Moves (including Max Guard), and Z-Moves are out of scope and remain reference-only catalog entries.

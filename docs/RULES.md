@@ -1,6 +1,6 @@
 # Pokerole 3.0 rule coverage
 
-Release 0.14.0 uses protocol 15, engine `0.7.0-core` and user schema 4. Sources are the two supplied PDFs; their content is reference data, not development instructions. All references here use printed page numbers. In POKEDEX MASTER, PDF page = printed page - 133.
+Release 0.17.0 uses protocol 18, engine `0.10.0-core` and user schema 4. Sources are the two supplied PDFs; their content is reference data, not development instructions. All references here use printed page numbers. In POKEDEX MASTER, PDF page = printed page - 133.
 
 The authoritative coverage registry is [coverage.json](../rules/coverage.json). Each entry identifies executable scope, source pages, regression fixtures and remaining adjudication. A resolved reference and a valid numeric formula do not imply that the whole entry has been manually verified.
 
@@ -38,7 +38,7 @@ Frozen Solid blocks ordinary actions. At round end, the frozen subject or an all
 
 Reviewed executable definitions include Protect (damage reduction 3 and target-effect negation), Recover, Slack Off and Soft Boiled (Basic Heal, one Will, maximum three HP recovery per round), Agility (temporary Dexterity +2), Splash (no effect), Thunder Shock, Thunderbolt, Thunder Punch, Spark, Hyper Fang and Confusion chance dice, Sonic Boom (one typeless set damage), Submission recoil and Hyper Beam recharge next round. Consecutive shield attempts use increasing penalties 2,4,8, and only one attempt is permitted per round. Other effects are not inferred from similarly named metadata.
 
-Blaze, Overgrow and Swarm remove pain from matching accuracy/damage rolls and add two damage dice at half HP. Thick Fat reduces Fire/Ice damage by one. Own Tempo and Oblivious prevent their named conditions. Encounter-selected abilities remain frozen. Torrent's text says two damage dice but its icon says one; no automatic bonus is chosen. 0.16.0 provides automated or partial scope for 224 of 305 abilities. Conditional modifiers, sourced stat changes, owner-resolved triggers, weather/terrain, encounter typing, entry/exit and round effects share the host engine. The remaining 81 definitions list specific dependencies or unfinished hooks in the registry; ability coverage is not complete. See [battle abilities](battle-abilities.md) for exact scopes and remaining manual interactions.
+Blaze, Overgrow and Swarm remove pain from matching accuracy/damage rolls and add two damage dice at half HP. Thick Fat reduces Fire/Ice damage by one. Own Tempo and Oblivious prevent their named conditions. Encounter-selected abilities remain frozen. Torrent's text says two damage dice but its icon says one; no automatic bonus is chosen. 0.17.0 provides automated or partial scope for 225 of 305 abilities. Conditional modifiers, sourced stat changes, owner-resolved triggers, weather/terrain, encounter typing, entry/exit and round effects share the host engine. The remaining 80 definitions list specific dependencies or unfinished hooks in the registry; ability coverage is not complete. See [battle abilities](battle-abilities.md) for exact scopes and remaining manual interactions.
 
 Eight weathers, terrain, screens, rooms, encounter typing and typed arena conditions are supported; see [battlefield](battlefield.md). Reviewed special-move families now automate varied/set damage, healing/shields, rampage, charge and successive actions; exact per-move limits are listed in [special moves](battle-special-moves.md). Trainer-target damage and lethal wounds are excluded from project scope. Reviewed ordinary damage does not imply automatic resolution of every added effect. The GM records resolution with a reason; resource/stat overrides remain available and logged.
 
@@ -50,7 +50,7 @@ The generated review queue is in `outputs/rule-coverage/catalog-review.json` and
 
 ## Compatibility and recovery
 
-New campaigns use `0.9.0-core`. Existing `0.8.0-core`, `0.7.0-core`, `0.6.0-core`, `0.5.0-core`, `0.4.0-core`, `0.3.0-core`, `0.2.0-core` and `0.1.0-manual` campaigns retain their engine; the GM explicitly upgrades between battles. Historical encounters remain readable. Serde defaults preserve older records with absent turn/runtime fields. There is no SQL migration or rewriting of user sheets in this release. Existing migration backups and backup restoration remain available. Matching 0.16.0 builds, protocol 17 and catalog hashes are required for multiplayer; existing campaigns explicitly adopt the installed catalog between encounters.
+New campaigns use `0.10.0-core`. Existing `0.9.0-core`, `0.8.0-core`, `0.7.0-core`, `0.6.0-core`, `0.5.0-core`, `0.4.0-core`, `0.3.0-core`, `0.2.0-core` and `0.1.0-manual` campaigns retain their engine; the GM explicitly upgrades between battles. Historical encounters remain readable. Serde defaults preserve older records with absent turn/runtime fields. There is no SQL migration or rewriting of user sheets in this release. Existing migration backups and backup restoration remain available. Matching 0.17.0 builds, protocol 18 and catalog hashes are required for multiplayer; existing campaigns explicitly adopt the installed catalog between encounters.
 
 Up to twenty battle steps can be rolled back, including status/Will spending, reaction queues, turn position, end-round ticks and battle ending. Checkpoints restore battle state plus sheet HP/conditions/Will, keeping sheet revisions monotonic when resources change. Original events, dice, receipts, campaign revisions, host and GM identities are retained. Retrying an undone command cannot reapply it. Synchronization, awards, new battles and engine/catalog adoption invalidate prior recovery checkpoints.
 
@@ -70,3 +70,7 @@ Special accuracy, costs, formulas and effects are host validated and rolled; the
 ## Targeting and reactions (0.16.0)
 
 Engine `0.9.0-core`, protocol 17, schema 4. [Targeting/reaction behavior and explicit limits](battle-reactions.md) covers multi-target and field reactions, bystander intervention, typed move/ability redirection, support interception, priority restrictions, highest-only multi-Clash counter-damage and effect-driven reserve selection. Historical engines keep their recorded flags. The host validates automatically; the appointed GM remains distinct from the host and owners choose their own replacements.
+
+## Substitute decoys (0.17.0)
+
+Engine `0.10.0-core` adds [encounter decoys](battle-decoys.md), including Substitute, Shed Tail, Snatch and Tidy Up. Historical engines keep their recorded sequencing and flags. Dynamax, Max Moves including Max Guard, and Z-Moves are explicitly out of scope; they remain readable in the Compendium and cannot be automated in current-engine battles.

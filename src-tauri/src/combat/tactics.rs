@@ -630,9 +630,14 @@ fn flush_clashes(c: &mut Campaign, cat: &Catalog) -> Result<()> {
         let m = move_entry(cat, &q.move_name)?;
         let hp = fighter(c, &q.target_id)?.hp;
         let amount = abilities::clash_amount(c, &q.target_id, &m, raw, &q.actor_id)?;
-        fighter_mut(c, &q.target_id)?.hp = (hp - amount).max(0);
+        let decoy_hit = decoys::damage(c, &q, &m, amount);
+        if !decoy_hit {
+            fighter_mut(c, &q.target_id)?.hp = (hp - amount).max(0);
+        }
         state_mut(c).clash_damage.insert(seq, amount);
-        abilities::hit(c, &q, hp, &m)?;
+        if !decoy_hit {
+            abilities::hit(c, &q, hp, &m)?;
+        }
         if fighter(c, &q.target_id)?.hp == 0 {
             for pending in &mut flow_mut(c).queue {
                 if pending.actor_id == q.target_id && pending.damage_context.is_none() {
@@ -914,16 +919,18 @@ pub fn move_effect(c: &mut Campaign, q: &QueuedAction, cat: &Catalog) -> Result<
     if switcher.is_null() || switcher == false {
         return Ok(false);
     }
-    if q.move_name == "Shed Tail" {
+    if q.move_name == "Shed Tail" && !decoys::enabled(c) {
         return Err(AppError::new(
             "manual_rule",
-            "Shed Tail requires Substitute/decoy state; use a recorded GM resolution",
+            "Shed Tail requires the current decoy engine",
         ));
     }
-    if special::target_effects_blocked(c, q, &m) {
+    let forced = switcher == "Foe";
+    if special::target_effects_blocked(c, q, &m)
+        && !(decoys::intercepted(c, q) && !forced && m["Category"] != "Support")
+    {
         return Ok(true);
     }
-    let forced = switcher == "Foe";
     let out = if forced { &q.target_id } else { &q.actor_id };
     let p = fighter(c, out)?.clone();
     if forced && p.side != fighter(c, &q.actor_id)?.side && p.selected_ability == "Suction Cups" {
@@ -942,6 +949,9 @@ pub fn move_effect(c: &mut Campaign, q: &QueuedAction, cat: &Catalog) -> Result<
         for key in ["Strength", "Special"] {
             extra::change_stat(c, &q.actor_id, &q.target_id, key, -1)?;
         }
+    }
+    if q.move_name == "Shed Tail" {
+        decoys::cast(c, out, &q.move_name, cat)?;
     }
     request(c, q, out, &q.move_name, forced, false)?;
     Ok(true)
@@ -1041,6 +1051,7 @@ fn resolve_switch(
     } else {
         vec![]
     };
+    decoys::switch(c, &out.id, entry.as_ref().map(|p| p.id.as_str()), &s.name);
     let cursor = flow(c)?.order.get(flow(c)?.cursor).cloned();
     let old_index = flow(c)?.order.iter().position(|v| v == &out.id);
     let round = battle(c)?.round;

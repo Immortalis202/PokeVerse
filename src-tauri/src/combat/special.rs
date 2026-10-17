@@ -1068,6 +1068,12 @@ pub fn effects(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) -
         return Ok(false);
     }
     let name = q.move_name.as_str();
+    if ["Substitute", "Tidy Up"].contains(&name) && !decoys::enabled(c) {
+        return Err(AppError::new(
+            "manual_rule",
+            "This decoy effect requires adoption of the current engine between battles",
+        ));
+    }
     let a = &q.actor_id;
     let t = &q.target_id;
     let m = move_entry(cat, name)?;
@@ -1111,7 +1117,7 @@ pub fn effects(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) -
             rt.recharge_round = round + 1;
             add_effect(c, &format!("recharge:{}", q.sequence), a, a, Some(1))?;
         }
-        if name == "Roar Of Time" {
+        if name == "Roar Of Time" && !decoys::intercepted(c, q) {
             add_effect(c, "Roar Of Time", a, t, Some(1))?;
         }
         return Ok(true);
@@ -1226,6 +1232,9 @@ pub fn effects(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) -
         return Ok(true);
     }
     if drain(name) {
+        if decoys::intercepted(c, q) {
+            return Ok(true);
+        }
         let amount = q.damage / 2;
         let ooze = fighter(c, t)?.selected_ability == "Liquid Ooze";
         if name == "Parabolic Charge" {
@@ -1243,6 +1252,41 @@ pub fn effects(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) -
         }
         apply_chance(c, q, dice, cat)?;
         return Ok(true);
+    }
+    // Decoys block target effects, not the attacker's own costs or changes.
+    if decoys::intercepted(c, q) {
+        match name {
+            "Spit Up" => {
+                extra::change_stat(c, a, a, "Defense", -1)?;
+                extra::change_stat(c, a, a, "SpecialDefense", -1)?;
+                state_mut(c)
+                    .effects
+                    .retain(|e| !(e.name == "Stockpile" && e.target == *a));
+            }
+            "Scale Shot"
+                if q.special_index == 5
+                    && state(c).series.as_ref().is_some_and(|s| s.landed == 5) =>
+            {
+                extra::change_stat(c, a, a, "Dexterity", 1)?;
+                extra::change_stat(c, a, a, "Defense", -1)?;
+            }
+            "Triple Arrows"
+                if q.special_index == 3
+                    && state(c).series.as_ref().is_some_and(|s| s.landed == 3) =>
+            {
+                add_effect(c, "Triple Arrows", a, a, None)?;
+            }
+            "Sparkly Swirl" => {
+                for id in allies(c, a)? {
+                    cure(c, &id, true)?;
+                }
+            }
+            _ => {
+                if decoys::unreviewed_user_clause(&m["AddedEffects"]) {
+                    return Err(AppError::new("manual_rule", "Decoy blocks target effects, but this move has an unsupported user effect; record its GM resolution explicitly"));
+                }
+            }
+        }
     }
     if target_effects_blocked(c, q, &m) {
         return Ok(true);
@@ -1284,6 +1328,19 @@ pub fn effects(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) -
                     damage: 0,
                 },
             );
+        }
+        "Substitute" => {
+            decoys::cast(c, a, name, cat)?;
+        }
+        "Tidy Up" => {
+            decoys::tidy(c);
+            flow_mut(c).field_effects.retain(|e| {
+                !["Spikes", "Toxic Spikes", "Sticky Web", "Stealth Rock"]
+                    .contains(&e.move_name.as_str())
+            });
+            for key in ["Strength", "Dexterity"] {
+                extra::change_stat(c, a, a, key, 1)?;
+            }
         }
         "Snatch" => {
             if state(c)
@@ -1344,6 +1401,7 @@ pub fn effects(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) -
                     pending.target_id = a.clone();
                 }
             }
+            decoys::snatch(c, t, a, cat)?;
             add_effect(c, "Snatch", a, t, Some(1))?;
             add_effect(c, "SnatchUsed", a, a, Some(1))?;
         }
@@ -1718,6 +1776,9 @@ fn bypass(c: &Campaign, q: &QueuedAction, m: &serde_json::Value) -> bool {
         || fighter(c, &q.actor_id).is_ok_and(|p| p.selected_ability == "Infiltrator")
 }
 pub fn target_effects_blocked(c: &Campaign, q: &QueuedAction, m: &serde_json::Value) -> bool {
+    if decoys::blocks_effects(c, q, m) {
+        return true;
+    }
     if !enabled(c) || bypass(c, q, m) {
         return false;
     }
@@ -1787,6 +1848,9 @@ pub fn before_damage(
     let s = state_mut(c).shields.get_mut(&q.target_id).unwrap();
     s.available = false;
     s.armed_turn = turn;
+    if endure && decoys::protects(c, q, m) {
+        return Ok(n);
+    }
     if endure {
         return Ok(n.min((fighter(c, &q.target_id)?.hp - 1).max(0)));
     }
@@ -2024,7 +2088,7 @@ pub fn resolve_formula(
         amount = (amount
             - abilities::reduction(
                 c,
-                fighter(c, &q.target_id)?,
+                &decoys::damage_subject(c, &q.actor_id, fighter(c, &q.target_id)?, &m),
                 &m,
                 pool.effectiveness,
                 &q.actor_id,
@@ -2044,13 +2108,24 @@ pub fn resolve_formula(
     {
         amount = before_damage(c, q, &m, amount, cat)?;
     }
-    let amount = abilities::sturdy(c, &q.target_id, amount, before)?;
-    fighter_mut(c, &q.target_id)?.hp = (before - amount).max(0);
+    let decoy_hit = decoys::damage(c, q, &m, amount);
+    let amount = if decoy_hit {
+        amount
+    } else {
+        abilities::sturdy(c, &q.target_id, amount, before)?
+    };
+    fighter_mut(c, &q.target_id)?.hp = if decoy_hit {
+        before
+    } else {
+        (before - amount).max(0)
+    };
     let current = flow_mut(c).queue.first_mut().unwrap();
     current.damage_done = true;
-    current.damage = amount;
+    current.damage = if decoy_hit { 0 } else { amount };
     current.raw_damage_successes = rules::successes(faces) as u32;
-    abilities::hit(c, q, before, &m)?;
+    if !decoy_hit {
+        abilities::hit(c, q, before, &m)?;
+    }
     hit(
         c,
         q,
@@ -2385,6 +2460,14 @@ pub fn hit(
     if !enabled(c) {
         return Ok(());
     }
+    if decoys::intercepted(c, q) {
+        if let Some(series) = state_mut(c).series.as_mut() {
+            if series.actor_id == q.actor_id && series.name == q.move_name {
+                series.landed += 1;
+            }
+        }
+        return Ok(());
+    }
     let round = battle(c)?.round;
     let turn = flow(c)?.turn;
     for (id, bide) in &mut state_mut(c).bides {
@@ -2698,6 +2781,14 @@ pub fn guard(c: &Campaign, id: &str, m: &serde_json::Value, cat: &Catalog) -> Re
         ));
     }
     let name = m["Name"].as_str().unwrap_or("");
+    if decoys::enabled(c)
+        && (m["Attributes"]["MaxMove"] == true || m["Attributes"]["ZMove"] == true)
+    {
+        return Err(AppError::new(
+            "out_of_scope",
+            "Dynamax, Max Moves (including Max Guard) and Z-Moves are out of scope",
+        ));
+    }
     if name == "Pain Split" && p.hp > p.max_hp / 2 {
         return Err(error("Pain Split fails above half HP"));
     }

@@ -1,6 +1,6 @@
 # PokeVerse — remaining work
 
-Snapshot: 17 October 2026, application 0.16.0, protocol 17, user database schema 4.
+Snapshot: 17 October 2026, application 0.17.0, protocol 18, user database schema 4.
 
 The Training Point milestone below is implemented. Remaining battle, catalog and native acceptance work stays open.
 
@@ -66,13 +66,13 @@ Validation details: [Training Points](training-points.md). Full interactive Wind
 
 ## 2. Battle rule coverage
 
-A reviewed coverage matrix and field-level audit queue are implemented in 0.10.0. Explicit single-target turns/reactions, held-turn recovery, Evasion/Clash, Will, major statuses and ice breaking have fixtures. Selected healing/shield/chance/recoil/recharge/set-damage effects and conditional abilities are implemented. 0.11.0 adds multi-target ordinary attacks, rank-limited area selection, shared damage dice, field-effect records, area Clash and Cover an Ally. 0.13.0 adds typed weather, terrain, force fields, rooms, temporary typing and arena conditions. 0.14.0 adds conditional/reactive ability families, bringing automated or partial ability scopes to 209 of 305. 0.15.0 adds reviewed charge, rampage, successive-action and healing/shield families. 0.16.0 adds multi-target/field reaction queues, redirection/interception, priority restrictions and controlled effect switches, bringing supported ability scopes to 224 of 305. Remaining ability definitions and listed unresolved interactions stay open. See [advanced targeting](battle-targeting.md). See [RULES.md](RULES.md) and [coverage.json](../rules/coverage.json).
+A reviewed coverage matrix and field-level audit queue are implemented in 0.10.0. Explicit single-target turns/reactions, held-turn recovery, Evasion/Clash, Will, major statuses and ice breaking have fixtures. Selected healing/shield/chance/recoil/recharge/set-damage effects and conditional abilities are implemented. 0.11.0 adds multi-target ordinary attacks, rank-limited area selection, shared damage dice, field-effect records, area Clash and Cover an Ally. 0.13.0 adds typed weather, terrain, force fields, rooms, temporary typing and arena conditions. 0.14.0 adds conditional/reactive ability families, bringing automated or partial ability scopes to 209 of 305. 0.15.0 adds reviewed charge, rampage, successive-action and healing/shield families. 0.16.0 adds multi-target/field reaction queues, redirection/interception, priority restrictions and controlled effect switches, bringing supported ability scopes to 224 of 305. 0.17.0 adds reviewed Substitute/Shed Tail decoys, Snatch theft and Tidy Up, bringing supported ability scopes to 225 of 305 (Unseen Fist remains partial). Remaining ability definitions and listed unresolved interactions stay open. See [advanced targeting](battle-targeting.md). See [RULES.md](RULES.md) and [coverage.json](../rules/coverage.json).
 
 - [x] Verify Champion battle roll/rank inheritance and implement the supported bonuses. Champion creation/progression is already supported; reviewed Champion sheets inherit Master battle bonuses.
 
 - [x] Implement multi-target reaction sequencing, increasing early/late priority, bystander reaction moves, highest-only multi-Clash counter-damage, controlled switches and relevant restrictions. Preserve once-per-turn Evasion and repeatable Clash. See [targeting and reactions](battle-reactions.md).
 
-- [ ] Resolve remaining reaction/targeting boundaries: unsupported Support effects, Substitute/Shed Tail, ability-channel transfer, printed Late Reaction collisions and unstated Magic Coat duration require the listed systems or recorded rulings.
+- [ ] Resolve remaining reaction/targeting boundaries: unsupported Support effects, ability-channel transfer, printed Late Reaction collisions and unstated Magic Coat duration require the listed systems or recorded rulings.
 
 - [ ] Implement structured status modifiers, durations, expiry and resource changes, including the remaining Will-related battle mechanics.
 
@@ -80,11 +80,15 @@ A reviewed coverage matrix and field-level audit queue are implemented in 0.10.0
 
 - [x] Add weather/terrain-dependent and extended conditional/reactive ability families.
 
-- [ ] Complete the remaining 81 ability definitions, including held items, form changes, suppression, redirection and individually listed unimplemented event/reaction definitions. See [battle abilities](battle-abilities.md).
+- [ ] Complete the remaining 80 ability definitions, including held items, form changes, suppression, redirection and individually listed unimplemented event/reaction definitions. See [battle abilities](battle-abilities.md).
 
 - [x] Add reviewed special move families in 0.15.0: healing, shields, fixed/variable pools, charge, rampage, successive actions (including reaction sequences), recharge and recoil. See [special moves](battle-special-moves.md).
 
-- [ ] Resolve the remaining special-move boundaries: Bide wording requires a recorded GM choice; Snatch decoys and ability modifiers need new systems; Shadow Force recovery restrictions outside the encounter need persistent tracking; Max Guard requires transformations. Other unreviewed move interactions remain explicit adjudication.
+- [ ] Resolve the remaining special-move boundaries: Bide wording requires a recorded GM choice; Snatch ability modifiers need a transfer system; Shadow Force recovery restrictions outside the encounter need persistent tracking. Dynamax, Max Moves including Max Guard, and Z-Moves are out of scope. Other unreviewed move interactions remain explicit adjudication.
+
+- [x] Implement Substitute/Shed Tail decoys, frozen defenses, damage/effect interception, Snatch transfer, Tidy Up, history, reconnect and rollback. See [decoy rules](battle-decoys.md).
+
+- [x] Explicitly exclude Dynamax, all Max Moves (including Max Guard), and Z-Moves from this scope. Catalog entries remain available as reference.
 
 - [x] Enforce Never Miss's evasion prohibition; supported accuracy still needs its success check.
 

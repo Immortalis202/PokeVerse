@@ -42,7 +42,7 @@ Ordinary queued replacements wait for the attack chain to finish, preserving sha
 
 No reserve never silently ends the battle: the GM records withdrawal/waiver or explicitly ends it. Pending replacements block unrelated actions and round advancement. Owners cannot waive a forced effect, choose another trainer's Pokémon, or resolve another owner's request. Receipts/revisions prevent duplicate replacements and stale submissions.
 
-Baton Pass transfers supported positive move attribute channels and locks the original user's self-boosts until the recipient faints or the encounter ends. Ability-channel transfer remains unimplemented and explicitly partial. Shed Tail requires Substitute/decoy state and stays manual. Narrated wild fleeing, unimplemented Support effects and other unreviewed move interactions remain GM adjudication.
+Baton Pass transfers supported positive move attribute channels and locks the original user's self-boosts until the recipient faints or the encounter ends. Ability-channel transfer remains unimplemented and explicitly partial. Shed Tail was manual in 0.16.0; [0.17.0 decoys](battle-decoys.md) now implement its creation and reserve handoff. Narrated wild fleeing, unimplemented Support effects and other unreviewed move interactions remain GM adjudication.
 
 ## Compatibility and validation
 

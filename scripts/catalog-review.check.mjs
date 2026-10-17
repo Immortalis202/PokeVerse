@@ -162,11 +162,11 @@ test("ability inventory exposes reviewed scopes and preserves manual boundaries"
   assert.equal(inventory.entries.length, 305);
   assert.equal(
     inventory.entries.filter((e) => e.status !== "manual").length,
-    224,
+    225,
   );
   assert.equal(
     Object.values(registry.entries).filter((e) => e.status !== "manual").length,
-    224,
+    225,
   );
   assert.equal(
     inventory.entries.find((e) => e.name === "Static").status,
@@ -191,7 +191,7 @@ test("ability inventory exposes reviewed scopes and preserves manual boundaries"
   );
   assert.equal(
     inventory.entries.find((e) => e.name === "Infiltrator").status,
-    "partial",
+    "automated",
   );
   const db = new DatabaseSync("src-tauri/resources/catalog.db", {
     readOnly: true,
@@ -224,7 +224,7 @@ test("special move inventory has stable IDs, manual boundaries and a compatibili
   const inventory = JSON.parse(
     readFileSync("../outputs/rule-coverage/special-move-coverage.json", "utf8"),
   );
-  assert.equal(inventory.entries.length, 213);
+  assert.equal(inventory.entries.length, 216);
   assert.equal(registry.entries["Max Guard"].status, "manual");
   assert.ok(
     registry.entries["Bide"].dependencies.includes("manual-wording-decision"),
@@ -279,7 +279,35 @@ test("targeting registry is fingerprinted and catalog definitions preserve exact
       assert.ok(e.page, e.name);
       if (e.status === "partial") assert.ok(e.dependencies.length, e.name);
     }
-    assert.equal(registry.moves["Shed Tail"].status, "manual");
+    assert.equal(registry.moves["Shed Tail"].status, "automated");
+  } finally {
+    db.close();
+  }
+});
+
+test("decoy corrections preserve source and excluded transformation moves remain reference only", () => {
+  const original = JSON.parse(
+    readFileSync("../Pokerole-Data/v3.0/Moves/Substitute.json", "utf8"),
+  );
+  assert.equal(original.Attributes.SwitcherMove, true);
+  const db = new DatabaseSync("src-tauri/resources/catalog.db", {
+    readOnly: true,
+  });
+  try {
+    const entry = (name) =>
+      JSON.parse(
+        db
+          .prepare("select data from entries where kind='moves' and name=?")
+          .get(name).data,
+      );
+    assert.deepEqual(entry("Substitute").Attributes, {});
+    assert.equal(entry("Substitute").SpecialRules.status, "automated");
+    for (const name of ["Max Guard", "Breakneck Blitz"])
+      assert.match(
+        entry(name).Review.coverage,
+        /Out of scope.*Dynamax.*Z-Moves/,
+      );
+    assert.equal(entry("Shed Tail").TacticsRules.status, "automated");
   } finally {
     db.close();
   }

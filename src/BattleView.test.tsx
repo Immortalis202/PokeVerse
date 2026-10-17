@@ -187,8 +187,24 @@ describe("structured core battle controls", () => {
         automatic_validation: true,
         combatants,
         flow: {
+          decoys: {
+            enabled: engine === "0.10.0-core",
+            active:
+              engine === "0.10.0-core"
+                ? {
+                    active: {
+                      hp: 1,
+                      defenses: [4, 5],
+                      source: "active",
+                      move_name: "Substitute",
+                    },
+                  }
+                : {},
+            intercepted: [],
+            history: [],
+          },
           tactics: {
-            enabled: engine === "0.9.0-core",
+            enabled: ["0.9.0-core", "0.10.0-core"].includes(engine),
             lures: [],
             switches: [],
             switchers: {},
@@ -202,7 +218,9 @@ describe("structured core battle controls", () => {
             payer: null,
           },
           special: {
-            enabled: ["0.8.0-core", "0.9.0-core"].includes(engine),
+            enabled: ["0.8.0-core", "0.9.0-core", "0.10.0-core"].includes(
+              engine,
+            ),
             bides: {},
             charges: {},
             rampages: {},
@@ -215,9 +233,12 @@ describe("structured core battle controls", () => {
             series: null,
           },
           extra: {
-            enabled: ["0.7.0-core", "0.8.0-core", "0.9.0-core"].includes(
-              engine,
-            ),
+            enabled: [
+              "0.7.0-core",
+              "0.8.0-core",
+              "0.9.0-core",
+              "0.10.0-core",
+            ].includes(engine),
             active: [],
             fainted: [],
             round_started: 0,
@@ -228,6 +249,7 @@ describe("structured core battle controls", () => {
               "0.7.0-core",
               "0.8.0-core",
               "0.9.0-core",
+              "0.10.0-core",
             ].includes(engine),
             natural: null,
             weather: null,
@@ -411,5 +433,17 @@ describe("structured core battle controls", () => {
     expect(core("gm", false, "0.8.0-core")).not.toContain(
       "Targeting and replacements",
     );
+  });
+  it("shows decoy resources and excluded transformations for owners, GM and host", () => {
+    for (const player of ["gm", "player", "host"]) {
+      const html = core(player, false, "0.10.0-core");
+      expect(html).toContain("Substitute decoy");
+      expect(html).toContain("1/2 HP");
+      expect(html).toContain("Frozen Defense 4");
+      expect(html).toContain("Dynamax");
+      expect(html).toContain("Z-Moves are out of scope");
+      expect(html).toContain("Targeting and replacements");
+    }
+    expect(core("gm", false, "0.9.0-core")).not.toContain("Substitute decoy");
   });
 });

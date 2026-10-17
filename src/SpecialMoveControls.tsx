@@ -71,6 +71,39 @@ export default function SpecialMoveControls({
         responses on the same turn. Stored charges and rampages remain available
         after reconnect.
       </p>
+      {f.decoys?.enabled && (
+        <>
+          <p className="muted">
+            Dynamax, Max Moves (including Max Guard) and Z-Moves are out of
+            scope.
+          </p>
+          {Object.entries(f.decoys.active).map(
+            ([id, decoy]) =>
+              decoy && (
+                <div className="notice" key={id}>
+                  <strong>
+                    {name(id)}: {decoy.move_name} decoy · {decoy.hp}/2 HP
+                  </strong>
+                  <p>
+                    Frozen Defense {decoy.defenses[0]} · Special Defense{" "}
+                    {decoy.defenses[1]}. Incoming move effects are blocked;
+                    environment and existing statuses still affect the Pokémon.
+                  </p>
+                </div>
+              ),
+          )}
+          {f.decoys.history.length > 0 && (
+            <details>
+              <summary>Decoy history</summary>
+              <ul>
+                {f.decoys.history.map((entry, i) => (
+                  <li key={i}>{entry}</li>
+                ))}
+              </ul>
+            </details>
+          )}
+        </>
+      )}
       {Object.entries(s.charges).map(
         ([id, c]) =>
           c && (

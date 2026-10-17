@@ -216,12 +216,11 @@
       "dependencies": []
     },
     "Shed Tail": {
-      "status": "manual",
-      "scope": "Requires Substitute/decoy state. No substitute switch is silently approximated.",
+      "status": "automated",
+      "scope": "Reviewed p.500/531: pay 2 HP; frozen-defense 2 HP decoy transfers to the chosen same-trainer reserve through controlled switching. No permanent sheet mutation.",
       "page": 500,
-      "dependencies": [
-        "substitute-decoys"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.10.0-core"
     }
   }
 }
