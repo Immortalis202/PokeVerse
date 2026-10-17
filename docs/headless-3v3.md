@@ -47,3 +47,5 @@ Verified on 17 October 2026: **306 Rust tests passed**, including both scenario 
 This adds tests and test infrastructure; application 0.17.0, engine `0.10.0-core`, protocol 18 and user schema 4 are unchanged. No installer rebuild or native UI launch is needed. It is one controlled gym encounter, not exhaustive species/move/ability coverage or physical multi-machine LAN acceptance. Dynamax, Max Moves and Z-Moves remain excluded.
 
 The 0.18.0 suite also runs a strict Ralts/Trace variant through the same four-installation driver. It verifies host-random copying, owner authority, full campaign agreement after each command, duplicate receipts, GM rollback, reconnect and reopening the host database.
+
+The 0.19.0 variant uses strict Passimian/Receiver and Oinkologne/Lingering Aroma sheets, ordinary contact/gym hits and no HP patching. It checks contact and inheritance rollback, owner permissions, host receipts, reconnect, copied ability reuse in a second encounter, the 1440-minute boundary and host database reopening.

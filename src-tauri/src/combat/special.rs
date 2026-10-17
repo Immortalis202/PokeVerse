@@ -798,7 +798,13 @@ pub fn lifecycle(_before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<
     if !enabled(c) || c.battle.as_ref().is_none_or(|b| !b.active) {
         return Ok(());
     }
-    if !preparing(c) && enabled(_before) {
+    if !preparing(c)
+        && enabled(_before)
+        && _before
+            .battle
+            .as_ref()
+            .is_some_and(|b| b.active && c.battle.as_ref().is_some_and(|next| next.id == b.id))
+    {
         let restricted: Vec<_> = state(_before)
             .effects
             .iter()
@@ -2124,7 +2130,7 @@ pub fn resolve_formula(
     current.damage = if decoy_hit { 0 } else { amount };
     current.raw_damage_successes = rules::successes(faces) as u32;
     if !decoy_hit {
-        abilities::hit(c, q, before, &m)?;
+        abilities::hit(c, q, before, &m, cat)?;
     }
     hit(
         c,

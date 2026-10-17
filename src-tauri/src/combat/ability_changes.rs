@@ -45,13 +45,15 @@ fn assigned(c: &Campaign, p: &Combatant) -> String {
     state(c)
         .trace
         .get(&p.id)
+        .or_else(|| transfers::contact_copy(c, &p.id))
         .or_else(|| state(c).assignments.get(&p.id))
+        .or_else(|| transfers::active_copy(c, &p.sheet_id).map(|r| &r.ability))
         .or_else(|| state(c).originals.get(&p.id))
         .unwrap_or(&p.selected_ability)
         .clone()
 }
 // Catalog exact references only. A missing definition is adjudicated, never guessed.
-fn unique(cat: &Catalog, name: &str) -> Result<bool> {
+pub(super) fn unique(cat: &Catalog, name: &str) -> Result<bool> {
     if name.is_empty() {
         return Ok(false);
     }
@@ -127,6 +129,19 @@ pub fn move_effect(c: &mut Campaign, q: &QueuedAction, cat: &Catalog) -> Result<
         }
         _ => unreachable!(),
     }
+    match q.move_name.as_str() {
+        "Role Play" => {
+            transfers::clear_contact(c, &user.id);
+        }
+        "Skill Swap" => {
+            transfers::clear_contact(c, &user.id);
+            transfers::clear_contact(c, &target.id);
+        }
+        "Worry Seed" | "Simple Beam" => {
+            transfers::clear_contact(c, &target.id);
+        }
+        _ => {}
+    }
     state_mut(c).history.push(format!(
         "{}: {} ({ua}) -> {} ({ta}); whole scene",
         q.move_name, user.name, target.name
@@ -137,6 +152,7 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
     if !enabled(c) {
         return Ok(());
     }
+    transfers::lifecycle(before, c, cat)?;
     let ps = c.battle.as_ref().unwrap().combatants.clone();
     let active: BTreeSet<_> = ps
         .iter()
@@ -255,6 +271,14 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
                 p.selected_ability,
                 if a.is_empty() { "negated" } else { &a }
             ));
+            let contact_changed = transfers::enabled(c)
+                && transfers::contact_copy(c, &p.id).is_some()
+                && transfers::contact_copy(c, &p.id)
+                    != before
+                        .battle
+                        .as_ref()
+                        .and_then(|b| b.flow.as_ref())
+                        .and_then(|f| f.transfers.contact_overrides.get(&p.id));
             let b = c.battle.as_mut().unwrap();
             if p.selected_ability == "Comatose" && a != "Comatose" {
                 b.combatants
@@ -274,9 +298,14 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
             f.intimidate.remove(&p.id);
             f.extra.active.remove(&p.id);
             f.battlefield.known_active.remove(&p.id);
-            // Unresolved optional events from the lost ability cannot fire later.
-            f.ability_events
-                .retain(|e| e.combatant_id != p.id || e.kind == "ability-gas");
+            // A contact replacement does not undo a reaction already triggered
+            // by that same hit. Other obsolete events retain the existing cleanup.
+            f.ability_events.retain(|e| {
+                e.combatant_id != p.id
+                    || e.kind == "ability-gas"
+                    || (contact_changed
+                        && ["contact", "retaliate", "extra-poison"].contains(&e.kind.as_str()))
+            });
             if f.battlefield
                 .weather
                 .as_ref()
@@ -396,4 +425,32 @@ pub fn gas_ruling(c: &mut Campaign, e: &abilities::AbilityEvent, actor: &str) ->
         e.target_id
     ));
     Ok(())
+}
+
+pub(super) fn assign(c: &mut Campaign, id: &str, ability: &str) {
+    let original = c
+        .battle
+        .as_ref()
+        .unwrap()
+        .combatants
+        .iter()
+        .find(|p| p.id == id)
+        .unwrap()
+        .selected_ability
+        .clone();
+    state_mut(c).originals.entry(id.into()).or_insert(original);
+    state_mut(c).trace.remove(id);
+    flow_mut(c)
+        .transfers
+        .contact_overrides
+        .insert(id.into(), ability.into());
+}
+pub(super) fn clear_assignment(c: &mut Campaign, id: &str) {
+    state_mut(c).assignments.remove(id);
+    state_mut(c).trace.remove(id);
+    transfers::clear_contact(c, id);
+}
+
+pub(super) fn identity(c: &Campaign, p: &Combatant) -> String {
+    assigned(c, p)
 }

@@ -2,7 +2,8 @@ use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 use ts_rs::TS;
 
-pub const ENGINE: &str = "0.11.0-core";
+pub const ENGINE: &str = "0.12.0-core";
+pub const ASSIGNMENT_ENGINE: &str = "0.11.0-core";
 pub const DECOY_ENGINE: &str = "0.10.0-core";
 pub const TACTICS_ENGINE: &str = "0.9.0-core";
 pub const SPECIAL_ENGINE: &str = "0.8.0-core";
@@ -15,6 +16,7 @@ pub const PREVIOUS_ENGINE: &str = "0.2.0-core";
 pub fn core_engine(engine: &str) -> bool {
     [
         ENGINE,
+        ASSIGNMENT_ENGINE,
         DECOY_ENGINE,
         TACTICS_ENGINE,
         SPECIAL_ENGINE,
@@ -28,7 +30,7 @@ pub fn core_engine(engine: &str) -> bool {
     .contains(&engine)
 }
 pub const LEGACY_ENGINE: &str = "0.1.0-manual";
-pub const PROTOCOL: u32 = 19;
+pub const PROTOCOL: u32 = 20;
 pub fn enabled() -> bool {
     true
 }
@@ -290,6 +292,8 @@ pub struct BattleResources {
 #[derive(Debug, Clone, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct BattleCheckpoint {
+    #[serde(default)]
+    pub ability_inheritance: Option<crate::combat::transfers::Inheritance>,
     pub event_sequence: u32,
     pub description: String,
     pub battle: Battle,
@@ -310,6 +314,8 @@ pub struct Event {
 #[derive(Debug, Clone, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct Campaign {
+    #[serde(default)]
+    pub ability_inheritance: crate::combat::transfers::Inheritance,
     pub id: String,
     pub name: String,
     pub gm_id: String,
@@ -357,6 +363,7 @@ impl Campaign {
             rules_profile: RulesProfile::default(),
             proposals: vec![],
             training_encounters: vec![],
+            ability_inheritance: Default::default(),
         }
     }
 }
@@ -399,6 +406,10 @@ pub enum Action {
         reason: String,
     },
     StartTurns,
+    AbilityTransfer {
+        command: crate::combat::transfers::TransferCommand,
+        reason: String,
+    },
     ResolveAbility {
         event_id: String,
         choice: String,

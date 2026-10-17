@@ -143,7 +143,8 @@ pub fn coverage(c: &Campaign, name: &str) -> Option<&'static str> {
             .expect("valid owned ability registry")
     });
     let entry = &REGISTRY["entries"][name];
-    if (entry["introduced_engine"] == "0.11.0-core" && !ability_changes::enabled(c))
+    if (entry["introduced_engine"] == "0.12.0-core" && !transfers::enabled(c))
+        || (entry["introduced_engine"] == "0.11.0-core" && !ability_changes::enabled(c))
         || (entry["introduced_engine"] == "0.10.0-core" && !decoys::enabled(c))
         || (entry["introduced_engine"] == "0.9.0-core" && !tactics::enabled(c))
         || (entry["introduced_engine"] == "0.7.0-core" && !extra::enabled(c))
@@ -394,6 +395,7 @@ pub fn hit(
     q: &QueuedAction,
     before_hp: i32,
     m: &serde_json::Value,
+    cat: &Catalog,
 ) -> Result<()> {
     if !enabled(c) || q.actor_id == q.target_id {
         return Ok(());
@@ -453,6 +455,7 @@ pub fn hit(
         ),
         _ => {}
     }
+    transfers::hit(c, q, m, cat)?;
     extra::hit(c, q, before_hp, m)?;
     tactics::hit(c, q, m)?;
     if move_immune(c, &target, m)
@@ -563,6 +566,9 @@ pub fn dice(c: &Campaign, event_id: &str, choice: &str) -> Result<u32> {
     if !e.choices.iter().any(|v| v == choice) {
         return Err(error("Choose one of the recorded ability options"));
     }
+    if e.kind == "transfer-inherit" {
+        return Ok(0);
+    }
     if e.kind == "ability-gas" {
         return Ok(0);
     }
@@ -622,6 +628,8 @@ pub fn resolve(
     }
     if choice == "manual" {
         gm(c, actor)?;
+    } else if e.kind == "transfer-inherit" {
+        transfers::resolve(next, &e, choice, cat)?;
     } else if e.kind == "ability-gas" {
         ability_changes::gas_ruling(next, &e, actor)?;
     } else if e.kind == "ability-trace" {

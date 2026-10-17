@@ -1,6 +1,6 @@
 # PokeVerse — remaining work
 
-Snapshot: 17 October 2026, application 0.18.0, protocol 19, user database schema 4.
+Snapshot: 17 October 2026, application 0.19.0, protocol 20, user database schema 4.
 
 The Training Point milestone below is implemented. Remaining battle, catalog and native acceptance work stays open.
 
@@ -162,4 +162,8 @@ Implemented typed weather, terrain, screens, rooms, temporary typing, arena hook
 
 ## Temporary abilities (0.18.0)
 
-Implemented Skill Swap, Role Play, Worry Seed, Simple Beam, Gastro Acid, host-random Trace and foe-only Neutralizing Gas with rank-limited range. Permanent sheets remain unchanged; scene assignments and Trace have separate lifetime rules. [Details and remaining boundaries](battle-ability-changes.md). Copying/transfer through other abilities, Mold Breaker bypass, held items and transformations remain open.
+Implemented Skill Swap, Role Play, Worry Seed, Simple Beam, Gastro Acid, host-random Trace and foe-only Neutralizing Gas with rank-limited range. Permanent sheets remain unchanged; scene assignments and Trace have separate lifetime rules. [Details and remaining boundaries](battle-ability-changes.md). The 0.19.0 section below covers the next contact/inheritance families. Remaining bypass, held-item and transformation work is still open.
+
+## Contact and inheritance (0.19.0)
+
+Mummy, Lingering Aroma and outgoing Wandering Spirit are implemented. Receiver and Power of Alchemy support witnessed ally fainting, one active copy, campaign persistence and exact 24-hour expiry under a GM game-time clock. Narrative acquisition outside witnessed fainting and mid-combat selection timing remain adjudicated. [Scope and remaining dependencies](battle-ability-transfers.md). Mold Breaker/Teravolt/Turboblaze bypass is the next separate milestone.

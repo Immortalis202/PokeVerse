@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "engine": "0.11.0-core",
+  "engine": "0.12.0-core",
   "default_status": "manual",
   "entries": {
     "Adaptability": {
@@ -921,12 +921,11 @@
       "introduced_engine": "0.5.0-core"
     },
     "Lingering Aroma": {
-      "status": "manual",
-      "scope": "Requires copied/transferred ability identity or attribute provenance and lifetime rules.",
+      "status": "automated",
+      "scope": "Outgoing and incoming non-ranged Physical hits change the foe ability to Lingering Aroma. Unique abilities prevail; immunity, Long Reach, decoys and suppression are respected. Contact assignments end on removal or scene end.",
       "page": 553,
-      "dependencies": [
-        "ability-copy-and-transfer"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.12.0-core"
     },
     "Liquid Ooze": {
       "status": "automated",
@@ -1091,12 +1090,11 @@
       ]
     },
     "Mummy": {
-      "status": "manual",
-      "scope": "Requires copied/transferred ability identity or attribute provenance and lifetime rules.",
+      "status": "automated",
+      "scope": "Outgoing and incoming non-ranged Physical hits change the foe ability to Mummy. Unique abilities prevail; immunity, Long Reach, decoys and suppression are respected. Contact assignments end on removal or scene end.",
       "page": 557,
-      "dependencies": [
-        "ability-copy-and-transfer"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.12.0-core"
     },
     "Mycelium Might": {
       "status": "manual",
@@ -1281,12 +1279,14 @@
       "introduced_engine": "0.7.0-core"
     },
     "Power of Alchemy": {
-      "status": "manual",
-      "scope": "Requires copied/transferred ability identity or attribute provenance and lifetime rules.",
+      "status": "partial",
+      "scope": "On active allies fainting, store multiple eligible ability snapshots for 1440 game minutes, with one active copy. Acquisition requires Power of Alchemy to be active; selecting within combat requires a GM timing ruling. Campaign clock, provenance and rollback persist.",
       "page": 560,
       "dependencies": [
-        "ability-copy-and-transfer"
-      ]
+        "GM ruling for selection timing during combat",
+        "Narrative acquisition outside witnessed campaign fainting"
+      ],
+      "introduced_engine": "0.12.0-core"
     },
     "Prankster": {
       "status": "partial",
@@ -1420,12 +1420,13 @@
       "introduced_engine": "0.7.0-core"
     },
     "Receiver": {
-      "status": "manual",
-      "scope": "Requires copied/transferred ability identity or attribute provenance and lifetime rules.",
+      "status": "partial",
+      "scope": "On an active ally fainting, the owner chooses one eligible ability snapshot. One unexpired copy, preserved in campaign state for 1440 game minutes; the GM advances game time between encounters. Unique donor abilities cannot be copied.",
       "page": 563,
       "dependencies": [
-        "ability-copy-and-transfer"
-      ]
+        "Narrative acquisition outside witnessed campaign fainting"
+      ],
+      "introduced_engine": "0.12.0-core"
     },
     "Reckless": {
       "status": "partial",
@@ -2119,12 +2120,11 @@
       "introduced_engine": "0.5.0-core"
     },
     "Wandering Spirit": {
-      "status": "manual",
-      "scope": "Requires copied/transferred ability identity or attribute provenance and lifetime rules.",
+      "status": "automated",
+      "scope": "When the holder hits a foe with a non-ranged Physical move, exchange their effective ability identities. Does not trigger merely from receiving a hit. Unique abilities cannot be switched; contact assignments end on removal or scene end.",
       "page": 577,
-      "dependencies": [
-        "ability-copy-and-transfer"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.12.0-core"
     },
     "Water Absorb": {
       "status": "automated",

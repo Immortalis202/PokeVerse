@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.11.0-core",
-  "release": "0.18.0",
-  "protocol": 19,
+  "engine": "0.12.0-core",
+  "release": "0.19.0",
+  "protocol": 20,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -315,9 +315,22 @@
         "ability_changes_trace_uses_host_dice_owner_permissions_and_restores_on_exit",
         "ability_changes_huge_power_bonus_tracks_the_effective_ability_once"
       ]
+    },
+    {
+      "id": "contact-ability-inheritance",
+      "status": "partial",
+      "source": "MASTER 534,553,557,560,563,577",
+      "scope": "Mummy and Lingering Aroma in both contact directions, outgoing-only Wandering Spirit, Receiver and Power of Alchemy fainting offers, 24-hour campaign game-time ledger, one active copy, host validation and rollback. Mid-combat selection timing and acquisition outside witnessed battle fainting require GM adjudication.",
+      "fixtures": [
+        "transfer_mummy_and_aroma_spread_on_both_contact_directions_without_sheet_edits",
+        "transfer_wandering_spirit_swaps_only_when_its_user_hits",
+        "transfer_receiver_chooses_one_simultaneous_donor_and_alchemy_can_store_all",
+        "transfer_time_is_gm_only_between_battles_and_expiry_is_exact",
+        "transfer_inherited_ledger_rolls_back_with_the_ability_event"
+      ]
     }
   ],
-  "ability_registry_hash": "c8fac1ee584b2ef8eadf389ea494fb6a62eca2d0ec4e0221151b4c242cea8f04",
+  "ability_registry_hash": "a30a7116ea04f7cffc684ea581c3e686272280393a184769ec3715c3746e0006",
   "special_registry_hash": "d984302375b329116f9b315c01c06e881b7d6b5ca869c2263c50052e3e761102",
   "tactics_registry_hash": "ee6fed55b8201e9959a5e143f1cef57fe5c9b4f81656d01e04e5cb9649fd1d7b"
 }

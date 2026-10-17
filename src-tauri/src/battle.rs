@@ -10,6 +10,7 @@ pub fn transition(
 ) -> Result<(Campaign, String)> {
     if [
         ENGINE,
+        ASSIGNMENT_ENGINE,
         DECOY_ENGINE,
         TACTICS_ENGINE,
         SPECIAL_ENGINE,
@@ -256,6 +257,12 @@ pub fn transition(
             p.hp = p.hp.min(*max_hp);
             format!("GM corrected battle-only stats for {}: {reason}", p.name)
         }
+        Action::AbilityTransfer { .. } => {
+            return Err(AppError::new(
+                "version",
+                "Ability transfer requires the current engine",
+            ))
+        }
         Action::RollbackBattle {
             event_sequence,
             reason,
@@ -283,6 +290,9 @@ pub fn transition(
                     "battle",
                     "Cannot roll back a different encounter",
                 ));
+            }
+            if let Some(inheritance) = checkpoint.ability_inheritance {
+                c.ability_inheritance = inheritance;
             }
             c.battle = Some(checkpoint.battle);
             c.finished_battles
@@ -336,6 +346,7 @@ pub fn transition(
             }
             if ![
                 ENGINE,
+                ASSIGNMENT_ENGINE,
                 DECOY_ENGINE,
                 TACTICS_ENGINE,
                 SPECIAL_ENGINE,
@@ -988,7 +999,7 @@ pub fn transition(
             }
         }
     };
-    // Rollback restores only battle state and HP/conditions, never identities, receipts or event history.
+    // Rollback restores battle/resources and campaign ability inheritance, never identities, receipts or event history.
     if matches!(
         action,
         Action::StartBattle { .. }
@@ -1028,6 +1039,7 @@ pub fn transition(
                     .ok_or_else(|| AppError::new("limit", "Revision exhausted"))?,
                 description: description.clone(),
                 battle: b.clone(),
+                ability_inheritance: Some(current.ability_inheritance.clone()),
                 resources,
                 finished_count: current.finished_battles.len() as u32,
             });

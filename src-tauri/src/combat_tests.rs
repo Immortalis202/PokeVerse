@@ -15,6 +15,8 @@ mod special_tests;
 mod tactics_tests;
 #[path = "combat_tests/targeting_tests.rs"]
 mod targeting_tests;
+#[path = "combat_tests/transfer_tests.rs"]
+mod transfer_tests;
 fn fixture(name: &str) -> (Campaign, String, String) {
     let (mut c, a, t) = damage_fixture(name, "Charmander", false);
     c.engine = ENGINE.into();

@@ -11,6 +11,7 @@ pub(crate) mod field;
 pub(crate) mod special;
 pub(crate) mod tactics;
 mod targeting;
+pub(crate) mod transfers;
 use targeting::*;
 #[derive(Debug, Clone, Default, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
@@ -49,6 +50,8 @@ pub struct Status {
 #[derive(Debug, Clone, Default, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct TurnFlow {
+    #[serde(default)]
+    pub transfers: transfers::TransferState,
     #[serde(default)]
     pub ability_changes: ability_changes::AbilityChanges,
     #[serde(default)]
@@ -712,6 +715,9 @@ fn ice_damage_pool(c: &Campaign, q: &QueuedAction, modifier: i32, cat: &Catalog)
     Ok(n as u32)
 }
 pub fn dice_count(c: &Campaign, a: &Action, cat: &Catalog) -> Result<u32> {
+    if let Action::AbilityTransfer { command, .. } = a {
+        return transfers::dice(c, command);
+    }
     tactics::phase(c, a)?;
     abilities::phase(c, a)?;
     field::phase(c, a)?;
@@ -894,6 +900,9 @@ fn install_pending(c: &mut Campaign, q: &QueuedAction) {
 }
 pub fn preview(c: &Campaign, a: &Action, cat: &Catalog) -> Result<ActionPreview> {
     let dice = rules::dice_count(c, a, cat)?;
+    if matches!(a, Action::AbilityTransfer { .. }) {
+        return Ok(ActionPreview{dice,warnings:vec!["Campaign game-time clock; 24 hours = 1440 minutes. Selection never changes permanent sheets. During combat the GM confirms selection timing; advance time between battles.".into()],source:"MASTER 534,560,563".into()});
+    }
     let mut warnings=vec!["Preview rolls no dice and spends no resources. The host validates the current revision on commit.".into()];
     warnings.extend(special::preview_notes(c, a, cat)?);
     if decoys::enabled(c) {
@@ -1019,6 +1028,7 @@ fn checkpoint(current: &Campaign, next: &mut Campaign, description: &str) {
             event_sequence: current.revision + 1,
             description: description.into(),
             battle: b.clone(),
+            ability_inheritance: Some(current.ability_inheritance.clone()),
             resources: b
                 .combatants
                 .iter()
@@ -1049,6 +1059,23 @@ pub fn transition(
     dice: Vec<u8>,
     cat: &Catalog,
 ) -> Result<(Campaign, String)> {
+    if let Action::AbilityTransfer { command, reason } = a {
+        check_count(&dice, 0)?;
+        let mut next = c.clone();
+        let log = transfers::command(&mut next, actor, command, reason, cat)?;
+        if next.battle.as_ref().is_some_and(|b| b.active) {
+            ability_changes::lifecycle(c, &mut next, cat)?;
+            field::lifecycle(c, &mut next, cat)?;
+            abilities::lifecycle(c, &mut next)?;
+            extra::lifecycle(c, &mut next, cat)?;
+            refresh_initiative(c, &mut next)?;
+        }
+        if !next.battle.as_ref().is_some_and(|b| b.active) {
+            next.battle_undo.clear();
+        }
+        checkpoint(c, &mut next, &log);
+        return Ok((next, log));
+    }
     tactics::phase(c, a)?;
     abilities::phase(c, a)?;
     field::phase(c, a)?;
@@ -1663,10 +1690,10 @@ pub fn transition(
                                 (attacker_hp - to_att).max(0);
                         }
                         if !def_decoy {
-                            abilities::hit(&mut next, &incoming, p.hp, &attack)?;
+                            abilities::hit(&mut next, &incoming, p.hp, &attack, cat)?;
                         }
                         if !deferred_counter && !att_decoy {
-                            abilities::hit(&mut next, &counter, attacker_hp, &defend)?;
+                            abilities::hit(&mut next, &counter, attacker_hp, &defend, cat)?;
                         }
                     }
                 }
@@ -1948,7 +1975,7 @@ pub fn transition(
                         let p = fighter_mut(&mut next, &q.target_id)?;
                         let before_hp = p.hp;
                         p.hp = (p.hp - amount).max(0);
-                        abilities::hit(&mut next, &q, before_hp, &m)?;
+                        abilities::hit(&mut next, &q, before_hp, &m, cat)?;
                     }
                     finish(&mut next);
                     ability_changes::lifecycle(c, &mut next, cat)?;
@@ -2112,7 +2139,7 @@ pub fn transition(
             qa.damage = if decoy_hit { 0 } else { damage };
             qa.raw_damage_successes = raw_damage_successes;
             if !decoy_hit {
-                abilities::hit(&mut done, &q, before, &move_data)?;
+                abilities::hit(&mut done, &q, before, &move_data, cat)?;
             }
             let actual_damage = (before - fighter(&done, &q.target_id)?.hp).max(0);
             special::hit(
@@ -2441,26 +2468,38 @@ pub fn transition(
             ) {
                 let b = done.battle.as_mut().unwrap();
                 b.flow = Some(TurnFlow {
-                    ability_changes: ability_changes::AbilityChanges {
+                    transfers: transfers::TransferState {
                         enabled: c.engine == ENGINE,
                         ..Default::default()
                     },
+                    ability_changes: ability_changes::AbilityChanges {
+                        enabled: [ENGINE, ASSIGNMENT_ENGINE].contains(&c.engine.as_str()),
+                        ..Default::default()
+                    },
                     decoys: decoys::DecoyState {
-                        enabled: [ENGINE, DECOY_ENGINE].contains(&c.engine.as_str()),
+                        enabled: [ENGINE, ASSIGNMENT_ENGINE, DECOY_ENGINE]
+                            .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     tactics: tactics::TacticsState {
-                        enabled: [ENGINE, DECOY_ENGINE, TACTICS_ENGINE]
+                        enabled: [ENGINE, ASSIGNMENT_ENGINE, DECOY_ENGINE, TACTICS_ENGINE]
                             .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     special: special::SpecialState {
-                        enabled: [ENGINE, DECOY_ENGINE, TACTICS_ENGINE, SPECIAL_ENGINE]
-                            .contains(&c.engine.as_str()),
+                        enabled: [
+                            ENGINE,
+                            ASSIGNMENT_ENGINE,
+                            DECOY_ENGINE,
+                            TACTICS_ENGINE,
+                            SPECIAL_ENGINE,
+                        ]
+                        .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     ability_rules: [
                         ENGINE,
+                        ASSIGNMENT_ENGINE,
                         DECOY_ENGINE,
                         TACTICS_ENGINE,
                         SPECIAL_ENGINE,
@@ -2472,6 +2511,7 @@ pub fn transition(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            ASSIGNMENT_ENGINE,
                             DECOY_ENGINE,
                             TACTICS_ENGINE,
                             SPECIAL_ENGINE,
@@ -2483,6 +2523,7 @@ pub fn transition(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            ASSIGNMENT_ENGINE,
                             DECOY_ENGINE,
                             TACTICS_ENGINE,
                             SPECIAL_ENGINE,

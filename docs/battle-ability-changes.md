@@ -29,3 +29,5 @@ This milestone does not implement Mummy, Lingering Aroma, Receiver, Power of Alc
 Run focused tests with `cargo test --manifest-path src-tauri/Cargo.toml --lib ability_changes_`. `npm run test:3v3` includes both the full twelve-Pokémon gym replay and the strict Ralts/Trace four-installation variant with owner permissions, duplicate receipts, rollback, reconnect and database reopening. No GUI executable is launched by these tests. Physical LAN and interactive native use require separate verification.
 
 Validation: 324 Rust tests, 25 frontend tests and 12 catalog checks passed; Clippy all targets passed with warnings denied. The full suite includes the complete gym replay and the Trace four-installation variant. Native interactive execution and physical LAN have not been exercised for this release.
+
+Release 0.19.0 adds the next [contact and fainted-ally inheritance families](battle-ability-transfers.md); the exclusions above describe this 0.18.0 milestone.

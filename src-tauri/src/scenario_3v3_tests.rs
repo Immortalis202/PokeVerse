@@ -57,7 +57,7 @@ fn request(sheet: &Sheet, trainer: Option<&Sheet>) -> WorkflowRequest {
         reason: "Validated headless gym fixture".into(),
     }
 }
-fn fixture(owners: &[String; 4], trace: bool) -> (Campaign, Action) {
+fn fixture(owners: &[String; 4], variant: &str) -> (Campaign, Action) {
     let cat = catalog();
     let mut c = Campaign::new(
         "Headless 3v3 gym".into(),
@@ -104,11 +104,23 @@ fn fixture(owners: &[String; 4], trace: bool) -> (Campaign, Action) {
             p.moves = ["Tackle", "Quick Attack", "Swift", "Bite"]
                 .map(String::from)
                 .into();
-            if trace && role == 1 && n == 0 {
+            if variant == "trace" && role == 1 && n == 0 {
                 p.name = "Trace Ralts".into();
                 p.species_id = Some("0280:ralts".into());
                 p.ability = "Trace".into();
                 p.moves = vec!["Growl".into(), "Confusion".into()];
+            }
+            if variant == "transfer" && role == 1 && n == 0 {
+                p.name = "Receiver Passimian".into();
+                p.species_id = Some("0766:passimian".into());
+                p.ability = "Receiver".into();
+                p.moves = vec!["Tackle".into()];
+            }
+            if variant == "transfer" && role == 3 && n == 0 {
+                p.name = "Lingering Aroma Oinkologne".into();
+                p.species_id = Some("0916:oinkologne-male-form".into());
+                p.ability = "Lingering Aroma".into();
+                p.moves = vec!["Tackle".into()];
             }
             let mut build = creation::build(&p, &cat);
             build.origin = "starter".into();
@@ -237,6 +249,9 @@ impl Driver {
         Self::with_trace(network, false).await
     }
     async fn with_trace(network: bool, trace: bool) -> Self {
+        Self::variant(network, if trace { "trace" } else { "ordinary" }).await
+    }
+    async fn variant(network: bool, variant: &str) -> Self {
         let dirs: Vec<_> = (0..if network { 4 } else { 0 })
             .map(|_| tempfile::tempdir().unwrap())
             .collect();
@@ -249,7 +264,7 @@ impl Driver {
         } else {
             ["host", "player-1", "player-2", "gm"].map(String::from)
         };
-        let (c, start) = fixture(&owners, trace);
+        let (c, start) = fixture(&owners, variant);
         let cat = catalog();
         let net = if network {
             stores[0].lock().unwrap().put_campaign(&c).unwrap();
@@ -1088,4 +1103,184 @@ async fn scenario_3v3_trace_websocket_owner_receipts_rollback_reconnect() {
     })
     .await
     .expect("Trace 3v3 deadline exceeded");
+}
+
+#[tokio::test]
+async fn scenario_3v3_contact_inheritance_clock_and_reconnect() {
+    use crate::combat::transfers::TransferCommand;
+    tokio::time::timeout(Duration::from_secs(120), async {
+        let mut d = Driver::variant(true, "transfer").await;
+        d.step(3, d.start.clone(), 1, None).await;
+        let players: Vec<_> = (0..3).map(|r| d.pokemon(r, 0)).collect();
+        let gyms: Vec<_> = (0..3).map(|n| d.pokemon(3, n)).collect();
+        for (id, face) in players.iter().chain(&gyms).zip([6, 5, 4, 3, 2, 1]) {
+            d.step(
+                d.role(id),
+                Action::Initiative {
+                    combatant_id: id.clone(),
+                },
+                face,
+                None,
+            )
+            .await;
+        }
+        d.step(3, Action::StartTurns, 1, None).await;
+        d.step(
+            0,
+            attack(&players[0], vec![gyms[0].clone()], "Tackle"),
+            4,
+            Some(2),
+        )
+        .await;
+        d.step(
+            3,
+            Action::PassReaction {
+                combatant_id: gyms[0].clone(),
+                reason: "Allow qualifying contact".into(),
+            },
+            1,
+            None,
+        )
+        .await;
+        let before = serde_json::to_value(d.b()).unwrap();
+        d.step(0, damage_command(&d.c), 4, Some(1)).await;
+        assert_eq!(d.p(&players[0]).selected_ability, "Lingering Aroma");
+        let receipt = d.last.clone().unwrap();
+        d.retry(&receipt).await;
+        d.reconnect(3).await;
+        let event = d.c.battle_undo.last().unwrap().event_sequence;
+        d.step(
+            3,
+            Action::RollbackBattle {
+                event_sequence: event,
+                reason: "Review contact propagation".into(),
+            },
+            1,
+            None,
+        )
+        .await;
+        assert_eq!(serde_json::to_value(d.b()).unwrap(), before);
+        d.retry(&receipt).await;
+        d.step(0, damage_command(&d.c), 4, Some(1)).await;
+        for _ in 0..4 {
+            if d.f().order[d.f().cursor] == gyms[0] {
+                break;
+            }
+            d.hold().await;
+        }
+        assert_eq!(d.f().order[d.f().cursor], gyms[0]);
+        for _ in 0..3 {
+            if d.p(&players[0]).hp == 0 {
+                break;
+            }
+            let gym = d.f().order[d.f().cursor].clone();
+            assert_eq!(d.role(&gym), 3);
+            d.step(3, attack(&gym, vec![players[0].clone()], "Tackle"), 6, None)
+                .await;
+            d.step(
+                0,
+                Action::PassReaction {
+                    combatant_id: players[0].clone(),
+                    reason: "Take gym hit".into(),
+                },
+                1,
+                None,
+            )
+            .await;
+            d.step(3, damage_command(&d.c), 6, None).await;
+        }
+        assert_eq!(d.p(&players[0]).hp, 0);
+        let event = d.f().ability_events[0].clone();
+        assert_eq!(event.kind, "transfer-inherit");
+        let action = Action::ResolveAbility {
+            event_id: event.id,
+            choice: "activate:0".into(),
+            reason: "Receiver copies fainted ally's current ability".into(),
+        };
+        d.reject(0, action.clone(), "own").await;
+        let before = serde_json::to_value(d.b()).unwrap();
+        d.step(1, action.clone(), 1, None).await;
+        assert_eq!(d.p(&players[1]).selected_ability, "Lingering Aroma");
+        assert_eq!(d.c.ability_inheritance.copies.len(), 1);
+        assert_eq!(d.c.sheets[&d.p(&players[1]).sheet_id].ability, "Receiver");
+        let receipt = d.last.clone().unwrap();
+        d.retry(&receipt).await;
+        d.reconnect(1).await;
+        let event = d.c.battle_undo.last().unwrap().event_sequence;
+        d.step(
+            3,
+            Action::RollbackBattle {
+                event_sequence: event,
+                reason: "Review inherited ability provenance".into(),
+            },
+            1,
+            None,
+        )
+        .await;
+        assert!(d.c.ability_inheritance.copies.is_empty());
+        assert_eq!(serde_json::to_value(d.b()).unwrap(), before);
+        d.retry(&receipt).await;
+        d.step(1, action, 1, None).await;
+        d.step(3, Action::EndBattle, 1, None).await;
+        let advance = Action::AbilityTransfer {
+            command: TransferCommand::Advance { minutes: 1439 },
+            reason: "23 game hours and 59 minutes pass".into(),
+        };
+        d.reject(0, advance.clone(), "GM").await;
+        d.step(3, advance, 1, None).await;
+        let receipt = d.last.clone().unwrap();
+        d.retry(&receipt).await;
+        assert_eq!(d.c.ability_inheritance.minutes, 1439);
+        let mut start = d.start.clone();
+        if let Action::StartTeamBattle {
+            active_sheet_ids, ..
+        } = &mut start
+        {
+            active_sheet_ids.retain(|id| id != "scenario-pokemon-0-0");
+            active_sheet_ids.push("scenario-pokemon-0-1".into());
+        }
+        d.identities.clear();
+        d.seen.clear();
+        d.step(3, start, 1, None).await;
+        let receiver = d.pokemon(1, 0);
+        assert_eq!(d.p(&receiver).selected_ability, "Lingering Aroma");
+        assert_eq!(d.f().ability_changes.originals[&receiver], "Receiver");
+        d.reconnect(1).await;
+        d.step(3, Action::EndBattle, 1, None).await;
+        d.step(
+            3,
+            Action::AbilityTransfer {
+                command: TransferCommand::Advance { minutes: 1 },
+                reason: "24-hour copy expires".into(),
+            },
+            1,
+            None,
+        )
+        .await;
+        assert_eq!(d.c.ability_inheritance.minutes, 1440);
+        assert!(d.c.ability_inheritance.selected.is_empty());
+        d.reconnect(3).await;
+        if let Some(net) = d.net.take() {
+            net.close().await;
+        }
+        let reopened = Store::open(d._dirs[0].path()).unwrap();
+        assert_eq!(
+            serde_json::to_value(reopened.campaigns().unwrap().remove(0)).unwrap(),
+            serde_json::to_value(&d.c).unwrap()
+        );
+    })
+    .await
+    .expect("3v3 contact/inheritance deadline exceeded");
+}
+
+fn damage_command(c: &Campaign) -> Action {
+    let q = &c.battle.as_ref().unwrap().flow.as_ref().unwrap().queue[0];
+    Action::Damage {
+        combatant_id: q.actor_id.clone(),
+        sequence: q.sequence,
+        pool_modifier: 0,
+        success_modifier: 0,
+        damage_modifier: 0,
+        reason: "Scenario contact/inheritance damage".into(),
+    }
 }

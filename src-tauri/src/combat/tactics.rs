@@ -636,7 +636,7 @@ fn flush_clashes(c: &mut Campaign, cat: &Catalog) -> Result<()> {
         }
         state_mut(c).clash_damage.insert(seq, amount);
         if !decoy_hit {
-            abilities::hit(c, &q, hp, &m)?;
+            abilities::hit(c, &q, hp, &m, cat)?;
         }
         if fighter(c, &q.target_id)?.hp == 0 {
             for pending in &mut flow_mut(c).queue {

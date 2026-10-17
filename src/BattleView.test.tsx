@@ -34,6 +34,7 @@ const sheets = Object.fromEntries(
 );
 const profile = { version: 1, defenses: "split", hp: "vitality" };
 const campaign: Campaign = {
+  ability_inheritance: { minutes: 0, copies: {}, selected: {}, history: [] },
   id: "campaign",
   name: "Gym",
   host_id: "host",
@@ -187,6 +188,13 @@ describe("structured core battle controls", () => {
         automatic_validation: true,
         combatants,
         flow: {
+          transfers: {
+            enabled: false,
+            contact_overrides: {},
+            seen: [],
+            offers: {},
+            history: [],
+          },
           ability_changes: {
             enabled: false,
             originals: {},

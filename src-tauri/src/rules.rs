@@ -191,6 +191,7 @@ pub fn accuracy(
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
     if [
         ENGINE,
+        ASSIGNMENT_ENGINE,
         DECOY_ENGINE,
         TACTICS_ENGINE,
         SPECIAL_ENGINE,
@@ -393,32 +394,7 @@ pub fn damage_pool(
     } else {
         0
     };
-    let mut effectiveness = 0;
-    let mut immune = false;
-    for t in crate::combat::field::types(c, target, catalog)? {
-        let effect = if crate::combat::extra::ignores_ghost(c, attacker, move_type, &t) {
-            0
-        } else {
-            type_effect(move_type, &t)?
-        };
-        let effect = if crate::combat::extra::enabled(c)
-            && attacker.selected_ability == "Corrosion"
-            && move_type == "Poison"
-            && effect == -100
-        {
-            0
-        } else {
-            effect
-        };
-        immune |= effect == -100
-            && !(move_type == "Ground"
-                && t == "Flying"
-                && (crate::combat::field::has(c, "Gravity", target)
-                    || crate::combat::special::roost(c, &target.id)));
-        if effect != -100 {
-            effectiveness += effect;
-        }
-    }
+    let (mut effectiveness, mut immune) = type_matchup(c, attacker, target, move_type, catalog)?;
     if crate::combat::field::weather(c, Some(target))
         == Some(crate::combat::field::Weather::StrongWinds)
         && crate::combat::field::types(c, target, catalog)?
@@ -552,4 +528,41 @@ pub fn type_effect(attack: &str, defense: &str) -> Result<i32> {
     } else {
         0
     })
+}
+
+/// Shared type-immunity calculation for damage and qualifying contact hooks.
+pub fn type_matchup(
+    c: &Campaign,
+    attacker: &Combatant,
+    target: &Combatant,
+    move_type: &str,
+    catalog: &Catalog,
+) -> Result<(i32, bool)> {
+    let mut effectiveness = 0;
+    let mut immune = false;
+    for t in crate::combat::field::types(c, target, catalog)? {
+        let effect = if crate::combat::extra::ignores_ghost(c, attacker, move_type, &t) {
+            0
+        } else {
+            type_effect(move_type, &t)?
+        };
+        let effect = if crate::combat::extra::enabled(c)
+            && attacker.selected_ability == "Corrosion"
+            && move_type == "Poison"
+            && effect == -100
+        {
+            0
+        } else {
+            effect
+        };
+        immune |= effect == -100
+            && !(move_type == "Ground"
+                && t == "Flying"
+                && (crate::combat::field::has(c, "Gravity", target)
+                    || crate::combat::special::roost(c, &target.id)));
+        if effect != -100 {
+            effectiveness += effect;
+        }
+    }
+    Ok((effectiveness, immune))
 }

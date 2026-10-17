@@ -1,10 +1,10 @@
-# PokeVerse v0.18.0
+# PokeVerse v0.19.0
 
-Current release: **0.18.0**, engine **0.11.0-core**, protocol **19**, schema **4**. [Temporary ability automation](docs/battle-ability-changes.md).
+Current release: **0.19.0**, engine **0.12.0-core**, protocol **20**, schema **4**. [Contact and inheritance automation](docs/battle-ability-transfers.md).
 
 Windows desktop workspace for Pokerole 3.0. Built with Tauri 2, React/TypeScript, and Rust. Each installation keeps its library locally and can host a persistent campaign over LAN or a private VPN.
 
-The default Nocturne workspace uses RodeoPokemon's dark purple palette, a compact navigation rail and a toolbar with campaign, connection and separate host/GM status. Creation, progression, training encounters and battles retain their existing workflows. Version 0.18.0 uses protocol 19 and retains database schema 4; all room clients must use matching builds.
+The default Nocturne workspace uses RodeoPokemon's dark purple palette, a compact navigation rail and a toolbar with campaign, connection and separate host/GM status. Creation, progression, training encounters and battles retain their existing workflows. Version 0.19.0 uses protocol 20 and retains database schema 4; all room clients must use matching builds.
 
 ## Run
 
@@ -121,3 +121,5 @@ Special moves in 0.15.0: [reviewed behavior, controls and explicit limits](docs/
 Targeting/reactions in 0.16.0: [multi-target responses, redirection and controlled replacements](docs/battle-reactions.md). Reviewed abilities and switcher moves use the host engine; protocol 17 and matching builds are required. Pending owner choices, GM rulings and rollback retain stable encounter identities.
 
 Decoys in 0.17.0: [Substitute, Shed Tail and Snatch](docs/battle-decoys.md). Dynamax, all Max Moves (including Max Guard), and Z-Moves are out of scope and remain reference-only catalog entries.
+
+Contact transfers and campaign-scoped 24-hour inheritance are documented in [battle ability transfers](docs/battle-ability-transfers.md).

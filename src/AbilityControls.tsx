@@ -30,7 +30,9 @@ export default function AbilityControls({
   const owned =
     owner &&
     (gm ||
-      (!["extra-download", "ability-gas"].includes(event?.kind ?? "") &&
+      (!["extra-download", "ability-gas", "transfer-review"].includes(
+        event?.kind ?? "",
+      ) &&
         owner.owner_id === playerId));
   const command = (choice: string): Action => ({
     type: "resolve_ability",
@@ -56,6 +58,14 @@ export default function AbilityControls({
         suppression are recorded below. Supported passive effects apply
         automatically. Unsupported interactions require a GM ruling.
       </p>
+      {f.transfers?.enabled && (
+        <details>
+          <summary>Contact transfer history</summary>
+          {f.transfers.history.map((entry, i) => (
+            <p key={i}>{entry}</p>
+          ))}
+        </details>
+      )}
       {f.ability_changes?.enabled && (
         <details>
           <summary>Temporary ability history</summary>
@@ -227,20 +237,25 @@ export default function AbilityControls({
                       disabled={disabled}
                       onClick={() => execute(command(choice))}
                     >
-                      {choice === "neutral"
-                        ? "Deal 1 neutral damage"
-                        : choice === "roll"
-                          ? "Roll ability dice"
-                          : choice === "heal"
-                            ? "Restore 1 HP"
-                            : choice === "decline"
-                              ? "Decline"
-                              : choice === "simultaneous"
-                                ? "Confirm both Gas emitters remain active"
-                                : choice === "activate"
-                                  ? "Activate No Guard"
-                                  : (b.combatants.find((p) => p.id === choice)
-                                      ?.name ?? `Select ${choice}`)}
+                      {choice.startsWith("activate:")
+                        ? `Copy ${f.transfers?.offers[event.id]?.donors[Number(choice.slice(9))]?.ability ?? "ability"} from ${f.transfers?.offers[event.id]?.donors[Number(choice.slice(9))]?.name ?? "ally"}`
+                        : choice === "store"
+                          ? "Store all copies; keep Power of Alchemy active"
+                          : choice === "neutral"
+                            ? "Deal 1 neutral damage"
+                            : choice === "roll"
+                              ? "Roll ability dice"
+                              : choice === "heal"
+                                ? "Restore 1 HP"
+                                : choice === "decline"
+                                  ? "Decline"
+                                  : choice === "simultaneous"
+                                    ? "Confirm both Gas emitters remain active"
+                                    : choice === "activate"
+                                      ? "Activate No Guard"
+                                      : (b.combatants.find(
+                                          (p) => p.id === choice,
+                                        )?.name ?? `Select ${choice}`)}
                     </button>
                   </span>
                 ))}
