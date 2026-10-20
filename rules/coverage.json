@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.15.0-core",
-  "release": "0.22.0",
-  "protocol": 23,
+  "engine": "0.16.0-core",
+  "release": "0.23.0",
+  "protocol": 24,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -373,9 +373,24 @@
         "sequencing_room_distinct_owners_choose_copy_retry_reconnect_and_rollback"
       ],
       "scope": "All five action-sequencing ability rules, source-tracked checks/copies, two independent shared damage lanes, owner decisions and history. Unreviewed dance move effects retain explicit GM resolution."
+    },
+    {
+      "id": "ability-damage-provenance",
+      "status": "partial",
+      "source": "Supplied Pokerole 3.0 Tinted Lens, Unaware, Stakeout and Sheer Force cards",
+      "fixtures": [
+        "provenance_tinted_lens_ignores_exactly_one_resistance_and_preserves_immunity",
+        "provenance_unaware_uses_frozen_base_attributes_for_later_shared_targets",
+        "provenance_stakeout_tracks_real_replacement_and_adds_damage_only_once",
+        "provenance_stakeout_clash_consumes_once_and_preserves_type_immunity",
+        "provenance_sheer_force_successive_hits_each_keep_damage_and_suppress_poison",
+        "provenance_sheer_force_charge_preserves_original_choice_through_release",
+        "provenance_sheer_force_suppresses_chance_but_retains_recoil_attribute"
+      ],
+      "scope": "Versioned resistance removal, neutral foe attributes, replacement-triggered first-hit damage and explicit added-effect tradeoffs. Held-item added effects remain pending the item milestone."
     }
   ],
-  "ability_registry_hash": "8d3f1ce9c711e21a4dd74da13264093eac1df959ded711ab8aba31cf9e309f61",
+  "ability_registry_hash": "88df1ec24c45a0af393bc6c31beac7a13d67c358f1a0cc8abfec98f431cdc471",
   "special_registry_hash": "ef7d506fc98bed2d88c4c6d92fc0875de33c220fc01635894dbb60b53e9852fa",
   "tactics_registry_hash": "99b66de76eab04726a6a35dabdc8d8626e4816eb1bb0089dae7d1c8006179a14"
 }

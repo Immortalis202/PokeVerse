@@ -1724,6 +1724,9 @@ fn chance_dice(c: &Campaign, q: &QueuedAction) -> Result<u32> {
     }))
 }
 fn apply_chance(c: &mut Campaign, q: &QueuedAction, faces: &[u8], cat: &Catalog) -> Result<()> {
+    if provenance::enabled(c) && q.sheer_force {
+        return Ok(());
+    }
     if let Some((kind, _)) = chance(&q.move_name) {
         let m = move_entry(cat, &q.move_name)?;
         if !target_effects_blocked(c, q, &m)
@@ -1745,14 +1748,17 @@ pub fn effect_dice(c: &Campaign, q: &QueuedAction, cat: &Catalog) -> Result<Opti
     let m = move_entry(cat, &q.move_name)?;
     if m["Attributes"]["Recoil"] == true {
         return Ok(Some(
-            chance_dice(c, q)?
-                + if ["Rock Head", "Magic Guard"]
-                    .contains(&fighter(c, &q.actor_id)?.selected_ability.as_str())
-                {
-                    0
-                } else {
-                    q.raw_damage_successes
-                },
+            (if provenance::enabled(c) && q.sheer_force {
+                0
+            } else {
+                chance_dice(c, q)?
+            }) + if ["Rock Head", "Magic Guard"]
+                .contains(&fighter(c, &q.actor_id)?.selected_ability.as_str())
+            {
+                0
+            } else {
+                q.raw_damage_successes
+            },
         ));
     }
     if q.move_name == "Lunar Dance" {
@@ -2105,6 +2111,8 @@ pub fn resolve_formula(
     } else {
         (base + pool.effectiveness + damage_modifier).max(0)
     };
+    amount += provenance::stakeout_bonus(c, q, pool.immune);
+    provenance::consume_stakeout(c, q, pool.immune);
     if q.move_name == "Endeavor" {
         amount = amount.min((fighter(c, &q.target_id)?.hp - fighter(c, &q.actor_id)?.hp).max(0));
     }
@@ -2240,8 +2248,16 @@ pub fn bonus(
     }
     let name = m["Name"].as_str().unwrap_or("");
     let seq = flow(c)?.queue.first().map_or(0, |q| q.sequence);
-    let source = rules::effective_sheet(c, a)?;
-    let target = rules::effective_sheet(c, t)?;
+    let source = if provenance::ignores_attributes(c, t, a) {
+        rules::base_sheet(c, a)?
+    } else {
+        rules::effective_sheet(c, a)?
+    };
+    let target = if provenance::ignores_attributes(c, a, t) {
+        rules::base_sheet(c, t)?
+    } else {
+        rules::effective_sheet(c, t)?
+    };
     let happy = c.sheets[&a.sheet_id]
         .workflow
         .as_ref()

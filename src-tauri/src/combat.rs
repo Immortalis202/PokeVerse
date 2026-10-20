@@ -8,6 +8,7 @@ pub(crate) mod ability_changes;
 pub(crate) mod decoys;
 pub(crate) mod extra;
 pub(crate) mod field;
+pub(crate) mod provenance;
 pub(crate) mod reviewed;
 pub(crate) mod sequencing;
 pub(crate) mod special;
@@ -54,6 +55,8 @@ pub struct Status {
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct TurnFlow {
     #[serde(default)]
+    pub provenance_rules: bool,
+    #[serde(default)]
     pub sequencing: sequencing::SequencingState,
     #[serde(default)]
     pub stat_channels: stat_channels::StatChannels,
@@ -99,6 +102,8 @@ pub struct TurnFlow {
 #[derive(Debug, Clone, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct QueuedAction {
+    #[serde(default)]
+    pub sheer_force: bool,
     #[serde(default)]
     pub sequencing_penalty: bool,
     #[serde(default)]
@@ -728,7 +733,8 @@ fn ice_damage_pool(c: &Campaign, q: &QueuedAction, modifier: i32, cat: &Catalog)
         } else {
             0
         }
-        + modifier;
+        + modifier
+        + provenance::sheer_force_bonus(c, &q.actor_id, q.sequence);
     if !(1..=100).contains(&n) {
         return Err(error("Ice damage pool outside 1-100 dice"));
     }
@@ -928,7 +934,27 @@ pub fn transition(
     dice: Vec<u8>,
     cat: &Catalog,
 ) -> Result<(Campaign, String)> {
-    sequencing::transition(c, actor, a, dice, cat)
+    if let Action::ChooseSheerForce {
+        combatant_id,
+        ignore_added_effects,
+        reason: why,
+    } = a
+    {
+        return provenance::choose_sheer_force(
+            c,
+            actor,
+            combatant_id,
+            *ignore_added_effects,
+            why,
+            &dice,
+        );
+    }
+    let (mut next, log) = sequencing::transition(c, actor, a, dice, cat)?;
+    if !matches!(a, Action::RollbackBattle { .. }) {
+        provenance::tag_actions(c, &mut next, cat)?;
+    }
+    provenance::lifecycle(c, &mut next, a);
+    Ok((next, log))
 }
 pub fn preview(c: &Campaign, a: &Action, cat: &Catalog) -> Result<ActionPreview> {
     let dice = rules::dice_count(c, a, cat)?;
@@ -939,6 +965,16 @@ pub fn preview(c: &Campaign, a: &Action, cat: &Catalog) -> Result<ActionPreview>
     warnings.extend(special::preview_notes(c, a, cat)?);
     warnings.extend(reviewed::notes(c, a));
     warnings.extend(sequencing::notes(c, a));
+    if provenance::enabled(c) {
+        if let Action::Damage { .. } = a {
+            if current(c).is_ok_and(|q| q.sheer_force) {
+                warnings.push("Sheer Force: two extra damage dice; this attack's added effects are suppressed.".into());
+            }
+            if current(c).is_ok_and(|q| provenance::stakeout_bonus(c, q, false) > 0) {
+                warnings.push("Stakeout: one extra damage on this first successful attack if the foe is not immune; this consumes its replacement marker.".into());
+            }
+        }
+    }
     if decoys::enabled(c) {
         warnings.push("Decoys: 2 HP; frozen defenses; move effects blocked, environment and existing status still apply. Dynamax, Max Moves and Z-Moves are out of scope.".into());
     }
@@ -1252,6 +1288,7 @@ fn transition_inner(
                         actor_id: combatant_id.clone(),
                         target_id: target_id.clone(),
                         sequencing_penalty: false,
+                        sheer_force: false,
                         special_index: 0,
                         move_name: move_name.clone(),
                         sequence: c.revision + 1,
@@ -1579,6 +1616,7 @@ fn transition_inner(
                     actor_id: combatant_id.clone(),
                     target_id: target.clone(),
                     sequencing_penalty: false,
+                    sheer_force: false,
                     special_index: 0,
                     move_name: move_name.clone(),
                     sequence: c.revision + 1,
@@ -1635,6 +1673,7 @@ fn transition_inner(
                     advance(&mut next);
                 }
             }
+            provenance::tag_actions(c, &mut next, cat)?;
             special::after_accuracy(&mut next, combatant_id, &m, net >= required as i32, cat)?;
             format!("{move_name}: host dice {dice:?}, {net} successes, requires {required}. {r}")
         }
@@ -1727,6 +1766,7 @@ fn transition_inner(
                                 &attack,
                                 to_def,
                                 &incoming.actor_id,
+                                cat,
                             )?;
                             if tactics::enabled(c) && incoming.targets.len() > 1 {
                                 tactics::queue_clash(&mut next, &incoming, move_name, to_att, cat)?;
@@ -1738,6 +1778,7 @@ fn transition_inner(
                                     &defend,
                                     to_att,
                                     &incoming.target_id,
+                                    cat,
                                 )?;
                             }
                         }
@@ -1802,6 +1843,7 @@ fn transition_inner(
                             incoming.actor_id.clone()
                         },
                         sequencing_penalty: false,
+                        sheer_force: false,
                         special_index: 0,
                         move_name: move_name.clone(),
                         sequence: c.revision + 1,
@@ -1854,6 +1896,7 @@ fn transition_inner(
                     close(&mut next);
                 }
             }
+            provenance::tag_actions(c, &mut next, cat)?;
             special::after_reaction(&mut next, combatant_id, kind, cat)?;
             format!(
                 "{kind} {move_name}: {dice:?}, {net} successes against {}. {r}",
@@ -1887,6 +1930,7 @@ fn transition_inner(
             {
                 let p = fighter(c, combatant_id)?;
                 let context = abilities::DamageContext {
+                    base_stats: rules::base_sheet(c, p)?.stats,
                     special_bonus: if special::enabled(c) {
                         battle(c)?
                             .combatants
@@ -2184,7 +2228,21 @@ fn transition_inner(
             } else {
                 before - after
             };
-            let mut damage = (raw_amount - shield - thick_fat - field_reduction).max(0);
+            let immune = rules::damage_pool(
+                &temp,
+                &q.actor_id,
+                q.sequence,
+                if let Action::Damage { pool_modifier, .. } = a {
+                    *pool_modifier
+                } else {
+                    0
+                },
+                cat,
+            )?
+            .immune;
+            let stakeout = provenance::stakeout_bonus(c, &q, immune);
+            let mut damage = (raw_amount + stakeout - shield - thick_fat - field_reduction).max(0);
+            provenance::consume_stakeout(&mut done, &q, immune);
             if field::enabled(c) {
                 let Action::Damage { pool_modifier, .. } = a else {
                     unreachable!()
@@ -2231,15 +2289,20 @@ fn transition_inner(
                 &field::move_data(c, fighter(c, &q.actor_id)?, &move_data),
             );
             next = done;
-            if no_effect(&q.move_name, cat)?
+            if (provenance::enabled(c)
+                && q.sheer_force
+                && !provenance::retained_attributes(&q, cat)?)
+                || no_effect(&q.move_name, cat)?
                 || ((!special::enabled(c) && (shield > 0 || holding_back(c, &q)))
                     && !(["Submission", "Hyper Beam"].contains(&q.move_name.as_str())))
             {
                 finish(&mut next);
             }
             format!(
-                "{log} Shield reduction {shield}; final damage {damage}. {}",
-                if decoy_hit {
+                "{log} Stakeout extra damage {stakeout}; shield reduction {shield}; final damage {damage}. {}",
+                if q.sheer_force && provenance::enabled(c) {
+                    "Sheer Force traded added effects for two damage dice."
+                } else if decoy_hit {
                     "Decoy intercepted this hit; Pokemon HP unchanged and target added effects blocked."
                 } else {
                     "Additional effects require their reviewed resolution."
@@ -2550,24 +2613,33 @@ fn transition_inner(
             ) {
                 let b = done.battle.as_mut().unwrap();
                 b.flow = Some(TurnFlow {
+                    provenance_rules: c.engine == ENGINE,
                     sequencing: sequencing::SequencingState {
-                        enabled: c.engine == ENGINE,
+                        enabled: [ENGINE, SEQUENCING_ENGINE].contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     stat_channels: stat_channels::StatChannels {
-                        enabled: [ENGINE, STAT_ENGINE].contains(&c.engine.as_str()),
+                        enabled: [ENGINE, SEQUENCING_ENGINE, STAT_ENGINE]
+                            .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
-                    reviewed_rules: [ENGINE, STAT_ENGINE, REVIEWED_ENGINE]
+                    reviewed_rules: [ENGINE, SEQUENCING_ENGINE, STAT_ENGINE, REVIEWED_ENGINE]
                         .contains(&c.engine.as_str()),
                     transfers: transfers::TransferState {
-                        enabled: [ENGINE, STAT_ENGINE, REVIEWED_ENGINE, TRANSFER_ENGINE]
-                            .contains(&c.engine.as_str()),
+                        enabled: [
+                            ENGINE,
+                            SEQUENCING_ENGINE,
+                            STAT_ENGINE,
+                            REVIEWED_ENGINE,
+                            TRANSFER_ENGINE,
+                        ]
+                        .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            SEQUENCING_ENGINE,
                             STAT_ENGINE,
                             REVIEWED_ENGINE,
                             TRANSFER_ENGINE,
@@ -2579,6 +2651,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            SEQUENCING_ENGINE,
                             STAT_ENGINE,
                             REVIEWED_ENGINE,
                             TRANSFER_ENGINE,
@@ -2591,6 +2664,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            SEQUENCING_ENGINE,
                             STAT_ENGINE,
                             REVIEWED_ENGINE,
                             TRANSFER_ENGINE,
@@ -2604,6 +2678,7 @@ fn transition_inner(
                     special: special::SpecialState {
                         enabled: [
                             ENGINE,
+                            SEQUENCING_ENGINE,
                             STAT_ENGINE,
                             REVIEWED_ENGINE,
                             TRANSFER_ENGINE,
@@ -2617,6 +2692,7 @@ fn transition_inner(
                     },
                     ability_rules: [
                         ENGINE,
+                        SEQUENCING_ENGINE,
                         STAT_ENGINE,
                         REVIEWED_ENGINE,
                         TRANSFER_ENGINE,
@@ -2632,6 +2708,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            SEQUENCING_ENGINE,
                             STAT_ENGINE,
                             REVIEWED_ENGINE,
                             TRANSFER_ENGINE,
@@ -2647,6 +2724,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            SEQUENCING_ENGINE,
                             STAT_ENGINE,
                             REVIEWED_ENGINE,
                             TRANSFER_ENGINE,
@@ -3091,6 +3169,9 @@ fn chance_effect(name: &str) -> Option<(&str, u32)> {
     }
 }
 fn effect_dice(c: &Campaign, q: &QueuedAction, _cat: &Catalog) -> Result<u32> {
+    if provenance::enabled(c) && q.sheer_force && !provenance::retained_attributes(q, _cat)? {
+        return Ok(0);
+    }
     if let Some(n) = special::effect_dice(c, q, _cat)? {
         return Ok(n);
     }
@@ -3153,6 +3234,9 @@ fn effects(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) -> Re
     effects_inner(c, q, dice, cat)
 }
 fn effects_inner(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) -> Result<()> {
+    if provenance::enabled(c) && q.sheer_force && !provenance::retained_attributes(q, cat)? {
+        return Ok(());
+    }
     if tactics::move_effect(c, q, cat)? {
         return Ok(());
     }

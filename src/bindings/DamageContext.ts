@@ -3,4 +3,17 @@ import type { Combatant } from "./Combatant";
 import type { FieldSnapshot } from "./FieldSnapshot";
 import type { Status } from "./Status";
 
-export type DamageContext = { special_bonus: { [key in string]?: number }, ability_sources: Array<Combatant>, field_snapshot: FieldSnapshot | null, types: Array<string>, field_bonus: number, stats: { [key in string]?: number }, hp: number, pain_ignored: number, counters: { [key in string]?: number }, statuses: Array<Status>, love_resisted_turn: number, };
+export type DamageContext = {
+  base_stats: { [key in string]?: number };
+  special_bonus: { [key in string]?: number };
+  ability_sources: Array<Combatant>;
+  field_snapshot: FieldSnapshot | null;
+  types: Array<string>;
+  field_bonus: number;
+  stats: { [key in string]?: number };
+  hp: number;
+  pain_ignored: number;
+  counters: { [key in string]?: number };
+  statuses: Array<Status>;
+  love_resisted_turn: number;
+};

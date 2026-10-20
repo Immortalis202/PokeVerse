@@ -10,6 +10,7 @@ pub fn transition(
 ) -> Result<(Campaign, String)> {
     if [
         ENGINE,
+        SEQUENCING_ENGINE,
         STAT_ENGINE,
         REVIEWED_ENGINE,
         TRANSFER_ENGINE,
@@ -45,6 +46,7 @@ pub fn transition(
         | Action::BattleStat { .. }
         | Action::Battlefield { .. }
         | Action::ResolveAbility { .. }
+        | Action::ChooseSheerForce { .. }
         | Action::InflictStatus { .. }
         | Action::AccuracyTargets { .. }
         | Action::SetBattleRange { .. }
@@ -349,6 +351,7 @@ pub fn transition(
             }
             if ![
                 ENGINE,
+                SEQUENCING_ENGINE,
                 STAT_ENGINE,
                 REVIEWED_ENGINE,
                 TRANSFER_ENGINE,

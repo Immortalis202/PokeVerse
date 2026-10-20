@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "engine": "0.15.0-core",
+  "engine": "0.16.0-core",
   "default_status": "manual",
   "entries": {
     "Adaptability": {
@@ -1603,12 +1603,13 @@
       "introduced_engine": "0.7.0-core"
     },
     "Sheer Force": {
-      "status": "manual",
-      "scope": "Requires reviewed effect suppression, resistance, switch timing or counterpart attribute provenance.",
+      "status": "partial",
+      "scope": "Owner or GM chooses whether damaging moves trade their structured AddedEffects for two damage dice. Freeze the choice for shared targets, successive hits and charge release; preserve recoil and recharge attributes. Held-item added effects await the item engine.",
       "page": 567,
       "dependencies": [
-        "reviewed-damage-provenance"
-      ]
+        "held-item-system"
+      ],
+      "introduced_engine": "0.16.0-core"
     },
     "Shell Armor": {
       "status": "automated",
@@ -1710,12 +1711,11 @@
       "introduced_engine": "0.5.0-core"
     },
     "Stakeout": {
-      "status": "manual",
-      "scope": "Requires reviewed effect suppression, resistance, switch timing or counterpart attribute provenance.",
+      "status": "automated",
+      "scope": "Witness active-slot replacement and add one damage to the first successful nonimmune attack on that incoming foe; track holders and targets independently, including Clash and reviewed formulas. Ice-block attacks do not consume the foe marker.",
       "page": 569,
-      "dependencies": [
-        "reviewed-damage-provenance"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.16.0-core"
     },
     "Stall": {
       "status": "automated",
@@ -1977,12 +1977,11 @@
       "page": 574
     },
     "Tinted Lens": {
-      "status": "manual",
-      "scope": "Requires reviewed effect suppression, resistance, switch timing or counterpart attribute provenance.",
+      "status": "automated",
+      "scope": "Ignore one individual foe type resistance, including one of a double resistance; preserve immunity and frozen attack identity.",
       "page": 574,
-      "dependencies": [
-        "reviewed-damage-provenance"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.16.0-core"
     },
     "Torrent": {
       "status": "manual",
@@ -2062,12 +2061,11 @@
       "introduced_engine": "0.13.0-core"
     },
     "Unaware": {
-      "status": "manual",
-      "scope": "Requires reviewed effect suppression, resistance, switch timing or counterpart attribute provenance.",
+      "status": "automated",
+      "scope": "Ignore foe battle attribute increases and reductions when dealing or receiving damage, including derived defenses and reviewed speed-based damage; retain explicit defense channels, GM baselines and shared snapshots.",
       "page": 576,
-      "dependencies": [
-        "reviewed-damage-provenance"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.16.0-core"
     },
     "Unburden": {
       "status": "manual",

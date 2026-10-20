@@ -170,8 +170,10 @@ describe("structured core battle controls", () => {
     engine = "0.3.0-core",
     field = false,
     ability = false,
+    provenance = false,
   ) {
     const combatants = ["active", "opponent"].map(fighter);
+    if (provenance) combatants[0].selected_ability = "Sheer Force";
     combatants[0].runtime.will = 6;
     combatants[0].runtime.will_enabled = true;
     const c: Campaign = {
@@ -188,6 +190,7 @@ describe("structured core battle controls", () => {
         automatic_validation: true,
         combatants,
         flow: {
+          provenance_rules: provenance,
           sequencing: {
             enabled: engine === "0.15.0-core",
             identities: {},
@@ -350,6 +353,7 @@ describe("structured core battle controls", () => {
             ? [
                 {
                   sequencing_penalty: false,
+                  sheer_force: false,
                   special_index: 0,
                   actor_id: "opponent",
                   target_id: "active",
@@ -397,6 +401,19 @@ describe("structured core battle controls", () => {
     expect(gm).toContain("Structured status decision");
     expect(gm).toContain("GM severe status damage this round");
     expect(core("host", true)).not.toContain("Structured status decision");
+  });
+  it("shows the Sheer Force tradeoff to its owner and GM", () => {
+    for (const player of ["player", "gm"]) {
+      expect(core(player, false, "0.9.0-core", false, false, true)).toContain(
+        "Trade added effects for damage",
+      );
+    }
+    expect(core("host", false, "0.9.0-core", false, false, true)).not.toContain(
+      "Trade added effects for damage",
+    );
+    expect(core("player", false, "0.9.0-core")).not.toContain(
+      "Trade added effects for damage",
+    );
   });
   it("shows current turn and exposes no combatant controls to a separate host", () => {
     expect(core("player")).toContain("Turn 1: active");

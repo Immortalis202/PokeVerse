@@ -1,6 +1,6 @@
 # PokeVerse - remaining work
 
-Snapshot: **20 October 2026**, application **0.22.0**, engine **0.15.0-core**, protocol **23**, user database schema **4**.
+Snapshot: **20 October 2026**, application **0.23.0**, engine **0.16.0-core**, protocol **24**, user database schema **4**.
 
 This is the current project backlog. Implemented foundations are summarized first; unfinished features, explicit GM rulings, verification gaps and excluded scope are distinguished below. Counts come from the checked-in registries and should be refreshed after catalog changes.
 
@@ -18,7 +18,7 @@ Dancer, Parental Bond, Gorilla Tactics, Truant and Defeatist now use the reviewe
 
 - [ ] **Held items:** model equip/unequip, ownership, consumption/loss/theft, provenance, trigger choices, rollback and synchronization. Integrate berries, item-dependent abilities and Magic Room/Klutz restrictions without implying reference-only inventory is an active held-item engine.
 - [ ] **Forms and transformations:** define supported temporary form changes, entry/exit, stat/type/ability replacement and restoration, preserving permanent sheets and frozen attack inputs. Review each ability separately. Excluded mechanics below must remain excluded.
-- [ ] **Other ability families:** damage provenance (Tinted Lens, Unaware, Sheer Force, Stakeout), weight/gender formulas, private information reveals, random stat choices and remaining event definitions. The full ability inventory is in sections 8-9.
+- [ ] **Other ability families:** remaining event/accuracy definitions, weight/gender formulas, private battle-information reveals and random stat choices. Tinted Lens, Unaware, Stakeout and the move portion of Sheer Force are implemented. The full ability inventory is in sections 8-9.
 - [ ] **Unreviewed trait copying:** Costar and Opportunist now copy supported attribute/defense move and ability channels. Baton Pass transfers supported positive attribute channels, and Snatch steals supported ability modifiers. Review additional trait channels separately; temporary ability identity copying remains distinct. See [stat copying and transfer](battle-stat-channels.md).
 - [ ] **Remaining identity effects:** review Entrainment, Doodle and Core Enforcer individually. Role Play, Skill Swap, Gastro Acid, Trace, Gas, contact replacement and witnessed ally inheritance already exist.
 - [ ] **Status edge cases:** review severe Burn/Poison escalation with conflicting printed values, unsupported status-producing/cure effects and remaining Will spending/draining effects. Core statuses, durations and expiry already exist; automatic Will recovery remains excluded.
@@ -79,7 +79,7 @@ These require a separate scope decision; they are not missing parts of the assum
 - Combat simulation within training encounters.
 - Full evolution-tree diagrams rather than direct relationship navigation.
 - Habitat editing and character-creation shortcuts inside the Compendium.
-- Narrative/outside-battle activities and private information workflows listed in the ability inventory.
+- Narrative/outside-battle activities listed in the ability inventory. Battle-triggered private information reveals remain in scope.
 
 ## 6. Excluded scope
 
@@ -93,7 +93,13 @@ Version 0.21.0 / engine 0.14.0-core / protocol 22 implements the supported stat-
 
 Version 0.22.0 / engine 0.15.0-core / protocol 23 adds all five reviewed [sequencing ability rules](battle-action-sequencing.md). The full Rust suite passed 417 tests, including the separate-host/GM/two-owner sequencing fixture and existing 3v3 receipt, reconnect, rollback and persistence scenarios. Frontend validation passed 33 tests and 12 catalog checks; production build, formatting and warnings-denied Clippy passed. Windows NSIS packaging passed: `src-tauri/target/release/bundle/nsis/PokeVerse_0.22.0_x64-setup.exe` (213.74 MiB). The executable and installer were not launched. Native interaction, installed-app acceptance and physical LAN were not tested.
 
+## Damage-provenance milestone verification
+
+Version 0.23.0 / engine 0.16.0-core / protocol 24 passed all 433 Rust tests, split into 80 serial binding-export checks and 353 behavioral tests to avoid a Windows mapped-file collision during parallel binding generation. The behavioral set includes separate host/GM/owner choice, duplicate/stale command, reconnect, SQLite persistence and rollback coverage. After the final Clash effectiveness correction, its focused regression passed again. Frontend validation passed 34 tests and 12 catalog checks; the final battle-control test run passed all 14 tests. Production build, TypeScript, formatting and warnings-denied Clippy passed. Windows NSIS packaging produced `src-tauri/target/release/bundle/nsis/PokeVerse_0.23.0_x64-setup.exe` (213.76 MiB). Neither executable nor installer was launched; native interaction, installed-app acceptance and physical LAN remain unverified.
+
 ## 7. Suggested implementation order
+
+User-approved scope: implement all remaining in-battle abilities in this order, including transformation abilities as core battle mechanics. Out-of-battle ability effects are excluded from implementation. Mixed abilities retain their in-battle effects in scope. The existing Dynamax, Max Move and Z-Move exclusions still apply.
 
 1. Damage-provenance abilities and remaining event/accuracy definitions.
 2. Held items and their dependent abilities.
@@ -103,9 +109,13 @@ Version 0.22.0 / engine 0.15.0-core / protocol 23 adds all five reviewed [sequen
 
 Each milestone should preserve historical engines, bump authoritative versions when needed, update coverage and this document, run appropriate regressions, package Windows and commit separately.
 
-## 8. All manual abilities (50)
+### Damage-provenance milestone
 
-Every currently manual registry entry appears below. A dependency is a reason for the current boundary, not authorization to implement an excluded mechanic. Descriptions come from the checked-in ability registry.
+Application 0.23.0 / engine 0.16.0-core / protocol 24 enables Tinted Lens, Unaware, Stakeout and the battle-move portion of Sheer Force. Historical encounters retain their saved feature flags. See [damage-provenance rules](battle-damage-provenance.md) for exact behavior and fixtures. Sheer Force remains partial until held-item added effects are integrated. Remaining event/accuracy definitions still precede the held-item milestone.
+
+## 8. All manual abilities (46)
+
+Every currently manual registry entry appears below. Dependencies describe remaining boundaries; excluded out-of-battle effects are not implementation tasks.
 
 | Ability | Current boundary |
 | --- | --- |
@@ -142,9 +152,7 @@ Every currently manual registry entry appears below. A dependency is a reason fo
 | Ripen | Requires held-item ownership, consumption, transfer or activation hooks. |
 | Rivalry | Requires reviewed weight/gender inputs and formulas in the shared damage calculation. |
 | Schooling | Requires encounter form/state transformation and reviewed replacement metadata. |
-| Sheer Force | Requires reviewed effect suppression, resistance, switch timing or counterpart attribute provenance. |
 | Shields Down | Requires encounter form/state transformation and reviewed replacement metadata. |
-| Stakeout | Requires reviewed effect suppression, resistance, switch timing or counterpart attribute provenance. |
 | Stance Change | Requires encounter form/state transformation and reviewed replacement metadata. |
 | Stench | Existing hook families are available; this individual definition and its ordering still require implementation and fixtures. |
 | Sticky Hold | Requires held-item ownership, consumption, transfer or activation hooks. |
@@ -152,23 +160,18 @@ Every currently manual registry entry appears below. A dependency is a reason fo
 | Tera Shell | Requires encounter form/state transformation and reviewed replacement metadata. |
 | Tera Shift | Requires encounter form/state transformation and reviewed replacement metadata. |
 | Teraform Zero | Requires encounter form/state transformation and reviewed replacement metadata. |
-| Tinted Lens | Requires reviewed effect suppression, resistance, switch timing or counterpart attribute provenance. |
 | Torrent | Printed text grants 2 damage dice but icon grants 1. GM ruling required. |
-| Unaware | Requires reviewed effect suppression, resistance, switch timing or counterpart attribute provenance. |
 | Unburden | Requires held-item ownership, consumption, transfer or activation hooks. |
 | Unnerve | Requires held-item ownership, consumption, transfer or activation hooks. |
 | Zen Mode | Requires encounter form/state transformation and reviewed replacement metadata. |
 | Zero to Hero | Requires encounter form/state transformation and reviewed replacement metadata. |
 
-## 9. All partial abilities (63)
+## 9. All partial abilities (64)
 
-These already have implemented mechanics. The scope is reproduced to avoid treating their whole definition as missing. Named dependencies identify the remaining work; empty dependency lists require a per-definition audit rather than an invented feature.
+Every currently partial registry entry appears below. Dependencies describe remaining boundaries; excluded out-of-battle effects are not implementation tasks.
 
-| Ability | Implemented scope and boundary | Remaining dependency |
+| Ability | Current implementation and boundary | Dependencies |
 | --- | --- | --- |
-| Dancer | Once-per-round free Dance copy with inherited Accuracy, fresh damage, owner/GM target choices and one-use rampage copying. | unsupported-dance-move-definitions |
-| Costar | Entry snapshot of one ally's supported positive move/ability attribute and defense channels; frozen owner choice for multiple allies. | unreviewed-trait-channels |
-| Opportunist | Supported foe increases copied into their original stat channel, keeping the highest without reciprocal loops. | unreviewed-trait-channels |
 | Arena Trap | Block ordinary recall for eligible targets in confirmed abstract range, with rank target caps and reviewed Ground/Steel/Ghost exceptions. GM switching overrides remain explicit. | forced-switch-move-resolution |
 | Aroma Veil | In-range allies and user ignore In Love and reviewed Taunt, Torment, Spite, Attract, Disable, Encore and Heal Block effects. | unreviewed-move-effects |
 | Aura Break | Reviewed range-limited Dark/Fairy damage aura and Aura Break inversion. Duplicate sources do not stack; attack/cooperation narrative restrictions require a GM ruling. | narrative-relationship-rulings |
@@ -177,6 +180,8 @@ These already have implemented mechanics. The scope is reproduced to avoid treat
 | Competitive | Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct. | unreviewed-stat-moves, forced-switch-move-resolution |
 | Contrary | Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct. | unreviewed-stat-moves, forced-switch-move-resolution |
 | Corrosion | Source-tracked Poison bypasses type/status poison immunity; global battlefield status restrictions still apply. | ability-bypass-interactions |
+| Costar | On field entry, copy one active ally's supported positive move and ability attribute/defense channels. One eligible ally is automatic; multiple allies use frozen entry snapshots and an owner choice. Highest modifiers do not stack within a channel; sheets and ability identities are unchanged. | unreviewed-trait-channels |
+| Dancer | Once per round, choose a free copy of a completed Dance move, including self and field targeting, inheriting Accuracy successes and rolling fresh damage. Owner target choice, GM random-foe selection, normal move/status/range guards and one-use rampage copies apply. Unreviewed dance added effects remain explicitly adjudicated. | unsupported-dance-move-definitions |
 | Dark Aura | Reviewed range-limited Dark/Fairy damage aura and Aura Break inversion. Duplicate sources do not stack; attack/cooperation narrative restrictions require a GM ruling. | narrative-relationship-rulings |
 | Dauntless Shield | On entry, add two temporary Defense or Strength respectively. Outside-battle narrative effects are GM adjudicated. | narrative-effects |
 | Defiant | Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct. | unreviewed-stat-moves, forced-switch-move-resolution |
@@ -189,21 +194,22 @@ These already have implemented mechanics. The scope is reproduced to avoid treat
 | Gale Wings | Add Reaction 1 to Flying moves without imposing a video-game full-HP requirement. Retain higher printed early priority; conflicting Late Reaction needs a recorded timing ruling. Charge reactions still need adjudication. | conflicting-late-priority-ruling, charge-reaction-definition |
 | Guard Dog | Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct. | unreviewed-stat-moves, forced-switch-move-resolution |
 | Hadron Engine | Add two Special under Electric Terrain or two Strength under Sunny/Desolate respectively. Weather/terrain activation follows the reviewed field definition. | held-booster-item-system |
-| Hospitality | On entry the owner may spend one Will to heal one wounded active ally by three HP. No revival; lethal wounds are excluded from this project. | Lethal-resource extension is excluded; do not schedule it. |
+| Hospitality | On entry the owner may spend one Will to heal one wounded active ally by three HP. No revival; lethal wounds remain manual. | lethal-resource-system |
 | Hyper Cutter | Protect the reviewed stat changes through sourced battle effects and supported moves; Clear Body also rejects external increases and Flower Veil protects in-range allies. | unreviewed-stat-moves |
 | Illuminate | In-range user/allies ignore the supported fog/visibility accuracy penalty; narrative encounter effects remain manual. | narrative-encounter-effects |
-| Intimidate | Entry-only rank-limited Strength reduction, non-stacking, removed when source leaves or faints. GM range defaults to all deployed foes; stable IDs break excess-target ties. An explicit GM range correction updates affected targets. | Audit the documented scope; no dependency named. |
+| Intimidate | Entry-only rank-limited Strength reduction, non-stacking, removed when source leaves or faints. GM range defaults to all deployed foes; stable IDs break excess-target ties. An explicit GM range correction updates affected targets. |  |
 | Intrepid Sword | On entry, add two temporary Defense or Strength respectively. Outside-battle narrative effects are GM adjudicated. | narrative-effects |
 | Justified | Dark hits raise the separate Strength ability channel by one, capped at three; narrative injustice triggers remain GM adjudicated. | outside-battle-activities |
-| Levitate | Ground move immunity automated; terrain and entry-hazard effects remain manual. | Audit the documented scope; no dependency named. |
+| Levitate | Ground move immunity automated; terrain and entry-hazard effects remain manual. |  |
 | Magic Bounce | Reflect executable foe Support effects aimed at the holder or its side, once, without extra actions/accuracy. Preserve original resource payer and reflected effect source. Unimplemented Support effects still require adjudication; manual field records retain reflected scope. | unsupported-support-effects |
-| Magic Guard | Prevents reviewed ability damage, burn/poison ticks and Submission recoil. Confusion and direct move damage remain; weather, held items and entry hazards await their mechanics. | Audit the documented scope; no dependency named. |
+| Magic Guard | Prevents reviewed ability damage, burn/poison ticks and Submission recoil. Confusion and direct move damage remain; weather, held items and entry hazards await their mechanics. |  |
 | Magnet Pull | Block ordinary recall for eligible targets in confirmed abstract range, with rank target caps and reviewed Ground/Steel/Ghost exceptions. GM switching overrides remain explicit. | forced-switch-move-resolution |
 | Mega Launcher | Pulse/Aura damaging moves gain two damage dice. Heal Pulse uses five-HP Complete Healing and one Will. | other-pulse-healing-definitions |
 | Mirror Armor | Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct. | unreviewed-stat-moves, forced-switch-move-resolution |
 | Mycelium Might | Support moves gain Never Miss and Late Reaction 1; no ability bypass is granted by the printed card. Printed Reaction collisions require explicit GM adjudication. | conflicting-printed-reaction |
 | Neutralizing Gas | Negates foes in abstract range subject to rank target cap; restores on source departure, fainting or range change. Unique abilities prevail. Opposing Gas stalemates require GM ruling. | GM ruling for opposing Gas stalemates |
-| Oblivious | Immune to In Love; other feeling-related and narrative effects remain GM-adjudicated. | Audit the documented scope; no dependency named. |
+| Oblivious | Immune to In Love; other feeling-related and narrative effects remain GM-adjudicated. |  |
+| Opportunist | Copy supported foe move/ability attribute and defense increases on authoritative state changes, retaining the highest within each channel. Immutable before/after observation prevents reciprocal loops. Decreases and unchanged modifiers do not trigger a copy. | unreviewed-trait-channels |
 | Orichalcum Pulse | Add two Special under Electric Terrain or two Strength under Sunny/Desolate respectively. Weather/terrain activation follows the reviewed field definition. | held-booster-item-system |
 | Power of Alchemy | On active allies fainting, store multiple eligible ability snapshots for 1440 game minutes, with one active copy. Acquisition requires Power of Alchemy to be active; selecting within combat requires a GM timing ruling. Campaign clock, provenance and rollback persist. | GM ruling for selection timing during combat, Narrative acquisition outside witnessed campaign fainting |
 | Prankster | Add Reaction 1 to Support moves. Retain higher printed early reaction priority; conflicting Late Reaction requires a recorded printed/ability timing ruling. Unsupported move effects and charge reaction exceptions remain explicit. | conflicting-late-priority-ruling, charge-reaction-definition |
@@ -213,13 +219,14 @@ These already have implemented mechanics. The scope is reproduced to avoid treat
 | Reckless | Recoil-tagged moves and reviewed Submission gain two damage dice; other unreviewed recoil formulas still need GM resolution. | unreviewed-recoil-moves |
 | Rock Head | Ignore the supported Submission recoil; other recoil moves require reviewed definitions. | unreviewed-recoil-moves |
 | Run Away | Ignore supported Blocked recall restrictions. Narrative escape and capture consequences require GM adjudication. | narrative-escape-effects |
-| Sand Veil | Weather damage immunity; the table rule still limits Evasion to once per turn and five total actions per round. | Audit the documented scope; no dependency named. |
+| Sand Veil | Weather damage immunity; the table rule still limits Evasion to once per turn and five total actions per round. |  |
 | Serene Grace | Add two chance dice to supported move added effects; unreviewed chance effects still need GM resolution. | unreviewed-chance-moves |
 | Shadow Tag | Block ordinary recall for eligible targets in confirmed abstract range, with rank target caps and reviewed Ground/Steel/Ghost exceptions. GM switching overrides remain explicit. | forced-switch-move-resolution |
+| Sheer Force | Owner or GM chooses whether damaging moves trade their structured AddedEffects for two damage dice. Freeze the choice for shared targets, successive hits and charge release; preserve recoil and recharge attributes. Held-item added effects await the item engine. | held-item-system |
 | Simple | Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct. | unreviewed-stat-moves, forced-switch-move-resolution |
-| Snow Cloak | Weather damage immunity; the table rule still limits Evasion to once per turn and five total actions per round. | Audit the documented scope; no dependency named. |
+| Snow Cloak | Weather damage immunity; the table rule still limits Evasion to once per turn and five total actions per round. |  |
 | Supersweet Syrup | Foes in confirmed range cannot Evade the holder moves; Clash remains available. Narrative encounter-rate changes remain GM adjudicated. | narrative-encounter-effects |
-| Synchronize | Reflect source-tracked statuses once, respecting immunities. GM status edits without an inflictor have no inferred source. | Audit the documented scope; no dependency named. |
+| Synchronize | Reflect source-tracked statuses once, respecting immunities. GM status edits without an inflictor have no inferred source. |  |
 | Tangled Feet | While confused, impose two additional reduced-accuracy successes on foe moves targeting the holder; Keen Eye prevents this reduction. Mixed-target penalties on one shared accuracy roll require GM adjudication. | mixed-target-accuracy |
 | Teravolt | Action-scoped foe type/damage/status immunity bypass, supported shields, decoys, redirection and charging-target access. Unique-effect stalemates, held items and unsupported effect blockers require GM adjudication. | unique-stalemates, held-item-system, unsupported-support-effects |
 | Triage | Reviewed Basic Heal and status-cure Support moves gain Reaction 1, including selected allies and multi-target cures. Existing action, capacity, target, Will and phase validation apply. Unsupported healing/cure definitions remain manual. | unsupported-healing-cure-definitions |

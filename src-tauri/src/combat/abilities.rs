@@ -24,6 +24,8 @@ pub struct AbilityEvent {
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct DamageContext {
     #[serde(default)]
+    pub base_stats: BTreeMap<String, i32>,
+    #[serde(default)]
     pub special_bonus: BTreeMap<String, i32>,
     #[serde(default)]
     pub ability_sources: Vec<Combatant>,
@@ -145,7 +147,8 @@ pub fn coverage(c: &Campaign, name: &str) -> Option<&'static str> {
             .expect("valid owned ability registry")
     });
     let entry = &REGISTRY["entries"][name];
-    if (entry["introduced_engine"] == "0.15.0-core" && !sequencing::enabled(c))
+    if (entry["introduced_engine"] == "0.16.0-core" && !provenance::enabled(c))
+        || (entry["introduced_engine"] == "0.15.0-core" && !sequencing::enabled(c))
         || (entry["introduced_engine"] == "0.14.0-core" && !stat_channels::enabled(c))
         || (entry["introduced_engine"] == "0.13.0-core" && !reviewed::enabled(c))
         || (entry["introduced_engine"] == "0.12.0-core" && !transfers::enabled(c))
@@ -370,19 +373,20 @@ pub fn sturdy(c: &mut Campaign, target: &str, amount: i32, before_hp: i32) -> Re
         Ok(amount)
     }
 }
-pub fn clash_reduced(
+pub fn clash_reduced_with_bonus(
     c: &Campaign,
     id: &str,
     m: &serde_json::Value,
     raw: i32,
     source: &str,
+    bonus: i32,
 ) -> Result<i32> {
     let p = fighter(c, id)?;
     let subject = decoys::damage_subject(c, source, p, m);
     if damage_immune_from(c, fighter(c, source)?, &subject, m) {
         return Ok(0);
     }
-    let reduced = (raw
+    let reduced = (raw + bonus
         - reduction(c, &subject, m, raw - 1, source)
         - field::reduction(c, fighter(c, source)?, p, m))
     .max(0);
@@ -394,8 +398,17 @@ pub fn clash_amount(
     m: &serde_json::Value,
     raw: i32,
     source: &str,
+    cat: &Catalog,
 ) -> Result<i32> {
-    let reduced = clash_reduced(c, id, m, raw, source)?;
+    let bonus = provenance::clash_bonus(c, source, id, m, cat)?;
+    if bonus > 0 {
+        fighter_mut(c, source)?
+            .runtime
+            .ability
+            .flags
+            .remove(&format!("stakeout:{id}"));
+    }
+    let reduced = clash_reduced_with_bonus(c, id, m, raw, source, bonus)?;
     let protected = decoys::protected_subject(c, source, id, m);
     if protected {
         return Ok(reduced);

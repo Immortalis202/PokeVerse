@@ -17,6 +17,8 @@ pub enum Weather {
 #[derive(Debug, Clone, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct FieldSnapshot {
+    #[serde(default)]
+    pub base_attribute_defenses: BTreeMap<String, [i32; 2]>,
     pub weather: Option<Weather>,
     #[serde(default)]
     pub defenses: BTreeMap<String, [i32; 2]>,
@@ -36,12 +38,39 @@ fn frozen(c: &Campaign) -> Option<&FieldSnapshot> {
 }
 pub fn snapshot(c: &Campaign, cat: &Catalog) -> Result<FieldSnapshot> {
     let mut defenses = BTreeMap::new();
+    let mut base_attribute_defenses = BTreeMap::new();
     for p in battle(c)?
         .combatants
         .iter()
         .filter(|p| p.deployed && c.sheets[&p.sheet_id].kind == "pokemon")
     {
         let stats = crate::creation::profile_stats(&rules::effective_sheet(c, p)?);
+        if provenance::enabled(c) {
+            let base = crate::creation::profile_stats(&rules::base_sheet(c, p)?);
+            base_attribute_defenses.insert(
+                p.id.clone(),
+                [
+                    damage_defense(
+                        c,
+                        p,
+                        true,
+                        cat,
+                        base["Defense"] + abilities::defense(c, p, true),
+                        true,
+                    )?
+                    .max(1),
+                    damage_defense(
+                        c,
+                        p,
+                        false,
+                        cat,
+                        base["SpecialDefense"] + abilities::defense(c, p, false),
+                        true,
+                    )?
+                    .max(1),
+                ],
+            );
+        }
         defenses.insert(
             p.id.clone(),
             [
@@ -65,6 +94,7 @@ pub fn snapshot(c: &Campaign, cat: &Catalog) -> Result<FieldSnapshot> {
         );
     }
     Ok(FieldSnapshot {
+        base_attribute_defenses,
         defenses,
         weather: weather(c, None),
         types: battle(c)?
@@ -518,11 +548,21 @@ pub fn defense(
     cat: &Catalog,
     base: i32,
 ) -> Result<i32> {
+    damage_defense(c, p, physical, cat, base, false)
+}
+pub fn damage_defense(
+    c: &Campaign,
+    p: &Combatant,
+    physical: bool,
+    cat: &Catalog,
+    base: i32,
+    ignore_attributes: bool,
+) -> Result<i32> {
     if !enabled(c) {
         return Ok(base);
     }
     let ts = types(c, p, cat).unwrap_or_default();
-    defense_for_types(c, p, physical, &ts, base)
+    defense_for_types(c, p, physical, &ts, base, ignore_attributes)
 }
 pub fn order_defense(c: &Campaign, p: &Combatant, physical: bool, base: i32) -> Result<i32> {
     if !enabled(c) {
@@ -534,7 +574,7 @@ pub fn order_defense(c: &Campaign, p: &Combatant, physical: bool, base: i32) -> 
         .get(&p.id)
         .cloned()
         .unwrap_or_default();
-    defense_for_types(c, p, physical, &ts, base)
+    defense_for_types(c, p, physical, &ts, base, false)
 }
 fn defense_for_types(
     c: &Campaign,
@@ -542,6 +582,7 @@ fn defense_for_types(
     physical: bool,
     ts: &[String],
     base: i32,
+    ignore_attributes: bool,
 ) -> Result<i32> {
     let w = weather(c, Some(p));
     let mut n = base;
@@ -553,7 +594,11 @@ fn defense_for_types(
         n += 2;
     }
     if has(c, "Wonder Room", p) {
-        let s = rules::effective_sheet(c, p)?;
+        let s = if ignore_attributes {
+            rules::base_sheet(c, p)?
+        } else {
+            rules::effective_sheet(c, p)?
+        };
         let split = p.rules_profile.defenses == "split";
         // profile_stats retains reviewed rank bonuses; replace only its attribute contribution.
         let original = if physical || !split {

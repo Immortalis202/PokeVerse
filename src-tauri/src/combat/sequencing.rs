@@ -687,6 +687,7 @@ pub fn resolve(
         }
         .into(),
         sequencing_penalty: false,
+        sheer_force: false,
     };
     let index = flow(c)?
         .queue
@@ -751,6 +752,7 @@ pub fn missed(c: &mut Campaign, id: &str, name: &str, successes: i32) {
         damage_context: None,
         defense_key: String::new(),
         sequencing_penalty: false,
+        sheer_force: false,
     };
     completed(c, &q);
 }

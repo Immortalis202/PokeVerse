@@ -2,4 +2,27 @@
 import type { DamageContext } from "./DamageContext";
 import type { TargetImpact } from "./TargetImpact";
 
-export type QueuedAction = { sequencing_penalty: boolean, special_index: number, damage_context: DamageContext | null, actor_id: string, target_id: string, move_name: string, sequence: number, successes: number, critical: boolean, timing: string, priority: number, cancelled: boolean, damage_done: boolean, damage: number, raw_damage_successes: number, ice: boolean, targets: Array<TargetImpact>, field_scope: string | null, shared_dice: Array<number>, damage_modifiers: [number, number, number] | null, defense_key: string, };
+export type QueuedAction = {
+  sheer_force: boolean;
+  sequencing_penalty: boolean;
+  special_index: number;
+  damage_context: DamageContext | null;
+  actor_id: string;
+  target_id: string;
+  move_name: string;
+  sequence: number;
+  successes: number;
+  critical: boolean;
+  timing: string;
+  priority: number;
+  cancelled: boolean;
+  damage_done: boolean;
+  damage: number;
+  raw_damage_successes: number;
+  ice: boolean;
+  targets: Array<TargetImpact>;
+  field_scope: string | null;
+  shared_dice: Array<number>;
+  damage_modifiers: [number, number, number] | null;
+  defense_key: string;
+};

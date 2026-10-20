@@ -9,4 +9,210 @@ import type { TrainingEncounter } from "./TrainingEncounter";
 import type { TransferCommand } from "./TransferCommand";
 import type { WorkflowRequest } from "./WorkflowRequest";
 
-export type Action = { "type": "adjust_will", combatant_id: string, will: number, reason: string, } | { "type": "authorize_will", combatant_id: string, enabled: boolean, reason: string, } | { "type": "adjudicate_status", combatant_id: string, damage: number, reason: string, } | { "type": "break_ice", combatant_id: string, target_id: string, move_name: string, reason: string, } | { "type": "take_held_turn", combatant_id: string, reason: string, } | { "type": "start_turns" } | { "type": "ability_transfer", command: TransferCommand, reason: string, } | { "type": "resolve_ability", event_id: string, choice: string, reason: string, } | { "type": "inflict_status", combatant_id: string, source_id: string, kind: string, detail: string, rounds: number | null, reason: string, } | { "type": "set_battle_range", combatant_id: string, in_range_ids: Array<string>, reason: string, } | { "type": "cover_ally", combatant_id: string, ally_id: string, reason: string, } | { "type": "tactics", command: TacticsCommand, reason: string, } | { "type": "special_move", command: SpecialCommand, reason: string, } | { "type": "battle_stat", source_id: string, combatant_id: string, stat: string, change: number, reason: string, } | { "type": "battlefield", command: FieldCommand, reason: string, } | { "type": "adjudicate_field", sequence: number, rounds: number | null, reason: string, } | { "type": "remove_field_effect", sequence: number, reason: string, } | { "type": "accuracy_targets", combatant_id: string, target_ids: Array<string>, move_name: string, pool_modifier: number, success_modifier: number, reason: string, } | { "type": "pass_turn", combatant_id: string, reason: string, } | { "type": "react", combatant_id: string, kind: string, move_name: string, reason: string, } | { "type": "pass_reaction", combatant_id: string, reason: string, } | { "type": "resolve_effect", sequence: number, reason: string, } | { "type": "adjudicate_effect", sequence: number, reason: string, } | { "type": "set_status", combatant_id: string, kind: string, detail: string, rounds: number | null, remove: boolean, reason: string, } | { "type": "status_check", combatant_id: string, kind: string, reason: string, } | { "type": "spend_will", combatant_id: string, mode: string, reason: string, } | { "type": "start_team_battle", sheet_ids: Array<string>, sides: { [key in string]?: string }, active_sheet_ids: Array<string>, slots_per_side: number, } | { "type": "switch_pokemon", outgoing_id: string, incoming_id: string, gm_override: boolean, reason: string, } | { "type": "adopt_catalog" } | { "type": "publish_training", encounter: TrainingEncounter, } | { "type": "cancel_training", encounter_id: string, reason: string, } | { "type": "resolve_training", resolution: EncounterResolution, } | { "type": "propose_workflow", request: WorkflowRequest, } | { "type": "approve_workflow", proposal_id: string, accept: boolean, reason: string, } | { "type": "set_rules_profile", profile: RulesProfile, reason: string, } | { "type": "battle_config", automatic_validation: boolean, reason: string, } | { "type": "rollback_battle", event_sequence: number, reason: string, } | { "type": "battle_stats", combatant_id: string, stats: { [key in string]?: number }, skills: { [key in string]?: number }, max_hp: number, reason: string, } | { "type": "assign_gm", player_id: string, } | { "type": "upgrade_rules" } | { "type": "initiative", combatant_id: string, } | { "type": "accuracy", combatant_id: string, target_id: string | null, move_name: string, pool_modifier: number, success_modifier: number, reason: string, } | { "type": "damage", combatant_id: string, sequence: number, pool_modifier: number, success_modifier: number, damage_modifier: number, reason: string, } | { "type": "cancel_damage", combatant_id: string, sequence: number, reason: string, } | { "type": "sync", sheets: Array<SyncSheet>, } | { "type": "start_battle", sheet_ids: Array<string>, sides: { [key in string]?: string }, } | { "type": "next_round" } | { "type": "set_phase", phase: string, } | { "type": "end_battle" } | { "type": "roll", combatant_id: string, dice: number, reason: string, use_action: boolean, } | { "type": "resolve", combatant_id: string, target_id: string, move_name: string, dice: number, hp_delta: number, condition: string | null, use_action: boolean, reason: string, } | { "type": "override", combatant_id: string, hp: number, conditions: Array<string>, actions: number, reactions: number, initiative: number, reason: string, } | { "type": "reward", sheet_id: string, xp: number, reason: string, };
+export type Action =
+  | { type: "adjust_will"; combatant_id: string; will: number; reason: string }
+  | {
+      type: "authorize_will";
+      combatant_id: string;
+      enabled: boolean;
+      reason: string;
+    }
+  | {
+      type: "adjudicate_status";
+      combatant_id: string;
+      damage: number;
+      reason: string;
+    }
+  | {
+      type: "break_ice";
+      combatant_id: string;
+      target_id: string;
+      move_name: string;
+      reason: string;
+    }
+  | { type: "take_held_turn"; combatant_id: string; reason: string }
+  | { type: "start_turns" }
+  | { type: "ability_transfer"; command: TransferCommand; reason: string }
+  | {
+      type: "resolve_ability";
+      event_id: string;
+      choice: string;
+      reason: string;
+    }
+  | {
+      type: "choose_sheer_force";
+      combatant_id: string;
+      ignore_added_effects: boolean;
+      reason: string;
+    }
+  | {
+      type: "inflict_status";
+      combatant_id: string;
+      source_id: string;
+      kind: string;
+      detail: string;
+      rounds: number | null;
+      reason: string;
+    }
+  | {
+      type: "set_battle_range";
+      combatant_id: string;
+      in_range_ids: Array<string>;
+      reason: string;
+    }
+  | {
+      type: "cover_ally";
+      combatant_id: string;
+      ally_id: string;
+      reason: string;
+    }
+  | { type: "tactics"; command: TacticsCommand; reason: string }
+  | { type: "special_move"; command: SpecialCommand; reason: string }
+  | {
+      type: "battle_stat";
+      source_id: string;
+      combatant_id: string;
+      stat: string;
+      change: number;
+      reason: string;
+    }
+  | { type: "battlefield"; command: FieldCommand; reason: string }
+  | {
+      type: "adjudicate_field";
+      sequence: number;
+      rounds: number | null;
+      reason: string;
+    }
+  | { type: "remove_field_effect"; sequence: number; reason: string }
+  | {
+      type: "accuracy_targets";
+      combatant_id: string;
+      target_ids: Array<string>;
+      move_name: string;
+      pool_modifier: number;
+      success_modifier: number;
+      reason: string;
+    }
+  | { type: "pass_turn"; combatant_id: string; reason: string }
+  | {
+      type: "react";
+      combatant_id: string;
+      kind: string;
+      move_name: string;
+      reason: string;
+    }
+  | { type: "pass_reaction"; combatant_id: string; reason: string }
+  | { type: "resolve_effect"; sequence: number; reason: string }
+  | { type: "adjudicate_effect"; sequence: number; reason: string }
+  | {
+      type: "set_status";
+      combatant_id: string;
+      kind: string;
+      detail: string;
+      rounds: number | null;
+      remove: boolean;
+      reason: string;
+    }
+  | { type: "status_check"; combatant_id: string; kind: string; reason: string }
+  | { type: "spend_will"; combatant_id: string; mode: string; reason: string }
+  | {
+      type: "start_team_battle";
+      sheet_ids: Array<string>;
+      sides: { [key in string]?: string };
+      active_sheet_ids: Array<string>;
+      slots_per_side: number;
+    }
+  | {
+      type: "switch_pokemon";
+      outgoing_id: string;
+      incoming_id: string;
+      gm_override: boolean;
+      reason: string;
+    }
+  | { type: "adopt_catalog" }
+  | { type: "publish_training"; encounter: TrainingEncounter }
+  | { type: "cancel_training"; encounter_id: string; reason: string }
+  | { type: "resolve_training"; resolution: EncounterResolution }
+  | { type: "propose_workflow"; request: WorkflowRequest }
+  | {
+      type: "approve_workflow";
+      proposal_id: string;
+      accept: boolean;
+      reason: string;
+    }
+  | { type: "set_rules_profile"; profile: RulesProfile; reason: string }
+  | { type: "battle_config"; automatic_validation: boolean; reason: string }
+  | { type: "rollback_battle"; event_sequence: number; reason: string }
+  | {
+      type: "battle_stats";
+      combatant_id: string;
+      stats: { [key in string]?: number };
+      skills: { [key in string]?: number };
+      max_hp: number;
+      reason: string;
+    }
+  | { type: "assign_gm"; player_id: string }
+  | { type: "upgrade_rules" }
+  | { type: "initiative"; combatant_id: string }
+  | {
+      type: "accuracy";
+      combatant_id: string;
+      target_id: string | null;
+      move_name: string;
+      pool_modifier: number;
+      success_modifier: number;
+      reason: string;
+    }
+  | {
+      type: "damage";
+      combatant_id: string;
+      sequence: number;
+      pool_modifier: number;
+      success_modifier: number;
+      damage_modifier: number;
+      reason: string;
+    }
+  | {
+      type: "cancel_damage";
+      combatant_id: string;
+      sequence: number;
+      reason: string;
+    }
+  | { type: "sync"; sheets: Array<SyncSheet> }
+  | {
+      type: "start_battle";
+      sheet_ids: Array<string>;
+      sides: { [key in string]?: string };
+    }
+  | { type: "next_round" }
+  | { type: "set_phase"; phase: string }
+  | { type: "end_battle" }
+  | {
+      type: "roll";
+      combatant_id: string;
+      dice: number;
+      reason: string;
+      use_action: boolean;
+    }
+  | {
+      type: "resolve";
+      combatant_id: string;
+      target_id: string;
+      move_name: string;
+      dice: number;
+      hp_delta: number;
+      condition: string | null;
+      use_action: boolean;
+      reason: string;
+    }
+  | {
+      type: "override";
+      combatant_id: string;
+      hp: number;
+      conditions: Array<string>;
+      actions: number;
+      reactions: number;
+      initiative: number;
+      reason: string;
+    }
+  | { type: "reward"; sheet_id: string; xp: number; reason: string };

@@ -18,16 +18,21 @@ pub fn pain(hp: i32, max_hp: i32) -> i32 {
     }
 }
 pub fn effective_sheet(c: &Campaign, p: &Combatant) -> Result<Sheet> {
+    let mut s = base_sheet(c, p)?;
+    crate::combat::apply_stats(c, p, &mut s);
+    crate::combat::field::stats(c, p, &mut s);
+    crate::combat::sequencing::apply_stats(c, p, &mut s);
+    Ok(s)
+}
+/// Permanent attributes plus explicit GM overrides, before battle modifiers.
+pub fn base_sheet(c: &Campaign, p: &Combatant) -> Result<Sheet> {
     let mut s = c
         .sheets
         .get(&p.sheet_id)
         .cloned()
         .ok_or_else(|| AppError::new("missing", "Missing combatant sheet"))?;
     s.stats.extend(p.stat_overrides.clone());
-    crate::combat::apply_stats(c, p, &mut s);
     s.skills.extend(p.skill_overrides.clone());
-    crate::combat::field::stats(c, p, &mut s);
-    crate::combat::sequencing::apply_stats(c, p, &mut s);
     s.ability = p.selected_ability.clone();
     if let Some(b) = s.workflow.as_mut() {
         b.profile = p.rules_profile.clone();
@@ -194,6 +199,7 @@ pub fn accuracy(
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
     if [
         ENGINE,
+        SEQUENCING_ENGINE,
         STAT_ENGINE,
         REVIEWED_ENGINE,
         TRANSFER_ENGINE,
@@ -297,8 +303,18 @@ pub fn damage_pool(
     if let Some(ctx) = context {
         source.stats = ctx.stats.clone();
     }
+    if crate::combat::provenance::ignores_attributes(c, target, attacker) {
+        source.stats = context
+            .filter(|ctx| !ctx.base_stats.is_empty())
+            .map_or(base_sheet(c, attacker)?.stats, |ctx| ctx.base_stats.clone());
+    }
     let attack_hp = context.map_or(attacker.hp, |ctx| ctx.hp);
-    let defender = effective_sheet(c, target)?;
+    let ignore_defender = crate::combat::provenance::ignores_attributes(c, attacker, target);
+    let defender = if ignore_defender {
+        base_sheet(c, target)?
+    } else {
+        effective_sheet(c, target)?
+    };
     let m = catalog
         .find("moves", "Name", &hit.move_name)
         .ok_or_else(|| AppError::new("missing", "Unknown move"))?;
@@ -357,11 +373,23 @@ pub fn damage_pool(
     } else {
         "SpecialDefense"
     }] + crate::combat::abilities::defense(c, target, defense_source == "Vitality");
-    let defense =
-        crate::combat::field::defense(c, target, defense_source == "Vitality", catalog, defense)?;
+    let defense = crate::combat::field::damage_defense(
+        c,
+        target,
+        defense_source == "Vitality",
+        catalog,
+        defense,
+        ignore_defender,
+    )?;
     let defense = context
         .and_then(|ctx| ctx.field_snapshot.as_ref())
-        .and_then(|f| f.defenses.get(&target.id))
+        .and_then(|f| {
+            if ignore_defender {
+                f.base_attribute_defenses.get(&target.id)
+            } else {
+                f.defenses.get(&target.id)
+            }
+        })
         .map_or(defense, |d| d[usize::from(defense_source != "Vitality")])
         .max(1);
     let defense =
@@ -437,6 +465,7 @@ pub fn damage_pool(
         original_bonus.max(additional)
     };
     let pool = (attribute + power - defense).max(1)
+        + crate::combat::provenance::sheer_force_bonus(c, key, sequence)
         + stab
         + critical
         + modifier
@@ -547,6 +576,7 @@ pub fn type_matchup(
 ) -> Result<(i32, bool)> {
     let mut effectiveness = 0;
     let mut immune = false;
+    let mut ignore_resistance = crate::combat::provenance::ignore_resistance(c, attacker, target);
     for t in crate::combat::field::types(c, target, catalog)? {
         let effect = if crate::combat::extra::ignores_ghost(c, attacker, move_type, &t) {
             0
@@ -573,7 +603,9 @@ pub fn type_matchup(
                 && t == "Flying"
                 && (crate::combat::field::has(c, "Gravity", target)
                     || crate::combat::special::roost(c, &target.id)));
-        if effect != -100 {
+        if effect == -1 && ignore_resistance {
+            ignore_resistance = false;
+        } else if effect != -100 {
             effectiveness += effect;
         }
     }

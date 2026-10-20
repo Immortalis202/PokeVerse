@@ -58,6 +58,69 @@ export default function AbilityControls({
         suppression are recorded below. Supported passive effects apply
         automatically. Unsupported interactions require a GM ruling.
       </p>
+      {f.provenance_rules &&
+        b.combatants
+          .filter(
+            (p) =>
+              p.deployed &&
+              p.hp > 0 &&
+              p.selected_ability === "Sheer Force" &&
+              (gm || p.owner_id === playerId),
+          )
+          .map((p) => {
+            const damage =
+              p.runtime.ability.flags.includes("sheer-force:damage");
+            return (
+              <p key={p.id}>
+                {p.name}: Sheer Force —{" "}
+                {damage
+                  ? "trade added effects for two damage dice"
+                  : "keep added effects"}
+                <button
+                  disabled={
+                    disabled ||
+                    f.queue.length > 0 ||
+                    f.ability_events.length > 0
+                  }
+                  onClick={() =>
+                    void execute({
+                      type: "choose_sheer_force",
+                      combatant_id: p.id,
+                      ignore_added_effects: !damage,
+                      reason:
+                        reason.trim() ||
+                        "Choose Sheer Force for subsequent attacks",
+                    })
+                  }
+                >
+                  {damage
+                    ? "Keep added effects"
+                    : "Trade added effects for damage"}
+                </button>
+              </p>
+            );
+          })}
+      {f.provenance_rules && (
+        <details>
+          <summary>Damage provenance</summary>
+          <p>
+            Tinted Lens ignores one foe resistance. Unaware ignores foe
+            attribute changes when dealing or receiving damage.
+          </p>
+          {b.combatants.flatMap((p) =>
+            p.runtime.ability.flags
+              .filter((flag) => flag.startsWith("stakeout:"))
+              .map((flag) => (
+                <p key={`${p.id}:${flag}`}>
+                  {p.name}: Stakeout awaits the first successful attack on{" "}
+                  {b.combatants.find((t) => t.id === flag.slice(9))?.name ??
+                    "the incoming foe"}
+                  .
+                </p>
+              )),
+          )}
+        </details>
+      )}
       {f.transfers?.enabled && (
         <details>
           <summary>Contact transfer history</summary>

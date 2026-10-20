@@ -170,11 +170,11 @@ test("ability inventory exposes reviewed scopes and preserves manual boundaries"
   assert.equal(inventory.entries.length, 305);
   assert.equal(
     inventory.entries.filter((e) => e.status !== "manual").length,
-    255,
+    259,
   );
   assert.equal(
     Object.values(registry.entries).filter((e) => e.status !== "manual").length,
-    255,
+    259,
   );
   assert.equal(
     inventory.entries.find((e) => e.name === "Static").status,
@@ -188,6 +188,14 @@ test("ability inventory exposes reviewed scopes and preserves manual boundaries"
     inventory.entries.find((e) => e.name === "Mold Breaker").status,
     "automated",
   );
+  for (const name of ["Tinted Lens", "Unaware", "Stakeout"]) {
+    assert.equal(registry.entries[name].status, "automated");
+    assert.equal(registry.entries[name].introduced_engine, "0.16.0-core");
+  }
+  assert.equal(registry.entries["Sheer Force"].status, "partial");
+  assert.deepEqual(registry.entries["Sheer Force"].dependencies, [
+    "held-item-system",
+  ]);
   for (const entry of inventory.entries) {
     if (entry.status === "manual")
       assert.ok(entry.dependencies.length, entry.name);

@@ -19,9 +19,13 @@ export default function AbilityInheritanceControls({
   );
   const [reason, setReason] = useState("");
   if (
-    !["0.15.0-core", "0.14.0-core", "0.13.0-core", "0.12.0-core"].includes(
-      campaign.engine,
-    )
+    ![
+      "0.16.0-core",
+      "0.15.0-core",
+      "0.14.0-core",
+      "0.13.0-core",
+      "0.12.0-core",
+    ].includes(campaign.engine)
   )
     return null;
   const state = campaign.ability_inheritance;

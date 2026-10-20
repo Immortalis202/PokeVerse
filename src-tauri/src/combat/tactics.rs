@@ -396,6 +396,7 @@ pub fn react(
             raw_damage_successes: 0,
             ice: false,
             sequencing_penalty: false,
+            sheer_force: false,
             special_index: 0,
             targets: targets
                 .into_iter()
@@ -602,17 +603,32 @@ pub fn queue_clash(
         ..incoming.clone()
     };
     let m = move_entry(cat, name)?;
-    let reduced = abilities::clash_reduced(c, &counter.target_id, &m, raw, &counter.actor_id)?;
+    let bonus = provenance::clash_bonus(c, &counter.actor_id, &counter.target_id, &m, cat)?;
+    let reduced = abilities::clash_reduced_with_bonus(
+        c,
+        &counter.target_id,
+        &m,
+        raw,
+        &counter.actor_id,
+        bonus,
+    )?;
     let old = state(c)
         .clash_pending
         .get(&incoming.sequence)
         .map(|(q, raw)| {
-            abilities::clash_reduced(
+            abilities::clash_reduced_with_bonus(
                 c,
                 &q.target_id,
                 &move_entry(cat, &q.move_name)?,
                 *raw,
                 &q.actor_id,
+                provenance::clash_bonus(
+                    c,
+                    &q.actor_id,
+                    &q.target_id,
+                    &move_entry(cat, &q.move_name)?,
+                    cat,
+                )?,
             )
         })
         .transpose()?
@@ -645,7 +661,7 @@ fn flush_clashes(c: &mut Campaign, cat: &Catalog) -> Result<()> {
         }
         let m = move_entry(cat, &q.move_name)?;
         let hp = fighter(c, &q.target_id)?.hp;
-        let amount = abilities::clash_amount(c, &q.target_id, &m, raw, &q.actor_id)?;
+        let amount = abilities::clash_amount(c, &q.target_id, &m, raw, &q.actor_id, cat)?;
         let decoy_hit = decoys::damage(c, &q, &m, amount);
         if !decoy_hit {
             fighter_mut(c, &q.target_id)?.hp = (hp - amount).max(0);
@@ -1227,6 +1243,7 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
             raw_damage_successes: 0,
             ice: false,
             sequencing_penalty: false,
+            sheer_force: false,
             special_index: 0,
             targets: vec![],
             field_scope: None,
