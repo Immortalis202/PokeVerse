@@ -141,8 +141,69 @@ fn protected(c: &Campaign, p: &Combatant, key: &str) -> bool {
         || (key == "Defense" && p.selected_ability == "Big Pecks")
         || field::aura(c, p, "Flower Veil", true)
 }
+pub fn attribute_channel(c: &Campaign, p: &Combatant, key: &str) -> (i32, i32) {
+    let intimidated = flow(c).is_ok_and(|f| f.intimidate.values().any(|ids| ids.contains(&p.id)));
+    let mut positive = own_stat(c, p, key);
+    let mut negative = if reviewed::enabled(c) {
+        count(p, &format!("debuff:{key}"))
+    } else {
+        0
+    };
+    if p.selected_ability != "Clear Body" {
+        if key == "Strength"
+            && matches!(
+                field::weather(c, Some(p)),
+                Some(field::Weather::Sunny | field::Weather::Desolate)
+            )
+            && field::aura(c, p, "Flower Gift", true)
+        {
+            positive = positive.max(2);
+        }
+        if key == "Special" && field::aura(c, p, "Battery", false) {
+            positive = positive.max(1);
+        }
+    }
+    if key == "Strength"
+        && intimidated
+        && p.selected_ability != "Inner Focus"
+        && !protected(c, p, key)
+    {
+        match p.selected_ability.as_str() {
+            "Contrary" => positive = positive.max(1),
+            "Simple" => negative = -2,
+            _ => negative = -1,
+        }
+    }
+    if ![
+        "Beads of Ruin",
+        "Sword of Ruin",
+        "Tablets of Ruin",
+        "Vessel of Ruin",
+    ]
+    .contains(&p.selected_ability.as_str())
+        && !protected(c, p, key)
+    {
+        let name = match key {
+            "Strength" => "Tablets of Ruin",
+            "Special" => "Vessel of Ruin",
+            _ => "",
+        };
+        if !name.is_empty() && global_aura(c, p, name, false) {
+            negative = negative.min(-2);
+        }
+    }
+    (positive, negative)
+}
 pub fn apply_stats(c: &Campaign, p: &Combatant, s: &mut Sheet) {
-    for (key, amount) in &p.runtime.modifiers {
+    let mut modifiers = p.runtime.modifiers.clone();
+    if stat_channels::enabled(c) {
+        for key in stat_channels::KEYS {
+            if !stat_channels::move_values(c, p, key).is_empty() {
+                modifiers.entry(key.into()).or_insert(0);
+            }
+        }
+    }
+    for (key, amount) in &modifiers {
         let n = special::modifier(c, p, key).unwrap_or_else(|| match p.selected_ability.as_str() {
             "Contrary" => -*amount,
             "Simple" => amount + amount.signum(),
@@ -157,67 +218,8 @@ pub fn apply_stats(c: &Campaign, p: &Combatant, s: &mut Sheet) {
             *v = (*v - 2).max(0);
         }
     }
-    let intimidated = flow(c).is_ok_and(|f| f.intimidate.values().any(|ids| ids.contains(&p.id)));
     for key in ["Strength", "Dexterity", "Vitality", "Special", "Insight"] {
-        let mut positive = own_stat(c, p, key);
-        let mut negative = if reviewed::enabled(c) {
-            count(p, &format!("debuff:{key}"))
-        } else {
-            0
-        };
-        if p.selected_ability != "Clear Body" {
-            if key == "Strength"
-                && matches!(
-                    field::weather(c, Some(p)),
-                    Some(field::Weather::Sunny | field::Weather::Desolate)
-                )
-                && field::aura(c, p, "Flower Gift", true)
-            {
-                positive = positive.max(2);
-            }
-            if key == "Special" && field::aura(c, p, "Battery", false) {
-                positive = positive.max(1);
-            }
-        }
-        if key == "Strength"
-            && intimidated
-            && p.selected_ability != "Inner Focus"
-            && !protected(c, p, key)
-        {
-            match p.selected_ability.as_str() {
-                "Contrary" => positive = positive.max(1),
-                "Simple" => negative = -2,
-                _ => negative = -1,
-            }
-        }
-        if ![
-            "Beads of Ruin",
-            "Sword of Ruin",
-            "Tablets of Ruin",
-            "Vessel of Ruin",
-        ]
-        .contains(&p.selected_ability.as_str())
-            && !protected(c, p, key)
-        {
-            let name = match key {
-                "Strength" => "Tablets of Ruin",
-                "Special" => "Vessel of Ruin",
-                _ => "",
-            };
-            if !name.is_empty() && global_aura(c, p, name, false) {
-                negative = negative.min(-2);
-            }
-        }
-        let permanent = if key == "Strength"
-            && ["Huge Power", "Pure Power"].contains(&if ability_changes::enabled(c) {
-                c.sheets[&p.sheet_id].ability.as_str()
-            } else {
-                p.selected_ability.as_str()
-            }) {
-            2
-        } else {
-            0
-        };
+        let (positive, negative) = stat_channels::channel(c, p, key);
         if let Some(v) = s.stats.get_mut(key) {
             let minimum = if key == "Dexterity"
                 && status(p, "Paralysis")
@@ -227,11 +229,12 @@ pub fn apply_stats(c: &Campaign, p: &Combatant, s: &mut Sheet) {
             } else {
                 1
             };
-            *v = (*v + positive - permanent + negative).clamp(minimum, 10);
+            *v =
+                (*v + positive - stat_channels::permanent(c, p, key) + negative).clamp(minimum, 10);
         }
     }
 }
-pub fn defense(c: &Campaign, p: &Combatant, physical: bool) -> i32 {
+pub fn defense_channel(c: &Campaign, p: &Combatant, physical: bool) -> (i32, i32) {
     let key = if physical {
         "Defense"
     } else {
@@ -279,6 +282,15 @@ pub fn defense(c: &Campaign, p: &Combatant, physical: bool) -> i32 {
     {
         negative = negative.min(-2);
     }
+    (positive, negative)
+}
+pub fn defense(c: &Campaign, p: &Combatant, physical: bool) -> i32 {
+    let key = if physical {
+        "Defense"
+    } else {
+        "SpecialDefense"
+    };
+    let (positive, negative) = stat_channels::channel(c, p, key);
     let move_mod = *p.runtime.modifiers.get(key).unwrap_or(&0);
     let move_mod =
         special::modifier(c, p, key).unwrap_or_else(|| match p.selected_ability.as_str() {
@@ -507,7 +519,7 @@ pub fn after_status(c: &mut Campaign, id: &str, kind: &str) -> Result<()> {
     }
     Ok(())
 }
-pub(super) fn boost(c: &mut Campaign, id: &str, key: &str, n: i32) -> Result<()> {
+pub(crate) fn boost(c: &mut Campaign, id: &str, key: &str, n: i32) -> Result<()> {
     let k = format!("{}:{key}", if n < 0 { "debuff" } else { "boost" });
     let v = fighter_mut(c, id)?
         .runtime
@@ -922,6 +934,9 @@ pub fn end_round(c: &mut Campaign) -> Result<()> {
     Ok(())
 }
 pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<()> {
+    if c.battle.as_ref().is_some_and(|b| !b.active) {
+        stat_channels::finish(c);
+    }
     if !enabled(c) || !c.battle.as_ref().is_some_and(|b| b.active) {
         return Ok(());
     }
@@ -1038,6 +1053,12 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
                         .collect::<Vec<_>>()
                     {
                         special::clear_modifiers(c, &t.id);
+                        if stat_channels::enabled(c) {
+                            flow_mut(c)
+                                .stat_channels
+                                .grants
+                                .retain(|g| g.target != t.id);
+                        }
                         fighter_mut(c, &t.id)?.runtime.modifiers.clear();
                         fighter_mut(c, &t.id)?
                             .runtime
@@ -1074,6 +1095,7 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
         .map(|p| p.id.clone())
         .collect();
     let _ = cat;
+    stat_channels::lifecycle(before, c)?;
     Ok(())
 }
 fn in_range(c: &Campaign, p: &Combatant, id: &str) -> bool {

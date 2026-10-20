@@ -74,6 +74,14 @@ export default function AbilityControls({
           ))}
         </details>
       )}
+      {f.stat_channels?.enabled && (
+        <details>
+          <summary>Stat copying and transfer history</summary>
+          {f.stat_channels.history.map((entry, i) => (
+            <p key={i}>{entry}</p>
+          ))}
+        </details>
+      )}
       <div className="toolbar">
         {b.combatants
           .filter((p) => p.deployed)
@@ -257,6 +265,13 @@ export default function AbilityControls({
                                           (p) => p.id === choice,
                                         )?.name ?? `Select ${choice}`)}
                     </button>
+                    {event.kind === "stat-costar" && (
+                      <small>
+                        {(f.stat_channels?.choices[event.id]?.[choice] ?? [])
+                          .map((g) => `${g.key} +${g.positive} (${g.channel})`)
+                          .join(" � ")}
+                      </small>
+                    )}
                   </span>
                 ))}
                 {gm && event.kind !== "ability-gas" && (

@@ -297,7 +297,7 @@ export default function BattlefieldControls({
                 Sunlight reaches the arena
               </label>
             </div>
-            {campaign.engine === "0.13.0-core" && (
+            {["0.14.0-core", "0.13.0-core"].includes(campaign.engine) && (
               <label>
                 <input
                   type="checkbox"

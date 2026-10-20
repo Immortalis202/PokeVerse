@@ -10,6 +10,7 @@ pub(crate) mod extra;
 pub(crate) mod field;
 pub(crate) mod reviewed;
 pub(crate) mod special;
+pub(crate) mod stat_channels;
 pub(crate) mod tactics;
 mod targeting;
 pub(crate) mod transfers;
@@ -51,6 +52,8 @@ pub struct Status {
 #[derive(Debug, Clone, Default, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct TurnFlow {
+    #[serde(default)]
+    pub stat_channels: stat_channels::StatChannels,
     #[serde(default)]
     pub reviewed_rules: bool,
     #[serde(default)]
@@ -2517,24 +2520,36 @@ pub fn transition(
             ) {
                 let b = done.battle.as_mut().unwrap();
                 b.flow = Some(TurnFlow {
-                    reviewed_rules: c.engine == ENGINE,
+                    stat_channels: stat_channels::StatChannels {
+                        enabled: c.engine == ENGINE,
+                        ..Default::default()
+                    },
+                    reviewed_rules: [ENGINE, REVIEWED_ENGINE].contains(&c.engine.as_str()),
                     transfers: transfers::TransferState {
-                        enabled: [ENGINE, TRANSFER_ENGINE].contains(&c.engine.as_str()),
+                        enabled: [ENGINE, REVIEWED_ENGINE, TRANSFER_ENGINE]
+                            .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     ability_changes: ability_changes::AbilityChanges {
-                        enabled: [ENGINE, TRANSFER_ENGINE, ASSIGNMENT_ENGINE]
+                        enabled: [ENGINE, REVIEWED_ENGINE, TRANSFER_ENGINE, ASSIGNMENT_ENGINE]
                             .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     decoys: decoys::DecoyState {
-                        enabled: [ENGINE, TRANSFER_ENGINE, ASSIGNMENT_ENGINE, DECOY_ENGINE]
-                            .contains(&c.engine.as_str()),
+                        enabled: [
+                            ENGINE,
+                            REVIEWED_ENGINE,
+                            TRANSFER_ENGINE,
+                            ASSIGNMENT_ENGINE,
+                            DECOY_ENGINE,
+                        ]
+                        .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            REVIEWED_ENGINE,
                             TRANSFER_ENGINE,
                             ASSIGNMENT_ENGINE,
                             DECOY_ENGINE,
@@ -2546,6 +2561,7 @@ pub fn transition(
                     special: special::SpecialState {
                         enabled: [
                             ENGINE,
+                            REVIEWED_ENGINE,
                             TRANSFER_ENGINE,
                             ASSIGNMENT_ENGINE,
                             DECOY_ENGINE,
@@ -2557,6 +2573,7 @@ pub fn transition(
                     },
                     ability_rules: [
                         ENGINE,
+                        REVIEWED_ENGINE,
                         TRANSFER_ENGINE,
                         ASSIGNMENT_ENGINE,
                         DECOY_ENGINE,
@@ -2570,6 +2587,7 @@ pub fn transition(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            REVIEWED_ENGINE,
                             TRANSFER_ENGINE,
                             ASSIGNMENT_ENGINE,
                             DECOY_ENGINE,
@@ -2583,6 +2601,7 @@ pub fn transition(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            REVIEWED_ENGINE,
                             TRANSFER_ENGINE,
                             ASSIGNMENT_ENGINE,
                             DECOY_ENGINE,

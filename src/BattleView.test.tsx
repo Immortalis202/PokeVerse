@@ -188,6 +188,15 @@ describe("structured core battle controls", () => {
         automatic_validation: true,
         combatants,
         flow: {
+          stat_channels: {
+            enabled: engine === "0.14.0-core",
+            active: [],
+            grants: [],
+            removed: {},
+            removed_abilities: {},
+            choices: {},
+            history: [],
+          },
           reviewed_rules: engine === "0.13.0-core",
           transfers: {
             enabled: false,

@@ -1359,30 +1359,37 @@ pub fn effects(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) -
                     "Cannot Snatch from a Pokemon that used Snatch this round",
                 ));
             }
-            for e in &mut state_mut(c).effects {
-                if e.target == *t && (e.name.starts_with("buff:") || e.name.starts_with("debuff:"))
-                {
-                    e.target = a.clone();
+            if stat_channels::enabled(c) {
+                stat_channels::transfer(c, t, a, "Snatch")?;
+                clear_modifiers(c, t);
+                fighter_mut(c, t)?.runtime.modifiers.clear();
+            } else {
+                for e in &mut state_mut(c).effects {
+                    if e.target == *t
+                        && (e.name.starts_with("buff:") || e.name.starts_with("debuff:"))
+                    {
+                        e.target = a.clone();
+                    }
                 }
-            }
-            let mods = std::mem::take(&mut fighter_mut(c, t)?.runtime.modifiers);
-            fighter_mut(c, a)?.runtime.modifiers.extend(mods);
-            let keys: Vec<_> = fighter(c, a)?.runtime.modifiers.keys().cloned().collect();
-            for key in keys {
-                let positive = format!("buff:{key}");
-                let negative = format!("debuff:{key}");
-                let values: Vec<_> = state(c)
-                    .effects
-                    .iter()
-                    .filter(|e| e.target == *a && (e.name == positive || e.name == negative))
-                    .map(|e| e.amount)
-                    .collect();
-                if !values.is_empty() {
-                    fighter_mut(c, a)?.runtime.modifiers.insert(
-                        key,
-                        values.iter().copied().max().unwrap_or(0).max(0)
-                            + values.iter().copied().min().unwrap_or(0).min(0),
-                    );
+                let mods = std::mem::take(&mut fighter_mut(c, t)?.runtime.modifiers);
+                fighter_mut(c, a)?.runtime.modifiers.extend(mods);
+                let keys: Vec<_> = fighter(c, a)?.runtime.modifiers.keys().cloned().collect();
+                for key in keys {
+                    let positive = format!("buff:{key}");
+                    let negative = format!("debuff:{key}");
+                    let values: Vec<_> = state(c)
+                        .effects
+                        .iter()
+                        .filter(|e| e.target == *a && (e.name == positive || e.name == negative))
+                        .map(|e| e.amount)
+                        .collect();
+                    if !values.is_empty() {
+                        fighter_mut(c, a)?.runtime.modifiers.insert(
+                            key,
+                            values.iter().copied().max().unwrap_or(0).max(0)
+                                + values.iter().copied().min().unwrap_or(0).min(0),
+                        );
+                    }
                 }
             }
             if let Some(mut s) = state_mut(c).shields.remove(t) {
@@ -2699,6 +2706,12 @@ pub fn low_accuracy(c: &Campaign, id: &str) -> i32 {
     }
 }
 pub fn clear_modifiers(c: &mut Campaign, id: &str) {
+    if stat_channels::enabled(c) {
+        flow_mut(c)
+            .stat_channels
+            .grants
+            .retain(|g| g.target != id || g.channel != "move");
+    }
     if enabled(c) {
         state_mut(c).effects.retain(|e| {
             e.target != id || (!e.name.starts_with("buff:") && !e.name.starts_with("debuff:"))
@@ -2770,6 +2783,17 @@ pub fn modifier(c: &Campaign, p: &Combatant, key: &str) -> Option<i32> {
             _ => 1,
         });
     }
+    let copied = stat_channels::move_values(c, p, key);
+    if values.is_empty() && !copied.is_empty() {
+        if let Some(amount) = p.runtime.modifiers.get(key) {
+            values.push(match p.selected_ability.as_str() {
+                "Contrary" => -*amount,
+                "Simple" => amount + amount.signum(),
+                _ => *amount,
+            });
+        }
+    }
+    values.extend(copied);
     if values.is_empty() {
         None
     } else {

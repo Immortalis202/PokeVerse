@@ -1717,10 +1717,9 @@
         "shields"
       ],
       "status": "partial",
-      "scope": "Transfers supported move modifiers, shields, healing targeting and typed side effects. Decoys transfer remaining HP and reset defenses to the user. Ability-modifier transfer and unmodelled effects remain manual.",
+      "scope": "Transfers supported move and ability attribute/defense increases and reductions, shields, healing targeting and typed side effects. Ability snapshots retain provenance; stolen conditional modifiers remain removed until their condition clears. Decoys transfer remaining HP and reset defenses to the user. Unmodelled effects remain manual.",
       "page": 447,
       "dependencies": [
-        "ability-modifier-transfer",
         "unmodelled-effects"
       ]
     },

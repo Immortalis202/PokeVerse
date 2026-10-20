@@ -130,6 +130,7 @@ test("coverage and PDF fingerprints are preserved with a complete field-level qu
       ) +
       readFileSync("src-tauri/src/combat_tests/transfer_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/reviewed_tests.rs", "utf8") +
+      readFileSync("src-tauri/src/combat_tests/stat_channel_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/field_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/extra_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/special_tests.rs", "utf8") +
@@ -168,11 +169,11 @@ test("ability inventory exposes reviewed scopes and preserves manual boundaries"
   assert.equal(inventory.entries.length, 305);
   assert.equal(
     inventory.entries.filter((e) => e.status !== "manual").length,
-    248,
+    250,
   );
   assert.equal(
     Object.values(registry.entries).filter((e) => e.status !== "manual").length,
-    248,
+    250,
   );
   assert.equal(
     inventory.entries.find((e) => e.name === "Static").status,

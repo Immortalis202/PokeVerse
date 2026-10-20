@@ -1353,3 +1353,128 @@ fn decoys_unreviewed_user_effect_is_not_silently_discarded() {
     assert_eq!(err.code, "manual_rule");
     assert!(err.message.contains("unsupported user effect"));
 }
+
+#[test]
+fn stat_channels_baton_host_switch_copies_both_channels_to_reserve_and_cleans_outgoing() {
+    let (mut c, a, _) = setup("Baton Pass");
+    let reserve = add(&mut c, &a, false);
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .stat_channels
+        .enabled = true;
+    crate::combat::extra::change_stat(&mut c, &a, &a, "Strength", 2).unwrap();
+    crate::combat::extra::boost(&mut c, &a, "Strength", 1).unwrap();
+    let c = effect(&hit(&c, &a, &a, "Baton Pass"));
+    let c = run(
+        &c,
+        "gm",
+        &tac(tactics::TacticsCommand::Switch {
+            request_id: f(&c).tactics.switches[0].id.clone(),
+            incoming_id: Some(reserve.clone()),
+            ruling: "replace".into(),
+        }),
+        4,
+    );
+    assert_eq!(
+        crate::rules::effective_sheet(&c, fighter(&c, &reserve))
+            .unwrap()
+            .stats["Strength"],
+        7
+    );
+    assert!(!fighter(&c, &a).deployed);
+    assert!(f(&c)
+        .stat_channels
+        .grants
+        .iter()
+        .all(|g| g.target == reserve));
+    assert!(tactics::baton_blocked(&c, &a, &a, "Strength", 1));
+}
+#[test]
+fn stat_channels_snatch_host_resolution_steals_ability_and_move_channels() {
+    let (mut c, a, t) = setup("Snatch");
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .stat_channels
+        .enabled = true;
+    crate::combat::extra::change_stat(&mut c, &t, &t, "Strength", 2).unwrap();
+    crate::combat::extra::boost(&mut c, &t, "Strength", 1).unwrap();
+    let c = effect(&pass(&hit(&c, &a, &t, "Snatch")));
+    assert_eq!(
+        crate::rules::effective_sheet(&c, fighter(&c, &a))
+            .unwrap()
+            .stats["Strength"],
+        7
+    );
+    assert_eq!(
+        crate::rules::effective_sheet(&c, fighter(&c, &t))
+            .unwrap()
+            .stats["Strength"],
+        4
+    );
+}
+
+#[test]
+fn stat_channels_snatch_keeps_resolved_values_and_stronger_recipient_move_modifiers() {
+    for ability_name in ["Simple", "Contrary", ""] {
+        let (mut c, a, t) = setup("Snatch");
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .stat_channels
+            .enabled = true;
+        ability(&mut c, &a, ability_name);
+        crate::combat::extra::change_stat(&mut c, &t, &t, "Strength", 2).unwrap();
+        let c = effect(&pass(&hit(&c, &a, &t, "Snatch")));
+        assert_eq!(
+            crate::rules::effective_sheet(&c, fighter(&c, &a))
+                .unwrap()
+                .stats["Strength"],
+            6,
+            "{ability_name} must not transform the transferred snapshot again"
+        );
+        assert_eq!(
+            crate::rules::effective_sheet(&c, fighter(&c, &t))
+                .unwrap()
+                .stats["Strength"],
+            4
+        );
+    }
+    let (mut c, a, t) = setup("Snatch");
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .stat_channels
+        .enabled = true;
+    c.battle
+        .as_mut()
+        .unwrap()
+        .combatants
+        .iter_mut()
+        .find(|p| p.id == a)
+        .unwrap()
+        .runtime
+        .modifiers
+        .insert("Strength".into(), 3);
+    crate::combat::extra::change_stat(&mut c, &t, &t, "Strength", 1).unwrap();
+    let c = effect(&pass(&hit(&c, &a, &t, "Snatch")));
+    assert_eq!(
+        crate::rules::effective_sheet(&c, fighter(&c, &a))
+            .unwrap()
+            .stats["Strength"],
+        7
+    );
+}

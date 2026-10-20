@@ -1066,6 +1066,11 @@ fn resolve_switch(
     } else {
         vec![]
     };
+    if s.name == "Baton Pass" {
+        if let Some(incoming) = &entry {
+            stat_channels::transfer(c, &out.id, &incoming.id, "Baton Pass")?;
+        }
+    }
     decoys::switch(c, &out.id, entry.as_ref().map(|p| p.id.as_str()), &s.name);
     let cursor = flow(c)?.order.get(flow(c)?.cursor).cloned();
     let old_index = flow(c)?.order.iter().position(|v| v == &out.id);
@@ -1093,12 +1098,14 @@ fn resolve_switch(
         p.initiative = out.initiative;
         p.initiative_rolled = out.initiative_rolled;
         if s.name == "Baton Pass" {
-            for (key, n) in &boosts {
-                let value = special::record_modifier(c, &out.id, &incoming, key, *n)?;
-                fighter_mut(c, &incoming)?
-                    .runtime
-                    .modifiers
-                    .insert(key.clone(), value);
+            if !stat_channels::enabled(c) {
+                for (key, n) in &boosts {
+                    let value = special::record_modifier(c, &out.id, &incoming, key, *n)?;
+                    fighter_mut(c, &incoming)?
+                        .runtime
+                        .modifiers
+                        .insert(key.clone(), value);
+                }
             }
             state_mut(c).baton.insert(out.id.clone(), incoming.clone());
         }

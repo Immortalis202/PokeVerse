@@ -7,7 +7,8 @@ import type { ExtraState } from "./ExtraState";
 import type { FieldEffect } from "./FieldEffect";
 import type { QueuedAction } from "./QueuedAction";
 import type { SpecialState } from "./SpecialState";
+import type { StatChannels } from "./StatChannels";
 import type { TacticsState } from "./TacticsState";
 import type { TransferState } from "./TransferState";
 
-export type TurnFlow = { reviewed_rules: boolean, transfers: TransferState, ability_changes: AbilityChanges, decoys: DecoyState, special: SpecialState, tactics: TacticsState, extra: ExtraState, battlefield: Battlefield, ability_rules: boolean, ability_events: Array<AbilityEvent>, intimidate: { [key in string]?: Array<string> }, started: boolean, order: Array<string>, cursor: number, turn: number, held: Array<string>, reacted: Array<string>, queue: Array<QueuedAction>, window: boolean, deferred: string | null, ranges: { [key in string]?: Array<string> }, covers: { [key in string]?: string }, field_effects: Array<FieldEffect>, };
+export type TurnFlow = { stat_channels: StatChannels, reviewed_rules: boolean, transfers: TransferState, ability_changes: AbilityChanges, decoys: DecoyState, special: SpecialState, tactics: TacticsState, extra: ExtraState, battlefield: Battlefield, ability_rules: boolean, ability_events: Array<AbilityEvent>, intimidate: { [key in string]?: Array<string> }, started: boolean, order: Array<string>, cursor: number, turn: number, held: Array<string>, reacted: Array<string>, queue: Array<QueuedAction>, window: boolean, deferred: string | null, ranges: { [key in string]?: Array<string> }, covers: { [key in string]?: string }, field_effects: Array<FieldEffect>, };

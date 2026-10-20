@@ -145,7 +145,8 @@ pub fn coverage(c: &Campaign, name: &str) -> Option<&'static str> {
             .expect("valid owned ability registry")
     });
     let entry = &REGISTRY["entries"][name];
-    if (entry["introduced_engine"] == "0.13.0-core" && !reviewed::enabled(c))
+    if (entry["introduced_engine"] == "0.14.0-core" && !stat_channels::enabled(c))
+        || (entry["introduced_engine"] == "0.13.0-core" && !reviewed::enabled(c))
         || (entry["introduced_engine"] == "0.12.0-core" && !transfers::enabled(c))
         || (entry["introduced_engine"] == "0.11.0-core" && !ability_changes::enabled(c))
         || (entry["introduced_engine"] == "0.10.0-core" && !decoys::enabled(c))
@@ -646,6 +647,8 @@ pub fn resolve(
         transfers::resolve(next, &e, choice, cat)?;
     } else if e.kind == "ability-gas" {
         ability_changes::gas_ruling(next, &e, actor)?;
+    } else if e.kind == "stat-costar" {
+        stat_channels::resolve(next, &e, choice)?;
     } else if e.kind == "ability-trace" {
         ability_changes::resolve_trace(next, &e, results, cat)?;
     } else if e.kind.starts_with("extra-") {

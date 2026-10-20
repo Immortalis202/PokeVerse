@@ -196,12 +196,10 @@
       "dependencies": []
     },
     "Baton Pass": {
-      "status": "partial",
-      "scope": "Reviewed switcher effect: conscious same-trainer/owner/side reserve, inherited slot/initiative/remaining actions, one completed switcher effect per trainer per round; explicit no-reserve outcome, ownership and retry checks. Transfer supported positive move attribute channels and lock self-boosts until recipient faints/end of encounter.",
+      "status": "automated",
+      "scope": "Reviewed switcher effect: conscious same-trainer/owner/side reserve, inherited slot/initiative/remaining actions, one completed switcher effect per trainer per round; explicit no-reserve outcome, ownership and retry checks. Transfer supported positive move attribute channels and lock self-boosts until recipient faints/end of encounter. Positive supported ability attribute channels now transfer separately with provenance and scene lifetime; the self-increase lock also covers the ability channel.",
       "page": 487,
-      "dependencies": [
-        "ability-channel-transfer"
-      ]
+      "dependencies": []
     },
     "Teleport": {
       "status": "automated",

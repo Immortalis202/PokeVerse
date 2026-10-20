@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "engine": "0.13.0-core",
+  "engine": "0.14.0-core",
   "default_status": "manual",
   "entries": {
     "Adaptability": {
@@ -265,12 +265,13 @@
       "introduced_engine": "0.7.0-core"
     },
     "Costar": {
-      "status": "manual",
-      "scope": "Requires copied/transferred ability identity or attribute provenance and lifetime rules.",
+      "status": "partial",
+      "scope": "On field entry, copy one active ally's supported positive move and ability attribute/defense channels. One eligible ally is automatic; multiple allies use frozen entry snapshots and an owner choice. Highest modifiers do not stack within a channel; sheets and ability identities are unchanged.",
       "page": 541,
       "dependencies": [
-        "ability-copy-and-transfer"
-      ]
+        "unreviewed-trait-channels"
+      ],
+      "introduced_engine": "0.14.0-core"
     },
     "Cotton Down": {
       "status": "automated",
@@ -1146,12 +1147,13 @@
       "page": 558
     },
     "Opportunist": {
-      "status": "manual",
-      "scope": "Requires copied/transferred ability identity or attribute provenance and lifetime rules.",
+      "status": "partial",
+      "scope": "Copy supported foe move/ability attribute and defense increases on authoritative state changes, retaining the highest within each channel. Immutable before/after observation prevents reciprocal loops. Decreases and unchanged modifiers do not trigger a copy.",
       "page": 558,
       "dependencies": [
-        "ability-copy-and-transfer"
-      ]
+        "unreviewed-trait-channels"
+      ],
+      "introduced_engine": "0.14.0-core"
     },
     "Orichalcum Pulse": {
       "status": "partial",

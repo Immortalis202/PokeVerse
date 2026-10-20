@@ -1,6 +1,6 @@
 # PokeVerse - remaining work
 
-Snapshot: **20 October 2026**, application **0.20.0**, engine **0.13.0-core**, protocol **21**, user database schema **4**.
+Snapshot: **20 October 2026**, application **0.21.0**, engine **0.14.0-core**, protocol **22**, user database schema **4**.
 
 This is the current project backlog. Implemented foundations are summarized first; unfinished features, explicit GM rulings, verification gaps and excluded scope are distinguished below. Counts come from the checked-in registries and should be refreshed after catalog changes.
 
@@ -18,7 +18,7 @@ Battles register full teams, three active slots per side, reserves, controlled s
 - [ ] **Forms and transformations:** define supported temporary form changes, entry/exit, stat/type/ability replacement and restoration, preserving permanent sheets and frozen attack inputs. Review each ability separately. Excluded mechanics below must remain excluded.
 - [ ] **Additional action sequencing:** review and implement Dancer, Parental Bond, Gorilla Tactics, Truant and Defeatist using Pokerole wording, reaction/action accounting and idempotent owner choices.
 - [ ] **Other ability families:** damage provenance (Tinted Lens, Unaware, Sheer Force, Stakeout), weight/gender formulas, private information reveals, random stat choices and remaining event definitions. The full ability inventory is in sections 8-9.
-- [ ] **Stat/ability-channel copying and transfer:** Costar, Opportunist and reviewed ability-channel behavior for Baton Pass/Snatch; do not treat temporary ability identity copying as stat-channel transfer.
+- [ ] **Unreviewed trait copying:** Costar and Opportunist now copy supported attribute/defense move and ability channels. Baton Pass transfers supported positive attribute channels, and Snatch steals supported ability modifiers. Review additional trait channels separately; temporary ability identity copying remains distinct. See [stat copying and transfer](battle-stat-channels.md).
 - [ ] **Remaining identity effects:** review Entrainment, Doodle and Core Enforcer individually. Role Play, Skill Swap, Gastro Acid, Trace, Gas, contact replacement and witnessed ally inheritance already exist.
 - [ ] **Status edge cases:** review severe Burn/Poison escalation with conflicting printed values, unsupported status-producing/cure effects and remaining Will spending/draining effects. Core statuses, durations and expiry already exist; automatic Will recovery remains excluded.
 - [ ] **Ice edge cases:** review any still-adjudicated Snow/special-damage interactions against ice against current fixtures before adding mechanics. Ordinary ice attempts and supported special interactions already have tests.
@@ -28,8 +28,8 @@ Battles register full teams, three active slots per side, reserves, controlled s
 
 | Entry | Remaining work or intentional ruling |
 | --- | --- |
-| Baton Pass | Transfer supported ability channels; existing positive move-channel transfer and replacement rules are implemented. |
-| Snatch | Transfer ability modifiers and additional explicitly reviewed effects; existing shields, supported move modifiers, decoys and typed effects already transfer. |
+| Baton Pass | Supported positive move and ability attribute channels and replacement rules are implemented. |
+| Snatch | Review additional effects; supported move/ability modifiers, shields, decoys and typed effects already transfer. |
 | Shadow Force | Persist its 24-hour recovery restriction after leaving the encounter; encounter-local debt already works. |
 | Bide | Keep the recorded GM choice for contradictory printed User/Target wording. Do not silently select an interpretation. |
 | Magic Coat | Extend supported reflected Support effects. Keep the explicit GM duration ruling because the card does not state one. |
@@ -55,7 +55,7 @@ These are not all bugs to eliminate: contradictory or unspecified rules can rema
 - [ ] Continue manual habitat review when desired. Keep accepted CSV assignments, explicit exclusions, conditional notes and persistent user overrides authoritative; do not regenerate type-affinity suggestions over them.
 - [ ] Audit the older broad coverage-matrix descriptions as individual mechanics advance. Per-definition registries and executable fixtures define precise coverage.
 
-Current catalog: 1,200 species/forms and 892 moves. The special-move registry covers 221 selected definitions (217 automated, three partial, one excluded/manual); the targeting registry covers 16 moves (14 automated, two partial). These are overlapping scopes, not a complete move catalog or a sum of distinct supported moves.
+Current catalog: 1,200 species/forms and 892 moves. The special-move registry covers 221 selected definitions (217 automated, three partial, one excluded/manual); the targeting registry covers 16 moves (15 automated, one partial). These are overlapping scopes, not a complete move catalog or a sum of distinct supported moves.
 
 ## 4. Windows, multiplayer and distribution acceptance
 
@@ -84,9 +84,13 @@ These require a separate scope decision; they are not missing parts of the assum
 
 **Trainer-target damage, lethal wounds, automatic Will recovery, Dynamax, all Max Moves including Max Guard, and Z-Moves are excluded.** Their references may remain visible in the Compendium. Do not turn these into roadmap tasks because an old registry names a related dependency. Manual GM resource corrections remain available.
 
+## Stat copying/transfer milestone verification
+
+Version 0.21.0 / engine 0.14.0-core / protocol 22 implements the supported stat-channel batch described in [stat copying and transfer](battle-stat-channels.md). The full Rust suite passed 396 tests, including localhost host/GM/owner, receipt, reconnect, persistence and rollback coverage. After the final event-counter removal adjustment, the focused stat-channel suite passed all 19 tests. Frontend validation passed 31 tests and 12 catalog checks; production build and warnings-denied Clippy passed. Windows NSIS packaging passed: `src-tauri/target/release/bundle/nsis/PokeVerse_0.21.0_x64-setup.exe` (213.67 MiB). The executable and installer were not launched. Native interaction, installed-app acceptance and physical LAN were not tested.
+
 ## 7. Suggested implementation order
 
-1. Stat copying/transfer and remaining action sequencing.
+1. Remaining action sequencing (Dancer, Parental Bond, Gorilla Tactics, Truant and Defeatist); supported stat copying/transfer is implemented.
 2. Damage-provenance abilities and remaining event/accuracy definitions.
 3. Held items and their dependent abilities.
 4. Supported form changes and transformations, retaining the exclusions above.
@@ -95,7 +99,7 @@ These require a separate scope decision; they are not missing parts of the assum
 
 Each milestone should preserve historical engines, bump authoritative versions when needed, update coverage and this document, run appropriate regressions, package Windows and commit separately.
 
-## 8. All manual abilities (57)
+## 8. All manual abilities (55)
 
 Every currently manual registry entry appears below. A dependency is a reason for the current boundary, not authorization to implement an excluded mechanic. Descriptions come from the checked-in ability registry.
 
@@ -106,7 +110,6 @@ Every currently manual registry entry appears below. A dependency is a reason fo
 | Ball Fetch | Requires noncombat item gathering or daily recovery; no video-game battle substitute is applied. |
 | Cheek Pouch | Requires held-item ownership, consumption, transfer or activation hooks. |
 | Commander | Requires encounter form/state transformation and reviewed replacement metadata. |
-| Costar | Requires copied/transferred ability identity or attribute provenance and lifetime rules. |
 | Cud Chew | Requires held-item ownership, consumption, transfer or activation hooks. |
 | Dancer | Requires repeated moves, restricted move selection or per-action choices/checks beyond the current action chain. |
 | Defeatist | Requires repeated moves, restricted move selection or per-action choices/checks beyond the current action chain. |
@@ -128,7 +131,6 @@ Every currently manual registry entry appears below. A dependency is a reason fo
 | Magician | Requires held-item ownership, consumption, transfer or activation hooks. |
 | Moody | Requires independent unbiased attribute increase/reduction choices and their recorded provenance. |
 | Multitype | Requires encounter form/state transformation and reviewed replacement metadata. |
-| Opportunist | Requires copied/transferred ability identity or attribute provenance and lifetime rules. |
 | Parental Bond | Requires repeated moves, restricted move selection or per-action choices/checks beyond the current action chain. |
 | Perish Body | Existing hook families are available; this individual definition and its ordering still require implementation and fixtures. |
 | Pickpocket | Requires held-item ownership, consumption, transfer or activation hooks. |
@@ -159,12 +161,14 @@ Every currently manual registry entry appears below. A dependency is a reason fo
 | Zen Mode | Requires encounter form/state transformation and reviewed replacement metadata. |
 | Zero to Hero | Requires encounter form/state transformation and reviewed replacement metadata. |
 
-## 9. All partial abilities (60)
+## 9. All partial abilities (62)
 
 These already have implemented mechanics. The scope is reproduced to avoid treating their whole definition as missing. Named dependencies identify the remaining work; empty dependency lists require a per-definition audit rather than an invented feature.
 
 | Ability | Implemented scope and boundary | Remaining dependency |
 | --- | --- | --- |
+| Costar | Entry snapshot of one ally's supported positive move/ability attribute and defense channels; frozen owner choice for multiple allies. | unreviewed-trait-channels |
+| Opportunist | Supported foe increases copied into their original stat channel, keeping the highest without reciprocal loops. | unreviewed-trait-channels |
 | Arena Trap | Block ordinary recall for eligible targets in confirmed abstract range, with rank target caps and reviewed Ground/Steel/Ghost exceptions. GM switching overrides remain explicit. | forced-switch-move-resolution |
 | Aroma Veil | In-range allies and user ignore In Love and reviewed Taunt, Torment, Spite, Attract, Disable, Encore and Heal Block effects. | unreviewed-move-effects |
 | Aura Break | Reviewed range-limited Dark/Fairy damage aura and Aura Break inversion. Duplicate sources do not stack; attack/cooperation narrative restrictions require a GM ruling. | narrative-relationship-rulings |

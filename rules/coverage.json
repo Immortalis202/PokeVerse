@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.13.0-core",
-  "release": "0.20.0",
-  "protocol": 21,
+  "engine": "0.14.0-core",
+  "release": "0.21.0",
+  "protocol": 22,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -340,9 +340,26 @@
         "reviewed_mycelium_support_gets_late_reaction_without_bypass",
         "reviewed_seed_sower_is_four_rounds_does_not_refresh_and_overlap_requires_ruling"
       ]
+    },
+    {
+      "id": "stat-channel-copy-transfer",
+      "status": "partial",
+      "source": "MASTER 541,558; Baton Pass 487; Snatch 447,531; supplied v3.0 cards",
+      "fixtures": [
+        "stat_channels_costar_copies_positive_move_and_ability_channels_without_sheets_or_decreases",
+        "stat_channels_costar_choice_is_frozen_authorized_and_consumed_once",
+        "stat_channels_opportunist_keeps_highest_separate_channels_and_ignores_unchanged_foes",
+        "stat_channels_host_action_and_rollback_restore_copies_and_history",
+        "stat_channels_baton_host_switch_copies_both_channels_to_reserve_and_cleans_outgoing",
+        "stat_channels_snatch_host_resolution_steals_ability_and_move_channels",
+        "stat_channels_room_costar_owner_retry_reconnect_persistence_and_gm_rollback",
+        "stat_channels_snatch_keeps_resolved_values_and_stronger_recipient_move_modifiers",
+        "stat_channels_end_scene_clears_live_copies_and_old_snapshots_default_disabled"
+      ],
+      "scope": "Costar and Opportunist copy supported attribute/defense increases in separate move/ability channels; Baton Pass transfers positive attribute channels; Snatch steals both signs. Provenance, frozen owner choices, conditional reactivation, departure cleanup and rollback. Unreviewed trait channels and unmodelled Snatch effects remain explicit GM work."
     }
   ],
-  "ability_registry_hash": "85fc42a8cbf6e07996ddf6971148708a4934f4c6024e1480c1afe1ece0947de6",
-  "special_registry_hash": "d984302375b329116f9b315c01c06e881b7d6b5ca869c2263c50052e3e761102",
-  "tactics_registry_hash": "ee6fed55b8201e9959a5e143f1cef57fe5c9b4f81656d01e04e5cb9649fd1d7b"
+  "ability_registry_hash": "8f87f2ab9d93bba3a102c3e42faf9833f994163a6f17ab9f5bb0e8cad68643b7",
+  "special_registry_hash": "ef7d506fc98bed2d88c4c6d92fc0875de33c220fc01635894dbb60b53e9852fa",
+  "tactics_registry_hash": "99b66de76eab04726a6a35dabdc8d8626e4816eb1bb0089dae7d1c8006179a14"
 }

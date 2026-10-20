@@ -1183,3 +1183,6 @@ fn shield_first_attempt_is_free_then_consecutive_penalties_are_two_four_eight() 
 
 #[path = "combat_tests/reviewed_tests.rs"]
 mod reviewed_tests;
+
+#[path = "combat_tests/stat_channel_tests.rs"]
+mod stat_channel_tests;
