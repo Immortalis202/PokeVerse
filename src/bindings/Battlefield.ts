@@ -4,4 +4,4 @@ import type { FieldRule } from "./FieldRule";
 import type { Weather } from "./Weather";
 import type { WeatherSource } from "./WeatherSource";
 
-export type Battlefield = { enabled: boolean, natural: Weather | null, weather: WeatherSource | null, rules: Array<FieldRule>, events: Array<FieldEvent>, sheltered: Array<string>, known_active: Array<string>, start_round: number, end_round: number, serial: number, indoors: boolean, sunlight: boolean, corrections: Array<string>, species_types: { [key in string]?: Array<string> }, };
+export type Battlefield = { enabled: boolean, natural: Weather | null, weather: WeatherSource | null, rules: Array<FieldRule>, events: Array<FieldEvent>, sheltered: Array<string>, known_active: Array<string>, start_round: number, end_round: number, serial: number, indoors: boolean, sunlight: boolean, night: boolean, corrections: Array<string>, species_types: { [key in string]?: Array<string> }, };

@@ -188,6 +188,7 @@ describe("structured core battle controls", () => {
         automatic_validation: true,
         combatants,
         flow: {
+          reviewed_rules: engine === "0.13.0-core",
           transfers: {
             enabled: false,
             contact_overrides: {},
@@ -257,6 +258,7 @@ describe("structured core battle controls", () => {
               "0.8.0-core",
               "0.9.0-core",
               "0.10.0-core",
+              "0.13.0-core",
             ].includes(engine),
             active: [],
             fainted: [],
@@ -269,6 +271,7 @@ describe("structured core battle controls", () => {
               "0.8.0-core",
               "0.9.0-core",
               "0.10.0-core",
+              "0.13.0-core",
             ].includes(engine),
             natural: null,
             weather: null,
@@ -281,6 +284,7 @@ describe("structured core battle controls", () => {
             serial: 0,
             indoors: false,
             sunlight: true,
+            night: false,
             corrections: [],
             species_types: {},
           },
@@ -464,5 +468,17 @@ describe("structured core battle controls", () => {
       expect(html).toContain("Targeting and replacements");
     }
     expect(core("gm", false, "0.9.0-core")).not.toContain("Substitute decoy");
+  });
+  it("shows explicit night state to players and reserves its control for the GM", () => {
+    expect(core("gm", false, "0.13.0-core")).toContain(
+      "Night time (Mind’s Eye)",
+    );
+    expect(core("player", false, "0.13.0-core")).toContain("Day time.");
+    expect(core("player", false, "0.13.0-core")).not.toContain(
+      "Night time (Mind’s Eye)",
+    );
+    expect(core("host", false, "0.13.0-core")).not.toContain(
+      "Night time (Mind’s Eye)",
+    );
   });
 });

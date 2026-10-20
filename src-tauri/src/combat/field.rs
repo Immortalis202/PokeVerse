@@ -128,6 +128,8 @@ pub struct Battlefield {
     pub serial: u32,
     pub indoors: bool,
     pub sunlight: bool,
+    #[serde(default)]
+    pub night: bool,
     pub corrections: Vec<String>,
     #[serde(default)]
     pub species_types: BTreeMap<String, Vec<String>>,
@@ -136,6 +138,9 @@ pub struct Battlefield {
 #[serde(tag = "kind")]
 #[ts(export, export_to = "../../src/bindings/")]
 pub enum FieldCommand {
+    Night {
+        night: bool,
+    },
     Environment {
         weather: Option<Weather>,
         indoors: bool,
@@ -898,8 +903,14 @@ pub fn move_effect(c: &mut Campaign, q: &QueuedAction, cat: &Catalog) -> Result<
         "Defog" => {
             state_mut(c).rules.retain(|r| {
                 !(r.kind.ends_with("Terrain")
-                    || ["Reflect", "Light Screen", "Aurora Veil", "minefield"]
-                        .contains(&r.kind.as_str()))
+                    || [
+                        "Reflect",
+                        "Light Screen",
+                        "Aurora Veil",
+                        "minefield",
+                        "Toxic Spikes",
+                    ]
+                    .contains(&r.kind.as_str()))
             });
         }
         "Double Shock" => type_rule(c, &q.actor_id, "remove", &["Electric".into()])?,
@@ -1137,6 +1148,22 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
         .iter()
         .filter(|p| active_ids.contains(&p.id) && !old.contains(&p.id))
     {
+        if reviewed::enabled(c)
+            && !before.battle.as_ref().is_some_and(|b| {
+                b.combatants
+                    .iter()
+                    .any(|q| q.id == p.id && q.deployed && q.hp > 0)
+            })
+            && has(c, "Toxic Spikes", p)
+            && grounded(c, p, cat)
+            && !abilities::damage_immune(
+                c,
+                p,
+                &serde_json::json!({"Type":"Ground","Category":"Physical"}),
+            )
+        {
+            enqueue(c, &p.id, "toxic-spikes", 1, 0, 0, "Poison");
+        }
         if has(c, "minefield", p)
             && (!ability_changes::enabled(c)
                 || !before.battle.as_ref().is_some_and(|b| {
@@ -1313,6 +1340,14 @@ pub fn command(
         }
     }
     match cmd {
+        FieldCommand::Night { night } => {
+            if !reviewed::enabled(c) {
+                return Err(error(
+                    "Night-dependent abilities require the current engine",
+                ));
+            }
+            state_mut(c).night = *night;
+        }
         FieldCommand::Adjudicate { event_id } => {
             gm(c, actor)?;
             if state(c)
@@ -1550,6 +1585,23 @@ pub fn command(
             } else if *accept && active(c, &e.target) {
                 match e.kind.as_str() {
                     "heal" => heal(c, &e.target, e.amount, false)?,
+                    "toxic-spikes" => {
+                        let kind = if dice.contains(&6) {
+                            "Badly Poisoned"
+                        } else {
+                            "Poison"
+                        };
+                        match set_status(c, &e.target, kind, "Toxic Spikes", None, cat) {
+                            Err(err)
+                                if [
+                                    "Species type is immune to this condition",
+                                    "Selected ability is immune to this condition",
+                                    "Battlefield prevents this condition",
+                                ]
+                                .contains(&err.message.as_str()) => {}
+                            result => result?,
+                        }
+                    }
                     "check" if rules::successes(dice) < e.difficulty => {
                         hurt(c, &e.target, e.amount, &e.damage_type, cat)?
                     }
@@ -1623,6 +1675,7 @@ pub fn move_data(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> serde_js
     extra::move_data(c, p, &mut m);
     special::move_data(c, p, &mut m);
     tactics::move_data(c, p, &mut m);
+    reviewed::move_data(c, p, &mut m);
     m
 }
 pub fn target_bonus(c: &Campaign, target: &Combatant, m: &serde_json::Value) -> i32 {
@@ -1733,4 +1786,90 @@ pub fn sand_spit(c: &mut Campaign, id: &str) -> Result<()> {
         state_mut(c).corrections.push(e.message);
     }
     Ok(())
+}
+
+pub fn screen_cleaner(c: &mut Campaign) {
+    state_mut(c).rules.retain(|r| {
+        ![
+            "Reflect",
+            "Light Screen",
+            "Aurora Veil",
+            "Safeguard",
+            "Mist",
+        ]
+        .contains(&r.kind.as_str())
+    });
+    state_mut(c)
+        .corrections
+        .push("Screen Cleaner removed active force fields on both sides".into());
+}
+pub fn seed_sower(c: &mut Campaign, p: &Combatant) -> Result<()> {
+    if state(c)
+        .unwrap()
+        .rules
+        .iter()
+        .any(|r| r.kind == "Grassy Terrain")
+    {
+        return Ok(());
+    }
+    let t = TerrainSource {
+        name: "Grassy Terrain".into(),
+        source: format!("ability:{}", p.id),
+        scope: format!("side:{}", p.side),
+    };
+    if state(c)
+        .unwrap()
+        .rules
+        .iter()
+        .any(|r| r.kind.ends_with("Terrain"))
+    {
+        if !state(c)
+            .unwrap()
+            .events
+            .iter()
+            .any(|e| e.kind == "terrain-ruling" && e.target == p.id)
+        {
+            enqueue(c, &p.id, "terrain-ruling", 0, 0, 0, "Neutral");
+            state_mut(c).events.last_mut().unwrap().terrains = vec![t];
+        }
+    } else {
+        insert(c, &t.name, &t.source, &t.scope, Some(4), 1);
+    }
+    state_mut(c).corrections.push(format!(
+        "Seed Sower: four-round Grassy Terrain for {} (overlap requires GM ruling)",
+        p.side
+    ));
+    Ok(())
+}
+pub fn toxic_debris(c: &mut Campaign, p: &Combatant, a: &Combatant) {
+    if p.side == a.side {
+        return;
+    }
+    let scope = format!("side:{}", a.side);
+    if state(c)
+        .unwrap()
+        .rules
+        .iter()
+        .any(|r| r.kind == "Toxic Spikes" && r.scope == scope)
+    {
+        return;
+    }
+    insert(
+        c,
+        "Toxic Spikes",
+        &format!("ability:{}", p.id),
+        &scope,
+        None,
+        0,
+    );
+    state_mut(c).corrections.push(format!(
+        "Toxic Debris: Toxic Spikes on {}; entry uses one host Chance die",
+        a.side
+    ));
+}
+
+pub fn clear_ability_hazards(c: &mut Campaign) {
+    if reviewed::enabled(c) {
+        state_mut(c).rules.retain(|r| r.kind != "Toxic Spikes");
+    }
 }

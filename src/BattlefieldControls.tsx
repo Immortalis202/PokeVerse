@@ -110,7 +110,10 @@ export default function BattlefieldControls({
         {field.weather
           ? `${field.weather.weather} · ${field.weather.rounds ?? "source remains"} · ${field.weather.source}`
           : "none"}
-        . Air Lock suppresses weather globally; Cloud Nine protects its holder.
+        . Air Lock suppresses weather globally; Cloud Nine protects its holder.{" "}
+        {field.night
+          ? "Night time: Mind’s Eye grants Never Miss."
+          : "Day time."}
       </p>
       {event && (
         <div className="notice" role="status">
@@ -294,6 +297,19 @@ export default function BattlefieldControls({
                 Sunlight reaches the arena
               </label>
             </div>
+            {campaign.engine === "0.13.0-core" && (
+              <label>
+                <input
+                  type="checkbox"
+                  checked={field.night ?? false}
+                  disabled={disabled}
+                  onChange={(e) =>
+                    send({ kind: "Night", night: e.target.checked })
+                  }
+                />{" "}
+                Night time (Mind’s Eye)
+              </label>
+            )}
             <div className="toolbar">
               <button
                 onClick={() =>

@@ -101,8 +101,10 @@ fn living(c: &Campaign) -> impl Iterator<Item = &Combatant> {
 }
 fn bypass(c: &Campaign, id: &str) -> bool {
     enabled(c)
-        && fighter(c, id)
-            .is_ok_and(|p| ["Stalwart", "Propeller Tail"].contains(&p.selected_ability.as_str()))
+        && fighter(c, id).is_ok_and(|p| {
+            reviewed::extreme(c, p)
+                || ["Stalwart", "Propeller Tail"].contains(&p.selected_ability.as_str())
+        })
 }
 fn number(m: &serde_json::Value, key: &str) -> Option<i32> {
     m["Attributes"][key]
@@ -150,6 +152,13 @@ pub fn move_data(c: &Campaign, p: &Combatant, m: &mut serde_json::Value) {
     }
 }
 pub fn priority_guard(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> Result<()> {
+    if reviewed::enabled(c)
+        && p.selected_ability == "Mycelium Might"
+        && m["Category"] == "Support"
+        && number(m, "Reaction").is_some()
+    {
+        return Err(AppError::new("manual_rule","Mycelium Might Late Reaction 1 conflicts with printed Reaction; GM adjudication required"));
+    }
     if enabled(c)
         && ability_priority(p, m)
         && number(m, "LateReaction").is_some()
@@ -174,6 +183,9 @@ fn guard_targets(c: &Campaign, id: &str, targets: &[String], m: &serde_json::Val
     }
     for key in targets {
         let t = fighter(c, key)?;
+        if t.side != source.side && reviewed::extreme(c, source) {
+            continue;
+        }
         if t.side != source.side
             && ["Dazzling", "Queenly Majesty"].contains(&t.selected_ability.as_str())
         {
@@ -212,7 +224,7 @@ pub fn redirect_move(
         let mut candidates: Vec<String> = living(c)
             .filter(|p| {
                 p.id != id
-                    && special::target_guard(c, &p.id, m).is_ok()
+                    && special::target_guard(c, id, &p.id, m).is_ok()
                     && ((p.selected_ability == "Lightning Rod" && m["Type"] == "Electric")
                         || (p.selected_ability == "Storm Drain" && m["Type"] == "Water"))
             })
@@ -236,7 +248,7 @@ pub fn redirect_move(
                                 p.hp > 0
                                     && p.side != source.side
                                     && in_range(c, id, &p.id)
-                                    && special::target_guard(c, &p.id, m).is_ok()
+                                    && special::target_guard(c, id, &p.id, m).is_ok()
                             })
                             .map(|p| p.id.clone())
                     }),
@@ -666,7 +678,10 @@ pub fn hit(c: &mut Campaign, q: &QueuedAction, m: &serde_json::Value) -> Result<
         return Ok(());
     }
     let p = fighter(c, &q.target_id)?.clone();
-    if damage_immune(c, &p, m) && !p.runtime.ability.flags.contains(&p.selected_ability) {
+    if !reviewed::damage_bypass(c, &reviewed::source(c, q)?, &p)
+        && damage_immune(c, &p, m)
+        && !p.runtime.ability.flags.contains(&p.selected_ability)
+    {
         let rt = &mut fighter_mut(c, &p.id)?.runtime.ability;
         rt.flags.insert(p.selected_ability.clone());
         rt.counters.insert(p.selected_ability.clone(), 1);

@@ -4,7 +4,7 @@ Engine `0.7.0-core`, protocol 15, user schema 4. This follows the separately com
 
 ## Coverage
 
-Of 305 catalog abilities, **207 have automated or partial scope** and **98 remain manual**. The authoritative [registry](../rules/ability-coverage.json) gives each definition its printed PDF page, exact implemented scope, dependencies and introduction engine. The generated `outputs/rule-coverage/ability-coverage.json` inventories all 305. Supporting one part of an ability does not imply every interaction is implemented.
+Of 305 catalog abilities, **248 have automated or partial scope** and **57 remain manual**. The authoritative [registry](../rules/ability-coverage.json) gives each definition its printed PDF page, exact implemented scope, dependencies and introduction engine. The generated `outputs/rule-coverage/ability-coverage.json` inventories all 305. Supporting one part of an ability does not imply every interaction is implemented.
 
 | Family | Examples and implemented behavior |
 | --- | --- |
@@ -47,3 +47,5 @@ New campaigns use engine 0.7.0-core. Existing campaigns explicitly adopt rules/c
 Fixtures cover damage, typing, modifiers, immunities, chance selectors, owner/GM authority, round staging, entry idempotency, serialization and preservation of permanent sheets across all supported definitions. Existing room receipts, reconnect, rollback and battle regressions remain required. Native startup checks use isolated profiles. Interactive native battle controls, installer install/uninstall and physical multi-machine LAN verification remain separate acceptance work.
 
 Release checks: 216 Rust tests, 22 frontend tests and 9 catalog checks passed. TypeScript, Clippy with code warnings denied and the production build passed. The Windows NSIS installer was built. Two isolated native instances started, and their library/campaign databases passed integrity checks at schema 4. These checks do not establish interactive battle or physical LAN acceptance.
+
+The 0.20.0 [reviewed ability batch](battle-reviewed-ability-batch.md) adds immunity bypass, accuracy/recovery and entry/hit definitions. Current totals are 188 automated, 60 partial and 57 manual; older milestone counts are historical.

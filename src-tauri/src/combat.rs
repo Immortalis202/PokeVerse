@@ -8,6 +8,7 @@ pub(crate) mod ability_changes;
 pub(crate) mod decoys;
 pub(crate) mod extra;
 pub(crate) mod field;
+pub(crate) mod reviewed;
 pub(crate) mod special;
 pub(crate) mod tactics;
 mod targeting;
@@ -50,6 +51,8 @@ pub struct Status {
 #[derive(Debug, Clone, Default, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct TurnFlow {
+    #[serde(default)]
+    pub reviewed_rules: bool,
     #[serde(default)]
     pub transfers: transfers::TransferState,
     #[serde(default)]
@@ -546,7 +549,10 @@ fn reaction_pool(c: &Campaign, id: &str, kind: &str, name: &str, cat: &Catalog) 
                 "This target pattern requires adjudication",
             ));
         }
-        if kind == "evade" && m["Attributes"]["NeverMiss"].as_bool() == Some(true) {
+        if kind == "evade"
+            && (m["Attributes"]["NeverMiss"].as_bool() == Some(true)
+                || reviewed::syrup(c, fighter(c, &incoming.actor_id)?, p))
+        {
             return Err(error("Never Miss cannot be evaded"));
         }
         if crate::creation::SOCIALS.contains(&m["Accuracy1"].as_str().unwrap_or_default()) {
@@ -905,6 +911,7 @@ pub fn preview(c: &Campaign, a: &Action, cat: &Catalog) -> Result<ActionPreview>
     }
     let mut warnings=vec!["Preview rolls no dice and spends no resources. The host validates the current revision on commit.".into()];
     warnings.extend(special::preview_notes(c, a, cat)?);
+    warnings.extend(reviewed::notes(c, a));
     if decoys::enabled(c) {
         warnings.push("Decoys: 2 HP; frozen defenses; move effects blocked, environment and existing status still apply. Dynamax, Max Moves and Z-Moves are out of scope.".into());
     }
@@ -1473,6 +1480,17 @@ pub fn transition(
                     || ["Phantom Force", "Shadow Force"].contains(&move_name.as_str()),
             );
             let targets = tactics::redirect_move(c, combatant_id, targets, &m, cat)?;
+            if reviewed::enabled(c) && targets.len() > 1 {
+                let mut penalties = targets
+                    .iter()
+                    .map(|id| fighter(c, id).map(|t| reviewed::accuracy_penalty(c, p, t, 0)))
+                    .collect::<Result<Vec<_>>>()?;
+                penalties.sort();
+                penalties.dedup();
+                if penalties.len() > 1 {
+                    return Err(AppError::new("manual_rule","Mixed target accuracy from Tangled Feet requires GM adjudication of the shared accuracy roll"));
+                }
+            }
             let target = targets
                 .first()
                 .cloned()
@@ -1492,8 +1510,18 @@ pub fn transition(
                 .min(0) as i32
                 - abilities::low_accuracy(c, p, &m)
                 - field::low_accuracy(c, p, &m);
-            let low = low - special::low_accuracy(c, combatant_id);
+            let low = reviewed::accuracy_penalty(
+                c,
+                p,
+                special::registered(c, &target)?,
+                low - special::low_accuracy(c, combatant_id),
+            );
             let shield_penalty = shield_attempt(&mut next, combatant_id, &m)?;
+            let shield_penalty = if reviewed::enabled(c) && p.selected_ability == "Keen Eye" {
+                0
+            } else {
+                shield_penalty
+            };
             let pain_exempt = pain_exempt(c, p, &m)?;
             let saved_pain = fighter_mut(&mut next, combatant_id)?.runtime.pain_ignored;
             if pain_exempt {
@@ -1601,10 +1629,20 @@ pub fn transition(
             } else {
                 0
             };
+            let low = if kind == "move" {
+                reviewed::accuracy_penalty(c, p, fighter(c, &incoming.actor_id)?, low)
+            } else {
+                low
+            };
             let shield_penalty = if kind == "move" {
                 shield_attempt(&mut next, combatant_id, &move_entry(cat, move_name)?)?
             } else {
                 0
+            };
+            let shield_penalty = if reviewed::enabled(c) && p.selected_ability == "Keen Eye" {
+                0
+            } else {
+                shield_penalty
             };
             let saved_pain = fighter_mut(&mut next, combatant_id)?.runtime.pain_ignored;
             if kind == "move" && pain_exempt(c, p, &move_entry(cat, move_name)?)? {
@@ -1638,12 +1676,14 @@ pub fn transition(
                         let defend = move_entry(cat, move_name)?;
                         let mut to_def = clash_damage(
                             c,
+                            &incoming.actor_id,
                             &incoming.target_id,
                             attack["Type"].as_str().unwrap_or(""),
                             cat,
                         )?;
                         let mut to_att = clash_damage(
                             c,
+                            &incoming.target_id,
                             &incoming.actor_id,
                             defend["Type"].as_str().unwrap_or(""),
                             cat,
@@ -2125,7 +2165,9 @@ pub fn transition(
             }
             damage = special::before_damage(&mut done, &q, &move_data, damage, cat)?;
             let decoy_hit = decoys::damage(&mut done, &q, &move_data, damage);
-            if !decoy_hit && !abilities::damage_immune(c, target, &move_data) {
+            if !decoy_hit
+                && !abilities::damage_immune_from(c, fighter(c, combatant_id)?, target, &move_data)
+            {
                 damage = abilities::sturdy(&mut done, &q.target_id, damage, before)?;
             }
             fighter_mut(&mut done, &q.target_id)?.hp = if decoy_hit {
@@ -2309,6 +2351,7 @@ pub fn transition(
                     }
                 }
                 "sleep" if status(p, "Sleep") => {
+                    let early = reviewed::enabled(c);
                     let p = fighter_mut(&mut next, combatant_id)?;
                     let s = p
                         .runtime
@@ -2317,7 +2360,13 @@ pub fn transition(
                         .find(|s| s.kind == "Sleep")
                         .unwrap();
                     s.progress += net;
-                    if s.progress >= 5 {
+                    if s.progress
+                        >= if early && p.selected_ability == "Early Bird" && s.detail != "Rest" {
+                            2
+                        } else {
+                            5
+                        }
+                    {
                         p.runtime.statuses.retain(|s| s.kind != "Sleep");
                     }
                     p.actions += 1;
@@ -2468,27 +2517,36 @@ pub fn transition(
             ) {
                 let b = done.battle.as_mut().unwrap();
                 b.flow = Some(TurnFlow {
+                    reviewed_rules: c.engine == ENGINE,
                     transfers: transfers::TransferState {
-                        enabled: c.engine == ENGINE,
+                        enabled: [ENGINE, TRANSFER_ENGINE].contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     ability_changes: ability_changes::AbilityChanges {
-                        enabled: [ENGINE, ASSIGNMENT_ENGINE].contains(&c.engine.as_str()),
+                        enabled: [ENGINE, TRANSFER_ENGINE, ASSIGNMENT_ENGINE]
+                            .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     decoys: decoys::DecoyState {
-                        enabled: [ENGINE, ASSIGNMENT_ENGINE, DECOY_ENGINE]
+                        enabled: [ENGINE, TRANSFER_ENGINE, ASSIGNMENT_ENGINE, DECOY_ENGINE]
                             .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     tactics: tactics::TacticsState {
-                        enabled: [ENGINE, ASSIGNMENT_ENGINE, DECOY_ENGINE, TACTICS_ENGINE]
-                            .contains(&c.engine.as_str()),
+                        enabled: [
+                            ENGINE,
+                            TRANSFER_ENGINE,
+                            ASSIGNMENT_ENGINE,
+                            DECOY_ENGINE,
+                            TACTICS_ENGINE,
+                        ]
+                        .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     special: special::SpecialState {
                         enabled: [
                             ENGINE,
+                            TRANSFER_ENGINE,
                             ASSIGNMENT_ENGINE,
                             DECOY_ENGINE,
                             TACTICS_ENGINE,
@@ -2499,6 +2557,7 @@ pub fn transition(
                     },
                     ability_rules: [
                         ENGINE,
+                        TRANSFER_ENGINE,
                         ASSIGNMENT_ENGINE,
                         DECOY_ENGINE,
                         TACTICS_ENGINE,
@@ -2511,6 +2570,7 @@ pub fn transition(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            TRANSFER_ENGINE,
                             ASSIGNMENT_ENGINE,
                             DECOY_ENGINE,
                             TACTICS_ENGINE,
@@ -2523,6 +2583,7 @@ pub fn transition(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            TRANSFER_ENGINE,
                             ASSIGNMENT_ENGINE,
                             DECOY_ENGINE,
                             TACTICS_ENGINE,
@@ -2681,11 +2742,18 @@ pub fn transition(
     decoys::lifecycle(&mut next);
     cleanup_covers(c, &mut next, a);
     refresh_initiative(c, &mut next)?;
+    reviewed::history(c, &mut next);
     sync_labels(&mut next);
     checkpoint(c, &mut next, &description);
     Ok((next, description))
 }
-fn clash_damage(c: &Campaign, id: &str, move_type: &str, cat: &Catalog) -> Result<i32> {
+fn clash_damage(
+    c: &Campaign,
+    source: &str,
+    id: &str,
+    move_type: &str,
+    cat: &Catalog,
+) -> Result<i32> {
     let p = fighter(c, id)?;
     let mut damage = 1;
     let move_type = if move_type == "Fighting" {
@@ -2693,15 +2761,25 @@ fn clash_damage(c: &Campaign, id: &str, move_type: &str, cat: &Catalog) -> Resul
     } else {
         move_type
     };
-    for t in field::types(c, p, cat)? {
-        let n = rules::type_effect(move_type, &t)?;
-        if n == -100 {
-            if move_type == "Ground" && t == "Flying" && field::has(c, "Gravity", p) {
-                continue;
-            }
+    if reviewed::enabled(c) {
+        let a = fighter(c, source)?;
+        let (effect, immune) = rules::type_matchup(c, a, p, move_type, cat)?;
+        reviewed::unique_damage_guard(c, a, p, effect)?;
+        if immune {
             return Ok(0);
         }
-        damage += n;
+        damage += effect;
+    } else {
+        for t in field::types(c, p, cat)? {
+            let n = rules::type_effect(move_type, &t)?;
+            if n == -100 {
+                if move_type == "Ground" && t == "Flying" && field::has(c, "Gravity", p) {
+                    continue;
+                }
+                return Ok(0);
+            }
+            damage += n;
+        }
     }
     if field::weather(c, Some(p)) == Some(field::Weather::StrongWinds)
         && field::types(c, p, cat)?.iter().any(|t| t == "Flying")
@@ -2776,7 +2854,20 @@ fn set_status_from(
     let corrosion = extra::enabled(c)
         && kind.contains("Poison")
         && source.is_some_and(|id| fighter(c, id).is_ok_and(|p| p.selected_ability == "Corrosion"));
+    let bypass = source.is_some_and(|id| {
+        fighter(c, id).is_ok_and(|a| reviewed::extreme(c, a) && a.side != p.side)
+    });
+    if bypass
+        && ability_changes::unique(cat, &p.selected_ability)?
+        && (abilities::status_immune(c, p, kind) || extra::status_immune(c, p, kind, source))
+    {
+        return Err(AppError::new(
+            "manual_rule",
+            "Unique ability stalemate while applying this condition requires a GM ruling",
+        ));
+    }
     if !corrosion
+        && !bypass
         && ((kind == "Confusion" && p.selected_ability == "Own Tempo")
             || (kind == "In Love" && p.selected_ability == "Oblivious")
             || abilities::status_immune(c, p, kind)
@@ -2804,13 +2895,22 @@ fn set_status_from(
     {
         return Err(error("Battlefield prevents this condition"));
     }
-    if immune && !corrosion {
+    if immune && !corrosion && !bypass {
         return Err(error("Species type is immune to this condition"));
     }
     let round = battle(c)?.round;
     if kind == "Flinch" && p.runtime.flinch_round == round {
         return Err(error("Only one Flinch per subject per round"));
     }
+    let rounds = if reviewed::enabled(c)
+        && p.selected_ability == "Early Bird"
+        && kind == "Sleep"
+        && detail != "Rest"
+    {
+        rounds.map(|n| n.div_ceil(2))
+    } else {
+        rounds
+    };
     let p = fighter_mut(c, id)?;
     if kind == "Flinch" {
         p.runtime.flinch_round = round;
@@ -3018,11 +3118,13 @@ fn effects_inner(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog)
             "This effect requires the battlefield rules upgrade",
         ));
     }
-    if extra::effects_immune(
-        c,
-        fighter(c, &q.target_id)?,
-        &move_entry(cat, &q.move_name)?,
-    ) {
+    if !reviewed::extreme(c, &reviewed::source(c, q)?)
+        && extra::effects_immune(
+            c,
+            fighter(c, &q.target_id)?,
+            &move_entry(cat, &q.move_name)?,
+        )
+    {
         return Ok(());
     }
     if ability_changes::move_effect(c, q, cat)? {
@@ -3035,7 +3137,9 @@ fn effects_inner(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog)
         return Ok(());
     }
     let data = move_entry(cat, &q.move_name)?;
-    if abilities::move_immune(c, fighter(c, &q.target_id)?, &data) {
+    if !reviewed::extreme(c, fighter(c, &q.actor_id)?)
+        && abilities::move_immune(c, fighter(c, &q.target_id)?, &data)
+    {
         return Ok(());
     }
     match q.move_name.as_str() {

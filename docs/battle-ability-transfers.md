@@ -29,3 +29,5 @@ Rollback restores the campaign inheritance ledger together with the battle and r
 Receiver and Power of Alchemy remain marked partial for narrative acquisitions outside witnessed battle fainting; mid-combat selection timing also requires a GM ruling. Copied abilities retain their own coverage limits. Entrainment, Doodle, Core Enforcer, Mold Breaker/Teravolt/Turboblaze bypass, held-item systems and transformations remain separate work. Dynamax, Max Moves, Z-Moves, trainer-target damage, lethal wounds and automatic Will recovery remain out of scope.
 
 Validation: 351 Rust tests, 28 frontend tests and 12 catalog checks passed, including the two-battle four-installation scenario. TypeScript, production build and Clippy all targets with warnings denied passed. Native interactive and physical LAN use remain unverified; no app or installer is automatically launched.
+
+The 0.20.0 [reviewed ability batch](battle-reviewed-ability-batch.md) implements the next bypass scopes; the remaining-work list above describes the historical 0.19.0 milestone. Use [the current backlog](REMAINING-WORK.md) for unfinished work.

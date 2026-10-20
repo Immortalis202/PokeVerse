@@ -124,8 +124,12 @@ test("coverage and PDF fingerprints are preserved with a complete field-level qu
       readFileSync("src-tauri/src/combat_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/targeting_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/ability_tests.rs", "utf8") +
-      readFileSync("src-tauri/src/combat_tests/ability_change_tests.rs", "utf8") +
+      readFileSync(
+        "src-tauri/src/combat_tests/ability_change_tests.rs",
+        "utf8",
+      ) +
       readFileSync("src-tauri/src/combat_tests/transfer_tests.rs", "utf8") +
+      readFileSync("src-tauri/src/combat_tests/reviewed_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/field_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/extra_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/special_tests.rs", "utf8") +
@@ -164,11 +168,11 @@ test("ability inventory exposes reviewed scopes and preserves manual boundaries"
   assert.equal(inventory.entries.length, 305);
   assert.equal(
     inventory.entries.filter((e) => e.status !== "manual").length,
-    232,
+    248,
   );
   assert.equal(
     Object.values(registry.entries).filter((e) => e.status !== "manual").length,
-    232,
+    248,
   );
   assert.equal(
     inventory.entries.find((e) => e.name === "Static").status,
@@ -180,7 +184,7 @@ test("ability inventory exposes reviewed scopes and preserves manual boundaries"
   );
   assert.equal(
     inventory.entries.find((e) => e.name === "Mold Breaker").status,
-    "manual",
+    "automated",
   );
   for (const entry of inventory.entries) {
     if (entry.status === "manual")

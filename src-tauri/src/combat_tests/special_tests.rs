@@ -689,9 +689,13 @@ fn special_sky_drop_checks_lifting_and_transfers_out_of_range_to_the_carried_tar
     let (c, a, t) = setup("Sky Drop");
     let c = attack(&c, &a, &t, "Sky Drop");
     assert!(special::carried(&c, &t));
-    assert!(
-        special::target_guard(&c, &t, &catalog().find("moves", "Name", "Tackle").unwrap()).is_err()
-    );
+    assert!(special::target_guard(
+        &c,
+        &a,
+        &t,
+        &catalog().find("moves", "Name", "Tackle").unwrap()
+    )
+    .is_err());
     assert!(special::vulnerable(&c, &t, "Thunder"));
     assert!(special::vulnerable(&c, &a, "Thunder"));
     let mut released = c.clone();

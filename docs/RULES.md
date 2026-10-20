@@ -82,3 +82,7 @@ Engine `0.10.0-core` adds [encounter decoys](battle-decoys.md), including Substi
 ## Contact and inheritance (0.19.0)
 
 [Contact and fainted-ally transfers](battle-ability-transfers.md) includes Mummy, Lingering Aroma, outgoing Wandering Spirit, Receiver and Power of Alchemy. The campaign ledger uses GM-advanced game minutes for the 24-hour lifetime and participates in battle rollback. Serialized defaults retain schema 4 and historical engines.
+
+## Reviewed ability batch (0.20.0)
+
+Engine `0.13.0-core`, protocol 21, schema 4. Sixteen definitions add action-scoped immunity bypass, printed accuracy/recovery effects and entry/hit hooks. See [exact scope and boundaries](battle-reviewed-ability-batch.md); Mycelium Might grants Late Reaction/Never Miss rather than video-game ability bypass. The GM records night explicitly. Old encounters retain their serialized rules flags.

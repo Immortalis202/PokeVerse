@@ -1340,6 +1340,7 @@ pub fn effects(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) -
         }
         "Tidy Up" => {
             decoys::tidy(c);
+            field::clear_ability_hazards(c);
             flow_mut(c).field_effects.retain(|e| {
                 !["Spikes", "Toxic Spikes", "Sticky Web", "Stealth Rock"]
                     .contains(&e.move_name.as_str())
@@ -1777,7 +1778,8 @@ pub fn shield_reduction(c: &Campaign, q: &QueuedAction, m: &serde_json::Value) -
         })
 }
 fn bypass(c: &Campaign, q: &QueuedAction, m: &serde_json::Value) -> bool {
-    m["Attributes"]["IgnoreShield"] == true
+    fighter(c, &q.actor_id).is_ok_and(|p| reviewed::extreme(c, p))
+        || m["Attributes"]["IgnoreShield"] == true
         || vulnerable(c, &q.target_id, &q.move_name)
         || fighter(c, &q.actor_id).is_ok_and(|p| p.selected_ability == "Infiltrator")
 }
@@ -1956,7 +1958,11 @@ pub fn formula(
             }
         }
     }
-    immune |= abilities::damage_immune(c, t, m) || extra::source_immune(c, a, t, effect);
+    if reviewed::enabled(c) && name != "Sonic Boom" {
+        (effect, immune) = rules::type_matchup(c, a, t, ty, cat)?;
+    }
+    reviewed::unique_damage_guard(c, a, t, effect)?;
+    immune |= abilities::damage_immune_from(c, a, t, m) || extra::source_immune(c, a, t, effect);
     let rank = crate::creation::rank(&c.sheets[&a.sheet_id].rank)
         .ok_or_else(|| error("Unknown damage rank"))?;
     let n = match name {
@@ -2585,7 +2591,7 @@ pub fn vulnerable(c: &Campaign, id: &str, name: &str) -> bool {
         _ => false,
     })
 }
-pub fn target_guard(c: &Campaign, id: &str, m: &serde_json::Value) -> Result<()> {
+pub fn target_guard(c: &Campaign, source: &str, id: &str, m: &serde_json::Value) -> Result<()> {
     if !enabled(c) {
         return Ok(());
     }
@@ -2593,18 +2599,20 @@ pub fn target_guard(c: &Campaign, id: &str, m: &serde_json::Value) -> Result<()>
     if name == "Dream Eater" && !status(fighter(c, id)?, "Sleep") {
         return Err(error("Dream Eater requires a sleeping target"));
     }
-    if charge_for(c, id).is_some_and(|q| {
-        [
-            "Fly",
-            "Bounce",
-            "Sky Drop",
-            "Dig",
-            "Dive",
-            "Phantom Force",
-            "Shadow Force",
-        ]
-        .contains(&q.action.move_name.as_str())
-    }) && !vulnerable(c, id, name)
+    if !fighter(c, source).is_ok_and(|p| reviewed::extreme(c, p))
+        && charge_for(c, id).is_some_and(|q| {
+            [
+                "Fly",
+                "Bounce",
+                "Sky Drop",
+                "Dig",
+                "Dive",
+                "Phantom Force",
+                "Shadow Force",
+            ]
+            .contains(&q.action.move_name.as_str())
+        })
+        && !vulnerable(c, id, name)
     {
         return Err(error("Target is out of range while charging this move"));
     }

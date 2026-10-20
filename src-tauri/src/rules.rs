@@ -395,6 +395,7 @@ pub fn damage_pool(
         0
     };
     let (mut effectiveness, mut immune) = type_matchup(c, attacker, target, move_type, catalog)?;
+    crate::combat::reviewed::unique_damage_guard(c, attacker, target, effectiveness)?;
     if crate::combat::field::weather(c, Some(target))
         == Some(crate::combat::field::Weather::StrongWinds)
         && crate::combat::field::types(c, target, catalog)?
@@ -409,7 +410,7 @@ pub fn damage_pool(
         && move_type == "Poison";
     immune |= !crate::combat::decoys::protected_subject(c, key, &target.id, &m)
         && !corrosion
-        && (crate::combat::abilities::damage_immune(c, target, &m)
+        && (crate::combat::abilities::damage_immune_from(c, attacker, target, &m)
             || crate::combat::extra::source_immune(c, attacker, target, effectiveness));
     let ability_bonus = if conditional && attack_hp <= attacker.max_hp / 2 {
         2
@@ -545,6 +546,12 @@ pub fn type_matchup(
             0
         } else {
             type_effect(move_type, &t)?
+        };
+        let effect = if crate::combat::reviewed::type_bypass(c, attacker, target) && effect == -100
+        {
+            0
+        } else {
+            effect
         };
         let effect = if crate::combat::extra::enabled(c)
             && attacker.selected_ability == "Corrosion"

@@ -1180,3 +1180,6 @@ fn shield_first_attempt_is_free_then_consecutive_penalties_are_two_four_eight() 
         4
     );
 }
+
+#[path = "combat_tests/reviewed_tests.rs"]
+mod reviewed_tests;

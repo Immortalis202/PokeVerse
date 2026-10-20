@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "engine": "0.12.0-core",
+  "engine": "0.13.0-core",
   "default_status": "manual",
   "entries": {
     "Adaptability": {
@@ -273,12 +273,11 @@
       ]
     },
     "Cotton Down": {
-      "status": "manual",
-      "scope": "Requires a reviewed area-recipient selection and sourced stat entry/hit definition.",
+      "status": "automated",
+      "scope": "Non-ranged Physical hits reduce Dexterity in the separate ability channel for rank-limited nearby participants, foes first then allies; range and stat protection apply.",
       "page": 541,
-      "dependencies": [
-        "reviewed-area-stat-hooks"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.13.0-core"
     },
     "Cud Chew": {
       "status": "manual",
@@ -419,12 +418,13 @@
       "introduced_engine": "0.6.0-core"
     },
     "Early Bird": {
-      "status": "manual",
-      "scope": "Requires accuracy penalty provenance, environmental timing or reviewed recovery thresholds.",
+      "status": "partial",
+      "scope": "Structured Sleep duration is halved (rounded up); waking requires two cumulative Insight successes. Rest is excluded. Narrative sleep remains manual.",
       "page": 544,
       "dependencies": [
-        "reviewed-accuracy-and-recovery-definitions"
-      ]
+        "outside-battle-activities"
+      ],
+      "introduced_engine": "0.13.0-core"
     },
     "Earth Eater": {
       "status": "automated",
@@ -856,20 +856,20 @@
       "introduced_engine": "0.5.0-core"
     },
     "Justified": {
-      "status": "manual",
-      "scope": "Existing hook families are available; this individual definition and its ordering still require implementation and fixtures.",
+      "status": "partial",
+      "scope": "Dark hits raise the separate Strength ability channel by one, capped at three; narrative injustice triggers remain GM adjudicated.",
       "page": 552,
       "dependencies": [
-        "reviewed-event-definitions"
-      ]
+        "outside-battle-activities"
+      ],
+      "introduced_engine": "0.13.0-core"
     },
     "Keen Eye": {
-      "status": "manual",
-      "scope": "Requires accuracy penalty provenance, environmental timing or reviewed recovery thresholds.",
+      "status": "automated",
+      "scope": "Prevent accuracy-success removal from move, ability and environment penalties. Action thresholds, pain and explicit GM modifiers remain.",
       "page": 552,
-      "dependencies": [
-        "reviewed-accuracy-and-recovery-definitions"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.13.0-core"
     },
     "Klutz": {
       "status": "manual",
@@ -1015,12 +1015,11 @@
       "introduced_engine": "0.7.0-core"
     },
     "Mind's Eye": {
-      "status": "manual",
-      "scope": "Requires accuracy penalty provenance, environmental timing or reviewed recovery thresholds.",
-      "page": null,
-      "dependencies": [
-        "reviewed-accuracy-and-recovery-definitions"
-      ]
+      "status": "automated",
+      "scope": "At GM-recorded night all moves gain Never Miss. Normal and Fight hit Ghost for regular damage at all times.",
+      "page": 555,
+      "dependencies": [],
+      "introduced_engine": "0.13.0-core"
     },
     "Minus": {
       "status": "automated",
@@ -1046,12 +1045,11 @@
       "introduced_engine": "0.6.0-core"
     },
     "Mold Breaker": {
-      "status": "manual",
-      "scope": "Requires scoped ability suppression/bypass with restoration; strict rolls retain explicit adjudication.",
+      "status": "automated",
+      "scope": "Foe damage immunity from types and supported abilities is bypassed per attack. Unique Wonder Guard prevails; damage reductions and ordinary action prerequisites remain.",
       "page": 556,
-      "dependencies": [
-        "ability-suppression-and-bypass"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.13.0-core"
     },
     "Moody": {
       "status": "manual",
@@ -1062,12 +1060,11 @@
       ]
     },
     "Motor Drive": {
-      "status": "manual",
-      "scope": "Existing hook families are available; this individual definition and its ordering still require implementation and fixtures.",
+      "status": "automated",
+      "scope": "Electric damage immunity and one Dexterity increase on the first Electric hit. Damage bypass prevents absorption and its boost.",
       "page": 556,
-      "dependencies": [
-        "reviewed-event-definitions"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.13.0-core"
     },
     "Moxie": {
       "status": "automated",
@@ -1097,12 +1094,13 @@
       "introduced_engine": "0.12.0-core"
     },
     "Mycelium Might": {
-      "status": "manual",
-      "scope": "Requires scoped ability suppression/bypass with restoration; strict rolls retain explicit adjudication.",
+      "status": "partial",
+      "scope": "Support moves gain Never Miss and Late Reaction 1; no ability bypass is granted by the printed card. Printed Reaction collisions require explicit GM adjudication.",
       "page": 557,
       "dependencies": [
-        "ability-suppression-and-bypass"
-      ]
+        "conflicting-printed-reaction"
+      ],
+      "introduced_engine": "0.13.0-core"
     },
     "Natural Cure": {
       "status": "automated",
@@ -1552,20 +1550,18 @@
       "introduced_engine": "0.7.0-core"
     },
     "Screen Cleaner": {
-      "status": "manual",
-      "scope": "Existing hook families are available; this individual definition and its ordering still require implementation and fixtures.",
+      "status": "automated",
+      "scope": "On entry or effective ability activation remove active force fields on both sides; other arena effects remain.",
       "page": 566,
-      "dependencies": [
-        "reviewed-event-definitions"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.13.0-core"
     },
     "Seed Sower": {
-      "status": "manual",
-      "scope": "Existing hook families are available; this individual definition and its ordering still require implementation and fixtures.",
+      "status": "automated",
+      "scope": "Physical or Special hits start four-round Grassy Terrain for the holder side, without refreshing an existing Grassy Terrain. Conflicting terrain uses a recorded GM ruling.",
       "page": 566,
-      "dependencies": [
-        "reviewed-event-definitions"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.13.0-core"
     },
     "Serene Grace": {
       "status": "partial",
@@ -1835,12 +1831,13 @@
       "introduced_engine": "0.7.0-core"
     },
     "Supersweet Syrup": {
-      "status": "manual",
-      "scope": "Requires a reviewed area-recipient selection and sourced stat entry/hit definition.",
+      "status": "partial",
+      "scope": "Foes in confirmed range cannot Evade the holder moves; Clash remains available. Narrative encounter-rate changes remain GM adjudicated.",
       "page": 571,
       "dependencies": [
-        "reviewed-area-stat-hooks"
-      ]
+        "narrative-encounter-effects"
+      ],
+      "introduced_engine": "0.13.0-core"
     },
     "Supreme Overlord": {
       "status": "automated",
@@ -1903,12 +1900,13 @@
       "introduced_engine": "0.7.0-core"
     },
     "Tangled Feet": {
-      "status": "manual",
-      "scope": "Requires accuracy penalty provenance, environmental timing or reviewed recovery thresholds.",
+      "status": "partial",
+      "scope": "While confused, impose two additional reduced-accuracy successes on foe moves targeting the holder; Keen Eye prevents this reduction. Mixed-target penalties on one shared accuracy roll require GM adjudication.",
       "page": 573,
       "dependencies": [
-        "reviewed-accuracy-and-recovery-definitions"
-      ]
+        "mixed-target-accuracy"
+      ],
+      "introduced_engine": "0.13.0-core"
     },
     "Tangling Hair": {
       "status": "automated",
@@ -1955,12 +1953,15 @@
       ]
     },
     "Teravolt": {
-      "status": "manual",
-      "scope": "Requires scoped ability suppression/bypass with restoration; strict rolls retain explicit adjudication.",
+      "status": "partial",
+      "scope": "Action-scoped foe type/damage/status immunity bypass, supported shields, decoys, redirection and charging-target access. Unique-effect stalemates, held items and unsupported effect blockers require GM adjudication.",
       "page": 574,
       "dependencies": [
-        "ability-suppression-and-bypass"
-      ]
+        "unique-stalemates",
+        "held-item-system",
+        "unsupported-support-effects"
+      ],
+      "introduced_engine": "0.13.0-core"
     },
     "Thermal Exchange": {
       "status": "automated",
@@ -2013,12 +2014,11 @@
       "introduced_engine": "0.7.0-core"
     },
     "Toxic Debris": {
-      "status": "manual",
-      "scope": "Existing hook families are available; this individual definition and its ordering still require implementation and fixtures.",
+      "status": "automated",
+      "scope": "Non-ranged Physical hits scatter persistent Toxic Spikes on the foe side. New eligible entrants roll one host Chance die for Badly Poisoned, otherwise Poison; Ground immunity and status protection apply.",
       "page": 575,
-      "dependencies": [
-        "reviewed-event-definitions"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.13.0-core"
     },
     "Trace": {
       "status": "automated",
@@ -2052,12 +2052,15 @@
       ]
     },
     "Turboblaze": {
-      "status": "manual",
-      "scope": "Requires scoped ability suppression/bypass with restoration; strict rolls retain explicit adjudication.",
+      "status": "partial",
+      "scope": "Action-scoped foe type/damage/status immunity bypass, supported shields, decoys, redirection and charging-target access. Unique-effect stalemates, held items and unsupported effect blockers require GM adjudication.",
       "page": 576,
       "dependencies": [
-        "ability-suppression-and-bypass"
-      ]
+        "unique-stalemates",
+        "held-item-system",
+        "unsupported-support-effects"
+      ],
+      "introduced_engine": "0.13.0-core"
     },
     "Unaware": {
       "status": "manual",
@@ -2100,12 +2103,11 @@
       "introduced_engine": "0.7.0-core"
     },
     "Victory Star": {
-      "status": "manual",
-      "scope": "Requires accuracy penalty provenance, environmental timing or reviewed recovery thresholds.",
+      "status": "automated",
+      "scope": "Physical and Special moves of the user and living allies in confirmed range gain Never Miss.",
       "page": 577,
-      "dependencies": [
-        "reviewed-accuracy-and-recovery-definitions"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.13.0-core"
     },
     "Vital Spirit": {
       "status": "automated",

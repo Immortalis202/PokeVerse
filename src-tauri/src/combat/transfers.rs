@@ -215,7 +215,7 @@ pub fn hit(c: &mut Campaign, q: &QueuedAction, m: &serde_json::Value, cat: &Cata
     }
     let (_, immune) =
         rules::type_matchup(c, &source, &target, m["Type"].as_str().unwrap_or(""), cat)?;
-    if immune || abilities::damage_immune(c, &target, m) {
+    if immune || abilities::damage_immune_from(c, &source, &target, m) {
         return Ok(());
     }
     let key = format!(

@@ -23,6 +23,9 @@ pub struct FieldEffect {
 pub(super) fn require_targeting(c: &Campaign) -> Result<()> {
     if ![
         ENGINE,
+        TRANSFER_ENGINE,
+        ASSIGNMENT_ENGINE,
+        DECOY_ENGINE,
         TACTICS_ENGINE,
         SPECIAL_ENGINE,
         EXTRA_ENGINE,
@@ -110,7 +113,7 @@ pub(super) fn plan(
             {
                 return Err(error("Choose two available foes in range"));
             }
-            special::target_guard(c, key, m)?;
+            special::target_guard(c, id, key, m)?;
         }
         return Ok((requested.to_vec(), None));
     }
@@ -165,7 +168,9 @@ pub(super) fn plan(
             .combatants
             .iter()
             .filter(active)
-            .filter(|v| v.id != id && in_range(&v.id) && special::target_guard(c, &v.id, m).is_ok())
+            .filter(|v| {
+                v.id != id && in_range(&v.id) && special::target_guard(c, id, &v.id, m).is_ok()
+            })
             .collect();
         all.sort_by_key(|v| (v.side == p.side, v.id.clone()));
         let expected: Vec<_> = all.into_iter().take(cap).map(|v| v.id.clone()).collect();
@@ -192,7 +197,7 @@ pub(super) fn plan(
     }
     for key in &ids {
         let t = fighter(c, key)?;
-        special::target_guard(c, key, m)?;
+        special::target_guard(c, id, key, m)?;
         if t.hp == 0 || t.available_round > battle(c)?.round || !in_range(key) {
             return Err(error(
                 "Target is fainted, unavailable or outside the GM-confirmed range",

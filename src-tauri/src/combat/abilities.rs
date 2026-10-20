@@ -68,7 +68,9 @@ pub fn pending(c: &Campaign) -> bool {
 pub fn guard(c: &Campaign, source: &Combatant) -> Result<()> {
     if enabled(c)
         && c.battle.as_ref().is_some_and(|b| b.automatic_validation)
-        && (["Mold Breaker", "Teravolt", "Turboblaze"].contains(&source.selected_ability.as_str())
+        && ((!reviewed::enabled(c)
+            && ["Mold Breaker", "Teravolt", "Turboblaze"]
+                .contains(&source.selected_ability.as_str()))
             || (!ability_changes::enabled(c)
                 && c.battle
                     .as_ref()
@@ -143,7 +145,8 @@ pub fn coverage(c: &Campaign, name: &str) -> Option<&'static str> {
             .expect("valid owned ability registry")
     });
     let entry = &REGISTRY["entries"][name];
-    if (entry["introduced_engine"] == "0.12.0-core" && !transfers::enabled(c))
+    if (entry["introduced_engine"] == "0.13.0-core" && !reviewed::enabled(c))
+        || (entry["introduced_engine"] == "0.12.0-core" && !transfers::enabled(c))
         || (entry["introduced_engine"] == "0.11.0-core" && !ability_changes::enabled(c))
         || (entry["introduced_engine"] == "0.10.0-core" && !decoys::enabled(c))
         || (entry["introduced_engine"] == "0.9.0-core" && !tactics::enabled(c))
@@ -264,6 +267,14 @@ pub fn move_immune(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> bool {
             && !special::roost(c, &p.id))
             || (p.selected_ability == "Soundproof" && m["Attributes"]["SoundMove"] == true))
 }
+pub fn damage_immune_from(
+    c: &Campaign,
+    a: &Combatant,
+    t: &Combatant,
+    m: &serde_json::Value,
+) -> bool {
+    !reviewed::damage_bypass(c, a, t) && damage_immune(c, t, m)
+}
 pub fn damage_immune(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> bool {
     tactics::damage_immune(c, p, m)
         || extra::immune(c, p, m)
@@ -366,7 +377,7 @@ pub fn clash_reduced(
 ) -> Result<i32> {
     let p = fighter(c, id)?;
     let subject = decoys::damage_subject(c, source, p, m);
-    if damage_immune(c, &subject, m) {
+    if damage_immune_from(c, fighter(c, source)?, &subject, m) {
         return Ok(0);
     }
     let reduced = (raw
@@ -418,43 +429,46 @@ pub fn hit(
             .or_default();
         *v = (*v + 1).min(3);
     }
-    match target.selected_ability.as_str() {
-        "Flash Fire" if m["Type"] == "Fire" => {
-            fighter_mut(c, &q.target_id)?
-                .runtime
-                .ability
-                .flags
-                .insert("Flash Fire".into());
-        }
-        "Sap Sipper" if m["Type"] == "Grass" => {
-            let state = &mut fighter_mut(c, &q.target_id)?.runtime.ability;
-            if state.flags.insert("Sap Sipper".into()) {
-                state.counters.insert("Sap Sipper".into(), 1);
+    if !reviewed::damage_bypass(c, &reviewed::source(c, q)?, &target) {
+        match target.selected_ability.as_str() {
+            "Flash Fire" if m["Type"] == "Fire" => {
+                fighter_mut(c, &q.target_id)?
+                    .runtime
+                    .ability
+                    .flags
+                    .insert("Flash Fire".into());
             }
-        }
-        "Water Absorb" | "Dry Skin"
-            if m["Type"] == "Water"
-                && (target.selected_ability != "Dry Skin" || field::enabled(c)) =>
-        {
-            enqueue(
+            "Sap Sipper" if m["Type"] == "Grass" => {
+                let state = &mut fighter_mut(c, &q.target_id)?.runtime.ability;
+                if state.flags.insert("Sap Sipper".into()) {
+                    state.counters.insert("Sap Sipper".into(), 1);
+                }
+            }
+            "Water Absorb" | "Dry Skin"
+                if m["Type"] == "Water"
+                    && (target.selected_ability != "Dry Skin" || field::enabled(c)) =>
+            {
+                enqueue(
+                    c,
+                    &target,
+                    &target.id,
+                    "heal",
+                    &q.move_name,
+                    &["heal", "decline"],
+                )
+            }
+            "Volt Absorb" if m["Type"] == "Electric" => enqueue(
                 c,
                 &target,
                 &target.id,
                 "heal",
                 &q.move_name,
                 &["heal", "decline"],
-            )
+            ),
+            _ => {}
         }
-        "Volt Absorb" if m["Type"] == "Electric" => enqueue(
-            c,
-            &target,
-            &target.id,
-            "heal",
-            &q.move_name,
-            &["heal", "decline"],
-        ),
-        _ => {}
     }
+    reviewed::hit(c, q, m, cat)?;
     transfers::hit(c, q, m, cat)?;
     extra::hit(c, q, before_hp, m)?;
     tactics::hit(c, q, m)?;

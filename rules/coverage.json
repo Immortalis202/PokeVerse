@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.12.0-core",
-  "release": "0.19.0",
-  "protocol": 20,
+  "engine": "0.13.0-core",
+  "release": "0.20.0",
+  "protocol": 21,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -328,9 +328,21 @@
         "transfer_time_is_gm_only_between_battles_and_expiry_is_exact",
         "transfer_inherited_ledger_rolls_back_with_the_ability_event"
       ]
+    },
+    {
+      "id": "reviewed-bypass-accuracy-events",
+      "status": "partial",
+      "source": "MASTER 543-577; RULING 80",
+      "scope": "Sixteen reviewed ability definitions: action-scoped immunity bypass, accuracy/recovery, hit/entry events and Toxic Spikes. Partial narrative, unique stalemate and unsupported effect boundaries remain explicit.",
+      "fixtures": [
+        "reviewed_mold_breaker_bypasses_type_and_damage_immunity_without_mutating_identity",
+        "reviewed_motor_drive_immunity_and_once_boost_are_bypassed_by_mold_breaker",
+        "reviewed_mycelium_support_gets_late_reaction_without_bypass",
+        "reviewed_seed_sower_is_four_rounds_does_not_refresh_and_overlap_requires_ruling"
+      ]
     }
   ],
-  "ability_registry_hash": "a30a7116ea04f7cffc684ea581c3e686272280393a184769ec3715c3746e0006",
+  "ability_registry_hash": "85fc42a8cbf6e07996ddf6971148708a4934f4c6024e1480c1afe1ece0947de6",
   "special_registry_hash": "d984302375b329116f9b315c01c06e881b7d6b5ca869c2263c50052e3e761102",
   "tactics_registry_hash": "ee6fed55b8201e9959a5e143f1cef57fe5c9b4f81656d01e04e5cb9649fd1d7b"
 }

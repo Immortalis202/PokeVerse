@@ -160,7 +160,11 @@ pub fn apply_stats(c: &Campaign, p: &Combatant, s: &mut Sheet) {
     let intimidated = flow(c).is_ok_and(|f| f.intimidate.values().any(|ids| ids.contains(&p.id)));
     for key in ["Strength", "Dexterity", "Vitality", "Special", "Insight"] {
         let mut positive = own_stat(c, p, key);
-        let mut negative = 0;
+        let mut negative = if reviewed::enabled(c) {
+            count(p, &format!("debuff:{key}"))
+        } else {
+            0
+        };
         if p.selected_ability != "Clear Body" {
             if key == "Strength"
                 && matches!(
@@ -452,10 +456,14 @@ pub fn immune(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> bool {
             "Earth Eater" => m["Type"] == "Ground" && !field::has(c, "Gravity", p),
             "Water Compaction" => m["Type"] == "Water",
             "Well-Baked Body" => m["Type"] == "Fire",
+            "Motor Drive" if reviewed::enabled(c) => m["Type"] == "Electric",
             _ => false,
         }
 }
 pub fn source_immune(c: &Campaign, source: &Combatant, target: &Combatant, effective: i32) -> bool {
+    if reviewed::damage_bypass(c, source, target) {
+        return false;
+    }
     enabled(c)
         && ((target.id != source.id
             && target.side == source.side
@@ -499,7 +507,7 @@ pub fn after_status(c: &mut Campaign, id: &str, kind: &str) -> Result<()> {
     }
     Ok(())
 }
-fn boost(c: &mut Campaign, id: &str, key: &str, n: i32) -> Result<()> {
+pub(super) fn boost(c: &mut Campaign, id: &str, key: &str, n: i32) -> Result<()> {
     let k = format!("{}:{key}", if n < 0 { "debuff" } else { "boost" });
     let v = fighter_mut(c, id)?
         .runtime
@@ -514,7 +522,7 @@ fn boost(c: &mut Campaign, id: &str, key: &str, n: i32) -> Result<()> {
     }
     Ok(())
 }
-fn once(c: &mut Campaign, id: &str, flag: &str, values: &[(&str, i32)]) -> Result<()> {
+pub(super) fn once(c: &mut Campaign, id: &str, flag: &str, values: &[(&str, i32)]) -> Result<()> {
     if fighter(c, id)?.runtime.ability.flags.contains(flag) {
         return Ok(());
     }
@@ -622,6 +630,7 @@ pub fn hit(c: &mut Campaign, q: &QueuedAction, before: i32, m: &serde_json::Valu
     if target.selected_ability == "Sand Spit" && abilities::contact(m) {
         field::sand_spit(c, &target.id)?;
     }
+    let bypass = reviewed::damage_bypass(c, &reviewed::source(c, q)?, &target);
     if target.hp > 0 {
         match target.selected_ability.as_str() {
             "Anger Point" if q.critical => {
@@ -633,10 +642,10 @@ pub fn hit(c: &mut Campaign, q: &QueuedAction, before: i32, m: &serde_json::Valu
                 "Stamina",
                 &[("Defense", 1), ("SpecialDefense", 1)],
             )?,
-            "Water Compaction" if t == "Water" => {
+            "Water Compaction" if t == "Water" && !bypass => {
                 once(c, &target.id, "Water Compaction", &[("Defense", 2)])?
             }
-            "Well-Baked Body" if t == "Fire" => {
+            "Well-Baked Body" if t == "Fire" && !bypass => {
                 once(c, &target.id, "Well-Baked Body", &[("Defense", 2)])?
             }
             "Thermal Exchange" if t == "Fire" => {
@@ -654,14 +663,16 @@ pub fn hit(c: &mut Campaign, q: &QueuedAction, before: i32, m: &serde_json::Valu
             "Rattled" if ["Bug", "Dark", "Ghost"].contains(&t) => {
                 once(c, &target.id, "Rattled", &[("Dexterity", 1)])?
             }
-            "Earth Eater" if t == "Ground" && !field::has(c, "Gravity", &target) => enqueue(
-                c,
-                &target,
-                &target.id,
-                "heal",
-                &q.move_name,
-                vec!["heal".into(), "decline".into()],
-            ),
+            "Earth Eater" if t == "Ground" && !bypass && !field::has(c, "Gravity", &target) => {
+                enqueue(
+                    c,
+                    &target,
+                    &target.id,
+                    "heal",
+                    &q.move_name,
+                    vec!["heal".into(), "decline".into()],
+                )
+            }
             "Cursed Body"
                 if dealt
                     && source.hp > 0
@@ -976,6 +987,9 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
             }
         }
         if !old.contains(&p.id) {
+            if reviewed::enabled(c) && p.selected_ability == "Screen Cleaner" {
+                field::screen_cleaner(c);
+            }
             let round = battle(c)?.round;
             fighter_mut(c, &p.id)?
                 .runtime
@@ -1290,7 +1304,8 @@ pub fn status_damage_immune(p: &Combatant, kind: &str) -> bool {
 }
 pub fn ignores_ghost(c: &Campaign, p: &Combatant, move_type: &str, target_type: &str) -> bool {
     enabled(c)
-        && p.selected_ability == "Scrappy"
+        && (p.selected_ability == "Scrappy"
+            || (reviewed::enabled(c) && p.selected_ability == "Mind's Eye"))
         && target_type == "Ghost"
         && ["Normal", "Fight"].contains(&move_type)
 }
@@ -1543,4 +1558,28 @@ fn reaches(c: &Campaign, source: &Combatant, target: &Combatant, include_self: b
             [crate::creation::rank(&c.sheets[&source.sheet_id].rank).unwrap_or(0)],
     );
     ids.contains(&target.id.as_str())
+}
+
+/// Ability-channel reductions do not consume or overwrite move-channel modifiers.
+pub(super) fn ability_drop(c: &mut Campaign, id: &str, key: &str, n: i32) -> Result<()> {
+    let p = fighter(c, id)?.clone();
+    if protected(c, &p, key) {
+        return Ok(());
+    }
+    let (prefix, amount) = match p.selected_ability.as_str() {
+        "Contrary" => ("boost", n),
+        "Simple" => ("debuff", n + 1),
+        _ => ("debuff", n),
+    };
+    let k = format!("{prefix}:{key}");
+    let old = *p.runtime.ability.counters.get(&k).unwrap_or(&0);
+    fighter_mut(c, id)?.runtime.ability.counters.insert(
+        k,
+        if prefix == "boost" {
+            old.max(amount)
+        } else {
+            old.min(-amount)
+        },
+    );
+    Ok(())
 }

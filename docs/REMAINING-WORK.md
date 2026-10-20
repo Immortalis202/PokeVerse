@@ -1,169 +1,233 @@
-# PokeVerse — remaining work
+# PokeVerse - remaining work
 
-Snapshot: 17 October 2026, application 0.19.0, protocol 20, user database schema 4.
+Snapshot: **20 October 2026**, application **0.20.0**, engine **0.13.0-core**, protocol **21**, user database schema **4**.
 
-The Training Point milestone below is implemented. Remaining battle, catalog and native acceptance work stays open.
+This is the current project backlog. Implemented foundations are summarized first; unfinished features, explicit GM rulings, verification gaps and excluded scope are distinguished below. Counts come from the checked-in registries and should be refreshed after catalog changes.
 
-## Existing foundation
+## Implemented foundation
 
-- Offline trainer/Pokémon creation and named progression operations, with shared Rust validation, derived resources, budgets and reviewed costs.
+Offline trainer/Pokémon creation and named progression use shared Rust budgets, costs, prerequisites and derived resources. Campaign synchronization supports accepted offline purchases, indivisible progression chains and scoped GM exception approval. The host appoints the GM and automatically validates normal commands; these roles can be separate people.
 
-- Campaign synchronization, campaign-scoped GM approvals for exceptions, and automatic host validation. The host and GM can be different players.
+Training encounters use the reviewed habitat pool, private preparation, publication, assumed victory, captures and trainer assignment. The GM awards Training Points to a trainer pool; owners distribute accepted points among that trainer's Pokémon offline. Existing Pokémon balances are preserved.
 
-- Habitat-based training encounters, private preparation, published rosters, assumed victory, GM-confirmed captures, trainer assignment and manual rewards.
+Battles register full teams, three active slots per side, reserves, controlled switching, accuracy/damage automation, multi-target responses, field effects, supported abilities, decoys, overrides and rollback. Evasion is once per turn; eligible Clash can answer each incoming hit within the action budget. The Compendium works offline for all 1,200 species/forms.
 
-- Registered battle teams, active slots and reserves, switching/replacement, supported initiative/accuracy/damage automation, action counting, overrides and rollback.
+## 1. Remaining battle systems
 
-- Offline Compendium for all 1,200 species/forms, linked references and violet minimum/maximum species cards.
+- [ ] **Held items:** model equip/unequip, ownership, consumption/loss/theft, provenance, trigger choices, rollback and synchronization. Integrate berries, item-dependent abilities and Magic Room/Klutz restrictions without implying reference-only inventory is an active held-item engine.
+- [ ] **Forms and transformations:** define supported temporary form changes, entry/exit, stat/type/ability replacement and restoration, preserving permanent sheets and frozen attack inputs. Review each ability separately. Excluded mechanics below must remain excluded.
+- [ ] **Additional action sequencing:** review and implement Dancer, Parental Bond, Gorilla Tactics, Truant and Defeatist using Pokerole wording, reaction/action accounting and idempotent owner choices.
+- [ ] **Other ability families:** damage provenance (Tinted Lens, Unaware, Sheer Force, Stakeout), weight/gender formulas, private information reveals, random stat choices and remaining event definitions. The full ability inventory is in sections 8-9.
+- [ ] **Stat/ability-channel copying and transfer:** Costar, Opportunist and reviewed ability-channel behavior for Baton Pass/Snatch; do not treat temporary ability identity copying as stat-channel transfer.
+- [ ] **Remaining identity effects:** review Entrainment, Doodle and Core Enforcer individually. Role Play, Skill Swap, Gastro Acid, Trace, Gas, contact replacement and witnessed ally inheritance already exist.
+- [ ] **Status edge cases:** review severe Burn/Poison escalation with conflicting printed values, unsupported status-producing/cure effects and remaining Will spending/draining effects. Core statuses, durations and expiry already exist; automatic Will recovery remains excluded.
+- [ ] **Ice edge cases:** review any still-adjudicated Snow/special-damage interactions against ice against current fixtures before adding mechanics. Ordinary ice attempts and supported special interactions already have tests.
+- [ ] **Unreviewed move effects:** extend executable definitions beyond the selected special/targeting registries. Ordinary damage automation does not imply every added effect on all 892 moves is executable. Preserve explicit GM resolution for unsupported cards.
 
-These foundations do not imply complete rule coverage. Legal offline progression already works; GM approval is needed for exceptions and narrative permissions, rather than every ordinary edit or purchase.
+## 2. Remaining named move and battlefield boundaries
 
-## 1. Completed: trainer Training Point pool and player distribution
+| Entry | Remaining work or intentional ruling |
+| --- | --- |
+| Baton Pass | Transfer supported ability channels; existing positive move-channel transfer and replacement rules are implemented. |
+| Snatch | Transfer ability modifiers and additional explicitly reviewed effects; existing shields, supported move modifiers, decoys and typed effects already transfer. |
+| Shadow Force | Persist its 24-hour recovery restriction after leaving the encounter; encounter-local debt already works. |
+| Bide | Keep the recorded GM choice for contradictory printed User/Target wording. Do not silently select an interpretation. |
+| Magic Coat | Extend supported reflected Support effects. Keep the explicit GM duration ruling because the card does not state one. |
+| Mycelium Might | Resolve printed Reaction versus granted Late Reaction collisions explicitly. Pokerole grants Never Miss/Late Reaction, not video-game ability bypass. |
+| Tangled Feet | Support different accuracy-success penalties per target within one shared roll; currently mixed penalties require adjudication. |
+| Teravolt / Turboblaze | Extend held-item and unsupported effect-blocker interactions; retain explicit conflicting unique-ability rulings. Current type/damage/status immunity, supported shields/decoys, redirection and charge-target access are implemented. |
+| Neutralizing Gas | Opposing emitters require a recorded GM policy. This is a rules stalemate, not a missing host validation step. |
+| Receiver / Power of Alchemy | Narrative acquisition outside witnessed campaign fainting; explicit timing for switching active copies during combat. Witnessed acquisition, one active copy, game-time expiry and persistence already work. |
+| Terrain overlaps | Preserve recorded GM decisions where the manual does not define precedence. Do not substitute video-game terrain replacement rules. |
+| Torn World | Define or record the retargeting distribution before automating it. |
+| Arena examples | Supply GM parameters where examples omit healing amounts or check difficulty; narrative escape and encounter-rate effects remain manual. |
+| Magic Room | Integrate the future held-item engine; recording a field effect is already supported. |
+| Night parameters | Reconcile the legacy per-Pokémon Moonlight night parameter with the new battlefield night setting, preserving explicitly logged GM overrides. Mind's Eye currently uses the battlefield setting. |
 
-### Required behavior
+These are not all bugs to eliminate: contradictory or unspecified rules can remain explicit, logged GM decisions. New definitions must include reviewed evidence, previews, host validation, history, retry/rollback behavior and meaningful fixtures.
 
-The GM awards a general Training Point balance to a campaign trainer. The player decides how to distribute accepted points among that trainer's Pokémon. Awards must no longer require the GM to choose individual Pokémon, including awards from training encounters.
+## 3. Catalog, creation fidelity and assets
 
-- [x] Add a clear trainer pool display and a player distribution workflow with amount, recipient and final review.
+- [ ] Finish review of unresolved/unverified species baselines and limits, forms, move ranks, evolution branches/prerequisites and ability availability. Fix the application-owned correction layer, never the supplied source data.
+- [ ] Resolve **35 missing catalog references**, preserving exact species/form identities. Missing/ambiguous matches must remain visible until reviewed.
+- [ ] Supply or review **168 missing species/form sprites**; current placeholders retain names and navigation.
+- [ ] Work through the field-level audit queue in `outputs/rule-coverage/` in the parent workspace. An unverified field is not necessarily wrong, and a resolved link is not proof that prerequisites were reviewed.
+- [ ] Continue manual habitat review when desired. Keep accepted CSV assignments, explicit exclusions, conditional notes and persistent user overrides authoritative; do not regenerate type-affinity suggestions over them.
+- [ ] Audit the older broad coverage-matrix descriptions as individual mechanics advance. Per-definition registries and executable fixtures define precise coverage.
 
-- [x] Replace Pokémon-recipient reward controls in encounters and general campaign awards with trainer recipients.
+Current catalog: 1,200 species/forms and 892 moves. The special-move registry covers 221 selected definitions (217 automated, three partial, one excluded/manual); the targeting registry covers 16 moves (14 automated, two partial). These are overlapping scopes, not a complete move catalog or a sum of distinct supported moves.
 
-- [x] Keep campaign awards/corrections GM-authorized and record the source, reason and approving identity. Offline proposed awards remain pending.
+## 4. Windows, multiplayer and distribution acceptance
 
-- [x] Allow distribution of already accepted points offline, without another GM approval. Restrict recipients to Pokémon owned by the player and attached to the selected trainer.
+Headless localhost WebSocket tests establish separate host/GM/owner authority, receipts, reconnect, rollback and database persistence. They do not establish interactive Windows or physical LAN acceptance.
 
-- [x] Treat distribution as a single operation: atomically debit the trainer and credit the Pokémon, with provenance, stable operation IDs and expected revisions for both sheets.
+- [ ] Install, upgrade and uninstall the packaged app in isolated Windows installations; verify preservation of personal data and offline catalog/sprites.
+- [ ] Exercise creation, progression, trainer-point distribution, Compendium links/Back navigation and dialogs at 960x650, 1280x850 and 1920x1080, including keyboard access and long content.
+- [ ] Play the native three-owner versus GM gym scenario: twelve registered Pokémon, six active, reserves, repeated Clash, once-per-turn Evasion, supported field/ability effects and controlled replacement.
+- [ ] Exercise training-encounter draft privacy, publication, mixed capture recipients, trainer rewards, owner library imports and subsequent offline progression.
+- [ ] Exercise stale previews, duplicate submissions, disconnect/reconnect, replacement GM, conflicting offline branches and backup restoration through the native interface.
+- [ ] Test direct LAN joining on separate physical Windows machines, firewall/connection errors and reconnection. Record private-VPN tests separately from direct LAN tests.
+- [ ] Finish and verify the trusted Windows signing/distribution process; building an installer does not establish a trusted signature or remove Windows execution prompts. Do not automatically launch executables or installers during unattended checks.
 
-- [x] Revalidate distribution on the host. Retries, reconnects and repeated imports must not duplicate points; concurrent offline distributions must not independently merge into an overspent pool.
+## 5. Deliberately deferred product features
 
-- [x] Support conflict reconciliation for the complete transfer chain, including dependent purchases using transferred points. Rejected transfers must not leave a debit or credit behind.
-
-- [x] Preserve existing Pokémon balances, awards and history. Do not silently move previously awarded points back to trainers. Keep legacy trainer XP separate from the new pool.
-
-- [x] Update typed commands/bindings, encounter outcomes, synchronization, history, version/compatibility checks and migration backups where required by the final design.
-
-### Adopted decisions
-
-- Distribution is one-for-one. Disobedience never silently reduces an accepted pool transfer; specific earning formulas remain manual.
-
-- Transfers are one-way; GM corrections are explicit and logged.
-
-- Matching 0.9.0 clients use trainer awards immediately. Historical Pokémon awards and balances remain unchanged; legacy trainer XP stays separate. No database migration is needed.
-
-Validation details: [Training Points](training-points.md). Full interactive Windows acceptance remains pending in section 4.
-
-### Acceptance
-
-- [x] GM awards 100 points to a trainer; the player distributes 40 and 30 to two Pokémon, leaving 30 in the trainer pool.
-
-- [x] Accepted points can be distributed and spent offline, then synchronize once on reconnect.
-
-- [x] Negative amounts, insufficient balance, another player's recipient and mismatched trainer links are rejected.
-
-- [x] Stale revisions, concurrent branches, duplicate submissions and database failure cannot duplicate or lose points.
-
-- [x] Historical awards and current Pokémon balances survive upgrade, backup restoration and repeated imports.
-
-## 2. Battle rule coverage
-
-- [x] Exercise the current engine in a full headless 3v3 gym battle and real localhost WebSocket replay: three trainer owners, separate GM, twelve registered Pokémon, reactions, reserves, knockouts, explicit battle closure, receipts, rollback, reconnect and database reopening. See [headless scenario](headless-3v3.md). This does not replace physical LAN or interactive UI acceptance.
-
-A reviewed coverage matrix and field-level audit queue are implemented in 0.10.0. Explicit single-target turns/reactions, held-turn recovery, Evasion/Clash, Will, major statuses and ice breaking have fixtures. Selected healing/shield/chance/recoil/recharge/set-damage effects and conditional abilities are implemented. 0.11.0 adds multi-target ordinary attacks, rank-limited area selection, shared damage dice, field-effect records, area Clash and Cover an Ally. 0.13.0 adds typed weather, terrain, force fields, rooms, temporary typing and arena conditions. 0.14.0 adds conditional/reactive ability families, bringing automated or partial ability scopes to 209 of 305. 0.15.0 adds reviewed charge, rampage, successive-action and healing/shield families. 0.16.0 adds multi-target/field reaction queues, redirection/interception, priority restrictions and controlled effect switches, bringing supported ability scopes to 224 of 305. 0.17.0 adds reviewed Substitute/Shed Tail decoys, Snatch theft and Tidy Up, bringing supported ability scopes to 225 of 305 (Unseen Fist remains partial). Remaining ability definitions and listed unresolved interactions stay open. See [advanced targeting](battle-targeting.md). See [RULES.md](RULES.md) and [coverage.json](../rules/coverage.json).
-
-- [x] Verify Champion battle roll/rank inheritance and implement the supported bonuses. Champion creation/progression is already supported; reviewed Champion sheets inherit Master battle bonuses.
-
-- [x] Implement multi-target reaction sequencing, increasing early/late priority, bystander reaction moves, highest-only multi-Clash counter-damage, controlled switches and relevant restrictions. Preserve once-per-turn Evasion and repeatable Clash. See [targeting and reactions](battle-reactions.md).
-
-- [ ] Resolve remaining reaction/targeting boundaries: unsupported Support effects, ability-channel transfer, printed Late Reaction collisions and unstated Magic Coat duration require the listed systems or recorded rulings.
-
-- [ ] Implement structured status modifiers, durations, expiry and resource changes, including the remaining Will-related battle mechanics.
-
-- [x] Add the first reviewed ability milestone: 51 supported definitions, entry/round/hit hooks, owner decisions, chance dice, status provenance, receipts and rollback.
-
-- [x] Add weather/terrain-dependent and extended conditional/reactive ability families.
-
-- [ ] Complete the remaining 80 ability definitions, including held items, form changes, suppression, redirection and individually listed unimplemented event/reaction definitions. See [battle abilities](battle-abilities.md).
-
-- [x] Add reviewed special move families in 0.15.0: healing, shields, fixed/variable pools, charge, rampage, successive actions (including reaction sequences), recharge and recoil. See [special moves](battle-special-moves.md).
-
-- [ ] Resolve the remaining special-move boundaries: Bide wording requires a recorded GM choice; Snatch ability modifiers need a transfer system; Shadow Force recovery restrictions outside the encounter need persistent tracking. Dynamax, Max Moves including Max Guard, and Z-Moves are out of scope. Other unreviewed move interactions remain explicit adjudication.
-
-- [x] Implement Substitute/Shed Tail decoys, frozen defenses, damage/effect interception, Snatch transfer, Tidy Up, history, reconnect and rollback. See [decoy rules](battle-decoys.md).
-
-- [x] Explicitly exclude Dynamax, all Max Moves (including Max Guard), and Z-Moves from this scope. Catalog entries remain available as reference.
-
-- [x] Enforce Never Miss's evasion prohibition; supported accuracy still needs its success check.
-
-- [x] Review and implement supported temporary typing, battlefield effects and arena conditions.
-
-- [x] Retain manual adjudication, logged overrides, idempotency and rollback as coverage expands.
-
-Acceptance: each automated mechanic has reviewed fixtures and end-to-end tests; unsupported mechanics remain clearly identified. Existing ordinary damage automation must continue to work.
-
-## 3. Catalog fidelity and missing assets
-
-- [ ] Complete manual review of unresolved species baselines/limits, forms, move ranks, evolution stages and prerequisites. Preserve the application-owned correction layer and original source files.
-
-- [ ] Resolve the current 35 missing catalog references through reviewed corrections; keep ambiguous/missing names visible rather than choosing arbitrary matches.
-
-- [ ] Supply or review the 168 missing local species/form sprites. Placeholders already preserve names and navigation.
-
-- [x] Distinguish a resolved reference from metadata that still needs manual verification. A clickable move is not proof that its learning prerequisite has been reviewed.
-
-- [x] Keep the manually accepted habitat CSV authoritative; preserve exclusions, pending decisions and conditional notes during rebuilds.
-
-Counts are this release's snapshot and should be rechecked after catalog updates. Unresolved metadata must not be silently accepted into strict character/battle workflows.
-
-## 4. Windows and multiplayer acceptance verification
-
-Automated Rust/frontend/catalog regressions, browser layouts and isolated Windows startup have passed. Full interactive native acceptance and actual installer installation/uninstallation remain unverified.
-
-- [ ] Install/upgrade/uninstall in isolated Windows installations and verify offline catalog/sprite availability and personal data preservation.
-
-- [ ] Exercise native creation, progression, Compendium links/Back navigation and modal controls at the minimum window size.
-
-- [ ] Run separate host and GM installations with three player trainers: two registered Pokémon per player versus six gym Pokémon, three active slots per side, reserves and controlled replacement.
-
-- [ ] Exercise encounter preparation/privacy, publication, captures with mixed recipients, rewards, library imports and offline progression after reconnect.
-
-- [ ] Verify disconnect/reconnect, duplicate commands, stale previews, replacement GM, conflicting offline branches and backup restoration through the native interface.
-
-- [ ] Verify direct LAN hosting/joining and clear connection errors on separate machines. Record any virtual-LAN setup separately from application networking.
-
-## 5. Deliberately deferred features
-
-These are future scope, not missing parts of the current assumed-victory encounter flow.
+These require a separate scope decision; they are not missing parts of the assumed-victory training-encounter flow.
 
 - Automated training-session rolls, earning formulas and attempt limits.
-
-- Capture dice, ball consumption and automated capture success.
-
-- Combat simulation or automatic victory resolution inside training encounters.
-
-- Full evolution-tree diagrams; the Compendium currently supports direct relationships and navigation through them.
-
+- Capture dice, ball consumption and automatic capture success.
+- Combat simulation within training encounters.
+- Full evolution-tree diagrams rather than direct relationship navigation.
 - Habitat editing and character-creation shortcuts inside the Compendium.
+- Narrative/outside-battle activities and private information workflows listed in the ability inventory.
 
-## Excluded from project scope
+## 6. Excluded scope
 
-Trainer-target damage, lethal wounds and automatic Will recovery are excluded from the implementation roadmap. Manual GM resource corrections remain available.
+**Trainer-target damage, lethal wounds, automatic Will recovery, Dynamax, all Max Moves including Max Guard, and Z-Moves are excluded.** Their references may remain visible in the Compendium. Do not turn these into roadmap tasks because an old registry names a related dependency. Manual GM resource corrections remain available.
 
-## Documentation follow-up
+## 7. Suggested implementation order
 
-- [x] Reconcile older wording in [RULES.md](RULES.md) and the README with the completed creation/progression service, particularly HP recalculation and evolution/move-learning statements. Do not present old manual-only descriptions as current behavior.
+1. Stat copying/transfer and remaining action sequencing.
+2. Damage-provenance abilities and remaining event/accuracy definitions.
+3. Held items and their dependent abilities.
+4. Supported form changes and transformations, retaining the exclusions above.
+5. Remaining reviewed move/status interactions and catalog audit work.
+6. Native Windows and physical LAN acceptance, followed by distribution/signing work as needed.
 
-- [ ] Update the coverage matrix and validation reports whenever a backlog item becomes implemented and verified.
+Each milestone should preserve historical engines, bump authoritative versions when needed, update coverage and this document, run appropriate regressions, package Windows and commit separately.
 
-References: [rule coverage](RULES.md), [training encounters](training-encounters.md), [battle teams](battle-teams.md), [catalog storage](catalog-storage.md). Release validation evidence is in `outputs/compendium/` at the workspace root.
+## 8. All manual abilities (57)
 
-## Battlefield milestone (0.13.0)
+Every currently manual registry entry appears below. A dependency is a reason for the current boundary, not authorization to implement an excluded mechanic. Descriptions come from the checked-in ability registry.
 
-Implemented typed weather, terrain, screens, rooms, temporary typing, arena hooks and 29 dependent abilities. See [battlefield automation](battlefield.md). Torn World target adjudication, narrative escape, items, transformations and unreviewed move sequencing remain open.
+| Ability | Current boundary |
+| --- | --- |
+| Anticipation | Requires a private GM/owner information-reveal operation with reviewed move classification. |
+| As One | Requires encounter form/state transformation and reviewed replacement metadata. |
+| Ball Fetch | Requires noncombat item gathering or daily recovery; no video-game battle substitute is applied. |
+| Cheek Pouch | Requires held-item ownership, consumption, transfer or activation hooks. |
+| Commander | Requires encounter form/state transformation and reviewed replacement metadata. |
+| Costar | Requires copied/transferred ability identity or attribute provenance and lifetime rules. |
+| Cud Chew | Requires held-item ownership, consumption, transfer or activation hooks. |
+| Dancer | Requires repeated moves, restricted move selection or per-action choices/checks beyond the current action chain. |
+| Defeatist | Requires repeated moves, restricted move selection or per-action choices/checks beyond the current action chain. |
+| Embody Aspect | Requires encounter form/state transformation and reviewed replacement metadata. |
+| Forewarn | Requires a private GM/owner information-reveal operation with reviewed move classification. |
+| Frisk | Requires held-item ownership, consumption, transfer or activation hooks. |
+| Gluttony | Requires held-item ownership, consumption, transfer or activation hooks. |
+| Gorilla Tactics | Requires repeated moves, restricted move selection or per-action choices/checks beyond the current action chain. |
+| Gulp Missile | Requires encounter form/state transformation and reviewed replacement metadata. |
+| Harvest | Requires held-item ownership, consumption, transfer or activation hooks. |
+| Heavy Metal | Requires reviewed weight/gender inputs and formulas in the shared damage calculation. |
+| Honey Gather | Requires noncombat item gathering or daily recovery; no video-game battle substitute is applied. |
+| Hunger Switch | Requires encounter form/state transformation and reviewed replacement metadata. |
+| Ice Face | Requires encounter form/state transformation and reviewed replacement metadata. |
+| Illusion | Requires encounter form/state transformation and reviewed replacement metadata. |
+| Imposter | Requires encounter form/state transformation and reviewed replacement metadata. |
+| Klutz | Requires held-item ownership, consumption, transfer or activation hooks. |
+| Light Metal | Requires reviewed weight/gender inputs and formulas in the shared damage calculation. |
+| Magician | Requires held-item ownership, consumption, transfer or activation hooks. |
+| Moody | Requires independent unbiased attribute increase/reduction choices and their recorded provenance. |
+| Multitype | Requires encounter form/state transformation and reviewed replacement metadata. |
+| Opportunist | Requires copied/transferred ability identity or attribute provenance and lifetime rules. |
+| Parental Bond | Requires repeated moves, restricted move selection or per-action choices/checks beyond the current action chain. |
+| Perish Body | Existing hook families are available; this individual definition and its ordering still require implementation and fixtures. |
+| Pickpocket | Requires held-item ownership, consumption, transfer or activation hooks. |
+| Pickup | Requires held-item ownership, consumption, transfer or activation hooks. |
+| Power Construct | Requires encounter form/state transformation and reviewed replacement metadata. |
+| Pressure | Existing hook families are available; this individual definition and its ordering still require implementation and fixtures. |
+| RKS System | Requires encounter form/state transformation and reviewed replacement metadata. |
+| Regenerator | Requires noncombat item gathering or daily recovery; no video-game battle substitute is applied. |
+| Ripen | Requires held-item ownership, consumption, transfer or activation hooks. |
+| Rivalry | Requires reviewed weight/gender inputs and formulas in the shared damage calculation. |
+| Schooling | Requires encounter form/state transformation and reviewed replacement metadata. |
+| Sheer Force | Requires reviewed effect suppression, resistance, switch timing or counterpart attribute provenance. |
+| Shields Down | Requires encounter form/state transformation and reviewed replacement metadata. |
+| Stakeout | Requires reviewed effect suppression, resistance, switch timing or counterpart attribute provenance. |
+| Stance Change | Requires encounter form/state transformation and reviewed replacement metadata. |
+| Stench | Existing hook families are available; this individual definition and its ordering still require implementation and fixtures. |
+| Sticky Hold | Requires held-item ownership, consumption, transfer or activation hooks. |
+| Symbiosis | Requires held-item ownership, consumption, transfer or activation hooks. |
+| Tera Shell | Requires encounter form/state transformation and reviewed replacement metadata. |
+| Tera Shift | Requires encounter form/state transformation and reviewed replacement metadata. |
+| Teraform Zero | Requires encounter form/state transformation and reviewed replacement metadata. |
+| Tinted Lens | Requires reviewed effect suppression, resistance, switch timing or counterpart attribute provenance. |
+| Torrent | Printed text grants 2 damage dice but icon grants 1. GM ruling required. |
+| Truant | Requires repeated moves, restricted move selection or per-action choices/checks beyond the current action chain. |
+| Unaware | Requires reviewed effect suppression, resistance, switch timing or counterpart attribute provenance. |
+| Unburden | Requires held-item ownership, consumption, transfer or activation hooks. |
+| Unnerve | Requires held-item ownership, consumption, transfer or activation hooks. |
+| Zen Mode | Requires encounter form/state transformation and reviewed replacement metadata. |
+| Zero to Hero | Requires encounter form/state transformation and reviewed replacement metadata. |
 
-## Temporary abilities (0.18.0)
+## 9. All partial abilities (60)
 
-Implemented Skill Swap, Role Play, Worry Seed, Simple Beam, Gastro Acid, host-random Trace and foe-only Neutralizing Gas with rank-limited range. Permanent sheets remain unchanged; scene assignments and Trace have separate lifetime rules. [Details and remaining boundaries](battle-ability-changes.md). The 0.19.0 section below covers the next contact/inheritance families. Remaining bypass, held-item and transformation work is still open.
+These already have implemented mechanics. The scope is reproduced to avoid treating their whole definition as missing. Named dependencies identify the remaining work; empty dependency lists require a per-definition audit rather than an invented feature.
 
-## Contact and inheritance (0.19.0)
+| Ability | Implemented scope and boundary | Remaining dependency |
+| --- | --- | --- |
+| Arena Trap | Block ordinary recall for eligible targets in confirmed abstract range, with rank target caps and reviewed Ground/Steel/Ghost exceptions. GM switching overrides remain explicit. | forced-switch-move-resolution |
+| Aroma Veil | In-range allies and user ignore In Love and reviewed Taunt, Torment, Spite, Attract, Disable, Encore and Heal Block effects. | unreviewed-move-effects |
+| Aura Break | Reviewed range-limited Dark/Fairy damage aura and Aura Break inversion. Duplicate sources do not stack; attack/cooperation narrative restrictions require a GM ruling. | narrative-relationship-rulings |
+| Big Pecks | Protect the reviewed stat changes through sourced battle effects and supported moves; Clear Body also rejects external increases and Flower Veil protects in-range allies. | unreviewed-stat-moves |
+| Clear Body | Protect the reviewed stat changes through sourced battle effects and supported moves; Clear Body also rejects external increases and Flower Veil protects in-range allies. | unreviewed-stat-moves |
+| Competitive | Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct. | unreviewed-stat-moves, forced-switch-move-resolution |
+| Contrary | Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct. | unreviewed-stat-moves, forced-switch-move-resolution |
+| Corrosion | Source-tracked Poison bypasses type/status poison immunity; global battlefield status restrictions still apply. | ability-bypass-interactions |
+| Dark Aura | Reviewed range-limited Dark/Fairy damage aura and Aura Break inversion. Duplicate sources do not stack; attack/cooperation narrative restrictions require a GM ruling. | narrative-relationship-rulings |
+| Dauntless Shield | On entry, add two temporary Defense or Strength respectively. Outside-battle narrative effects are GM adjudicated. | narrative-effects |
+| Defiant | Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct. | unreviewed-stat-moves, forced-switch-move-resolution |
+| Disguise | Negate the first damaging hit in a scene. Cosmetic disguise and species/form transformations remain manual. | form-transformation |
+| Early Bird | Structured Sleep duration is halved (rounded up); waking requires two cumulative Insight successes. Rest is excluded. Narrative sleep remains manual. | outside-battle-activities |
+| Electromorphosis | A qualifying damaging hit charges the next Electric attack for two extra damage dice. Shared damage snapshots preserve the charge across targets. | support-move-charge-consumption |
+| Fairy Aura | Reviewed range-limited Dark/Fairy damage aura and Aura Break inversion. Duplicate sources do not stack; attack/cooperation narrative restrictions require a GM ruling. | narrative-relationship-rulings |
+| Flower Veil | Protect the reviewed stat changes through sourced battle effects and supported moves; Clear Body also rejects external increases and Flower Veil protects in-range allies. | unreviewed-stat-moves |
+| Full Metal Body | Protect the reviewed stat changes through sourced battle effects and supported moves; Clear Body also rejects external increases and Flower Veil protects in-range allies. | unreviewed-stat-moves |
+| Gale Wings | Add Reaction 1 to Flying moves without imposing a video-game full-HP requirement. Retain higher printed early priority; conflicting Late Reaction needs a recorded timing ruling. Charge reactions still need adjudication. | conflicting-late-priority-ruling, charge-reaction-definition |
+| Guard Dog | Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct. | unreviewed-stat-moves, forced-switch-move-resolution |
+| Hadron Engine | Add two Special under Electric Terrain or two Strength under Sunny/Desolate respectively. Weather/terrain activation follows the reviewed field definition. | held-booster-item-system |
+| Hospitality | On entry the owner may spend one Will to heal one wounded active ally by three HP. No revival; lethal wounds are excluded from this project. | Lethal-resource extension is excluded; do not schedule it. |
+| Hyper Cutter | Protect the reviewed stat changes through sourced battle effects and supported moves; Clear Body also rejects external increases and Flower Veil protects in-range allies. | unreviewed-stat-moves |
+| Illuminate | In-range user/allies ignore the supported fog/visibility accuracy penalty; narrative encounter effects remain manual. | narrative-encounter-effects |
+| Intimidate | Entry-only rank-limited Strength reduction, non-stacking, removed when source leaves or faints. GM range defaults to all deployed foes; stable IDs break excess-target ties. An explicit GM range correction updates affected targets. | Audit the documented scope; no dependency named. |
+| Intrepid Sword | On entry, add two temporary Defense or Strength respectively. Outside-battle narrative effects are GM adjudicated. | narrative-effects |
+| Justified | Dark hits raise the separate Strength ability channel by one, capped at three; narrative injustice triggers remain GM adjudicated. | outside-battle-activities |
+| Levitate | Ground move immunity automated; terrain and entry-hazard effects remain manual. | Audit the documented scope; no dependency named. |
+| Magic Bounce | Reflect executable foe Support effects aimed at the holder or its side, once, without extra actions/accuracy. Preserve original resource payer and reflected effect source. Unimplemented Support effects still require adjudication; manual field records retain reflected scope. | unsupported-support-effects |
+| Magic Guard | Prevents reviewed ability damage, burn/poison ticks and Submission recoil. Confusion and direct move damage remain; weather, held items and entry hazards await their mechanics. | Audit the documented scope; no dependency named. |
+| Magnet Pull | Block ordinary recall for eligible targets in confirmed abstract range, with rank target caps and reviewed Ground/Steel/Ghost exceptions. GM switching overrides remain explicit. | forced-switch-move-resolution |
+| Mega Launcher | Pulse/Aura damaging moves gain two damage dice. Heal Pulse uses five-HP Complete Healing and one Will. | other-pulse-healing-definitions |
+| Mirror Armor | Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct. | unreviewed-stat-moves, forced-switch-move-resolution |
+| Mycelium Might | Support moves gain Never Miss and Late Reaction 1; no ability bypass is granted by the printed card. Printed Reaction collisions require explicit GM adjudication. | conflicting-printed-reaction |
+| Neutralizing Gas | Negates foes in abstract range subject to rank target cap; restores on source departure, fainting or range change. Unique abilities prevail. Opposing Gas stalemates require GM ruling. | GM ruling for opposing Gas stalemates |
+| Oblivious | Immune to In Love; other feeling-related and narrative effects remain GM-adjudicated. | Audit the documented scope; no dependency named. |
+| Orichalcum Pulse | Add two Special under Electric Terrain or two Strength under Sunny/Desolate respectively. Weather/terrain activation follows the reviewed field definition. | held-booster-item-system |
+| Power of Alchemy | On active allies fainting, store multiple eligible ability snapshots for 1440 game minutes, with one active copy. Acquisition requires Power of Alchemy to be active; selecting within combat requires a GM timing ruling. Campaign clock, provenance and rollback persist. | GM ruling for selection timing during combat, Narrative acquisition outside witnessed campaign fainting |
+| Prankster | Add Reaction 1 to Support moves. Retain higher printed early reaction priority; conflicting Late Reaction requires a recorded printed/ability timing ruling. Unsupported move effects and charge reaction exceptions remain explicit. | conflicting-late-priority-ruling, charge-reaction-definition |
+| Protosynthesis | Under qualifying weather/terrain boost the highest attribute by one, or Dexterity by two; tied highest attributes require an owner choice. | held-booster-item-system |
+| Quark Drive | Under qualifying weather/terrain boost the highest attribute by one, or Dexterity by two; tied highest attributes require an owner choice. | held-booster-item-system |
+| Receiver | On an active ally fainting, the owner chooses one eligible ability snapshot. One unexpired copy, preserved in campaign state for 1440 game minutes; the GM advances game time between encounters. Unique donor abilities cannot be copied. | Narrative acquisition outside witnessed campaign fainting |
+| Reckless | Recoil-tagged moves and reviewed Submission gain two damage dice; other unreviewed recoil formulas still need GM resolution. | unreviewed-recoil-moves |
+| Rock Head | Ignore the supported Submission recoil; other recoil moves require reviewed definitions. | unreviewed-recoil-moves |
+| Run Away | Ignore supported Blocked recall restrictions. Narrative escape and capture consequences require GM adjudication. | narrative-escape-effects |
+| Sand Veil | Weather damage immunity; the table rule still limits Evasion to once per turn and five total actions per round. | Audit the documented scope; no dependency named. |
+| Serene Grace | Add two chance dice to supported move added effects; unreviewed chance effects still need GM resolution. | unreviewed-chance-moves |
+| Shadow Tag | Block ordinary recall for eligible targets in confirmed abstract range, with rank target caps and reviewed Ground/Steel/Ghost exceptions. GM switching overrides remain explicit. | forced-switch-move-resolution |
+| Simple | Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct. | unreviewed-stat-moves, forced-switch-move-resolution |
+| Snow Cloak | Weather damage immunity; the table rule still limits Evasion to once per turn and five total actions per round. | Audit the documented scope; no dependency named. |
+| Supersweet Syrup | Foes in confirmed range cannot Evade the holder moves; Clash remains available. Narrative encounter-rate changes remain GM adjudicated. | narrative-encounter-effects |
+| Synchronize | Reflect source-tracked statuses once, respecting immunities. GM status edits without an inflictor have no inferred source. | Audit the documented scope; no dependency named. |
+| Tangled Feet | While confused, impose two additional reduced-accuracy successes on foe moves targeting the holder; Keen Eye prevents this reduction. Mixed-target penalties on one shared accuracy roll require GM adjudication. | mixed-target-accuracy |
+| Teravolt | Action-scoped foe type/damage/status immunity bypass, supported shields, decoys, redirection and charging-target access. Unique-effect stalemates, held items and unsupported effect blockers require GM adjudication. | unique-stalemates, held-item-system, unsupported-support-effects |
+| Triage | Reviewed Basic Heal and status-cure Support moves gain Reaction 1, including selected allies and multi-target cures. Existing action, capacity, target, Will and phase validation apply. Unsupported healing/cure definitions remain manual. | unsupported-healing-cure-definitions |
+| Turboblaze | Action-scoped foe type/damage/status immunity bypass, supported shields, decoys, redirection and charging-target access. Unique-effect stalemates, held items and unsupported effect blockers require GM adjudication. | unique-stalemates, held-item-system, unsupported-support-effects |
+| Unseen Fist | Non-ranged Physical Moves bypass Substitute/Shed Tail decoys. Remaining shield, force-field and Cover bypass hooks require implementation. | shield-force-field-cover-bypass |
+| White Smoke | Protect the reviewed stat changes through sourced battle effects and supported moves; Clear Body also rejects external increases and Flower Veil protects in-range allies. | unreviewed-stat-moves |
+| Wind Power | A qualifying damaging hit charges the next Electric attack for two extra damage dice. Shared damage snapshots preserve the charge across targets. | support-move-charge-consumption |
+| Wonder Guard | Prevent non-super-effective move damage and supported indirect damage; condition damage still applies. | ability-bypass-interactions |
+| Wonder Skin | Reduce chance dice for supported incoming added effects by two; independent selectors remain independent. | unreviewed-chance-moves |
 
-Mummy, Lingering Aroma and outgoing Wandering Spirit are implemented. Receiver and Power of Alchemy support witnessed ally fainting, one active copy, campaign persistence and exact 24-hour expiry under a GM game-time clock. Narrative acquisition outside witnessed fainting and mid-combat selection timing remain adjudicated. [Scope and remaining dependencies](battle-ability-transfers.md). Mold Breaker/Teravolt/Turboblaze bypass is the next separate milestone.
+## References and completion discipline
+
+[Ability registry](../rules/ability-coverage.json), [special move registry](../rules/special-moves.json), [targeting registry](../rules/tactics-reviewed.json), [reviewed ability batch](battle-reviewed-ability-batch.md), [rules](RULES.md), [headless 3v3](headless-3v3.md), [training points](training-points.md), [catalog storage](catalog-storage.md).
+
+Before closing a task, record what changed and what was actually verified. Build success, native startup, interactive use and physical-machine LAN testing are distinct results. Keep this inventory synchronized with registry status changes.

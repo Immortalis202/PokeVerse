@@ -122,6 +122,18 @@ fn fixture(owners: &[String; 4], variant: &str) -> (Campaign, Action) {
                 p.ability = "Lingering Aroma".into();
                 p.moves = vec!["Tackle".into()];
             }
+            if variant == "bypass" && role == 0 && n == 0 {
+                p.name = "Mold Breaker Cranidos".into();
+                p.species_id = Some("0408:cranidos".into());
+                p.ability = "Mold Breaker".into();
+                p.moves = vec!["Headbutt".into()];
+            }
+            if variant == "bypass" && role == 3 && n == 0 {
+                p.name = "Levitate Gastly".into();
+                p.species_id = Some("0092:gastly".into());
+                p.ability = "Levitate".into();
+                p.moves = vec!["Lick".into()];
+            }
             let mut build = creation::build(&p, &cat);
             build.origin = "starter".into();
             build.allocations.clear();
@@ -1283,4 +1295,81 @@ fn damage_command(c: &Campaign) -> Action {
         damage_modifier: 0,
         reason: "Scenario contact/inheritance damage".into(),
     }
+}
+
+#[tokio::test]
+async fn scenario_3v3_bypass_host_owner_gm_retry_rollback_reconnect() {
+    tokio::time::timeout(Duration::from_secs(90), async {
+        let mut d = Driver::variant(true, "bypass").await;
+        d.step(3, d.start.clone(), 1, None).await;
+        assert!(d.f().reviewed_rules);
+        let players: Vec<_> = (0..3).map(|r| d.pokemon(r, 0)).collect();
+        let gyms: Vec<_> = (0..3).map(|n| d.pokemon(3, n)).collect();
+        for (id, face) in players.iter().chain(&gyms).zip([6, 5, 4, 3, 2, 1]) {
+            d.step(
+                d.role(id),
+                Action::Initiative {
+                    combatant_id: id.clone(),
+                },
+                face,
+                None,
+            )
+            .await;
+        }
+        d.step(3, Action::StartTurns, 1, None).await;
+        let night = Action::Battlefield {
+            command: crate::combat::field::FieldCommand::Night { night: true },
+            reason: "Night gym".into(),
+        };
+        d.reject(0, night.clone(), "GM").await;
+        d.step(3, night, 1, None).await;
+        let receipt = d.last.clone().unwrap();
+        d.retry(&receipt).await;
+        let a = players[0].clone();
+        let t = gyms[0].clone();
+        d.step(0, attack(&a, vec![t.clone()], "Headbutt"), 4, Some(2))
+            .await;
+        d.step(
+            3,
+            Action::PassReaction {
+                combatant_id: t.clone(),
+                reason: "Accept incoming attack".into(),
+            },
+            1,
+            None,
+        )
+        .await;
+        let before = serde_json::to_value(d.b()).unwrap();
+        d.step(0, damage_command(&d.c), 4, Some(1)).await;
+        assert_eq!(d.p(&t).hp, d.p(&t).max_hp - 1);
+        assert_eq!(d.p(&t).selected_ability, "Levitate");
+        assert_eq!(d.p(&a).selected_ability, "Mold Breaker");
+        let receipt = d.last.clone().unwrap();
+        d.retry(&receipt).await;
+        d.reconnect(3).await;
+        d.reconnect(1).await;
+        let event = d.c.battle_undo.last().unwrap().event_sequence;
+        d.step(
+            3,
+            Action::RollbackBattle {
+                event_sequence: event,
+                reason: "Review bypass hit".into(),
+            },
+            1,
+            None,
+        )
+        .await;
+        assert_eq!(serde_json::to_value(d.b()).unwrap(), before);
+        d.step(0, damage_command(&d.c), 4, Some(1)).await;
+        if let Some(net) = d.net.take() {
+            net.close().await;
+        }
+        let reopened = Store::open(d._dirs[0].path()).unwrap();
+        assert_eq!(
+            serde_json::to_value(reopened.campaigns().unwrap().remove(0)).unwrap(),
+            serde_json::to_value(&d.c).unwrap()
+        );
+    })
+    .await
+    .expect("Bypass 3v3 deadline exceeded");
 }

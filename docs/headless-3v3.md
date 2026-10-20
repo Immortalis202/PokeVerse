@@ -49,3 +49,7 @@ This adds tests and test infrastructure; application 0.17.0, engine `0.10.0-core
 The 0.18.0 suite also runs a strict Ralts/Trace variant through the same four-installation driver. It verifies host-random copying, owner authority, full campaign agreement after each command, duplicate receipts, GM rollback, reconnect and reopening the host database.
 
 The 0.19.0 variant uses strict Passimian/Receiver and Oinkologne/Lingering Aroma sheets, ordinary contact/gym hits and no HP patching. It checks contact and inheritance rollback, owner permissions, host receipts, reconnect, copied ability reuse in a second encounter, the 1440-minute boundary and host database reopening.
+
+## Reviewed ability batch variant (0.20.0)
+
+`scenario_3v3_bypass_host_owner_gm_retry_rollback_reconnect` uses strict Cranidos/Gastly sheets in the existing four-installation harness. It verifies GM-only night settings, Normal damage through Ghost immunity, retained ability identity, duplicate receipts, rollback, reconnect and persistent host state. No UI or native app launch is involved.
