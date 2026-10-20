@@ -20,6 +20,7 @@ export default function AbilityInheritanceControls({
   const [reason, setReason] = useState("");
   if (
     ![
+      "0.17.0-core",
       "0.16.0-core",
       "0.15.0-core",
       "0.14.0-core",

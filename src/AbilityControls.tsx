@@ -129,6 +129,14 @@ export default function AbilityControls({
           ))}
         </details>
       )}
+      {f.events?.enabled && (
+        <details>
+          <summary>Battle ability events</summary>
+          {f.events.history.map((entry, i) => (
+            <p key={i}>{entry}</p>
+          ))}
+        </details>
+      )}
       {f.ability_changes?.enabled && (
         <details>
           <summary>Temporary ability history</summary>

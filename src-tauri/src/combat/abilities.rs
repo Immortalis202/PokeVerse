@@ -147,7 +147,8 @@ pub fn coverage(c: &Campaign, name: &str) -> Option<&'static str> {
             .expect("valid owned ability registry")
     });
     let entry = &REGISTRY["entries"][name];
-    if (entry["introduced_engine"] == "0.16.0-core" && !provenance::enabled(c))
+    if (entry["introduced_engine"] == "0.17.0-core" && !events::enabled(c))
+        || (entry["introduced_engine"] == "0.16.0-core" && !provenance::enabled(c))
         || (entry["introduced_engine"] == "0.15.0-core" && !sequencing::enabled(c))
         || (entry["introduced_engine"] == "0.14.0-core" && !stat_channels::enabled(c))
         || (entry["introduced_engine"] == "0.13.0-core" && !reviewed::enabled(c))
@@ -495,6 +496,9 @@ pub fn hit(
         return Ok(());
     }
     match target.selected_ability.as_str() {
+        "Stench" if events::enabled(c) => {
+            enqueue(c, &target, &q.actor_id, "contact", &q.move_name, &["roll"])
+        }
         "Static" | "Poison Point" | "Flame Body" | "Cute Charm" | "Effect Spore" => {
             enqueue(c, &target, &q.actor_id, "contact", &q.move_name, &["roll"])
         }
@@ -614,7 +618,9 @@ pub fn dice(c: &Campaign, event_id: &str, choice: &str) -> Result<u32> {
         && fighter(c, &e.target_id).is_ok_and(|p| p.selected_ability == "Wonder Skin");
     Ok(match e.kind.as_str() {
         "contact" => {
-            if e.ability == "Effect Spore" {
+            if e.ability == "Stench" {
+                1u32.saturating_sub(2 * u32::from(wonder))
+            } else if e.ability == "Effect Spore" {
                 if wonder {
                     2
                 } else {
@@ -697,6 +703,7 @@ pub fn resolve(
             "Poison Point" => "Poison",
             "Flame Body" => "Burn 2",
             "Cute Charm" => "In Love",
+            "Stench" => "Flinch",
             "Effect Spore" => match *results.last().unwrap() {
                 1 | 2 => "Poison",
                 3 | 4 => "Paralysis",

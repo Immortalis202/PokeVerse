@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "engine": "0.16.0-core",
+  "engine": "0.17.0-core",
   "default_status": "manual",
   "entries": {
     "Adaptability": {
@@ -316,7 +316,7 @@
     },
     "Dancer": {
       "status": "partial",
-      "scope": "Once per round, choose a free copy of a completed Dance move, including self and field targeting, inheriting Accuracy successes and rolling fresh damage. Owner target choice, GM random-foe selection, normal move/status/range guards and one-use rampage copies apply. Unreviewed dance added effects remain explicitly adjudicated.",
+      "scope": "Once per round, choose a free copy of a completed Dance move, including self and field targeting, inheriting Accuracy successes and rolling fresh damage. Owner target choice, GM random-foe selection, normal move/status/range guards and one-use rampage copies apply. Engine 0.17 preserves each original target accuracy result through the copied action, including missed sources; new targets use the highest recorded source count. Unreviewed dance added effects remain explicitly adjudicated.",
       "page": 542,
       "dependencies": [
         "unsupported-dance-move-definitions"
@@ -447,13 +447,11 @@
       "introduced_engine": "0.6.0-core"
     },
     "Electromorphosis": {
-      "status": "partial",
-      "scope": "A qualifying damaging hit charges the next Electric attack for two extra damage dice. Shared damage snapshots preserve the charge across targets.",
+      "status": "automated",
+      "scope": "Qualifying Physical or Special move damage charges the next Electric move for two damage dice without stacking. Shared damage snapshots preserve the charge across targets; Electric Support attempts consume it without granting Support dice.",
       "page": 544,
-      "dependencies": [
-        "support-move-charge-consumption"
-      ],
-      "introduced_engine": "0.7.0-core"
+      "dependencies": [],
+      "introduced_engine": "0.17.0-core"
     },
     "Embody Aspect": {
       "status": "manual",
@@ -1297,12 +1295,11 @@
       "introduced_engine": "0.9.0-core"
     },
     "Pressure": {
-      "status": "manual",
-      "scope": "Existing hook families are available; this individual definition and its ordering still require implementation and fixtures.",
+      "status": "automated",
+      "scope": "Entry or effective activation spends half (rounded up) of each in-range foe remaining Will without a benefit. Saved exposure prevents stacking and refresh replay; departure, suppression, range, persistence and rollback are tracked. Unknown Will requires explicit GM resolution.",
       "page": 561,
-      "dependencies": [
-        "reviewed-event-definitions"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.17.0-core"
     },
     "Primordial Sea": {
       "status": "automated",
@@ -1781,12 +1778,11 @@
       "introduced_engine": "0.7.0-core"
     },
     "Stench": {
-      "status": "manual",
-      "scope": "Existing hook families are available; this individual definition and its ordering still require implementation and fixtures.",
+      "status": "automated",
+      "scope": "On a non-ranged Physical hit, the holder owner or GM resolves one host Chance Die to Flinch the attacker. Long Reach, Wonder Skin, source/target authority and existing status protections apply. Out-of-battle encounter-rate effects are excluded.",
       "page": 570,
-      "dependencies": [
-        "reviewed-event-definitions"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.17.0-core"
     },
     "Sticky Hold": {
       "status": "manual",
@@ -1900,13 +1896,11 @@
       "introduced_engine": "0.7.0-core"
     },
     "Tangled Feet": {
-      "status": "partial",
-      "scope": "While confused, impose two additional reduced-accuracy successes on foe moves targeting the holder; Keen Eye prevents this reduction. Mixed-target penalties on one shared accuracy roll require GM adjudication.",
+      "status": "automated",
+      "scope": "While confused, impose two reduced-accuracy successes on foe moves targeting the holder; Keen Eye prevents it. One shared roll saves independent success and critical results for each target through responses, damage ordering, persistence and rollback.",
       "page": 573,
-      "dependencies": [
-        "mixed-target-accuracy"
-      ],
-      "introduced_engine": "0.13.0-core"
+      "dependencies": [],
+      "introduced_engine": "0.17.0-core"
     },
     "Tangling Hair": {
       "status": "automated",
@@ -2182,13 +2176,11 @@
       "introduced_engine": "0.9.0-core"
     },
     "Wind Power": {
-      "status": "partial",
-      "scope": "A qualifying damaging hit charges the next Electric attack for two extra damage dice. Shared damage snapshots preserve the charge across targets.",
+      "status": "automated",
+      "scope": "Qualifying wind-move damage charges the next Electric move for two damage dice without stacking. Shared damage snapshots preserve the charge across targets; Electric Support attempts consume it without granting Support dice.",
       "page": 578,
-      "dependencies": [
-        "support-move-charge-consumption"
-      ],
-      "introduced_engine": "0.7.0-core"
+      "dependencies": [],
+      "introduced_engine": "0.17.0-core"
     },
     "Wind Rider": {
       "status": "automated",

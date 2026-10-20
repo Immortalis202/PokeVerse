@@ -171,6 +171,7 @@ describe("structured core battle controls", () => {
     field = false,
     ability = false,
     provenance = false,
+    events = false,
   ) {
     const combatants = ["active", "opponent"].map(fighter);
     if (provenance) combatants[0].selected_ability = "Sheer Force";
@@ -190,6 +191,16 @@ describe("structured core battle controls", () => {
         automatic_validation: true,
         combatants,
         flow: {
+          events: {
+            enabled: events,
+            pressure_sources: [],
+            pressure_targets: [],
+            history: events
+              ? [
+                  "Pressure: opponent entered; active spent 3 Will without gaining an effect",
+                ]
+              : [],
+          },
           provenance_rules: provenance,
           sequencing: {
             enabled: engine === "0.15.0-core",
@@ -368,7 +379,18 @@ describe("structured core battle controls", () => {
                   damage: 0,
                   raw_damage_successes: 0,
                   ice: false,
-                  targets: [],
+                  targets: events
+                    ? [
+                        {
+                          target_id: "active",
+                          successes: 2,
+                          critical: true,
+                          responded: false,
+                          avoided: false,
+                          resolved: false,
+                        },
+                      ]
+                    : [],
                   field_scope: field ? "side:Opponents" : null,
                   shared_dice: [],
                   damage_modifiers: null,
@@ -401,6 +423,15 @@ describe("structured core battle controls", () => {
     expect(gm).toContain("Structured status decision");
     expect(gm).toContain("GM severe status damage this round");
     expect(core("host", true)).not.toContain("Structured status decision");
+  });
+  it("shows saved Pressure history and per-target accuracy results", () => {
+    const html = core("player", true, "0.9.0-core", true, false, false, true);
+    expect(html).toContain("Battle ability events");
+    expect(html).toContain("spent 3 Will without gaining an effect");
+    expect(html).toContain("2 accuracy successes, critical");
+    expect(core("player", true, "0.9.0-core")).not.toContain(
+      "Battle ability events",
+    );
   });
   it("shows the Sheer Force tradeoff to its owner and GM", () => {
     for (const player of ["player", "gm"]) {

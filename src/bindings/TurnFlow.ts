@@ -3,6 +3,7 @@ import type { AbilityChanges } from "./AbilityChanges";
 import type { AbilityEvent } from "./AbilityEvent";
 import type { Battlefield } from "./Battlefield";
 import type { DecoyState } from "./DecoyState";
+import type { EventState } from "./EventState";
 import type { ExtraState } from "./ExtraState";
 import type { FieldEffect } from "./FieldEffect";
 import type { QueuedAction } from "./QueuedAction";
@@ -13,6 +14,7 @@ import type { TacticsState } from "./TacticsState";
 import type { TransferState } from "./TransferState";
 
 export type TurnFlow = {
+  events: EventState;
   provenance_rules: boolean;
   sequencing: SequencingState;
   stat_channels: StatChannels;

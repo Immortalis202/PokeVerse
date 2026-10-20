@@ -401,6 +401,8 @@ pub fn react(
             targets: targets
                 .into_iter()
                 .map(|target_id| TargetImpact {
+                    successes: None,
+                    critical: None,
                     target_id,
                     responded: false,
                     avoided: false,
@@ -940,6 +942,8 @@ pub fn move_effect(c: &mut Campaign, q: &QueuedAction, cat: &Catalog) -> Result<
                         .unwrap();
                     item.target_id = target.clone();
                     item.targets = vec![TargetImpact {
+                        successes: None,
+                        critical: None,
                         target_id: target.clone(),
                         responded: false,
                         avoided: false,

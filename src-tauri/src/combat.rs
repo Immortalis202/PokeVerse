@@ -6,6 +6,7 @@ use ts_rs::TS;
 pub(crate) mod abilities;
 pub(crate) mod ability_changes;
 pub(crate) mod decoys;
+pub(crate) mod events;
 pub(crate) mod extra;
 pub(crate) mod field;
 pub(crate) mod provenance;
@@ -54,6 +55,8 @@ pub struct Status {
 #[derive(Debug, Clone, Default, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct TurnFlow {
+    #[serde(default)]
+    pub events: events::EventState,
     #[serde(default)]
     pub provenance_rules: bool,
     #[serde(default)]
@@ -954,6 +957,9 @@ pub fn transition(
         provenance::tag_actions(c, &mut next, cat)?;
     }
     provenance::lifecycle(c, &mut next, a);
+    if !matches!(a, Action::RollbackBattle { .. }) {
+        events::lifecycle(&mut next)?;
+    }
     Ok((next, log))
 }
 pub fn preview(c: &Campaign, a: &Action, cat: &Catalog) -> Result<ActionPreview> {
@@ -1545,7 +1551,7 @@ fn transition_inner(
                     || ["Phantom Force", "Shadow Force"].contains(&move_name.as_str()),
             );
             let targets = tactics::redirect_move(c, combatant_id, targets, &m, cat)?;
-            if reviewed::enabled(c) && targets.len() > 1 {
+            if reviewed::enabled(c) && !events::enabled(c) && targets.len() > 1 {
                 let mut penalties = targets
                     .iter()
                     .map(|id| fighter(c, id).map(|t| reviewed::accuracy_penalty(c, p, t, 0)))
@@ -1575,12 +1581,9 @@ fn transition_inner(
                 .min(0) as i32
                 - abilities::low_accuracy(c, p, &m)
                 - field::low_accuracy(c, p, &m);
-            let low = reviewed::accuracy_penalty(
-                c,
-                p,
-                special::registered(c, &target)?,
-                low - special::low_accuracy(c, combatant_id),
-            );
+            let common_low = low - special::low_accuracy(c, combatant_id);
+            let low =
+                reviewed::accuracy_penalty(c, p, special::registered(c, &target)?, common_low);
             let shield_penalty = shield_attempt(&mut next, combatant_id, &m)?;
             let shield_penalty = if reviewed::enabled(c) && p.selected_ability == "Keen Eye" {
                 0
@@ -1592,11 +1595,9 @@ fn transition_inner(
             if pain_exempt {
                 fighter_mut(&mut next, combatant_id)?.runtime.pain_ignored = 3;
             }
-            let net =
-                (action_success(&mut next, combatant_id, &dice, base) + low + success_modifier
-                    - shield_penalty)
-                    .max(0)
-                    + i32::from(p.runtime.fate_pending);
+            let raw = action_success(&mut next, combatant_id, &dice, base) + success_modifier
+                - shield_penalty;
+            let net = (raw + low).max(0) + i32::from(p.runtime.fate_pending);
             fighter_mut(&mut next, combatant_id)?.runtime.pain_ignored = saved_pain;
             let required = p.actions + 1;
             let net = if move_name == "Sky Uppercut" && special::vulnerable(c, &target, move_name) {
@@ -1604,6 +1605,22 @@ fn transition_inner(
             } else {
                 net
             };
+            let mut target_outcomes = BTreeMap::new();
+            if events::enabled(c) && targets.len() > 1 {
+                for id in &targets {
+                    let low =
+                        reviewed::accuracy_penalty(c, p, special::registered(c, id)?, common_low);
+                    let n = (raw + low).max(0) + i32::from(p.runtime.fate_pending);
+                    let critical = m["Category"] != "Support"
+                        && n >= required as i32 + extra::critical_margin(c, p, &m);
+                    target_outcomes.insert(id.clone(), (n, critical));
+                }
+            }
+            let net = target_outcomes
+                .values()
+                .map(|(n, _)| *n)
+                .max()
+                .unwrap_or(net);
             extra::accuracy_attempt(&mut next, combatant_id, &m, cat)?;
             fighter_mut(&mut next, combatant_id)?.actions += 1;
             fighter_mut(&mut next, combatant_id)?
@@ -1649,11 +1666,17 @@ fn transition_inner(
                 if targets.len() > 1 || (tactics::enabled(c) && !targets.is_empty()) {
                     q.targets = targets
                         .into_iter()
-                        .map(|target_id| TargetImpact {
-                            target_id,
-                            responded: false,
-                            avoided: false,
-                            resolved: false,
+                        .map(|target_id| {
+                            let outcome = target_outcomes.get(&target_id);
+                            let missed = outcome.is_some_and(|(n, _)| *n < required as i32);
+                            TargetImpact {
+                                target_id,
+                                successes: outcome.map(|(n, _)| *n),
+                                critical: outcome.map(|(_, critical)| *critical),
+                                responded: missed,
+                                avoided: missed,
+                                resolved: false,
+                            }
                         })
                         .collect();
                 }
@@ -1668,7 +1691,24 @@ fn transition_inner(
                 if confusion(c, p) > 0 {
                     fighter_mut(&mut next, combatant_id)?.hp = (p.hp - 1).max(0);
                 }
-                sequencing::missed(&mut next, combatant_id, move_name, net);
+                let missed_targets = target_outcomes
+                    .into_iter()
+                    .map(|(target_id, (n, critical))| TargetImpact {
+                        target_id,
+                        successes: Some(n),
+                        critical: Some(critical),
+                        responded: true,
+                        avoided: true,
+                        resolved: true,
+                    })
+                    .collect();
+                sequencing::missed_with_targets(
+                    &mut next,
+                    combatant_id,
+                    move_name,
+                    net,
+                    missed_targets,
+                );
                 if !sequencing::waiting(&next) {
                     advance(&mut next);
                 }
@@ -1869,6 +1909,8 @@ fn transition_inner(
                         flow_mut(&mut next).queue.last_mut().unwrap().targets = targets
                             .into_iter()
                             .map(|target_id| TargetImpact {
+                                successes: None,
+                                critical: None,
                                 target_id,
                                 responded: true,
                                 avoided: false,
@@ -2613,21 +2655,33 @@ fn transition_inner(
             ) {
                 let b = done.battle.as_mut().unwrap();
                 b.flow = Some(TurnFlow {
-                    provenance_rules: c.engine == ENGINE,
-                    sequencing: sequencing::SequencingState {
-                        enabled: [ENGINE, SEQUENCING_ENGINE].contains(&c.engine.as_str()),
+                    events: events::EventState {
+                        enabled: c.engine == ENGINE,
                         ..Default::default()
                     },
-                    stat_channels: stat_channels::StatChannels {
-                        enabled: [ENGINE, SEQUENCING_ENGINE, STAT_ENGINE]
+                    provenance_rules: [ENGINE, PROVENANCE_ENGINE].contains(&c.engine.as_str()),
+                    sequencing: sequencing::SequencingState {
+                        enabled: [ENGINE, PROVENANCE_ENGINE, SEQUENCING_ENGINE]
                             .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
-                    reviewed_rules: [ENGINE, SEQUENCING_ENGINE, STAT_ENGINE, REVIEWED_ENGINE]
-                        .contains(&c.engine.as_str()),
+                    stat_channels: stat_channels::StatChannels {
+                        enabled: [ENGINE, PROVENANCE_ENGINE, SEQUENCING_ENGINE, STAT_ENGINE]
+                            .contains(&c.engine.as_str()),
+                        ..Default::default()
+                    },
+                    reviewed_rules: [
+                        ENGINE,
+                        PROVENANCE_ENGINE,
+                        SEQUENCING_ENGINE,
+                        STAT_ENGINE,
+                        REVIEWED_ENGINE,
+                    ]
+                    .contains(&c.engine.as_str()),
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            PROVENANCE_ENGINE,
                             SEQUENCING_ENGINE,
                             STAT_ENGINE,
                             REVIEWED_ENGINE,
@@ -2639,6 +2693,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            PROVENANCE_ENGINE,
                             SEQUENCING_ENGINE,
                             STAT_ENGINE,
                             REVIEWED_ENGINE,
@@ -2651,6 +2706,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            PROVENANCE_ENGINE,
                             SEQUENCING_ENGINE,
                             STAT_ENGINE,
                             REVIEWED_ENGINE,
@@ -2664,6 +2720,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            PROVENANCE_ENGINE,
                             SEQUENCING_ENGINE,
                             STAT_ENGINE,
                             REVIEWED_ENGINE,
@@ -2678,6 +2735,7 @@ fn transition_inner(
                     special: special::SpecialState {
                         enabled: [
                             ENGINE,
+                            PROVENANCE_ENGINE,
                             SEQUENCING_ENGINE,
                             STAT_ENGINE,
                             REVIEWED_ENGINE,
@@ -2692,6 +2750,7 @@ fn transition_inner(
                     },
                     ability_rules: [
                         ENGINE,
+                        PROVENANCE_ENGINE,
                         SEQUENCING_ENGINE,
                         STAT_ENGINE,
                         REVIEWED_ENGINE,
@@ -2708,6 +2767,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            PROVENANCE_ENGINE,
                             SEQUENCING_ENGINE,
                             STAT_ENGINE,
                             REVIEWED_ENGINE,
@@ -2724,6 +2784,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            PROVENANCE_ENGINE,
                             SEQUENCING_ENGINE,
                             STAT_ENGINE,
                             REVIEWED_ENGINE,

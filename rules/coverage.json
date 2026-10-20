@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.16.0-core",
-  "release": "0.23.0",
-  "protocol": 24,
+  "engine": "0.17.0-core",
+  "release": "0.24.0",
+  "protocol": 25,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -388,9 +388,25 @@
         "provenance_sheer_force_suppresses_chance_but_retains_recoil_attribute"
       ],
       "scope": "Versioned resistance removal, neutral foe attributes, replacement-triggered first-hit damage and explicit added-effect tradeoffs. Held-item added effects remain pending the item milestone."
+    },
+    {
+      "id": "ability-events-and-accuracy",
+      "status": "automated",
+      "source": "Supplied Pokerole 3.0 Stench, Pressure, Tangled Feet, Wind Power and Electromorphosis cards",
+      "fixtures": [
+        "events_room_pressure_entry_retry_reconnect_persistence_and_rollback",
+        "events_mixed_accuracy_results_round_trip_and_rollback_with_damage",
+        "events_tangled_feet_mixed_targets_can_miss_only_the_confused_holder",
+        "events_tangled_feet_freezes_individual_criticals_and_keen_eye_prevents_the_penalty",
+        "events_stench_rolls_one_chance_die_on_nonranged_physical_hits",
+        "events_pressure_does_not_stack_overlapping_entries_and_rearms_after_all_leave",
+        "events_next_electric_support_move_consumes_charge_without_granting_support_dice",
+        "events_dancer_preserves_individual_source_results_without_collapsing_to_last_target"
+      ],
+      "scope": "Host-rolled contact Flinch, non-stacking entry Will expenditure, frozen per-target accuracy/critical outcomes and Electric Support charge consumption. Narrative encounter effects are excluded; historical encounters retain prior rules."
     }
   ],
-  "ability_registry_hash": "88df1ec24c45a0af393bc6c31beac7a13d67c358f1a0cc8abfec98f431cdc471",
+  "ability_registry_hash": "f46ec4637e4f8ec73aeeec53756d4f2ee3c43aa55603f313e9efa0aa3c3dbade",
   "special_registry_hash": "ef7d506fc98bed2d88c4c6d92fc0875de33c220fc01635894dbb60b53e9852fa",
   "tactics_registry_hash": "99b66de76eab04726a6a35dabdc8d8626e4816eb1bb0089dae7d1c8006179a14"
 }

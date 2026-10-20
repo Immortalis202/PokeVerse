@@ -294,6 +294,7 @@ export default function CoreBattleFlow({
             "0.9.0-core",
             "0.10.0-core",
             "0.11.0-core",
+            "0.17.0-core",
             "0.16.0-core",
             "0.15.0-core",
             "0.14.0-core",
@@ -368,7 +369,7 @@ export default function CoreBattleFlow({
                 {pending.targets
                   .map(
                     (t) =>
-                      `${b.combatants.find((p) => p.id === t.target_id)?.name || t.target_id}${t.avoided ? " (avoided)" : t.resolved ? " (resolved)" : ""}`,
+                      `${b.combatants.find((p) => p.id === t.target_id)?.name || t.target_id}${t.successes == null ? "" : `: ${t.successes} accuracy successes${t.critical ? ", critical" : ""}`}${t.avoided ? " (avoided)" : t.resolved ? " (resolved)" : ""}`,
                   )
                   .join(", ")}
                 . Shared damage dice retained: {pending.shared_dice.length}.

@@ -3,6 +3,10 @@ use super::*;
 #[derive(Debug, Clone, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct TargetImpact {
+    #[serde(default)]
+    pub successes: Option<i32>,
+    #[serde(default)]
+    pub critical: Option<bool>,
     pub target_id: String,
     pub responded: bool,
     pub avoided: bool,
@@ -23,6 +27,7 @@ pub struct FieldEffect {
 pub(super) fn require_targeting(c: &Campaign) -> Result<()> {
     if ![
         ENGINE,
+        PROVENANCE_ENGINE,
         SEQUENCING_ENGINE,
         STAT_ENGINE,
         REVIEWED_ENGINE,
@@ -316,6 +321,12 @@ pub(super) fn prepare_targets(c: &mut Campaign) {
         let automatic = key == actor || tactics::automatic_response(c, &q, &key);
         let q = flow_mut(c).queue.first_mut().unwrap();
         q.target_id = key.clone();
+        if let Some(n) = t.successes {
+            q.successes = n;
+        }
+        if let Some(critical) = t.critical {
+            q.critical = critical;
+        }
         if automatic {
             q.targets
                 .iter_mut()
@@ -359,6 +370,14 @@ pub(super) fn prepare_targets(c: &mut Campaign) {
     let q = flow_mut(c).queue.first_mut().unwrap();
     q.targets = ordered;
     if let Some(id) = next_id {
+        if let Some(t) = q.targets.iter().find(|t| t.target_id == id) {
+            if let Some(n) = t.successes {
+                q.successes = n;
+            }
+            if let Some(critical) = t.critical {
+                q.critical = critical;
+            }
+        }
         q.target_id = id;
     } else {
         q.cancelled = true;

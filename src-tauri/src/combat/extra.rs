@@ -821,6 +821,10 @@ pub fn accuracy_attempt(
         return Ok(());
     }
     let p = fighter(c, id)?.clone();
+    if events::enabled(c) && m["Category"] == "Support" {
+        let resolved = field::move_data(c, &p, m);
+        consume_charge(c, id, &resolved);
+    }
     if p.selected_ability == "Libero"
         || (p.selected_ability == "Protean" && m["Category"] != "Support")
     {

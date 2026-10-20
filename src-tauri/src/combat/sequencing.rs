@@ -635,6 +635,21 @@ pub fn resolve(
     };
     let (ids, scope) = plan(c, &p.id, &requested, &m)?;
     let ids = tactics::redirect_move(c, &p.id, ids, &m, cat)?;
+    let source_results: BTreeMap<_, _> = if events::enabled(c) {
+        source
+            .targets
+            .iter()
+            .filter_map(|t| t.successes.map(|n| (t.target_id.clone(), n)))
+            .collect()
+    } else {
+        BTreeMap::new()
+    };
+    let copied_successes = source_results
+        .values()
+        .copied()
+        .max()
+        .unwrap_or(source.successes);
+    let critical_margin = extra::critical_margin(c, &p, &m);
     flow_mut(c)
         .sequencing
         .dancer_round
@@ -644,9 +659,9 @@ pub fn resolve(
         .push(source.move_name.clone());
     flow_mut(c).sequencing.history.push(format!(
         "Dancer: {} copies {} after {}, {} Accuracy successes; free action, one rampage use",
-        p.name, source.move_name, source.actor_id, source.successes
+        p.name, source.move_name, source.actor_id, copied_successes
     ));
-    if source.successes < 1 {
+    if copied_successes < 1 {
         return Ok(());
     }
     let q = QueuedAction {
@@ -655,9 +670,8 @@ pub fn resolve(
         move_name: source.move_name,
         sequence: c.revision + 1,
         special_index: 0,
-        successes: source.successes,
-        critical: m["Category"] != "Support"
-            && source.successes > extra::critical_margin(c, &p, &m),
+        successes: copied_successes,
+        critical: m["Category"] != "Support" && copied_successes > critical_margin,
         timing: "main".into(),
         priority: 0,
         cancelled: false,
@@ -667,11 +681,21 @@ pub fn resolve(
         ice: false,
         targets: ids
             .into_iter()
-            .map(|target_id| TargetImpact {
-                target_id,
-                responded: false,
-                avoided: false,
-                resolved: false,
+            .map(|target_id| {
+                let copied = (!source_results.is_empty()).then(|| {
+                    source_results
+                        .get(&target_id)
+                        .copied()
+                        .unwrap_or(copied_successes)
+                });
+                TargetImpact {
+                    successes: copied,
+                    critical: copied.map(|n| m["Category"] != "Support" && n > critical_margin),
+                    target_id,
+                    responded: copied.is_some_and(|n| n < 1),
+                    avoided: copied.is_some_and(|n| n < 1),
+                    resolved: false,
+                }
             })
             .collect(),
         field_scope: scope,
@@ -727,6 +751,15 @@ pub fn notes(c: &Campaign, a: &Action) -> Vec<String> {
 }
 
 pub fn missed(c: &mut Campaign, id: &str, name: &str, successes: i32) {
+    missed_with_targets(c, id, name, successes, vec![]);
+}
+pub fn missed_with_targets(
+    c: &mut Campaign,
+    id: &str,
+    name: &str,
+    successes: i32,
+    targets: Vec<TargetImpact>,
+) {
     if !enabled(c) || !is_dance(name) {
         return;
     }
@@ -745,7 +778,7 @@ pub fn missed(c: &mut Campaign, id: &str, name: &str, successes: i32) {
         damage: 0,
         raw_damage_successes: 0,
         ice: false,
-        targets: vec![],
+        targets,
         field_scope: None,
         shared_dice: vec![],
         damage_modifiers: None,

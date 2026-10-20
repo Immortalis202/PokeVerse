@@ -132,6 +132,7 @@ test("coverage and PDF fingerprints are preserved with a complete field-level qu
       readFileSync("src-tauri/src/combat_tests/reviewed_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/stat_channel_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/sequencing_tests.rs", "utf8") +
+      readFileSync("src-tauri/src/combat_tests/event_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/field_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/extra_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/special_tests.rs", "utf8") +
@@ -170,11 +171,11 @@ test("ability inventory exposes reviewed scopes and preserves manual boundaries"
   assert.equal(inventory.entries.length, 305);
   assert.equal(
     inventory.entries.filter((e) => e.status !== "manual").length,
-    259,
+    261,
   );
   assert.equal(
     Object.values(registry.entries).filter((e) => e.status !== "manual").length,
-    259,
+    261,
   );
   assert.equal(
     inventory.entries.find((e) => e.name === "Static").status,
@@ -193,6 +194,16 @@ test("ability inventory exposes reviewed scopes and preserves manual boundaries"
     assert.equal(registry.entries[name].introduced_engine, "0.16.0-core");
   }
   assert.equal(registry.entries["Sheer Force"].status, "partial");
+  for (const name of [
+    "Stench",
+    "Pressure",
+    "Tangled Feet",
+    "Wind Power",
+    "Electromorphosis",
+  ]) {
+    assert.equal(registry.entries[name].status, "automated");
+    assert.equal(registry.entries[name].introduced_engine, "0.17.0-core");
+  }
   assert.deepEqual(registry.entries["Sheer Force"].dependencies, [
     "held-item-system",
   ]);
