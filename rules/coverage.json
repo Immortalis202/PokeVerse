@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.14.0-core",
-  "release": "0.21.0",
-  "protocol": 22,
+  "engine": "0.15.0-core",
+  "release": "0.22.0",
+  "protocol": 23,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -357,9 +357,25 @@
         "stat_channels_end_scene_clears_live_copies_and_old_snapshots_default_disabled"
       ],
       "scope": "Costar and Opportunist copy supported attribute/defense increases in separate move/ability channels; Baton Pass transfers positive attribute channels; Snatch steals both signs. Provenance, frozen owner choices, conditional reactivation, departure cleanup and rollback. Unreviewed trait channels and unmodelled Snatch effects remain explicit GM work."
+    },
+    {
+      "id": "ability-action-sequencing",
+      "status": "partial",
+      "source": "Supplied Pokerole 3.0 ability cards and their MASTER references",
+      "fixtures": [
+        "sequencing_gorilla_entry_choice_is_owned_and_allows_five_identical_moves",
+        "sequencing_defeatist_roll_is_bound_to_one_action_and_frozen_for_damage",
+        "sequencing_defeatist_successive_actions_have_independent_loyalty_and_penalties",
+        "sequencing_truant_checks_every_second_personal_turn_and_forfeits_only_failed_turn",
+        "sequencing_parental_bond_reuses_both_lanes_for_shared_targets",
+        "sequencing_dancer_free_self_copy_reuses_accuracy_without_spending_actions_or_learning",
+        "sequencing_preview_history_serialization_and_rollback_preserve_original_checks",
+        "sequencing_room_distinct_owners_choose_copy_retry_reconnect_and_rollback"
+      ],
+      "scope": "All five action-sequencing ability rules, source-tracked checks/copies, two independent shared damage lanes, owner decisions and history. Unreviewed dance move effects retain explicit GM resolution."
     }
   ],
-  "ability_registry_hash": "8f87f2ab9d93bba3a102c3e42faf9833f994163a6f17ab9f5bb0e8cad68643b7",
+  "ability_registry_hash": "8d3f1ce9c711e21a4dd74da13264093eac1df959ded711ab8aba31cf9e309f61",
   "special_registry_hash": "ef7d506fc98bed2d88c4c6d92fc0875de33c220fc01635894dbb60b53e9852fa",
   "tactics_registry_hash": "99b66de76eab04726a6a35dabdc8d8626e4816eb1bb0089dae7d1c8006179a14"
 }

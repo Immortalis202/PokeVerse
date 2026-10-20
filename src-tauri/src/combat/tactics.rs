@@ -395,6 +395,7 @@ pub fn react(
             damage: 0,
             raw_damage_successes: 0,
             ice: false,
+            sequencing_penalty: false,
             special_index: 0,
             targets: targets
                 .into_iter()
@@ -418,8 +419,11 @@ pub fn react(
             }
             .into(),
         });
-    } else if confusion(&before, &p) > 0 {
-        fighter_mut(c, id)?.hp = (p.hp - 1).max(0);
+    } else {
+        sequencing::missed(c, id, name, net);
+        if confusion(&before, &p) > 0 {
+            fighter_mut(c, id)?.hp = (p.hp - 1).max(0);
+        }
     }
     special::after_reaction(c, id, "move", cat)?;
     close(c);
@@ -1222,6 +1226,7 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
             damage: 0,
             raw_damage_successes: 0,
             ice: false,
+            sequencing_penalty: false,
             special_index: 0,
             targets: vec![],
             field_scope: None,

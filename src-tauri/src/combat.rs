@@ -9,6 +9,7 @@ pub(crate) mod decoys;
 pub(crate) mod extra;
 pub(crate) mod field;
 pub(crate) mod reviewed;
+pub(crate) mod sequencing;
 pub(crate) mod special;
 pub(crate) mod stat_channels;
 pub(crate) mod tactics;
@@ -53,6 +54,8 @@ pub struct Status {
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct TurnFlow {
     #[serde(default)]
+    pub sequencing: sequencing::SequencingState,
+    #[serde(default)]
     pub stat_channels: stat_channels::StatChannels,
     #[serde(default)]
     pub reviewed_rules: bool,
@@ -96,6 +99,8 @@ pub struct TurnFlow {
 #[derive(Debug, Clone, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct QueuedAction {
+    #[serde(default)]
+    pub sequencing_penalty: bool,
     #[serde(default)]
     pub special_index: u32,
     #[serde(default)]
@@ -315,7 +320,11 @@ fn finish(c: &mut Campaign) {
     if finish_target(c) {
         return;
     }
-    flow_mut(c).queue.remove(0);
+    let completed = flow_mut(c).queue.remove(0);
+    sequencing::completed(c, &completed);
+    if sequencing::waiting(c) {
+        return;
+    }
     while flow(c).unwrap().queue.first().is_some_and(|q| {
         q.cancelled
             || (q.damage_context.is_none() && fighter(c, &q.actor_id).is_ok_and(|p| p.hp == 0))
@@ -510,6 +519,7 @@ fn known_status(k: &str) -> bool {
 }
 fn reaction_pool(c: &Campaign, id: &str, kind: &str, name: &str, cat: &Catalog) -> Result<u32> {
     special::reaction_guard(c, id, kind, name, cat)?;
+    sequencing::move_guard(c, id, if kind == "evade" { None } else { Some(name) })?;
     let p = fighter(c, id)?;
     field::reaction(c, p, kind, cat)?;
     extra::reaction(c, p, kind, None)?;
@@ -574,6 +584,7 @@ fn reaction_pool(c: &Campaign, id: &str, kind: &str, name: &str, cat: &Catalog) 
                 || !c.sheets[&p.sheet_id].moves.iter().any(|v| v == name)
                 || (p.used_moves.iter().any(|v| v == name)
                     && !special::repeat(c, id, name)
+                    && !sequencing::repeat(c, id, name)
                     && !(special::enabled(c)
                         && flow(c)?
                             .special
@@ -724,6 +735,9 @@ fn ice_damage_pool(c: &Campaign, q: &QueuedAction, modifier: i32, cat: &Catalog)
     Ok(n as u32)
 }
 pub fn dice_count(c: &Campaign, a: &Action, cat: &Catalog) -> Result<u32> {
+    sequencing::dice(c, a, cat)
+}
+fn base_dice_count(c: &Campaign, a: &Action, cat: &Catalog) -> Result<u32> {
     if let Action::AbilityTransfer { command, .. } = a {
         return transfers::dice(c, command);
     }
@@ -907,6 +921,15 @@ fn install_pending(c: &mut Campaign, q: &QueuedAction) {
         critical: q.critical && !holding_back(c, q),
     });
 }
+pub fn transition(
+    c: &Campaign,
+    actor: &str,
+    a: &Action,
+    dice: Vec<u8>,
+    cat: &Catalog,
+) -> Result<(Campaign, String)> {
+    sequencing::transition(c, actor, a, dice, cat)
+}
 pub fn preview(c: &Campaign, a: &Action, cat: &Catalog) -> Result<ActionPreview> {
     let dice = rules::dice_count(c, a, cat)?;
     if matches!(a, Action::AbilityTransfer { .. }) {
@@ -915,6 +938,7 @@ pub fn preview(c: &Campaign, a: &Action, cat: &Catalog) -> Result<ActionPreview>
     let mut warnings=vec!["Preview rolls no dice and spends no resources. The host validates the current revision on commit.".into()];
     warnings.extend(special::preview_notes(c, a, cat)?);
     warnings.extend(reviewed::notes(c, a));
+    warnings.extend(sequencing::notes(c, a));
     if decoys::enabled(c) {
         warnings.push("Decoys: 2 HP; frozen defenses; move effects blocked, environment and existing status still apply. Dynamax, Max Moves and Z-Moves are out of scope.".into());
     }
@@ -1062,7 +1086,7 @@ fn checkpoint(current: &Campaign, next: &mut Campaign, description: &str) {
         }
     }
 }
-pub fn transition(
+fn transition_inner(
     c: &Campaign,
     actor: &str,
     a: &Action,
@@ -1227,6 +1251,7 @@ pub fn transition(
                     flow_mut(&mut next).queue.push(QueuedAction {
                         actor_id: combatant_id.clone(),
                         target_id: target_id.clone(),
+                        sequencing_penalty: false,
                         special_index: 0,
                         move_name: move_name.clone(),
                         sequence: c.revision + 1,
@@ -1553,6 +1578,7 @@ pub fn transition(
                 flow_mut(&mut next).queue.push(QueuedAction {
                     actor_id: combatant_id.clone(),
                     target_id: target.clone(),
+                    sequencing_penalty: false,
                     special_index: 0,
                     move_name: move_name.clone(),
                     sequence: c.revision + 1,
@@ -1604,7 +1630,10 @@ pub fn transition(
                 if confusion(c, p) > 0 {
                     fighter_mut(&mut next, combatant_id)?.hp = (p.hp - 1).max(0);
                 }
-                advance(&mut next);
+                sequencing::missed(&mut next, combatant_id, move_name, net);
+                if !sequencing::waiting(&next) {
+                    advance(&mut next);
+                }
             }
             special::after_accuracy(&mut next, combatant_id, &m, net >= required as i32, cat)?;
             format!("{move_name}: host dice {dice:?}, {net} successes, requires {required}. {r}")
@@ -1772,6 +1801,7 @@ pub fn transition(
                         } else {
                             incoming.actor_id.clone()
                         },
+                        sequencing_penalty: false,
                         special_index: 0,
                         move_name: move_name.clone(),
                         sequence: c.revision + 1,
@@ -2046,7 +2076,7 @@ pub fn transition(
                 else {
                     unreachable!()
                 };
-                check_count(&dice, dice_count(c, a, cat)?)?;
+                check_count(&dice, base_dice_count(c, a, cat)?)?;
                 let total = damage_dice(c, &q, *pool_modifier, cat)? as usize;
                 let mut shared = q.shared_dice.clone();
                 shared.extend_from_slice(&dice);
@@ -2520,24 +2550,36 @@ pub fn transition(
             ) {
                 let b = done.battle.as_mut().unwrap();
                 b.flow = Some(TurnFlow {
-                    stat_channels: stat_channels::StatChannels {
+                    sequencing: sequencing::SequencingState {
                         enabled: c.engine == ENGINE,
                         ..Default::default()
                     },
-                    reviewed_rules: [ENGINE, REVIEWED_ENGINE].contains(&c.engine.as_str()),
+                    stat_channels: stat_channels::StatChannels {
+                        enabled: [ENGINE, STAT_ENGINE].contains(&c.engine.as_str()),
+                        ..Default::default()
+                    },
+                    reviewed_rules: [ENGINE, STAT_ENGINE, REVIEWED_ENGINE]
+                        .contains(&c.engine.as_str()),
                     transfers: transfers::TransferState {
-                        enabled: [ENGINE, REVIEWED_ENGINE, TRANSFER_ENGINE]
+                        enabled: [ENGINE, STAT_ENGINE, REVIEWED_ENGINE, TRANSFER_ENGINE]
                             .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     ability_changes: ability_changes::AbilityChanges {
-                        enabled: [ENGINE, REVIEWED_ENGINE, TRANSFER_ENGINE, ASSIGNMENT_ENGINE]
-                            .contains(&c.engine.as_str()),
+                        enabled: [
+                            ENGINE,
+                            STAT_ENGINE,
+                            REVIEWED_ENGINE,
+                            TRANSFER_ENGINE,
+                            ASSIGNMENT_ENGINE,
+                        ]
+                        .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            STAT_ENGINE,
                             REVIEWED_ENGINE,
                             TRANSFER_ENGINE,
                             ASSIGNMENT_ENGINE,
@@ -2549,6 +2591,7 @@ pub fn transition(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            STAT_ENGINE,
                             REVIEWED_ENGINE,
                             TRANSFER_ENGINE,
                             ASSIGNMENT_ENGINE,
@@ -2561,6 +2604,7 @@ pub fn transition(
                     special: special::SpecialState {
                         enabled: [
                             ENGINE,
+                            STAT_ENGINE,
                             REVIEWED_ENGINE,
                             TRANSFER_ENGINE,
                             ASSIGNMENT_ENGINE,
@@ -2573,6 +2617,7 @@ pub fn transition(
                     },
                     ability_rules: [
                         ENGINE,
+                        STAT_ENGINE,
                         REVIEWED_ENGINE,
                         TRANSFER_ENGINE,
                         ASSIGNMENT_ENGINE,
@@ -2587,6 +2632,7 @@ pub fn transition(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            STAT_ENGINE,
                             REVIEWED_ENGINE,
                             TRANSFER_ENGINE,
                             ASSIGNMENT_ENGINE,
@@ -2601,6 +2647,7 @@ pub fn transition(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            STAT_ENGINE,
                             REVIEWED_ENGINE,
                             TRANSFER_ENGINE,
                             ASSIGNMENT_ENGINE,

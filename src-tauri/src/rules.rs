@@ -27,6 +27,7 @@ pub fn effective_sheet(c: &Campaign, p: &Combatant) -> Result<Sheet> {
     crate::combat::apply_stats(c, p, &mut s);
     s.skills.extend(p.skill_overrides.clone());
     crate::combat::field::stats(c, p, &mut s);
+    crate::combat::sequencing::apply_stats(c, p, &mut s);
     s.ability = p.selected_ability.clone();
     if let Some(b) = s.workflow.as_mut() {
         b.profile = p.rules_profile.clone();
@@ -119,9 +120,11 @@ pub fn accuracy(
             "Combatant is fainted or has used all five actions",
         ));
     }
+    crate::combat::sequencing::move_guard(c, key, Some(name))?;
     if automatic
         && p.used_moves.iter().any(|m| m == name)
         && !crate::combat::special::repeat(c, key, name)
+        && !crate::combat::sequencing::repeat(c, key, name)
     {
         return Err(AppError::new(
             "battle",
@@ -191,6 +194,7 @@ pub fn accuracy(
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
     if [
         ENGINE,
+        STAT_ENGINE,
         REVIEWED_ENGINE,
         TRANSFER_ENGINE,
         ASSIGNMENT_ENGINE,

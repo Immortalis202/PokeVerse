@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "engine": "0.14.0-core",
+  "engine": "0.15.0-core",
   "default_status": "manual",
   "entries": {
     "Adaptability": {
@@ -315,12 +315,13 @@
       "introduced_engine": "0.5.0-core"
     },
     "Dancer": {
-      "status": "manual",
-      "scope": "Requires repeated moves, restricted move selection or per-action choices/checks beyond the current action chain.",
+      "status": "partial",
+      "scope": "Once per round, choose a free copy of a completed Dance move, including self and field targeting, inheriting Accuracy successes and rolling fresh damage. Owner target choice, GM random-foe selection, normal move/status/range guards and one-use rampage copies apply. Unreviewed dance added effects remain explicitly adjudicated.",
       "page": 542,
       "dependencies": [
-        "additional-action-sequencing"
-      ]
+        "unsupported-dance-move-definitions"
+      ],
+      "introduced_engine": "0.15.0-core"
     },
     "Dark Aura": {
       "status": "partial",
@@ -348,12 +349,11 @@
       "introduced_engine": "0.9.0-core"
     },
     "Defeatist": {
-      "status": "manual",
-      "scope": "Requires repeated moves, restricted move selection or per-action choices/checks beyond the current action chain.",
+      "status": "automated",
+      "scope": "At half HP or lower, each declared action includes its own Loyalty check requiring two successes. Failure reduces Strength and Special by two only for that action, including accuracy and frozen damage inputs. Reactions, charge releases, and each successive action have separate checks; sheets remain unchanged.",
       "page": 542,
-      "dependencies": [
-        "additional-action-sequencing"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.15.0-core"
     },
     "Defiant": {
       "status": "partial",
@@ -610,12 +610,11 @@
       "introduced_engine": "0.7.0-core"
     },
     "Gorilla Tactics": {
-      "status": "manual",
-      "scope": "Requires repeated moves, restricted move selection or per-action choices/checks beyond the current action chain.",
+      "status": "automated",
+      "scope": "Choose a learned move on entry or effective ability activation. Only that move may be performed, up to five times per round within the ordinary action budget. Strength +1 uses the separate ability channel; owner choice, recall/re-entry and suppression are synchronized.",
       "page": 547,
-      "dependencies": [
-        "additional-action-sequencing"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.15.0-core"
     },
     "Grass Pelt": {
       "status": "automated",
@@ -1184,12 +1183,11 @@
       "page": 558
     },
     "Parental Bond": {
-      "status": "manual",
-      "scope": "Requires repeated moves, restricted move selection or per-action choices/checks beyond the current action chain.",
+      "status": "automated",
+      "scope": "Roll every executable damage pool twice and deal the higher-success result once. Both shared-target dice lanes persist; hits, effects, costs and callbacks occur once. Set damage has no additional roll.",
       "page": 559,
-      "dependencies": [
-        "additional-action-sequencing"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.15.0-core"
     },
     "Pastel Veil": {
       "status": "automated",
@@ -2046,12 +2044,11 @@
       "introduced_engine": "0.7.0-core"
     },
     "Truant": {
-      "status": "manual",
-      "scope": "Requires repeated moves, restricted move selection or per-action choices/checks beyond the current action chain.",
+      "status": "automated",
+      "scope": "On every second personal initiative turn, a declared action includes a Loyalty check requiring two successes. Failure forfeits only that turn, without spending the refused action or marking its move used. Success permits ordinary action validation. Out-of-turn reactions retain normal rules.",
       "page": 576,
-      "dependencies": [
-        "additional-action-sequencing"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.15.0-core"
     },
     "Turboblaze": {
       "status": "partial",

@@ -1186,3 +1186,6 @@ mod reviewed_tests;
 
 #[path = "combat_tests/stat_channel_tests.rs"]
 mod stat_channel_tests;
+
+#[path = "combat_tests/sequencing_tests.rs"]
+mod sequencing_tests;

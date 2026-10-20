@@ -1,6 +1,6 @@
 # PokeVerse - remaining work
 
-Snapshot: **20 October 2026**, application **0.21.0**, engine **0.14.0-core**, protocol **22**, user database schema **4**.
+Snapshot: **20 October 2026**, application **0.22.0**, engine **0.15.0-core**, protocol **23**, user database schema **4**.
 
 This is the current project backlog. Implemented foundations are summarized first; unfinished features, explicit GM rulings, verification gaps and excluded scope are distinguished below. Counts come from the checked-in registries and should be refreshed after catalog changes.
 
@@ -12,11 +12,12 @@ Training encounters use the reviewed habitat pool, private preparation, publicat
 
 Battles register full teams, three active slots per side, reserves, controlled switching, accuracy/damage automation, multi-target responses, field effects, supported abilities, decoys, overrides and rollback. Evasion is once per turn; eligible Clash can answer each incoming hit within the action budget. The Compendium works offline for all 1,200 species/forms.
 
+Dancer, Parental Bond, Gorilla Tactics, Truant and Defeatist now use the reviewed [action-sequencing rules](battle-action-sequencing.md), including free copies, independent damage pools, entry move selection and per-action Loyalty checks. Unreviewed move effects remain explicit GM resolutions.
+
 ## 1. Remaining battle systems
 
 - [ ] **Held items:** model equip/unequip, ownership, consumption/loss/theft, provenance, trigger choices, rollback and synchronization. Integrate berries, item-dependent abilities and Magic Room/Klutz restrictions without implying reference-only inventory is an active held-item engine.
 - [ ] **Forms and transformations:** define supported temporary form changes, entry/exit, stat/type/ability replacement and restoration, preserving permanent sheets and frozen attack inputs. Review each ability separately. Excluded mechanics below must remain excluded.
-- [ ] **Additional action sequencing:** review and implement Dancer, Parental Bond, Gorilla Tactics, Truant and Defeatist using Pokerole wording, reaction/action accounting and idempotent owner choices.
 - [ ] **Other ability families:** damage provenance (Tinted Lens, Unaware, Sheer Force, Stakeout), weight/gender formulas, private information reveals, random stat choices and remaining event definitions. The full ability inventory is in sections 8-9.
 - [ ] **Unreviewed trait copying:** Costar and Opportunist now copy supported attribute/defense move and ability channels. Baton Pass transfers supported positive attribute channels, and Snatch steals supported ability modifiers. Review additional trait channels separately; temporary ability identity copying remains distinct. See [stat copying and transfer](battle-stat-channels.md).
 - [ ] **Remaining identity effects:** review Entrainment, Doodle and Core Enforcer individually. Role Play, Skill Swap, Gastro Acid, Trace, Gas, contact replacement and witnessed ally inheritance already exist.
@@ -88,18 +89,21 @@ These require a separate scope decision; they are not missing parts of the assum
 
 Version 0.21.0 / engine 0.14.0-core / protocol 22 implements the supported stat-channel batch described in [stat copying and transfer](battle-stat-channels.md). The full Rust suite passed 396 tests, including localhost host/GM/owner, receipt, reconnect, persistence and rollback coverage. After the final event-counter removal adjustment, the focused stat-channel suite passed all 19 tests. Frontend validation passed 31 tests and 12 catalog checks; production build and warnings-denied Clippy passed. Windows NSIS packaging passed: `src-tauri/target/release/bundle/nsis/PokeVerse_0.21.0_x64-setup.exe` (213.67 MiB). The executable and installer were not launched. Native interaction, installed-app acceptance and physical LAN were not tested.
 
+## Action-sequencing milestone verification
+
+Version 0.22.0 / engine 0.15.0-core / protocol 23 adds all five reviewed [sequencing ability rules](battle-action-sequencing.md). The full Rust suite passed 417 tests, including the separate-host/GM/two-owner sequencing fixture and existing 3v3 receipt, reconnect, rollback and persistence scenarios. Frontend validation passed 33 tests and 12 catalog checks; production build, formatting and warnings-denied Clippy passed. Windows NSIS packaging passed: `src-tauri/target/release/bundle/nsis/PokeVerse_0.22.0_x64-setup.exe` (213.74 MiB). The executable and installer were not launched. Native interaction, installed-app acceptance and physical LAN were not tested.
+
 ## 7. Suggested implementation order
 
-1. Remaining action sequencing (Dancer, Parental Bond, Gorilla Tactics, Truant and Defeatist); supported stat copying/transfer is implemented.
-2. Damage-provenance abilities and remaining event/accuracy definitions.
-3. Held items and their dependent abilities.
-4. Supported form changes and transformations, retaining the exclusions above.
-5. Remaining reviewed move/status interactions and catalog audit work.
-6. Native Windows and physical LAN acceptance, followed by distribution/signing work as needed.
+1. Damage-provenance abilities and remaining event/accuracy definitions.
+2. Held items and their dependent abilities.
+3. Supported form changes and transformations, retaining the exclusions above.
+4. Remaining reviewed move/status interactions and catalog audit work.
+5. Native Windows and physical LAN acceptance, followed by distribution/signing work as needed.
 
 Each milestone should preserve historical engines, bump authoritative versions when needed, update coverage and this document, run appropriate regressions, package Windows and commit separately.
 
-## 8. All manual abilities (55)
+## 8. All manual abilities (50)
 
 Every currently manual registry entry appears below. A dependency is a reason for the current boundary, not authorization to implement an excluded mechanic. Descriptions come from the checked-in ability registry.
 
@@ -111,13 +115,10 @@ Every currently manual registry entry appears below. A dependency is a reason fo
 | Cheek Pouch | Requires held-item ownership, consumption, transfer or activation hooks. |
 | Commander | Requires encounter form/state transformation and reviewed replacement metadata. |
 | Cud Chew | Requires held-item ownership, consumption, transfer or activation hooks. |
-| Dancer | Requires repeated moves, restricted move selection or per-action choices/checks beyond the current action chain. |
-| Defeatist | Requires repeated moves, restricted move selection or per-action choices/checks beyond the current action chain. |
 | Embody Aspect | Requires encounter form/state transformation and reviewed replacement metadata. |
 | Forewarn | Requires a private GM/owner information-reveal operation with reviewed move classification. |
 | Frisk | Requires held-item ownership, consumption, transfer or activation hooks. |
 | Gluttony | Requires held-item ownership, consumption, transfer or activation hooks. |
-| Gorilla Tactics | Requires repeated moves, restricted move selection or per-action choices/checks beyond the current action chain. |
 | Gulp Missile | Requires encounter form/state transformation and reviewed replacement metadata. |
 | Harvest | Requires held-item ownership, consumption, transfer or activation hooks. |
 | Heavy Metal | Requires reviewed weight/gender inputs and formulas in the shared damage calculation. |
@@ -131,7 +132,6 @@ Every currently manual registry entry appears below. A dependency is a reason fo
 | Magician | Requires held-item ownership, consumption, transfer or activation hooks. |
 | Moody | Requires independent unbiased attribute increase/reduction choices and their recorded provenance. |
 | Multitype | Requires encounter form/state transformation and reviewed replacement metadata. |
-| Parental Bond | Requires repeated moves, restricted move selection or per-action choices/checks beyond the current action chain. |
 | Perish Body | Existing hook families are available; this individual definition and its ordering still require implementation and fixtures. |
 | Pickpocket | Requires held-item ownership, consumption, transfer or activation hooks. |
 | Pickup | Requires held-item ownership, consumption, transfer or activation hooks. |
@@ -154,19 +154,19 @@ Every currently manual registry entry appears below. A dependency is a reason fo
 | Teraform Zero | Requires encounter form/state transformation and reviewed replacement metadata. |
 | Tinted Lens | Requires reviewed effect suppression, resistance, switch timing or counterpart attribute provenance. |
 | Torrent | Printed text grants 2 damage dice but icon grants 1. GM ruling required. |
-| Truant | Requires repeated moves, restricted move selection or per-action choices/checks beyond the current action chain. |
 | Unaware | Requires reviewed effect suppression, resistance, switch timing or counterpart attribute provenance. |
 | Unburden | Requires held-item ownership, consumption, transfer or activation hooks. |
 | Unnerve | Requires held-item ownership, consumption, transfer or activation hooks. |
 | Zen Mode | Requires encounter form/state transformation and reviewed replacement metadata. |
 | Zero to Hero | Requires encounter form/state transformation and reviewed replacement metadata. |
 
-## 9. All partial abilities (62)
+## 9. All partial abilities (63)
 
 These already have implemented mechanics. The scope is reproduced to avoid treating their whole definition as missing. Named dependencies identify the remaining work; empty dependency lists require a per-definition audit rather than an invented feature.
 
 | Ability | Implemented scope and boundary | Remaining dependency |
 | --- | --- | --- |
+| Dancer | Once-per-round free Dance copy with inherited Accuracy, fresh damage, owner/GM target choices and one-use rampage copying. | unsupported-dance-move-definitions |
 | Costar | Entry snapshot of one ally's supported positive move/ability attribute and defense channels; frozen owner choice for multiple allies. | unreviewed-trait-channels |
 | Opportunist | Supported foe increases copied into their original stat channel, keeping the highest without reciprocal loops. | unreviewed-trait-channels |
 | Arena Trap | Block ordinary recall for eligible targets in confirmed abstract range, with rank target caps and reviewed Ground/Steel/Ghost exceptions. GM switching overrides remain explicit. | forced-switch-move-resolution |

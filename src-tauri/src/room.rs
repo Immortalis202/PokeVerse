@@ -133,8 +133,11 @@ impl Host {
             return Err(AppError::new("catalog_adoption","The appointed GM must adopt the installed catalog in Training encounters before shared changes"));
         }
         let count = crate::rules::dice_count(&current, &cmd.action, &self.catalog)?;
-        if count > 100 {
-            return Err(AppError::new("validation", "Maximum 100 dice per roll"));
+        if count > crate::combat::sequencing::roll_limit(&current, &cmd.action) {
+            return Err(AppError::new(
+                "validation",
+                "Dice exceed the validated action/ability roll limit",
+            ));
         }
         let dice: Vec<u8> = (0..count)
             .map(|_| rand::rng().random_range(1..=6))

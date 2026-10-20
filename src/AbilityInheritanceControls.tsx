@@ -18,7 +18,11 @@ export default function AbilityInheritanceControls({
     "advance",
   );
   const [reason, setReason] = useState("");
-  if (!["0.14.0-core", "0.13.0-core", "0.12.0-core"].includes(campaign.engine))
+  if (
+    !["0.15.0-core", "0.14.0-core", "0.13.0-core", "0.12.0-core"].includes(
+      campaign.engine,
+    )
+  )
     return null;
   const state = campaign.ability_inheritance;
   const gm = campaign.gm_id === playerId;

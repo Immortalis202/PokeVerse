@@ -188,6 +188,23 @@ describe("structured core battle controls", () => {
         automatic_validation: true,
         combatants,
         flow: {
+          sequencing: {
+            enabled: engine === "0.15.0-core",
+            identities: {},
+            gorilla: {},
+            visits: {},
+            visited_turn: null,
+            truant: {},
+            penalties: [],
+            preparing: [],
+            dancer_round: {},
+            pending: [],
+            dances: {},
+            resume: false,
+            copies: [],
+            parental: {},
+            history: [],
+          },
           stat_channels: {
             enabled: engine === "0.14.0-core",
             active: [],
@@ -332,6 +349,7 @@ describe("structured core battle controls", () => {
           queue: queued
             ? [
                 {
+                  sequencing_penalty: false,
                   special_index: 0,
                   actor_id: "opponent",
                   target_id: "active",

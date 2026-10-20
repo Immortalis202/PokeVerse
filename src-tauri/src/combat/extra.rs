@@ -76,6 +76,7 @@ fn own_stat(c: &Campaign, p: &Combatant, key: &str) -> i32 {
         }
         ("Speed Boost", "Dexterity") => count(p, "Speed Boost"),
         ("Huge Power" | "Pure Power", "Strength") => 2,
+        ("Gorilla Tactics", "Strength") if sequencing::enabled(c) => 1,
         ("Chlorophyll", "Dexterity")
             if matches!(w, Some(field::Weather::Sunny | field::Weather::Desolate)) =>
         {
@@ -936,6 +937,7 @@ pub fn end_round(c: &mut Campaign) -> Result<()> {
 pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<()> {
     if c.battle.as_ref().is_some_and(|b| !b.active) {
         stat_channels::finish(c);
+        sequencing::finish(c);
     }
     if !enabled(c) || !c.battle.as_ref().is_some_and(|b| b.active) {
         return Ok(());
@@ -1096,6 +1098,7 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
         .collect();
     let _ = cat;
     stat_channels::lifecycle(before, c)?;
+    sequencing::lifecycle(c, cat)?;
     Ok(())
 }
 fn in_range(c: &Campaign, p: &Combatant, id: &str) -> bool {

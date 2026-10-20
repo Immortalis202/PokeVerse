@@ -229,7 +229,12 @@ pub fn dice(c: &Campaign, cmd: &SpecialCommand, cat: &Catalog) -> Result<u32> {
                 ready(c, combatant_id)?;
                 rules::accuracy(&old(c), combatant_id, move_name, 0, cat)?.0
             };
-            base.checked_add(u32::from(p.runtime.chance_round == battle(c)?.round))
+            base.checked_add(sequencing::successive_loyalty(c, combatant_id)?)
+                .and_then(|n| {
+                    n.checked_add(u32::from(
+                        p.runtime.chance_round == battle(c).unwrap().round,
+                    ))
+                })
                 .and_then(|n| n.checked_mul(*attempts))
                 .ok_or_else(|| error("Successive pool overflow"))?
         }

@@ -82,6 +82,37 @@ export default function AbilityControls({
           ))}
         </details>
       )}
+      {f.sequencing?.enabled && (
+        <details>
+          <summary>Action sequencing</summary>
+          <p>
+            Loyalty checks are included with the declared action. Parental Bond
+            keeps the higher of two damage rolls and deals damage once. Dancer
+            copies Accuracy successes and spends no action.
+          </p>
+          {b.combatants
+            .filter((p) => p.deployed)
+            .map((p) => (
+              <p key={p.id}>
+                {p.name}
+                {f.sequencing.gorilla[p.id]
+                  ? `: Gorilla Tactics - ${f.sequencing.gorilla[p.id]}`
+                  : ""}
+                {p.selected_ability === "Dancer"
+                  ? f.sequencing.dancer_round[p.id] === b.round
+                    ? ": free dance used this round"
+                    : ": free dance available"
+                  : ""}
+                {p.selected_ability === "Truant"
+                  ? `: personal turn ${f.sequencing.visits[p.id] ?? 1}; even turns require Loyalty`
+                  : ""}
+              </p>
+            ))}
+          {f.sequencing.history.map((entry, i) => (
+            <p key={i}>{entry}</p>
+          ))}
+        </details>
+      )}
       <div className="toolbar">
         {b.combatants
           .filter((p) => p.deployed)
@@ -225,6 +256,12 @@ export default function AbilityControls({
             after {event.move_name}. Resolve this trigger before continuing the
             battle. It does not spend another action.
           </p>
+          {event.kind === "sequence-dancer-random" && (
+            <p>
+              The GM selects the random foe; the owner may decline the free
+              dance.
+            </p>
+          )}
           {owned && (
             <>
               <label>
@@ -238,11 +275,24 @@ export default function AbilityControls({
               <div className="toolbar">
                 {event.choices.map((choice) => (
                   <span key={choice}>
-                    <button disabled={disabled} onClick={() => preview(choice)}>
+                    <button
+                      disabled={
+                        disabled ||
+                        (event.kind === "sequence-dancer-random" &&
+                          !gm &&
+                          choice !== "decline")
+                      }
+                      onClick={() => preview(choice)}
+                    >
                       Preview {choice}
                     </button>
                     <button
-                      disabled={disabled}
+                      disabled={
+                        disabled ||
+                        (event.kind === "sequence-dancer-random" &&
+                          !gm &&
+                          choice !== "decline")
+                      }
                       onClick={() => execute(command(choice))}
                     >
                       {choice.startsWith("activate:")
@@ -251,19 +301,21 @@ export default function AbilityControls({
                           ? "Store all copies; keep Power of Alchemy active"
                           : choice === "neutral"
                             ? "Deal 1 neutral damage"
-                            : choice === "roll"
-                              ? "Roll ability dice"
-                              : choice === "heal"
-                                ? "Restore 1 HP"
-                                : choice === "decline"
-                                  ? "Decline"
-                                  : choice === "simultaneous"
-                                    ? "Confirm both Gas emitters remain active"
-                                    : choice === "activate"
-                                      ? "Activate No Guard"
-                                      : (b.combatants.find(
-                                          (p) => p.id === choice,
-                                        )?.name ?? `Select ${choice}`)}
+                            : choice === "copy"
+                              ? "Copy this dance"
+                              : choice === "roll"
+                                ? "Roll ability dice"
+                                : choice === "heal"
+                                  ? "Restore 1 HP"
+                                  : choice === "decline"
+                                    ? "Decline"
+                                    : choice === "simultaneous"
+                                      ? "Confirm both Gas emitters remain active"
+                                      : choice === "activate"
+                                        ? "Activate No Guard"
+                                        : (b.combatants.find(
+                                            (p) => p.id === choice,
+                                          )?.name ?? `Select ${choice}`)}
                     </button>
                     {event.kind === "stat-costar" && (
                       <small>
@@ -274,14 +326,15 @@ export default function AbilityControls({
                     )}
                   </span>
                 ))}
-                {gm && event.kind !== "ability-gas" && (
-                  <button
-                    disabled={disabled || !reason.trim()}
-                    onClick={() => execute(command("manual"))}
-                  >
-                    Record manual ability resolution
-                  </button>
-                )}
+                {gm &&
+                  !["ability-gas", "sequence-gorilla"].includes(event.kind) && (
+                    <button
+                      disabled={disabled || !reason.trim()}
+                      onClick={() => execute(command("manual"))}
+                    >
+                      Record manual ability resolution
+                    </button>
+                  )}
               </div>
             </>
           )}

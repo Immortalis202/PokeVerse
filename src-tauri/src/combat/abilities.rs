@@ -145,7 +145,8 @@ pub fn coverage(c: &Campaign, name: &str) -> Option<&'static str> {
             .expect("valid owned ability registry")
     });
     let entry = &REGISTRY["entries"][name];
-    if (entry["introduced_engine"] == "0.14.0-core" && !stat_channels::enabled(c))
+    if (entry["introduced_engine"] == "0.15.0-core" && !sequencing::enabled(c))
+        || (entry["introduced_engine"] == "0.14.0-core" && !stat_channels::enabled(c))
         || (entry["introduced_engine"] == "0.13.0-core" && !reviewed::enabled(c))
         || (entry["introduced_engine"] == "0.12.0-core" && !transfers::enabled(c))
         || (entry["introduced_engine"] == "0.11.0-core" && !ability_changes::enabled(c))
@@ -573,6 +574,9 @@ pub fn dice(c: &Campaign, event_id: &str, choice: &str) -> Result<u32> {
         .filter(|e| e.id == event_id)
         .ok_or_else(|| error("Resolve the first pending ability trigger"))?;
     if choice == "manual" {
+        if e.kind == "sequence-gorilla" {
+            return Err(error("Choose an explicit Gorilla Tactics entry move"));
+        }
         if e.kind == "ability-gas" {
             return Err(error("Choose the explicit Gas stalemate policy; a generic manual acknowledgment cannot select its mechanics"));
         }
@@ -647,6 +651,8 @@ pub fn resolve(
         transfers::resolve(next, &e, choice, cat)?;
     } else if e.kind == "ability-gas" {
         ability_changes::gas_ruling(next, &e, actor)?;
+    } else if e.kind.starts_with("sequence-") {
+        sequencing::resolve(next, actor, &e, choice, cat)?;
     } else if e.kind == "stat-costar" {
         stat_channels::resolve(next, &e, choice)?;
     } else if e.kind == "ability-trace" {
@@ -700,6 +706,7 @@ pub fn resolve(
         )?;
     }
     flow_mut(next).ability_events.remove(0);
+    sequencing::resume(next);
     sync_labels(next);
     Ok(format!(
         "{}: {} chose {choice}; host dice {results:?}. {r}",

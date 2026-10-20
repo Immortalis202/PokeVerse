@@ -88,3 +88,5 @@ Engine `0.10.0-core` adds [encounter decoys](battle-decoys.md), including Substi
 Engine `0.13.0-core`, protocol 21, schema 4. Sixteen definitions add action-scoped immunity bypass, printed accuracy/recovery effects and entry/hit hooks. See [exact scope and boundaries](battle-reviewed-ability-batch.md); Mycelium Might grants Late Reaction/Never Miss rather than video-game ability bypass. The GM records night explicitly. Old encounters retain their serialized rules flags.
 
 [Stat copying and transfer](battle-stat-channels.md) adds Costar, Opportunist and supported ability-channel behavior for Baton Pass/Snatch in engine 0.14.0-core. Earlier encounter snapshots retain their gates.
+
+[Action sequencing](battle-action-sequencing.md) adds Dancer, Parental Bond, Gorilla Tactics, Truant and Defeatist in engine 0.15.0-core, preserving historical encounter flags.
