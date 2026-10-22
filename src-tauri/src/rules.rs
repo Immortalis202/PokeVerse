@@ -158,6 +158,7 @@ pub fn accuracy(
     crate::combat::field::guard_move(c, p, &m)?;
     crate::combat::special::guard(c, key, &m, catalog)?;
     let m = crate::combat::field::move_data(c, p, &m);
+    crate::combat::standalone::torrent(c, p, &m, p.hp, None)?;
     let first = score(&s, m["Accuracy1"].as_str().unwrap_or_default())?;
     let second = match m["Accuracy2"].as_str().unwrap_or_default() {
         "" => 0,
@@ -207,6 +208,7 @@ pub fn accuracy(
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
     if [
         ENGINE,
+        INFORMATION_ENGINE,
         FORM_ENGINE,
         ITEM_ENGINE,
         EVENT_ENGINE,
@@ -359,7 +361,24 @@ pub fn damage_pool(
             "Fixed, varied and special damage formulas require GM adjudication",
         ));
     }
-    let attribute = score(&source, attribute_source)?;
+    let saved_rivalry = context.and_then(|ctx| ctx.rivalry.get(&target.id)).copied();
+    let mut rivalry_source = source.clone();
+    if attribute_source
+        .split('/')
+        .any(|key| key.trim() == "Strength")
+    {
+        let base = score(&source, "Strength")?;
+        let delta = crate::combat::standalone::strength_delta(
+            c,
+            attacker,
+            target,
+            "Strength",
+            base,
+            saved_rivalry,
+        )?;
+        rivalry_source.stats.insert("Strength".into(), base + delta);
+    }
+    let attribute = score(&rivalry_source, attribute_source)?;
     if (source.rank == "Champion" && source.workflow.is_none())
         || (defender.rank == "Champion" && defender.workflow.is_none())
     {
@@ -467,7 +486,12 @@ pub fn damage_pool(
         && !corrosion
         && (crate::combat::abilities::damage_immune_from(c, attacker, target, &m)
             || crate::combat::extra::source_immune(c, attacker, target, effectiveness));
-    let ability_bonus = if conditional && attack_hp <= attacker.max_hp / 2 {
+    let ability_bonus = if conditional
+        && !(crate::combat::standalone::enabled(c)
+            && attacker.has_ability("Torrent")
+            && move_type == "Water")
+        && attack_hp <= attacker.max_hp / 2
+    {
         2
     } else {
         0
@@ -496,6 +520,13 @@ pub fn damage_pool(
         + critical
         + modifier
         + ability_bonus
+        + crate::combat::standalone::torrent(
+            c,
+            attacker,
+            &m,
+            attack_hp,
+            context.and_then(|ctx| ctx.torrent_bonus),
+        )?
         + extra
         + if let Some(n) = context.and_then(|ctx| ctx.special_bonus.get(&target.id)) {
             *n

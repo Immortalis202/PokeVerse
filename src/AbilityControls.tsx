@@ -356,6 +356,14 @@ export default function AbilityControls({
               the berry and no additional action.
             </p>
           )}
+          {event.kind === "standalone-moody" && (
+            <p>
+              Previous Moody changes were reset. The host samples two dice:
+              outcomes 1–20 select one of all twenty distinct decrease/increase
+              pairs equally; 21–36 are recorded and leave this decision pending
+              for a reroll. No action is spent.
+            </p>
+          )}
           {event.kind === "item-frisk" && (
             <p>
               The GM chooses one foe. Its held items are revealed only to this

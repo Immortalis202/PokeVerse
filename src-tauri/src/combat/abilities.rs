@@ -24,6 +24,10 @@ pub struct AbilityEvent {
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct DamageContext {
     #[serde(default)]
+    pub rivalry: BTreeMap<String, i32>,
+    #[serde(default)]
+    pub torrent_bonus: Option<i32>,
+    #[serde(default)]
     pub base_stats: BTreeMap<String, i32>,
     #[serde(default)]
     pub special_bonus: BTreeMap<String, i32>,
@@ -149,7 +153,8 @@ pub fn coverage(c: &Campaign, name: &str) -> Option<&'static str> {
             .expect("valid owned ability registry")
     });
     let entry = &REGISTRY["entries"][name];
-    if (entry["introduced_engine"] == "0.20.0-core" && !information::enabled(c))
+    if (entry["introduced_engine"] == "0.21.0-core" && !standalone::enabled(c))
+        || (entry["introduced_engine"] == "0.20.0-core" && !information::enabled(c))
         || (entry["introduced_engine"] == "0.19.0-core" && !forms::enabled(c))
         || (entry["introduced_engine"] == "0.18.0-core" && !items::enabled(c))
         || (entry["introduced_engine"] == "0.17.0-core" && !events::enabled(c))
@@ -533,6 +538,7 @@ pub fn hit(
             }
         }
     }
+    standalone::hit(c, q, &target, &attacker, m, before_hp, cat)?;
     reviewed::hit(c, q, m, cat)?;
     items::hit(c, q, m, cat)?;
     forms::hit(c, q, m, cat, before_hp)?;
@@ -658,6 +664,9 @@ pub fn dice(c: &Campaign, event_id: &str, choice: &str) -> Result<u32> {
     if !e.choices.iter().any(|v| v == choice) {
         return Err(error("Choose one of the recorded ability options"));
     }
+    if e.kind == "standalone-moody" {
+        return Ok(if choice == "roll" { 2 } else { 0 });
+    }
     if e.kind == "transfer-inherit" {
         return Ok(0);
     }
@@ -728,7 +737,12 @@ pub fn resolve(
     } else {
         owner(c, actor, &e.combatant_id)?;
     }
-    if e.kind.starts_with("info-") {
+    if e.kind == "standalone-moody" {
+        let complete = standalone::resolve_moody(next, &e, choice, results)?;
+        if !complete {
+            return Ok(format!("Moody rejected unbiased sample {results:?}; reroll the recorded pending choice. {r}"));
+        }
+    } else if e.kind.starts_with("info-") {
         information::resolve(next, &e, choice, r, cat)?;
     } else if e.kind.starts_with("form-") {
         forms::resolve(next, &e, choice, cat)?;

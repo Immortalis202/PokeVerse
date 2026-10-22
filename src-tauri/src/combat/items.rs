@@ -2846,6 +2846,7 @@ pub fn transition(
     refresh_initiative(c, &mut next)?;
     sync_labels(&mut next);
     information::lifecycle(&mut next, cat)?;
+    standalone::lifecycle(&mut next)?;
     checkpoint(c, &mut next, &log);
     Ok((next, log))
 }

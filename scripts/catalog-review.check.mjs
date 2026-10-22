@@ -134,6 +134,7 @@ test("coverage and PDF fingerprints are preserved with a complete field-level qu
       readFileSync("src-tauri/src/combat_tests/sequencing_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/event_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/information_tests.rs", "utf8") +
+      readFileSync("src-tauri/src/combat_tests/standalone_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/field_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/extra_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/special_tests.rs", "utf8") +
@@ -172,11 +173,11 @@ test("ability inventory exposes reviewed scopes and preserves manual boundaries"
   assert.equal(inventory.entries.length, 305);
   assert.equal(
     inventory.entries.filter((e) => e.status !== "manual").length,
-    296,
+    302,
   );
   assert.equal(
     Object.values(registry.entries).filter((e) => e.status !== "manual").length,
-    296,
+    302,
   );
   assert.equal(
     inventory.entries.find((e) => e.name === "Static").status,
@@ -184,7 +185,7 @@ test("ability inventory exposes reviewed scopes and preserves manual boundaries"
   );
   assert.equal(
     inventory.entries.find((e) => e.name === "Torrent").status,
-    "manual",
+    "partial",
   );
   assert.equal(
     inventory.entries.find((e) => e.name === "Mold Breaker").status,
@@ -423,4 +424,26 @@ test("private warning scopes preserve printed cards and GM comparison boundaries
   }
   assert.ok(r.entries.Forewarn.scope.includes("Insight"));
   assert.ok(r.entries.Forewarn.scope.includes("ties"));
+});
+
+test("standalone abilities retain printed choices instead of invented multipliers", () => {
+  const r = JSON.parse(readFileSync("rules/ability-coverage.json", "utf8"));
+  for (const name of [
+    "Heavy Metal",
+    "Light Metal",
+    "Rivalry",
+    "Moody",
+    "Perish Body",
+    "Torrent",
+  ]) {
+    assert.equal(r.entries[name].introduced_engine, "0.21.0-core");
+    assert.deepEqual(r.entries[name].dependencies, []);
+  }
+  assert.equal(r.entries.Moody.status, "automated");
+  assert.equal(r.entries["Perish Body"].status, "automated");
+  assert.ok(r.entries.Torrent.scope.includes("one-die"));
+  assert.ok(r.entries.Rivalry.scope.includes("preference"));
+  assert.ok(
+    r.entries["Heavy Metal"].scope.includes("no fixed weight multiplier"),
+  );
 });

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "engine": "0.20.0-core",
+  "engine": "0.21.0-core",
   "default_status": "manual",
   "entries": {
     "Adaptability": {
@@ -679,12 +679,11 @@
       "introduced_engine": "0.7.0-core"
     },
     "Heavy Metal": {
-      "status": "manual",
-      "scope": "Requires reviewed weight/gender inputs and formulas in the shared damage calculation.",
+      "status": "partial",
+      "scope": "GM records an increased encounter weight for the exact current form. Reviewed Low Kick/Grass Knot and Heavy Slam/Heat Crash formulas use literal 50 kg steps capped at four dice; no fixed weight multiplier is invented. Suppression restores ordinary weight; saved shared damage freezes the resulting bonus.",
       "page": 549,
-      "dependencies": [
-        "weight-and-gender-formulas"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.21.0-core"
     },
     "Honey Gather": {
       "status": "manual",
@@ -883,12 +882,11 @@
       "introduced_engine": "0.7.0-core"
     },
     "Light Metal": {
-      "status": "manual",
-      "scope": "Requires reviewed weight/gender inputs and formulas in the shared damage calculation.",
+      "status": "partial",
+      "scope": "GM records a reduced encounter weight for the exact current form. Reviewed weight formulas use the recorded kg and literal 50 kg steps capped at four dice. No half/quarter multiplier is silently chosen; suppression and shared damage snapshots preserve the selected inputs.",
       "page": 553,
-      "dependencies": [
-        "weight-and-gender-formulas"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.21.0-core"
     },
     "Lightning Rod": {
       "status": "automated",
@@ -1034,12 +1032,11 @@
       "introduced_engine": "0.13.0-core"
     },
     "Moody": {
-      "status": "manual",
-      "scope": "Requires independent unbiased attribute increase/reduction choices and their recorded provenance.",
+      "status": "automated",
+      "scope": "At round end reset only the source own prior Moody grants; host rejection-sampling chooses an unbiased ordered pair of distinct attributes, reducing one and increasing another by one. Rejected samples are recorded with a pending reroll; grants preserve provenance, caps, copying, suppression/recall guards and rollback.",
       "page": 556,
-      "dependencies": [
-        "random-attribute-selection"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.21.0-core"
     },
     "Motor Drive": {
       "status": "automated",
@@ -1178,12 +1175,11 @@
       "introduced_engine": "0.7.0-core"
     },
     "Perish Body": {
-      "status": "manual",
-      "scope": "Existing hook families are available; this individual definition and its ordering still require implementation and fixtures.",
+      "status": "automated",
+      "scope": "A landed hostile non-ranged Physical hit arms an earliest remaining-HP ability-damage deadline after three full rounds, including a hit that faints the holder. Removal of the cursed attacker cancels; emitter departure does not. Supported immunity/bypass/decoy rules, ability-damage guards, round-end ordering and rollback are preserved.",
       "page": 559,
-      "dependencies": [
-        "reviewed-event-definitions"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.21.0-core"
     },
     "Pickpocket": {
       "status": "automated",
@@ -1435,12 +1431,11 @@
       "introduced_engine": "0.18.0-core"
     },
     "Rivalry": {
-      "status": "manual",
-      "scope": "Requires reviewed weight/gender inputs and formulas in the shared damage calculation.",
+      "status": "partial",
+      "scope": "GM chooses supplied JSON gender versus printed preference wording and records individual comparison groups. Same/opposite foe comparisons change Strength by +1/-1 through existing channel/cap rules, including target-specific accuracy prefixes, reactions and frozen shared damage. Unknown, genderless and neutral groups are neutral.",
       "page": 564,
-      "dependencies": [
-        "weight-and-gender-formulas"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.21.0-core"
     },
     "Rock Head": {
       "status": "partial",
@@ -1949,12 +1944,11 @@
       "introduced_engine": "0.16.0-core"
     },
     "Torrent": {
-      "status": "manual",
-      "scope": "Printed text grants 2 damage dice but icon grants 1. GM ruling required.",
+      "status": "partial",
+      "scope": "Water accuracy/damage ignore pain at every HP level. GM chooses the conflicting text two-dice versus icon one-die bonus; the chosen Water damage-pool bonus applies at half HP or less and is frozen for shared damage. Support moves require no damage-bonus ruling.",
       "page": 574,
-      "dependencies": [
-        "conflicting-manual-metadata"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.21.0-core"
     },
     "Tough Claws": {
       "status": "automated",

@@ -12,11 +12,13 @@ import type { ItemState } from "./ItemState";
 import type { QueuedAction } from "./QueuedAction";
 import type { SequencingState } from "./SequencingState";
 import type { SpecialState } from "./SpecialState";
+import type { StandaloneState } from "./StandaloneState";
 import type { StatChannels } from "./StatChannels";
 import type { TacticsState } from "./TacticsState";
 import type { TransferState } from "./TransferState";
 
 export type TurnFlow = {
+  standalone: StandaloneState;
   information: InformationState;
   forms: FormState;
   items: ItemState;

@@ -1124,7 +1124,7 @@ pub fn transition(
     cat: &Catalog,
 ) -> Result<(Campaign, String)> {
     if let FormCommand::RestoreCore { sheet_id } = command {
-        if ![ENGINE, FORM_ENGINE].contains(&c.engine.as_str()) {
+        if ![ENGINE, INFORMATION_ENGINE, FORM_ENGINE].contains(&c.engine.as_str()) {
             return Err(error("Adopt the reviewed form engine between battles"));
         }
         gm(c, actor)?;
@@ -1529,6 +1529,7 @@ pub fn transition(
     refresh_initiative(c, &mut next)?;
     let log = format!("Reviewed form decision: {why}");
     information::lifecycle(&mut next, cat)?;
+    standalone::lifecycle(&mut next)?;
     checkpoint(c, &mut next, &log);
     Ok((next, log))
 }

@@ -2249,6 +2249,15 @@ pub fn variable_name(n: &str) -> bool {
     .contains(&n)
 }
 fn weight(c: &Campaign, p: &Combatant, cat: &Catalog) -> Result<f64> {
+    if standalone::enabled(c) {
+        return standalone::weight(
+            c,
+            p,
+            cat,
+            state(c).parameters.get(&p.id).and_then(|v| v.weight_kg),
+        );
+    }
+
     if let Some(n) = state(c).parameters.get(&p.id).and_then(|v| v.weight_kg) {
         return Ok(n);
     }

@@ -5,6 +5,7 @@ import type { FormCommand } from "./FormCommand";
 import type { ItemCommand } from "./ItemCommand";
 import type { RulesProfile } from "./RulesProfile";
 import type { SpecialCommand } from "./SpecialCommand";
+import type { StandaloneCommand } from "./StandaloneCommand";
 import type { SyncSheet } from "./SyncSheet";
 import type { TacticsCommand } from "./TacticsCommand";
 import type { TrainingEncounter } from "./TrainingEncounter";
@@ -12,6 +13,7 @@ import type { TransferCommand } from "./TransferCommand";
 import type { WorkflowRequest } from "./WorkflowRequest";
 
 export type Action =
+  | { type: "standalone"; command: StandaloneCommand; reason: string }
   | { type: "form"; command: FormCommand; reason: string }
   | { type: "held_item"; command: ItemCommand; reason: string }
   | { type: "adjust_will"; combatant_id: string; will: number; reason: string }

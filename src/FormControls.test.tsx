@@ -41,6 +41,15 @@ function campaign(ability = "Multitype", enabled = true): Campaign {
         },
       ],
       flow: {
+        standalone: {
+          enabled: false,
+          profiles: {},
+          rivalry_basis: null,
+          torrent_bonus: null,
+          perish: {},
+          ended_round: 0,
+          history: [],
+        },
         information: { enabled: false, active: [], offers: {}, reveals: [] },
         forms: {
           enabled,

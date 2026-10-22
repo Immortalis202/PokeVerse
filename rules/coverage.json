@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.20.0-core",
-  "release": "0.27.0",
-  "protocol": 28,
+  "engine": "0.21.0-core",
+  "release": "0.28.0",
+  "protocol": 29,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -416,9 +416,22 @@
         "information_room_private_trainer_transport_receipts_stale_reconnect_and_rollback"
       ],
       "scope": "Secret trainer warnings with GM comparison and Insight rulings, private candidate transport and movepool projections, entry/re-entry gates, saved decisions and rollback. Unprinted strongest-move/tie formulas are not invented."
+    },
+    {
+      "id": "standalone-battle-abilities",
+      "status": "partial",
+      "source": "MASTER 549,553,556,559,564,574; supplied v3.0 ability and weight-move cards",
+      "fixtures": [
+        "standalone_metal_requires_gm_weights_exact_direction_and_suppression_restores_baseline",
+        "standalone_rivalry_shared_prefix_and_frozen_target_deltas_survive_profile_changes",
+        "standalone_moody_all_twenty_distinct_pairs_are_unbiased_and_rejections_persist",
+        "standalone_perish_body_contact_arms_once_killing_hit_and_departure_cancels",
+        "standalone_room_gm_rulings_owner_permissions_retry_reconnect_and_rollback"
+      ],
+      "scope": "Reviewed Heavy/Light Metal, Rivalry, Moody, Perish Body and Torrent with recorded printed ambiguities, host dice, shared snapshots, historical gates and room persistence/rollback."
     }
   ],
-  "ability_registry_hash": "a7c32e83f2c91cb883a0e82cd58f99c81034ae7bcf6b1d54995e6da720349102",
+  "ability_registry_hash": "41fc68db3f079a1983f88c88f047d0a85aeaa750f9fd381db9da1c85fe66039e",
   "special_registry_hash": "ef7d506fc98bed2d88c4c6d92fc0875de33c220fc01635894dbb60b53e9852fa",
   "tactics_registry_hash": "99b66de76eab04726a6a35dabdc8d8626e4816eb1bb0089dae7d1c8006179a14",
   "form_registry_hash": "222191f7c2ed47eba141c0ff7b41318f9d7476951ba3f8e909a01370fb490e3a"

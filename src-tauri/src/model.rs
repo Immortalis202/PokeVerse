@@ -2,7 +2,8 @@ use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 use ts_rs::TS;
 
-pub const ENGINE: &str = "0.20.0-core";
+pub const ENGINE: &str = "0.21.0-core";
+pub const INFORMATION_ENGINE: &str = "0.20.0-core";
 pub const FORM_ENGINE: &str = "0.19.0-core";
 pub const ITEM_ENGINE: &str = "0.18.0-core";
 pub const EVENT_ENGINE: &str = "0.17.0-core";
@@ -24,6 +25,7 @@ pub const PREVIOUS_ENGINE: &str = "0.2.0-core";
 pub fn core_engine(engine: &str) -> bool {
     [
         ENGINE,
+        INFORMATION_ENGINE,
         FORM_ENGINE,
         ITEM_ENGINE,
         EVENT_ENGINE,
@@ -46,7 +48,7 @@ pub fn core_engine(engine: &str) -> bool {
     .contains(&engine)
 }
 pub const LEGACY_ENGINE: &str = "0.1.0-manual";
-pub const PROTOCOL: u32 = 28;
+pub const PROTOCOL: u32 = 29;
 pub fn enabled() -> bool {
     true
 }
@@ -454,6 +456,10 @@ pub struct SyncSheet {
 #[serde(tag = "type", rename_all = "snake_case")]
 #[ts(export, export_to = "../../src/bindings/")]
 pub enum Action {
+    Standalone {
+        command: crate::combat::standalone::StandaloneCommand,
+        reason: String,
+    },
     Form {
         command: crate::combat::forms::FormCommand,
         reason: String,

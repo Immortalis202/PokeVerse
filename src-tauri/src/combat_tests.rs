@@ -1199,3 +1199,6 @@ mod form_tests;
 
 #[path = "combat_tests/information_tests.rs"]
 mod information_tests;
+
+#[path = "combat_tests/standalone_tests.rs"]
+mod standalone_tests;

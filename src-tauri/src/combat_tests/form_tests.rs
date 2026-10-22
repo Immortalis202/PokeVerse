@@ -809,7 +809,13 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
     let (c, a, t) = setup("Arceus", "Multitype");
     let sheet_ids = vec![p(&c, &a).sheet_id.clone(), p(&c, &t).sheet_id.clone()];
     let ended = decision(&c, "gm", Action::EndBattle);
-    for engine in [ENGINE, FORM_ENGINE, ITEM_ENGINE, EVENT_ENGINE] {
+    for engine in [
+        ENGINE,
+        INFORMATION_ENGINE,
+        FORM_ENGINE,
+        ITEM_ENGINE,
+        EVENT_ENGINE,
+    ] {
         let mut c = ended.clone();
         c.engine = engine.into();
         let n = decision(
@@ -821,8 +827,15 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             },
         );
         let flow = n.battle.as_ref().unwrap().flow.as_ref().unwrap();
-        assert_eq!(flow.forms.enabled, [ENGINE, FORM_ENGINE].contains(&engine));
-        assert_eq!(flow.information.enabled, engine == ENGINE);
+        assert_eq!(
+            flow.forms.enabled,
+            [ENGINE, INFORMATION_ENGINE, FORM_ENGINE].contains(&engine)
+        );
+        assert_eq!(
+            flow.information.enabled,
+            [ENGINE, INFORMATION_ENGINE].contains(&engine)
+        );
+        assert_eq!(flow.standalone.enabled, engine == ENGINE);
         assert_eq!(flow.items.enabled, engine != EVENT_ENGINE);
         assert!(flow.events.enabled);
         let mut data = serde_json::to_value(&n).unwrap();

@@ -16,6 +16,7 @@ pub(crate) mod provenance;
 pub(crate) mod reviewed;
 pub(crate) mod sequencing;
 pub(crate) mod special;
+pub(crate) mod standalone;
 pub(crate) mod stat_channels;
 pub(crate) mod tactics;
 mod targeting;
@@ -58,6 +59,8 @@ pub struct Status {
 #[derive(Debug, Clone, Default, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct TurnFlow {
+    #[serde(default)]
+    pub standalone: standalone::StandaloneState,
     #[serde(default)]
     pub information: information::InformationState,
     #[serde(default)]
@@ -468,22 +471,26 @@ fn shield_attempt(c: &mut Campaign, id: &str, m: &serde_json::Value) -> Result<i
     Ok(penalty)
 }
 pub fn type_ability(c: &Campaign, p: &Combatant, move_type: &str) -> bool {
-    c.battle.as_ref().is_some_and(|b| b.flow.is_some())
-        && p.ability_names().iter().any(|name| {
-            matches!(
-                (name.as_str(), move_type),
-                ("Blaze", "Fire") | ("Overgrow", "Grass") | ("Swarm", "Bug")
-            )
-        })
+    (standalone::enabled(c) && p.has_ability("Torrent") && move_type == "Water")
+        || c.battle.as_ref().is_some_and(|b| b.flow.is_some())
+            && p.ability_names().iter().any(|name| {
+                matches!(
+                    (name.as_str(), move_type),
+                    ("Blaze", "Fire") | ("Overgrow", "Grass") | ("Swarm", "Bug")
+                )
+            })
 }
 fn pain_exempt(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> Result<bool> {
     let s = rules::effective_sheet(c, p)?;
     let key = m["Accuracy1"].as_str().unwrap_or("");
-    Ok(type_ability(c, p, m["Type"].as_str().unwrap_or(""))
-        || key.split('/').any(|a| {
-            ["Vitality", "Will"].contains(&a.trim())
-                && rules::score(&s, a.trim()).ok() == rules::score(&s, key).ok()
-        }))
+    Ok(
+        (standalone::enabled(c) && p.has_ability("Torrent") && m["Type"] == "Water")
+            || type_ability(c, p, m["Type"].as_str().unwrap_or(""))
+            || key.split('/').any(|a| {
+                ["Vitality", "Will"].contains(&a.trim())
+                    && rules::score(&s, a.trim()).ok() == rules::score(&s, key).ok()
+            }),
+    )
 }
 fn sync_labels(c: &mut Campaign) {
     if let Some(b) = c.battle.as_mut() {
@@ -633,7 +640,15 @@ fn reaction_pool(c: &Campaign, id: &str, kind: &str, name: &str, cat: &Catalog) 
                 _ => return Err(error("Use a Physical or Special move to Clash")),
             }
         };
-        let n = rules::score(&s, source)?
+        let base_attribute = rules::score(&s, source)?;
+        let rivalry = if kind == "clash" && source == "Strength" {
+            let m = serde_json::json!({"Accuracy1":"Strength"});
+            standalone::accuracy_delta(c, p, fighter(c, &incoming.actor_id)?, &m)?
+        } else {
+            0
+        };
+        let n = base_attribute
+            + rivalry
             + rules::score(&s, if kind == "evade" { "Evasion" } else { "Clash" })?
             + if crate::creation::rank(&s.rank).is_some_and(|r| r >= 6) {
                 2
@@ -691,7 +706,13 @@ fn reaction_pool(c: &Campaign, id: &str, kind: &str, name: &str, cat: &Catalog) 
     if m["Attributes"]["ShieldMove"] == true && p.runtime.shield_round == battle(c)?.round {
         return Err(error("Only one shield attempt per round"));
     }
-    Ok(rules::accuracy(&old(c), id, name, 0, cat)?.0)
+    let (n, m) = rules::accuracy(&old(c), id, name, 0, cat)?;
+    let bonus = standalone::accuracy_delta(c, p, fighter(c, &incoming.actor_id)?, &m)?;
+    let n = n as i32 + bonus;
+    if !(1..=100).contains(&n) {
+        return Err(error("Rivalry reaction pool outside 1-100"));
+    }
+    Ok(n as u32)
 }
 fn ice_attack(c: &Campaign, id: &str, target: &str, name: &str, cat: &Catalog) -> Result<u32> {
     let p = fighter(c, id)?;
@@ -754,12 +775,16 @@ fn ice_damage_pool(c: &Campaign, q: &QueuedAction, modifier: i32, cat: &Catalog)
     .max(1)
         + stab
         + if q.critical { 2 } else { 0 }
-        + if conditional && p.hp <= p.max_hp / 2 {
+        + if conditional
+            && !(standalone::enabled(c) && p.has_ability("Torrent") && m["Type"] == "Water")
+            && p.hp <= p.max_hp / 2
+        {
             2
         } else {
             0
         }
         + modifier
+        + standalone::torrent(c, p, &m, p.hp, None)?
         + provenance::sheer_force_bonus(c, &q.actor_id, q.sequence)
         + items::damage_dice_bonus(c, p, q.sequence, &field::move_data(c, p, &m), cat)?;
     if !(1..=100).contains(&n) {
@@ -768,6 +793,10 @@ fn ice_damage_pool(c: &Campaign, q: &QueuedAction, modifier: i32, cat: &Catalog)
     Ok(n as u32)
 }
 pub fn dice_count(c: &Campaign, a: &Action, cat: &Catalog) -> Result<u32> {
+    if let Action::Standalone { command, reason } = a {
+        standalone::transition(c, &c.gm_id, command, reason, &[], cat)?;
+        return Ok(0);
+    }
     if let Action::Form { command, reason } = a {
         let count = if matches!(command, forms::FormCommand::Missile { .. }) {
             2
@@ -869,7 +898,25 @@ fn base_dice_count(c: &Campaign, a: &Action, cat: &Catalog) -> Result<u32> {
             if matches!(a, Action::AccuracyTargets { .. }) {
                 plan(c, combatant_id, &selected(a), &move_entry(cat, name)?)?;
             }
-            rules::dice_count(&old(c), &accuracy_command(a), cat)?
+            let original = rules::dice_count(&old(c), &accuracy_command(a), cat)?;
+            if standalone::enabled(c) {
+                let base = rules::accuracy(
+                    &old(c),
+                    combatant_id,
+                    name,
+                    match a {
+                        Action::Accuracy { pool_modifier, .. }
+                        | Action::AccuracyTargets { pool_modifier, .. } => *pool_modifier,
+                        _ => 0,
+                    },
+                    cat,
+                )?
+                .0;
+                let adjusted = standalone::accuracy_plan(c, a, cat)?.0;
+                (original as i32 + adjusted as i32 - base as i32) as u32
+            } else {
+                original
+            }
         }
         Action::Damage {
             combatant_id,
@@ -986,6 +1033,9 @@ pub fn transition(
     cat: &Catalog,
 ) -> Result<(Campaign, String)> {
     information::authorize(c, actor, a)?;
+    if let Action::Standalone { command, reason } = a {
+        return standalone::transition(c, actor, command, reason, &dice, cat);
+    }
     if let Action::Form { command, reason } = a {
         return forms::transition(c, actor, command, reason, &dice, cat);
     }
@@ -1041,6 +1091,7 @@ pub fn transition(
     forms::lifecycle(c, &mut next, a, cat)?;
     if !matches!(a, Action::RollbackBattle { .. }) {
         information::lifecycle(&mut next, cat)?;
+        standalone::lifecycle(&mut next)?;
     }
     Ok((next, log))
 }
@@ -1680,7 +1731,7 @@ fn transition_inner(
             {
                 return Err(error("This move is disabled"));
             }
-            let (base, _) = rules::accuracy(&old(c), combatant_id, move_name, *pool_modifier, cat)?;
+            let (base, target_pools) = standalone::accuracy_plan(c, a, cat)?;
             check_count(&dice, dice_count(c, a, cat)?)?;
             let low = m["Attributes"]["AccuracyReduction"]
                 .as_i64()
@@ -1713,11 +1764,20 @@ fn transition_inner(
                 net
             };
             let mut target_outcomes = BTreeMap::new();
-            if (events::enabled(c) || items::enabled(c)) && targets.len() > 1 {
+            if standalone::enabled(c)
+                || ((events::enabled(c) || items::enabled(c)) && targets.len() > 1)
+            {
                 for id in &targets {
                     let low =
                         reviewed::accuracy_penalty(c, p, special::registered(c, id)?, common_low);
-                    let n = (raw + low).max(0) + i32::from(p.runtime.fate_pending);
+                    let target_raw = if let Some(n) = target_pools.get(id) {
+                        standalone::accuracy_success(c, p, &dice, *n, base, pain_exempt)
+                            + success_modifier
+                            - shield_penalty
+                    } else {
+                        raw
+                    };
+                    let n = (target_raw + low).max(0) + i32::from(p.runtime.fate_pending);
                     let critical = m["Category"] != "Support"
                         && n >= required as i32 + extra::critical_margin(c, p, &m);
                     target_outcomes.insert(id.clone(), (n, critical));
@@ -1864,7 +1924,13 @@ fn transition_inner(
                 shield_penalty
             };
             let saved_pain = fighter_mut(&mut next, combatant_id)?.runtime.pain_ignored;
-            if kind == "move" && pain_exempt(c, p, &move_entry(cat, move_name)?)? {
+            if (kind == "move"
+                || (kind == "clash"
+                    && standalone::enabled(c)
+                    && p.has_ability("Torrent")
+                    && field::move_data(c, p, &move_entry(cat, move_name)?)["Type"] == "Water"))
+                && pain_exempt(c, p, &field::move_data(c, p, &move_entry(cat, move_name)?))?
+            {
                 fighter_mut(&mut next, combatant_id)?.runtime.pain_ignored = 3;
             }
             let net = (action_success(&mut next, combatant_id, &dice, base) + low - shield_penalty)
@@ -2112,6 +2178,18 @@ fn transition_inner(
             {
                 let p = fighter(c, combatant_id)?;
                 let context = abilities::DamageContext {
+                    rivalry: standalone::rivalry_snapshot(c, p)?,
+                    torrent_bonus: if standalone::enabled(c) {
+                        Some(standalone::torrent(
+                            c,
+                            p,
+                            &field::move_data(c, p, &move_entry(cat, &current(c)?.move_name)?),
+                            p.hp,
+                            None,
+                        )?)
+                    } else {
+                        None
+                    },
                     expert_belt: items::expert_belt(c, &p.id),
                     item_damage_bonus: items::damage_dice_bonus(
                         c,
@@ -2723,6 +2801,7 @@ fn transition_inner(
                 field::end(&mut temp, cat)?;
                 special::end_round(&mut temp)?;
                 items::end_round(&mut temp, cat)?;
+                standalone::end_round(&mut temp)?;
             }
             if field::pending(&temp) || abilities::pending(&temp) || special::ticks_pending(&temp) {
                 temp.engine = c.engine.clone();
@@ -2811,25 +2890,38 @@ fn transition_inner(
             ) {
                 let b = done.battle.as_mut().unwrap();
                 b.flow = Some(TurnFlow {
-                    information: information::InformationState {
+                    standalone: standalone::StandaloneState {
                         enabled: c.engine == ENGINE,
                         ..Default::default()
                     },
+                    information: information::InformationState {
+                        enabled: [ENGINE, INFORMATION_ENGINE].contains(&c.engine.as_str()),
+                        ..Default::default()
+                    },
                     forms: forms::FormState {
-                        enabled: [ENGINE, FORM_ENGINE].contains(&c.engine.as_str()),
+                        enabled: [ENGINE, INFORMATION_ENGINE, FORM_ENGINE]
+                            .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     items: items::ItemState {
-                        enabled: [ENGINE, FORM_ENGINE, ITEM_ENGINE].contains(&c.engine.as_str()),
+                        enabled: [ENGINE, INFORMATION_ENGINE, FORM_ENGINE, ITEM_ENGINE]
+                            .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     events: events::EventState {
-                        enabled: [ENGINE, FORM_ENGINE, ITEM_ENGINE, EVENT_ENGINE]
-                            .contains(&c.engine.as_str()),
+                        enabled: [
+                            ENGINE,
+                            INFORMATION_ENGINE,
+                            FORM_ENGINE,
+                            ITEM_ENGINE,
+                            EVENT_ENGINE,
+                        ]
+                        .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     provenance_rules: [
                         ENGINE,
+                        INFORMATION_ENGINE,
                         FORM_ENGINE,
                         ITEM_ENGINE,
                         EVENT_ENGINE,
@@ -2839,6 +2931,7 @@ fn transition_inner(
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            INFORMATION_ENGINE,
                             FORM_ENGINE,
                             ITEM_ENGINE,
                             EVENT_ENGINE,
@@ -2851,6 +2944,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            INFORMATION_ENGINE,
                             FORM_ENGINE,
                             ITEM_ENGINE,
                             EVENT_ENGINE,
@@ -2863,6 +2957,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        INFORMATION_ENGINE,
                         FORM_ENGINE,
                         ITEM_ENGINE,
                         EVENT_ENGINE,
@@ -2875,6 +2970,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            INFORMATION_ENGINE,
                             FORM_ENGINE,
                             ITEM_ENGINE,
                             EVENT_ENGINE,
@@ -2890,6 +2986,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            INFORMATION_ENGINE,
                             FORM_ENGINE,
                             ITEM_ENGINE,
                             EVENT_ENGINE,
@@ -2906,6 +3003,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            INFORMATION_ENGINE,
                             FORM_ENGINE,
                             ITEM_ENGINE,
                             EVENT_ENGINE,
@@ -2923,6 +3021,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            INFORMATION_ENGINE,
                             FORM_ENGINE,
                             ITEM_ENGINE,
                             EVENT_ENGINE,
@@ -2941,6 +3040,7 @@ fn transition_inner(
                     special: special::SpecialState {
                         enabled: [
                             ENGINE,
+                            INFORMATION_ENGINE,
                             FORM_ENGINE,
                             ITEM_ENGINE,
                             EVENT_ENGINE,
@@ -2959,6 +3059,7 @@ fn transition_inner(
                     },
                     ability_rules: [
                         ENGINE,
+                        INFORMATION_ENGINE,
                         FORM_ENGINE,
                         ITEM_ENGINE,
                         EVENT_ENGINE,
@@ -2979,6 +3080,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            INFORMATION_ENGINE,
                             FORM_ENGINE,
                             ITEM_ENGINE,
                             EVENT_ENGINE,
@@ -2999,6 +3101,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            INFORMATION_ENGINE,
                             FORM_ENGINE,
                             ITEM_ENGINE,
                             EVENT_ENGINE,

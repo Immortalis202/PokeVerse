@@ -10,6 +10,7 @@ import { sheetValues, battleSheet } from "./sheets";
 import AbilityInheritanceControls from "./AbilityInheritanceControls";
 import AbilityControls from "./AbilityControls";
 import PrivateInformation from "./PrivateInformation";
+import StandaloneControls from "./StandaloneControls";
 import SpecialMoveControls from "./SpecialMoveControls";
 import TacticsControls from "./TacticsControls";
 import HeldItemControls from "./HeldItemControls";
@@ -121,6 +122,7 @@ export default function BattleView({
     "0.9.0-core",
     "0.10.0-core",
     "0.11.0-core",
+    "0.21.0-core",
     "0.20.0-core",
     "0.19.0-core",
     "0.18.0-core",
@@ -189,7 +191,7 @@ export default function BattleView({
         {core
           ? `Server checks are automatic and need no host-player approval. ${battle?.automatic_validation === false ? "Battle rule enforcement is OFF: the GM adjudicates exceptions." : "Battle rule enforcement is ON for the supported core rules."} Select a target and roll accuracy, resolve reactions, then roll automatic damage. The host calculates ordinary Pokémon damage pools, defenses, STAB, critical bonuses, pain and type effectiveness, and updates HP. Reviewed effects and turn/reaction controls are available below in the new engine. Unsupported abilities and move effects remain explicitly adjudicated.`
           : "Upgrade between battles to enable verified core rolls. Previous records are preserved."}
-        {campaign.engine !== "0.20.0-core" && gm && !battle?.active && (
+        {campaign.engine !== "0.21.0-core" && gm && !battle?.active && (
           <button
             disabled={busy}
             onClick={() => execute({ type: "upgrade_rules" })}
@@ -205,6 +207,12 @@ export default function BattleView({
         disabled={busy}
       />
       <PrivateInformation
+        campaign={campaign}
+        playerId={playerId}
+        execute={execute}
+        disabled={busy}
+      />
+      <StandaloneControls
         campaign={campaign}
         playerId={playerId}
         execute={execute}
@@ -914,6 +922,7 @@ export default function BattleView({
                   "0.9.0-core",
                   "0.10.0-core",
                   "0.11.0-core",
+                  "0.21.0-core",
                   "0.20.0-core",
                   "0.19.0-core",
                   "0.18.0-core",
@@ -968,6 +977,7 @@ export default function BattleView({
                         "0.9.0-core",
                         "0.10.0-core",
                         "0.11.0-core",
+                        "0.21.0-core",
                         "0.20.0-core",
                         "0.19.0-core",
                         "0.18.0-core",
@@ -1013,6 +1023,7 @@ export default function BattleView({
                       "0.9.0-core",
                       "0.10.0-core",
                       "0.11.0-core",
+                      "0.21.0-core",
                       "0.20.0-core",
                       "0.19.0-core",
                       "0.18.0-core",
@@ -1055,6 +1066,7 @@ export default function BattleView({
                         "0.9.0-core",
                         "0.10.0-core",
                         "0.11.0-core",
+                        "0.21.0-core",
                         "0.20.0-core",
                         "0.19.0-core",
                         "0.18.0-core",

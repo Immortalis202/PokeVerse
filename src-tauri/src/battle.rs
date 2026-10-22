@@ -10,6 +10,7 @@ pub fn transition(
 ) -> Result<(Campaign, String)> {
     if [
         ENGINE,
+        INFORMATION_ENGINE,
         FORM_ENGINE,
         ITEM_ENGINE,
         EVENT_ENGINE,
@@ -45,7 +46,8 @@ pub fn transition(
         }
     };
     let description = match action {
-        Action::Tactics { .. }
+        Action::Standalone { .. }
+        | Action::Tactics { .. }
         | Action::SpecialMove { .. }
         | Action::BattleStat { .. }
         | Action::Battlefield { .. }
@@ -372,6 +374,7 @@ pub fn transition(
             }
             if ![
                 ENGINE,
+                INFORMATION_ENGINE,
                 FORM_ENGINE,
                 ITEM_ENGINE,
                 EVENT_ENGINE,

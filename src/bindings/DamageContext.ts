@@ -4,6 +4,8 @@ import type { FieldSnapshot } from "./FieldSnapshot";
 import type { Status } from "./Status";
 
 export type DamageContext = {
+  rivalry: { [key in string]?: number };
+  torrent_bonus: number | null;
   base_stats: { [key in string]?: number };
   special_bonus: { [key in string]?: number };
   ability_sources: Array<Combatant>;
