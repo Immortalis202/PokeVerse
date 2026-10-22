@@ -194,6 +194,7 @@ fn original(c: &mut Campaign, id: &str) -> Result<()> {
         s.inventory.clear();
         s.held_items = None;
         s.stored_items = None;
+        s.medical = None;
         if let Some(b) = s.workflow.as_mut() {
             b.ledger.clear();
         }
@@ -247,6 +248,7 @@ fn form_build(
     s.inventory.clear();
     s.held_items = None;
     s.stored_items = None;
+    s.medical = None;
     let ri = (crate::creation::rank(&s.rank).ok_or_else(|| error("Unknown form rank"))? + rank_up)
         .min(7);
     s.rank = crate::creation::RANKS[ri].into();
@@ -969,6 +971,7 @@ fn transform(c: &mut Campaign, id: &str, target: &str, cat: &Catalog) -> Result<
     copied.inventory.clear();
     copied.held_items = None;
     copied.stored_items = None;
+    copied.medical = None;
     if !copied.moves.iter().any(|m| m == "Transform") {
         copied.moves.push("Transform".into());
     }
@@ -1124,8 +1127,14 @@ pub fn transition(
     cat: &Catalog,
 ) -> Result<(Campaign, String)> {
     if let FormCommand::RestoreCore { sheet_id } = command {
-        if ![ENGINE, STANDALONE_ENGINE, INFORMATION_ENGINE, FORM_ENGINE]
-            .contains(&c.engine.as_str())
+        if ![
+            ENGINE,
+            INTERACTION_ENGINE,
+            STANDALONE_ENGINE,
+            INFORMATION_ENGINE,
+            FORM_ENGINE,
+        ]
+        .contains(&c.engine.as_str())
         {
             return Err(error("Adopt the reviewed form engine between battles"));
         }

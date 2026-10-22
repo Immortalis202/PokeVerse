@@ -719,7 +719,7 @@ pub fn after_accuracy(
     }
     if success && m["Attributes"]["Charge"] == true {
         let weather = field::weather(c, Some(fighter(c, id)?));
-        let skip = (["Solar Beam", "Solar Blade"].contains(&name)
+        let mut skip = (["Solar Beam", "Solar Blade"].contains(&name)
             && matches!(
                 weather,
                 Some(field::Weather::Sunny | field::Weather::Desolate)
@@ -729,6 +729,9 @@ pub fn after_accuracy(
                     weather,
                     Some(field::Weather::Rain | field::Weather::Typhoon)
                 ));
+        if !skip && items::completion::power_herb(c, id, cat)? {
+            skip = true;
+        }
         if name == "Meteor Beam" || name == "Electro Shot" {
             extra::change_stat(c, id, id, "Special", 1)?;
         }
@@ -941,11 +944,11 @@ fn indirect(c: &mut Campaign, id: &str, n: i32) -> Result<()> {
     Ok(())
 }
 pub fn healing_blocked(c: &Campaign, id: &str) -> bool {
-    enabled(c)
-        && state(c)
-            .effects
-            .iter()
-            .any(|e| e.target == id && ["Heal Block", "Psychic Noise"].contains(&e.name.as_str()))
+    items::completion::healing_locked(c, id)
+        || (enabled(c)
+            && state(c).effects.iter().any(|e| {
+                e.target == id && ["Heal Block", "Psychic Noise"].contains(&e.name.as_str())
+            }))
 }
 pub fn heal(c: &mut Campaign, id: &str, n: i32, revive: bool) -> Result<()> {
     let recipient = if enabled(c) {
@@ -1712,8 +1715,9 @@ pub fn chance(name: &str) -> Option<(&'static str, u32)> {
 }
 fn chance_dice(c: &Campaign, q: &QueuedAction) -> Result<u32> {
     Ok(chance(&q.move_name).map_or(0, |(_, n)| {
-        let n =
-            n + 2 * u32::from(fighter(c, &q.actor_id).is_ok_and(|p| p.has_ability("Serene Grace")));
+        let n = n
+            + items::completion::loaded(c, &q.actor_id)
+            + 2 * u32::from(fighter(c, &q.actor_id).is_ok_and(|p| p.has_ability("Serene Grace")));
         n.saturating_sub(
             2 * u32::from(fighter(c, &q.target_id).is_ok_and(|p| p.has_ability("Wonder Skin"))),
         )
@@ -1759,7 +1763,9 @@ pub fn effect_dice(c: &Campaign, q: &QueuedAction, cat: &Catalog) -> Result<Opti
         return Ok(Some(fighter(c, &q.actor_id)?.hp.max(0) as u32));
     }
     if let Some((_, n)) = chance(&q.move_name) {
-        let n = n + 2 * u32::from(fighter(c, &q.actor_id)?.has_ability("Serene Grace"));
+        let n = n
+            + items::completion::loaded(c, &q.actor_id)
+            + 2 * u32::from(fighter(c, &q.actor_id)?.has_ability("Serene Grace"));
         return Ok(Some(n.saturating_sub(
             2 * u32::from(fighter(c, &q.target_id)?.has_ability("Wonder Skin")),
         )));
@@ -1884,7 +1890,7 @@ pub fn before_damage(
     if endure {
         return Ok(n.min((fighter(c, &q.target_id)?.hp - 1).max(0)));
     }
-    if abilities::contact(m) {
+    if abilities::contact(m) && !items::completion::pads(c, &q.actor_id) {
         match shield.name.as_str() {
             "Baneful Bunker" => {
                 abilities::inflict(c, &q.target_id, &q.actor_id, "Poison", "", None, cat)?
@@ -2170,6 +2176,11 @@ pub fn resolve_formula(
         amount
     } else {
         abilities::sturdy(c, &q.target_id, amount, before)?
+    };
+    let amount = if !decoy_hit {
+        items::completion::survive(c, q, before, amount)
+    } else {
+        amount
     };
     fighter_mut(c, &q.target_id)?.hp = if decoy_hit {
         before
@@ -2609,7 +2620,10 @@ pub fn hit(
         }
     }
     if let Some(charge) = state(c).charges.get(&q.target_id).cloned() {
-        if charge.action.move_name == "Beak Blast" && abilities::contact(m) {
+        if charge.action.move_name == "Beak Blast"
+            && abilities::contact(m)
+            && !items::completion::pads(c, &q.actor_id)
+        {
             abilities::inflict(c, &q.target_id, &q.actor_id, "Burn 2", "", None, cat)?;
         }
         if charge.action.move_name == "Focus Punch" && fighter(c, &q.target_id)?.hp > 0 {

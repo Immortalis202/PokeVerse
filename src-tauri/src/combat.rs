@@ -1095,6 +1095,7 @@ pub fn transition(
     if !matches!(a, Action::RollbackBattle { .. }) {
         information::lifecycle(&mut next, cat)?;
         standalone::lifecycle(&mut next)?;
+        items::completion::lifecycle(c, &mut next, cat)?;
     }
     Ok((next, log))
 }
@@ -2367,9 +2368,10 @@ fn transition_inner(
                     let m = move_entry(cat, &q.move_name)?;
                     let decoy_hit = decoys::damage(&mut next, &q, &m, amount);
                     if !decoy_hit {
-                        let p = fighter_mut(&mut next, &q.target_id)?;
-                        let before_hp = p.hp;
-                        p.hp = (p.hp - amount).max(0);
+                        let before_hp = fighter(&next, &q.target_id)?.hp;
+                        let amount = items::completion::survive(&mut next, &q, before_hp, amount);
+                        fighter_mut(&mut next, &q.target_id)?.hp = (before_hp - amount).max(0);
+                        flow_mut(&mut next).queue[0].damage = amount;
                         abilities::hit(&mut next, &q, before_hp, &m, cat)?;
                     }
                     finish(&mut next);
@@ -2547,6 +2549,9 @@ fn transition_inner(
                 && !abilities::damage_immune_from(c, fighter(c, combatant_id)?, target, &move_data)
             {
                 damage = abilities::sturdy(&mut done, &q.target_id, damage, before)?;
+            }
+            if !decoy_hit {
+                damage = items::completion::survive(&mut done, &q, before, damage);
             }
             fighter_mut(&mut done, &q.target_id)?.hp = if decoy_hit {
                 before
@@ -2898,24 +2903,41 @@ fn transition_inner(
             ) {
                 let b = done.battle.as_mut().unwrap();
                 b.flow = Some(TurnFlow {
-                    interaction_rules: c.engine == ENGINE,
+                    interaction_rules: [ENGINE, INTERACTION_ENGINE].contains(&c.engine.as_str()),
                     standalone: standalone::StandaloneState {
-                        enabled: [ENGINE, STANDALONE_ENGINE].contains(&c.engine.as_str()),
+                        enabled: [ENGINE, INTERACTION_ENGINE, STANDALONE_ENGINE]
+                            .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     information: information::InformationState {
-                        enabled: [ENGINE, STANDALONE_ENGINE, INFORMATION_ENGINE]
-                            .contains(&c.engine.as_str()),
+                        enabled: [
+                            ENGINE,
+                            INTERACTION_ENGINE,
+                            STANDALONE_ENGINE,
+                            INFORMATION_ENGINE,
+                        ]
+                        .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     forms: forms::FormState {
-                        enabled: [ENGINE, STANDALONE_ENGINE, INFORMATION_ENGINE, FORM_ENGINE]
-                            .contains(&c.engine.as_str()),
+                        enabled: [
+                            ENGINE,
+                            INTERACTION_ENGINE,
+                            STANDALONE_ENGINE,
+                            INFORMATION_ENGINE,
+                            FORM_ENGINE,
+                        ]
+                        .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     items: items::ItemState {
+                        completion: items::completion::CompletionState {
+                            enabled: c.engine == ENGINE,
+                            ..Default::default()
+                        },
                         enabled: [
                             ENGINE,
+                            INTERACTION_ENGINE,
                             STANDALONE_ENGINE,
                             INFORMATION_ENGINE,
                             FORM_ENGINE,
@@ -2927,6 +2949,7 @@ fn transition_inner(
                     events: events::EventState {
                         enabled: [
                             ENGINE,
+                            INTERACTION_ENGINE,
                             STANDALONE_ENGINE,
                             INFORMATION_ENGINE,
                             FORM_ENGINE,
@@ -2938,6 +2961,7 @@ fn transition_inner(
                     },
                     provenance_rules: [
                         ENGINE,
+                        INTERACTION_ENGINE,
                         STANDALONE_ENGINE,
                         INFORMATION_ENGINE,
                         FORM_ENGINE,
@@ -2949,6 +2973,7 @@ fn transition_inner(
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            INTERACTION_ENGINE,
                             STANDALONE_ENGINE,
                             INFORMATION_ENGINE,
                             FORM_ENGINE,
@@ -2963,6 +2988,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            INTERACTION_ENGINE,
                             STANDALONE_ENGINE,
                             INFORMATION_ENGINE,
                             FORM_ENGINE,
@@ -2977,6 +3003,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        INTERACTION_ENGINE,
                         STANDALONE_ENGINE,
                         INFORMATION_ENGINE,
                         FORM_ENGINE,
@@ -2991,6 +3018,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            INTERACTION_ENGINE,
                             STANDALONE_ENGINE,
                             INFORMATION_ENGINE,
                             FORM_ENGINE,
@@ -3008,6 +3036,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            INTERACTION_ENGINE,
                             STANDALONE_ENGINE,
                             INFORMATION_ENGINE,
                             FORM_ENGINE,
@@ -3026,6 +3055,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            INTERACTION_ENGINE,
                             STANDALONE_ENGINE,
                             INFORMATION_ENGINE,
                             FORM_ENGINE,
@@ -3045,6 +3075,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            INTERACTION_ENGINE,
                             STANDALONE_ENGINE,
                             INFORMATION_ENGINE,
                             FORM_ENGINE,
@@ -3065,6 +3096,7 @@ fn transition_inner(
                     special: special::SpecialState {
                         enabled: [
                             ENGINE,
+                            INTERACTION_ENGINE,
                             STANDALONE_ENGINE,
                             INFORMATION_ENGINE,
                             FORM_ENGINE,
@@ -3085,6 +3117,7 @@ fn transition_inner(
                     },
                     ability_rules: [
                         ENGINE,
+                        INTERACTION_ENGINE,
                         STANDALONE_ENGINE,
                         INFORMATION_ENGINE,
                         FORM_ENGINE,
@@ -3107,6 +3140,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            INTERACTION_ENGINE,
                             STANDALONE_ENGINE,
                             INFORMATION_ENGINE,
                             FORM_ENGINE,
@@ -3129,6 +3163,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            INTERACTION_ENGINE,
                             STANDALONE_ENGINE,
                             INFORMATION_ENGINE,
                             FORM_ENGINE,
@@ -3415,9 +3450,11 @@ fn set_status_from(
     let corrosion = extra::enabled(c)
         && kind.contains("Poison")
         && source.is_some_and(|id| fighter(c, id).is_ok_and(|p| p.has_ability("Corrosion")));
-    let bypass = source.is_some_and(|id| {
-        fighter(c, id).is_ok_and(|a| reviewed::extreme(c, a) && a.side != p.side)
-    });
+    let ring = items::completion::ring(c, p, true);
+    let bypass = ring
+        || source.is_some_and(|id| {
+            fighter(c, id).is_ok_and(|a| reviewed::extreme(c, a) && a.side != p.side)
+        });
     if bypass
         && ability_changes::unique(cat, &p.selected_ability)?
         && (abilities::status_immune(c, p, kind) || extra::status_immune(c, p, kind, source))
@@ -3446,17 +3483,18 @@ fn set_status_from(
     } else {
         immune
     };
-    if field::prevents_status(c, p, kind)
-        || (kind == "Burn"
-            && p.runtime
-                .statuses
-                .iter()
-                .any(|s| s.kind.starts_with("Burn"))
-            && field::weather(c, Some(p)) == Some(field::Weather::Rain))
+    if !ring
+        && (field::prevents_status(c, p, kind)
+            || (kind == "Burn"
+                && p.runtime
+                    .statuses
+                    .iter()
+                    .any(|s| s.kind.starts_with("Burn"))
+                && field::weather(c, Some(p)) == Some(field::Weather::Rain)))
     {
         return Err(error("Battlefield prevents this condition"));
     }
-    if immune && !corrosion && !bypass {
+    if immune && !corrosion && !bypass && !items::completion::ring(c, p, false) {
         return Err(error("Species type is immune to this condition"));
     }
     let round = battle(c)?.round;
@@ -3472,6 +3510,7 @@ fn set_status_from(
     } else {
         rounds
     };
+    let knot = kind == "In Love" && items::completion::live(c, id, "Destiny Knot");
     let p = fighter_mut(c, id)?;
     if kind == "Flinch" {
         p.runtime.flinch_round = round;
@@ -3510,6 +3549,13 @@ fn set_status_from(
         progress: 0,
     });
     extra::after_status(c, id, &applied)?;
+    if knot
+        && id != detail
+        && fighter(c, detail)
+            .is_ok_and(|p| !status(p, "In Love") && fighter(c, id).is_ok_and(|t| t.side != p.side))
+    {
+        let _ = set_status_from(c, detail, "In Love", id, rounds, cat, Some(id));
+    }
     Ok(())
 }
 fn end_round(c: &mut Campaign, _cat: &Catalog) -> Result<()> {
@@ -3628,13 +3674,15 @@ fn base_effect_dice(c: &Campaign, q: &QueuedAction, _cat: &Catalog) -> Result<u3
         }
     } else {
         chance_effect(&q.move_name).map_or(0, |(kind, n)| {
-            let mut n = n + u32::from(
-                kind == "Frozen Solid"
-                    && matches!(
-                        field::weather(c, None),
-                        Some(field::Weather::Snow | field::Weather::Hail)
-                    ),
-            );
+            let mut n = n
+                + items::completion::loaded(c, &q.actor_id)
+                + u32::from(
+                    kind == "Frozen Solid"
+                        && matches!(
+                            field::weather(c, None),
+                            Some(field::Weather::Snow | field::Weather::Hail)
+                        ),
+                );
             if extra::enabled(c) {
                 if fighter(c, &q.actor_id).is_ok_and(|p| p.has_ability("Serene Grace")) {
                     n += 2;
@@ -3649,6 +3697,18 @@ fn base_effect_dice(c: &Campaign, q: &QueuedAction, _cat: &Catalog) -> Result<u3
 }
 fn effects(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) -> Result<()> {
     let m = move_entry(cat, &q.move_name)?;
+    if items::completion::added_immune(c, &q.target_id, &m)
+        && q.actor_id != q.target_id
+        && !reviewed::extreme(c, &reviewed::source(c, q)?)
+    {
+        if decoys::unreviewed_user_clause(&m["AddedEffects"]) {
+            return Err(AppError::new(
+                "manual_rule",
+                "Safety Goggles blocks target effects; adjudicate this card's separate user clause",
+            ));
+        }
+        return Ok(());
+    }
     if m["Category"] == "Support" && decoys::blocks_effects(c, q, &m) {
         return Ok(());
     }

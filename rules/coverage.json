@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.22.0-core",
-  "release": "0.29.0",
-  "protocol": 30,
+  "engine": "0.23.0-core",
+  "release": "0.30.0",
+  "protocol": 31,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -462,11 +462,44 @@
         "interactions_chance_dice_status_immunity_dust_and_sheer_force_have_distinct_effects",
         "interactions_secondary_rock_head_reserves_only_chance_dice_and_historical_pools_stay_saved"
       ]
+    },
+    {
+      "id": "item-completion",
+      "status": "partial",
+      "source": "RULING 73,83,118,120,127-129",
+      "fixtures": [
+        "completion_choice_items_select_exact_categories_penalize_other_moves_and_keep_historical_gates",
+        "completion_scarf_late_timing_has_a_real_gm_choice",
+        "completion_species_stat_and_critical_items_use_exact_species_and_suppression",
+        "completion_power_increasers_use_item_channels_and_clear_amulet_preserves_self_changes",
+        "completion_loaded_dice_uses_move_chance_pools_and_merges_native_flinch",
+        "completion_power_herb_is_spent_only_when_it_removes_preparation",
+        "completion_balloon_ring_goggles_umbrella_and_boots_expose_scoped_immunities",
+        "completion_orbs_white_herb_and_focus_sash_have_bounded_triggers",
+        "completion_medicine_doses_are_owned_action_costed_persistent_and_reversible",
+        "completion_full_restore_lockout_survives_end_and_blocks_every_healing_channel",
+        "completion_revives_preserve_reserve_identity_and_require_the_full_hp_ruling",
+        "completion_herbal_gm_ruling_and_gluttony_do_not_invent_a_happiness_penalty",
+        "completion_move_damage_pops_balloon_and_focus_sash_survives_only_once",
+        "completion_contact_helmet_barb_pads_and_policy_follow_real_hits",
+        "completion_destiny_knot_reflects_sourced_love_once_and_throat_spray_uses_sound",
+        "completion_eject_and_red_card_create_once_per_unit_round_requests",
+        "completion_all_medicine_definitions_respect_cures_doses_and_fainting",
+        "completion_small_pocket_and_trainer_costs_are_authoritative",
+        "completion_recycle_revives_an_owned_reserve_without_creating_new_stock",
+        "completion_new_state_is_private_in_snapshots_archives_undo_and_missing_fields",
+        "completion_room_medicine_permissions_receipts_reconnect_and_rollback",
+        "completion_medicine_respects_shadow_force_debt_without_spending_excess_doses",
+        "completion_recycled_balloon_does_not_stack_and_fainting_damage_pops_it",
+        "completion_medicine_checkpoints_include_linked_trainers_without_unrelated_inventory"
+      ],
+      "scope": "47 reviewed item definitions; explicit GM wording, herbal acceptance, battle pocket and revival rulings. See battle-item-completion.md."
     }
   ],
-  "ability_registry_hash": "633f938070aa7974014978ebe722ed29abba82b0d7ddd4322179f072c0ee5248",
+  "ability_registry_hash": "edd27e9c00f7b2463118affdf4310cb15a42f271d543a700d9993c1d36631c88",
   "special_registry_hash": "ef7d506fc98bed2d88c4c6d92fc0875de33c220fc01635894dbb60b53e9852fa",
   "tactics_registry_hash": "99b66de76eab04726a6a35dabdc8d8626e4816eb1bb0089dae7d1c8006179a14",
   "form_registry_hash": "222191f7c2ed47eba141c0ff7b41318f9d7476951ba3f8e909a01370fb490e3a",
-  "interaction_registry_hash": "89a963cd535446eaa5c4ee6386348c8eccf67c723a407d68a8fc881ebb41efe4"
+  "interaction_registry_hash": "89a963cd535446eaa5c4ee6386348c8eccf67c723a407d68a8fc881ebb41efe4",
+  "item_completion_registry_hash": "b319b916dcbb15a0fb11da997075b5ba2a5444a9dd2fd9e2e6503e6e2f83d8cc"
 }

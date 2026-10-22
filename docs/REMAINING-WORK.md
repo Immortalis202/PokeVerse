@@ -1,6 +1,6 @@
 # PokeVerse - remaining work
 
-Snapshot: **22 October 2026**, application **0.29.0**, engine **0.22.0-core**, protocol **30**, user database schema **4**.
+Snapshot: **22 October 2026**, application **0.30.0**, engine **0.23.0-core**, protocol **31**, user database schema **4**.
 
 This is the current project backlog. Implemented foundations are summarized first; unfinished features, explicit GM rulings, verification gaps and excluded scope are distinguished below. Counts come from the checked-in registries and should be refreshed after catalog changes.
 
@@ -8,7 +8,7 @@ This is the current project backlog. Implemented foundations are summarized firs
 
 See the [complete item and ability roadmap](ITEM-ABILITY-ROADMAP.md) for the ordered deliverables and every catalog item. Its [ability inventory](ability-roadmap.csv) accounts for all 305 abilities; its [item inventory](item-roadmap.csv) accounts for all 236 items. This audit distinguishes released scope, disabled worktree implementations, genuinely missing mechanics, GM rulings and exclusions.
 
-The registry records 242 automated, 60 partial and 3 manual abilities. The older tables in sections 8–9 reproduce the pre-release baseline; generic held-item and booster dependencies there are stale and must not override the newer audited worktree assessment. The reviewed held-item batch is released in 0.25.0; transformation batch 2 is delivered in 0.26.0; private-information batch 3 is delivered in 0.27.0; standalone batch 4 is delivered in 0.28.0; interaction review batch 5 is delivered in 0.29.0. There are 30 unimplemented battle/species item definitions, 47 released Mega stones, eight missing medicine definitions and nine medicines with only reviewed Recycle effects. All 35 Z-crystals remain excluded; 10 items explicitly forbid battle use. Other reference-only entries require scope review before becoming battle tasks.
+The registry records 242 automated, 60 partial and 3 manual abilities. The older tables in sections 8–9 reproduce the pre-release baseline; generic held-item and booster dependencies there are stale and must not override the newer audited worktree assessment. The reviewed held-item batch is released in 0.25.0; transformation batch 2 is delivered in 0.26.0; private-information batch 3 is delivered in 0.27.0; standalone batch 4 is delivered in 0.28.0; interaction review batch 5 is delivered in 0.29.0. Milestone 6 delivers the 30 battle/species item definitions and all 17 ordinary medicines with reviewed Recycle. The 47 Mega stones remain released. See [item rules and retained GM policies](battle-item-completion.md). All 35 Z-crystals remain excluded; 10 items explicitly forbid battle use. Other reference-only entries require scope review before becoming battle tasks.
 
 ## Implemented foundation
 
@@ -131,7 +131,7 @@ Application 0.24.0 / engine 0.17.0-core / protocol 25 enables Stench's battle re
 
 ### Partial-interaction milestone
 
-Application 0.29.0 / engine 0.22.0-core / protocol 30 delivers ordered milestone **5 of 7**. See [reviewed interactions](battle-partial-interactions.md) for all 55 assigned abilities, 67 exact move definitions, retained GM boundaries, compatibility and verification. Next is **milestone 6: remaining in-battle item definitions and medicine**.
+Application 0.29.0 / engine 0.22.0-core / protocol 30 delivers ordered milestone **5 of 7**. See [reviewed interactions](battle-partial-interactions.md) for all 55 assigned abilities, 67 exact move definitions, retained GM boundaries, compatibility and verification. Milestone 6 subsequently delivers the remaining item and medicine definitions.
 
 ### Standalone ability milestone
 
@@ -285,3 +285,7 @@ Every currently partial registry entry appears below. Dependencies describe rema
 [Ability registry](../rules/ability-coverage.json), [special move registry](../rules/special-moves.json), [targeting registry](../rules/tactics-reviewed.json), [reviewed ability batch](battle-reviewed-ability-batch.md), [rules](RULES.md), [headless 3v3](headless-3v3.md), [training points](training-points.md), [catalog storage](catalog-storage.md).
 
 Before closing a task, record what changed and what was actually verified. Build success, native startup, interactive use and physical-machine LAN testing are distinct results. Keep this inventory synchronized with registry status changes.
+
+### Item completion milestone
+
+Application 0.30.0 / engine 0.23.0-core / protocol 31 delivers ordered milestone **6 of 7**. See [item and medicine rules](battle-item-completion.md). Next is **milestone 7: native and physical LAN acceptance**. Installer execution, upgrade/data preservation and physical multi-device acceptance have not been performed.

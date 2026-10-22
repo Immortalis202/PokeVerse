@@ -140,7 +140,8 @@ fn own_stat(c: &Campaign, p: &Combatant, key: &str) -> i32 {
     n
 }
 fn protected(c: &Campaign, p: &Combatant, key: &str) -> bool {
-    p.has_any_ability(&["Clear Body", "Full Metal Body", "White Smoke"])
+    items::completion::has(c, &p.id, "Clear Amulet")
+        || p.has_any_ability(&["Clear Body", "Full Metal Body", "White Smoke"])
         || (key == "Strength" && p.has_any_ability(&["Hyper Cutter", "Guard Dog"]))
         || (key == "Defense" && p.has_ability("Big Pecks"))
         || field::aura(c, p, "Flower Veil", true)
@@ -298,7 +299,7 @@ pub fn defense(c: &Campaign, p: &Combatant, physical: bool) -> i32 {
             _ => move_mod,
         }
     });
-    positive + negative + move_mod
+    positive + negative + move_mod + items::completion::stat(c, p, key)
 }
 pub fn move_data(c: &Campaign, p: &Combatant, m: &mut serde_json::Value) {
     if !enabled(c) {
@@ -742,7 +743,11 @@ pub fn hit(c: &mut Campaign, q: &QueuedAction, before: i32, m: &serde_json::Valu
             field::color_change(c, &target.id, t)?;
         }
     }
-    if abilities::contact(m) && source.side != target.side && source.hp > 0 {
+    if abilities::contact(m)
+        && !items::completion::pads(c, &q.actor_id)
+        && source.side != target.side
+        && source.hp > 0
+    {
         if target.has_any_ability(&["Gooey", "Tangling Hair"])
             && !source.has_ability("Long Reach")
             && !target
@@ -802,6 +807,9 @@ fn apply_stat(
     let p = fighter(c, id)?.clone();
     let hostile = source != id && fighter(c, source)?.side != p.side;
     let bypass = interactions::enabled(c) && hostile && reviewed::extreme(c, fighter(c, source)?);
+    if source != id && n < 0 && items::completion::has(c, id, "Clear Amulet") && !bypass {
+        return Ok(());
+    }
     if bypass && n < 0 && p.has_any_ability(&["Full Metal Body", "Mirror Armor"]) {
         return Err(AppError::new(
             "manual_rule",
@@ -843,6 +851,7 @@ pub fn accuracy_attempt(
     m: &serde_json::Value,
     cat: &Catalog,
 ) -> Result<()> {
+    items::completion::used_move(c, id, m)?;
     if !enabled(c) {
         return Ok(());
     }
@@ -999,7 +1008,7 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
             .as_ref()
             .and_then(|b| b.flow.as_ref())
             .is_some_and(|f| f.intimidate.values().any(|ids| ids.contains(&p.id)));
-        if intimidated && !was_intimidated {
+        if intimidated && !was_intimidated && !items::completion::has(c, &p.id, "Clear Amulet") {
             for name in p.ability_names() {
                 let mut variant = p.clone();
                 variant.selected_ability = name;
@@ -1353,6 +1362,7 @@ pub fn critical_margin(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> i3
         return -1000;
     }
     let base = if m["Attributes"]["HighCritical"] == true
+        || items::completion::high_critical(c, p, m)
         || (m["Category"] != "Support" && interactions::trait_value(c, p, "HighCritical") > 0)
     {
         2
@@ -1446,6 +1456,9 @@ fn ailment_kind(kind: &str) -> bool {
         || ["Sleep", "Paralysis", "Frozen Solid"].contains(&kind)
 }
 pub fn effects_immune(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> bool {
+    if items::completion::added_immune(c, &p.id, m) {
+        return true;
+    }
     enabled(c)
         && ((p.has_ability("Overcoat") && m["Attributes"]["PowderMove"] == true)
             || ([

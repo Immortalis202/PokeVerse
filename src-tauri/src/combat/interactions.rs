@@ -139,7 +139,9 @@ pub fn effect_dice(c: &Campaign, q: &QueuedAction) -> Result<Option<u32>> {
     let source = reviewed::source(c, q)?;
     let target = fighter(c, &q.target_id)?;
     let bypass = source.side != target.side && reviewed::extreme(c, &source);
-    let n = effect.dice + 2 * u32::from(source.has_ability("Serene Grace"));
+    let n = effect.dice
+        + items::completion::loaded(c, &q.actor_id)
+        + 2 * u32::from(source.has_ability("Serene Grace"));
     Ok(Some(n.saturating_sub(
         2 * u32::from(!bypass && target.has_ability("Wonder Skin")),
     )))

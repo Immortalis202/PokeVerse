@@ -1,5 +1,6 @@
 //! Owned held-item units and staged encounter effects.
 use super::*;
+pub(crate) mod completion;
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
@@ -18,6 +19,8 @@ pub struct HeldItem {
 #[derive(Debug, Clone, Default, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct ItemState {
+    #[serde(default)]
+    pub completion: completion::CompletionState,
     pub enabled: bool,
     pub initialized: bool,
     pub finalized: bool,
@@ -148,7 +151,7 @@ pub struct ItemReview {
     pub note: String,
 }
 
-fn effect_review(cat: &Catalog, unit: &HeldItem) -> Result<ItemReview> {
+fn effect_review(c: &Campaign, cat: &Catalog, unit: &HeldItem) -> Result<ItemReview> {
     let item = definition(cat, unit)?;
     let (scope, note) = if item["Category"] == "MegaStone" {
         ("transformation", "Reviewed Mega mappings activate in engine 0.19. Klutz does not suppress Mega Evolution items.")
@@ -199,6 +202,13 @@ fn effect_review(cat: &Catalog, unit: &HeldItem) -> Result<ItemReview> {
             "supported",
             "Reviewed battle effect; printed conditions and suppression rules still apply.",
         )
+    } else if completion::definitions().contains(&unit.name.as_str()) && !completion::enabled(c) {
+        (
+            "manual",
+            "This item requires the engine 0.23 encounter upgrade between battles.",
+        )
+    } else if completion::definitions().contains(&unit.name.as_str()) {
+        ("supported", "Reviewed remaining item or medicine definition in engine 0.23; saved historical encounters retain prior effects.")
     } else if recyclable(&item) {
         ("manual", "Original medicine use and its action cost require GM adjudication. Reviewed Recycle can reuse a recorded spent unit.")
     } else if item["Pocket"] == "Pokeballs" {
@@ -225,6 +235,8 @@ pub struct ItemEvent {
 #[derive(Debug, Clone, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct EquipmentResources {
+    #[serde(default)]
+    pub medical: Option<completion::MedicalRecord>,
     pub held_items: Option<Vec<HeldItem>>,
     pub stored_items: Option<Vec<HeldItem>>,
     pub inventory: BTreeMap<String, i32>,
@@ -232,6 +244,7 @@ pub struct EquipmentResources {
 impl EquipmentResources {
     pub fn snapshot(s: &Sheet) -> Self {
         Self {
+            medical: s.medical.clone(),
             held_items: s.held_items.clone(),
             stored_items: s.stored_items.clone(),
             inventory: s.inventory.clone(),
@@ -242,6 +255,9 @@ impl EquipmentResources {
 #[serde(tag = "kind", rename_all = "snake_case")]
 #[ts(export, export_to = "../../src/bindings/")]
 pub enum ItemCommand {
+    Completion {
+        command: completion::CompletionCommand,
+    },
     FailedCapture {
         attempt_id: String,
         trainer_id: String,
@@ -348,6 +364,21 @@ pub fn resource_sheets(current: &Campaign, next: &Campaign) -> BTreeSet<String> 
                         .values()
                         .map(|attempt| attempt.trainer_id.clone()),
                 );
+            }
+        }
+    }
+    if completion::enabled(next) {
+        for campaign in [current, next] {
+            if let Some(battle) = &campaign.battle {
+                for p in &battle.combatants {
+                    if let Some(trainer) = campaign
+                        .sheets
+                        .get(&p.sheet_id)
+                        .and_then(|s| s.trainer_id.as_ref())
+                    {
+                        ids.insert(trainer.clone());
+                    }
+                }
             }
         }
     }
@@ -546,6 +577,7 @@ pub fn initialize(c: &mut Campaign, cat: &Catalog) -> Result<()> {
     if !enabled(c) {
         return Ok(());
     }
+    completion::initialize(c, cat);
     let mut stages = BTreeMap::new();
     for p in &battle(c)?.combatants {
         let sheet = &c.sheets[&p.sheet_id];
@@ -585,7 +617,7 @@ pub fn initialize(c: &mut Campaign, cat: &Catalog) -> Result<()> {
         let reviews: Vec<_> = state(c)
             .units
             .iter()
-            .map(|(id, unit)| Ok((id.clone(), effect_review(cat, &unit.unit)?)))
+            .map(|(id, unit)| Ok((id.clone(), effect_review(c, cat, &unit.unit)?)))
             .collect::<Result<_>>()?;
         for (id, review) in reviews {
             state_mut(c).units.get_mut(&id).unwrap().review = Some(review);
@@ -619,7 +651,7 @@ pub fn initialize(c: &mut Campaign, cat: &Catalog) -> Result<()> {
             units.insert(
                 unit.id.clone(),
                 BattleItem {
-                    review: Some(effect_review(cat, unit)?),
+                    review: Some(effect_review(c, cat, unit)?),
                     unit: unit.clone(),
                     initial_holder: p.id.clone(),
                     initial_slot: slot as u32,
@@ -857,11 +889,18 @@ pub fn chance_dice(c: &Campaign, q: &QueuedAction, cat: &Catalog) -> Result<u32>
     {
         return Ok(0);
     }
-    let serene = 2 * u32::from(if interactions::enabled(c) {
-        source.has_ability("Serene Grace")
-    } else {
-        fighter(c, &q.actor_id)?.has_ability("Serene Grace")
-    });
+    let serene = completion::loaded(c, &q.actor_id)
+        * u32::from(
+            special::chance(&q.move_name)
+                .or_else(|| chance_effect(&q.move_name))
+                .or_else(|| interactions::native_flinch(c, &q.move_name))
+                .is_some_and(|(kind, _)| kind == "Flinch"),
+        )
+        + 2 * u32::from(if interactions::enabled(c) {
+            source.has_ability("Serene Grace")
+        } else {
+            fighter(c, &q.actor_id)?.has_ability("Serene Grace")
+        });
     let wonder = 2 * u32::from(!extreme && target.has_ability("Wonder Skin"));
     let native = special::chance(&q.move_name)
         .or_else(|| chance_effect(&q.move_name))
@@ -894,11 +933,18 @@ pub fn native_item_flinch_dice(c: &Campaign, q: &QueuedAction, cat: &Catalog) ->
     if native == 0 {
         return Ok(0);
     }
-    let serene = 2 * u32::from(if interactions::enabled(c) {
-        source.has_ability("Serene Grace")
-    } else {
-        fighter(c, &q.actor_id)?.has_ability("Serene Grace")
-    });
+    let serene = completion::loaded(c, &q.actor_id)
+        * u32::from(
+            special::chance(&q.move_name)
+                .or_else(|| chance_effect(&q.move_name))
+                .or_else(|| interactions::native_flinch(c, &q.move_name))
+                .is_some_and(|(kind, _)| kind == "Flinch"),
+        )
+        + 2 * u32::from(if interactions::enabled(c) {
+            source.has_ability("Serene Grace")
+        } else {
+            fighter(c, &q.actor_id)?.has_ability("Serene Grace")
+        });
     let wonder = 2 * u32::from(fighter(c, &q.target_id)?.has_ability("Wonder Skin"));
     Ok((native + serene).saturating_sub(wonder))
 }
@@ -924,6 +970,7 @@ pub fn capture_damage(c: &mut Campaign, q: &QueuedAction, cat: &Catalog) -> Resu
     if !enabled(c) {
         return Ok(());
     }
+    completion::capture(c, q);
     let key = format!("{}:{}", q.actor_id, q.sequence);
     if !state(c).chance_moves.contains_key(&key) {
         let p = fighter(c, &q.actor_id)?;
@@ -952,7 +999,9 @@ pub fn damage_dice_bonus(
     let ordinary = ["Physical", "Special"]
         .iter()
         .any(|kind| m["Category"] == *kind);
-    Ok(type_damage_bonus(c, p, m, cat)? + 2 * i32::from(ordinary && life_orb(c, &p.id, sequence)))
+    Ok(type_damage_bonus(c, p, m, cat)?
+        + completion::damage_bonus(c, p, m)
+        + 2 * i32::from(ordinary && life_orb(c, &p.id, sequence)))
 }
 
 /// Added item recoil shares the existing raw-success basis; native Recoil is not duplicated.
@@ -1072,14 +1121,17 @@ pub fn reduce_low_accuracy(c: &Campaign, id: &str, penalty: i32) -> i32 {
 
 /// Printed Quick Claw bonus applies to the initiative roll, not its tie-break base.
 pub fn initiative_bonus(c: &Campaign, id: &str) -> i32 {
+    let extra = 3 * i32::from(completion::has(c, id, "Choice Scarf"))
+        + fighter(c, id).map_or(0, |p| completion::stat(c, p, "Initiative"));
     if !active_effects(c, id).unwrap_or(false) {
         return 0;
     }
-    if held(c, id).iter().any(|unit| unit.name == "Quick Claw") {
-        2
-    } else {
-        0
-    }
+    extra
+        + if held(c, id).iter().any(|unit| unit.name == "Quick Claw") {
+            2
+        } else {
+            0
+        }
 }
 
 fn record(c: &mut Campaign, unit_id: &str, from: &str, to: Option<String>, kind: &str, why: &str) {
@@ -1373,6 +1425,7 @@ pub fn resolve_berry_hit(
 }
 
 pub fn hit(c: &mut Campaign, q: &QueuedAction, m: &serde_json::Value, cat: &Catalog) -> Result<()> {
+    completion::hit(c, q, m, cat)?;
     if !enabled(c) || !state(c).initialized || decoys::intercepted(c, q) {
         return Ok(());
     }
@@ -1392,7 +1445,11 @@ pub fn hit(c: &mut Campaign, q: &QueuedAction, m: &serde_json::Value, cat: &Cata
         return Ok(());
     }
     let own = held(c, &source.id);
-    if source.has_ability("Pickpocket") && (!physical || !abilities::contact(m) || !own.is_empty())
+    if source.has_ability("Pickpocket")
+        && (!physical
+            || !abilities::contact(m)
+            || completion::pads(c, &q.actor_id)
+            || !own.is_empty())
     {
         return Ok(());
     }
@@ -1871,7 +1928,11 @@ fn recycle_input(c: &Campaign, id: &str, cat: &Catalog) -> Result<String> {
             error("Recycle requires an item already spent in this battle, from either side")
         })?;
     let item = definition(cat, &unit.unit)?;
-    if !recyclable(&item) {
+    if !recyclable(&item)
+        && !(completion::enabled(c)
+            && (completion::medicine_names().contains(&unit.unit.name.as_str())
+                || completion::recyclable_held(&unit.unit.name)))
+    {
         return Err(AppError::new("manual_rule", "This item's Recycle effect still requires a reviewed definition; use explicit GM adjudication"));
     }
     if field::has(c, "Magic Room", fighter(c, id)?) {
@@ -1959,7 +2020,16 @@ pub fn recycle_effect(c: &mut Campaign, q: &QueuedAction, cat: &Catalog) -> Resu
     } else {
         q.target_id.clone()
     };
-    consumable_effects(c, &actor, &recipient, &item, 0, false)?;
+    let recipient = if completion::enabled(c) && recipient == q.target_id {
+        completion::recycle_recipient(c, &actor).unwrap_or(recipient)
+    } else {
+        recipient
+    };
+    if !completion::recycle_held(c, &recipient, &unit)?
+        && !completion::recycle_medicine(c, &recipient, &item)?
+    {
+        consumable_effects(c, &actor, &recipient, &item, 0, false)?;
+    }
     if item["Category"] == "Berry" {
         grant_chew(c, &actor, &unit, "recycle")?;
     }
@@ -1978,6 +2048,7 @@ pub fn guard_move(c: &Campaign, id: &str, m: &serde_json::Value, cat: &Catalog) 
     if !enabled(c) {
         return Ok(());
     }
+    completion::guard(c, id, m)?;
     if m["Name"] == "Recycle" {
         recycle_input(c, id, cat)?;
         return Ok(());
@@ -2013,6 +2084,7 @@ pub fn guard_move(c: &Campaign, id: &str, m: &serde_json::Value, cat: &Catalog) 
     Ok(())
 }
 pub fn move_data(c: &Campaign, p: &Combatant, m: &mut serde_json::Value) {
+    completion::move_data(c, p, m);
     if !enabled(c) || m["Name"] != "Natural Gift" {
         return;
     }
@@ -2132,6 +2204,7 @@ pub fn end_round(c: &mut Campaign, cat: &Catalog) -> Result<()> {
     if !enabled(c) || !state(c).initialized || state(c).end_round == battle(c)?.round {
         return Ok(());
     }
+    completion::end_round(c)?;
     state_mut(c).end_round = battle(c)?.round;
     return_fetches(c, cat)?;
     let holders: Vec<_> = battle(c)?
@@ -2398,6 +2471,9 @@ pub fn transition(
     let mut next = c.clone();
     initialize(&mut next, cat)?;
     let log = match command {
+        ItemCommand::Completion { command } => {
+            completion::command(&mut next, actor, command, why, cat)?
+        }
         ItemCommand::FailedCapture { .. } => {
             gm(c, actor)?;
             failed_capture(&mut next, command, cat)?;
@@ -2853,6 +2929,7 @@ pub fn transition(
         }
     };
     extra::lifecycle(c, &mut next, cat)?;
+    completion::lifecycle(c, &mut next, cat)?;
     refresh_initiative(c, &mut next)?;
     sync_labels(&mut next);
     information::lifecycle(&mut next, cat)?;

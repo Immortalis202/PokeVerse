@@ -1,0 +1,335 @@
+{
+  "engine": "0.23.0-core",
+  "source": "POKEROLE COREBOOK 3.0 RULING.pdf",
+  "entries": {
+    "Air Balloon": {
+      "source": "Pokerole-Data/v3.0/Items/Air Balloon.json",
+      "sha256": "cd22f2623ff09b584b9098394e31ad073fe3dec913147410f3c977e3a6a6cc3a",
+      "description": "A helium balloon that grants immunity to Ground. Careful as it is very fragile and will pop upon the user receiving damage.",
+      "scope": "reviewed held battle effect",
+      "page": 127
+    },
+    "Antidote": {
+      "source": "Pokerole-Data/v3.0/Items/Antidote.json",
+      "sha256": "5fde7ed6b5bbf274b2874a1bd1d8fe8918b3fb899db085fdc0d13daafddbda3f",
+      "description": "A shot that quickly eliminates toxins, reduces fever, and relieves the pain. Heal Poison & Badly Poison.",
+      "scope": "reviewed medicine and Recycle; lethal components excluded",
+      "page": 118
+    },
+    "Awakening": {
+      "source": "Pokerole-Data/v3.0/Items/Awakening.json",
+      "sha256": "26c48654fcd081572dbbba616014a84e78335a7ce390676eaf88aa4dab9afb32",
+      "description": "Sprays a water-based solution to awake a drowsy pokemon. Heal Sleep.",
+      "scope": "reviewed medicine and Recycle; lethal components excluded",
+      "page": 118
+    },
+    "Burn Heal": {
+      "source": "Pokerole-Data/v3.0/Items/Burn Heal.json",
+      "sha256": "2fdb5a21164335fba7b02d5c233f4df5d59fc7ef5526333a6c1b47847b037f22",
+      "description": "A powder that extinguishes the fire and aids with the healing of the burnt area. Heal all Burn degrees.",
+      "scope": "reviewed medicine and Recycle; lethal components excluded",
+      "page": 118
+    },
+    "Choice Band": {
+      "source": "Pokerole-Data/v3.0/Items/Choice Band.json",
+      "sha256": "85a99b11ab85d287351543e990da20637e4bb5b0756f565d4f73baf43a1a69bc",
+      "description": "Hit hard! Choose a Physical Move, increase its Power by 3. All other Moves get their Power reduced by 3.",
+      "scope": "reviewed held battle effect",
+      "page": 128
+    },
+    "Choice Scarf": {
+      "source": "Pokerole-Data/v3.0/Items/Choice Scarf.json",
+      "sha256": "8b6f172148801dcba72c10f2abc79a27e3019d3d249afa4c9734475e11ee96cc",
+      "description": "Hit fast! Increase initiative by 3. Choose a Move, it gets the effect Reaction 5. All other Moves get their Power reduced by 3",
+      "scope": "reviewed held battle effect",
+      "page": 128
+    },
+    "Choice Specs": {
+      "source": "Pokerole-Data/v3.0/Items/Choice Specs.json",
+      "sha256": "fdbe91d3779238c0d6a2f3a560a12011dde755c6ad7facca9b80725c71a8bd0f",
+      "description": "Hit fabulously! Choose a Special Move, increase its Power by 3. All other Moves get their Power reduced by 3.",
+      "scope": "reviewed held battle effect",
+      "page": 128
+    },
+    "Clear Amulet": {
+      "source": "Pokerole-Data/v3.0/Items/Clear Amulet.json",
+      "sha256": "67d1f676d55f891d98ccab793372ea8fd40b5df4ca8fbda8cc4020b8628d9c56",
+      "description": "An amulet of protection against evil. Attributes and traits of the user can't be lowered by other Pok\u00e9mon.",
+      "scope": "reviewed held battle effect",
+      "page": 128
+    },
+    "Destiny Knot": {
+      "source": "Pokerole-Data/v3.0/Items/Destiny Knot.json",
+      "sha256": "e942abe7c898be63f4794fcf848e8f093baa4c8cde41b55ab344a9e5314882d5",
+      "description": "The red string of fate may never break. If this Pok\u00e9mon falls in love the foe will fall in love with them in return.",
+      "scope": "reviewed held battle effect",
+      "page": 128
+    },
+    "Eject Button": {
+      "source": "Pokerole-Data/v3.0/Items/Eject Button.json",
+      "sha256": "0748d7358308ab3fbaf93975a1f9e5eb280a16fc44c80abc39656054ab20ac18",
+      "description": "A tempting big red button. Do not push. After receiving damage, activate the Switcher effect for the user. Effect activates only once per Round.",
+      "scope": "reviewed held battle effect",
+      "page": 128
+    },
+    "Energy Root": {
+      "source": "Pokerole-Data/v3.0/Items/Energy Root.json",
+      "sha256": "32ce0178dd7d67ed2763a91bda3ebd5ab0972d65c4e04d33ecce873b4a0c6543",
+      "description": "A nasty-tasting root with healing properties. It can be eaten whole or turned into up to 4 batches of Remedy. (Requires Medicine Skill check)",
+      "scope": "reviewed medicine and Recycle; lethal components excluded",
+      "page": 120
+    },
+    "Flame Orb": {
+      "source": "Pokerole-Data/v3.0/Items/Flame Orb.json",
+      "sha256": "50f14f76d458c2645a4cb25efc7e24278714cccb7f152e8abeeccae108afc363",
+      "description": "A magical orb that casts a small fire. Warning: keep away from children & pets. User gets a 1st degree burn when they come out.",
+      "scope": "reviewed held battle effect",
+      "page": 128
+    },
+    "Focus Sash": {
+      "source": "Pokerole-Data/v3.0/Items/Focus Sash.json",
+      "sha256": "0f2401ae4d38dff169894273d85a210b95dc5e958229da0186bd5c9939a55478",
+      "description": "Remain concious until the end. The first time the user would faint due to damage from a move, remain at 1 HP instead.",
+      "scope": "reviewed held battle effect",
+      "page": 128
+    },
+    "Full Heal": {
+      "source": "Pokerole-Data/v3.0/Items/Full Heal.json",
+      "sha256": "75d75453c972b66e2db3dfd2c0d2eca228ea9177f80c8adf8ddc1ee71a4c8d31",
+      "description": "A superior spray formula that can heal any and all Status Ailments in a second. Heal all Status Ailments.",
+      "scope": "reviewed medicine and Recycle; lethal components excluded",
+      "page": 118
+    },
+    "Full Restore": {
+      "source": "Pokerole-Data/v3.0/Items/Full Restore.json",
+      "sha256": "cee7ba0471c06d78122566c6d68ce3ef71f9d594258df0d89309ae088b8035ad",
+      "description": "A single-use capsule of deluxe formula. The Pok\u00e9mon won't be able to restore health further until the next day. Restore Full HP & Heal Status.",
+      "scope": "reviewed medicine and Recycle; lethal components excluded",
+      "page": 118
+    },
+    "Heal Powder": {
+      "source": "Pokerole-Data/v3.0/Items/Heal Powder.json",
+      "sha256": "a522ae6f633123fea67dc87bd623cb93fafe13f0dbab6343c998b117fe5663a1",
+      "description": "A mix of the most foul-tasting herbs you can find can make this cure-all powder. Heal all Status Ailments.",
+      "scope": "reviewed medicine and Recycle; lethal components excluded",
+      "page": 120
+    },
+    "Heavy-Duty Boots": {
+      "source": "Pokerole-Data/v3.0/Items/Heavy-Duty Boots.json",
+      "sha256": "67c0bdd9cb60bf973a9d9ec87d87d518755c8b14868574b95e6ac97db84bacc0",
+      "description": "These metal-plated boots will protect your feet even from a bear trap. The user is immune to Entry Hazards.",
+      "scope": "reviewed held battle effect",
+      "page": 128
+    },
+    "Hyper Potion": {
+      "source": "Pokerole-Data/v3.0/Items/Hyper Potion.json",
+      "sha256": "a55a980b1863231660c7eaa9da874992f0ebe5030345377f8e2a078ee354ed8b",
+      "description": "Best value pack. It can be rationed for smaller injuries on the team, or used all at once on a serious wound.",
+      "scope": "reviewed medicine and Recycle; lethal components excluded",
+      "page": 118
+    },
+    "Ice Heal": {
+      "source": "Pokerole-Data/v3.0/Items/Ice Heal.json",
+      "sha256": "af0b35f55c16f344f6e8e6169843633418ce133201170214ff90ff804ba941cd",
+      "description": "A heat-inducing device that recovers the normal temperature of the Pok\u00e9mon and heals frost biting. Heal Frozen Solid.",
+      "scope": "reviewed medicine and Recycle; lethal components excluded",
+      "page": 118
+    },
+    "Leek": {
+      "source": "Pokerole-Data/v3.0/Items/Leek.json",
+      "sha256": "ecede21df9e71c5f25dc3be5a8695ee82bc3aeb05330c08d116b9427da8e8ed3",
+      "description": "A common leek. It is loved by Farfetch'd and gives the High Critical Effect to all their Physical and Special Moves.",
+      "scope": "reviewed held battle effect",
+      "page": 128
+    },
+    "Light Ball": {
+      "source": "Pokerole-Data/v3.0/Items/Light Ball.json",
+      "sha256": "054e237f5558e1acb0723556e96b79bf070642d03ebc8d5c9fd0c3f8ca8a1e76",
+      "description": "A bright ball that harnesses electricity. Pikachu loves it and they get their Strength and Special Attributes increased by 1.",
+      "scope": "reviewed held battle effect",
+      "page": 128
+    },
+    "Loaded Dice": {
+      "source": "Pokerole-Data/v3.0/Items/Loaded Dice.json",
+      "sha256": "5bbb057fc35ab01cebb2abb48a2a75ad8215af37b13139c0245ee434ef137d45",
+      "description": "Sometimes you have to coax lady luck. Moves with Chance Dice effects get 2 Extra Chance dice on each effect",
+      "scope": "reviewed held battle effect",
+      "page": 128
+    },
+    "Lucky Punch": {
+      "source": "Pokerole-Data/v3.0/Items/Lucky Punch.json",
+      "sha256": "acab5004875add264e86920a2e44dac1b41b028bb84e70c9dbdf1d2084ea959b",
+      "description": "Boxing gloves. Chansey loves them and gets the High Critical Effect to all Physical Moves and Strength increased by 2.",
+      "scope": "reviewed held battle effect",
+      "page": 128
+    },
+    "Max Potion": {
+      "source": "Pokerole-Data/v3.0/Items/Max Potion.json",
+      "sha256": "a69d7334a345068063d75852a1714452682c1be98b8d08c32bb0dd92acf329fe",
+      "description": "A single-use capsule of formula. The Pok\u00e9mon won't be able to restore health further until the next day.",
+      "scope": "reviewed medicine and Recycle; lethal components excluded",
+      "page": 118
+    },
+    "Max Revive": {
+      "source": "Pokerole-Data/v3.0/Items/Max Revive.json",
+      "sha256": "faa23044248dac9a411dffb9afae4db50c3bd7d831597df0cefab0d1120e8f67",
+      "description": "A bigger rock shard with enhaced effects. Found raw in deep caves. Very rare to find. Not available in stores. Restore conciousness & Full HP.",
+      "scope": "reviewed medicine and Recycle; lethal components excluded",
+      "page": 120
+    },
+    "Metronome": {
+      "source": "Pokerole-Data/v3.0/Items/Metronome.json",
+      "sha256": "e240c2020be89246140e8f6a8e093c0f527016632bfbe76b3a881b3e4fe9ba1a",
+      "description": "Follow the rhythm to attack in succession. Add 1 Extra die to the damage pool of Double, Triple, and Successive Actions.",
+      "scope": "reviewed held battle effect",
+      "page": 129
+    },
+    "Paralyze Heal": {
+      "source": "Pokerole-Data/v3.0/Items/Paralyze Heal.json",
+      "sha256": "9bb73ecfedabb809c50d8be567af334abb2430f14e4cd244a34de8642326c059",
+      "description": "This ointment relaxes the muscles and stops the cramping. Heal Paralysis.",
+      "scope": "reviewed medicine and Recycle; lethal components excluded",
+      "page": 118
+    },
+    "Potion": {
+      "source": "Pokerole-Data/v3.0/Items/Potion.json",
+      "sha256": "a229d89ebae05cb549bc1c96b63a91691083744a77d7b65036057b0646f830e7",
+      "description": "A pocket sized spray potion to relieve the pain and heal bruises.",
+      "scope": "reviewed medicine and Recycle; lethal components excluded",
+      "page": 118
+    },
+    "Power Herb": {
+      "source": "Pokerole-Data/v3.0/Items/Power Herb.json",
+      "sha256": "71d1d04a7bb0df7446c5b16a9ab567a19c217b38a6036f54dc0d8c759aac449f",
+      "description": "This Herb infuses a red energy. Remove the need to charge from a Charge Move. Single use",
+      "scope": "reviewed held battle effect",
+      "page": 129
+    },
+    "Power Increasers": {
+      "source": "Pokerole-Data/v3.0/Items/Power Increasers.json",
+      "sha256": "79037e9f1e7cfd455daf9fda6ced449f98f9099abfa684405bb327fda336914f",
+      "description": "Weighted gear, that Reduce Dexterity by 1 but grant an Increase of 2 on another Attribute/Trait of your choice.",
+      "scope": "reviewed held battle effect",
+      "page": 129
+    },
+    "Protective Pads": {
+      "source": "Pokerole-Data/v3.0/Items/Protective Pads.json",
+      "sha256": "bb16bfb54f9bd67cc73c7ab19c6e7da02764beabf015b1003ffe408045f26e44",
+      "description": "With this pads on you won't come into direct contact with the foe during close-range combat. Moves and Abilities that activate due to a Non-Ranged Physical Move do not trigger for the user.",
+      "scope": "reviewed held battle effect",
+      "page": 129
+    },
+    "Razor Claw": {
+      "source": "Pokerole-Data/v3.0/Items/Razor Claw.json",
+      "sha256": "ba92ce569142a65ac14a3d56ea5897647ae11fb733897919db07e43fbcc54eb5",
+      "description": "Deadly claws that trigger Evolution on certain Pok\u00e9mon. All Physical and Special Moves get the High Critical Effect.",
+      "scope": "reviewed held battle effect",
+      "page": 129
+    },
+    "Red Card": {
+      "source": "Pokerole-Data/v3.0/Items/Red Card.json",
+      "sha256": "389baca854f14b212c4a48939212f8a1b542d64a0cbe15d4c5f06d6c77099b4d",
+      "description": "Send an offending Pok\u00e9mon to the bench! After receiving damage, activate the Switcher effect for the foe. Effect activates only once per Round.",
+      "scope": "reviewed held battle effect",
+      "page": 129
+    },
+    "Remedy": {
+      "source": "Pokerole-Data/v3.0/Items/Remedy.json",
+      "sha256": "9a59cc9ec2115ac48ee46627e31e04e87a75ea76d33c118b152e1b46f720876d",
+      "description": "This powder leaves a horrid aftertaste. Pok\u00e9mon will only eat it if they are injured, and even so, they'll resent you for days.",
+      "scope": "reviewed medicine and Recycle; lethal components excluded",
+      "page": 120
+    },
+    "Revival Herb": {
+      "source": "Pokerole-Data/v3.0/Items/Revival Herb.json",
+      "sha256": "f263dc98ee055674a9eb752a17b6aa4323f7412c62f76ae10767152280d23053",
+      "description": "It may be its magical properties or just its awful flavor, but this herb will get you back into consciousness numbing all the pain away. Very rare to find. Restore conciousness & Full HP.",
+      "scope": "reviewed medicine and Recycle; lethal components excluded",
+      "page": 120
+    },
+    "Revive": {
+      "source": "Pokerole-Data/v3.0/Items/Revive.json",
+      "sha256": "b1903820ab913fe210f7a99926d4ee968bd1f55932a6437d35be8bb15b59446e",
+      "description": "A small energy shard that brings a fainted Human or Pok\u00e9mon back into conciousness and stabilizes all their wounds. Restore conciousness & 1 HP.",
+      "scope": "reviewed medicine and Recycle; lethal components excluded",
+      "page": 120
+    },
+    "Ring Target": {
+      "source": "Pokerole-Data/v3.0/Items/Ring Target.json",
+      "sha256": "8f46df4ad097f6099188be3750ed0b2ed215bdd533781a32381665e986862ee4",
+      "description": "There is no escaping harm when you have a target on your back. Remove all immunities of the user.",
+      "scope": "reviewed held battle effect",
+      "page": 129
+    },
+    "Rocky Helmet": {
+      "source": "Pokerole-Data/v3.0/Items/Rocky Helmet.json",
+      "sha256": "37af4f3240ca9dc3c05e4064d148252318cc3fcb793b8692d44dffcc693379ce",
+      "description": "The best defense is a good offense Deal 1 damage to a foe hitting the user with a Non-Ranged Physical Move.",
+      "scope": "reviewed held battle effect",
+      "page": 129
+    },
+    "Safety Goggles": {
+      "source": "Pokerole-Data/v3.0/Items/Safety Goggles.json",
+      "sha256": "62e4e9755e9014444e8cca0961e705d1b345801c4fac59a4c4c7bc5e2b0ef654",
+      "description": "No more pesky allergies. The user is immune to the Added Effects of Moves with the words \"Spore\", \"Powder\" & \"Pollen\".",
+      "scope": "reviewed held battle effect",
+      "page": 129
+    },
+    "Sticky Barb": {
+      "source": "Pokerole-Data/v3.0/Items/Sticky Barb.json",
+      "sha256": "e6b0cabf0bc97ddabb6c1499d733600e7946762ecf05093f243c9ef7c02bd6b5",
+      "description": "Deal 1 Damage to the user at the end of the Round. If hit with a Non-Ranged Physical Move, transfer the sticky Barb.",
+      "scope": "reviewed held battle effect",
+      "page": 129
+    },
+    "Super Potion": {
+      "source": "Pokerole-Data/v3.0/Items/Super Potion.json",
+      "sha256": "2f0d5fe1357c5a2c14909b88b198365dc9ab9d3de0477f4a3c1c6916bd916e2d",
+      "description": "A regular can of concentrated formula spray. This potion can close open wounds and even heal a cracked bone.",
+      "scope": "reviewed medicine and Recycle; lethal components excluded",
+      "page": 118
+    },
+    "Thick Club": {
+      "source": "Pokerole-Data/v3.0/Items/Thick Club.json",
+      "sha256": "8b09c716135c0dce0fa34b7f1125e21290531b28757b3a5eb13e0a0426dca9bf",
+      "description": "A strong club made with dried bone. Cubone & Marowak love it and get their Strength Increased by 2.",
+      "scope": "reviewed held battle effect",
+      "page": 129
+    },
+    "Throat Spray": {
+      "source": "Pokerole-Data/v3.0/Items/Throat Spray.json",
+      "sha256": "3c80ac3eb27363de07b28e439c0ee73a56b0af3bf294933db60116d8be4efce9",
+      "description": "This spray relaxes vocal cords. Increase Special by 1 after using a Sound-Based Move.",
+      "scope": "reviewed held battle effect",
+      "page": 129
+    },
+    "Toxic Orb": {
+      "source": "Pokerole-Data/v3.0/Items/Toxic Orb.json",
+      "sha256": "bdff77518577f3d4d762305109b6cff432b5b03b9c1e21db939c43bc604105bd",
+      "description": "A magical orb that oozes venom. Warning: keep away from children & pets. User gets poisoned. when they come out.",
+      "scope": "reviewed held battle effect",
+      "page": 129
+    },
+    "Umbrella": {
+      "source": "Pokerole-Data/v3.0/Items/Umbrella.json",
+      "sha256": "3ab10fb932df53b1b69ada0c5fb80530617794bdc4229c2cce1d884bbc249992",
+      "description": "Rain or shine, you should be prepared. The user ignores the effects of Sunny, Rain and Hail weather.",
+      "scope": "reviewed held battle effect",
+      "page": 129
+    },
+    "Weakness Policy": {
+      "source": "Pokerole-Data/v3.0/Items/Weakness Policy.json",
+      "sha256": "b1b06a71a292a434c4d5e167761837c3aa54859e45c7675bf7c51e5d501da662",
+      "description": "A policy of compensation for damages. Increase user's Strength and Special by 1 after being hit with a Super-Effective Move.",
+      "scope": "reviewed held battle effect",
+      "page": 129
+    },
+    "White Herb": {
+      "source": "Pokerole-Data/v3.0/Items/White Herb.json",
+      "sha256": "a66530c2db211dd0bebb24278cff88ebe90be15c6ba6a99183db9fc96f21ed2a",
+      "description": "This Herb infuses a glowing energy. Restore any lowered Attribute/Trait. Single use.",
+      "scope": "reviewed held battle effect",
+      "page": 129
+    }
+  }
+}

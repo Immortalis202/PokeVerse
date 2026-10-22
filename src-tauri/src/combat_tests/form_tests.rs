@@ -811,6 +811,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
     let ended = decision(&c, "gm", Action::EndBattle);
     for engine in [
         ENGINE,
+        INTERACTION_ENGINE,
         STANDALONE_ENGINE,
         INFORMATION_ENGINE,
         FORM_ENGINE,
@@ -828,18 +829,35 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             },
         );
         let flow = n.battle.as_ref().unwrap().flow.as_ref().unwrap();
-        assert_eq!(flow.interaction_rules, engine == ENGINE);
+        assert_eq!(
+            flow.interaction_rules,
+            [ENGINE, INTERACTION_ENGINE].contains(&engine)
+        );
+        assert_eq!(flow.items.completion.enabled, engine == ENGINE);
         assert_eq!(
             flow.forms.enabled,
-            [ENGINE, STANDALONE_ENGINE, INFORMATION_ENGINE, FORM_ENGINE].contains(&engine)
+            [
+                ENGINE,
+                INTERACTION_ENGINE,
+                STANDALONE_ENGINE,
+                INFORMATION_ENGINE,
+                FORM_ENGINE
+            ]
+            .contains(&engine)
         );
         assert_eq!(
             flow.information.enabled,
-            [ENGINE, STANDALONE_ENGINE, INFORMATION_ENGINE].contains(&engine)
+            [
+                ENGINE,
+                INTERACTION_ENGINE,
+                STANDALONE_ENGINE,
+                INFORMATION_ENGINE
+            ]
+            .contains(&engine)
         );
         assert_eq!(
             flow.standalone.enabled,
-            [ENGINE, STANDALONE_ENGINE].contains(&engine)
+            [ENGINE, INTERACTION_ENGINE, STANDALONE_ENGINE].contains(&engine)
         );
         assert_eq!(flow.items.enabled, engine != EVENT_ENGINE);
         assert!(flow.events.enabled);

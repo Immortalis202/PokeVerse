@@ -6,6 +6,7 @@ fn equipment(sheet: &mut Sheet, player: &str) {
     if sheet.owner_id != player {
         sheet.held_items = None;
         sheet.stored_items = None;
+        sheet.medical = None;
         sheet.inventory.clear();
     }
 }
@@ -109,6 +110,37 @@ fn battle_view(battle: &mut Battle, player: &str, owned_sheets: &BTreeSet<String
             .iter()
             .any(|e| e.id == *id && owned.contains(&e.combatant_id))
     });
+    items.completion.frozen.clear();
+    items
+        .completion
+        .recycle_recipients
+        .retain(|id, _| owned.contains(id));
+    items.completion.recycled.retain(|id, _| owned.contains(id));
+    items.completion.choices.retain(|id, _| {
+        items
+            .units
+            .get(id)
+            .is_some_and(|u| owned.contains(&u.holder))
+    });
+    items.completion.rulings.retain(|key, _| {
+        key == "revive"
+            || owned.iter().any(|id| key.ends_with(&format!(":{id}")))
+            || owned_sheets.iter().any(|id| key == &format!("pocket:{id}"))
+            || items
+                .units
+                .values()
+                .any(|u| owned.contains(&u.holder) && key == &format!("scarf:{}", u.unit.id))
+    });
+    items.completion.used.retain(|key| {
+        items
+            .units
+            .values()
+            .any(|u| owned.contains(&u.holder) && key.contains(&u.unit.id))
+    });
+    items
+        .completion
+        .payers
+        .retain(|id| owned_sheets.contains(id));
     items.redacted = items.enabled;
     items.units.retain(|_, unit| {
         ["ground", "consumed", "recycle_pending"].contains(&unit.state.as_str())

@@ -10,6 +10,7 @@ pub fn transition(
 ) -> Result<(Campaign, String)> {
     if [
         ENGINE,
+        INTERACTION_ENGINE,
         STANDALONE_ENGINE,
         INFORMATION_ENGINE,
         FORM_ENGINE,
@@ -335,10 +336,12 @@ pub fn transition(
                     if s.held_items != equipment.held_items
                         || s.stored_items != equipment.stored_items
                         || s.inventory != equipment.inventory
+                        || s.medical != equipment.medical
                     {
                         s.held_items = equipment.held_items;
                         s.stored_items = equipment.stored_items;
                         s.inventory = equipment.inventory;
+                        s.medical = equipment.medical;
                         s.revision = s
                             .revision
                             .checked_add(1)
@@ -375,6 +378,7 @@ pub fn transition(
             }
             if ![
                 ENGINE,
+                INTERACTION_ENGINE,
                 STANDALONE_ENGINE,
                 INFORMATION_ENGINE,
                 FORM_ENGINE,

@@ -4698,3 +4698,5 @@ fn interactions_new_native_flinch_merges_item_pool_once_and_sheer_force_removes_
         .is_empty());
     assert!(p(&c, &t).runtime.statuses.is_empty());
 }
+#[path = "item_completion_tests.rs"]
+mod completion_tests;

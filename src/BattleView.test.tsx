@@ -175,6 +175,7 @@ describe("structured core battle controls", () => {
     events = false,
     heldItems = false,
     symbiosis = "",
+    completion = false,
   ) {
     const combatants = ["active", "opponent"].map(fighter);
     if (provenance) combatants[0].selected_ability = "Sheer Force";
@@ -217,6 +218,18 @@ describe("structured core battle controls", () => {
             history: [],
           },
           items: {
+            completion: {
+              enabled: completion,
+              choices: {},
+              rulings: {},
+              used: [],
+              entries: [],
+              frozen: {},
+              payers: [],
+              species: {},
+              recycled: {},
+              recycle_recipients: {},
+            },
             enabled: false,
             initialized: false,
             finalized: false,
@@ -929,5 +942,25 @@ describe("structured core battle controls", () => {
     expect(core("host", false, "0.13.0-core")).not.toContain(
       "Night time (Mind’s Eye)",
     );
+  });
+  it("shows milestone 6 medicine to owners and reserves policy choices for GM", () => {
+    const html = (who: string, enabled = true) =>
+      core(
+        who,
+        false,
+        "0.23.0-core",
+        false,
+        false,
+        false,
+        false,
+        true,
+        "",
+        enabled,
+      );
+    expect(html("player")).toContain("Use owned medicine");
+    expect(html("player")).toContain("Use this recipient for Recycle");
+    expect(html("player")).not.toContain("Record GM item ruling");
+    expect(html("gm")).toContain("Record GM item ruling");
+    expect(html("player", false)).not.toContain("Use owned medicine");
   });
 });

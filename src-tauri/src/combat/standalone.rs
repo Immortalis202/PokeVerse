@@ -378,6 +378,7 @@ pub fn hit(
         || attacker.hp <= 0
         || attacker.side == target.side
         || !abilities::contact(m)
+        || items::completion::pads(c, &q.actor_id)
         || decoys::protected_subject(c, &q.actor_id, &target.id, m)
         || reviewed::damage_bypass(c, &reviewed::source(c, q)?, target)
     {

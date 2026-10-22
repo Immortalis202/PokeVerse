@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "engine": "0.22.0-core",
+  "engine": "0.23.0-core",
   "default_status": "manual",
   "entries": {
     "Adaptability": {
@@ -575,10 +575,10 @@
     },
     "Gluttony": {
       "status": "partial",
-      "scope": "May hold three berries with different reviewed effects. Adverse food and herbal medicine ingestion remains GM-managed until those definitions exist.",
+      "scope": "May hold three berries with different reviewed effects. Ignores negative ingestion effects for the 17 reviewed ordinary medicines, including herbal acceptance/happiness penalties. Other narrative food ingestion remains GM-managed.",
       "page": 547,
       "dependencies": [
-        "adverse-ingestion-definitions"
+        "narrative-food-ingestion"
       ],
       "introduced_engine": "0.18.0-core"
     },
@@ -1179,10 +1179,10 @@
     },
     "Pickup": {
       "status": "manual",
-      "scope": "Requires held-item ownership, consumption, transfer or activation hooks.",
+      "scope": "Outside-battle found-item acquisition remains GM adjudicated; battle equipment ownership and transfer are implemented.",
       "page": 559,
       "dependencies": [
-        "held-item-system"
+        "outside-battle-acquisition"
       ]
     },
     "Pixilate": {
@@ -1894,11 +1894,10 @@
     },
     "Teravolt": {
       "status": "partial",
-      "scope": "Action-scoped foe type/damage/status immunity bypass, supported shields, decoys, redirection and charging-target access. Unique-effect stalemates, held items and unsupported effect blockers require GM adjudication. Force fields, Cover and non-unique forced-switch prevention are also bypassed in engine 0.22.",
+      "scope": "Action-scoped foe type/damage/status immunity bypass, supported shields, decoys, redirection and charging-target access. Unique-effect stalemates and unsupported effect blockers require GM adjudication. Reviewed holder immunities are integrated with the item definitions in engine 0.23. Force fields, Cover and non-unique forced-switch prevention are also bypassed in engine 0.22.",
       "page": 574,
       "dependencies": [
         "unique-stalemates",
-        "unimplemented-item-definitions",
         "unsupported-support-effects"
       ],
       "introduced_engine": "0.13.0-core"
@@ -1990,11 +1989,10 @@
     },
     "Turboblaze": {
       "status": "partial",
-      "scope": "Action-scoped foe type/damage/status immunity bypass, supported shields, decoys, redirection and charging-target access. Unique-effect stalemates, held items and unsupported effect blockers require GM adjudication. Force fields, Cover and non-unique forced-switch prevention are also bypassed in engine 0.22.",
+      "scope": "Action-scoped foe type/damage/status immunity bypass, supported shields, decoys, redirection and charging-target access. Unique-effect stalemates and unsupported effect blockers require GM adjudication. Reviewed holder immunities are integrated with the item definitions in engine 0.23. Force fields, Cover and non-unique forced-switch prevention are also bypassed in engine 0.22.",
       "page": 576,
       "dependencies": [
         "unique-stalemates",
-        "unimplemented-item-definitions",
         "unsupported-support-effects"
       ],
       "introduced_engine": "0.13.0-core"

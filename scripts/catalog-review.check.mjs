@@ -136,6 +136,10 @@ test("coverage and PDF fingerprints are preserved with a complete field-level qu
       readFileSync("src-tauri/src/combat_tests/information_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/standalone_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/item_tests.rs", "utf8") +
+      readFileSync(
+        "src-tauri/src/combat_tests/item_completion_tests.rs",
+        "utf8",
+      ) +
       readFileSync("src-tauri/src/combat_tests/field_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/extra_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/special_tests.rs", "utf8") +
@@ -521,4 +525,28 @@ test("batch 5 exact definitions preserve source fingerprints, effect wording and
     assert.deepEqual(abilities[name].dependencies, []);
   }
   assert.equal(abilities["Unseen Fist"].introduced_engine, registry.engine);
+});
+
+test("milestone 6 item definitions retain exact source identity and wording", () => {
+  const text = readFileSync("rules/item-completion.json", "utf8").replace(
+    /\r\n/g,
+    "\n",
+  );
+  const registry = JSON.parse(text);
+  const coverage = JSON.parse(readFileSync("rules/coverage.json", "utf8"));
+  assert.equal(Object.keys(registry.entries).length, 47);
+  assert.equal(
+    coverage.item_completion_registry_hash,
+    createHash("sha256").update(text).digest("hex"),
+  );
+  for (const [name, entry] of Object.entries(registry.entries)) {
+    const bytes = readFileSync(`../${entry.source}`);
+    const original = JSON.parse(bytes.toString("utf8"));
+    assert.equal(original.Name, name);
+    assert.equal(original.Description, entry.description);
+    assert.equal(
+      createHash("sha256").update(bytes).digest("hex"),
+      entry.sha256,
+    );
+  }
 });

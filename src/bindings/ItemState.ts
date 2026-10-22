@@ -2,6 +2,7 @@
 import type { BattleItem } from "./BattleItem";
 import type { BerryMove } from "./BerryMove";
 import type { ChewCharge } from "./ChewCharge";
+import type { CompletionState } from "./CompletionState";
 import type { FetchAttempt } from "./FetchAttempt";
 import type { FlingMove } from "./FlingMove";
 import type { ItemEvent } from "./ItemEvent";
@@ -9,6 +10,7 @@ import type { ItemReveal } from "./ItemReveal";
 import type { TheftOffer } from "./TheftOffer";
 
 export type ItemState = {
+  completion: CompletionState;
   enabled: boolean;
   initialized: boolean;
   finalized: boolean;

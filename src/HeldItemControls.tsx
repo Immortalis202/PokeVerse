@@ -1,3 +1,4 @@
+import ItemCompletionControls from "./ItemCompletionControls";
 import { useState } from "react";
 import type { Campaign } from "./bindings/Campaign";
 import type { Action } from "./bindings/Action";
@@ -155,13 +156,30 @@ export default function HeldItemControls({
             <div key={p.id}>
               <strong>{p.name}</strong>{" "}
               <small>{p.runtime.healed} HP restored this round</small>
-              {p.selected_ability === "Gluttony" && <p>Gluttony: eating food, medicine or herbal medicine causes no negative ingestion effects. Up to three held berries must have different effects; unreviewed medicine use still needs GM adjudication.</p>}
-              {p.selected_ability === "Klutz" && <p>Klutz negates ordinary held effects. Its printed form/type-changing exceptions still apply; unsupported transformations are not enabled by this exception.</p>}
+              {p.selected_ability === "Gluttony" && (
+                <p>
+                  Gluttony: eating food, medicine or herbal medicine causes no
+                  negative ingestion effects. Up to three held berries must have
+                  different effects; unreviewed medicine use still needs GM
+                  adjudication.
+                </p>
+              )}
+              {p.selected_ability === "Klutz" && (
+                <p>
+                  Klutz negates ordinary held effects. Its printed
+                  form/type-changing exceptions still apply; unsupported
+                  transformations are not enabled by this exception.
+                </p>
+              )}
               {!held.length && <p>No held item.</p>}
               {held.map((u) => (
                 <p key={u.unit.id}>
                   {u.unit.name} · recorded usage {u.unit.uses}{" "}
-                  <small>{u.review ? u.review.note : "Effect review pending; ask the GM before applying this item's effects."}</small>{" "}
+                  <small>
+                    {u.review
+                      ? u.review.note
+                      : "Effect review pending; ask the GM before applying this item's effects."}
+                  </small>{" "}
                   {campaign.sheets[p.sheet_id]?.moves.includes("Fling") && (
                     <button
                       disabled={
@@ -688,6 +706,12 @@ export default function HeldItemControls({
           </ul>
         </details>
       )}
+      <ItemCompletionControls
+        campaign={campaign}
+        playerId={playerId}
+        execute={execute}
+        disabled={disabled}
+      />
       {notice && <p role="alert">{notice}</p>}
     </section>
   );

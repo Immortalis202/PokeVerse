@@ -1332,3 +1332,13 @@ pub fn preview_notes(c: &Campaign, a: &Action, cat: &Catalog) -> Result<Vec<Stri
     out.push("Targeting/reaction rules preserve one Evasion per turn. Reaction moves share its slot; Clash may answer each eligible incoming hit. Switch effects use registered reserves and require an owner choice, not host approval.".into());
     Ok(out)
 }
+
+pub fn item_switch(
+    c: &mut Campaign,
+    q: &QueuedAction,
+    out: &str,
+    name: &str,
+    forced: bool,
+) -> Result<()> {
+    request(c, q, out, name, forced, true)
+}

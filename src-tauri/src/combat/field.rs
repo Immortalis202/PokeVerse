@@ -245,6 +245,12 @@ pub fn weather(c: &Campaign, p: Option<&Combatant>) -> Option<Weather> {
     if !enabled(c) || p.is_some_and(|p| p.has_ability("Cloud Nine")) {
         return None;
     }
+    if p.is_some_and(|p| items::completion::has(c, &p.id, "Umbrella")) {
+        let w = weather(c, None);
+        if matches!(w, Some(Weather::Sunny | Weather::Rain | Weather::Hail)) {
+            return None;
+        }
+    }
     if let Some(snapshot) = frozen(c) {
         return snapshot.weather;
     }
@@ -469,12 +475,15 @@ pub fn live_types(c: &Campaign, p: &Combatant, cat: &Catalog) -> Result<Vec<Stri
     Ok(ts)
 }
 pub fn grounded(c: &Campaign, p: &Combatant, cat: &Catalog) -> bool {
-    has(c, "Gravity", p)
+    items::completion::ring(c, p, true)
+        || has(c, "Gravity", p)
         || items::iron_ball(c, &p.id)
-        || (!types(c, p, cat)
-            .unwrap_or_default()
-            .iter()
-            .any(|t| t == "Flying")
+        || (!items::completion::has(c, &p.id, "Air Balloon")
+            && (items::completion::ring(c, p, false)
+                || !types(c, p, cat)
+                    .unwrap_or_default()
+                    .iter()
+                    .any(|t| t == "Flying"))
             && !p.has_ability("Levitate"))
 }
 pub fn stats(c: &Campaign, p: &Combatant, s: &mut Sheet) {
@@ -824,7 +833,7 @@ fn heal(c: &mut Campaign, id: &str, n: i32, limited: bool) -> Result<()> {
 fn hurt(c: &mut Campaign, id: &str, n: i32, t: &str, cat: &Catalog) -> Result<()> {
     let p = fighter(c, id)?;
     if p.hp == 0
-        || p.has_ability("Magic Guard")
+        || (p.has_ability("Magic Guard") && !items::completion::ring(c, p, true))
         || (extra::enabled(c) && p.has_ability("Wonder Guard"))
     {
         return Ok(());
@@ -833,10 +842,12 @@ fn hurt(c: &mut Campaign, id: &str, n: i32, t: &str, cat: &Catalog) -> Result<()
     if t != "Neutral" {
         for ty in types(c, p, cat)? {
             let e = rules::type_effect(t, &ty)?;
-            if e == -100 {
+            if e == -100 && !items::completion::ring(c, p, false) {
                 return Ok(());
             }
-            amount += e;
+            if e != -100 {
+                amount += e;
+            }
         }
     }
     let p = fighter_mut(c, id)?;
@@ -1217,6 +1228,7 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
                         .iter()
                         .any(|q| q.id == p.id && q.deployed && q.hp > 0)
                 })
+                && !items::completion::has(c, &p.id, "Heavy-Duty Boots")
                 && has(c, "Toxic Spikes", p)
                 && grounded(c, p, cat)
                 && !abilities::damage_immune(

@@ -259,6 +259,7 @@ pub fn capture_preview(
         .lookup("species", "AppId", &p.species_id)?
         .ok_or_else(|| AppError::new("missing", "Unknown species"))?;
     let mut sheet = Sheet {
+        medical: None,
         id: format!("captured-{}", &hash(&format!("{}:{}", e.id, p.id))[..32]),
         owner_id: trainer.owner_id.clone(),
         revision: 0,

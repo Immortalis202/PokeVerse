@@ -36,6 +36,23 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
   const coverageRegistry = JSON.parse(
     await readFile(path.join(app, "rules/coverage.json"), "utf8"),
   );
+  const itemText = (
+    await readFile(path.join(app, "rules/item-completion.json"), "utf8")
+  ).replace(/\r\n/g, "\n");
+  const itemRegistry = JSON.parse(itemText);
+  if (
+    coverageRegistry.item_completion_registry_hash !==
+    createHash("sha256").update(itemText).digest("hex")
+  )
+    throw new Error("Item registry fingerprint mismatch");
+  for (const definition of Object.values(itemRegistry.entries)) {
+    const bytes = await readFile(path.join(root, definition.source));
+    if (
+      createHash("sha256").update(bytes).digest("hex") !== definition.sha256 ||
+      JSON.parse(bytes.toString("utf8")).Description !== definition.description
+    )
+      throw new Error("Item source fingerprint mismatch");
+  }
   const interactionText = (
     await readFile(path.join(app, "rules/battle-interactions.json"), "utf8")
   ).replace(/\r\n/g, "\n");
@@ -168,6 +185,11 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
       }
       if (tacticsRegistry[kind]?.[entry.Name])
         entry.TacticsRules = tacticsRegistry[kind][entry.Name];
+      if (kind === "items" && itemRegistry.entries[entry.Name])
+        entry.ItemRules = {
+          engine: itemRegistry.engine,
+          ...itemRegistry.entries[entry.Name],
+        };
       entry.Review = {
         version: 1,
         fields: fieldReview,
@@ -175,6 +197,7 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
           (kind === "abilities"
             ? abilityRegistry.entries[entry.Name]?.scope
             : null) ??
+          entry.ItemRules?.scope ??
           entry.InteractionRules?.scope ??
           entry.TacticsRules?.scope ??
           entry.SpecialRules?.scope ??

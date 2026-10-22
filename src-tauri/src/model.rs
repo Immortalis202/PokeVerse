@@ -2,7 +2,8 @@ use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 use ts_rs::TS;
 
-pub const ENGINE: &str = "0.22.0-core";
+pub const ENGINE: &str = "0.23.0-core";
+pub const INTERACTION_ENGINE: &str = "0.22.0-core";
 pub const STANDALONE_ENGINE: &str = "0.21.0-core";
 pub const INFORMATION_ENGINE: &str = "0.20.0-core";
 pub const FORM_ENGINE: &str = "0.19.0-core";
@@ -26,6 +27,7 @@ pub const PREVIOUS_ENGINE: &str = "0.2.0-core";
 pub fn core_engine(engine: &str) -> bool {
     [
         ENGINE,
+        INTERACTION_ENGINE,
         STANDALONE_ENGINE,
         INFORMATION_ENGINE,
         FORM_ENGINE,
@@ -50,7 +52,7 @@ pub fn core_engine(engine: &str) -> bool {
     .contains(&engine)
 }
 pub const LEGACY_ENGINE: &str = "0.1.0-manual";
-pub const PROTOCOL: u32 = 30;
+pub const PROTOCOL: u32 = 31;
 pub fn enabled() -> bool {
     true
 }
@@ -95,6 +97,9 @@ pub type Result<T> = std::result::Result<T, AppError>;
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct Sheet {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub medical: Option<crate::combat::items::completion::MedicalRecord>,
     pub id: String,
     pub owner_id: String,
     pub revision: u32,

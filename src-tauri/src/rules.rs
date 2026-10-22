@@ -27,6 +27,7 @@ pub fn effective_sheet(c: &Campaign, p: &Combatant) -> Result<Sheet> {
             *v += crate::combat::forms::stat_bonus(c, p, key);
         }
     }
+    crate::combat::items::completion::apply_stats(c, p, &mut s);
     Ok(s)
 }
 /// Permanent attributes plus explicit GM overrides, before battle modifiers.
@@ -154,6 +155,7 @@ pub fn accuracy(
     let m = catalog
         .find("moves", "Name", name)
         .ok_or_else(|| AppError::new("missing", "Unknown move"))?;
+    crate::combat::items::completion::guard(c, key, &m)?;
     crate::combat::forms::guard_move(c, key, &m)?;
     crate::combat::field::guard_move(c, p, &m)?;
     crate::combat::special::guard(c, key, &m, catalog)?;
@@ -187,6 +189,7 @@ pub fn accuracy(
             ))
         })
         .and_then(|v| v.checked_add(crate::combat::items::accuracy_bonus(c, key)))
+        .and_then(|v| v.checked_add(crate::combat::items::completion::stat(c, p, "AccuracyPool")))
         .and_then(|v| {
             v.checked_add(
                 if crate::combat::special::enabled(c)
@@ -215,6 +218,7 @@ pub fn accuracy(
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
     if [
         ENGINE,
+        INTERACTION_ENGINE,
         STANDALONE_ENGINE,
         INFORMATION_ENGINE,
         FORM_ENGINE,
@@ -674,6 +678,9 @@ pub fn type_matchup(
         } else if effect != -100 {
             effectiveness += effect;
         }
+    }
+    if crate::combat::items::completion::ring(c, target, false) {
+        immune = false;
     }
     Ok((effectiveness, immune))
 }

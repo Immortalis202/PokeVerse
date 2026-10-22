@@ -311,7 +311,16 @@ pub fn damage_immune_from(
     t: &Combatant,
     m: &serde_json::Value,
 ) -> bool {
-    !reviewed::damage_bypass(c, a, t) && damage_immune(c, t, m)
+    if m["Type"] == "Ground"
+        && items::completion::has(c, &t.id, "Air Balloon")
+        && !reviewed::extreme(c, a)
+        && !items::completion::ring(c, t, true)
+    {
+        return true;
+    }
+    !items::completion::ring(c, t, true)
+        && !reviewed::damage_bypass(c, a, t)
+        && damage_immune(c, t, m)
 }
 pub fn damage_immune(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> bool {
     tactics::damage_immune(c, p, m)
@@ -548,6 +557,7 @@ pub fn hit(
     tactics::hit(c, q, m)?;
     if move_immune(c, &target, m)
         || !contact(m)
+        || items::completion::pads(c, &q.actor_id)
         || attacker.hp == 0
         || attacker.has_ability("Long Reach")
     {

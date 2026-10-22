@@ -85,7 +85,15 @@ pub fn active_copy<'a>(c: &'a Campaign, sheet: &str) -> Option<&'a InheritedAbil
         .filter(|r| r.sheet_id == sheet && r.expires > i.minutes)
 }
 pub fn dice(c: &Campaign, command: &TransferCommand) -> Result<u32> {
-    if ![ENGINE, STANDALONE_ENGINE, INFORMATION_ENGINE, FORM_ENGINE].contains(&c.engine.as_str()) {
+    if ![
+        ENGINE,
+        INTERACTION_ENGINE,
+        STANDALONE_ENGINE,
+        INFORMATION_ENGINE,
+        FORM_ENGINE,
+    ]
+    .contains(&c.engine.as_str())
+    {
         return Err(AppError::new(
             "version",
             "Adopt the current ability-transfer engine between battles",
@@ -205,7 +213,11 @@ pub fn command(
     Ok(log)
 }
 pub fn hit(c: &mut Campaign, q: &QueuedAction, m: &serde_json::Value, cat: &Catalog) -> Result<()> {
-    if !enabled(c) || !abilities::contact(m) || decoys::intercepted(c, q) {
+    if !enabled(c)
+        || !abilities::contact(m)
+        || items::completion::pads(c, &q.actor_id)
+        || decoys::intercepted(c, q)
+    {
         return Ok(());
     }
     let source = fighter(c, &q.actor_id)?.clone();

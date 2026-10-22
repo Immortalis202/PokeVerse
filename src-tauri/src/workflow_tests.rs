@@ -569,6 +569,7 @@ async fn offline_progression_reconnects_through_real_host_and_gm_approval() {
 }
 fn sheet(kind: &str) -> Sheet {
     Sheet {
+        medical: None,
         id: id(),
         owner_id: "player".into(),
         revision: 0,
