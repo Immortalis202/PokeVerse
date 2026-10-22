@@ -1,3 +1,4 @@
+import type { Campaign } from "./bindings/Campaign";
 import type { Sheet } from "./bindings/Sheet";
 import type { Species } from "./catalog";
 import { attributes } from "./catalog";
@@ -115,4 +116,18 @@ export function cloneTrainer(sheets: Sheet[], trainer: Sheet): Sheet[] {
           : null,
       })),
   ];
+}
+
+export function battleSheet(
+  campaign: Campaign,
+  id: string | undefined,
+): Sheet | undefined {
+  if (!id) return undefined;
+  const battle = campaign.battle;
+  if (battle?.active && battle.flow?.forms?.enabled) {
+    const form = battle.flow.forms.current[id];
+    if (form) return form.sheet;
+  }
+  const participant = battle?.combatants.find((p) => p.id === id);
+  return participant ? campaign.sheets[participant.sheet_id] : undefined;
 }

@@ -1,6 +1,6 @@
 # PokeVerse - remaining work
 
-Snapshot: **22 October 2026**, application **0.25.0**, engine **0.18.0-core**, protocol **26**, user database schema **4**.
+Snapshot: **22 October 2026**, application **0.26.0**, engine **0.19.0-core**, protocol **27**, user database schema **4**.
 
 This is the current project backlog. Implemented foundations are summarized first; unfinished features, explicit GM rulings, verification gaps and excluded scope are distinguished below. Counts come from the checked-in registries and should be refreshed after catalog changes.
 
@@ -8,7 +8,7 @@ This is the current project backlog. Implemented foundations are summarized firs
 
 See the [complete item and ability roadmap](ITEM-ABILITY-ROADMAP.md) for the ordered deliverables and every catalog item. Its [ability inventory](ability-roadmap.csv) accounts for all 305 abilities; its [item inventory](item-roadmap.csv) accounts for all 236 items. This audit distinguishes released scope, disabled worktree implementations, genuinely missing mechanics, GM rulings and exclusions.
 
-The registry records 213 automated, 62 partial and 30 manual abilities. The older tables in sections 8–9 reproduce the pre-release baseline; generic held-item and booster dependencies there are stale and must not override the newer audited worktree assessment. The reviewed held-item batch is released in 0.25.0; transformations remain core and next. There are 30 unimplemented battle/species item definitions, 47 pending Mega stones, eight missing medicine definitions and nine medicines with only staged Recycle effects. All 35 Z-crystals remain excluded; 10 items explicitly forbid battle use. Other reference-only entries require scope review before becoming battle tasks.
+The registry records 232 automated, 62 partial and 11 manual abilities. The older tables in sections 8–9 reproduce the pre-release baseline; generic held-item and booster dependencies there are stale and must not override the newer audited worktree assessment. The reviewed held-item batch is released in 0.25.0; transformation batch 2 is delivered in 0.26.0. There are 30 unimplemented battle/species item definitions, 47 released Mega stones, eight missing medicine definitions and nine medicines with only reviewed Recycle effects. All 35 Z-crystals remain excluded; 10 items explicitly forbid battle use. Other reference-only entries require scope review before becoming battle tasks.
 
 ## Implemented foundation
 
@@ -23,7 +23,7 @@ Dancer, Parental Bond, Gorilla Tactics, Truant and Defeatist now use the reviewe
 ## 1. Remaining battle systems
 
 - [x] **Held-item ability batch:** released in 0.25.0 with owned equipment, reviewed effects, dependent abilities, private decisions, rollback and synchronization. Remaining item definitions are batch 6; native acceptance remains batch 7.
-- [ ] **Forms and transformations:** define supported temporary form changes, entry/exit, stat/type/ability replacement and restoration, preserving permanent sheets and frozen attack inputs. Review each ability separately. Excluded mechanics below must remain excluded.
+- [x] **Forms and transformations (batch 2):** reviewed all 20 entries, exact temporary builds/types/abilities/moves, 47 Mega stones and Transform, permanent-sheet protection, scene restoration, persistent Minior Core memory, owner/GM decisions, frozen damage inputs and rollback. Printed ambiguities and absent item stock retain the explicit boundaries in [transformation rules](battle-transformations.md).
 - [ ] **Other ability families:** remaining event/accuracy definitions, weight/gender formulas, private battle-information reveals and random stat choices. Tinted Lens, Unaware, Stakeout and the move portion of Sheer Force are implemented. The full ability inventory is in sections 8-9.
 - [ ] **Unreviewed trait copying:** Costar and Opportunist now copy supported attribute/defense move and ability channels. Baton Pass transfers supported positive attribute channels, and Snatch steals supported ability modifiers. Review additional trait channels separately; temporary ability identity copying remains distinct. See [stat copying and transfer](battle-stat-channels.md).
 - [ ] **Remaining identity effects:** review Entrainment, Doodle and Core Enforcer individually. Role Play, Skill Swap, Gastro Acid, Trace, Gas, contact replacement and witnessed ally inheritance already exist.
@@ -113,7 +113,7 @@ User-approved scope: implement all remaining in-battle abilities in this order, 
 
 1. Damage-provenance and event/accuracy abilities: implemented in 0.23.0 and 0.24.0; remaining card-specific boundaries stay visible in the inventory.
 2. Held items and their dependent abilities: released in 0.25.0; remaining item definitions are batch 6.
-3. Supported form changes and transformations, retaining the exclusions above.
+3. Supported form changes and transformations: delivered in 0.26.0, retaining exclusions and recorded GM boundaries.
 4. Remaining reviewed move/status interactions and catalog audit work.
 5. Native Windows and physical LAN acceptance, followed by distribution/signing work as needed.
 
@@ -126,6 +126,10 @@ Application 0.23.0 / engine 0.16.0-core / protocol 24 enables Tinted Lens, Unawa
 ### Event/accuracy milestone
 
 Application 0.24.0 / engine 0.17.0-core / protocol 25 enables Stench's battle reaction, Pressure's entry Will expenditure, mixed-target Tangled Feet success/critical results, and Electric Support charge consumption for Wind Power and Electromorphosis. Historical encounters retain their saved rule flags. See [battle events and per-target accuracy](battle-event-accuracy.md) for exact behavior and fixtures. Stench's out-of-battle encounter effects remain excluded. Held items and dependent abilities followed in 0.25.0.
+
+### Transformation milestone
+
+Application 0.26.0 / engine 0.19.0-core / protocol 27 delivers ordered milestone **2 of 7** in the [complete roadmap](ITEM-ABILITY-ROADMAP.md). See [transformation rules](battle-transformations.md) for all 20 entries, 127 exact source-backed form records, all 47 Mega stones, Transform, preparation/ownership, restoration, Minior persistence, private projections, compatibility and verification. As One joint-build/precedence decisions, Schooling arrival, missing Disc/mask equipment and Gulp Missile's unspecified added effect remain recorded GM decisions. Teraform Zero preserves unique-ability conflicts as explicit rulings. The next milestone is **private battle information: Anticipation and Forewarn**.
 
 ### Held-item milestone
 

@@ -102,8 +102,7 @@ fn living(c: &Campaign) -> impl Iterator<Item = &Combatant> {
 fn bypass(c: &Campaign, id: &str) -> bool {
     enabled(c)
         && fighter(c, id).is_ok_and(|p| {
-            reviewed::extreme(c, p)
-                || ["Stalwart", "Propeller Tail"].contains(&p.selected_ability.as_str())
+            reviewed::extreme(c, p) || p.has_any_ability(&["Stalwart", "Propeller Tail"])
         })
 }
 fn number(m: &serde_json::Value, key: &str) -> Option<i32> {
@@ -113,8 +112,8 @@ fn number(m: &serde_json::Value, key: &str) -> Option<i32> {
         .or_else(|| m["Attributes"][key].as_i64().map(|n| n as i32))
 }
 fn ability_priority(p: &Combatant, m: &serde_json::Value) -> bool {
-    ((p.selected_ability == "Prankster"
-        || (p.selected_ability == "Triage"
+    ((p.has_ability("Prankster")
+        || (p.has_ability("Triage")
             && (m["Effect"]
                 .as_str()
                 .is_some_and(|e| e.contains("Basic Heal"))
@@ -128,7 +127,7 @@ fn ability_priority(p: &Combatant, m: &serde_json::Value) -> bool {
                 ]
                 .contains(&m["Name"].as_str().unwrap_or("")))))
         && m["Category"] == "Support")
-        || (p.selected_ability == "Gale Wings" && m["Type"] == "Flying")
+        || (p.has_ability("Gale Wings") && m["Type"] == "Flying")
 }
 pub fn move_data(c: &Campaign, p: &Combatant, m: &mut serde_json::Value) {
     if !enabled(c) || !ability_priority(p, m) {
@@ -153,7 +152,7 @@ pub fn move_data(c: &Campaign, p: &Combatant, m: &mut serde_json::Value) {
 }
 pub fn priority_guard(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> Result<()> {
     if reviewed::enabled(c)
-        && p.selected_ability == "Mycelium Might"
+        && p.has_ability("Mycelium Might")
         && m["Category"] == "Support"
         && number(m, "Reaction").is_some()
     {
@@ -186,15 +185,12 @@ fn guard_targets(c: &Campaign, id: &str, targets: &[String], m: &serde_json::Val
         if t.side != source.side && reviewed::extreme(c, source) {
             continue;
         }
-        if t.side != source.side
-            && ["Dazzling", "Queenly Majesty"].contains(&t.selected_ability.as_str())
-        {
+        if t.side != source.side && t.has_any_ability(&["Dazzling", "Queenly Majesty"]) {
             return Err(error("Dazzling/Queenly Majesty prevents reaction moves against this foe; Evasion and Clash remain maneuvers"));
         }
         if m["Category"] != "Support"
-            && living(c).any(|p| {
-                p.side == t.side && p.selected_ability == "Armor Tail" && in_range(c, &p.id, key)
-            })
+            && living(c)
+                .any(|p| p.side == t.side && p.has_ability("Armor Tail") && in_range(c, &p.id, key))
         {
             return Err(error(
                 "Armor Tail prevents Physical/Special reaction moves against this participant",
@@ -214,7 +210,7 @@ pub fn redirect_move(
         return Ok(ids);
     }
     let source = fighter(c, id)?;
-    let powder_immune = source.selected_ability == "Overcoat"
+    let powder_immune = source.has_ability("Overcoat")
         || field::types(c, source, cat)?.iter().any(|t| t == "Grass");
     let mut result = ids;
     if !bypass(c, id)
@@ -225,8 +221,8 @@ pub fn redirect_move(
             .filter(|p| {
                 p.id != id
                     && special::target_guard(c, id, &p.id, m).is_ok()
-                    && ((p.selected_ability == "Lightning Rod" && m["Type"] == "Electric")
-                        || (p.selected_ability == "Storm Drain" && m["Type"] == "Water"))
+                    && ((p.has_ability("Lightning Rod") && m["Type"] == "Electric")
+                        || (p.has_ability("Storm Drain") && m["Type"] == "Water"))
             })
             .map(|p| p.id.clone())
             .collect();
@@ -585,8 +581,8 @@ pub fn automatic_response(c: &Campaign, q: &QueuedAction, id: &str) -> bool {
     let cat_type = q.defense_key == "Support";
     cat_type
         && fighter(c, id).is_ok_and(|p| {
-            p.selected_ability == "Good As Gold"
-                || (p.selected_ability == "Magic Bounce"
+            p.has_ability("Good As Gold")
+                || (p.has_ability("Magic Bounce")
                     && fighter(c, &q.actor_id).is_ok_and(|a| a.side != p.side)
                     && !bypass(c, &q.actor_id))
         })
@@ -692,8 +688,8 @@ fn flush_clashes(c: &mut Campaign, cat: &Catalog) -> Result<()> {
 }
 pub fn damage_immune(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> bool {
     enabled(c)
-        && ((p.selected_ability == "Lightning Rod" && m["Type"] == "Electric")
-            || (p.selected_ability == "Storm Drain" && m["Type"] == "Water"))
+        && ((p.has_ability("Lightning Rod") && m["Type"] == "Electric")
+            || (p.has_ability("Storm Drain") && m["Type"] == "Water"))
 }
 pub fn hit(c: &mut Campaign, q: &QueuedAction, m: &serde_json::Value) -> Result<()> {
     if !enabled(c) {
@@ -732,10 +728,7 @@ pub fn effect_target(
     let source = fighter(c, &q.actor_id)?.clone();
     let target = fighter(c, &q.target_id)?.clone();
     let mut next = q.clone();
-    if q.field_scope.is_none()
-        && target.id != source.id
-        && target.selected_ability == "Good As Gold"
-    {
+    if q.field_scope.is_none() && target.id != source.id && target.has_ability("Good As Gold") {
         next.cancelled = true;
         record(
             c,
@@ -754,7 +747,7 @@ pub fn effect_target(
         let mut choices: Vec<_> = living(c)
             .filter(|p| {
                 p.side != source.side
-                    && (p.selected_ability == "Magic Bounce"
+                    && (p.has_ability("Magic Bounce")
                         || state(c).lures.iter().any(|l| {
                             l.name == "Magic Coat"
                                 && l.target == p.id
@@ -770,7 +763,7 @@ pub fn effect_target(
             choices.first().cloned()
         }
     } else if target.side != source.side
-        && (target.selected_ability == "Magic Bounce"
+        && (target.has_ability("Magic Bounce")
             || state(c).lures.iter().any(|l| {
                 l.name == "Magic Coat"
                     && l.target == target.id
@@ -806,7 +799,7 @@ pub fn effect_target(
                 source.name
             ),
         );
-        if source.selected_ability == "Good As Gold" && next.field_scope.is_none() {
+        if source.has_ability("Good As Gold") && next.field_scope.is_none() {
             next.cancelled = true;
             clear_payer(c);
         }
@@ -837,6 +830,11 @@ fn trainer(c: &Campaign, id: &str) -> Result<String> {
         .ok_or_else(|| error("A controlled switch needs the campaign trainer link"))
 }
 fn switch_available(c: &Campaign, out: &str) -> Result<()> {
+    if forms::joined_component(c, out) {
+        return Err(error(
+            "A component of an active As One union cannot enter separately",
+        ));
+    }
     let trainer = trainer(c, out)?;
     if state(c).switchers.get(&trainer) == Some(&battle(c)?.round) {
         return Err(error(
@@ -972,12 +970,15 @@ pub fn move_effect(c: &mut Campaign, q: &QueuedAction, cat: &Catalog) -> Result<
     }
     let out = if forced { &q.target_id } else { &q.actor_id };
     let p = fighter(c, out)?.clone();
-    if forced && p.side != fighter(c, &q.actor_id)?.side && p.selected_ability == "Suction Cups" {
+    if forced && p.side != fighter(c, &q.actor_id)?.side && p.has_ability("Suction Cups") {
         record(
             c,
             format!("{} prevents forced switching with Suction Cups", p.name),
         );
         return Ok(true);
+    }
+    if forms::blocks_recall(c, out) {
+        return Err(error("Commander blocks recall for the scene"));
     }
     if !forced && (extra::blocked(c, &p, cat) || special::blocked(c, out)) {
         return Err(error(
@@ -1071,6 +1072,14 @@ fn resolve_switch(
         }
         None
     };
+    if entry
+        .as_ref()
+        .is_some_and(|p| forms::joined_component(c, &p.id))
+    {
+        return Err(error(
+            "A component of a current As One union cannot enter separately",
+        ));
+    }
     let trainer = trainer(c, &out.id)?;
     switch_available(c, &out.id)?;
     let boosts: Vec<_> = if s.name == "Baton Pass" {
@@ -1211,7 +1220,7 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
         .retain(|s| active.contains(&s.outgoing));
     let candidates = living(c)
         .filter(|p| {
-            ["Emergency Exit", "Wimp Out"].contains(&p.selected_ability.as_str())
+            p.has_any_ability(&["Emergency Exit", "Wimp Out"])
                 && p.hp <= p.max_hp / 2
                 && before.battle.as_ref().is_some_and(|b| {
                     b.combatants
@@ -1292,9 +1301,7 @@ pub fn preview_notes(c: &Campaign, a: &Action, cat: &Catalog) -> Result<Vec<Stri
         }
         for id in actual {
             let p = fighter(c, &id)?;
-            if ["Magic Bounce", "Good As Gold"].contains(&p.selected_ability.as_str())
-                && m["Category"] == "Support"
-            {
+            if p.has_any_ability(&["Magic Bounce", "Good As Gold"]) && m["Category"] == "Support" {
                 out.push(format!(
                     "{}: {} applies to incoming support effects",
                     p.name, p.selected_ability

@@ -1,3 +1,4 @@
+import { battleSheet } from "./sheets";
 import BattlefieldControls from "./BattlefieldControls";
 import type { Catalog } from "./catalog";
 import type { Campaign } from "./bindings/Campaign";
@@ -247,7 +248,7 @@ export default function CoreBattleFlow({
                   onChange={(e) => setReactionMove(e.target.value)}
                 >
                   <option value="">Choose a move</option>
-                  {campaign.sheets[defender.sheet_id]?.moves.map((m) => (
+                  {battleSheet(campaign, defender.id)?.moves.map((m) => (
                     <option key={m}>{m}</option>
                   ))}
                 </select>
@@ -294,6 +295,7 @@ export default function CoreBattleFlow({
             "0.9.0-core",
             "0.10.0-core",
             "0.11.0-core",
+            "0.19.0-core",
             "0.18.0-core",
             "0.17.0-core",
             "0.16.0-core",
@@ -610,9 +612,7 @@ export default function CoreBattleFlow({
                   onChange={(e) => setIceMove(e.target.value)}
                 >
                   <option value="">Choose</option>
-                  {campaign.sheets[
-                    b.combatants.find((p) => p.id === iceActor)?.sheet_id ?? ""
-                  ]?.moves.map((m) => (
+                  {battleSheet(campaign, iceActor)?.moves.map((m) => (
                     <option key={m}>{m}</option>
                   ))}
                 </select>

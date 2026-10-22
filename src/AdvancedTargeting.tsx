@@ -1,3 +1,4 @@
+import { battleSheet } from "./sheets";
 import { useEffect, useState } from "react";
 import type { Action } from "./bindings/Action";
 import type { Campaign } from "./bindings/Campaign";
@@ -52,6 +53,7 @@ export default function AdvancedTargeting({
       "0.9.0-core",
       "0.10.0-core",
       "0.11.0-core",
+      "0.19.0-core",
       "0.18.0-core",
       "0.17.0-core",
       "0.16.0-core",
@@ -68,7 +70,7 @@ export default function AdvancedTargeting({
     (p) => p.deployed && p.hp > 0 && p.available_round <= b.round,
   );
   const p = active.find((p) => p.id === actor);
-  const sheet = p && campaign.sheets[p.sheet_id];
+  const sheet = p && battleSheet(campaign, p.id);
   const automatic = m?.Target === "Area" || m?.Target?.includes("Battlefield");
   const toggle = (id: string) =>
     setTargets((v) =>

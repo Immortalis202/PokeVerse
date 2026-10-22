@@ -210,7 +210,7 @@ pub fn hit(c: &mut Campaign, q: &QueuedAction, m: &serde_json::Value, cat: &Cata
     }
     let source = fighter(c, &q.actor_id)?.clone();
     let target = fighter(c, &q.target_id)?.clone();
-    if source.side == target.side || source.selected_ability == "Long Reach" {
+    if source.side == target.side || source.has_ability("Long Reach") {
         return Ok(());
     }
     let (_, immune) =
@@ -232,17 +232,26 @@ pub fn hit(c: &mut Campaign, q: &QueuedAction, m: &serde_json::Value, cat: &Cata
     // Read both pre-contact abilities once. No newly acquired ability chains on
     // this same hit; two independent contamination directions remain simultaneous.
     let mut assignments = BTreeMap::new();
-    if ["Mummy", "Lingering Aroma"].contains(&source.selected_ability.as_str())
+    if source.has_any_ability(&["Mummy", "Lingering Aroma"])
+        && !forms::union_active(c, &target.id)
         && !ability_changes::unique(cat, &target.selected_ability)?
     {
-        assignments.insert(target.id.clone(), source.selected_ability.clone());
+        assignments.insert(
+            target.id.clone(),
+            source.ability_for(&["Mummy", "Lingering Aroma"]).into(),
+        );
     }
-    if ["Mummy", "Lingering Aroma"].contains(&target.selected_ability.as_str())
+    if target.has_any_ability(&["Mummy", "Lingering Aroma"])
+        && !forms::union_active(c, &source.id)
         && !ability_changes::unique(cat, &source.selected_ability)?
     {
-        assignments.insert(source.id.clone(), target.selected_ability.clone());
+        assignments.insert(
+            source.id.clone(),
+            target.ability_for(&["Mummy", "Lingering Aroma"]).into(),
+        );
     }
-    if source.selected_ability == "Wandering Spirit"
+    if source.has_ability("Wandering Spirit")
+        && !forms::union_active(c, &target.id)
         && !ability_changes::unique(cat, &target.selected_ability)?
     {
         assignments.insert(source.id.clone(), ability_changes::identity(c, &target));
@@ -281,7 +290,7 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
     flow_mut(c).ability_events.retain(|e| {
         e.kind != "transfer-inherit"
             || ps.iter().any(|p| {
-                p.id == e.combatant_id && p.deployed && p.hp > 0 && p.selected_ability == e.ability
+                p.id == e.combatant_id && p.deployed && p.hp > 0 && p.has_ability(&e.ability)
             })
     });
     let old = before
@@ -333,12 +342,11 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
         }
     }
     donors.sort_by(|a, b| a.1.combatant_id.cmp(&b.1.combatant_id));
-    for p in ps.iter().filter(|p| {
-        p.deployed
-            && p.hp > 0
-            && ["Receiver", "Power of Alchemy"].contains(&p.selected_ability.as_str())
-    }) {
-        if p.selected_ability == "Receiver"
+    for p in ps
+        .iter()
+        .filter(|p| p.deployed && p.hp > 0 && p.has_any_ability(&["Receiver", "Power of Alchemy"]))
+    {
+        if p.has_ability("Receiver")
             && c.ability_inheritance
                 .copies
                 .values()
@@ -379,7 +387,7 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
         let mut choices: Vec<_> = (0..candidates.len())
             .map(|i| format!("activate:{i}"))
             .collect();
-        if p.selected_ability == "Power of Alchemy" {
+        if p.has_ability("Power of Alchemy") {
             choices.push("store".into());
         }
         let event = abilities::AbilityEvent {
@@ -410,7 +418,7 @@ pub fn resolve(
     cat: &Catalog,
 ) -> Result<()> {
     let recipient = fighter(c, &event.combatant_id)?;
-    if !recipient.deployed || recipient.hp == 0 || recipient.selected_ability != event.ability {
+    if !recipient.deployed || recipient.hp == 0 || !recipient.has_ability(&event.ability) {
         return Err(error("Inheritance recipient changed"));
     }
     let offer = state(c)

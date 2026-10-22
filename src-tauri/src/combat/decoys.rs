@@ -44,8 +44,7 @@ fn bypass_data(c: &Campaign, source: &str, m: &serde_json::Value) -> bool {
     fighter(c, source).is_ok_and(|p| reviewed::extreme(c, p))
         || m["Attributes"]["SoundMove"] == true
         || fighter(c, source).is_ok_and(|p| {
-            p.selected_ability == "Infiltrator"
-                || (p.selected_ability == "Unseen Fist" && abilities::contact(m))
+            p.has_ability("Infiltrator") || (p.has_ability("Unseen Fist") && abilities::contact(m))
         })
         || [
             "Chip Away",

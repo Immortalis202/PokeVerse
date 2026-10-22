@@ -10,6 +10,7 @@ pub fn transition(
 ) -> Result<(Campaign, String)> {
     if [
         ENGINE,
+        ITEM_ENGINE,
         EVENT_ENGINE,
         PROVENANCE_ENGINE,
         SEQUENCING_ENGINE,
@@ -49,6 +50,7 @@ pub fn transition(
         | Action::Battlefield { .. }
         | Action::ResolveAbility { .. }
         | Action::HeldItem { .. }
+        | Action::Form { .. }
         | Action::ChooseSheerForce { .. }
         | Action::InflictStatus { .. }
         | Action::AccuracyTargets { .. }
@@ -302,6 +304,7 @@ pub fn transition(
             if let Some(inheritance) = checkpoint.ability_inheritance {
                 c.ability_inheritance = inheritance;
             }
+            c.form_memory = checkpoint.form_memory;
             c.battle = Some(checkpoint.battle);
             c.finished_battles
                 .truncate(checkpoint.finished_count as usize);
@@ -368,6 +371,7 @@ pub fn transition(
             }
             if ![
                 ENGINE,
+                ITEM_ENGINE,
                 EVENT_ENGINE,
                 PROVENANCE_ENGINE,
                 SEQUENCING_ENGINE,
@@ -1073,6 +1077,7 @@ pub fn transition(
                     .ok_or_else(|| AppError::new("limit", "Revision exhausted"))?,
                 description: description.clone(),
                 battle: b.clone(),
+                form_memory: current.form_memory.clone(),
                 ability_inheritance: Some(current.ability_inheritance.clone()),
                 resources,
                 finished_count: current.finished_battles.len() as u32,

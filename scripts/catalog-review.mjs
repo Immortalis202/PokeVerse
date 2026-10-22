@@ -36,6 +36,16 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
   const coverageRegistry = JSON.parse(
     await readFile(path.join(app, "rules/coverage.json"), "utf8"),
   );
+  const formText = (
+    await readFile(path.join(app, "rules/battle-forms.json"), "utf8")
+  ).replace(/\r\n/g, "\n");
+  if (
+    coverageRegistry.form_registry_hash !==
+    createHash("sha256").update(formText).digest("hex")
+  )
+    throw new Error(
+      "Form registry changed without updating the rules coverage fingerprint",
+    );
   if (coverageRegistry.ability_registry_hash !== abilityHash)
     throw new Error(
       "Ability registry changed without updating the rules coverage fingerprint",

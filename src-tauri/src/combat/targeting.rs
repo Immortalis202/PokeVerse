@@ -27,6 +27,7 @@ pub struct FieldEffect {
 pub(super) fn require_targeting(c: &Campaign) -> Result<()> {
     if ![
         ENGINE,
+        ITEM_ENGINE,
         EVENT_ENGINE,
         PROVENANCE_ENGINE,
         SEQUENCING_ENGINE,
@@ -282,7 +283,7 @@ pub(super) fn redirect(c: &Campaign, source: &str, ids: Vec<String>, bypass: boo
     if special::enabled(c) && bypass {
         return ids;
     }
-    if extra::enabled(c) && fighter(c, source).is_ok_and(|p| p.selected_ability == "Infiltrator") {
+    if extra::enabled(c) && fighter(c, source).is_ok_and(|p| p.has_ability("Infiltrator")) {
         return ids;
     }
     let mut result = vec![];
@@ -466,7 +467,7 @@ pub(super) fn cover_pool(c: &Campaign, id: &str, ally: &str, cat: &Catalog) -> R
     {
         return Err(error("This move bypasses Cover"));
     }
-    if extra::enabled(c) && fighter(c, &q.actor_id)?.selected_ability == "Infiltrator" {
+    if extra::enabled(c) && fighter(c, &q.actor_id)?.has_ability("Infiltrator") {
         return Err(error("Infiltrator bypasses Cover an Ally"));
     }
     if !f.window

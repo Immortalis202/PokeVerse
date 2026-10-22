@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "engine": "0.18.0-core",
+  "engine": "0.19.0-core",
   "default_status": "manual",
   "entries": {
     "Adaptability": {
@@ -83,12 +83,13 @@
       "introduced_engine": "0.7.0-core"
     },
     "As One": {
-      "status": "manual",
-      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "status": "partial",
+      "scope": "GM selects an exact reviewed joint-form build and one available ability from each conscious allied component. Movepools combine and both supported ability channels remain active; the partner cannot act separately. Conflicting type/stat precedence and nested joint-form changes remain explicit GM boundaries.",
       "page": 537,
       "dependencies": [
-        "form-transformation"
-      ]
+        "joint-form-precedence-ruling"
+      ],
+      "introduced_engine": "0.19.0-core"
     },
     "Aura Break": {
       "status": "partial",
@@ -219,12 +220,11 @@
       "introduced_engine": "0.7.0-core"
     },
     "Commander": {
-      "status": "manual",
-      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "status": "automated",
+      "scope": "On entry select an active allied Dondozo. It gains two attributes and defenses and remains blocked for the scene; damage to the Commander is redirected to that ally.",
       "page": 540,
-      "dependencies": [
-        "form-transformation"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.19.0-core"
     },
     "Competitive": {
       "status": "partial",
@@ -375,12 +375,10 @@
       "introduced_engine": "0.6.0-core"
     },
     "Disguise": {
-      "status": "partial",
-      "scope": "Negate the first damaging hit in a scene. Cosmetic disguise and species/form transformations remain manual.",
+      "status": "automated",
+      "scope": "Negate the first Physical/Special move damage in a scene; hazards, weather and conditions do not spend it. The spent disguise flag is visible without fabricating an absent catalog form.",
       "page": 543,
-      "dependencies": [
-        "form-transformation"
-      ],
+      "dependencies": [],
       "introduced_engine": "0.7.0-core"
     },
     "Download": {
@@ -451,12 +449,11 @@
       "introduced_engine": "0.17.0-core"
     },
     "Embody Aspect": {
-      "status": "manual",
-      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "status": "automated",
+      "scope": "A GM-recorded mask grants two Dexterity for Teal/Wellspring or two Strength for Hearthflame/Cornerstone. Missing catalog mask stock is not manufactured.",
       "page": 544,
-      "dependencies": [
-        "form-transformation"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.19.0-core"
     },
     "Emergency Exit": {
       "status": "automated",
@@ -641,12 +638,11 @@
       "introduced_engine": "0.7.0-core"
     },
     "Gulp Missile": {
-      "status": "manual",
-      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "status": "automated",
+      "scope": "Surf/Dive damage loads the exact Gulping/Gorging form based on remaining HP. A subsequent damaging foe hit saves one two-die retaliation; the GM records the unspecified added effect and the regular form returns.",
       "page": 548,
-      "dependencies": [
-        "form-transformation"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.19.0-core"
     },
     "Guts": {
       "status": "automated",
@@ -716,12 +712,11 @@
       "page": 549
     },
     "Hunger Switch": {
-      "status": "manual",
-      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "status": "automated",
+      "scope": "Toggle the Hangry/Full-Belly scene label at round end and resolve Aura Wheel typing. No separate catalog identity or outside-battle hunger automation is invented.",
       "page": 549,
-      "dependencies": [
-        "form-transformation"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.19.0-core"
     },
     "Hustle": {
       "status": "automated",
@@ -751,12 +746,11 @@
       "introduced_engine": "0.6.0-core"
     },
     "Ice Face": {
-      "status": "manual",
-      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "status": "automated",
+      "scope": "Ice Face has a tracked two-HP ice buffer; breaking it changes to the exact No Ice form. A complete deployed Snow/Hail round restores the ice. Damage and form state roll back together.",
       "page": 550,
-      "dependencies": [
-        "form-transformation"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.19.0-core"
     },
     "Ice Scales": {
       "status": "automated",
@@ -775,12 +769,11 @@
       "introduced_engine": "0.7.0-core"
     },
     "Illusion": {
-      "status": "manual",
-      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "status": "automated",
+      "scope": "On entry the owner chooses another party Pokemon as the displayed illusion; damage removes the appearance without copying mechanical stats or abilities.",
       "page": 551,
-      "dependencies": [
-        "form-transformation"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.19.0-core"
     },
     "Immunity": {
       "status": "automated",
@@ -789,12 +782,11 @@
       "introduced_engine": "0.5.0-core"
     },
     "Imposter": {
-      "status": "manual",
-      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "status": "automated",
+      "scope": "Entry selects a visible active model and applies reviewed scene-long Transform, copying attributes, supported increases/reductions, ability and moves while retaining Transform and the user resources, skills and rank.",
       "page": 551,
-      "dependencies": [
-        "form-transformation"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.19.0-core"
     },
     "Infiltrator": {
       "status": "automated",
@@ -866,12 +858,10 @@
       "introduced_engine": "0.13.0-core"
     },
     "Klutz": {
-      "status": "partial",
-      "scope": "Suppresses reviewed ordinary held effects. Printed transformation/type exceptions are retained as boundaries for the form milestone; excluded mechanics remain excluded.",
+      "status": "automated",
+      "scope": "Suppress reviewed ordinary held effects while preserving printed Mega Evolution and type-changing exceptions. Z-Moves and Dynamax/Gigantamax remain excluded.",
       "page": 552,
-      "dependencies": [
-        "form-transformation"
-      ],
+      "dependencies": [],
       "introduced_engine": "0.18.0-core"
     },
     "Leaf Guard": {
@@ -1073,12 +1063,11 @@
       "introduced_engine": "0.5.0-core"
     },
     "Multitype": {
-      "status": "manual",
-      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "status": "automated",
+      "scope": "Only Arceus can freely choose any one of the 18 reviewed battle types. Unique identity restrictions and frozen damage inputs remain authoritative.",
       "page": 557,
-      "dependencies": [
-        "form-transformation"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.19.0-core"
     },
     "Mummy": {
       "status": "automated",
@@ -1255,12 +1244,11 @@
       "introduced_engine": "0.7.0-core"
     },
     "Power Construct": {
-      "status": "manual",
-      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "status": "automated",
+      "scope": "At round end at half HP or less, use the next exact Zygarde form and restore full HP/Will and statuses. No video-game form shortcut is substituted.",
       "page": 560,
-      "dependencies": [
-        "form-transformation"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.19.0-core"
     },
     "Power Spot": {
       "status": "automated",
@@ -1389,12 +1377,11 @@
       "introduced_engine": "0.7.0-core"
     },
     "RKS System": {
-      "status": "manual",
-      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "status": "automated",
+      "scope": "A GM-recorded Disc in the reserved held slot selects the corresponding type. Catalog-absent Discs require explicit evidence and do not create inventory stock.",
       "page": 564,
-      "dependencies": [
-        "form-transformation"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.19.0-core"
     },
     "Rain Dish": {
       "status": "automated",
@@ -1526,12 +1513,11 @@
       "introduced_engine": "0.5.0-core"
     },
     "Schooling": {
-      "status": "manual",
-      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "status": "automated",
+      "scope": "At half HP call the school; the GM records its unspecified arrival timing. Healing, fainting or recall cancels the call. Arrival grants the exact School form at full HP and two ranks higher; the original sheet is restored at scene end.",
       "page": 565,
-      "dependencies": [
-        "form-transformation"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.19.0-core"
     },
     "Scrappy": {
       "status": "automated",
@@ -1613,12 +1599,11 @@
       "introduced_engine": "0.5.0-core"
     },
     "Shields Down": {
-      "status": "manual",
-      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "status": "automated",
+      "scope": "At half HP change Minior to exact Core form at full HP with status immunity. Campaign Core memory persists until the GM records release and later recapture; rollback restores the memory.",
       "page": 567,
-      "dependencies": [
-        "form-transformation"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.19.0-core"
     },
     "Simple": {
       "status": "partial",
@@ -1728,12 +1713,11 @@
       "introduced_engine": "0.7.0-core"
     },
     "Stance Change": {
-      "status": "manual",
-      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "status": "automated",
+      "scope": "At round start select an exact Aegislash stance using its prepared rank/limit build. Blade allows only Physical/Special and Shield only Support; the highest HP/Will are shared.",
       "page": 570,
-      "dependencies": [
-        "form-transformation"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.19.0-core"
     },
     "Static": {
       "status": "automated",
@@ -1913,28 +1897,27 @@
       "introduced_engine": "0.7.0-core"
     },
     "Tera Shell": {
-      "status": "manual",
-      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "status": "automated",
+      "scope": "Full-health Terapagos receives Not-Very-Effective Physical/Special move damage, including reviewed formula and Clash paths. The threshold is evaluated at damage time.",
       "page": 573,
-      "dependencies": [
-        "form-transformation"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.19.0-core"
     },
     "Tera Shift": {
-      "status": "manual",
-      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "status": "automated",
+      "scope": "At round start choose the exact Terastal Terapagos form, restoring full HP/Will and statuses and materializing Tera Shell without replacing the permanent sheet.",
       "page": 574,
-      "dependencies": [
-        "form-transformation"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.19.0-core"
     },
     "Teraform Zero": {
-      "status": "manual",
-      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "status": "partial",
+      "scope": "Active Terapagos removes supported battlefield effects, weather and terrain and suppresses ordinary abilities. Existing unique-ability protection remains; conflicting unique effects require a recorded GM ruling.",
       "page": 574,
       "dependencies": [
-        "form-transformation"
-      ]
+        "unique-ability-stalemate-ruling"
+      ],
+      "introduced_engine": "0.19.0-core"
     },
     "Teravolt": {
       "status": "partial",
@@ -2196,20 +2179,18 @@
       "introduced_engine": "0.7.0-core"
     },
     "Zen Mode": {
-      "status": "manual",
-      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "status": "automated",
+      "scope": "At round end at half HP or less use the exact regional Zen form with its own prepared rank-point build and limits; current battle resources are preserved.",
       "page": 579,
-      "dependencies": [
-        "form-transformation"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.19.0-core"
     },
     "Zero to Hero": {
-      "status": "manual",
-      "scope": "Requires encounter form/state transformation and reviewed replacement metadata.",
+      "status": "automated",
+      "scope": "After recall prepare the exact Palafin Hero form and use that build on return; entry/switch identity, resources and rollback remain authoritative.",
       "page": 579,
-      "dependencies": [
-        "form-transformation"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.19.0-core"
     }
   }
 }

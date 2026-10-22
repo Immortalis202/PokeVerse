@@ -34,7 +34,7 @@ pub fn lifecycle(c: &mut Campaign) -> Result<()> {
         .collect();
     let sources: Vec<_> = living
         .iter()
-        .filter(|p| p.selected_ability == "Pressure")
+        .filter(|p| p.has_ability("Pressure"))
         .collect();
     let previous = flow(c)?.events.pressure_sources.clone();
     let covered: BTreeSet<_> = living

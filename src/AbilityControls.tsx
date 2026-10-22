@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { Campaign } from "./bindings/Campaign";
 import type { Action } from "./bindings/Action";
 import { api, errorOf } from "./api";
+import formRules from "../rules/battle-forms.json";
 
 export default function AbilityControls({
   campaign,
@@ -454,7 +455,7 @@ export default function AbilityControls({
                                                 : (b.combatants.find(
                                                     (p) => p.id === choice,
                                                   )?.name ??
-                                                  `Select ${choice}`)}
+                                                  `Select ${(formRules.species as Record<string, { name: string }>)[choice]?.name ?? choice}`)}
                     </button>
                     {event.kind === "stat-costar" && (
                       <small>

@@ -32,6 +32,7 @@ const catalog: Catalog = {
   warnings: [],
 };
 const campaign: Campaign = {
+  form_memory: {},
   ability_inheritance: { minutes: 0, copies: {}, selected: {}, history: [] },
   id: "campaign",
   name: "Training",

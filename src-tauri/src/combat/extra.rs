@@ -46,79 +46,83 @@ fn count(p: &Combatant, k: &str) -> i32 {
 fn own_stat(c: &Campaign, p: &Combatant, key: &str) -> i32 {
     let low = p.hp <= p.max_hp / 2;
     let w = field::weather(c, Some(p));
-    let n = match (p.selected_ability.as_str(), key) {
-        ("Slow Start", "Strength" | "Dexterity")
-            if battle(c).map_or(0, |b| b.round as i32) - count(p, "entry round") >= 3 =>
-        {
-            2
-        }
-        ("Guts", "Strength") if ailment(p) => 2,
-        ("Toxic Boost", "Strength")
-            if p.runtime.statuses.iter().any(|s| s.kind.contains("Poison")) =>
-        {
-            2
-        }
-        ("Flare Boost", "Special")
-            if p.runtime
-                .statuses
-                .iter()
-                .any(|s| s.kind.starts_with("Burn")) =>
-        {
-            2
-        }
-        ("Berserk", "Special") if low => 2,
-        ("Anger Shell", "Strength" | "Special" | "Dexterity") if low => 1,
-        ("Quick Feet", "Dexterity") if ailment(p) => 2,
-        ("Moxie", "Strength") => count(p, "Moxie"),
-        ("Sap Sipper", "Strength") => count(p, "Sap Sipper"),
-        ("Lightning Rod" | "Storm Drain", "Special") if tactics::enabled(c) => {
-            count(p, &p.selected_ability)
-        }
-        ("Speed Boost", "Dexterity") => count(p, "Speed Boost"),
-        ("Huge Power" | "Pure Power", "Strength") => 2,
-        ("Gorilla Tactics", "Strength") if sequencing::enabled(c) => 1,
-        ("Chlorophyll", "Dexterity")
-            if matches!(w, Some(field::Weather::Sunny | field::Weather::Desolate)) =>
-        {
-            2
-        }
-        ("Swift Swim", "Dexterity")
-            if matches!(w, Some(field::Weather::Rain | field::Weather::Typhoon)) =>
-        {
-            2
-        }
-        ("Slush Rush", "Dexterity")
-            if matches!(w, Some(field::Weather::Snow | field::Weather::Hail)) =>
-        {
-            1
-        }
-        ("Sand Rush", "Dexterity") if w == Some(field::Weather::Sandstorm) => 1,
-        ("Solar Power", "Special")
-            if matches!(w, Some(field::Weather::Sunny | field::Weather::Desolate)) =>
-        {
-            2
-        }
-        ("Surge Surfer", "Dexterity") if field::has(c, "Electric Terrain", p) => 2,
-        ("Hadron Engine", "Special") if field::has(c, "Electric Terrain", p) => 2,
-        ("Orichalcum Pulse", "Strength")
-            if matches!(w, Some(field::Weather::Sunny | field::Weather::Desolate)) =>
-        {
-            2
-        }
-        ("Plus", "Special")
-            if living(c)
-                .any(|q| q.id != p.id && q.side == p.side && q.selected_ability == "Minus") =>
-        {
-            2
-        }
-        ("Minus", "Special")
-            if living(c)
-                .any(|q| q.id != p.id && q.side == p.side && q.selected_ability == "Plus") =>
-        {
-            2
-        }
-        _ => 0,
-    };
+    let n = p
+        .ability_names()
+        .iter()
+        .map(|ability| match (ability.as_str(), key) {
+            ("Slow Start", "Strength" | "Dexterity")
+                if battle(c).map_or(0, |b| b.round as i32) - count(p, "entry round") >= 3 =>
+            {
+                2
+            }
+            ("Guts", "Strength") if ailment(p) => 2,
+            ("Toxic Boost", "Strength")
+                if p.runtime.statuses.iter().any(|s| s.kind.contains("Poison")) =>
+            {
+                2
+            }
+            ("Flare Boost", "Special")
+                if p.runtime
+                    .statuses
+                    .iter()
+                    .any(|s| s.kind.starts_with("Burn")) =>
+            {
+                2
+            }
+            ("Berserk", "Special") if low => 2,
+            ("Anger Shell", "Strength" | "Special" | "Dexterity") if low => 1,
+            ("Quick Feet", "Dexterity") if ailment(p) => 2,
+            ("Moxie", "Strength") => count(p, "Moxie"),
+            ("Sap Sipper", "Strength") => count(p, "Sap Sipper"),
+            ("Lightning Rod" | "Storm Drain", "Special") if tactics::enabled(c) => {
+                count(p, &p.selected_ability)
+            }
+            ("Speed Boost", "Dexterity") => count(p, "Speed Boost"),
+            ("Huge Power" | "Pure Power", "Strength") => 2,
+            ("Gorilla Tactics", "Strength") if sequencing::enabled(c) => 1,
+            ("Chlorophyll", "Dexterity")
+                if matches!(w, Some(field::Weather::Sunny | field::Weather::Desolate)) =>
+            {
+                2
+            }
+            ("Swift Swim", "Dexterity")
+                if matches!(w, Some(field::Weather::Rain | field::Weather::Typhoon)) =>
+            {
+                2
+            }
+            ("Slush Rush", "Dexterity")
+                if matches!(w, Some(field::Weather::Snow | field::Weather::Hail)) =>
+            {
+                1
+            }
+            ("Sand Rush", "Dexterity") if w == Some(field::Weather::Sandstorm) => 1,
+            ("Solar Power", "Special")
+                if matches!(w, Some(field::Weather::Sunny | field::Weather::Desolate)) =>
+            {
+                2
+            }
+            ("Surge Surfer", "Dexterity") if field::has(c, "Electric Terrain", p) => 2,
+            ("Hadron Engine", "Special") if field::has(c, "Electric Terrain", p) => 2,
+            ("Orichalcum Pulse", "Strength")
+                if matches!(w, Some(field::Weather::Sunny | field::Weather::Desolate)) =>
+            {
+                2
+            }
+            ("Plus", "Special")
+                if living(c)
+                    .any(|q| q.id != p.id && q.side == p.side && q.has_ability("Minus")) =>
+            {
+                2
+            }
+            ("Minus", "Special")
+                if living(c).any(|q| q.id != p.id && q.side == p.side && q.has_ability("Plus")) =>
+            {
+                2
+            }
+            _ => 0,
+        })
+        .max()
+        .unwrap_or(0);
     let mut n = n.max(count(p, &format!("boost:{key}")));
     if highest_active(c, p) {
         let options = highest(c, p);
@@ -136,10 +140,9 @@ fn own_stat(c: &Campaign, p: &Combatant, key: &str) -> i32 {
     n
 }
 fn protected(c: &Campaign, p: &Combatant, key: &str) -> bool {
-    ["Clear Body", "Full Metal Body", "White Smoke"].contains(&p.selected_ability.as_str())
-        || (key == "Strength"
-            && ["Hyper Cutter", "Guard Dog"].contains(&p.selected_ability.as_str()))
-        || (key == "Defense" && p.selected_ability == "Big Pecks")
+    p.has_any_ability(&["Clear Body", "Full Metal Body", "White Smoke"])
+        || (key == "Strength" && p.has_any_ability(&["Hyper Cutter", "Guard Dog"]))
+        || (key == "Defense" && p.has_ability("Big Pecks"))
         || field::aura(c, p, "Flower Veil", true)
 }
 pub fn attribute_channel(c: &Campaign, p: &Combatant, key: &str) -> (i32, i32) {
@@ -150,7 +153,7 @@ pub fn attribute_channel(c: &Campaign, p: &Combatant, key: &str) -> (i32, i32) {
     } else {
         0
     };
-    if p.selected_ability != "Clear Body" {
+    if !p.has_ability("Clear Body") {
         if key == "Strength"
             && matches!(
                 field::weather(c, Some(p)),
@@ -164,25 +167,19 @@ pub fn attribute_channel(c: &Campaign, p: &Combatant, key: &str) -> (i32, i32) {
             positive = positive.max(1);
         }
     }
-    if key == "Strength"
-        && intimidated
-        && p.selected_ability != "Inner Focus"
-        && !protected(c, p, key)
-    {
-        match p.selected_ability.as_str() {
+    if key == "Strength" && intimidated && !p.has_ability("Inner Focus") && !protected(c, p, key) {
+        match p.ability_for(&["Contrary", "Simple"]) {
             "Contrary" => positive = positive.max(1),
             "Simple" => negative = -2,
             _ => negative = -1,
         }
     }
-    if ![
+    if !p.has_any_ability(&[
         "Beads of Ruin",
         "Sword of Ruin",
         "Tablets of Ruin",
         "Vessel of Ruin",
-    ]
-    .contains(&p.selected_ability.as_str())
-        && !protected(c, p, key)
+    ]) && !protected(c, p, key)
     {
         let name = match key {
             "Strength" => "Tablets of Ruin",
@@ -208,16 +205,18 @@ pub fn apply_stats(c: &Campaign, p: &Combatant, s: &mut Sheet) {
         }
     }
     for (key, amount) in &modifiers {
-        let n = special::modifier(c, p, key).unwrap_or_else(|| match p.selected_ability.as_str() {
-            "Contrary" => -*amount,
-            "Simple" => amount + amount.signum(),
-            _ => *amount,
+        let n = special::modifier(c, p, key).unwrap_or_else(|| {
+            match p.ability_for(&["Contrary", "Simple"]) {
+                "Contrary" => -*amount,
+                "Simple" => amount + amount.signum(),
+                _ => *amount,
+            }
         });
         if let Some(v) = s.stats.get_mut(key) {
-            *v = (*v + n).clamp(1, 10);
+            *v = (*v + n).clamp(1, forms::stat_cap(c, p));
         }
     }
-    if status(p, "Paralysis") && p.selected_ability != "Quick Feet" {
+    if status(p, "Paralysis") && !p.has_ability("Quick Feet") {
         if let Some(v) = s.stats.get_mut("Dexterity") {
             *v = (*v - 2).max(0);
         }
@@ -225,16 +224,14 @@ pub fn apply_stats(c: &Campaign, p: &Combatant, s: &mut Sheet) {
     for key in ["Strength", "Dexterity", "Vitality", "Special", "Insight"] {
         let (positive, negative) = stat_channels::channel(c, p, key);
         if let Some(v) = s.stats.get_mut(key) {
-            let minimum = if key == "Dexterity"
-                && status(p, "Paralysis")
-                && p.selected_ability != "Quick Feet"
-            {
-                0
-            } else {
-                1
-            };
-            *v =
-                (*v + positive - stat_channels::permanent(c, p, key) + negative).clamp(minimum, 10);
+            let minimum =
+                if key == "Dexterity" && status(p, "Paralysis") && !p.has_ability("Quick Feet") {
+                    0
+                } else {
+                    1
+                };
+            *v = (*v + positive - stat_channels::permanent(c, p, key) + negative)
+                .clamp(minimum, forms::stat_cap(c, p));
         }
     }
 }
@@ -244,16 +241,16 @@ pub fn defense_channel(c: &Campaign, p: &Combatant, physical: bool) -> (i32, i32
     } else {
         "SpecialDefense"
     };
-    let mut positive = count(p, &format!("boost:{key}"));
+    let mut positive = count(p, &format!("boost:{key}")).max(forms::stat_bonus(c, p, key));
     let mut negative = count(p, &format!("debuff:{key}"));
     if physical
-        && ((p.selected_ability == "Marvel Scale" && ailment(p))
-            || (p.selected_ability == "Grass Pelt" && field::has(c, "Grassy Terrain", p)))
+        && ((p.has_ability("Marvel Scale") && ailment(p))
+            || (p.has_ability("Grass Pelt") && field::has(c, "Grassy Terrain", p)))
     {
         positive = positive.max(2);
     }
     if !physical
-        && p.selected_ability != "Clear Body"
+        && !p.has_ability("Clear Body")
         && matches!(
             field::weather(c, Some(p)),
             Some(field::Weather::Sunny | field::Weather::Desolate)
@@ -262,17 +259,15 @@ pub fn defense_channel(c: &Campaign, p: &Combatant, physical: bool) -> (i32, i32
     {
         positive = positive.max(2);
     }
-    if p.selected_ability == "Anger Shell" && p.hp <= p.max_hp / 2 {
+    if p.has_ability("Anger Shell") && p.hp <= p.max_hp / 2 {
         negative = negative.min(-1);
     }
-    if ![
+    if !p.has_any_ability(&[
         "Beads of Ruin",
         "Sword of Ruin",
         "Tablets of Ruin",
         "Vessel of Ruin",
-    ]
-    .contains(&p.selected_ability.as_str())
-        && !protected(c, p, key)
+    ]) && !protected(c, p, key)
         && global_aura(
             c,
             p,
@@ -296,22 +291,30 @@ pub fn defense(c: &Campaign, p: &Combatant, physical: bool) -> i32 {
     };
     let (positive, negative) = stat_channels::channel(c, p, key);
     let move_mod = *p.runtime.modifiers.get(key).unwrap_or(&0);
-    let move_mod =
-        special::modifier(c, p, key).unwrap_or_else(|| match p.selected_ability.as_str() {
+    let move_mod = special::modifier(c, p, key).unwrap_or_else(|| {
+        match p.ability_for(&["Contrary", "Simple"]) {
             "Contrary" => -move_mod,
             "Simple" => move_mod + move_mod.signum(),
             _ => move_mod,
-        });
+        }
+    });
     positive + negative + move_mod
 }
 pub fn move_data(c: &Campaign, p: &Combatant, m: &mut serde_json::Value) {
     if !enabled(c) {
         return;
     }
-    if p.selected_ability == "Long Reach" {
+    if p.has_ability("Long Reach") {
         m["Attributes"]["Ranged"] = serde_json::json!(true);
     }
-    let converted = match p.selected_ability.as_str() {
+    let converted = match p.ability_for(&[
+        "Aerilate",
+        "Pixilate",
+        "Galvanize",
+        "Refrigerate",
+        "Normalize",
+        "Liquid Voice",
+    ]) {
         "Aerilate" if m["Type"] == "Normal" => Some("Flying"),
         "Pixilate" if m["Type"] == "Normal" => Some("Fairy"),
         "Galvanize" if m["Type"] == "Normal" => Some("Electric"),
@@ -323,12 +326,12 @@ pub fn move_data(c: &Campaign, p: &Combatant, m: &mut serde_json::Value) {
     if let Some(t) = converted {
         m["Type"] = serde_json::json!(t);
     }
-    if p.selected_ability == "No Guard"
+    if p.has_ability("No Guard")
         && count(p, "No Guard round") == battle(c).map_or(0, |b| b.round as i32)
     {
         m["Attributes"]["AccuracyReduction"] = serde_json::json!(0);
     }
-    if p.selected_ability == "Triage"
+    if p.has_ability("Triage")
         && m["Category"] == "Support"
         && [
             "Recover",
@@ -353,40 +356,44 @@ pub fn bonus(c: &Campaign, p: &Combatant, target: &Combatant, m: &serde_json::Va
     let t = m["Type"].as_str().unwrap_or("");
     let name = m["Name"].as_str().unwrap_or("");
     let attrs = &m["Attributes"];
-    let mut own = match p.selected_ability.as_str() {
-        "Aerilate" if t == "Flying" => 1,
-        "Pixilate" if t == "Fairy" => 1,
-        "Galvanize" if t == "Electric" => 1,
-        "Refrigerate" if t == "Ice" => 1,
-        "Normalize" if t == "Normal" => 1,
-        "Dragon Maw" if t == "Dragon" => 2,
-        "Transistor" if t == "Electric" => 2,
-        "Water Bubble" if t == "Water" => 2,
-        "Rocky Payload" if t == "Rock" => 1,
-        "Steelworker" if t == "Steel" => 1,
-        "Strong Jaw" if attrs["BiteMove"] == true => 1,
-        "Sharpness" if attrs["CutterMove"] == true => 1,
-        "Wind Rider" if attrs["WindMove"] == true => 1,
-        "Tough Claws" if abilities::contact(m) => 1,
-        "Punk Rock" if attrs["SoundMove"] == true => 1,
-        "Reckless"
-            if attrs["Recoil"].is_object()
-                || attrs["Recoil"].is_number()
-                || attrs["Recoil"] == true
-                || name == "Submission" =>
-        {
-            2
-        }
-        "Mega Launcher" if name.contains("Pulse") || name.contains("Aura") => 2,
-        "Sand Force"
-            if field::weather(c, Some(p)) == Some(field::Weather::Sandstorm)
-                && ["Ground", "Steel", "Rock"].contains(&t) =>
-        {
-            1
-        }
-        "Analytic" if p.initiative < target.initiative => 1,
-        _ => 0,
-    };
+    let mut own = p
+        .ability_names()
+        .iter()
+        .map(|ability| match ability.as_str() {
+            "Aerilate" if t == "Flying" => 1,
+            "Pixilate" if t == "Fairy" => 1,
+            "Galvanize" if t == "Electric" => 1,
+            "Refrigerate" if t == "Ice" => 1,
+            "Normalize" if t == "Normal" => 1,
+            "Dragon Maw" if t == "Dragon" => 2,
+            "Transistor" if t == "Electric" => 2,
+            "Water Bubble" if t == "Water" => 2,
+            "Rocky Payload" if t == "Rock" => 1,
+            "Steelworker" if t == "Steel" => 1,
+            "Strong Jaw" if attrs["BiteMove"] == true => 1,
+            "Sharpness" if attrs["CutterMove"] == true => 1,
+            "Wind Rider" if attrs["WindMove"] == true => 1,
+            "Tough Claws" if abilities::contact(m) => 1,
+            "Punk Rock" if attrs["SoundMove"] == true => 1,
+            "Reckless"
+                if attrs["Recoil"].is_object()
+                    || attrs["Recoil"].is_number()
+                    || attrs["Recoil"] == true
+                    || name == "Submission" =>
+            {
+                2
+            }
+            "Mega Launcher" if name.contains("Pulse") || name.contains("Aura") => 2,
+            "Sand Force"
+                if field::weather(c, Some(p)) == Some(field::Weather::Sandstorm)
+                    && ["Ground", "Steel", "Rock"].contains(&t) =>
+            {
+                1
+            }
+            "Analytic" if p.initiative < target.initiative => 1,
+            _ => 0,
+        })
+        .sum::<i32>();
     if t == "Steel" && field::aura(c, p, "Steely Spirit", true) {
         own = own.max(1);
     }
@@ -435,46 +442,51 @@ pub fn reduction(c: &Campaign, p: &Combatant, m: &serde_json::Value, effective: 
     let t = m["Type"].as_str().unwrap_or("");
     let physical = m["Category"] == "Physical";
     let name = m["Name"].as_str().unwrap_or("");
-    match p.selected_ability.as_str() {
-        "Fluffy" => (if physical { 2 } else { 0 }) - (if t == "Fire" { 2 } else { 0 }),
-        "Heatproof" if t == "Fire" => 2,
-        "Water Bubble" if t == "Fire" => 1,
-        "Ice Scales" if !physical => 2,
-        "Prism Armor" if effective > 0 => 2,
-        "Shadow Shield" if p.hp == p.max_hp => 2,
-        "Punk Rock" if m["Attributes"]["SoundMove"] == true => 2,
-        "Purifying Salt" if t == "Ghost" => 3,
-        "Bulletproof"
-            if (physical && !abilities::contact(m))
-                || (!physical
-                    && [
-                        "Ball",
-                        "Blast",
-                        "Bomb",
-                        "Cannon",
-                        "Octazooka",
-                        "Puff",
-                        "Shot",
-                        "Sphere",
-                        "Wrecker",
-                    ]
-                    .iter()
-                    .any(|k| name.contains(k))) =>
-        {
-            1
-        }
-        _ => 0,
-    }
+    p.ability_names()
+        .iter()
+        .map(|ability| match ability.as_str() {
+            "Fluffy" => (if physical { 2 } else { 0 }) - (if t == "Fire" { 2 } else { 0 }),
+            "Heatproof" if t == "Fire" => 2,
+            "Water Bubble" if t == "Fire" => 1,
+            "Ice Scales" if !physical => 2,
+            "Prism Armor" if effective > 0 => 2,
+            "Shadow Shield" if p.hp == p.max_hp => 2,
+            "Punk Rock" if m["Attributes"]["SoundMove"] == true => 2,
+            "Purifying Salt" if t == "Ghost" => 3,
+            "Bulletproof"
+                if (physical && !abilities::contact(m))
+                    || (!physical
+                        && [
+                            "Ball",
+                            "Blast",
+                            "Bomb",
+                            "Cannon",
+                            "Octazooka",
+                            "Puff",
+                            "Shot",
+                            "Sphere",
+                            "Wrecker",
+                        ]
+                        .iter()
+                        .any(|k| name.contains(k))) =>
+            {
+                1
+            }
+            _ => 0,
+        })
+        .sum::<i32>()
 }
 pub fn immune(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> bool {
     enabled(c)
-        && match p.selected_ability.as_str() {
-            "Earth Eater" => m["Type"] == "Ground" && !field::has(c, "Gravity", p),
-            "Water Compaction" => m["Type"] == "Water",
-            "Well-Baked Body" => m["Type"] == "Fire",
-            "Motor Drive" if reviewed::enabled(c) => m["Type"] == "Electric",
-            _ => false,
-        }
+        && p.ability_names()
+            .iter()
+            .any(|ability| match ability.as_str() {
+                "Earth Eater" => m["Type"] == "Ground" && !field::has(c, "Gravity", p),
+                "Water Compaction" => m["Type"] == "Water",
+                "Well-Baked Body" => m["Type"] == "Fire",
+                "Motor Drive" if reviewed::enabled(c) => m["Type"] == "Electric",
+                _ => false,
+            })
 }
 pub fn source_immune(c: &Campaign, source: &Combatant, target: &Combatant, effective: i32) -> bool {
     if reviewed::damage_bypass(c, source, target) {
@@ -483,18 +495,18 @@ pub fn source_immune(c: &Campaign, source: &Combatant, target: &Combatant, effec
     enabled(c)
         && ((target.id != source.id
             && target.side == source.side
-            && ["Telepathy", "Friend Guard"].contains(&target.selected_ability.as_str()))
-            || (target.selected_ability == "Wonder Guard" && effective <= 0))
+            && target.has_any_ability(&["Telepathy", "Friend Guard"]))
+            || (target.has_ability("Wonder Guard") && effective <= 0))
 }
 pub fn status_immune(c: &Campaign, p: &Combatant, kind: &str, source: Option<&str>) -> bool {
     if !enabled(c) {
         return false;
     }
-    (p.selected_ability == "Purifying Salt" && ailment_kind(kind))
-        || (p.selected_ability == "Comatose" && kind != "Sleep")
-        || (p.selected_ability == "Thermal Exchange" && kind.starts_with("Burn"))
-        || (p.selected_ability == "Overcoat" && kind == "powder")
-        || (p.selected_ability == "Leaf Guard"
+    (p.has_ability("Purifying Salt") && ailment_kind(kind))
+        || (p.has_ability("Comatose") && kind != "Sleep")
+        || (p.has_ability("Thermal Exchange") && kind.starts_with("Burn"))
+        || (p.has_ability("Overcoat") && kind == "powder")
+        || (p.has_ability("Leaf Guard")
             && matches!(
                 field::weather(c, Some(p)),
                 Some(field::Weather::Sunny | field::Weather::Desolate)
@@ -511,14 +523,14 @@ pub fn after_status(c: &mut Campaign, id: &str, kind: &str) -> Result<()> {
         return Ok(());
     }
     let p = fighter(c, id)?.clone();
-    if kind.contains("Poison") && p.selected_ability == "Poison Heal" {
+    if kind.contains("Poison") && p.has_ability("Poison Heal") {
         fighter_mut(c, id)?
             .runtime
             .ability
             .counters
             .insert("poison-heal-rounds".into(), 0);
     }
-    if kind == "Flinch" && p.selected_ability == "Steadfast" {
+    if kind == "Flinch" && p.has_ability("Steadfast") {
         once(c, id, "Steadfast", &[("Dexterity", 1)])?;
     }
     Ok(())
@@ -586,7 +598,7 @@ fn hurt(c: &mut Campaign, id: &str, n: i32) -> Result<()> {
 pub fn disguise(c: &mut Campaign, id: &str, n: i32) -> Result<i32> {
     if enabled(c)
         && n > 0
-        && fighter(c, id)?.selected_ability == "Disguise"
+        && fighter(c, id)?.has_ability("Disguise")
         && !fighter(c, id)?.runtime.ability.flags.contains("Disguise")
     {
         fighter_mut(c, id)?
@@ -608,7 +620,7 @@ pub fn hit(c: &mut Campaign, q: &QueuedAction, before: i32, m: &serde_json::Valu
     let dealt = before > target.hp;
     let t = m["Type"].as_str().unwrap_or("");
     if target.hp == 0 && before > 0 && source.side != target.side && source.hp > 0 {
-        if source.selected_ability == "Beast Boost" && count(&source, "Beast Boost total") < 3 {
+        if source.has_ability("Beast Boost") && count(&source, "Beast Boost total") < 3 {
             let sheet = rules::effective_sheet(c, &source)?;
             let max = ["Strength", "Dexterity", "Vitality", "Special", "Insight"]
                 .iter()
@@ -630,7 +642,7 @@ pub fn hit(c: &mut Campaign, q: &QueuedAction, before: i32, m: &serde_json::Valu
                 options,
             );
         }
-        let key = match source.selected_ability.as_str() {
+        let key = match source.ability_for(&["Chilling Neigh", "Grim Neigh", "Soul Heart"]) {
             "Chilling Neigh" => Some("Strength"),
             "Grim Neigh" | "Soul Heart" => Some("Special"),
             _ => None,
@@ -640,80 +652,85 @@ pub fn hit(c: &mut Campaign, q: &QueuedAction, before: i32, m: &serde_json::Valu
             boost(c, &source.id, key, n)?;
         }
     }
-    if target.hp == 0 && before > 0 && target.selected_ability == "Innards Out" {
+    if target.hp == 0 && before > 0 && target.has_ability("Innards Out") {
         hurt(c, &source.id, before)?;
     }
-    if target.selected_ability == "Sand Spit" && abilities::contact(m) {
+    if target.has_ability("Sand Spit") && abilities::contact(m) {
         field::sand_spit(c, &target.id)?;
     }
     let bypass = reviewed::damage_bypass(c, &reviewed::source(c, q)?, &target);
     if target.hp > 0 {
-        match target.selected_ability.as_str() {
-            "Anger Point" if q.critical => {
-                boost(c, &target.id, "Strength", 3)?;
-            }
-            "Stamina" if dealt => once(
-                c,
-                &target.id,
-                "Stamina",
-                &[("Defense", 1), ("SpecialDefense", 1)],
-            )?,
-            "Water Compaction" if t == "Water" && !bypass => {
-                once(c, &target.id, "Water Compaction", &[("Defense", 2)])?
-            }
-            "Well-Baked Body" if t == "Fire" && !bypass => {
-                once(c, &target.id, "Well-Baked Body", &[("Defense", 2)])?
-            }
-            "Thermal Exchange" if t == "Fire" => {
-                once(c, &target.id, "Thermal Exchange", &[("Strength", 1)])?
-            }
-            "Steam Engine" if dealt && ["Fire", "Water"].contains(&t) => {
-                once(c, &target.id, "Steam Engine", &[("Dexterity", 3)])?
-            }
-            "Weak Armor" if m["Category"] == "Physical" => once(
-                c,
-                &target.id,
-                "Weak Armor",
-                &[("Dexterity", 1), ("Defense", -1)],
-            )?,
-            "Rattled" if ["Bug", "Dark", "Ghost"].contains(&t) => {
-                once(c, &target.id, "Rattled", &[("Dexterity", 1)])?
-            }
-            "Earth Eater" if t == "Ground" && !bypass && !field::has(c, "Gravity", &target) => {
-                enqueue(
+        for name in target.ability_names() {
+            let mut variant = target.clone();
+            variant.selected_ability = name;
+            let target = &variant;
+            match target.selected_ability.as_str() {
+                "Anger Point" if q.critical => {
+                    boost(c, &target.id, "Strength", 3)?;
+                }
+                "Stamina" if dealt => once(
                     c,
-                    &target,
                     &target.id,
-                    "heal",
-                    &q.move_name,
-                    vec!["heal".into(), "decline".into()],
-                )
-            }
-            "Cursed Body"
-                if dealt
-                    && source.hp > 0
-                    && source
-                        .runtime
-                        .statuses
-                        .iter()
-                        .filter(|s| s.kind == "Disable")
-                        .count()
-                        < 3 =>
-            {
-                enqueue(
+                    "Stamina",
+                    &[("Defense", 1), ("SpecialDefense", 1)],
+                )?,
+                "Water Compaction" if t == "Water" && !bypass => {
+                    once(c, &target.id, "Water Compaction", &[("Defense", 2)])?
+                }
+                "Well-Baked Body" if t == "Fire" && !bypass => {
+                    once(c, &target.id, "Well-Baked Body", &[("Defense", 2)])?
+                }
+                "Thermal Exchange" if t == "Fire" => {
+                    once(c, &target.id, "Thermal Exchange", &[("Strength", 1)])?
+                }
+                "Steam Engine" if dealt && ["Fire", "Water"].contains(&t) => {
+                    once(c, &target.id, "Steam Engine", &[("Dexterity", 3)])?
+                }
+                "Weak Armor" if m["Category"] == "Physical" => once(
                     c,
-                    &target,
-                    &source.id,
-                    "extra-disable",
-                    &q.move_name,
-                    vec!["roll".into()],
-                )
+                    &target.id,
+                    "Weak Armor",
+                    &[("Dexterity", 1), ("Defense", -1)],
+                )?,
+                "Rattled" if ["Bug", "Dark", "Ghost"].contains(&t) => {
+                    once(c, &target.id, "Rattled", &[("Dexterity", 1)])?
+                }
+                "Earth Eater" if t == "Ground" && !bypass && !field::has(c, "Gravity", target) => {
+                    enqueue(
+                        c,
+                        target,
+                        &target.id,
+                        "heal",
+                        &q.move_name,
+                        vec!["heal".into(), "decline".into()],
+                    )
+                }
+                "Cursed Body"
+                    if dealt
+                        && source.hp > 0
+                        && source
+                            .runtime
+                            .statuses
+                            .iter()
+                            .filter(|s| s.kind == "Disable")
+                            .count()
+                            < 3 =>
+                {
+                    enqueue(
+                        c,
+                        target,
+                        &source.id,
+                        "extra-disable",
+                        &q.move_name,
+                        vec!["roll".into()],
+                    )
+                }
+                _ => {}
             }
-            _ => {}
         }
         if dealt
-            && ((target.selected_ability == "Electromorphosis")
-                || (target.selected_ability == "Wind Power" && m["Attributes"]["WindMove"] == true))
+            && ((target.has_ability("Electromorphosis"))
+                || (target.has_ability("Wind Power") && m["Attributes"]["WindMove"] == true))
         {
             fighter_mut(c, &target.id)?
                 .runtime
@@ -721,13 +738,13 @@ pub fn hit(c: &mut Campaign, q: &QueuedAction, before: i32, m: &serde_json::Valu
                 .counters
                 .insert("charged-electric".into(), 2);
         }
-        if target.selected_ability == "Color Change" && dealt {
+        if target.has_ability("Color Change") && dealt {
             field::color_change(c, &target.id, t)?;
         }
     }
     if abilities::contact(m) && source.side != target.side && source.hp > 0 {
-        if ["Gooey", "Tangling Hair"].contains(&target.selected_ability.as_str())
-            && source.selected_ability != "Long Reach"
+        if target.has_any_ability(&["Gooey", "Tangling Hair"])
+            && !source.has_ability("Long Reach")
             && !target
                 .runtime
                 .ability
@@ -741,9 +758,7 @@ pub fn hit(c: &mut Campaign, q: &QueuedAction, before: i32, m: &serde_json::Valu
                 .insert(target.selected_ability.clone());
             change_stat(c, &target.id, &source.id, "Dexterity", -1)?;
         }
-        if ["Poison Touch", "Toxic Chain"].contains(&source.selected_ability.as_str())
-            && target.hp > 0
-        {
+        if source.has_any_ability(&["Poison Touch", "Toxic Chain"]) && target.hp > 0 {
             enqueue(
                 c,
                 &source,
@@ -786,11 +801,11 @@ fn apply_stat(
     }
     let p = fighter(c, id)?.clone();
     let hostile = source != id && fighter(c, source)?.side != p.side;
-    if n < 0 && hostile && p.selected_ability == "Mirror Armor" && !reflected {
+    if n < 0 && hostile && p.has_ability("Mirror Armor") && !reflected {
         return apply_stat(c, id, source, key, n, true);
     }
-    if source != id && ((n < 0 && protected(c, &p, key)) || p.selected_ability == "Clear Body") {
-        if n < 0 && key == "Strength" && p.selected_ability == "Guard Dog" {
+    if source != id && ((n < 0 && protected(c, &p, key)) || p.has_ability("Clear Body")) {
+        if n < 0 && key == "Strength" && p.has_ability("Guard Dog") {
             boost(c, id, key, 2)?;
         }
         return Ok(());
@@ -806,10 +821,10 @@ fn apply_stat(
         key.into(),
         reviewed.unwrap_or_else(|| (old + n).clamp(-3, 3)),
     );
-    if n < 0 && p.selected_ability == "Defiant" {
+    if n < 0 && p.has_ability("Defiant") {
         once(c, id, "Defiant", &[("Strength", 2)])?;
     }
-    if n < 0 && hostile && p.selected_ability == "Competitive" {
+    if n < 0 && hostile && p.has_ability("Competitive") {
         once(c, id, "Competitive", &[("Special", 2)])?;
     }
     Ok(())
@@ -828,9 +843,7 @@ pub fn accuracy_attempt(
         let resolved = field::move_data(c, &p, m);
         consume_charge(c, id, &resolved);
     }
-    if p.selected_ability == "Libero"
-        || (p.selected_ability == "Protean" && m["Category"] != "Support")
-    {
+    if p.has_ability("Libero") || (p.has_ability("Protean") && m["Category"] != "Support") {
         let m = field::move_data(c, &p, m);
         field::change_type(
             c,
@@ -856,7 +869,7 @@ pub fn round_start(c: &mut Campaign) -> Result<()> {
     flow_mut(c).extra.round_started = battle(c)?.round;
     let ps: Vec<_> = living(c).cloned().collect();
     for p in ps {
-        if p.selected_ability == "Quick Draw" {
+        if p.has_ability("Quick Draw") {
             enqueue(
                 c,
                 &p,
@@ -866,7 +879,7 @@ pub fn round_start(c: &mut Campaign) -> Result<()> {
                 vec!["roll".into()],
             );
         }
-        if p.selected_ability == "No Guard" {
+        if p.has_ability("No Guard") {
             enqueue(
                 c,
                 &p,
@@ -885,14 +898,12 @@ pub fn end_round(c: &mut Campaign) -> Result<()> {
     }
     let ps: Vec<_> = living(c).cloned().collect();
     for p in &ps {
-        if ["Natural Cure", "Shed Skin"].contains(&p.selected_ability.as_str())
-            && !p.runtime.statuses.is_empty()
-        {
+        if p.has_any_ability(&["Natural Cure", "Shed Skin"]) && !p.runtime.statuses.is_empty() {
             enqueue(
                 c,
                 p,
                 &p.id,
-                if p.selected_ability == "Shed Skin" {
+                if p.has_ability("Shed Skin") {
                     "extra-shed"
                 } else {
                     "extra-cure"
@@ -901,7 +912,7 @@ pub fn end_round(c: &mut Campaign) -> Result<()> {
                 vec!["roll".into()],
             );
         }
-        if p.selected_ability == "Healer" {
+        if p.has_ability("Healer") {
             let choices: Vec<_> = ps
                 .iter()
                 .filter(|t| t.id != p.id && t.side == p.side && !t.runtime.statuses.is_empty())
@@ -911,12 +922,12 @@ pub fn end_round(c: &mut Campaign) -> Result<()> {
                 enqueue(c, p, &p.id, "extra-healer", "choose an ally", choices);
             }
         }
-        if p.selected_ability == "Bad Dreams" {
+        if p.has_ability("Bad Dreams") {
             for t in ps.iter().filter(|t| status(t, "Sleep")) {
                 hurt(c, &t.id, 1)?;
             }
         }
-        if p.selected_ability == "Poison Heal"
+        if p.has_ability("Poison Heal")
             && p.runtime.statuses.iter().any(|s| s.kind.contains("Poison"))
         {
             if special::enabled(c) {
@@ -960,13 +971,13 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
         {
             flow_mut(c).extra.fainted.insert(p.id.clone());
         }
-        if !p.deployed && p.selected_ability == "Color Change" {
+        if !p.deployed && p.has_ability("Color Change") {
             field::change_type_inactive(c, &p.id);
         }
         if !p.deployed || p.hp == 0 {
             continue;
         }
-        if p.selected_ability == "Comatose" && !status(p, "Sleep") {
+        if p.has_ability("Comatose") && !status(p, "Sleep") {
             fighter_mut(c, &p.id)?.runtime.statuses.push(Status {
                 kind: "Sleep".into(),
                 detail: "Comatose".into(),
@@ -981,12 +992,17 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
             .and_then(|b| b.flow.as_ref())
             .is_some_and(|f| f.intimidate.values().any(|ids| ids.contains(&p.id)));
         if intimidated && !was_intimidated {
-            match p.selected_ability.as_str() {
-                "Defiant" => once(c, &p.id, "Defiant", &[("Strength", 2)])?,
-                "Competitive" => once(c, &p.id, "Competitive", &[("Special", 2)])?,
-                "Guard Dog" => boost(c, &p.id, "Strength", 2)?,
-                "Rattled" => once(c, &p.id, "Rattled", &[("Dexterity", 1)])?,
-                _ => {}
+            for name in p.ability_names() {
+                let mut variant = p.clone();
+                variant.selected_ability = name;
+                let p = &variant;
+                match p.selected_ability.as_str() {
+                    "Defiant" => once(c, &p.id, "Defiant", &[("Strength", 2)])?,
+                    "Competitive" => once(c, &p.id, "Competitive", &[("Special", 2)])?,
+                    "Guard Dog" => boost(c, &p.id, "Strength", 2)?,
+                    "Rattled" => once(c, &p.id, "Rattled", &[("Dexterity", 1)])?,
+                    _ => {}
+                }
             }
         }
         if highest_active(c, p) {
@@ -1011,7 +1027,7 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
             }
         }
         if !old.contains(&p.id) {
-            if reviewed::enabled(c) && p.selected_ability == "Screen Cleaner" {
+            if reviewed::enabled(c) && p.has_ability("Screen Cleaner") {
                 field::screen_cleaner(c);
             }
             let round = battle(c)?.round;
@@ -1020,81 +1036,87 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
                 .ability
                 .counters
                 .insert("entry round".into(), round as i32);
-            match p.selected_ability.as_str() {
-                "Dauntless Shield" => boost(c, &p.id, "Defense", 2)?,
-                "Intrepid Sword" => boost(c, &p.id, "Strength", 2)?,
-                "Download" => enqueue(
-                    c,
-                    p,
-                    &p.id,
-                    "extra-download",
-                    "entry scan",
-                    vec!["Strength".into(), "Special".into()],
-                ),
-                "Hospitality" if p.runtime.will > 0 => {
-                    let mut choices: Vec<_> = ps
-                        .iter()
-                        .filter(|t| {
-                            t.deployed
-                                && t.hp > 0
-                                && t.hp < t.max_hp
-                                && t.id != p.id
-                                && t.side == p.side
-                        })
-                        .map(|t| t.id.clone())
-                        .collect();
-                    if !choices.is_empty() {
-                        choices.push("decline".into());
-                        enqueue(c, p, &p.id, "extra-hospitality", "entry heal", choices);
-                    }
-                }
-                "Curious Medicine" => {
-                    for t in ps
-                        .iter()
-                        .filter(|t| {
-                            t.deployed
-                                && t.hp > 0
-                                && t.side == p.side
-                                && t.id != p.id
-                                && in_range(c, p, &t.id)
-                        })
-                        .cloned()
-                        .collect::<Vec<_>>()
-                    {
-                        special::clear_modifiers(c, &t.id);
-                        if stat_channels::enabled(c) {
-                            flow_mut(c)
-                                .stat_channels
-                                .grants
-                                .retain(|g| g.target != t.id);
+            for name in p.ability_names() {
+                let mut variant = p.clone();
+                variant.selected_ability = name;
+                let p = &variant;
+                match p.selected_ability.as_str() {
+                    "Dauntless Shield" => boost(c, &p.id, "Defense", 2)?,
+                    "Intrepid Sword" => boost(c, &p.id, "Strength", 2)?,
+                    "Download" => enqueue(
+                        c,
+                        p,
+                        &p.id,
+                        "extra-download",
+                        "entry scan",
+                        vec!["Strength".into(), "Special".into()],
+                    ),
+                    "Hospitality" if p.runtime.will > 0 => {
+                        let mut choices: Vec<_> = ps
+                            .iter()
+                            .filter(|t| {
+                                t.deployed
+                                    && t.hp > 0
+                                    && t.hp < t.max_hp
+                                    && t.id != p.id
+                                    && t.side == p.side
+                            })
+                            .map(|t| t.id.clone())
+                            .collect();
+                        if !choices.is_empty() {
+                            choices.push("decline".into());
+                            enqueue(c, p, &p.id, "extra-hospitality", "entry heal", choices);
                         }
-                        fighter_mut(c, &t.id)?.runtime.modifiers.clear();
-                        fighter_mut(c, &t.id)?
-                            .runtime
-                            .ability
-                            .counters
-                            .retain(|k, _| {
-                                !k.starts_with("boost:")
-                                    && !k.starts_with("debuff:")
-                                    && !["Moxie", "Sap Sipper", "Speed Boost"].contains(&k.as_str())
-                            });
                     }
+                    "Curious Medicine" => {
+                        for t in ps
+                            .iter()
+                            .filter(|t| {
+                                t.deployed
+                                    && t.hp > 0
+                                    && t.side == p.side
+                                    && t.id != p.id
+                                    && in_range(c, p, &t.id)
+                            })
+                            .cloned()
+                            .collect::<Vec<_>>()
+                        {
+                            special::clear_modifiers(c, &t.id);
+                            if stat_channels::enabled(c) {
+                                flow_mut(c)
+                                    .stat_channels
+                                    .grants
+                                    .retain(|g| g.target != t.id);
+                            }
+                            fighter_mut(c, &t.id)?.runtime.modifiers.clear();
+                            fighter_mut(c, &t.id)?
+                                .runtime
+                                .ability
+                                .counters
+                                .retain(|k, _| {
+                                    !k.starts_with("boost:")
+                                        && !k.starts_with("debuff:")
+                                        && !["Moxie", "Sap Sipper", "Speed Boost"]
+                                            .contains(&k.as_str())
+                                });
+                        }
+                    }
+                    "Supreme Overlord" => {
+                        let n = flow(c)?
+                            .extra
+                            .fainted
+                            .iter()
+                            .filter(|id| {
+                                ps.iter()
+                                    .any(|q| q.id == **id && q.side == p.side && q.id != p.id)
+                            })
+                            .count()
+                            .min(3) as i32;
+                        boost(c, &p.id, "Strength", n)?;
+                        boost(c, &p.id, "Special", n)?;
+                    }
+                    _ => {}
                 }
-                "Supreme Overlord" => {
-                    let n = flow(c)?
-                        .extra
-                        .fainted
-                        .iter()
-                        .filter(|id| {
-                            ps.iter()
-                                .any(|q| q.id == **id && q.side == p.side && q.id != p.id)
-                        })
-                        .count()
-                        .min(3) as i32;
-                    boost(c, &p.id, "Strength", n)?;
-                    boost(c, &p.id, "Special", n)?;
-                }
-                _ => {}
             }
         }
     }
@@ -1126,7 +1148,7 @@ pub fn dice(c: &Campaign, e: &abilities::AbilityEvent, choice: &str) -> Option<u
     if !e.kind.starts_with("extra-") {
         return None;
     }
-    let wonder = fighter(c, &e.target_id).is_ok_and(|p| p.selected_ability == "Wonder Skin");
+    let wonder = fighter(c, &e.target_id).is_ok_and(|p| p.has_ability("Wonder Skin"));
     Some(match e.kind.as_str() {
         "extra-disable" | "extra-poison" | "extra-cure" | "extra-heal-chance" | "extra-shed" => {
             if choice == "decline" {
@@ -1327,23 +1349,21 @@ pub fn critical_margin(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> i3
     } else {
         3
     };
-    base - i32::from(enabled(c) && p.selected_ability == "Super Luck")
+    base - i32::from(enabled(c) && p.has_ability("Super Luck"))
 }
 pub fn status_damage_immune(p: &Combatant, kind: &str) -> bool {
-    (p.selected_ability == "Poison Heal" && kind.contains("Poison"))
-        || (["Heatproof", "Water Bubble"].contains(&p.selected_ability.as_str())
-            && ["Burn", "Burn 2"].contains(&kind))
+    (p.has_ability("Poison Heal") && kind.contains("Poison"))
+        || (p.has_any_ability(&["Heatproof", "Water Bubble"]) && ["Burn", "Burn 2"].contains(&kind))
 }
 pub fn ignores_ghost(c: &Campaign, p: &Combatant, move_type: &str, target_type: &str) -> bool {
     enabled(c)
-        && (p.selected_ability == "Scrappy"
-            || (reviewed::enabled(c) && p.selected_ability == "Mind's Eye"))
+        && (p.has_ability("Scrappy") || (reviewed::enabled(c) && p.has_ability("Mind's Eye")))
         && target_type == "Ghost"
         && ["Normal", "Fight"].contains(&move_type)
 }
 pub fn accuracy_bonus(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> i32 {
     if enabled(c)
-        && p.selected_ability == "Compound Eyes"
+        && p.has_ability("Compound Eyes")
         && m["Attributes"]["AccuracyReduction"]
             .as_i64()
             .is_some_and(|n| n < 0)
@@ -1355,7 +1375,7 @@ pub fn accuracy_bonus(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> i32
 }
 pub fn no_guard(c: &Campaign, p: &Combatant) -> bool {
     enabled(c)
-        && p.selected_ability == "No Guard"
+        && p.has_ability("No Guard")
         && count(p, "No Guard round") == battle(c).map_or(0, |b| b.round as i32)
 }
 pub fn reaction(
@@ -1403,11 +1423,7 @@ pub fn move_effect(c: &mut Campaign, q: &QueuedAction) -> Result<bool> {
             return Err(error("Heal Pulse needs one Will"));
         }
         p.runtime.will -= 1;
-        let n = if p.selected_ability == "Mega Launcher" {
-            5
-        } else {
-            3
-        };
+        let n = if p.has_ability("Mega Launcher") { 5 } else { 3 };
         field::move_heal(c, &q.target_id, n)?;
         return Ok(true);
     }
@@ -1421,7 +1437,7 @@ fn ailment_kind(kind: &str) -> bool {
 }
 pub fn effects_immune(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> bool {
     enabled(c)
-        && ((p.selected_ability == "Overcoat" && m["Attributes"]["PowderMove"] == true)
+        && ((p.has_ability("Overcoat") && m["Attributes"]["PowderMove"] == true)
             || ([
                 "Taunt",
                 "Torment",
@@ -1436,8 +1452,7 @@ pub fn effects_immune(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> boo
 }
 pub fn blocked(c: &Campaign, p: &Combatant, cat: &Catalog) -> bool {
     let ts = field::types(c, p, cat).unwrap_or_default();
-    if p.selected_ability == "Run Away"
-        || (field::has(c, "cemetery", p) && !ts.contains(&"Ghost".into()))
+    if p.has_ability("Run Away") || (field::has(c, "cemetery", p) && !ts.contains(&"Ghost".into()))
     {
         return false;
     }
@@ -1449,12 +1464,12 @@ pub fn blocked(c: &Campaign, p: &Combatant, cat: &Catalog) -> bool {
             let mut ids: Vec<_> = living(c)
                 .filter(|t| {
                     t.id != q.id
-                        && match q.selected_ability.as_str() {
+                        && match q.ability_for(&["Shadow Tag", "Arena Trap", "Magnet Pull"]) {
                             "Shadow Tag" => {
                                 !field::types(c, t, cat)
                                     .unwrap_or_default()
                                     .contains(&"Ghost".into())
-                                    && t.selected_ability != "Shadow Tag"
+                                    && !t.has_ability("Shadow Tag")
                             }
                             "Arena Trap" => q.side != t.side && field::grounded(c, t, cat),
                             "Magnet Pull" => field::types(c, t, cat)
@@ -1474,10 +1489,8 @@ pub fn blocked(c: &Campaign, p: &Combatant, cat: &Catalog) -> bool {
                     [crate::creation::rank(&c.sheets[&q.sheet_id].rank).unwrap_or(0)],
             );
             ids.contains(&p.id.as_str())
-                && match q.selected_ability.as_str() {
-                    "Shadow Tag" => {
-                        !ts.contains(&"Ghost".into()) && p.selected_ability != "Shadow Tag"
-                    }
+                && match q.ability_for(&["Shadow Tag", "Arena Trap", "Magnet Pull"]) {
+                    "Shadow Tag" => !ts.contains(&"Ghost".into()) && !p.has_ability("Shadow Tag"),
                     "Arena Trap" => q.side != p.side && field::grounded(c, p, cat),
                     "Magnet Pull" => ts.contains(&"Steel".into()),
                     _ => false,
@@ -1509,24 +1522,24 @@ fn highest(c: &Campaign, p: &Combatant) -> Vec<String> {
     scores.into_iter().map(|(k, _)| k).collect()
 }
 fn highest_active(c: &Campaign, p: &Combatant) -> bool {
-    (p.selected_ability == "Protosynthesis"
+    (p.has_ability("Protosynthesis")
         && matches!(
             field::weather(c, Some(p)),
             Some(field::Weather::Sunny | field::Weather::Desolate)
         ))
-        || (p.selected_ability == "Quark Drive" && field::has(c, "Electric Terrain", p))
+        || (p.has_ability("Quark Drive") && field::has(c, "Electric Terrain", p))
 }
 pub fn order_group(c: &Campaign, p: &Combatant) -> i32 {
     if !enabled(c) {
         return 0;
     }
-    if tactics::enabled(c) && p.selected_ability == "Stall" {
+    if tactics::enabled(c) && p.has_ability("Stall") {
         return 2;
     }
     if count(p, "Quick Draw round") == battle(c).map_or(0, |b| b.round as i32) {
         return -1;
     }
-    if p.selected_ability == "Slow Start" {
+    if p.has_ability("Slow Start") {
         if battle(c).map_or(0, |b| b.round as i32) - count(p, "entry round") >= 3 {
             -1
         } else {
@@ -1598,7 +1611,7 @@ pub(super) fn ability_drop(c: &mut Campaign, id: &str, key: &str, n: i32) -> Res
     if protected(c, &p, key) {
         return Ok(());
     }
-    let (prefix, amount) = match p.selected_ability.as_str() {
+    let (prefix, amount) = match p.ability_for(&["Contrary", "Simple"]) {
         "Contrary" => ("boost", n),
         "Simple" => ("debuff", n + 1),
         _ => ("debuff", n),

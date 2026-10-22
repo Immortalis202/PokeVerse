@@ -8,7 +8,7 @@ pub fn enabled(c: &Campaign) -> bool {
         .and_then(|b| b.flow.as_ref())
         .is_some_and(|f| f.reviewed_rules)
 }
-fn effective_name<'a>(c: &'a Campaign, p: &'a Combatant) -> &'a str {
+fn effective_subject<'a>(c: &'a Campaign, p: &'a Combatant) -> &'a Combatant {
     c.battle
         .as_ref()
         .and_then(|b| b.flow.as_ref())
@@ -16,16 +16,18 @@ fn effective_name<'a>(c: &'a Campaign, p: &'a Combatant) -> &'a str {
         .filter(|q| q.actor_id == p.id)
         .and_then(|q| q.damage_context.as_ref())
         .and_then(|ctx| ctx.ability_sources.iter().find(|a| a.id == p.id))
-        .map_or(p.selected_ability.as_str(), |a| a.selected_ability.as_str())
+        .unwrap_or(p)
 }
 pub fn extreme(c: &Campaign, p: &Combatant) -> bool {
-    enabled(c) && ["Teravolt", "Turboblaze"].contains(&effective_name(c, p))
+    enabled(c) && effective_subject(c, p).has_any_ability(&["Teravolt", "Turboblaze"])
 }
 pub fn type_bypass(c: &Campaign, a: &Combatant, t: &Combatant) -> bool {
-    enabled(c) && a.side != t.side && (effective_name(c, a) == "Mold Breaker" || extreme(c, a))
+    enabled(c)
+        && a.side != t.side
+        && (effective_subject(c, a).has_ability("Mold Breaker") || extreme(c, a))
 }
 pub fn damage_bypass(c: &Campaign, a: &Combatant, t: &Combatant) -> bool {
-    type_bypass(c, a, t) && t.selected_ability != "Wonder Guard"
+    type_bypass(c, a, t) && !t.has_ability("Wonder Guard")
 }
 pub fn source(c: &Campaign, q: &QueuedAction) -> Result<Combatant> {
     Ok(ability_changes::frozen_subject(
@@ -43,11 +45,7 @@ pub fn in_range(c: &Campaign, a: &Combatant, t: &Combatant) -> bool {
     })
 }
 pub fn syrup(c: &Campaign, a: &Combatant, t: &Combatant) -> bool {
-    if !enabled(c)
-        || a.selected_ability != "Supersweet Syrup"
-        || a.side == t.side
-        || !in_range(c, a, t)
-    {
+    if !enabled(c) || !a.has_ability("Supersweet Syrup") || a.side == t.side || !in_range(c, a, t) {
         return false;
     }
     let cap =
@@ -62,13 +60,13 @@ pub fn syrup(c: &Campaign, a: &Combatant, t: &Combatant) -> bool {
     ids.contains(&t.id.as_str())
 }
 pub fn accuracy_penalty(c: &Campaign, a: &Combatant, t: &Combatant, penalty: i32) -> i32 {
-    if enabled(c) && a.selected_ability == "Keen Eye" {
+    if enabled(c) && a.has_ability("Keen Eye") {
         return 0;
     }
     let penalty = penalty
         - if enabled(c)
             && t.side != a.side
-            && t.selected_ability == "Tangled Feet"
+            && t.has_ability("Tangled Feet")
             && status(t, "Confusion")
         {
             2
@@ -85,12 +83,12 @@ pub fn move_data(c: &Campaign, p: &Combatant, m: &mut serde_json::Value) {
     let night = flow(c).is_ok_and(|f| f.battlefield.night);
     let victory = !support && field::aura(c, p, "Victory Star", true);
     if victory
-        || (p.selected_ability == "Mind's Eye" && night)
-        || (p.selected_ability == "Mycelium Might" && support)
+        || (p.has_ability("Mind's Eye") && night)
+        || (p.has_ability("Mycelium Might") && support)
     {
         m["Attributes"]["NeverMiss"] = serde_json::json!(true);
     }
-    if p.selected_ability == "Mycelium Might" && support {
+    if p.has_ability("Mycelium Might") && support {
         // Printed priority collisions remain explicit; do not silently erase a card's Reaction.
         m["Attributes"]["LateReaction"] = serde_json::json!("1");
     }
@@ -109,10 +107,10 @@ pub fn hit(c: &mut Campaign, q: &QueuedAction, m: &serde_json::Value, cat: &Cata
         return Ok(());
     }
     let bypass = damage_bypass(c, &a, &t);
-    if !bypass && t.hp > 0 && t.selected_ability == "Motor Drive" && m["Type"] == "Electric" {
+    if !bypass && t.hp > 0 && t.has_ability("Motor Drive") && m["Type"] == "Electric" {
         extra::once(c, &t.id, "Motor Drive", &[("Dexterity", 1)])?;
     }
-    if t.hp > 0 && t.selected_ability == "Justified" && m["Type"] == "Dark" {
+    if t.hp > 0 && t.has_ability("Justified") && m["Type"] == "Dark" {
         let key = "Justified";
         let n = (*t.runtime.ability.counters.get(key).unwrap_or(&0) + 1).min(3);
         fighter_mut(c, &t.id)?
@@ -122,13 +120,13 @@ pub fn hit(c: &mut Campaign, q: &QueuedAction, m: &serde_json::Value, cat: &Cata
             .insert(key.into(), n);
         extra::boost(c, &t.id, "Strength", n)?;
     }
-    if t.selected_ability == "Seed Sower"
+    if t.has_ability("Seed Sower")
         && ["Physical", "Special"].contains(&m["Category"].as_str().unwrap_or(""))
     {
         field::seed_sower(c, &t)?;
     }
-    if abilities::contact(m) && a.selected_ability != "Long Reach" {
-        if t.selected_ability == "Cotton Down" {
+    if abilities::contact(m) && !a.has_ability("Long Reach") {
+        if t.has_ability("Cotton Down") {
             let ids: Vec<_> = battle(c)?
                 .combatants
                 .iter()
@@ -144,7 +142,7 @@ pub fn hit(c: &mut Campaign, q: &QueuedAction, m: &serde_json::Value, cat: &Cata
                 extra::ability_drop(c, &id, "Dexterity", 1)?;
             }
         }
-        if t.selected_ability == "Toxic Debris" {
+        if t.has_ability("Toxic Debris") {
             field::toxic_debris(c, &t, &a);
         }
     }
@@ -166,7 +164,7 @@ pub fn notes(c: &Campaign, a: &Action) -> Vec<String> {
         if let Some(scope) = abilities::coverage(c, &p.selected_ability) {
             out.push(format!("{}: {scope}", p.selected_ability));
         }
-        if ["Mold Breaker", "Teravolt", "Turboblaze"].contains(&p.selected_ability.as_str()) {
+        if p.has_any_ability(&["Mold Breaker", "Teravolt", "Turboblaze"]) {
             out.push(format!("{}: ignore applicable foe damage immunities (including type immunity); damage reductions, unique non-bypassable effects and ordinary target/action eligibility remain enforced. Extreme targeting/effect bypass covers supported effects; held items and unsupported effects require GM adjudication.",p.selected_ability));
         }
     }
@@ -174,7 +172,7 @@ pub fn notes(c: &Campaign, a: &Action) -> Vec<String> {
 }
 
 pub fn unique_damage_guard(c: &Campaign, a: &Combatant, t: &Combatant, effect: i32) -> Result<()> {
-    if extreme(c, a) && a.side != t.side && t.selected_ability == "Wonder Guard" && effect <= 0 {
+    if extreme(c, a) && a.side != t.side && t.has_ability("Wonder Guard") && effect <= 0 {
         return Err(AppError::new("manual_rule","Unique ability stalemate: Teravolt/Turboblaze versus Wonder Guard requires a recorded GM ruling"));
     }
     Ok(())

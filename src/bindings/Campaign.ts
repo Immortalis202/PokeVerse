@@ -8,4 +8,22 @@ import type { Sheet } from "./Sheet";
 import type { TrainingEncounter } from "./TrainingEncounter";
 import type { WorkflowProposal } from "./WorkflowProposal";
 
-export type Campaign = { ability_inheritance: Inheritance, id: string, name: string, gm_id: string, host_id: string, revision: number, catalog_hash: string, engine: string, sheets: { [key in string]?: Sheet }, battle: Battle | null, finished_battles: Array<Battle>, events: Array<Event>, battle_undo: Array<BattleCheckpoint>, rules_profile: RulesProfile, proposals: Array<WorkflowProposal>, training_encounters: Array<TrainingEncounter>, };
+export type Campaign = {
+  form_memory: { [key in string]?: string };
+  ability_inheritance: Inheritance;
+  id: string;
+  name: string;
+  gm_id: string;
+  host_id: string;
+  revision: number;
+  catalog_hash: string;
+  engine: string;
+  sheets: { [key in string]?: Sheet };
+  battle: Battle | null;
+  finished_battles: Array<Battle>;
+  events: Array<Event>;
+  battle_undo: Array<BattleCheckpoint>;
+  rules_profile: RulesProfile;
+  proposals: Array<WorkflowProposal>;
+  training_encounters: Array<TrainingEncounter>;
+};

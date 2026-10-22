@@ -501,7 +501,7 @@ pub fn command(
             let before = fighter(c, &e.target)?.hp;
             indirect(c, &e.target, n)?;
             let dealt = before - fighter(c, &e.target)?.hp;
-            let ooze = fighter(c, &e.target)?.selected_ability == "Liquid Ooze";
+            let ooze = fighter(c, &e.target)?.has_ability("Liquid Ooze");
             if ooze {
                 indirect(c, &e.source, dealt)?;
             } else {
@@ -935,7 +935,7 @@ pub fn lifecycle(_before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<
 }
 fn indirect(c: &mut Campaign, id: &str, n: i32) -> Result<()> {
     let p = fighter_mut(c, id)?;
-    if !["Magic Guard", "Wonder Guard"].contains(&p.selected_ability.as_str()) {
+    if !p.has_any_ability(&["Magic Guard", "Wonder Guard"]) {
         p.hp = (p.hp - n.max(0)).max(0);
     }
     Ok(())
@@ -1141,7 +1141,7 @@ pub fn effects(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) -
                 q.raw_damage_successes as usize
             };
         let p = fighter(c, a)?;
-        if !["Rock Head", "Magic Guard"].contains(&p.selected_ability.as_str()) {
+        if !p.has_any_ability(&["Rock Head", "Magic Guard"]) {
             indirect(c, a, rules::successes(&dice[..recoil]))?;
         }
         if name == "Wave Crash" {
@@ -1188,7 +1188,7 @@ pub fn effects(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) -
         let amount = match name {
             "Rest" | "Lunar Blessing" | "Swallow" => 5,
             "Floral Healing" if field::has(c, "Grassy Terrain", fighter(c, t)?) => 5,
-            "Heal Pulse" if p.selected_ability == "Mega Launcher" => 5,
+            "Heal Pulse" if p.has_ability("Mega Launcher") => 5,
             "Shore Up" if weather == Some(field::Weather::Sandstorm) => 5,
             "Synthesis" | "Morning Sun" | "Moonlight" => {
                 if matches!(
@@ -1247,7 +1247,7 @@ pub fn effects(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) -
             return Ok(true);
         }
         let amount = q.damage / 2;
-        let ooze = fighter(c, t)?.selected_ability == "Liquid Ooze";
+        let ooze = fighter(c, t)?.has_ability("Liquid Ooze");
         if name == "Parabolic Charge" {
             let choice = state(c).selections.get(&q.sequence).ok_or_else(|| {
                 error("Select one Parabolic Charge damage recipient for draining")
@@ -1660,7 +1660,7 @@ pub fn effects(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) -
                 if dice.contains(&6)
                     && !(kind == "Flinch"
                         && fighter(c, t)?.runtime.flinch_round == battle(c)?.round)
-                    && !(fighter(c, t)?.selected_ability == "Shield Dust"
+                    && !(fighter(c, t)?.has_ability("Shield Dust")
                         && fighter(c, t)?.side != fighter(c, a)?.side)
                 {
                     abilities::inflict(c, a, t, kind, "", None, cat)?;
@@ -1713,13 +1713,10 @@ pub fn chance(name: &str) -> Option<(&'static str, u32)> {
 }
 fn chance_dice(c: &Campaign, q: &QueuedAction) -> Result<u32> {
     Ok(chance(&q.move_name).map_or(0, |(_, n)| {
-        let n = n + 2 * u32::from(
-            fighter(c, &q.actor_id).is_ok_and(|p| p.selected_ability == "Serene Grace"),
-        );
+        let n =
+            n + 2 * u32::from(fighter(c, &q.actor_id).is_ok_and(|p| p.has_ability("Serene Grace")));
         n.saturating_sub(
-            2 * u32::from(
-                fighter(c, &q.target_id).is_ok_and(|p| p.selected_ability == "Wonder Skin"),
-            ),
+            2 * u32::from(fighter(c, &q.target_id).is_ok_and(|p| p.has_ability("Wonder Skin"))),
         )
     }))
 }
@@ -1733,7 +1730,7 @@ fn apply_chance(c: &mut Campaign, q: &QueuedAction, faces: &[u8], cat: &Catalog)
             && faces.contains(&6)
             && !(kind == "Flinch"
                 && fighter(c, &q.target_id)?.runtime.flinch_round == battle(c)?.round)
-            && !(fighter(c, &q.target_id)?.selected_ability == "Shield Dust"
+            && !(fighter(c, &q.target_id)?.has_ability("Shield Dust")
                 && fighter(c, &q.target_id)?.side != fighter(c, &q.actor_id)?.side)
         {
             abilities::inflict(c, &q.actor_id, &q.target_id, kind, "", None, cat)?;
@@ -1765,9 +1762,9 @@ pub fn effect_dice(c: &Campaign, q: &QueuedAction, cat: &Catalog) -> Result<Opti
         return Ok(Some(fighter(c, &q.actor_id)?.hp.max(0) as u32));
     }
     if let Some((_, n)) = chance(&q.move_name) {
-        let n = n + 2 * u32::from(fighter(c, &q.actor_id)?.selected_ability == "Serene Grace");
+        let n = n + 2 * u32::from(fighter(c, &q.actor_id)?.has_ability("Serene Grace"));
         return Ok(Some(n.saturating_sub(
-            2 * u32::from(fighter(c, &q.target_id)?.selected_ability == "Wonder Skin"),
+            2 * u32::from(fighter(c, &q.target_id)?.has_ability("Wonder Skin")),
         )));
     }
     Ok(None)
@@ -1799,7 +1796,7 @@ fn bypass(c: &Campaign, q: &QueuedAction, m: &serde_json::Value) -> bool {
     fighter(c, &q.actor_id).is_ok_and(|p| reviewed::extreme(c, p))
         || m["Attributes"]["IgnoreShield"] == true
         || vulnerable(c, &q.target_id, &q.move_name)
-        || fighter(c, &q.actor_id).is_ok_and(|p| p.selected_ability == "Infiltrator")
+        || fighter(c, &q.actor_id).is_ok_and(|p| p.has_ability("Infiltrator"))
 }
 pub fn target_effects_blocked(c: &Campaign, q: &QueuedAction, m: &serde_json::Value) -> bool {
     if decoys::blocks_effects(c, q, m) {
@@ -2737,7 +2734,7 @@ pub fn blocked(c: &Campaign, id: &str) -> bool {
             .effects
             .iter()
             .any(|e| e.name == "Ingrain" && e.target == id)
-        && registered(c, id).is_ok_and(|p| p.selected_ability != "Run Away")
+        && registered(c, id).is_ok_and(|p| !p.has_ability("Run Away"))
 }
 pub fn low_accuracy(c: &Campaign, id: &str) -> i32 {
     if enabled(c)
@@ -2809,7 +2806,7 @@ pub fn modifier(c: &Campaign, p: &Combatant, key: &str) -> Option<i32> {
         return (item != 0 || item_up != 0).then(|| {
             let amount = p.runtime.modifiers.get(key).copied().unwrap_or(0);
             let amount = if extra::enabled(c) {
-                match p.selected_ability.as_str() {
+                match p.ability_for(&["Contrary", "Simple"]) {
                     "Contrary" => -amount,
                     "Simple" => amount + amount.signum(),
                     _ => amount,
@@ -2825,7 +2822,7 @@ pub fn modifier(c: &Campaign, p: &Combatant, key: &str) -> Option<i32> {
         .effects
         .iter()
         .filter(|e| e.target == p.id && names.contains(&e.name))
-        .map(|e| match p.selected_ability.as_str() {
+        .map(|e| match p.ability_for(&["Contrary", "Simple"]) {
             "Contrary" => -e.amount,
             "Simple" => e.amount + e.amount.signum(),
             _ => e.amount,
@@ -2837,7 +2834,7 @@ pub fn modifier(c: &Campaign, p: &Combatant, key: &str) -> Option<i32> {
             .get(&p.id)
             .is_some_and(|q| q.action.move_name == "Skull Bash")
     {
-        values.push(match p.selected_ability.as_str() {
+        values.push(match p.ability_for(&["Contrary", "Simple"]) {
             "Contrary" => -1,
             "Simple" => 2,
             _ => 1,
@@ -2846,7 +2843,7 @@ pub fn modifier(c: &Campaign, p: &Combatant, key: &str) -> Option<i32> {
     let copied = stat_channels::move_values(c, p, key);
     if values.is_empty() && (!copied.is_empty() || item != 0 || item_up != 0) {
         if let Some(amount) = p.runtime.modifiers.get(key) {
-            values.push(match p.selected_ability.as_str() {
+            values.push(match p.ability_for(&["Contrary", "Simple"]) {
                 "Contrary" => -*amount,
                 "Simple" => amount + amount.signum(),
                 _ => *amount,

@@ -97,6 +97,18 @@ pub fn switch(
     exception: bool,
     reason: &str,
 ) -> Result<(Campaign, String)> {
+    if crate::combat::forms::joined_component(c, incoming) {
+        return Err(AppError::new(
+            "battle",
+            "A component of an active As One union cannot enter separately",
+        ));
+    }
+    if !exception && crate::combat::forms::blocks_recall(c, outgoing) {
+        return Err(AppError::new(
+            "battle",
+            "Commander blocks this Pokemon for the scene",
+        ));
+    }
     if reason.trim().is_empty() || reason.len() > 1000 {
         return Err(AppError::new("validation", "Record a switching reason"));
     }

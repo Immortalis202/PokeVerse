@@ -22,6 +22,11 @@ pub fn effective_sheet(c: &Campaign, p: &Combatant) -> Result<Sheet> {
     crate::combat::apply_stats(c, p, &mut s);
     crate::combat::field::stats(c, p, &mut s);
     crate::combat::sequencing::apply_stats(c, p, &mut s);
+    for key in crate::creation::ATTRS {
+        if let Some(v) = s.stats.get_mut(key) {
+            *v += crate::combat::forms::stat_bonus(c, p, key);
+        }
+    }
     Ok(s)
 }
 /// Permanent attributes plus explicit GM overrides, before battle modifiers.
@@ -31,6 +36,7 @@ pub fn base_sheet(c: &Campaign, p: &Combatant) -> Result<Sheet> {
         .get(&p.sheet_id)
         .cloned()
         .ok_or_else(|| AppError::new("missing", "Missing combatant sheet"))?;
+    crate::combat::forms::sheet(c, p, &mut s);
     s.stats.extend(p.stat_overrides.clone());
     s.skills.extend(p.skill_overrides.clone());
     s.ability = p.selected_ability.clone();
@@ -148,6 +154,7 @@ pub fn accuracy(
     let m = catalog
         .find("moves", "Name", name)
         .ok_or_else(|| AppError::new("missing", "Unknown move"))?;
+    crate::combat::forms::guard_move(c, key, &m)?;
     crate::combat::field::guard_move(c, p, &m)?;
     crate::combat::special::guard(c, key, &m, catalog)?;
     let m = crate::combat::field::move_data(c, p, &m);
@@ -175,7 +182,7 @@ pub fn accuracy(
         .and_then(|v| {
             v.checked_add(
                 if crate::combat::special::enabled(c)
-                    && p.selected_ability == "Skill Link"
+                    && p.has_ability("Skill Link")
                     && crate::combat::special::limit(&m) > 1
                 {
                     2
@@ -200,6 +207,7 @@ pub fn accuracy(
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
     if [
         ENGINE,
+        ITEM_ENGINE,
         EVENT_ENGINE,
         PROVENANCE_ENGINE,
         SEQUENCING_ENGINE,
@@ -322,9 +330,13 @@ pub fn damage_pool(
         .find("moves", "Name", &hit.move_name)
         .ok_or_else(|| AppError::new("missing", "Unknown move"))?;
     let m = crate::combat::field::move_data(c, attacker, &m);
-    if let Some(pool) =
+    if let Some(mut pool) =
         crate::combat::special::formula(c, attacker, target, &m, sequence, modifier, catalog)?
     {
+        if crate::combat::forms::tera_shell(c, target, &m) {
+            pool.effectiveness = -1;
+            pool.immune = false;
+        }
         return Ok(pool);
     }
     let defense_source = match m["Category"].as_str() {
@@ -421,7 +433,7 @@ pub fn damage_pool(
     );
     let critical = if hit.critical
         || (crate::combat::extra::enabled(c)
-            && attacker.selected_ability == "Merciless"
+            && attacker.has_ability("Merciless")
             && target
                 .runtime
                 .statuses
@@ -433,6 +445,10 @@ pub fn damage_pool(
         0
     };
     let (mut effectiveness, mut immune) = type_matchup(c, attacker, target, move_type, catalog)?;
+    if crate::combat::forms::tera_shell(c, target, &m) {
+        effectiveness = -1;
+        immune = false;
+    }
     crate::combat::reviewed::unique_damage_guard(c, attacker, target, effectiveness)?;
     if crate::combat::field::weather(c, Some(target))
         == Some(crate::combat::field::Weather::StrongWinds)
@@ -444,7 +460,7 @@ pub fn damage_pool(
     }
     let conditional = crate::combat::type_ability(c, attacker, move_type);
     let corrosion = crate::combat::extra::enabled(c)
-        && attacker.selected_ability == "Corrosion"
+        && attacker.has_ability("Corrosion")
         && move_type == "Poison";
     immune |= !crate::combat::decoys::protected_subject(c, key, &target.id, &m)
         && !corrosion
@@ -599,7 +615,7 @@ pub fn type_matchup(
             effect
         };
         let effect = if crate::combat::extra::enabled(c)
-            && attacker.selected_ability == "Corrosion"
+            && attacker.has_ability("Corrosion")
             && move_type == "Poison"
             && effect == -100
         {

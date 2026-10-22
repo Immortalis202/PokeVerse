@@ -242,16 +242,19 @@ fn active(c: &Campaign, id: &str) -> bool {
     fighter(c, id).is_ok_and(|p| p.hp > 0)
 }
 pub fn weather(c: &Campaign, p: Option<&Combatant>) -> Option<Weather> {
-    if !enabled(c) || p.is_some_and(|p| p.selected_ability == "Cloud Nine") {
+    if !enabled(c) || p.is_some_and(|p| p.has_ability("Cloud Nine")) {
         return None;
     }
     if let Some(snapshot) = frozen(c) {
         return snapshot.weather;
     }
+    if forms::zero_active(c) {
+        return None;
+    }
     if battle(c).is_ok_and(|b| {
         b.combatants
             .iter()
-            .any(|p| p.deployed && p.hp > 0 && p.selected_ability == "Air Lock")
+            .any(|p| p.deployed && p.hp > 0 && p.has_ability("Air Lock"))
     }) {
         return None;
     }
@@ -267,6 +270,9 @@ fn applies(scope: &str, p: &Combatant) -> bool {
             .is_some_and(|s| s != p.side)
 }
 pub fn has(c: &Campaign, name: &str, p: &Combatant) -> bool {
+    if forms::zero_active(c) {
+        return false;
+    }
     enabled(c)
         && state(c)
             .unwrap()
@@ -391,10 +397,13 @@ pub fn live_types(c: &Campaign, p: &Combatant, cat: &Catalog) -> Result<Vec<Stri
             }
         }
     }
+    if let Some(form_types) = forms::types(c, &p.id) {
+        ts = form_types;
+    }
     if !enabled(c) {
         return Ok(ts);
     }
-    if extra::enabled(c) && p.selected_ability == "Mimicry" {
+    if extra::enabled(c) && p.has_ability("Mimicry") {
         let terrain = state(c)
             .unwrap()
             .rules
@@ -418,7 +427,7 @@ pub fn live_types(c: &Campaign, p: &Combatant, cat: &Catalog) -> Result<Vec<Stri
             }
         }
     }
-    if p.selected_ability == "Forecast" {
+    if p.has_ability("Forecast") {
         if let Some(t) = match weather(c, Some(p)) {
             Some(Weather::Sunny | Weather::Desolate) => Some("Fire"),
             Some(Weather::Rain | Weather::Typhoon) => Some("Water"),
@@ -466,7 +475,7 @@ pub fn grounded(c: &Campaign, p: &Combatant, cat: &Catalog) -> bool {
             .unwrap_or_default()
             .iter()
             .any(|t| t == "Flying")
-            && p.selected_ability != "Levitate")
+            && !p.has_ability("Levitate"))
 }
 pub fn stats(c: &Campaign, p: &Combatant, s: &mut Sheet) {
     if !enabled(c) {
@@ -477,7 +486,7 @@ pub fn stats(c: &Campaign, p: &Combatant, s: &mut Sheet) {
         let flower = matches!(w, Some(Weather::Sunny | Weather::Desolate))
             && aura(c, p, "Flower Gift", true);
         if flower {
-            let own = match p.selected_ability.as_str() {
+            let own = match p.ability_for(&["Guts", "Moxie", "Sap Sipper"]) {
                 "Guts"
                     if p.runtime.statuses.iter().any(|s| {
                         s.kind.starts_with("Burn")
@@ -496,9 +505,16 @@ pub fn stats(c: &Campaign, p: &Combatant, s: &mut Sheet) {
                 _ => 0,
             };
             let v = s.stats.entry("Strength".into()).or_default();
-            *v = (*v + (2 - own).max(0)).clamp(1, 10);
+            *v = (*v + (2 - own).max(0)).clamp(1, forms::stat_cap(c, p));
         }
-        let bonus = match p.selected_ability.as_str() {
+        let bonus = match p.ability_for(&[
+            "Chlorophyll",
+            "Swift Swim",
+            "Sand Rush",
+            "Slush Rush",
+            "Solar Power",
+            "Surge Surfer",
+        ]) {
             "Chlorophyll" if matches!(w, Some(Weather::Sunny | Weather::Desolate)) => {
                 Some(("Dexterity", 2))
             }
@@ -517,12 +533,12 @@ pub fn stats(c: &Campaign, p: &Combatant, s: &mut Sheet) {
         };
         if let Some((key, n)) = bonus {
             let v = s.stats.entry(key.into()).or_default();
-            *v = (*v + n).clamp(1, 10);
+            *v = (*v + n).clamp(1, forms::stat_cap(c, p));
         }
     }
     if has(c, "mud", p)
         && (items::iron_ball(c, &p.id)
-            || (p.selected_ability != "Levitate"
+            || (!p.has_ability("Levitate")
                 && !state(c)
                     .unwrap()
                     .species_types
@@ -617,10 +633,7 @@ fn defense_for_types(
     }
     n += i32::from(!physical && w == Some(Weather::Sandstorm) && ts.iter().any(|t| t == "Rock"));
     n += i32::from(physical && w == Some(Weather::Snow) && ts.iter().any(|t| t == "Ice"));
-    if !extra::enabled(c)
-        && physical
-        && p.selected_ability == "Grass Pelt"
-        && has(c, "Grassy Terrain", p)
+    if !extra::enabled(c) && physical && p.has_ability("Grass Pelt") && has(c, "Grassy Terrain", p)
     {
         n += 2;
     }
@@ -713,7 +726,7 @@ pub fn bonus(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> i32 {
         }
     }
     if !extra::enabled(c)
-        && p.selected_ability == "Sand Force"
+        && p.has_ability("Sand Force")
         && weather(c, Some(p)) == Some(Weather::Sandstorm)
         && ["Ground", "Steel", "Rock"].contains(&t)
     {
@@ -745,7 +758,7 @@ pub fn reduction(
     if special::vulnerable(c, &target.id, m["Name"].as_str().unwrap_or("")) {
         n -= 2;
     }
-    if source.selected_ability != "Infiltrator"
+    if !source.has_ability("Infiltrator")
         && !(special::enabled(c)
             && (m["Attributes"]["SoundMove"] == true
                 || [
@@ -810,8 +823,8 @@ fn heal(c: &mut Campaign, id: &str, n: i32, limited: bool) -> Result<()> {
 fn hurt(c: &mut Campaign, id: &str, n: i32, t: &str, cat: &Catalog) -> Result<()> {
     let p = fighter(c, id)?;
     if p.hp == 0
-        || p.selected_ability == "Magic Guard"
-        || (extra::enabled(c) && p.selected_ability == "Wonder Guard")
+        || p.has_ability("Magic Guard")
+        || (extra::enabled(c) && p.has_ability("Wonder Guard"))
     {
         return Ok(());
     }
@@ -833,7 +846,7 @@ fn set_weather(c: &mut Campaign, w: WeatherSource) -> Result<()> {
     if battle(c)?
         .combatants
         .iter()
-        .any(|p| p.deployed && p.hp > 0 && p.selected_ability == "Air Lock")
+        .any(|p| p.deployed && p.hp > 0 && p.has_ability("Air Lock"))
     {
         return Err(error("Air Lock prevents weather activation"));
     }
@@ -997,7 +1010,7 @@ fn reverse_remaining(c: &mut Campaign) {
             .unwrap()
             .combatants
             .iter()
-            .filter(|p| p.selected_ability == "Stall")
+            .filter(|p| p.has_ability("Stall"))
             .map(|p| p.id.clone())
             .collect::<BTreeSet<_>>()
     } else {
@@ -1045,7 +1058,7 @@ pub fn start(c: &mut Campaign, cat: &Catalog) -> Result<()> {
             Some(Weather::Typhoon) if !ts.contains(&"Water".into()) => Some(("Vitality", "Water")),
             Some(Weather::StrongWinds)
                 if items::iron_ball(c, &p.id)
-                    || (!ts.contains(&"Flying".into()) && p.selected_ability != "Levitate") =>
+                    || (!ts.contains(&"Flying".into()) && !p.has_ability("Levitate")) =>
             {
                 Some(("Dexterity", "Neutral"))
             }
@@ -1076,33 +1089,30 @@ pub fn end(c: &mut Campaign, cat: &Catalog) -> Result<()> {
         let sand = ts
             .iter()
             .any(|t| ["Rock", "Ground", "Steel"].contains(&t.as_str()))
-            || ["Sand Rush", "Sand Veil", "Sand Force"].contains(&p.selected_ability.as_str())
-            || (super::extra::enabled(c) && p.selected_ability == "Overcoat");
+            || p.has_any_ability(&["Sand Rush", "Sand Veil", "Sand Force"])
+            || (super::extra::enabled(c) && p.has_ability("Overcoat"));
         let hail = ts.contains(&"Ice".into())
-            || ["Ice Body", "Snow Cloak", "Slush Rush"].contains(&p.selected_ability.as_str())
-            || (super::extra::enabled(c) && p.selected_ability == "Overcoat");
+            || p.has_any_ability(&["Ice Body", "Snow Cloak", "Slush Rush"])
+            || (super::extra::enabled(c) && p.has_ability("Overcoat"));
         if !state(c).unwrap().sheltered.contains(&p.id)
             && ((w == Some(Weather::Sandstorm) && !sand) || (w == Some(Weather::Hail) && !hail))
         {
             hurt(c, &p.id, 1, "Neutral", cat)?;
         }
         if matches!(w, Some(Weather::Sunny | Weather::Desolate))
-            && ["Solar Power", "Dry Skin"].contains(&p.selected_ability.as_str())
+            && p.has_any_ability(&["Solar Power", "Dry Skin"])
         {
             hurt(c, &p.id, 1, "Neutral", cat)?;
         }
         if has(c, "Grassy Terrain", p) {
             heal(c, &p.id, 1, true)?;
         }
-        if (p.selected_ability == "Rain Dish"
-            && matches!(w, Some(Weather::Rain | Weather::Typhoon)))
-            || (p.selected_ability == "Ice Body"
-                && matches!(w, Some(Weather::Snow | Weather::Hail)))
+        if (p.has_ability("Rain Dish") && matches!(w, Some(Weather::Rain | Weather::Typhoon)))
+            || (p.has_ability("Ice Body") && matches!(w, Some(Weather::Snow | Weather::Hail)))
         {
             enqueue(c, &p.id, "heal", 0, 0, 1, "Neutral");
         }
-        if p.selected_ability == "Hydration" && matches!(w, Some(Weather::Rain | Weather::Typhoon))
-        {
+        if p.has_ability("Hydration") && matches!(w, Some(Weather::Rain | Weather::Typhoon)) {
             fighter_mut(c, &p.id)?.runtime.statuses.clear();
         }
         if has(c, "underwater", p) && !ts.contains(&"Water".into()) {
@@ -1196,102 +1206,121 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
         .iter()
         .filter(|p| active_ids.contains(&p.id) && !old.contains(&p.id))
     {
-        if reviewed::enabled(c)
-            && !before.battle.as_ref().is_some_and(|b| {
-                b.combatants
-                    .iter()
-                    .any(|q| q.id == p.id && q.deployed && q.hp > 0)
-            })
-            && has(c, "Toxic Spikes", p)
-            && grounded(c, p, cat)
-            && !abilities::damage_immune(
-                c,
-                p,
-                &serde_json::json!({"Type":"Ground","Category":"Physical"}),
-            )
-        {
-            enqueue(c, &p.id, "toxic-spikes", 1, 0, 0, "Poison");
-        }
-        if has(c, "minefield", p)
-            && (!ability_changes::enabled(c)
-                || !before.battle.as_ref().is_some_and(|b| {
+        for name in p.ability_names() {
+            let mut variant = p.clone();
+            variant.selected_ability = name;
+            let p = &variant;
+            if reviewed::enabled(c)
+                && !before.battle.as_ref().is_some_and(|b| {
                     b.combatants
                         .iter()
                         .any(|q| q.id == p.id && q.deployed && q.hp > 0)
-                }))
-        {
-            hurt(c, &p.id, 1, "Neutral", cat)?;
-        }
-        let weather = match p.selected_ability.as_str() {
-            "Drought" => Some(Weather::Sunny),
-            "Orichalcum Pulse" if extra::enabled(c) => Some(Weather::Sunny),
-            "Drizzle" => Some(Weather::Rain),
-            "Sand Stream" => Some(Weather::Sandstorm),
-            "Desolate Land" => Some(Weather::Desolate),
-            "Primordial Sea" => Some(Weather::Typhoon),
-            "Delta Stream" => Some(Weather::StrongWinds),
-            _ => None,
-        };
-        if let Some(weather) = weather {
-            candidates.push(WeatherSource {
-                weather,
-                source: format!("ability:{}", p.id),
-                rounds: None,
-            });
-        }
-        if p.selected_ability == "Snow Warning" {
-            enqueue(c, &p.id, "weather-choice", 0, 0, 0, "Neutral");
-        }
-        let terrain = match p.selected_ability.as_str() {
-            "Grassy Surge" => Some("Grassy Terrain"),
-            "Electric Surge" => Some("Electric Terrain"),
-            "Hadron Engine" if extra::enabled(c) => Some("Electric Terrain"),
-            "Misty Surge" => Some("Misty Terrain"),
-            "Psychic Surge" => Some("Psychic Terrain"),
-            _ => None,
-        };
-        if let Some(name) = terrain {
-            let scope = if name == "Grassy Terrain" {
-                format!("side:{}", p.side)
-            } else {
-                "all".into()
-            };
-            let mut contenders: Vec<TerrainSource> = state(c)
-                .unwrap()
-                .rules
-                .iter()
-                .filter(|r| {
-                    r.kind.ends_with("Terrain")
-                        && r.kind != name
-                        && r.source.starts_with("ability:")
-                        && active_ids.contains(r.source.trim_start_matches("ability:"))
                 })
-                .map(|r| TerrainSource {
-                    name: r.kind.clone(),
-                    source: r.source.clone(),
-                    scope: r.scope.clone(),
-                })
-                .collect();
-            contenders.push(TerrainSource {
-                name: name.into(),
-                source: format!("ability:{}", p.id),
-                scope,
-            });
-            if contenders.len() == 1
-                && state(c).unwrap().rules.iter().any(|r| {
-                    r.kind.ends_with("Terrain")
-                        && r.kind != name
-                        && !r.source.starts_with("ability:")
-                })
+                && has(c, "Toxic Spikes", p)
+                && grounded(c, p, cat)
+                && !abilities::damage_immune(
+                    c,
+                    p,
+                    &serde_json::json!({"Type":"Ground","Category":"Physical"}),
+                )
             {
-                enqueue(c, &p.id, "terrain-ruling", 0, 0, 0, "Neutral");
-                state_mut(c).events.last_mut().unwrap().terrains = contenders;
-            } else if contenders.len() > 1 {
-                let n = contenders.iter().map(|t| will(c, &t.source)).sum();
-                enqueue(c, "", "terrain-contest", n, 0, 0, "Neutral");
-                state_mut(c).events.last_mut().unwrap().terrains = contenders;
-            } else {
-                apply_terrain(c, &contenders[0]);
+                enqueue(c, &p.id, "toxic-spikes", 1, 0, 0, "Poison");
+            }
+            if has(c, "minefield", p)
+                && (!ability_changes::enabled(c)
+                    || !before.battle.as_ref().is_some_and(|b| {
+                        b.combatants
+                            .iter()
+                            .any(|q| q.id == p.id && q.deployed && q.hp > 0)
+                    }))
+            {
+                hurt(c, &p.id, 1, "Neutral", cat)?;
+            }
+            let weather = match p.ability_for(&[
+                "Drought",
+                "Orichalcum Pulse",
+                "Drizzle",
+                "Sand Stream",
+                "Desolate Land",
+                "Primordial Sea",
+                "Delta Stream",
+            ]) {
+                "Drought" => Some(Weather::Sunny),
+                "Orichalcum Pulse" if extra::enabled(c) => Some(Weather::Sunny),
+                "Drizzle" => Some(Weather::Rain),
+                "Sand Stream" => Some(Weather::Sandstorm),
+                "Desolate Land" => Some(Weather::Desolate),
+                "Primordial Sea" => Some(Weather::Typhoon),
+                "Delta Stream" => Some(Weather::StrongWinds),
+                _ => None,
+            };
+            if let Some(weather) = weather {
+                candidates.push(WeatherSource {
+                    weather,
+                    source: format!("ability:{}", p.id),
+                    rounds: None,
+                });
+            }
+            if p.has_ability("Snow Warning") {
+                enqueue(c, &p.id, "weather-choice", 0, 0, 0, "Neutral");
+            }
+            let terrain = match p.ability_for(&[
+                "Grassy Surge",
+                "Electric Surge",
+                "Hadron Engine",
+                "Misty Surge",
+                "Psychic Surge",
+            ]) {
+                "Grassy Surge" => Some("Grassy Terrain"),
+                "Electric Surge" => Some("Electric Terrain"),
+                "Hadron Engine" if extra::enabled(c) => Some("Electric Terrain"),
+                "Misty Surge" => Some("Misty Terrain"),
+                "Psychic Surge" => Some("Psychic Terrain"),
+                _ => None,
+            };
+            if let Some(name) = terrain {
+                let scope = if name == "Grassy Terrain" {
+                    format!("side:{}", p.side)
+                } else {
+                    "all".into()
+                };
+                let mut contenders: Vec<TerrainSource> = state(c)
+                    .unwrap()
+                    .rules
+                    .iter()
+                    .filter(|r| {
+                        r.kind.ends_with("Terrain")
+                            && r.kind != name
+                            && r.source.starts_with("ability:")
+                            && active_ids.contains(r.source.trim_start_matches("ability:"))
+                    })
+                    .map(|r| TerrainSource {
+                        name: r.kind.clone(),
+                        source: r.source.clone(),
+                        scope: r.scope.clone(),
+                    })
+                    .collect();
+                contenders.push(TerrainSource {
+                    name: name.into(),
+                    source: format!("ability:{}", p.id),
+                    scope,
+                });
+                if contenders.len() == 1
+                    && state(c).unwrap().rules.iter().any(|r| {
+                        r.kind.ends_with("Terrain")
+                            && r.kind != name
+                            && !r.source.starts_with("ability:")
+                    })
+                {
+                    enqueue(c, &p.id, "terrain-ruling", 0, 0, 0, "Neutral");
+                    state_mut(c).events.last_mut().unwrap().terrains = contenders;
+                } else if contenders.len() > 1 {
+                    let n = contenders.iter().map(|t| will(c, &t.source)).sum();
+                    enqueue(c, "", "terrain-contest", n, 0, 0, "Neutral");
+                    state_mut(c).events.last_mut().unwrap().terrains = contenders;
+                } else {
+                    apply_terrain(c, &contenders[0]);
+                }
             }
         }
     }
@@ -1687,6 +1716,7 @@ fn apply_terrain(c: &mut Campaign, t: &TerrainSource) {
 pub fn move_data(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> serde_json::Value {
     let mut m = m.clone();
     items::move_data(c, p, &mut m);
+    forms::move_data(c, p, &mut m);
     if !enabled(c) {
         return m;
     }
@@ -1749,9 +1779,7 @@ pub fn aura(c: &Campaign, target: &Combatant, ability: &str, include_self: bool)
     battle(c).is_ok_and(|_| {
         extra::participants(c)
             .iter()
-            .filter(|q| {
-                q.deployed && q.hp > 0 && q.side == target.side && q.selected_ability == ability
-            })
+            .filter(|q| q.deployed && q.hp > 0 && q.side == target.side && q.has_ability(ability))
             .any(|q| {
                 let cap = [1, 2, 3, 4, 5, 6, 8, 10]
                     [crate::creation::rank(&c.sheets[&q.sheet_id].rank).unwrap_or(0)];

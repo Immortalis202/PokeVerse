@@ -6,6 +6,7 @@ import type { DecoyState } from "./DecoyState";
 import type { EventState } from "./EventState";
 import type { ExtraState } from "./ExtraState";
 import type { FieldEffect } from "./FieldEffect";
+import type { FormState } from "./FormState";
 import type { ItemState } from "./ItemState";
 import type { QueuedAction } from "./QueuedAction";
 import type { SequencingState } from "./SequencingState";
@@ -15,6 +16,7 @@ import type { TacticsState } from "./TacticsState";
 import type { TransferState } from "./TransferState";
 
 export type TurnFlow = {
+  forms: FormState;
   items: ItemState;
   events: EventState;
   provenance_rules: boolean;

@@ -1,12 +1,12 @@
-# PokeVerse v0.25.0
+# PokeVerse v0.26.0
 
-Current release: **0.25.0**, engine **0.18.0-core**, protocol **26**, schema **4**. [Held items and dependent abilities](docs/battle-held-items.md).
+Current release: **0.26.0**, engine **0.19.0-core**, protocol **27**, schema **4**. [Battle forms and transformations](docs/battle-transformations.md).
 
 Current unfinished features and verification gaps: [remaining work](docs/REMAINING-WORK.md).
 
 Windows desktop workspace for Pokerole 3.0. Built with Tauri 2, React/TypeScript, and Rust. Each installation keeps its library locally and can host a persistent campaign over LAN or a private VPN.
 
-The default Nocturne workspace uses RodeoPokemon's dark purple palette, a compact navigation rail and a toolbar with campaign, connection and separate host/GM status. Creation, progression, training encounters and battles retain their existing workflows. Version 0.25.0 uses protocol 26 and retains database schema 4; all room clients must use matching builds.
+The default Nocturne workspace uses RodeoPokemon's dark purple palette, a compact navigation rail and a toolbar with campaign, connection and separate host/GM status. Creation, progression, training encounters and battles retain their existing workflows. Version 0.26.0 uses protocol 27 and retains database schema 4; all room clients must use matching builds.
 
 ## Run
 

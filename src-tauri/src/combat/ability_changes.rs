@@ -48,6 +48,7 @@ fn assigned(c: &Campaign, p: &Combatant) -> String {
         .or_else(|| transfers::contact_copy(c, &p.id))
         .or_else(|| state(c).assignments.get(&p.id))
         .or_else(|| transfers::active_copy(c, &p.sheet_id).map(|r| &r.ability))
+        .or_else(|| forms::identity(c, &p.id))
         .or_else(|| state(c).originals.get(&p.id))
         .unwrap_or(&p.selected_ability)
         .clone()
@@ -91,7 +92,9 @@ pub fn move_effect(c: &mut Campaign, q: &QueuedAction, cat: &Catalog) -> Result<
     let target = fighter(c, &q.target_id)?.clone();
     let ua = assigned(c, &user);
     let ta = assigned(c, &target);
-    if unique(cat, &ta)?
+    if forms::union_active(c, &target.id)
+        || forms::union_active(c, &user.id)
+        || unique(cat, &ta)?
         || (["Skill Swap", "Role Play"].contains(&q.move_name.as_str()) && unique(cat, &ua)?)
     {
         return Err(AppError::new(
@@ -152,6 +155,7 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
     if !enabled(c) {
         return Ok(());
     }
+    forms::redirect_losses(before, c)?;
     transfers::lifecycle(before, c, cat)?;
     let ps = c.battle.as_ref().unwrap().combatants.clone();
     let active: BTreeSet<_> = ps
@@ -235,6 +239,13 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
         }
     }
     let mut suppressed = state(c).negated.clone();
+    if forms::zero_active(c) {
+        for p in &ps {
+            if !forms::union_active(c, &p.id) && !unique(cat, &assigned(c, p))? {
+                suppressed.insert(p.id.clone());
+            }
+        }
+    }
     for g in &gases {
         let cap = [1, 2, 3, 4, 5, 6, 8, 10][crate::creation::rank(&c.sheets[&g.sheet_id].rank)
             .ok_or_else(|| error("Unknown Gas range rank"))?];
@@ -253,7 +264,7 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
         targets.sort_by_key(|p| p.id.clone());
         targets.truncate(cap);
         for p in targets {
-            if !unique(cat, &assigned(c, p))? {
+            if !forms::union_active(c, &p.id) && !unique(cat, &assigned(c, p))? {
                 suppressed.insert(p.id.clone());
             }
         }
@@ -280,7 +291,7 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
                         .and_then(|b| b.flow.as_ref())
                         .and_then(|f| f.transfers.contact_overrides.get(&p.id));
             let b = c.battle.as_mut().unwrap();
-            if p.selected_ability == "Comatose" && a != "Comatose" {
+            if p.has_ability("Comatose") && a != "Comatose" {
                 b.combatants
                     .iter_mut()
                     .find(|v| v.id == p.id)
@@ -325,8 +336,8 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
                     .battle
                     .as_ref()
                     .and_then(|b| b.combatants.iter().find(|v| v.id == p.id))
-                    .is_some_and(|v| v.selected_ability != "Trace"))
-            && p.selected_ability == "Trace"
+                    .is_some_and(|v| !v.has_ability("Trace")))
+            && p.has_ability("Trace")
             && !flow(c)?
                 .ability_events
                 .iter()
@@ -414,6 +425,19 @@ pub fn frozen_subject(c: &Campaign, source: &str, sequence: u32, p: &Combatant) 
             .and_then(|ctx| ctx.ability_sources.iter().find(|v| v.id == p.id))
         {
             result.selected_ability = old.selected_ability.clone();
+            result
+                .runtime
+                .ability
+                .flags
+                .retain(|f| !f.starts_with("as-one:"));
+            result.runtime.ability.flags.extend(
+                old.runtime
+                    .ability
+                    .flags
+                    .iter()
+                    .filter(|f| f.starts_with("as-one:"))
+                    .cloned(),
+            );
         }
     }
     result

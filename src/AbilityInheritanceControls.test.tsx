@@ -27,6 +27,7 @@ function fixture(): Campaign {
     proposals: [],
     training_encounters: [],
     rules_profile: { version: 1, defenses: "split", hp: "vitality" },
+    form_memory: {},
     ability_inheritance: {
       minutes: 60,
       selected: { receiver: "copy" },

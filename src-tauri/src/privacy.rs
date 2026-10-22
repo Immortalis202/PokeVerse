@@ -27,6 +27,13 @@ fn battle_view(battle: &mut Battle, player: &str, owned_sheets: &BTreeSet<String
         .filter(|p| p.owner_id == player)
         .map(|p| p.id.clone())
         .collect();
+    for original in flow.forms.originals.values_mut() {
+        equipment(&mut original.sheet, player);
+    }
+    for current in flow.forms.current.values_mut() {
+        equipment(&mut current.sheet, player);
+    }
+    flow.forms.plans.retain(|id, _| owned.contains(id));
     for action in &mut flow.queue {
         action_view(action, &owned);
     }

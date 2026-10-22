@@ -151,7 +151,7 @@ pub struct ItemReview {
 fn effect_review(cat: &Catalog, unit: &HeldItem) -> Result<ItemReview> {
     let item = definition(cat, unit)?;
     let (scope, note) = if item["Category"] == "MegaStone" {
-        ("transformation", "Mega Evolution is pending the transformation milestone. Klutz does not suppress Mega Evolution items.")
+        ("transformation", "Reviewed Mega mappings activate in engine 0.19. Klutz does not suppress Mega Evolution items.")
     } else if item["Category"] == "ZCrystal" {
         (
             "excluded",
@@ -389,7 +389,7 @@ fn failed_capture(c: &mut Campaign, command: &ItemCommand, cat: &Catalog) -> Res
         .ok_or_else(|| error("Capture trainer missing"))?;
     if !fetcher.deployed
         || fetcher.hp == 0
-        || fetcher.selected_ability != "Ball Fetch"
+        || !fetcher.has_ability("Ball Fetch")
         || trainer.kind != "trainer"
         || trainer.owner_id != fetcher.owner_id
         || c.sheets[&fetcher.sheet_id].trainer_id.as_deref() != Some(trainer_id)
@@ -643,7 +643,7 @@ pub fn frisk_lifecycle(c: &mut Campaign) -> Result<()> {
     let active: Vec<_> = battle(c)?
         .combatants
         .iter()
-        .filter(|p| p.deployed && p.hp > 0 && p.selected_ability == "Frisk")
+        .filter(|p| p.deployed && p.hp > 0 && p.has_ability("Frisk"))
         .cloned()
         .collect();
     let previous = state(c).frisk_active.clone();
@@ -689,7 +689,7 @@ pub fn resolve_frisk(
     let target = fighter(c, choice)?;
     if !source.deployed
         || source.hp == 0
-        || source.selected_ability != "Frisk"
+        || !source.has_ability("Frisk")
         || !target.deployed
         || target.hp == 0
         || source.side == target.side
@@ -842,7 +842,7 @@ pub fn chance_dice(c: &Campaign, q: &QueuedAction, cat: &Catalog) -> Result<u32>
     }
     let extreme = source.side != target.side && reviewed::extreme(c, &source);
     if (!extreme && special::target_effects_blocked(c, q, &m))
-        || (!extreme && source.side != target.side && target.selected_ability == "Shield Dust")
+        || (!extreme && source.side != target.side && target.has_ability("Shield Dust"))
     {
         return Ok(0);
     }
@@ -857,8 +857,8 @@ pub fn chance_dice(c: &Campaign, q: &QueuedAction, cat: &Catalog) -> Result<u32>
     {
         return Ok(0);
     }
-    let serene = 2 * u32::from(fighter(c, &q.actor_id)?.selected_ability == "Serene Grace");
-    let wonder = 2 * u32::from(!extreme && target.selected_ability == "Wonder Skin");
+    let serene = 2 * u32::from(fighter(c, &q.actor_id)?.has_ability("Serene Grace"));
+    let wonder = 2 * u32::from(!extreme && target.has_ability("Wonder Skin"));
     let native = special::chance(&q.move_name)
         .or_else(|| chance_effect(&q.move_name))
         .filter(|(kind, _)| *kind == "Flinch")
@@ -888,8 +888,8 @@ pub fn native_item_flinch_dice(c: &Campaign, q: &QueuedAction, cat: &Catalog) ->
     if native == 0 {
         return Ok(0);
     }
-    let serene = 2 * u32::from(fighter(c, &q.actor_id)?.selected_ability == "Serene Grace");
-    let wonder = 2 * u32::from(fighter(c, &q.target_id)?.selected_ability == "Wonder Skin");
+    let serene = 2 * u32::from(fighter(c, &q.actor_id)?.has_ability("Serene Grace"));
+    let wonder = 2 * u32::from(fighter(c, &q.target_id)?.has_ability("Wonder Skin"));
     Ok((native + serene).saturating_sub(wonder))
 }
 
@@ -1087,7 +1087,7 @@ fn record(c: &mut Campaign, unit_id: &str, from: &str, to: Option<String>, kind:
 fn after_loss(c: &mut Campaign, id: &str, cat: &Catalog) -> Result<()> {
     let p = fighter(c, id)?;
     if p.hp > 0
-        && p.selected_ability == "Unburden"
+        && p.has_ability("Unburden")
         && held(c, id).is_empty()
         && !state(c).unburdened.contains(id)
     {
@@ -1099,9 +1099,16 @@ fn after_loss(c: &mut Campaign, id: &str, cat: &Catalog) -> Result<()> {
 }
 
 fn can_receive(c: &Campaign, target: &str, unit: &HeldItem, cat: &Catalog) -> Result<bool> {
+    if forms::slot_reserved(c, target) {
+        return Ok(false);
+    }
     let p = fighter(c, target)?;
     let mut capacity = c.sheets[&p.sheet_id].clone();
-    capacity.ability = p.selected_ability.clone();
+    capacity.ability = if p.has_ability("Gluttony") {
+        "Gluttony".into()
+    } else {
+        p.selected_ability.clone()
+    };
     let mut units = held(c, target);
     units.push(unit.clone());
     capacity.held_items = Some(units);
@@ -1125,7 +1132,7 @@ fn offer_symbiosis(
             || !donor.deployed
             || donor.hp == 0
             || donor.side != target.side
-            || donor.selected_ability != "Symbiosis"
+            || !donor.has_ability("Symbiosis")
         {
             continue;
         }
@@ -1207,7 +1214,7 @@ pub fn resolve(
         .clone();
     let donor = fighter(c, &item.holder)?.clone();
     let target = fighter(c, &event.target_id)?;
-    if donor.selected_ability != "Symbiosis"
+    if !donor.has_ability("Symbiosis")
         || !donor.deployed
         || donor.hp == 0
         || !target.deployed
@@ -1254,7 +1261,7 @@ fn fling_berry_hit(
     cat: &Catalog,
 ) -> Result<()> {
     if m["Name"] != "Fling"
-        || fighter(c, &q.target_id)?.selected_ability != "Cud Chew"
+        || !fighter(c, &q.target_id)?.has_ability("Cud Chew")
         || fighter(c, &q.target_id)?.hp == 0
         || field::has(c, "Magic Room", fighter(c, &q.target_id)?)
     {
@@ -1329,7 +1336,7 @@ pub fn resolve_berry_hit(
         return Ok(());
     }
     let p = fighter(c, &event.combatant_id)?;
-    if p.hp == 0 || p.selected_ability != "Cud Chew" || field::has(c, "Magic Room", p) {
+    if p.hp == 0 || !p.has_ability("Cud Chew") || field::has(c, "Magic Room", p) {
         return Err(error(
             "Cud Chew's berry trigger is no longer eligible; GM must adjudicate it",
         ));
@@ -1369,14 +1376,13 @@ pub fn hit(c: &mut Campaign, q: &QueuedAction, m: &serde_json::Value, cat: &Cata
         || !["Physical", "Special"]
             .iter()
             .any(|category| m["Category"] == *category)
-        || !["Magician", "Pickpocket"].contains(&source.selected_ability.as_str())
-        || target.selected_ability == "Sticky Hold"
+        || !source.has_any_ability(&["Magician", "Pickpocket"])
+        || target.has_ability("Sticky Hold")
     {
         return Ok(());
     }
     let own = held(c, &source.id);
-    if source.selected_ability == "Pickpocket"
-        && (!physical || !abilities::contact(m) || !own.is_empty())
+    if source.has_ability("Pickpocket") && (!physical || !abilities::contact(m) || !own.is_empty())
     {
         return Ok(());
     }
@@ -1400,7 +1406,10 @@ pub fn hit(c: &mut Campaign, q: &QueuedAction, m: &serde_json::Value, cat: &Cata
         return Ok(());
     }
     let mut choices = BTreeMap::new();
-    for stolen in held(c, &target.id) {
+    for stolen in held(c, &target.id)
+        .into_iter()
+        .filter(|u| !forms::locked_item(c, u, cat))
+    {
         if own.is_empty() && can_receive(c, &source.id, &stolen, cat)? {
             let choice = format!("take:{}", choices.len());
             choices.insert(
@@ -1412,8 +1421,8 @@ pub fn hit(c: &mut Campaign, q: &QueuedAction, m: &serde_json::Value, cat: &Cata
                     outgoing_id: None,
                 },
             );
-        } else if source.selected_ability == "Magician" {
-            for outgoing in &own {
+        } else if source.has_ability("Magician") {
+            for outgoing in own.iter().filter(|u| !forms::locked_item(c, u, cat)) {
                 let mut thief_sheet = c.sheets[&source.sheet_id].clone();
                 thief_sheet.ability = source.selected_ability.clone();
                 let mut thief_units = own.clone();
@@ -1485,7 +1494,7 @@ pub fn resolve_theft(
     if thief.hp == 0
         || !thief.deployed
         || thief.side == target.side
-        || target.selected_ability == "Sticky Hold"
+        || target.has_ability("Sticky Hold")
     {
         return Err(error(
             "Theft is no longer eligible; GM must adjudicate the expired trigger",
@@ -1694,15 +1703,20 @@ fn natural_input(c: &Campaign, id: &str) -> Result<BerryMove> {
     Ok(BerryMove {
         unit_id: unit_id.clone(),
         move_type: move_type.into(),
-        ripen_bonus: 2 * i32::from(fighter(c, id)?.selected_ability == "Ripen"),
+        ripen_bonus: 2 * i32::from(fighter(c, id)?.has_ability("Ripen")),
     })
 }
 fn fling_input(c: &Campaign, id: &str, cat: &Catalog) -> Result<FlingMove> {
     if held(c, id).is_empty() {
         return Ok(FlingMove::default());
     }
-    if fighter(c, id)?.selected_ability == "Sticky Hold" {
+    if fighter(c, id)?.has_ability("Sticky Hold") {
         return Err(error("Sticky Hold prevents removing its held item with Fling; a GM must adjudicate an exception"));
+    }
+    if held(c, id).iter().any(|u| forms::locked_item(c, u, cat)) {
+        return Err(error(
+            "Mega stones cannot be thrown or removed during battle",
+        ));
     }
     let unit_id = state(c)
         .fling
@@ -1735,7 +1749,7 @@ fn fling_input(c: &Campaign, id: &str, cat: &Catalog) -> Result<FlingMove> {
     Ok(FlingMove {
         unit_id: Some(unit.id),
         item_bonus: bonus,
-        ripen_bonus: 2 * i32::from(berry && fighter(c, id)?.selected_ability == "Ripen"),
+        ripen_bonus: 2 * i32::from(berry && fighter(c, id)?.has_ability("Ripen")),
     })
 }
 fn commit_fling(
@@ -1760,7 +1774,7 @@ fn commit_fling(
             return Err(error("Fling's item is no longer held"));
         }
         unit.state = "ground".into();
-        unit.harvest_pending = berry && fighter(before, id)?.selected_ability == "Harvest";
+        unit.harvest_pending = berry && fighter(before, id)?.has_ability("Harvest");
         record(
             next,
             unit_id,
@@ -1824,9 +1838,10 @@ fn recyclable(item: &serde_json::Value) -> bool {
 }
 fn unnerve(c: &Campaign, id: &str) -> Result<bool> {
     let p = fighter(c, id)?;
-    Ok(battle(c)?.combatants.iter().any(|foe| {
-        foe.deployed && foe.hp > 0 && foe.side != p.side && foe.selected_ability == "Unnerve"
-    }))
+    Ok(battle(c)?
+        .combatants
+        .iter()
+        .any(|foe| foe.deployed && foe.hp > 0 && foe.side != p.side && foe.has_ability("Unnerve")))
 }
 fn recycle_input(c: &Campaign, id: &str, cat: &Catalog) -> Result<String> {
     if state(c).recycle_uses.get(id).copied().unwrap_or(0) >= 3 {
@@ -1979,7 +1994,7 @@ pub fn guard_move(c: &Campaign, id: &str, m: &serde_json::Value, cat: &Catalog) 
     if battle(c)?
         .combatants
         .iter()
-        .any(|p| p.deployed && p.hp > 0 && p.side != source.side && p.selected_ability == "Unnerve")
+        .any(|p| p.deployed && p.hp > 0 && p.side != source.side && p.has_ability("Unnerve"))
     {
         return Err(error(
             "Unnerve prevents consuming Natural Gift's held berry",
@@ -2045,7 +2060,7 @@ pub fn commit_item_move(
     if state(next).berry_moves.contains_key(&key) {
         return Ok(());
     }
-    let harvest = fighter(before, id)?.selected_ability == "Harvest";
+    let harvest = fighter(before, id)?.has_ability("Harvest");
     let unit = state_mut(next)
         .units
         .get_mut(&input.unit_id)
@@ -2158,11 +2173,11 @@ pub fn end_round(c: &mut Campaign, cat: &Catalog) -> Result<()> {
 
 fn active_effects(c: &Campaign, id: &str) -> Result<bool> {
     let p = fighter(c, id)?;
-    Ok(p.selected_ability != "Klutz" && !field::has(c, "Magic Room", p))
+    Ok(!p.has_ability("Klutz") && !field::has(c, "Magic Room", p))
 }
 
 fn grant_chew(c: &mut Campaign, id: &str, unit: &HeldItem, source: &str) -> Result<()> {
-    if fighter(c, id)?.selected_ability != "Cud Chew" {
+    if !fighter(c, id)?.has_ability("Cud Chew") {
         return Ok(());
     }
     let serial = state(c)
@@ -2243,7 +2258,7 @@ fn consumable_effects(
         });
     }
     // Klutz negates the held berry, not a separate eating ability. Magic Room forbids use above.
-    if berry && healing == 0 && p.selected_ability == "Cheek Pouch" {
+    if berry && healing == 0 && p.has_ability("Cheek Pouch") {
         heal(c, id, 2)?;
     }
     Ok(active)
@@ -2266,9 +2281,11 @@ fn consume_berry(
     if field::has(c, "Magic Room", &p) {
         return Err(error("Magic Room prevents item use"));
     }
-    if battle(c)?.combatants.iter().any(|foe| {
-        foe.deployed && foe.hp > 0 && foe.side != p.side && foe.selected_ability == "Unnerve"
-    }) {
+    if battle(c)?
+        .combatants
+        .iter()
+        .any(|foe| foe.deployed && foe.hp > 0 && foe.side != p.side && foe.has_ability("Unnerve"))
+    {
         return Err(error(
             "Unnerve prevents foes from consuming held or recycled berries",
         ));
@@ -2309,7 +2326,7 @@ fn consume_berry(
     grant_chew(c, id, &held, "held")?;
     let consumed = state_mut(c).units.get_mut(unit_id).unwrap();
     consumed.state = "consumed".into();
-    consumed.harvest_pending = p.selected_ability == "Harvest";
+    consumed.harvest_pending = p.has_ability("Harvest");
     record(c, unit_id, id, None, "consume_berry", why);
     after_loss(c, id, cat)?;
     Ok(format!(
@@ -2332,6 +2349,33 @@ pub fn transition(
         return Err(error(
             "Upgrade held-item rules before using encounter items",
         ));
+    }
+    if forms::enabled(c) {
+        let mut ids: Vec<&String> = vec![];
+        match command {
+            ItemCommand::Transfer { unit_id, .. }
+            | ItemCommand::Lose { unit_id, .. }
+            | ItemCommand::Spend { unit_id, .. } => ids.push(unit_id),
+            ItemCommand::Swap {
+                first_unit_id,
+                second_unit_id,
+                ..
+            } => {
+                ids.push(first_unit_id);
+                ids.push(second_unit_id);
+            }
+            _ => {}
+        }
+        if ids.iter().any(|id| {
+            state(c)
+                .units
+                .get(*id)
+                .is_some_and(|u| forms::locked_item(c, &u.unit, cat))
+        }) {
+            return Err(error(
+                "Mega stones cannot be stolen, switched or removed during battle",
+            ));
+        }
     }
     battle(c)?;
     reason(why)?;
@@ -2359,7 +2403,7 @@ pub fn transition(
                 .clone();
             owner(c, actor, &charge.combatant_id)?;
             let p = fighter(c, &charge.combatant_id)?;
-            if p.hp <= 0 || p.selected_ability != "Cud Chew" {
+            if p.hp <= 0 || !p.has_ability("Cud Chew") {
                 return Err(error(
                     "A conscious Cud Chew holder must activate its saved berry effect",
                 ));
@@ -2427,7 +2471,7 @@ pub fn transition(
                 .filter(|u| u.holder == *combatant_id && u.state == "held")
                 .ok_or_else(|| error("Select a tracked unit currently held by this Pokemon"))?;
             unit.state = "consumed".into();
-            unit.harvest_pending = fighter(c, combatant_id)?.selected_ability == "Harvest"
+            unit.harvest_pending = fighter(c, combatant_id)?.has_ability("Harvest")
                 && definition(cat, &unit.unit)?["Category"] == "Berry";
             record(&mut next, unit_id, combatant_id, None, "gm_spent", why);
             after_loss(&mut next, combatant_id, cat)?;
@@ -2565,7 +2609,7 @@ pub fn transition(
                 .into_iter()
                 .find(|u| u.id == *unit_id)
                 .ok_or_else(|| error("Select this Pokemon's held healing berry"))?;
-            if p.selected_ability != "Ripen"
+            if !p.has_ability("Ripen")
                 || definition(cat, &unit)?["HealthRestored"]
                     .as_i64()
                     .unwrap_or(0)
@@ -2607,10 +2651,15 @@ pub fn transition(
             gm(c, actor)?;
             let source = fighter(c, from_id)?;
             let target = fighter(c, to_id)?;
+            if forms::slot_reserved(c, to_id) {
+                return Err(error(
+                    "The recipient held slot is reserved by a recorded Disc or mask",
+                ));
+            }
             if from_id == to_id {
                 return Err(error("Choose a different recipient"));
             }
-            if source.selected_ability == "Sticky Hold" && !override_sticky_hold {
+            if source.has_ability("Sticky Hold") && !override_sticky_hold {
                 return Err(error(
                     "Sticky Hold prevents removing, stealing or swapping this held item",
                 ));
@@ -2623,7 +2672,11 @@ pub fn transition(
                 .unit
                 .clone();
             let mut capacity = c.sheets[&target.sheet_id].clone();
-            capacity.ability = target.selected_ability.clone();
+            capacity.ability = if target.has_ability("Gluttony") {
+                "Gluttony".into()
+            } else {
+                target.selected_ability.clone()
+            };
             capacity.held_items = Some(held(&next, to_id));
             capacity.held_items.as_mut().unwrap().push(unit);
             validate_equipment(&capacity, cat)?;
@@ -2656,14 +2709,16 @@ pub fn transition(
             override_sticky_hold,
         } => {
             gm(c, actor)?;
+            if forms::slot_reserved(c, first_id) || forms::slot_reserved(c, second_id) {
+                return Err(error("A recorded Disc/mask occupies the held slot"));
+            }
             if first_id == second_id || first_unit_id == second_unit_id {
                 return Err(error("A swap requires two different holders and units"));
             }
             let first = fighter(c, first_id)?;
             let second = fighter(c, second_id)?;
             if !override_sticky_hold
-                && (first.selected_ability == "Sticky Hold"
-                    || second.selected_ability == "Sticky Hold")
+                && (first.has_ability("Sticky Hold") || second.has_ability("Sticky Hold"))
             {
                 return Err(error("Sticky Hold prevents swapping a held item"));
             }
@@ -2684,7 +2739,11 @@ pub fn transition(
                 (second, second_unit_id, &a.unit),
             ] {
                 let mut capacity = c.sheets[&holder.sheet_id].clone();
-                capacity.ability = holder.selected_ability.clone();
+                capacity.ability = if holder.has_ability("Gluttony") {
+                    "Gluttony".into()
+                } else {
+                    holder.selected_ability.clone()
+                };
                 let mut units = held(&next, &holder.id);
                 units.retain(|unit| unit.id != *outgoing);
                 units.push(incoming.clone());
@@ -2724,9 +2783,16 @@ pub fn transition(
         } => {
             gm(c, actor)?;
             let target = fighter(c, combatant_id)?;
+            if forms::slot_reserved(c, combatant_id) {
+                return Err(error("A recorded Disc/mask occupies the held slot"));
+            }
             let unit = state(&next).units.get(unit_id).filter(|u| u.state == "ground").ok_or_else(|| error("Only an existing lost unit can be recovered; consumed items cannot be recreated"))?.unit.clone();
             let mut capacity = c.sheets[&target.sheet_id].clone();
-            capacity.ability = target.selected_ability.clone();
+            capacity.ability = if target.has_ability("Gluttony") {
+                "Gluttony".into()
+            } else {
+                target.selected_ability.clone()
+            };
             capacity.held_items = Some(held(&next, combatant_id));
             capacity.held_items.as_mut().unwrap().push(unit);
             validate_equipment(&capacity, cat)?;
@@ -2762,7 +2828,7 @@ pub fn transition(
         } => {
             gm(c, actor)?;
             let p = fighter(c, combatant_id)?;
-            if p.selected_ability == "Sticky Hold" && !override_sticky_hold {
+            if p.has_ability("Sticky Hold") && !override_sticky_hold {
                 return Err(error("Sticky Hold prevents removing this held item"));
             }
             let unit = state_mut(&mut next)

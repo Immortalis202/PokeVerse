@@ -1193,3 +1193,6 @@ mod stat_channel_tests;
 
 #[path = "combat_tests/sequencing_tests.rs"]
 mod sequencing_tests;
+
+#[path = "combat_tests/form_tests.rs"]
+mod form_tests;

@@ -3,4 +3,12 @@ import type { Battle } from "./Battle";
 import type { BattleResources } from "./BattleResources";
 import type { Inheritance } from "./Inheritance";
 
-export type BattleCheckpoint = { ability_inheritance: Inheritance | null, event_sequence: number, description: string, battle: Battle, resources: { [key in string]?: BattleResources }, finished_count: number, };
+export type BattleCheckpoint = {
+  form_memory: { [key in string]?: string };
+  ability_inheritance: Inheritance | null;
+  event_sequence: number;
+  description: string;
+  battle: Battle;
+  resources: { [key in string]?: BattleResources };
+  finished_count: number;
+};

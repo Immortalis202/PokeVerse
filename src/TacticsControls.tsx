@@ -1,3 +1,4 @@
+import { battleSheet } from "./sheets";
 import { useState } from "react";
 import type { Action } from "./bindings/Action";
 import type { Campaign } from "./bindings/Campaign";
@@ -225,11 +226,7 @@ export default function TacticsControls({
               Move with conflicting timing
               <select value={move} onChange={(e) => setMove(e.target.value)}>
                 <option value="">Choose</option>
-                {(
-                  campaign.sheets[
-                    b.combatants.find((p) => p.id === source)?.sheet_id ?? ""
-                  ]?.moves ?? []
-                ).map((n) => (
+                {(battleSheet(campaign, source)?.moves ?? []).map((n) => (
                   <option key={n}>{n}</option>
                 ))}
               </select>

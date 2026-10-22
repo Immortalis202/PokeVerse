@@ -79,7 +79,7 @@ fn check(c: &Campaign, a: &Action) -> Result<Option<(&'static str, u32)>> {
         return Ok(None);
     }
     let p = fighter(c, id)?;
-    if p.selected_ability == "Truant"
+    if p.has_ability("Truant")
         && flow(c)?.order.get(flow(c)?.cursor).is_some_and(|v| v == id)
         && flow(c)?
             .sequencing
@@ -92,7 +92,7 @@ fn check(c: &Campaign, a: &Action) -> Result<Option<(&'static str, u32)>> {
     {
         return Ok(Some(("Truant", loyalty(c, id)?)));
     }
-    if p.selected_ability == "Defeatist"
+    if p.has_ability("Defeatist")
         && p.hp > 0
         && p.hp * 2 <= p.max_hp
         && !matches!(
@@ -109,14 +109,14 @@ fn check(c: &Campaign, a: &Action) -> Result<Option<(&'static str, u32)>> {
 }
 pub fn successive_loyalty(c: &Campaign, id: &str) -> Result<u32> {
     let p = fighter(c, id)?;
-    if enabled(c) && p.selected_ability == "Defeatist" && p.hp * 2 <= p.max_hp {
+    if enabled(c) && p.has_ability("Defeatist") && p.hp * 2 <= p.max_hp {
         loyalty(c, id)
     } else {
         Ok(0)
     }
 }
 pub fn move_guard(c: &Campaign, id: &str, name: Option<&str>) -> Result<()> {
-    if !enabled(c) || fighter(c, id)?.selected_ability != "Gorilla Tactics" {
+    if !enabled(c) || !fighter(c, id)?.has_ability("Gorilla Tactics") {
         return Ok(());
     }
     let selected = flow(c)?
@@ -131,7 +131,7 @@ pub fn move_guard(c: &Campaign, id: &str, name: Option<&str>) -> Result<()> {
 }
 pub fn repeat(c: &Campaign, id: &str, name: &str) -> bool {
     enabled(c)
-        && fighter(c, id).is_ok_and(|p| p.selected_ability == "Gorilla Tactics" && p.actions < 5)
+        && fighter(c, id).is_ok_and(|p| p.has_ability("Gorilla Tactics") && p.actions < 5)
         && flow(c).is_ok_and(|f| f.sequencing.gorilla.get(id).is_some_and(|n| n == name))
 }
 pub fn apply_stats(c: &Campaign, p: &Combatant, s: &mut Sheet) {
@@ -382,7 +382,7 @@ pub fn completed(c: &mut Campaign, q: &QueuedAction) {
     if battle(c).unwrap().combatants.iter().any(|p| {
         p.deployed
             && p.hp > 0
-            && p.selected_ability == "Dancer"
+            && p.has_ability("Dancer")
             && flow(c).unwrap().sequencing.dancer_round.get(&p.id) != Some(&round)
     }) {
         flow_mut(c).sequencing.pending.push(q.clone());
@@ -428,7 +428,7 @@ pub fn lifecycle(c: &mut Campaign, cat: &Catalog) -> Result<()> {
             flow_mut(c).sequencing.gorilla.remove(&p.id);
             flow_mut(c).sequencing.visits.remove(&p.id);
             flow_mut(c).sequencing.truant.remove(&p.id);
-            if p.selected_ability == "Truant"
+            if p.has_ability("Truant")
                 && flow(c)?.started
                 && flow(c)?.sequencing.visited_turn == Some(flow(c)?.turn)
                 && flow(c)?.order.get(flow(c)?.cursor) == Some(&p.id)
@@ -451,7 +451,7 @@ pub fn lifecycle(c: &mut Campaign, cat: &Catalog) -> Result<()> {
     record_turn(c)?;
     for p in ps
         .iter()
-        .filter(|p| live.contains(&p.id) && p.selected_ability == "Gorilla Tactics")
+        .filter(|p| live.contains(&p.id) && p.has_ability("Gorilla Tactics"))
     {
         if !flow(c)?.sequencing.gorilla.contains_key(&p.id)
             && !flow(c)?
@@ -459,7 +459,7 @@ pub fn lifecycle(c: &mut Campaign, cat: &Catalog) -> Result<()> {
                 .iter()
                 .any(|e| e.kind == "sequence-gorilla" && e.combatant_id == p.id)
         {
-            let mut choices = c.sheets[&p.sheet_id].moves.clone();
+            let mut choices = rules::base_sheet(c, p)?.moves;
             choices.sort();
             choices.dedup();
             if choices.is_empty() {
@@ -487,7 +487,7 @@ pub fn lifecycle(c: &mut Campaign, cat: &Catalog) -> Result<()> {
         for q in pending {
             for p in ps
                 .iter()
-                .filter(|p| live.contains(&p.id) && p.selected_ability == "Dancer")
+                .filter(|p| live.contains(&p.id) && p.has_ability("Dancer"))
             {
                 if flow(c)?.sequencing.dancer_round.get(&p.id) == Some(&battle(c)?.round)
                     || flow(c)?
@@ -574,11 +574,11 @@ pub fn resolve(
     cat: &Catalog,
 ) -> Result<()> {
     let p = fighter(c, &e.combatant_id)?.clone();
-    if p.hp == 0 || p.selected_ability != e.ability {
+    if p.hp == 0 || !p.has_ability(&e.ability) {
         return Err(error("Sequencing ability is no longer active"));
     }
     if e.kind == "sequence-gorilla" {
-        if !c.sheets[&p.sheet_id].moves.iter().any(|n| n == choice) {
+        if !rules::base_sheet(c, &p)?.moves.iter().any(|n| n == choice) {
             return Err(error("Choose a currently learned Gorilla Tactics move"));
         }
         flow_mut(c)
@@ -620,6 +620,7 @@ pub fn resolve(
         .unwrap()
         .moves
         .push(source.move_name.clone());
+    forms::grant_temporary_move(&mut validation, &p.id, &source.move_name);
     ready(&validation, &p.id)?;
     rules::accuracy(&validation, &p.id, &source.move_name, 0, cat)?;
     if p.runtime
@@ -747,9 +748,7 @@ pub fn notes(c: &Campaign, a: &Action) -> Vec<String> {
     if parental(c, a) {
         notes.push("Parental Bond: roll each damage pool twice, use the higher success count once. Shared targets retain both independent dice lanes.".into());
     }
-    if subject(a)
-        .is_some_and(|id| fighter(c, id).is_ok_and(|p| p.selected_ability == "Gorilla Tactics"))
-    {
+    if subject(a).is_some_and(|id| fighter(c, id).is_ok_and(|p| p.has_ability("Gorilla Tactics"))) {
         notes.push("Gorilla Tactics: only the selected entry move, up to five actions per round; Strength +1 uses the ability channel.".into());
     }
     notes

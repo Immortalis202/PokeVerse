@@ -2,7 +2,8 @@ use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 use ts_rs::TS;
 
-pub const ENGINE: &str = "0.18.0-core";
+pub const ENGINE: &str = "0.19.0-core";
+pub const ITEM_ENGINE: &str = "0.18.0-core";
 pub const EVENT_ENGINE: &str = "0.17.0-core";
 pub const PROVENANCE_ENGINE: &str = "0.16.0-core";
 pub const SEQUENCING_ENGINE: &str = "0.15.0-core";
@@ -22,6 +23,7 @@ pub const PREVIOUS_ENGINE: &str = "0.2.0-core";
 pub fn core_engine(engine: &str) -> bool {
     [
         ENGINE,
+        ITEM_ENGINE,
         EVENT_ENGINE,
         PROVENANCE_ENGINE,
         SEQUENCING_ENGINE,
@@ -42,7 +44,7 @@ pub fn core_engine(engine: &str) -> bool {
     .contains(&engine)
 }
 pub const LEGACY_ENGINE: &str = "0.1.0-manual";
-pub const PROTOCOL: u32 = 26;
+pub const PROTOCOL: u32 = 27;
 pub fn enabled() -> bool {
     true
 }
@@ -269,6 +271,51 @@ pub struct Combatant {
     pub selected_ability: String,
 }
 
+impl Combatant {
+    pub fn has_ability(&self, name: &str) -> bool {
+        self.selected_ability == name
+            || (!self.selected_ability.is_empty()
+                && self
+                    .runtime
+                    .ability
+                    .flags
+                    .iter()
+                    .any(|flag| flag.strip_prefix("as-one:") == Some(name)))
+    }
+    pub fn has_any_ability(&self, names: &[&str]) -> bool {
+        names.iter().any(|name| self.has_ability(name))
+    }
+    pub fn ability_for<'a>(&'a self, names: &[&str]) -> &'a str {
+        if self.selected_ability.is_empty() {
+            return "";
+        }
+        if names.contains(&self.selected_ability.as_str()) {
+            return &self.selected_ability;
+        }
+        self.runtime
+            .ability
+            .flags
+            .iter()
+            .filter_map(|flag| flag.strip_prefix("as-one:"))
+            .find(|name| names.contains(name))
+            .unwrap_or(&self.selected_ability)
+    }
+    pub fn ability_names(&self) -> Vec<String> {
+        let mut names = vec![self.selected_ability.clone()];
+        if !self.selected_ability.is_empty() {
+            names.extend(
+                self.runtime
+                    .ability
+                    .flags
+                    .iter()
+                    .filter_map(|flag| flag.strip_prefix("as-one:").map(str::to_owned)),
+            );
+        }
+        names.sort();
+        names.dedup();
+        names
+    }
+}
 #[derive(Debug, Clone, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct PendingDamage {
@@ -313,6 +360,8 @@ pub struct BattleResources {
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct BattleCheckpoint {
     #[serde(default)]
+    pub form_memory: BTreeMap<String, String>,
+    #[serde(default)]
     pub ability_inheritance: Option<crate::combat::transfers::Inheritance>,
     pub event_sequence: u32,
     pub description: String,
@@ -334,6 +383,8 @@ pub struct Event {
 #[derive(Debug, Clone, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct Campaign {
+    #[serde(default)]
+    pub form_memory: BTreeMap<String, String>,
     #[serde(default)]
     pub ability_inheritance: crate::combat::transfers::Inheritance,
     pub id: String,
@@ -384,6 +435,7 @@ impl Campaign {
             proposals: vec![],
             training_encounters: vec![],
             ability_inheritance: Default::default(),
+            form_memory: Default::default(),
         }
     }
 }
@@ -400,6 +452,10 @@ pub struct SyncSheet {
 #[serde(tag = "type", rename_all = "snake_case")]
 #[ts(export, export_to = "../../src/bindings/")]
 pub enum Action {
+    Form {
+        command: crate::combat::forms::FormCommand,
+        reason: String,
+    },
     HeldItem {
         command: crate::combat::items::ItemCommand,
         reason: String,

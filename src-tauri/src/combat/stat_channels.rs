@@ -104,7 +104,7 @@ fn snapshot(
                     e.target == p.id
                         && (e.name == format!("buff:{key}") || e.name == format!("debuff:{key}"))
                 })
-                .map(|e| match p.selected_ability.as_str() {
+                .map(|e| match p.ability_for(&["Contrary", "Simple"]) {
                     "Contrary" => -e.amount,
                     "Simple" => e.amount + e.amount.signum(),
                     _ => e.amount,
@@ -112,7 +112,7 @@ fn snapshot(
                 .collect();
             if values.is_empty() {
                 let amount = p.runtime.modifiers.get(key).copied().unwrap_or(0);
-                values.push(match p.selected_ability.as_str() {
+                values.push(match p.ability_for(&["Contrary", "Simple"]) {
                     "Contrary" => -amount,
                     "Simple" => amount + amount.signum(),
                     _ => amount,
@@ -125,7 +125,7 @@ fn snapshot(
                         .get(&p.id)
                         .is_some_and(|q| q.action.move_name == "Skull Bash")
                 {
-                    values.push(match p.selected_ability.as_str() {
+                    values.push(match p.ability_for(&["Contrary", "Simple"]) {
                         "Contrary" => -1,
                         "Simple" => 2,
                         _ => 1,
@@ -157,7 +157,7 @@ fn snapshot(
 fn apply(c: &mut Campaign, grants: Vec<StatGrant>) -> Result<()> {
     for g in grants {
         if g.cause == "Baton Pass"
-            && special::registered(c, &g.target)?.selected_ability == "Clear Body"
+            && special::registered(c, &g.target)?.has_ability("Clear Body")
             && g.source != g.target
         {
             continue;
@@ -239,7 +239,7 @@ pub fn transfer(c: &mut Campaign, source: &str, target: &str, cause: &str) -> Re
 }
 pub fn resolve(c: &mut Campaign, e: &abilities::AbilityEvent, choice: &str) -> Result<()> {
     let p = fighter(c, &e.combatant_id)?;
-    if !p.deployed || p.hp <= 0 || p.selected_ability != "Costar" {
+    if !p.deployed || p.hp <= 0 || !p.has_ability("Costar") {
         return Err(error("Costar is no longer active"));
     }
     let grants = flow_mut(c)
@@ -264,7 +264,7 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign) -> Result<()> {
     let costars: BTreeSet<_> = battle(c)?
         .combatants
         .iter()
-        .filter(|p| active.contains(&p.id) && p.selected_ability == "Costar")
+        .filter(|p| active.contains(&p.id) && p.has_ability("Costar"))
         .map(|p| p.id.clone())
         .collect();
     flow_mut(c)
@@ -307,9 +307,10 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign) -> Result<()> {
     }
     let ps = battle(c)?.combatants.clone();
     let entry_snapshots = c.clone();
-    for p in ps.iter().filter(|p| {
-        active.contains(&p.id) && !old.contains(&p.id) && p.selected_ability == "Costar"
-    }) {
+    for p in ps
+        .iter()
+        .filter(|p| active.contains(&p.id) && !old.contains(&p.id) && p.has_ability("Costar"))
+    {
         let choices: BTreeMap<_, _> = ps
             .iter()
             .filter(|q| active.contains(&q.id) && q.id != p.id && q.side == p.side)
@@ -343,7 +344,7 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign) -> Result<()> {
     let observed = c.clone();
     for p in ps
         .iter()
-        .filter(|p| active.contains(&p.id) && p.selected_ability == "Opportunist")
+        .filter(|p| active.contains(&p.id) && p.has_ability("Opportunist"))
     {
         for q in ps
             .iter()
@@ -386,6 +387,9 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign) -> Result<()> {
 }
 
 pub fn permanent(c: &Campaign, p: &Combatant, key: &str) -> i32 {
+    if forms::types(c, &p.id).is_some() {
+        return 0;
+    }
     if key == "Strength"
         && ["Huge Power", "Pure Power"].contains(&if ability_changes::enabled(c) {
             c.sheets[&p.sheet_id].ability.as_str()
@@ -427,4 +431,16 @@ pub fn finish(c: &mut Campaign) {
         f.stat_channels.active.clear();
         f.ability_events.retain(|e| e.kind != "stat-costar");
     }
+}
+
+pub fn copy_transform(c: &mut Campaign, source: &Combatant, target: &str) -> Result<()> {
+    if !enabled(c) {
+        return Ok(());
+    }
+    let grants = snapshot(c, source, target, "Transform", true, true);
+    flow_mut(c)
+        .stat_channels
+        .grants
+        .retain(|g| g.target != target);
+    apply(c, grants)
 }

@@ -9,6 +9,7 @@ pub(crate) mod decoys;
 pub(crate) mod events;
 pub(crate) mod extra;
 pub(crate) mod field;
+pub(crate) mod forms;
 pub(crate) mod items;
 pub(crate) mod provenance;
 pub(crate) mod reviewed;
@@ -56,6 +57,8 @@ pub struct Status {
 #[derive(Debug, Clone, Default, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct TurnFlow {
+    #[serde(default)]
+    pub forms: forms::FormState,
     #[serde(default)]
     pub items: items::ItemState,
     #[serde(default)]
@@ -252,7 +255,7 @@ fn ready(c: &Campaign, id: &str) -> Result<()> {
     if p.hp == 0 || p.actions >= 5 {
         return Err(error("Fainted or all five actions spent"));
     }
-    if (status(p, "Sleep") && !(extra::enabled(c) && p.selected_ability == "Comatose"))
+    if (status(p, "Sleep") && !(extra::enabled(c) && p.has_ability("Comatose")))
         || status(p, "Frozen Solid")
         || status(p, "Flinch")
         || (p.runtime.recharge_actions > 0 && p.runtime.recharge_round <= b.round)
@@ -463,10 +466,12 @@ fn shield_attempt(c: &mut Campaign, id: &str, m: &serde_json::Value) -> Result<i
 }
 pub fn type_ability(c: &Campaign, p: &Combatant, move_type: &str) -> bool {
     c.battle.as_ref().is_some_and(|b| b.flow.is_some())
-        && matches!(
-            (p.selected_ability.as_str(), move_type),
-            ("Blaze", "Fire") | ("Overgrow", "Grass") | ("Swarm", "Bug")
-        )
+        && p.ability_names().iter().any(|name| {
+            matches!(
+                (name.as_str(), move_type),
+                ("Blaze", "Fire") | ("Overgrow", "Grass") | ("Swarm", "Bug")
+            )
+        })
 }
 fn pain_exempt(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> Result<bool> {
     let s = rules::effective_sheet(c, p)?;
@@ -604,7 +609,7 @@ fn reaction_pool(c: &Campaign, id: &str, kind: &str, name: &str, cat: &Catalog) 
             }
             if m["Category"] == "Support"
                 || m["Attributes"]["IgnoreDefenses"] == true
-                || !c.sheets[&p.sheet_id].moves.iter().any(|v| v == name)
+                || !s.moves.iter().any(|v| v == name)
                 || (p.used_moves.iter().any(|v| v == name)
                     && !special::repeat(c, id, name)
                     && !sequencing::repeat(c, id, name)
@@ -760,6 +765,15 @@ fn ice_damage_pool(c: &Campaign, q: &QueuedAction, modifier: i32, cat: &Catalog)
     Ok(n as u32)
 }
 pub fn dice_count(c: &Campaign, a: &Action, cat: &Catalog) -> Result<u32> {
+    if let Action::Form { command, reason } = a {
+        let count = if matches!(command, forms::FormCommand::Missile { .. }) {
+            2
+        } else {
+            0
+        };
+        forms::transition(c, &c.gm_id, command, reason, &vec![1; count], cat)?;
+        return Ok(count as u32);
+    }
     sequencing::dice(c, a, cat)
 }
 fn base_dice_count(c: &Campaign, a: &Action, cat: &Catalog) -> Result<u32> {
@@ -812,7 +826,7 @@ fn base_dice_count(c: &Campaign, a: &Action, cat: &Catalog) -> Result<u32> {
             combatant_id, kind, ..
         } => {
             let p = fighter(c, combatant_id)?;
-            if extra::enabled(c) && p.selected_ability == "Comatose" && kind == "sleep" {
+            if extra::enabled(c) && p.has_ability("Comatose") && kind == "sleep" {
                 return Err(error(
                     "Comatose sleep is permanent and does not prevent acting",
                 ));
@@ -968,6 +982,9 @@ pub fn transition(
     dice: Vec<u8>,
     cat: &Catalog,
 ) -> Result<(Campaign, String)> {
+    if let Action::Form { command, reason } = a {
+        return forms::transition(c, actor, command, reason, &dice, cat);
+    }
     if let Action::HeldItem {
         command,
         reason: why,
@@ -992,7 +1009,11 @@ pub fn transition(
             &dice,
         );
     }
-    let (mut next, log) = sequencing::transition(c, actor, a, dice, cat)?;
+    let mut input = std::borrow::Cow::Borrowed(c);
+    if matches!(a, Action::EndBattle) && forms::enabled(c) {
+        forms::before_end(input.to_mut())?;
+    }
+    let (mut next, log) = sequencing::transition(&input, actor, a, dice, cat)?;
     if !matches!(a, Action::RollbackBattle { .. }) {
         provenance::tag_actions(c, &mut next, cat)?;
     }
@@ -1007,6 +1028,13 @@ pub fn transition(
             items::finalize(&mut next, cat)?;
         }
     }
+    if forms::enabled(c) && matches!(a, Action::EndBattle) {
+        if let (Some(checkpoint), Some(battle)) = (next.battle_undo.last_mut(), c.battle.as_ref()) {
+            checkpoint.battle = battle.clone();
+            checkpoint.form_memory = c.form_memory.clone();
+        }
+    }
+    forms::lifecycle(c, &mut next, a, cat)?;
     Ok((next, log))
 }
 pub fn preview(c: &Campaign, a: &Action, cat: &Catalog) -> Result<ActionPreview> {
@@ -1131,7 +1159,7 @@ pub fn preview(c: &Campaign, a: &Action, cat: &Catalog) -> Result<ActionPreview>
                     warnings.push(format!("{} / {}: {note}", p.name, p.selected_ability));
                 }
             }
-            if ![
+            if !p.has_any_ability(&[
                 "Blaze",
                 "Overgrow",
                 "Swarm",
@@ -1140,9 +1168,7 @@ pub fn preview(c: &Campaign, a: &Action, cat: &Catalog) -> Result<ActionPreview>
                 "Thick Fat",
                 "Huge Power",
                 "Pure Power",
-            ]
-            .contains(&p.selected_ability.as_str())
-            {
+            ]) {
                 warnings.push(format!(
                     "{}: {} ability effects require GM adjudication",
                     p.name, p.selected_ability
@@ -1163,6 +1189,7 @@ fn checkpoint(current: &Campaign, next: &mut Campaign, description: &str) {
             event_sequence: current.revision + 1,
             description: description.into(),
             battle: b.clone(),
+            form_memory: current.form_memory.clone(),
             ability_inheritance: Some(current.ability_inheritance.clone()),
             resources: items::resource_sheets(current, next)
                 .into_iter()
@@ -1450,8 +1477,8 @@ fn transition_inner(
             }
             if abilities::enabled(c)
                 && *damage > 0
-                && (p.selected_ability == "Magic Guard"
-                    || (p.selected_ability == "Immunity"
+                && (p.has_ability("Magic Guard")
+                    || (p.has_ability("Immunity")
                         && !p.runtime.statuses.iter().any(|s| s.kind == "Burn 3")))
             {
                 return Err(error("Immunity prevents poison damage; use an explicit resource override for another damage source"));
@@ -1565,7 +1592,7 @@ fn transition_inner(
             } else {
                 if status(p, "Sleep")
                     && battle(c)?.automatic_validation
-                    && !(extra::enabled(c) && p.selected_ability == "Comatose")
+                    && !(extra::enabled(c) && p.has_ability("Comatose"))
                 {
                     return Err(error(
                         "Check Sleep at the start of this turn; waking consumes an action",
@@ -1658,7 +1685,7 @@ fn transition_inner(
             let low =
                 reviewed::accuracy_penalty(c, p, special::registered(c, &target)?, common_low);
             let shield_penalty = shield_attempt(&mut next, combatant_id, &m)?;
-            let shield_penalty = if reviewed::enabled(c) && p.selected_ability == "Keen Eye" {
+            let shield_penalty = if reviewed::enabled(c) && p.has_ability("Keen Eye") {
                 0
             } else {
                 shield_penalty
@@ -1824,7 +1851,7 @@ fn transition_inner(
             } else {
                 0
             };
-            let shield_penalty = if reviewed::enabled(c) && p.selected_ability == "Keen Eye" {
+            let shield_penalty = if reviewed::enabled(c) && p.has_ability("Keen Eye") {
                 0
             } else {
                 shield_penalty
@@ -2009,7 +2036,7 @@ fn transition_inner(
                             .collect();
                     }
                     let can_clash = m["Target"] != "Self"
-                        && c.sheets[&fighter(c, &incoming.actor_id)?.sheet_id]
+                        && rules::base_sheet(&next, fighter(&next, &incoming.actor_id)?)?
                             .moves
                             .iter()
                             .any(|name| {
@@ -2308,7 +2335,7 @@ fn transition_inner(
             let shield = if special::enabled(c) {
                 special::shield_reduction(c, &q, &resolved_move)
             } else if extra::enabled(c)
-                && fighter(c, &q.actor_id)?.selected_ability == "Infiltrator"
+                && fighter(c, &q.actor_id)?.has_ability("Infiltrator")
                 && fighter(c, &q.actor_id)?.side != fighter(c, &q.target_id)?.side
             {
                 0
@@ -2329,7 +2356,7 @@ fn transition_inner(
                 fighter(c, &q.actor_id)?,
             );
             let mut thick_fat = i32::from(
-                target.selected_ability == "Thick Fat"
+                target.has_ability("Thick Fat")
                     && ["Fire", "Ice"].contains(
                         &move_entry(cat, &q.move_name)?["Type"]
                             .as_str()
@@ -2616,7 +2643,7 @@ fn transition_inner(
                     }
                 }
                 "sleep" if status(p, "Sleep") => {
-                    let early = reviewed::enabled(c);
+                    let early = reviewed::enabled(c) && p.has_ability("Early Bird");
                     let p = fighter_mut(&mut next, combatant_id)?;
                     let s = p
                         .runtime
@@ -2625,13 +2652,7 @@ fn transition_inner(
                         .find(|s| s.kind == "Sleep")
                         .unwrap();
                     s.progress += net;
-                    if s.progress
-                        >= if early && p.selected_ability == "Early Bird" && s.detail != "Rest" {
-                            2
-                        } else {
-                            5
-                        }
-                    {
+                    if s.progress >= if early && s.detail != "Rest" { 2 } else { 5 } {
                         p.runtime.statuses.retain(|s| s.kind != "Sleep");
                     }
                     p.actions += 1;
@@ -2783,24 +2804,35 @@ fn transition_inner(
             ) {
                 let b = done.battle.as_mut().unwrap();
                 b.flow = Some(TurnFlow {
-                    items: items::ItemState {
+                    forms: forms::FormState {
                         enabled: c.engine == ENGINE,
                         ..Default::default()
                     },
-                    events: events::EventState {
-                        enabled: [ENGINE, EVENT_ENGINE].contains(&c.engine.as_str()),
+                    items: items::ItemState {
+                        enabled: [ENGINE, ITEM_ENGINE].contains(&c.engine.as_str()),
                         ..Default::default()
                     },
-                    provenance_rules: [ENGINE, EVENT_ENGINE, PROVENANCE_ENGINE]
+                    events: events::EventState {
+                        enabled: [ENGINE, ITEM_ENGINE, EVENT_ENGINE].contains(&c.engine.as_str()),
+                        ..Default::default()
+                    },
+                    provenance_rules: [ENGINE, ITEM_ENGINE, EVENT_ENGINE, PROVENANCE_ENGINE]
                         .contains(&c.engine.as_str()),
                     sequencing: sequencing::SequencingState {
-                        enabled: [ENGINE, EVENT_ENGINE, PROVENANCE_ENGINE, SEQUENCING_ENGINE]
-                            .contains(&c.engine.as_str()),
+                        enabled: [
+                            ENGINE,
+                            ITEM_ENGINE,
+                            EVENT_ENGINE,
+                            PROVENANCE_ENGINE,
+                            SEQUENCING_ENGINE,
+                        ]
+                        .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            ITEM_ENGINE,
                             EVENT_ENGINE,
                             PROVENANCE_ENGINE,
                             SEQUENCING_ENGINE,
@@ -2811,6 +2843,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        ITEM_ENGINE,
                         EVENT_ENGINE,
                         PROVENANCE_ENGINE,
                         SEQUENCING_ENGINE,
@@ -2821,6 +2854,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            ITEM_ENGINE,
                             EVENT_ENGINE,
                             PROVENANCE_ENGINE,
                             SEQUENCING_ENGINE,
@@ -2834,6 +2868,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            ITEM_ENGINE,
                             EVENT_ENGINE,
                             PROVENANCE_ENGINE,
                             SEQUENCING_ENGINE,
@@ -2848,6 +2883,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            ITEM_ENGINE,
                             EVENT_ENGINE,
                             PROVENANCE_ENGINE,
                             SEQUENCING_ENGINE,
@@ -2863,6 +2899,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            ITEM_ENGINE,
                             EVENT_ENGINE,
                             PROVENANCE_ENGINE,
                             SEQUENCING_ENGINE,
@@ -2879,6 +2916,7 @@ fn transition_inner(
                     special: special::SpecialState {
                         enabled: [
                             ENGINE,
+                            ITEM_ENGINE,
                             EVENT_ENGINE,
                             PROVENANCE_ENGINE,
                             SEQUENCING_ENGINE,
@@ -2895,6 +2933,7 @@ fn transition_inner(
                     },
                     ability_rules: [
                         ENGINE,
+                        ITEM_ENGINE,
                         EVENT_ENGINE,
                         PROVENANCE_ENGINE,
                         SEQUENCING_ENGINE,
@@ -2913,6 +2952,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            ITEM_ENGINE,
                             EVENT_ENGINE,
                             PROVENANCE_ENGINE,
                             SEQUENCING_ENGINE,
@@ -2931,6 +2971,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            ITEM_ENGINE,
                             EVENT_ENGINE,
                             PROVENANCE_ENGINE,
                             SEQUENCING_ENGINE,
@@ -3117,7 +3158,11 @@ fn clash_damage(
     };
     if reviewed::enabled(c) || items::enabled(c) {
         let a = fighter(c, source)?;
-        let (effect, immune) = rules::type_matchup(c, a, p, move_type, cat)?;
+        let (mut effect, mut immune) = rules::type_matchup(c, a, p, move_type, cat)?;
+        if forms::tera_shell(c, p, &serde_json::json!({"Category":"Physical"})) {
+            effect = -1;
+            immune = false;
+        }
         reviewed::unique_damage_guard(c, a, p, effect)?;
         if immune {
             return Ok(0);
@@ -3208,7 +3253,7 @@ fn set_status_from(
     });
     let corrosion = extra::enabled(c)
         && kind.contains("Poison")
-        && source.is_some_and(|id| fighter(c, id).is_ok_and(|p| p.selected_ability == "Corrosion"));
+        && source.is_some_and(|id| fighter(c, id).is_ok_and(|p| p.has_ability("Corrosion")));
     let bypass = source.is_some_and(|id| {
         fighter(c, id).is_ok_and(|a| reviewed::extreme(c, a) && a.side != p.side)
     });
@@ -3223,8 +3268,8 @@ fn set_status_from(
     }
     if !corrosion
         && !bypass
-        && ((kind == "Confusion" && p.selected_ability == "Own Tempo")
-            || (kind == "In Love" && p.selected_ability == "Oblivious")
+        && ((kind == "Confusion" && p.has_ability("Own Tempo"))
+            || (kind == "In Love" && p.has_ability("Oblivious"))
             || abilities::status_immune(c, p, kind)
             || extra::status_immune(c, p, kind, source))
     {
@@ -3258,7 +3303,7 @@ fn set_status_from(
         return Err(error("Only one Flinch per subject per round"));
     }
     let rounds = if reviewed::enabled(c)
-        && p.selected_ability == "Early Bird"
+        && p.has_ability("Early Bird")
         && kind == "Sleep"
         && detail != "Rest"
     {
@@ -3410,8 +3455,8 @@ fn base_effect_dice(c: &Campaign, q: &QueuedAction, _cat: &Catalog) -> Result<u3
     }
     Ok(if q.move_name == "Submission" {
         if abilities::enabled(c)
-            && (fighter(c, &q.actor_id)?.selected_ability == "Magic Guard"
-                || (extra::enabled(c) && fighter(c, &q.actor_id)?.selected_ability == "Rock Head"))
+            && (fighter(c, &q.actor_id)?.has_ability("Magic Guard")
+                || (extra::enabled(c) && fighter(c, &q.actor_id)?.has_ability("Rock Head")))
         {
             0
         } else {
@@ -3427,10 +3472,10 @@ fn base_effect_dice(c: &Campaign, q: &QueuedAction, _cat: &Catalog) -> Result<u3
                     ),
             );
             if extra::enabled(c) {
-                if fighter(c, &q.actor_id).is_ok_and(|p| p.selected_ability == "Serene Grace") {
+                if fighter(c, &q.actor_id).is_ok_and(|p| p.has_ability("Serene Grace")) {
                     n += 2;
                 }
-                if fighter(c, &q.target_id).is_ok_and(|p| p.selected_ability == "Wonder Skin") {
+                if fighter(c, &q.target_id).is_ok_and(|p| p.has_ability("Wonder Skin")) {
                     n = n.saturating_sub(2);
                 }
             }
@@ -3481,6 +3526,9 @@ fn effects_inner_base(
     cat: &Catalog,
 ) -> Result<()> {
     if provenance::enabled(c) && q.sheer_force && !provenance::retained_attributes(q, cat)? {
+        return Ok(());
+    }
+    if forms::move_effect(c, q, cat)? {
         return Ok(());
     }
     if items::recycle_effect(c, q, cat)? {
@@ -3575,9 +3623,8 @@ fn effects_inner_base(
         }
         "Submission" => {
             let damage = if abilities::enabled(c)
-                && (fighter(c, &q.actor_id)?.selected_ability == "Magic Guard"
-                    || (extra::enabled(c)
-                        && fighter(c, &q.actor_id)?.selected_ability == "Rock Head"))
+                && (fighter(c, &q.actor_id)?.has_ability("Magic Guard")
+                    || (extra::enabled(c) && fighter(c, &q.actor_id)?.has_ability("Rock Head")))
             {
                 0
             } else {
@@ -3591,7 +3638,7 @@ fn effects_inner_base(
             let already_flinched = kind == "Flinch"
                 && fighter(c, &q.target_id)?.runtime.flinch_round == battle(c)?.round;
             let dust = abilities::enabled(c)
-                && fighter(c, &q.target_id)?.selected_ability == "Shield Dust"
+                && fighter(c, &q.target_id)?.has_ability("Shield Dust")
                 && fighter(c, &q.actor_id)?.side != fighter(c, &q.target_id)?.side;
             if dice.contains(&6) && !already_flinched && !dust {
                 if let Err(e) =

@@ -171,11 +171,11 @@ test("ability inventory exposes reviewed scopes and preserves manual boundaries"
   assert.equal(inventory.entries.length, 305);
   assert.equal(
     inventory.entries.filter((e) => e.status !== "manual").length,
-    275,
+    294,
   );
   assert.equal(
     Object.values(registry.entries).filter((e) => e.status !== "manual").length,
-    275,
+    294,
   );
   assert.equal(
     inventory.entries.find((e) => e.name === "Static").status,
@@ -343,6 +343,66 @@ test("decoy corrections preserve source and excluded transformation moves remain
         /Out of scope.*Dynamax.*Z-Moves/,
       );
     assert.equal(entry("Shed Tail").TacticsRules.status, "automated");
+  } finally {
+    db.close();
+  }
+});
+
+test("form mappings preserve exact supplied identities, source values and a compatibility fingerprint", () => {
+  const text = readFileSync("rules/battle-forms.json", "utf8").replace(
+    /\r\n/g,
+    "\n",
+  );
+  const forms = JSON.parse(text);
+  const coverage = JSON.parse(readFileSync("rules/coverage.json", "utf8"));
+  assert.equal(
+    coverage.form_registry_hash,
+    createHash("sha256").update(text).digest("hex"),
+  );
+  assert.equal(Object.keys(forms.mega).length, 47);
+  assert.equal(Object.keys(forms.species).length, 127);
+  const db = new DatabaseSync("src-tauri/resources/catalog.db", {
+    readOnly: true,
+  });
+  try {
+    for (const [id, form] of Object.entries(forms.species)) {
+      const sourceBytes = readFileSync(`../${form.source}`);
+      const source = JSON.parse(
+        sourceBytes.toString("utf8").replace(/^\uFEFF/, ""),
+      );
+      assert.equal(
+        form.sha256,
+        createHash("sha256").update(sourceBytes).digest("hex"),
+      );
+      assert.equal(form.name, source.Name);
+      assert.ok(
+        db
+          .prepare("select id from entries where kind='species' and id=?")
+          .get(id),
+        id,
+      );
+      for (const key of [
+        "Strength",
+        "Dexterity",
+        "Vitality",
+        "Special",
+        "Insight",
+      ]) {
+        assert.equal(form.stats[key], source[key]);
+        assert.equal(form.limits[key], source[`Max${key}`]);
+      }
+    }
+    for (const [name, link] of Object.entries(forms.mega)) {
+      assert.notEqual(link.base, link.form);
+      assert.ok(forms.species[link.base]);
+      assert.ok(forms.species[link.form]);
+      assert.ok(
+        db
+          .prepare("select id from entries where kind='items' and name=?")
+          .get(name),
+        name,
+      );
+    }
   } finally {
     db.close();
   }

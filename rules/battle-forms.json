@@ -1,0 +1,3775 @@
+{
+  "version": 1,
+  "sources": [
+    "RULING 133",
+    "MASTER 505,606",
+    "supplied v3.0 form and ability cards"
+  ],
+  "species": {
+    "0460:abomasnow": {
+      "name": "Abomasnow",
+      "types": [
+        "Grass",
+        "Ice"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 2,
+        "Vitality": 2,
+        "Special": 2,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 6,
+        "Dexterity": 4,
+        "Vitality": 5,
+        "Special": 5,
+        "Insight": 5
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Snow Warning",
+        "Soundproof"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Abomasnow.json",
+      "sha256": "93d91c245be89c82412034301133ed9197ac9550cbbe033398df6189bcb4827e"
+    },
+    "0460M1:abomasnow-mega-form": {
+      "name": "Abomasnow (Mega Form)",
+      "types": [
+        "Grass",
+        "Ice"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 1,
+        "Vitality": 3,
+        "Special": 3,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 7,
+        "Dexterity": 3,
+        "Vitality": 6,
+        "Special": 7,
+        "Insight": 6
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Snow Warning"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Abomasnow (Mega Form).json",
+      "sha256": "d284fa9e8d7fd53bd13610cdc2c398792de29644669da81af4073fb9ac02bf04"
+    },
+    "0359:absol": {
+      "name": "Absol",
+      "types": [
+        "Dark"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 2,
+        "Vitality": 2,
+        "Special": 2,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 7,
+        "Dexterity": 5,
+        "Vitality": 4,
+        "Special": 5,
+        "Insight": 4
+      },
+      "base_hp": 4,
+      "abilities": [
+        "Pressure",
+        "Super Luck",
+        "Justified"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Absol.json",
+      "sha256": "ef6c4f151b37c6da718e20665e44c6cd059e75aeb4bbc9164baf047a114cadac"
+    },
+    "0359M1:absol-mega-form": {
+      "name": "Absol (Mega Form)",
+      "types": [
+        "Dark"
+      ],
+      "stats": {
+        "Strength": 4,
+        "Dexterity": 3,
+        "Vitality": 2,
+        "Special": 3,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 8,
+        "Dexterity": 6,
+        "Vitality": 4,
+        "Special": 6,
+        "Insight": 4
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Magic Bounce"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Absol (Mega Form).json",
+      "sha256": "2274c8c7b008d16974814ae0c101e1be6866d9f03189d266f59b3f9098ee518d"
+    },
+    "0681:aegislash": {
+      "name": "Aegislash",
+      "types": [
+        "Steel",
+        "Ghost"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 2,
+        "Vitality": 4,
+        "Special": 2,
+        "Insight": 4
+      },
+      "limits": {
+        "Strength": 4,
+        "Dexterity": 4,
+        "Vitality": 8,
+        "Special": 4,
+        "Insight": 8
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Stance Change"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Aegislash.json",
+      "sha256": "8595bcdb11fc99c8f1be8f5360fbb9fc1b19961b2ef7d40d6d0e5c263c44ec59"
+    },
+    "0681F1:aegislash-blade-form": {
+      "name": "Aegislash (Blade Form)",
+      "types": [
+        "Steel",
+        "Ghost"
+      ],
+      "stats": {
+        "Strength": 4,
+        "Dexterity": 2,
+        "Vitality": 2,
+        "Special": 4,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 8,
+        "Dexterity": 4,
+        "Vitality": 4,
+        "Special": 8,
+        "Insight": 4
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Stance Change"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Aegislash (Blade Form).json",
+      "sha256": "1debd6ac910ed5431317d19619f9a3ee49876e0c7cc62137cd9bd67deaa396a4"
+    },
+    "0142:aerodactyl": {
+      "name": "Aerodactyl",
+      "types": [
+        "Rock",
+        "Flying"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 3,
+        "Vitality": 2,
+        "Special": 2,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 6,
+        "Dexterity": 7,
+        "Vitality": 4,
+        "Special": 4,
+        "Insight": 5
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Rock Head",
+        "Pressure",
+        "Unnerve"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Aerodactyl.json",
+      "sha256": "8e985902b2c52c273a65601a1efce3426cf255e0597d8b78e2482b500f9ea332"
+    },
+    "0142M1:aerodactyl-mega-form": {
+      "name": "Aerodactyl (Mega Form)",
+      "types": [
+        "Rock",
+        "Flying"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 4,
+        "Vitality": 2,
+        "Special": 2,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 7,
+        "Dexterity": 8,
+        "Vitality": 5,
+        "Special": 5,
+        "Insight": 6
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Tough Claws"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Aerodactyl (Mega Form).json",
+      "sha256": "99ba9cba0e59c3f70c1a6157fc3c339a9064a1e8a6e579dd3ea9774efea510b0"
+    },
+    "0306:aggron": {
+      "name": "Aggron",
+      "types": [
+        "Steel",
+        "Rock"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 2,
+        "Vitality": 4,
+        "Special": 2,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 6,
+        "Dexterity": 4,
+        "Vitality": 9,
+        "Special": 4,
+        "Insight": 4
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Rock Head",
+        "Sturdy",
+        "Heavy Metal"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Aggron.json",
+      "sha256": "69a91d224a22d38f61cc0da5839398188c282cff604ed7ac42e18726fda3182f"
+    },
+    "0306M1:aggron-mega-form": {
+      "name": "Aggron (Mega Form)",
+      "types": [
+        "Steel"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 2,
+        "Vitality": 5,
+        "Special": 2,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 7,
+        "Dexterity": 4,
+        "Vitality": 11,
+        "Special": 4,
+        "Insight": 5
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Filter"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Aggron (Mega Form).json",
+      "sha256": "1bc3a5d1844bc893606e8d4b7b53190ca89e9e52edf10798693e320a6be07e31"
+    },
+    "0065:alakazam": {
+      "name": "Alakazam",
+      "types": [
+        "Psychic"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 3,
+        "Vitality": 2,
+        "Special": 3,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 4,
+        "Dexterity": 7,
+        "Vitality": 4,
+        "Special": 7,
+        "Insight": 6
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Synchronize",
+        "Magic Guard"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Alakazam.json",
+      "sha256": "0a31657e867d5bff9d55a24b0cfd9cc0769f1c145cc9fd3bdf3d63784a9a3a61"
+    },
+    "0065M1:alakazam-mega-form": {
+      "name": "Alakazam (Mega Form)",
+      "types": [
+        "Psychic"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 4,
+        "Vitality": 2,
+        "Special": 4,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 4,
+        "Dexterity": 8,
+        "Vitality": 4,
+        "Special": 9,
+        "Insight": 6
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Trace"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Alakazam (Mega Form).json",
+      "sha256": "a5915c1c59d8367073630b597a9078325c005a89118f004859bd792e4fcf1bae"
+    },
+    "0334:altaria": {
+      "name": "Altaria",
+      "types": [
+        "Dragon",
+        "Flying"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 2,
+        "Vitality": 2,
+        "Special": 2,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 5,
+        "Dexterity": 5,
+        "Vitality": 5,
+        "Special": 5,
+        "Insight": 6
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Natural Cure",
+        "Cloud Nine"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Altaria.json",
+      "sha256": "8d2ff84fa367f8de502cd48af164ab02cee5b8c39211101c89905c01a490b828"
+    },
+    "0334M1:altaria-mega-form": {
+      "name": "Altaria (Mega Form)",
+      "types": [
+        "Dragon",
+        "Fairy"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 2,
+        "Vitality": 3,
+        "Special": 3,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 6,
+        "Dexterity": 5,
+        "Vitality": 6,
+        "Special": 6,
+        "Insight": 6
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Pixilate"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Altaria (Mega Form).json",
+      "sha256": "8b91611e1b927ef40600f5a6f12e266cb18d4d7192ce150f9d1528650d1783a2"
+    },
+    "0181:ampharos": {
+      "name": "Ampharos",
+      "types": [
+        "Electric"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 2,
+        "Vitality": 2,
+        "Special": 3,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 5,
+        "Dexterity": 4,
+        "Vitality": 5,
+        "Special": 6,
+        "Insight": 5
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Static",
+        "Plus"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Ampharos.json",
+      "sha256": "68a8bbb6d403935826ff5a613ab374fe060bbf923537770883e5cafe5dc9ef53"
+    },
+    "0181M1:ampharos-mega-form": {
+      "name": "Ampharos (Mega Form)",
+      "types": [
+        "Electric",
+        "Dragon"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 2,
+        "Vitality": 3,
+        "Special": 4,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 6,
+        "Dexterity": 4,
+        "Vitality": 6,
+        "Special": 8,
+        "Insight": 6
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Mold Breaker"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Ampharos (Mega Form).json",
+      "sha256": "d091d10b9c973bd683a791ddef5fb7648ae4b8b1867d6f5503f177335c4f7020"
+    },
+    "0493:arceus": {
+      "name": "Arceus",
+      "types": [
+        "Normal"
+      ],
+      "stats": {
+        "Strength": 12,
+        "Dexterity": 12,
+        "Vitality": 12,
+        "Special": 12,
+        "Insight": 12
+      },
+      "limits": {
+        "Strength": 12,
+        "Dexterity": 12,
+        "Vitality": 12,
+        "Special": 12,
+        "Insight": 12
+      },
+      "base_hp": 10,
+      "abilities": [
+        "Multitype"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Arceus.json",
+      "sha256": "00f739ce5a703c23ddb07208dc7501504ea0222fbe47c81df4d40cb0d3f0d671"
+    },
+    "0531:audino": {
+      "name": "Audino",
+      "types": [
+        "Normal"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 2,
+        "Vitality": 2,
+        "Special": 2,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 4,
+        "Dexterity": 4,
+        "Vitality": 5,
+        "Special": 4,
+        "Insight": 5
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Healer",
+        "Regenerator",
+        "Klutz"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Audino.json",
+      "sha256": "e586181e7c9776bcf843900e8fd8930347bb7e9d79d94cc0fca0e41a5030ff92"
+    },
+    "0531M1:audino-mega-form": {
+      "name": "Audino (Mega Form)",
+      "types": [
+        "Normal",
+        "Fairy"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 2,
+        "Vitality": 3,
+        "Special": 2,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 4,
+        "Dexterity": 4,
+        "Vitality": 7,
+        "Special": 5,
+        "Insight": 7
+      },
+      "base_hp": 7,
+      "abilities": [
+        "Healer"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Audino (Mega Form).json",
+      "sha256": "e6a18c1c21318dd2a52f01219125ecb0b4002194f356423fef8aa0bbe01615bd"
+    },
+    "0354:banette": {
+      "name": "Banette",
+      "types": [
+        "Ghost"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 2,
+        "Vitality": 2,
+        "Special": 2,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 6,
+        "Dexterity": 4,
+        "Vitality": 4,
+        "Special": 5,
+        "Insight": 5
+      },
+      "base_hp": 4,
+      "abilities": [
+        "Frisk",
+        "Cursed Body"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Banette.json",
+      "sha256": "cfa6ca52817fb7b488dfc176739e5446820beb96f31df8a182192de2518ae9c2"
+    },
+    "0354M1:banette-mega-form": {
+      "name": "Banette (Mega Form)",
+      "types": [
+        "Ghost"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 2,
+        "Vitality": 2,
+        "Special": 2,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 6,
+        "Dexterity": 4,
+        "Vitality": 4,
+        "Special": 5,
+        "Insight": 5
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Prankster"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Banette (Mega Form).json",
+      "sha256": "9d4a4396981164b7c78b971451981f7268bed3214c687ad3691d7243f9fb1fcd"
+    },
+    "0015:beedrill": {
+      "name": "Beedrill",
+      "types": [
+        "Bug",
+        "Poison"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 2,
+        "Vitality": 2,
+        "Special": 2,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 5,
+        "Dexterity": 5,
+        "Vitality": 4,
+        "Special": 4,
+        "Insight": 5
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Swarm",
+        "Sniper"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Beedrill.json",
+      "sha256": "79083021bd15bb216d42f43f0389244530c4725e6640ff1506fd4fa3871d0cf6"
+    },
+    "0015M1:beedrill-mega-form": {
+      "name": "Beedrill (Mega Form)",
+      "types": [
+        "Bug",
+        "Poison"
+      ],
+      "stats": {
+        "Strength": 4,
+        "Dexterity": 4,
+        "Vitality": 1,
+        "Special": 1,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 8,
+        "Dexterity": 8,
+        "Vitality": 3,
+        "Special": 2,
+        "Insight": 5
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Adaptability"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Beedrill (Mega Form).json",
+      "sha256": "22231b1c80e3ce55f1cc83ebc980f5821433025b7f7c41b93de75b7c584433c2"
+    },
+    "0009:blastoise": {
+      "name": "Blastoise",
+      "types": [
+        "Water"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 2,
+        "Vitality": 3,
+        "Special": 2,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 5,
+        "Dexterity": 5,
+        "Vitality": 6,
+        "Special": 5,
+        "Insight": 6
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Torrent",
+        "Rain Dish"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Blastoise.json",
+      "sha256": "5f520b7cbf315a558872cab65bb49bb5eba4734874791be9c52fc1f4991ab153"
+    },
+    "0009M1:blastoise-mega-form": {
+      "name": "Blastoise (Mega Form)",
+      "types": [
+        "Water"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 2,
+        "Vitality": 3,
+        "Special": 3,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 6,
+        "Dexterity": 5,
+        "Vitality": 7,
+        "Special": 7,
+        "Insight": 6
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Mega Launcher"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Blastoise (Mega Form).json",
+      "sha256": "d301a54d909f81b21cdf1b48e504879edea29297a59f6f48a46fb78d031e331f"
+    },
+    "0257:blaziken": {
+      "name": "Blaziken",
+      "types": [
+        "Fire",
+        "Fight"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 2,
+        "Vitality": 2,
+        "Special": 3,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 7,
+        "Dexterity": 5,
+        "Vitality": 5,
+        "Special": 6,
+        "Insight": 5
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Blaze",
+        "Speed Boost"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Blaziken.json",
+      "sha256": "74e881e190426296633d06c34ea228d841eb6f1912f72b1db07988cdf2cf892d"
+    },
+    "0257M1:blaziken-mega-form": {
+      "name": "Blaziken (Mega Form)",
+      "types": [
+        "Fire",
+        "Fight"
+      ],
+      "stats": {
+        "Strength": 4,
+        "Dexterity": 3,
+        "Vitality": 2,
+        "Special": 3,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 8,
+        "Dexterity": 6,
+        "Vitality": 5,
+        "Special": 7,
+        "Insight": 5
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Speed Boost"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Blaziken (Mega Form).json",
+      "sha256": "ecb35d3eff2ec440c1ebe9bc29d2a6a9d7d0bccec7b54b4169c00e470c8f2139"
+    },
+    "0898:calyrex": {
+      "name": "Calyrex",
+      "types": [
+        "Psychic",
+        "Grass"
+      ],
+      "stats": {
+        "Strength": 5,
+        "Dexterity": 5,
+        "Vitality": 5,
+        "Special": 5,
+        "Insight": 5
+      },
+      "limits": {
+        "Strength": 5,
+        "Dexterity": 5,
+        "Vitality": 5,
+        "Special": 5,
+        "Insight": 5
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Unnerve",
+        "As One"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Calyrex.json",
+      "sha256": "4830077f50374320ba300fb504d850abf4d75e14f5ead696e0213c24dd70e586"
+    },
+    "0898F1:calyrex-ice-rider-form": {
+      "name": "Calyrex (Ice Rider Form)",
+      "types": [
+        "Psychic",
+        "Ice"
+      ],
+      "stats": {
+        "Strength": 8,
+        "Dexterity": 4,
+        "Vitality": 8,
+        "Special": 5,
+        "Insight": 7
+      },
+      "limits": {
+        "Strength": 8,
+        "Dexterity": 4,
+        "Vitality": 8,
+        "Special": 5,
+        "Insight": 7
+      },
+      "base_hp": 6,
+      "abilities": [
+        "As One"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Calyrex (Ice Rider Form).json",
+      "sha256": "bbff5d5c4fec86e784e2b787e677d200115735ab9f0ff08024065cfa857bdac4"
+    },
+    "0898F2:calyrex-shadow-rider-form": {
+      "name": "Calyrex (Shadow Rider Form)",
+      "types": [
+        "Psychic",
+        "Ghost"
+      ],
+      "stats": {
+        "Strength": 5,
+        "Dexterity": 7,
+        "Vitality": 5,
+        "Special": 8,
+        "Insight": 6
+      },
+      "limits": {
+        "Strength": 5,
+        "Dexterity": 7,
+        "Vitality": 5,
+        "Special": 8,
+        "Insight": 6
+      },
+      "base_hp": 6,
+      "abilities": [
+        "As One"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Calyrex (Shadow Rider Form).json",
+      "sha256": "5c1fb65f3afbc2699b9380946630863e2e6fee6c399a31b45e905d073ed85c86"
+    },
+    "0323:camerupt": {
+      "name": "Camerupt",
+      "types": [
+        "Fire",
+        "Ground"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 1,
+        "Vitality": 2,
+        "Special": 3,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 6,
+        "Dexterity": 3,
+        "Vitality": 5,
+        "Special": 6,
+        "Insight": 5
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Magma Armor",
+        "Solid Rock",
+        "Anger Point"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Camerupt.json",
+      "sha256": "2e145433b16edca748407c048d1ca9c8bbe40ead68d4e1d61f627c211f7f1c12"
+    },
+    "0323M1:camerupt-mega-form": {
+      "name": "Camerupt (Mega Form)",
+      "types": [
+        "Fire",
+        "Ground"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 1,
+        "Vitality": 3,
+        "Special": 4,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 7,
+        "Dexterity": 3,
+        "Vitality": 6,
+        "Special": 8,
+        "Insight": 6
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Sheer Force"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Camerupt (Mega Form).json",
+      "sha256": "80614102ab90136c0127f39bb29486d139fc091c3594c5e4c14ab09889abf7dc"
+    },
+    "0006:charizard": {
+      "name": "Charizard",
+      "types": [
+        "Fire",
+        "Flying"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 3,
+        "Vitality": 2,
+        "Special": 3,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 5,
+        "Dexterity": 6,
+        "Vitality": 5,
+        "Special": 6,
+        "Insight": 5
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Blaze",
+        "Solar Power"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Charizard.json",
+      "sha256": "b83ba35a29de67136082d8defb2a2563f32752b9e32aa6aba3b713a57e664a1c"
+    },
+    "0006M2:charizard-mega-x-form": {
+      "name": "Charizard (Mega X Form)",
+      "types": [
+        "Fire",
+        "Dragon"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 3,
+        "Vitality": 3,
+        "Special": 3,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 7,
+        "Dexterity": 6,
+        "Vitality": 6,
+        "Special": 7,
+        "Insight": 5
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Tough Claws"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Charizard (Mega X Form).json",
+      "sha256": "ff1df3d4570f9799f85a978dd55ae0b68e1da88809d3bab942e44530305f91e8"
+    },
+    "0006M1:charizard-mega-y-form": {
+      "name": "Charizard (Mega Y Form)",
+      "types": [
+        "Fire",
+        "Flying"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 3,
+        "Vitality": 2,
+        "Special": 4,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 6,
+        "Dexterity": 6,
+        "Vitality": 5,
+        "Special": 8,
+        "Insight": 6
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Drought"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Charizard (Mega Y Form).json",
+      "sha256": "5708f865ffc7e65b8eca918759d012254212d479d3d50cf8daea04fd8bd4e3f3"
+    },
+    "0845:cramorant": {
+      "name": "Cramorant",
+      "types": [
+        "Flying",
+        "Water"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 2,
+        "Vitality": 2,
+        "Special": 2,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 5,
+        "Dexterity": 5,
+        "Vitality": 4,
+        "Special": 5,
+        "Insight": 6
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Gulp Missile"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Cramorant.json",
+      "sha256": "679ce0751f568db7e539f0f1b4393562a0b6d66988aa106d6367dc90ec4f2c83"
+    },
+    "0845F2:cramorant-gorging-form": {
+      "name": "Cramorant (Gorging Form)",
+      "types": [
+        "Flying",
+        "Water"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 2,
+        "Vitality": 2,
+        "Special": 2,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 5,
+        "Dexterity": 5,
+        "Vitality": 4,
+        "Special": 5,
+        "Insight": 6
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Gulp Missile"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Cramorant (Gorging Form).json",
+      "sha256": "d7d47c752dcc0a797b819fcef8b1d43d0067d203963042d3623b38f60753da69"
+    },
+    "0845F1:cramorant-gulping-form": {
+      "name": "Cramorant (Gulping Form)",
+      "types": [
+        "Flying",
+        "Water"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 2,
+        "Vitality": 2,
+        "Special": 2,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 5,
+        "Dexterity": 5,
+        "Vitality": 4,
+        "Special": 5,
+        "Insight": 6
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Gulp Missile"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Cramorant (Gulping Form).json",
+      "sha256": "f930c46b95e50552f781c4b13441ad6dcaf4e5c8e5b7290423fe9b3fb60d11e8"
+    },
+    "0555:darmanitan": {
+      "name": "Darmanitan",
+      "types": [
+        "Fire"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 3,
+        "Vitality": 2,
+        "Special": 1,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 7,
+        "Dexterity": 6,
+        "Vitality": 4,
+        "Special": 3,
+        "Insight": 4
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Sheer Force",
+        "Zen Mode"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Darmanitan.json",
+      "sha256": "cf51bc289f6debd09732e0c1847aec1181144d95ee4df025afd15b0a5d82aa65"
+    },
+    "0555G:darmanitan-galarian-form": {
+      "name": "Darmanitan (Galarian Form)",
+      "types": [
+        "Ice"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 3,
+        "Vitality": 2,
+        "Special": 1,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 7,
+        "Dexterity": 6,
+        "Vitality": 4,
+        "Special": 3,
+        "Insight": 4
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Gorilla Tactics",
+        "Zen Mode"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Darmanitan (Galarian Form).json",
+      "sha256": "e03853f81866e74633edfaae31e213ffae3168d99dd777ab4987bcdeff3fe398"
+    },
+    "0555GF1:darmanitan-galarian-zen-form": {
+      "name": "Darmanitan (Galarian Zen Form)",
+      "types": [
+        "Ice",
+        "Fire"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 3,
+        "Vitality": 2,
+        "Special": 1,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 7,
+        "Dexterity": 6,
+        "Vitality": 4,
+        "Special": 3,
+        "Insight": 4
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Zen Mode"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Darmanitan (Galarian Zen Form).json",
+      "sha256": "40e0acfb21a0c40461978a3bdfa50746f774129cecdc4c72a26e214a0892c65f"
+    },
+    "0555F1:darmanitan-zen-form": {
+      "name": "Darmanitan (Zen Form)",
+      "types": [
+        "Fire",
+        "Psychic"
+      ],
+      "stats": {
+        "Strength": 1,
+        "Dexterity": 2,
+        "Vitality": 3,
+        "Special": 3,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 3,
+        "Dexterity": 4,
+        "Vitality": 6,
+        "Special": 7,
+        "Insight": 6
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Zen Mode"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Darmanitan (Zen Form).json",
+      "sha256": "22c5ef6b0b97b2f062914bbc0ba27638062a9ba2f3711e74e3689174c05ccf04"
+    },
+    "0719:diancie": {
+      "name": "Diancie",
+      "types": [
+        "Rock",
+        "Fairy"
+      ],
+      "stats": {
+        "Strength": 6,
+        "Dexterity": 4,
+        "Vitality": 8,
+        "Special": 6,
+        "Insight": 8
+      },
+      "limits": {
+        "Strength": 6,
+        "Dexterity": 4,
+        "Vitality": 8,
+        "Special": 6,
+        "Insight": 8
+      },
+      "base_hp": 4,
+      "abilities": [
+        "Clear Body"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Diancie.json",
+      "sha256": "5b99918535c418e81198b5cade7ffd4a04fd1f19da5c2bfc1c0bc7c410335731"
+    },
+    "0719M1:diancie-mega-form": {
+      "name": "Diancie (Mega Form)",
+      "types": [
+        "Rock",
+        "Fairy"
+      ],
+      "stats": {
+        "Strength": 8,
+        "Dexterity": 6,
+        "Vitality": 6,
+        "Special": 8,
+        "Insight": 6
+      },
+      "limits": {
+        "Strength": 8,
+        "Dexterity": 6,
+        "Vitality": 6,
+        "Special": 8,
+        "Insight": 6
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Magic Bounce"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Diancie (Mega Form).json",
+      "sha256": "4439276ccbaa41ad29d2a640e2b55dca03d72b5422d132270edef5646c5a4ff2"
+    },
+    "0875:eiscue": {
+      "name": "Eiscue",
+      "types": [
+        "Ice"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 2,
+        "Vitality": 3,
+        "Special": 2,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 5,
+        "Dexterity": 4,
+        "Vitality": 6,
+        "Special": 4,
+        "Insight": 5
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Ice Face"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Eiscue.json",
+      "sha256": "aeb4bff24b3b40430e3a9a3b9be2c780b026473ffb6620e7f2070d452a5d1ba3"
+    },
+    "0875F1:eiscue-no-ice-form": {
+      "name": "Eiscue (No Ice Form)",
+      "types": [
+        "Ice"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 3,
+        "Vitality": 2,
+        "Special": 2,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 5,
+        "Dexterity": 7,
+        "Vitality": 5,
+        "Special": 4,
+        "Insight": 4
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Ice Face"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Eiscue (No Ice Form).json",
+      "sha256": "10e90c59a18dfd63dc8570bb401abbba6eb1c9e6b7b45df10db3962950f22712"
+    },
+    "0475:gallade": {
+      "name": "Gallade",
+      "types": [
+        "Psychic",
+        "Fight"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 2,
+        "Vitality": 2,
+        "Special": 2,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 7,
+        "Dexterity": 5,
+        "Vitality": 4,
+        "Special": 4,
+        "Insight": 6
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Steadfast",
+        "Justified"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Gallade.json",
+      "sha256": "ee36666924c8962ea9b351556c22d5c2e8a52a3d04f3e0b22e5394ba948507f7"
+    },
+    "0475M1:gallade-mega-form": {
+      "name": "Gallade (Mega Form)",
+      "types": [
+        "Psychic",
+        "Fight"
+      ],
+      "stats": {
+        "Strength": 4,
+        "Dexterity": 3,
+        "Vitality": 3,
+        "Special": 2,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 8,
+        "Dexterity": 6,
+        "Vitality": 6,
+        "Special": 4,
+        "Insight": 6
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Inner Focus"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Gallade (Mega Form).json",
+      "sha256": "3c71482554750f19ca201bcafd48ec9202b7ec310b7d7bef146a410797de47a9"
+    },
+    "0445:garchomp": {
+      "name": "Garchomp",
+      "types": [
+        "Dragon",
+        "Ground"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 3,
+        "Vitality": 3,
+        "Special": 2,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 7,
+        "Dexterity": 6,
+        "Vitality": 6,
+        "Special": 5,
+        "Insight": 5
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Sand Veil",
+        "Rough Skin"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Garchomp.json",
+      "sha256": "19274f04adc2b8ffcf74efae9d2783193ee2e4c57bcec6bf81a1e18d6fd3c97b"
+    },
+    "0445M1:garchomp-mega-form": {
+      "name": "Garchomp (Mega Form)",
+      "types": [
+        "Dragon",
+        "Ground"
+      ],
+      "stats": {
+        "Strength": 4,
+        "Dexterity": 2,
+        "Vitality": 3,
+        "Special": 3,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 9,
+        "Dexterity": 5,
+        "Vitality": 6,
+        "Special": 7,
+        "Insight": 6
+      },
+      "base_hp": 7,
+      "abilities": [
+        "Sand Force"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Garchomp (Mega Form).json",
+      "sha256": "b0d5e4c604720e7fd5e7bdf8745c98960b4fc2d2b0d56ffecbe814094da34128"
+    },
+    "0282:gardevoir": {
+      "name": "Gardevoir",
+      "types": [
+        "Psychic",
+        "Fairy"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 2,
+        "Vitality": 2,
+        "Special": 3,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 4,
+        "Dexterity": 5,
+        "Vitality": 4,
+        "Special": 7,
+        "Insight": 6
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Synchronize",
+        "Trace",
+        "Telepathy"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Gardevoir.json",
+      "sha256": "75976ca40f7f1aa21960bbe69c2e566cba04ba4a5cc4aea57b5652514b337ce1"
+    },
+    "0282M1:gardevoir-mega-form": {
+      "name": "Gardevoir (Mega Form)",
+      "types": [
+        "Psychic",
+        "Fairy"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 3,
+        "Vitality": 2,
+        "Special": 4,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 5,
+        "Dexterity": 6,
+        "Vitality": 4,
+        "Special": 8,
+        "Insight": 7
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Pixilate"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Gardevoir (Mega Form).json",
+      "sha256": "da76031bbae5378b75bca0584adae771916dcf6e5a8d4773ef33f8c3d4c55369"
+    },
+    "0094:gengar": {
+      "name": "Gengar",
+      "types": [
+        "Ghost",
+        "Poison"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 3,
+        "Vitality": 2,
+        "Special": 3,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 4,
+        "Dexterity": 6,
+        "Vitality": 4,
+        "Special": 7,
+        "Insight": 5
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Levitate",
+        "Cursed Body"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Gengar.json",
+      "sha256": "9bae3c57d08ee1e8fb05f482d1fb9da12cf0d812018744c2eb6d5ece8a8d6b72"
+    },
+    "0094M1:gengar-mega-form": {
+      "name": "Gengar (Mega Form)",
+      "types": [
+        "Ghost",
+        "Poison"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 3,
+        "Vitality": 2,
+        "Special": 4,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 4,
+        "Dexterity": 7,
+        "Vitality": 5,
+        "Special": 9,
+        "Insight": 6
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Shadow Tag"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Gengar (Mega Form).json",
+      "sha256": "d2e3c7a1ba3c0a508c48637935530c303845d80ad671db030d428d9eab1bb6bb"
+    },
+    "0362:glalie": {
+      "name": "Glalie",
+      "types": [
+        "Ice"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 2,
+        "Vitality": 2,
+        "Special": 2,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 5,
+        "Dexterity": 5,
+        "Vitality": 5,
+        "Special": 5,
+        "Insight": 5
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Ice Body",
+        "Moody"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Glalie.json",
+      "sha256": "32e741cb7eff94b27ed2d556a93275d140fa883cf97c3918042713046abfd454"
+    },
+    "0362M1:glalie-mega-form": {
+      "name": "Glalie (Mega Form)",
+      "types": [
+        "Ice"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 3,
+        "Vitality": 2,
+        "Special": 3,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 7,
+        "Dexterity": 6,
+        "Vitality": 5,
+        "Special": 7,
+        "Insight": 5
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Refrigerate"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Glalie (Mega Form).json",
+      "sha256": "409ec875c9c6de5cad36b906955ce5807d0b402af89db832deb1c0f224dea48b"
+    },
+    "0130:gyarados": {
+      "name": "Gyarados",
+      "types": [
+        "Water",
+        "Flying"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 2,
+        "Vitality": 2,
+        "Special": 2,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 7,
+        "Dexterity": 5,
+        "Vitality": 5,
+        "Special": 4,
+        "Insight": 6
+      },
+      "base_hp": 7,
+      "abilities": [
+        "Intimidate",
+        "Moxie"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Gyarados.json",
+      "sha256": "42799f27295573d7f889c49c34edd11a9a8f59faf34604d4307746be7a7a5192"
+    },
+    "0130M1:gyarados-mega-form": {
+      "name": "Gyarados (Mega Form)",
+      "types": [
+        "Water",
+        "Dark"
+      ],
+      "stats": {
+        "Strength": 4,
+        "Dexterity": 2,
+        "Vitality": 3,
+        "Special": 2,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 8,
+        "Dexterity": 5,
+        "Vitality": 6,
+        "Special": 5,
+        "Insight": 7
+      },
+      "base_hp": 8,
+      "abilities": [
+        "Mold Breaker"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Gyarados (Mega Form).json",
+      "sha256": "a1f2752dd7c8560f5046932a6439900f90ac71f869bf4fcac0c1fa6ef1f00cff"
+    },
+    "0214:heracross": {
+      "name": "Heracross",
+      "types": [
+        "Bug",
+        "Fight"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 2,
+        "Vitality": 2,
+        "Special": 1,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 7,
+        "Dexterity": 5,
+        "Vitality": 5,
+        "Special": 3,
+        "Insight": 6
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Guts",
+        "Swarm",
+        "Moxie"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Heracross.json",
+      "sha256": "975cc7884b223e26a830bba5f918e739e1c250eba083e6bce88d125aa096ebf8"
+    },
+    "0214M1:heracross-mega-form": {
+      "name": "Heracross (Mega Form)",
+      "types": [
+        "Bug",
+        "Fight"
+      ],
+      "stats": {
+        "Strength": 4,
+        "Dexterity": 2,
+        "Vitality": 3,
+        "Special": 1,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 9,
+        "Dexterity": 5,
+        "Vitality": 6,
+        "Special": 3,
+        "Insight": 6
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Skill Link"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Heracross (Mega Form).json",
+      "sha256": "be18b6101bd2c6706b8b4008d5291c0b4245c1a011695f8039ac922a0ff98129"
+    },
+    "0229:houndoom": {
+      "name": "Houndoom",
+      "types": [
+        "Dark",
+        "Fire"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 3,
+        "Vitality": 2,
+        "Special": 3,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 5,
+        "Dexterity": 6,
+        "Vitality": 4,
+        "Special": 6,
+        "Insight": 5
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Early Bird",
+        "Flash Fire",
+        "Unnerve"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Houndoom.json",
+      "sha256": "34b9083556585cb4aecf713c70082a97e093a506bf0be6bf4403651b5a2df543"
+    },
+    "0229M1:houndoom-mega-form": {
+      "name": "Houndoom (Mega Form)",
+      "types": [
+        "Dark",
+        "Fire"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 3,
+        "Vitality": 2,
+        "Special": 4,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 5,
+        "Dexterity": 6,
+        "Vitality": 5,
+        "Special": 8,
+        "Insight": 5
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Solar Power"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Houndoom (Mega Form).json",
+      "sha256": "29930755b70449c414ede38262c52866e1014853f3b85228f2f2b27196daad62"
+    },
+    "0115:kangaskhan": {
+      "name": "Kangaskhan",
+      "types": [
+        "Normal"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 2,
+        "Vitality": 2,
+        "Special": 1,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 6,
+        "Dexterity": 5,
+        "Vitality": 5,
+        "Special": 3,
+        "Insight": 5
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Early Bird",
+        "Scrappy",
+        "Inner Focus"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Kangaskhan.json",
+      "sha256": "6654133a20bfe8dca616d177e66f84561fd8c5e93b53b131c2c0172feda89e7c"
+    },
+    "0115M1:kangaskhan-mega-form": {
+      "name": "Kangaskhan (Mega Form)",
+      "types": [
+        "Normal"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 3,
+        "Vitality": 3,
+        "Special": 2,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 7,
+        "Dexterity": 6,
+        "Vitality": 6,
+        "Special": 4,
+        "Insight": 6
+      },
+      "base_hp": 7,
+      "abilities": [
+        "Parental Bond"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Kangaskhan (Mega Form).json",
+      "sha256": "f23be3b6d84341e6ca5d69e247233a204b0e39a9073696095cd7e44b44fcafb2"
+    },
+    "0380:latias": {
+      "name": "Latias",
+      "types": [
+        "Dragon",
+        "Psychic"
+      ],
+      "stats": {
+        "Strength": 5,
+        "Dexterity": 6,
+        "Vitality": 5,
+        "Special": 6,
+        "Insight": 7
+      },
+      "limits": {
+        "Strength": 5,
+        "Dexterity": 6,
+        "Vitality": 5,
+        "Special": 6,
+        "Insight": 7
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Levitate"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Latias.json",
+      "sha256": "1d7483573da76a98891c8d7e9ebea30da39c5276b641d9ac09b0e5304b65ba63"
+    },
+    "0380M1:latias-mega-form": {
+      "name": "Latias (Mega Form)",
+      "types": [
+        "Dragon",
+        "Psychic"
+      ],
+      "stats": {
+        "Strength": 6,
+        "Dexterity": 6,
+        "Vitality": 7,
+        "Special": 7,
+        "Insight": 8
+      },
+      "limits": {
+        "Strength": 6,
+        "Dexterity": 6,
+        "Vitality": 7,
+        "Special": 7,
+        "Insight": 8
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Levitate"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Latias (Mega Form).json",
+      "sha256": "644ba16a9110a8d3e75ed79753c3490dffb4db4f031e87978aedf8d2ddebb7c5"
+    },
+    "0381:latios": {
+      "name": "Latios",
+      "types": [
+        "Dragon",
+        "Psychic"
+      ],
+      "stats": {
+        "Strength": 5,
+        "Dexterity": 6,
+        "Vitality": 5,
+        "Special": 7,
+        "Insight": 6
+      },
+      "limits": {
+        "Strength": 5,
+        "Dexterity": 6,
+        "Vitality": 5,
+        "Special": 7,
+        "Insight": 6
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Levitate"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Latios.json",
+      "sha256": "57ce5fff70fa2cab3d8591e0870ca6ac5eaa8ec8c92ab660c8a4b0115f069d91"
+    },
+    "0381M1:latios-mega-form": {
+      "name": "Latios (Mega Form)",
+      "types": [
+        "Dragon",
+        "Psychic"
+      ],
+      "stats": {
+        "Strength": 7,
+        "Dexterity": 6,
+        "Vitality": 6,
+        "Special": 8,
+        "Insight": 7
+      },
+      "limits": {
+        "Strength": 7,
+        "Dexterity": 6,
+        "Vitality": 6,
+        "Special": 8,
+        "Insight": 7
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Levitate"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Latios (Mega Form).json",
+      "sha256": "8ef90a7f4866cda913ef0d0fbbb4ef9e5022c705643f344bd46dfc767cbf79b5"
+    },
+    "0428:lopunny": {
+      "name": "Lopunny",
+      "types": [
+        "Normal"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 3,
+        "Vitality": 2,
+        "Special": 2,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 5,
+        "Dexterity": 6,
+        "Vitality": 5,
+        "Special": 4,
+        "Insight": 6
+      },
+      "base_hp": 4,
+      "abilities": [
+        "Cute Charm",
+        "Limber"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Lopunny.json",
+      "sha256": "2ff2fefafa81a3ff1179b42acb3a779a4e463d80f9e53d10e4671e05a8e9b3fe"
+    },
+    "0428M1:lopunny-mega-form": {
+      "name": "Lopunny (Mega Form)",
+      "types": [
+        "Normal",
+        "Fight"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 3,
+        "Vitality": 3,
+        "Special": 2,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 7,
+        "Dexterity": 7,
+        "Vitality": 6,
+        "Special": 4,
+        "Insight": 6
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Scrappy"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Lopunny (Mega Form).json",
+      "sha256": "537e351d9def9f283d7835a88fd776e3d82e952c99e9d9c4b9f4900c643b2045"
+    },
+    "0448:lucario": {
+      "name": "Lucario",
+      "types": [
+        "Fight",
+        "Steel"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 2,
+        "Vitality": 2,
+        "Special": 3,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 6,
+        "Dexterity": 5,
+        "Vitality": 5,
+        "Special": 6,
+        "Insight": 5
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Steadfast",
+        "Justified"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Lucario.json",
+      "sha256": "b192e7d81adcc22fea907851f120031f992d47b5fcd0b7dc4ac902225d9bf188"
+    },
+    "0448M1:lucario-mega-form": {
+      "name": "Lucario (Mega Form)",
+      "types": [
+        "Fight",
+        "Steel"
+      ],
+      "stats": {
+        "Strength": 4,
+        "Dexterity": 3,
+        "Vitality": 2,
+        "Special": 3,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 8,
+        "Dexterity": 6,
+        "Vitality": 5,
+        "Special": 7,
+        "Insight": 5
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Adaptability"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Lucario (Mega Form).json",
+      "sha256": "255b43ced507d607543190576264326f81c93353401d6550590932ca386f91a8"
+    },
+    "0310:manectric": {
+      "name": "Manectric",
+      "types": [
+        "Electric"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 3,
+        "Vitality": 2,
+        "Special": 3,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 5,
+        "Dexterity": 6,
+        "Vitality": 4,
+        "Special": 6,
+        "Insight": 4
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Lightning Rod",
+        "Static",
+        "Minus"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Manectric.json",
+      "sha256": "c358309aa4caf818fac93dc919fa545d5f673331d492ff6a1c769726facdb14b"
+    },
+    "0310M1:manectric-mega-form": {
+      "name": "Manectric (Mega Form)",
+      "types": [
+        "Electric"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 3,
+        "Vitality": 2,
+        "Special": 3,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 5,
+        "Dexterity": 7,
+        "Vitality": 5,
+        "Special": 7,
+        "Insight": 5
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Intimidate"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Manectric (Mega Form).json",
+      "sha256": "83089342ce1d3728b0c0d6ea2999a3e75b398a8c29c65fc829a07122f0e5c3df"
+    },
+    "0303:mawile": {
+      "name": "Mawile",
+      "types": [
+        "Steel",
+        "Fairy"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 2,
+        "Vitality": 2,
+        "Special": 2,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 5,
+        "Dexterity": 4,
+        "Vitality": 5,
+        "Special": 4,
+        "Insight": 4
+      },
+      "base_hp": 4,
+      "abilities": [
+        "Hyper Cutter",
+        "Intimidate",
+        "Sheer Force"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Mawile.json",
+      "sha256": "11a9ea033f571403a2e14aa929180e8c356ce32a1eb078a6001a2525e8298b80"
+    },
+    "0303M1:mawile-mega-form": {
+      "name": "Mawile (Mega Form)",
+      "types": [
+        "Steel",
+        "Fairy"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 2,
+        "Vitality": 3,
+        "Special": 2,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 6,
+        "Dexterity": 4,
+        "Vitality": 7,
+        "Special": 4,
+        "Insight": 6
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Huge Power"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Mawile (Mega Form).json",
+      "sha256": "cd7f0ed40df8d84a532a251fe9fe50eb80109cb2c4f7f7c59ce05d03287d9c3a"
+    },
+    "0308:medicham": {
+      "name": "Medicham",
+      "types": [
+        "Fight",
+        "Psychic"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 2,
+        "Vitality": 2,
+        "Special": 2,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 4,
+        "Dexterity": 5,
+        "Vitality": 5,
+        "Special": 4,
+        "Insight": 5
+      },
+      "base_hp": 4,
+      "abilities": [
+        "Pure Power",
+        "Telepathy"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Medicham.json",
+      "sha256": "ff9159c0ce840ba0ad8f9067def24e2cdaef8f14547a62a5025d0ad1e9486cd2"
+    },
+    "0308M1:medicham-mega-form": {
+      "name": "Medicham (Mega Form)",
+      "types": [
+        "Fight",
+        "Psychic"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 3,
+        "Vitality": 3,
+        "Special": 2,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 6,
+        "Dexterity": 6,
+        "Vitality": 6,
+        "Special": 5,
+        "Insight": 6
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Pure Power"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Medicham (Mega Form).json",
+      "sha256": "e9cff5eaaf8c77f32a7937577969932332bf9cd8547878af88a6ec3fb8970446"
+    },
+    "0376:metagross": {
+      "name": "Metagross",
+      "types": [
+        "Steel",
+        "Psychic"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 2,
+        "Vitality": 3,
+        "Special": 3,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 7,
+        "Dexterity": 5,
+        "Vitality": 7,
+        "Special": 6,
+        "Insight": 5
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Clear Body",
+        "Light Metal"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Metagross.json",
+      "sha256": "702f5ea1fe0e46f128c000de45d8e8e6a45eea6842aad07c3dd44dd272c3ecbd"
+    },
+    "0376M1:metagross-mega-form": {
+      "name": "Metagross (Mega Form)",
+      "types": [
+        "Steel",
+        "Psychic"
+      ],
+      "stats": {
+        "Strength": 4,
+        "Dexterity": 3,
+        "Vitality": 4,
+        "Special": 3,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 8,
+        "Dexterity": 6,
+        "Vitality": 8,
+        "Special": 6,
+        "Insight": 6
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Tough Claws"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Metagross (Mega Form).json",
+      "sha256": "beaa38046c74847a9d5b5213ccfce0cf261800c783c5b449bcb2144efab979ed"
+    },
+    "0150:mewtwo": {
+      "name": "Mewtwo",
+      "types": [
+        "Psychic"
+      ],
+      "stats": {
+        "Strength": 6,
+        "Dexterity": 7,
+        "Vitality": 5,
+        "Special": 8,
+        "Insight": 5
+      },
+      "limits": {
+        "Strength": 6,
+        "Dexterity": 7,
+        "Vitality": 5,
+        "Special": 8,
+        "Insight": 5
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Pressure",
+        "Unnerve"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Mewtwo.json",
+      "sha256": "f13b91d45ee0b61247e9ed26e3eeeb2a7f6bdcdfc11d56c052d3e75453d44228"
+    },
+    "0150M1:mewtwo-mega-x-form": {
+      "name": "Mewtwo (Mega X Form)",
+      "types": [
+        "Psychic",
+        "Fight"
+      ],
+      "stats": {
+        "Strength": 9,
+        "Dexterity": 7,
+        "Vitality": 6,
+        "Special": 8,
+        "Insight": 6
+      },
+      "limits": {
+        "Strength": 9,
+        "Dexterity": 7,
+        "Vitality": 6,
+        "Special": 8,
+        "Insight": 6
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Steadfast"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Mewtwo (Mega X Form).json",
+      "sha256": "4aff9ff7897c59403e957b4c8bd592b46abf66d26bd96979dee4f0eaa0a9c48d"
+    },
+    "0150M2:mewtwo-mega-y-form": {
+      "name": "Mewtwo (Mega Y Form)",
+      "types": [
+        "Psychic"
+      ],
+      "stats": {
+        "Strength": 8,
+        "Dexterity": 7,
+        "Vitality": 5,
+        "Special": 10,
+        "Insight": 7
+      },
+      "limits": {
+        "Strength": 8,
+        "Dexterity": 7,
+        "Vitality": 5,
+        "Special": 10,
+        "Insight": 7
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Insomnia"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Mewtwo (Mega Y Form).json",
+      "sha256": "51503e456c3dd42335555d556d4e20aaed8b4d606796eac4f3fb0ac8487b5671"
+    },
+    "0778:mimikyu": {
+      "name": "Mimikyu",
+      "types": [
+        "Ghost",
+        "Fairy"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 3,
+        "Vitality": 2,
+        "Special": 2,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 5,
+        "Dexterity": 6,
+        "Vitality": 5,
+        "Special": 4,
+        "Insight": 6
+      },
+      "base_hp": 4,
+      "abilities": [
+        "Disguise"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Mimikyu.json",
+      "sha256": "2e0fb4274440b538499cf292518a1cab1b7b71fb4670e424717b8d9aab6bf574"
+    },
+    "0774:minior": {
+      "name": "Minior",
+      "types": [
+        "Rock",
+        "Flying"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 2,
+        "Vitality": 3,
+        "Special": 2,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 4,
+        "Dexterity": 4,
+        "Vitality": 6,
+        "Special": 4,
+        "Insight": 6
+      },
+      "base_hp": 4,
+      "abilities": [
+        "Shields Down"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Minior.json",
+      "sha256": "cd5e26dae1de30bfe1d09a60749a56496526aac54c020f26e88039879f7e0b33"
+    },
+    "0774F1:minior-core": {
+      "name": "Minior Core",
+      "types": [
+        "Rock",
+        "Flying"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 3,
+        "Vitality": 2,
+        "Special": 3,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 6,
+        "Dexterity": 7,
+        "Vitality": 4,
+        "Special": 6,
+        "Insight": 4
+      },
+      "base_hp": 4,
+      "abilities": [
+        "Shields Down"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Minior Core.json",
+      "sha256": "7d4afbf3e5a6db5f7839c72a55e10d754bc514277d2bfc1f0c2c11b66699dafa"
+    },
+    "0877:morpeko": {
+      "name": "Morpeko",
+      "types": [
+        "Electric",
+        "Dark"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 3,
+        "Vitality": 2,
+        "Special": 2,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 6,
+        "Dexterity": 6,
+        "Vitality": 4,
+        "Special": 5,
+        "Insight": 4
+      },
+      "base_hp": 4,
+      "abilities": [
+        "Hunger Switch"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Morpeko.json",
+      "sha256": "0b18736d0f2d9f4dae54493fdd08aa359da0bc2de17177f98567bfd0c5502168"
+    },
+    "1017F1:ogerpon-cornerstone-mask-form": {
+      "name": "Ogerpon (Cornerstone Mask Form)",
+      "types": [
+        "Grass",
+        "Rock"
+      ],
+      "stats": {
+        "Strength": 7,
+        "Dexterity": 6,
+        "Vitality": 5,
+        "Special": 4,
+        "Insight": 6
+      },
+      "limits": {
+        "Strength": 7,
+        "Dexterity": 6,
+        "Vitality": 5,
+        "Special": 4,
+        "Insight": 6
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Sturdy",
+        "Embody Aspect"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Ogerpon (Cornerstone Mask Form).json",
+      "sha256": "ea68ee51dc8f447284dfc9fcd2c5b92dc3873fa7b0e373d9f6de9e68921e3011"
+    },
+    "1017F2:ogerpon-hearthflame-mask-form": {
+      "name": "Ogerpon (Hearthflame Mask Form)",
+      "types": [
+        "Grass",
+        "Fire"
+      ],
+      "stats": {
+        "Strength": 7,
+        "Dexterity": 6,
+        "Vitality": 5,
+        "Special": 4,
+        "Insight": 6
+      },
+      "limits": {
+        "Strength": 7,
+        "Dexterity": 6,
+        "Vitality": 5,
+        "Special": 4,
+        "Insight": 6
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Mold Breaker",
+        "Embody Aspect"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Ogerpon (Hearthflame Mask Form).json",
+      "sha256": "29867939687b18267d882824a7a27199febbc5d8f6e76a451c7f0e8d403316b9"
+    },
+    "1017F3:ogerpon-teal-mask-form": {
+      "name": "Ogerpon (Teal Mask Form)",
+      "types": [
+        "Grass"
+      ],
+      "stats": {
+        "Strength": 7,
+        "Dexterity": 6,
+        "Vitality": 5,
+        "Special": 4,
+        "Insight": 6
+      },
+      "limits": {
+        "Strength": 7,
+        "Dexterity": 6,
+        "Vitality": 5,
+        "Special": 4,
+        "Insight": 6
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Defiant",
+        "Embody Aspect"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Ogerpon (Teal Mask Form).json",
+      "sha256": "12934370ef99ee8f4af3a9a55068c9bb036e035d06954dfe1bdfb06fd65e6cad"
+    },
+    "1017F4:ogerpon-wellspring-mask-form": {
+      "name": "Ogerpon (Wellspring Mask Form)",
+      "types": [
+        "Grass",
+        "Water"
+      ],
+      "stats": {
+        "Strength": 7,
+        "Dexterity": 6,
+        "Vitality": 5,
+        "Special": 4,
+        "Insight": 6
+      },
+      "limits": {
+        "Strength": 7,
+        "Dexterity": 6,
+        "Vitality": 5,
+        "Special": 4,
+        "Insight": 6
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Water Absorb",
+        "Embody Aspect"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Ogerpon (Wellspring Mask Form).json",
+      "sha256": "debf9736497848fac00c5dafbcac3dc6447d60c97881a77ec42345db102da41b"
+    },
+    "0964F2:palafin-hero-form": {
+      "name": "Palafin (Hero Form)",
+      "types": [
+        "Water"
+      ],
+      "stats": {
+        "Strength": 8,
+        "Dexterity": 6,
+        "Vitality": 6,
+        "Special": 6,
+        "Insight": 5
+      },
+      "limits": {
+        "Strength": 8,
+        "Dexterity": 6,
+        "Vitality": 6,
+        "Special": 6,
+        "Insight": 5
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Zero to Hero"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Palafin (Hero Form).json",
+      "sha256": "e8774a32489f151269bff15fc535d1e3da09506e8d1561d47e3b863227183b9b"
+    },
+    "0964F1:palafin-zero-form": {
+      "name": "Palafin (Zero Form)",
+      "types": [
+        "Water"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 3,
+        "Vitality": 2,
+        "Special": 2,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 5,
+        "Dexterity": 6,
+        "Vitality": 5,
+        "Special": 4,
+        "Insight": 4
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Zero to Hero"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Palafin (Zero Form).json",
+      "sha256": "6019263eae17cff131abd6ec6d5ed705abbb03b7dd44c5cc93b11b5d48ade49b"
+    },
+    "0018:pidgeot": {
+      "name": "Pidgeot",
+      "types": [
+        "Normal",
+        "Flying"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 3,
+        "Vitality": 2,
+        "Special": 2,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 5,
+        "Dexterity": 6,
+        "Vitality": 5,
+        "Special": 5,
+        "Insight": 5
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Keen Eye",
+        "Big Pecks"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Pidgeot.json",
+      "sha256": "63c868607db247321d348c4725e5222d62e6835025ab16df2cc4a82156b0807f"
+    },
+    "0018M1:pidgeot-mega-form": {
+      "name": "Pidgeot (Mega Form)",
+      "types": [
+        "Normal",
+        "Flying"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 3,
+        "Vitality": 2,
+        "Special": 3,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 5,
+        "Dexterity": 7,
+        "Vitality": 5,
+        "Special": 7,
+        "Insight": 5
+      },
+      "base_hp": 6,
+      "abilities": [
+        "No Guard"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Pidgeot (Mega Form).json",
+      "sha256": "e471d15871099e12b2d01e1cf701088d01950f6763cc0f0efac20c9ae16dc691"
+    },
+    "0127:pinsir": {
+      "name": "Pinsir",
+      "types": [
+        "Bug"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 2,
+        "Vitality": 3,
+        "Special": 2,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 7,
+        "Dexterity": 5,
+        "Vitality": 6,
+        "Special": 4,
+        "Insight": 5
+      },
+      "base_hp": 4,
+      "abilities": [
+        "Hyper Cutter",
+        "Mold Breaker",
+        "Moxie"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Pinsir.json",
+      "sha256": "d9f07fc8d3f7e1ea9b9dd48a2653de296c8a397f9fddecdbea0bc175a4113653"
+    },
+    "0127M1:pinsir-mega-form": {
+      "name": "Pinsir (Mega Form)",
+      "types": [
+        "Bug",
+        "Flying"
+      ],
+      "stats": {
+        "Strength": 4,
+        "Dexterity": 3,
+        "Vitality": 3,
+        "Special": 2,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 8,
+        "Dexterity": 6,
+        "Vitality": 7,
+        "Special": 4,
+        "Insight": 5
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Aerilate"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Pinsir (Mega Form).json",
+      "sha256": "8b6579f410ea3f16c75df0e02c798e037dd97e5d8781e03ed6abd6cbee91ef09"
+    },
+    "0302:sableye": {
+      "name": "Sableye",
+      "types": [
+        "Dark",
+        "Ghost"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 2,
+        "Vitality": 2,
+        "Special": 2,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 5,
+        "Dexterity": 4,
+        "Vitality": 5,
+        "Special": 4,
+        "Insight": 4
+      },
+      "base_hp": 4,
+      "abilities": [
+        "Stall",
+        "Prankster"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Sableye.json",
+      "sha256": "6bb609fe73f89bf1d36ea4c42694f4a424ebc0d905068c1dcc47473d320129b4"
+    },
+    "0302M1:sableye-mega-form": {
+      "name": "Sableye (Mega Form)",
+      "types": [
+        "Dark",
+        "Ghost"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 1,
+        "Vitality": 3,
+        "Special": 3,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 5,
+        "Dexterity": 2,
+        "Vitality": 7,
+        "Special": 6,
+        "Insight": 7
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Magic Bounce"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Sableye (Mega Form).json",
+      "sha256": "9a0aa43ad73411c13738da841cab2c51d435397c37d471f9536631d9723a8a58"
+    },
+    "0373:salamence": {
+      "name": "Salamence",
+      "types": [
+        "Dragon",
+        "Flying"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 3,
+        "Vitality": 2,
+        "Special": 3,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 7,
+        "Dexterity": 6,
+        "Vitality": 5,
+        "Special": 6,
+        "Insight": 5
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Intimidate",
+        "Moxie"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Salamence.json",
+      "sha256": "40a2190f413a0639c056dba7796c61125ebe1f7c0f22f8cbaf2e1bcf12c3bfa9"
+    },
+    "0373M1:salamence-mega-form": {
+      "name": "Salamence (Mega Form)",
+      "types": [
+        "Dragon",
+        "Flying"
+      ],
+      "stats": {
+        "Strength": 4,
+        "Dexterity": 3,
+        "Vitality": 3,
+        "Special": 3,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 8,
+        "Dexterity": 7,
+        "Vitality": 7,
+        "Special": 7,
+        "Insight": 5
+      },
+      "base_hp": 7,
+      "abilities": [
+        "Aerilate"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Salamence (Mega Form).json",
+      "sha256": "72fd75228ca81c105f08eaa4fd4183674d3e9daeef4121f79055948609b2923c"
+    },
+    "0254:sceptile": {
+      "name": "Sceptile",
+      "types": [
+        "Grass"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 3,
+        "Vitality": 2,
+        "Special": 3,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 5,
+        "Dexterity": 7,
+        "Vitality": 4,
+        "Special": 6,
+        "Insight": 5
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Overgrow",
+        "Unburden"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Sceptile.json",
+      "sha256": "9046447a9d78afd09f1cb2b2e604b8ee5166345ac1f2f54074b961090a01fe80"
+    },
+    "0254M1:sceptile-mega-form": {
+      "name": "Sceptile (Mega Form)",
+      "types": [
+        "Grass",
+        "Dragon"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 4,
+        "Vitality": 2,
+        "Special": 4,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 6,
+        "Dexterity": 8,
+        "Vitality": 5,
+        "Special": 8,
+        "Insight": 5
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Lightning Rod"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Sceptile (Mega Form).json",
+      "sha256": "56ca0ec98b0a3017c4d3cd1cdaccdb3d9fc67e20638d37da3fcd350fea7dc690"
+    },
+    "0212:scizor": {
+      "name": "Scizor",
+      "types": [
+        "Bug",
+        "Steel"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 2,
+        "Vitality": 3,
+        "Special": 2,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 7,
+        "Dexterity": 4,
+        "Vitality": 6,
+        "Special": 4,
+        "Insight": 5
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Swarm",
+        "Technician",
+        "Light Metal"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Scizor.json",
+      "sha256": "dc11994dc9fa086362c866be63d73df0563e86d2b8eb1fda8dde8e0dec1bbb1a"
+    },
+    "0212M1:scizor-mega-form": {
+      "name": "Scizor (Mega Form)",
+      "types": [
+        "Bug",
+        "Steel"
+      ],
+      "stats": {
+        "Strength": 4,
+        "Dexterity": 2,
+        "Vitality": 3,
+        "Special": 2,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 8,
+        "Dexterity": 5,
+        "Vitality": 7,
+        "Special": 4,
+        "Insight": 6
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Technician"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Scizor (Mega Form).json",
+      "sha256": "7de094aa9a2ecc9f6c6172bc63d71bda016cc8ac9eba3a5269d9bd09747dd6c4"
+    },
+    "0319:sharpedo": {
+      "name": "Sharpedo",
+      "types": [
+        "Water",
+        "Dark"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 3,
+        "Vitality": 1,
+        "Special": 3,
+        "Insight": 1
+      },
+      "limits": {
+        "Strength": 7,
+        "Dexterity": 6,
+        "Vitality": 3,
+        "Special": 6,
+        "Insight": 3
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Rough Skin",
+        "Speed Boost"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Sharpedo.json",
+      "sha256": "987913b9a0fe5556f4c6fe00e9e5a76b44661ff9452a3bcc02eb4ec8719a5bc7"
+    },
+    "0319M1:sharpedo-mega-form": {
+      "name": "Sharpedo (Mega Form)",
+      "types": [
+        "Water",
+        "Dark"
+      ],
+      "stats": {
+        "Strength": 4,
+        "Dexterity": 3,
+        "Vitality": 2,
+        "Special": 3,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 8,
+        "Dexterity": 6,
+        "Vitality": 5,
+        "Special": 6,
+        "Insight": 4
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Strong Jaw"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Sharpedo (Mega Form).json",
+      "sha256": "d85b44b486f3229496c1309e731697bea497ab3b6f7e11a763be438680da6432"
+    },
+    "0773:silvally": {
+      "name": "Silvally",
+      "types": [
+        "Normal"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 3,
+        "Vitality": 3,
+        "Special": 3,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 6,
+        "Dexterity": 6,
+        "Vitality": 6,
+        "Special": 6,
+        "Insight": 6
+      },
+      "base_hp": 6,
+      "abilities": [
+        "RKS System"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Silvally.json",
+      "sha256": "ac7cef3b44983a200f8b9a9df864535af047db0204e727c674f8afc189301014"
+    },
+    "0080:slowbro": {
+      "name": "Slowbro",
+      "types": [
+        "Water",
+        "Psychic"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 1,
+        "Vitality": 3,
+        "Special": 3,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 4,
+        "Dexterity": 3,
+        "Vitality": 6,
+        "Special": 6,
+        "Insight": 5
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Regenerator",
+        "Own Tempo"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Slowbro.json",
+      "sha256": "09143ca0ef6de9c3efd36aed2b8de5d08e72bf76f6aee64cecf95d4374b32e3a"
+    },
+    "0080M:slowbro-mega-form": {
+      "name": "Slowbro (Mega Form)",
+      "types": [
+        "Water",
+        "Psychic"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 1,
+        "Vitality": 4,
+        "Special": 3,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 5,
+        "Dexterity": 3,
+        "Vitality": 9,
+        "Special": 7,
+        "Insight": 5
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Shell Armor"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Slowbro (Mega Form).json",
+      "sha256": "6dcb6f3ec25dfb1617618dcf11a8eb8108959fb99c9071b89cf72b887a64ade6"
+    },
+    "0208:steelix": {
+      "name": "Steelix",
+      "types": [
+        "Steel",
+        "Ground"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 1,
+        "Vitality": 5,
+        "Special": 2,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 5,
+        "Dexterity": 3,
+        "Vitality": 10,
+        "Special": 4,
+        "Insight": 4
+      },
+      "base_hp": 9,
+      "abilities": [
+        "Rock Head",
+        "Sturdy",
+        "Sheer Force"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Steelix.json",
+      "sha256": "e5c24d0cc22b7310f770351a137dd9079f841148b6a63d4c9846f86cb91cd678"
+    },
+    "0208M1:steelix-mega-form": {
+      "name": "Steelix (Mega Form)",
+      "types": [
+        "Steel",
+        "Ground"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 1,
+        "Vitality": 5,
+        "Special": 2,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 7,
+        "Dexterity": 3,
+        "Vitality": 11,
+        "Special": 4,
+        "Insight": 6
+      },
+      "base_hp": 10,
+      "abilities": [
+        "Sand Force"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Steelix (Mega Form).json",
+      "sha256": "4b28b96e14394468dcb65209ab2650debccdccacdca381dbb1fd242eff6f851e"
+    },
+    "0260:swampert": {
+      "name": "Swampert",
+      "types": [
+        "Water",
+        "Ground"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 2,
+        "Vitality": 2,
+        "Special": 2,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 6,
+        "Dexterity": 4,
+        "Vitality": 5,
+        "Special": 5,
+        "Insight": 5
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Torrent",
+        "Swift Swim",
+        "Damp"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Swampert.json",
+      "sha256": "11586df3755cb6ba67a9a98c0c80e69622fb952bba630bd74ad08bee0e501370"
+    },
+    "0260M1:swampert-mega-form": {
+      "name": "Swampert (Mega Form)",
+      "types": [
+        "Water",
+        "Ground"
+      ],
+      "stats": {
+        "Strength": 4,
+        "Dexterity": 2,
+        "Vitality": 3,
+        "Special": 3,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 8,
+        "Dexterity": 5,
+        "Vitality": 6,
+        "Special": 6,
+        "Insight": 6
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Swift Swim"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Swampert (Mega Form).json",
+      "sha256": "2f42660c5294b16bd21f4bef12095c4b96d5dafae3b8cb686d5285461eb2ec42"
+    },
+    "1024F1:terapagos-normal-form": {
+      "name": "Terapagos (Normal Form)",
+      "types": [
+        "Normal"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 2,
+        "Vitality": 2,
+        "Special": 2,
+        "Insight": 2
+      },
+      "limits": {
+        "Strength": 4,
+        "Dexterity": 4,
+        "Vitality": 5,
+        "Special": 4,
+        "Insight": 5
+      },
+      "base_hp": 4,
+      "abilities": [
+        "Tera Shift"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Terapagos (Normal Form).json",
+      "sha256": "acfba9bd266e9665c8b770844245368cb9fb42b9e999102ef404fb5f942f1752"
+    },
+    "1024F3:terapagos-stellar-form": {
+      "name": "Terapagos (Stellar Form)",
+      "types": [
+        "Normal"
+      ],
+      "stats": {
+        "Strength": 6,
+        "Dexterity": 5,
+        "Vitality": 6,
+        "Special": 7,
+        "Insight": 6
+      },
+      "limits": {
+        "Strength": 6,
+        "Dexterity": 5,
+        "Vitality": 6,
+        "Special": 7,
+        "Insight": 6
+      },
+      "base_hp": 8,
+      "abilities": [
+        "Teraform Zero"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Terapagos (Stellar Form).json",
+      "sha256": "a63052591d1b3299e8ee8c269ea3cc8c6c405b157dd854f6de22342d05fcabe1"
+    },
+    "1024F2:terapagos-terastal-form": {
+      "name": "Terapagos (Terastal Form)",
+      "types": [
+        "Normal"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 2,
+        "Vitality": 3,
+        "Special": 3,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 6,
+        "Dexterity": 5,
+        "Vitality": 6,
+        "Special": 6,
+        "Insight": 6
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Tera Shell"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Terapagos (Terastal Form).json",
+      "sha256": "f8b4f2dc2eb4fc3cbee2cc69c9dae9d4020695c7fa0275a7e24fa247b246f770"
+    },
+    "0248:tyranitar": {
+      "name": "Tyranitar",
+      "types": [
+        "Rock",
+        "Dark"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 2,
+        "Vitality": 3,
+        "Special": 3,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 7,
+        "Dexterity": 5,
+        "Vitality": 6,
+        "Special": 6,
+        "Insight": 6
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Sand Stream",
+        "Unnerve"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Tyranitar.json",
+      "sha256": "3fdc406155c6aa2f3d60bc008aad71151ca04892379dc647911fdc9bffdc6bbd"
+    },
+    "0248M1:tyranitar-mega-form": {
+      "name": "Tyranitar (Mega Form)",
+      "types": [
+        "Rock",
+        "Dark"
+      ],
+      "stats": {
+        "Strength": 4,
+        "Dexterity": 2,
+        "Vitality": 4,
+        "Special": 3,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 8,
+        "Dexterity": 5,
+        "Vitality": 8,
+        "Special": 6,
+        "Insight": 7
+      },
+      "base_hp": 7,
+      "abilities": [
+        "Sand Stream"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Tyranitar (Mega Form).json",
+      "sha256": "c9397a70fee08e4c666b061f2a3fc3b16b4bfeb91d5cb9f47e56bc1ba59bd018"
+    },
+    "0003:venusaur": {
+      "name": "Venusaur",
+      "types": [
+        "Grass",
+        "Poison"
+      ],
+      "stats": {
+        "Strength": 2,
+        "Dexterity": 2,
+        "Vitality": 2,
+        "Special": 3,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 5,
+        "Dexterity": 5,
+        "Vitality": 5,
+        "Special": 6,
+        "Insight": 6
+      },
+      "base_hp": 5,
+      "abilities": [
+        "Overgrow",
+        "Chlorophyll"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Venusaur.json",
+      "sha256": "8eed2e9391311f0824c4522f7879f3991392b9364d647fa6389093b7999bf4b3"
+    },
+    "0003M1:venusaur-mega-form": {
+      "name": "Venusaur (Mega Form)",
+      "types": [
+        "Grass",
+        "Poison"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 2,
+        "Vitality": 3,
+        "Special": 3,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 6,
+        "Dexterity": 5,
+        "Vitality": 7,
+        "Special": 7,
+        "Insight": 7
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Thick Fat"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Venusaur (Mega Form).json",
+      "sha256": "25a45ef656f5d4f3dbae3c8edb58910bd58644f5b9ebf153dd36573d8376b97b"
+    },
+    "0746:wishiwashi": {
+      "name": "Wishiwashi",
+      "types": [
+        "Water"
+      ],
+      "stats": {
+        "Strength": 1,
+        "Dexterity": 2,
+        "Vitality": 1,
+        "Special": 1,
+        "Insight": 1
+      },
+      "limits": {
+        "Strength": 3,
+        "Dexterity": 4,
+        "Vitality": 3,
+        "Special": 3,
+        "Insight": 3
+      },
+      "base_hp": 4,
+      "abilities": [
+        "Schooling"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Wishiwashi.json",
+      "sha256": "011b6cbf598b6d5ed53b37cce94074d1c868ddb515aaba9fcee2db279f64b3e3"
+    },
+    "0746F1:wishiwashi-swarm-form": {
+      "name": "Wishiwashi (Swarm Form)",
+      "types": [
+        "Water"
+      ],
+      "stats": {
+        "Strength": 3,
+        "Dexterity": 1,
+        "Vitality": 3,
+        "Special": 3,
+        "Insight": 3
+      },
+      "limits": {
+        "Strength": 7,
+        "Dexterity": 3,
+        "Vitality": 7,
+        "Special": 7,
+        "Insight": 7
+      },
+      "base_hp": 8,
+      "abilities": [
+        "Schooling"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Wishiwashi (Swarm Form).json",
+      "sha256": "f330abb7527f0ec81999c39fa4939ce781e8abb317bda2b56216dafd06a68c71"
+    },
+    "0718F1:zygarde-10": {
+      "name": "Zygarde 10%",
+      "types": [
+        "Dragon",
+        "Ground"
+      ],
+      "stats": {
+        "Strength": 6,
+        "Dexterity": 6,
+        "Vitality": 5,
+        "Special": 4,
+        "Insight": 5
+      },
+      "limits": {
+        "Strength": 6,
+        "Dexterity": 6,
+        "Vitality": 5,
+        "Special": 4,
+        "Insight": 5
+      },
+      "base_hp": 4,
+      "abilities": [
+        "Aura Break",
+        "Power Construct"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Zygarde 10%.json",
+      "sha256": "95f14c378e0dc669a361811876f4dcb5142cfb72bf15e43d1356dbf4bde1a7f8"
+    },
+    "0718F3:zygarde-100": {
+      "name": "Zygarde 100%",
+      "types": [
+        "Dragon",
+        "Ground"
+      ],
+      "stats": {
+        "Strength": 6,
+        "Dexterity": 5,
+        "Vitality": 7,
+        "Special": 5,
+        "Insight": 6
+      },
+      "limits": {
+        "Strength": 6,
+        "Dexterity": 5,
+        "Vitality": 7,
+        "Special": 5,
+        "Insight": 6
+      },
+      "base_hp": 10,
+      "abilities": [
+        "Aura Break"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Zygarde 100%.json",
+      "sha256": "06e0eac591e8e248ba40b0b1a5845a669f7ccf75c8c7f76e2a9f509eeaf6b842"
+    },
+    "0718F2:zygarde-50": {
+      "name": "Zygarde 50%",
+      "types": [
+        "Dragon",
+        "Ground"
+      ],
+      "stats": {
+        "Strength": 6,
+        "Dexterity": 6,
+        "Vitality": 7,
+        "Special": 5,
+        "Insight": 6
+      },
+      "limits": {
+        "Strength": 6,
+        "Dexterity": 6,
+        "Vitality": 7,
+        "Special": 5,
+        "Insight": 6
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Aura Break",
+        "Power Construct"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Zygarde 50%.json",
+      "sha256": "091af730b9af254d07de3e07cf646470678886a089c91d6b57fd2f6fb0ac7384"
+    },
+    "0718:zygarde-cell": {
+      "name": "Zygarde Cell",
+      "types": [
+        "Dragon",
+        "Ground"
+      ],
+      "stats": {
+        "Strength": 1,
+        "Dexterity": 1,
+        "Vitality": 1,
+        "Special": 1,
+        "Insight": 1
+      },
+      "limits": {
+        "Strength": 1,
+        "Dexterity": 1,
+        "Vitality": 1,
+        "Special": 1,
+        "Insight": 1
+      },
+      "base_hp": 1,
+      "abilities": [
+        "Power Construct"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Zygarde Cell.json",
+      "sha256": "9e09b139ef061d9872a8b4862c81ba7750478e051cc2d48811ddaeb1c1348a8c"
+    }
+  },
+  "mega": {
+    "Abomasite": {
+      "base": "0460:abomasnow",
+      "form": "0460M1:abomasnow-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Abomasite.json"
+    },
+    "Absolite": {
+      "base": "0359:absol",
+      "form": "0359M1:absol-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Absolite.json"
+    },
+    "Aerodactylite": {
+      "base": "0142:aerodactyl",
+      "form": "0142M1:aerodactyl-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Aerodactylite.json"
+    },
+    "Aggronite": {
+      "base": "0306:aggron",
+      "form": "0306M1:aggron-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Aggronite.json"
+    },
+    "Alakazite": {
+      "base": "0065:alakazam",
+      "form": "0065M1:alakazam-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Alakazite.json"
+    },
+    "Altarianite": {
+      "base": "0334:altaria",
+      "form": "0334M1:altaria-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Altarianite.json"
+    },
+    "Ampharosite": {
+      "base": "0181:ampharos",
+      "form": "0181M1:ampharos-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Ampharosite.json"
+    },
+    "Audinite": {
+      "base": "0531:audino",
+      "form": "0531M1:audino-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Audinite.json"
+    },
+    "Banettite": {
+      "base": "0354:banette",
+      "form": "0354M1:banette-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Banettite.json"
+    },
+    "Beedrillite": {
+      "base": "0015:beedrill",
+      "form": "0015M1:beedrill-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Beedrillite.json"
+    },
+    "Blastoisinite": {
+      "base": "0009:blastoise",
+      "form": "0009M1:blastoise-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Blastoisinite.json"
+    },
+    "Blazikenite": {
+      "base": "0257:blaziken",
+      "form": "0257M1:blaziken-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Blazikenite.json"
+    },
+    "Cameruptite": {
+      "base": "0323:camerupt",
+      "form": "0323M1:camerupt-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Cameruptite.json"
+    },
+    "Charizardite X": {
+      "base": "0006:charizard",
+      "form": "0006M2:charizard-mega-x-form",
+      "source": "Pokerole-Data/v3.0/Items/Charizardite X.json"
+    },
+    "Charizardite Y": {
+      "base": "0006:charizard",
+      "form": "0006M1:charizard-mega-y-form",
+      "source": "Pokerole-Data/v3.0/Items/Charizardite Y.json"
+    },
+    "Diancite": {
+      "base": "0719:diancie",
+      "form": "0719M1:diancie-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Diancite.json"
+    },
+    "Galladite": {
+      "base": "0475:gallade",
+      "form": "0475M1:gallade-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Galladite.json"
+    },
+    "Garchompite": {
+      "base": "0445:garchomp",
+      "form": "0445M1:garchomp-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Garchompite.json"
+    },
+    "Gardevoirite": {
+      "base": "0282:gardevoir",
+      "form": "0282M1:gardevoir-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Gardevoirite.json"
+    },
+    "Gengarite": {
+      "base": "0094:gengar",
+      "form": "0094M1:gengar-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Gengarite.json"
+    },
+    "Glalitite": {
+      "base": "0362:glalie",
+      "form": "0362M1:glalie-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Glalitite.json"
+    },
+    "Gyaradosite": {
+      "base": "0130:gyarados",
+      "form": "0130M1:gyarados-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Gyaradosite.json"
+    },
+    "Heracronite": {
+      "base": "0214:heracross",
+      "form": "0214M1:heracross-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Heracronite.json"
+    },
+    "Houndoominite": {
+      "base": "0229:houndoom",
+      "form": "0229M1:houndoom-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Houndoominite.json"
+    },
+    "Kangaskhanite": {
+      "base": "0115:kangaskhan",
+      "form": "0115M1:kangaskhan-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Kangaskhanite.json"
+    },
+    "Latiasite": {
+      "base": "0380:latias",
+      "form": "0380M1:latias-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Latiasite.json"
+    },
+    "Latiosite": {
+      "base": "0381:latios",
+      "form": "0381M1:latios-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Latiosite.json"
+    },
+    "Lopunnite": {
+      "base": "0428:lopunny",
+      "form": "0428M1:lopunny-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Lopunnite.json"
+    },
+    "Lucarionite": {
+      "base": "0448:lucario",
+      "form": "0448M1:lucario-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Lucarionite.json"
+    },
+    "Manectite": {
+      "base": "0310:manectric",
+      "form": "0310M1:manectric-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Manectite.json"
+    },
+    "Mawilite": {
+      "base": "0303:mawile",
+      "form": "0303M1:mawile-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Mawilite.json"
+    },
+    "Medichamite": {
+      "base": "0308:medicham",
+      "form": "0308M1:medicham-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Medichamite.json"
+    },
+    "Metagrossite": {
+      "base": "0376:metagross",
+      "form": "0376M1:metagross-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Metagrossite.json"
+    },
+    "Mewtwonite X": {
+      "base": "0150:mewtwo",
+      "form": "0150M1:mewtwo-mega-x-form",
+      "source": "Pokerole-Data/v3.0/Items/Mewtwonite X.json"
+    },
+    "Mewtwonite Y": {
+      "base": "0150:mewtwo",
+      "form": "0150M2:mewtwo-mega-y-form",
+      "source": "Pokerole-Data/v3.0/Items/Mewtwonite Y.json"
+    },
+    "Pidgeotite": {
+      "base": "0018:pidgeot",
+      "form": "0018M1:pidgeot-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Pidgeotite.json"
+    },
+    "Pinsirite": {
+      "base": "0127:pinsir",
+      "form": "0127M1:pinsir-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Pinsirite.json"
+    },
+    "Sablenite": {
+      "base": "0302:sableye",
+      "form": "0302M1:sableye-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Sablenite.json"
+    },
+    "Salamencite": {
+      "base": "0373:salamence",
+      "form": "0373M1:salamence-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Salamencite.json"
+    },
+    "Sceptilite": {
+      "base": "0254:sceptile",
+      "form": "0254M1:sceptile-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Sceptilite.json"
+    },
+    "Scizorite": {
+      "base": "0212:scizor",
+      "form": "0212M1:scizor-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Scizorite.json"
+    },
+    "Sharpedonite": {
+      "base": "0319:sharpedo",
+      "form": "0319M1:sharpedo-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Sharpedonite.json"
+    },
+    "Slowbronite": {
+      "base": "0080:slowbro",
+      "form": "0080M:slowbro-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Slowbronite.json"
+    },
+    "Steelixite": {
+      "base": "0208:steelix",
+      "form": "0208M1:steelix-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Steelixite.json"
+    },
+    "Swampertite": {
+      "base": "0260:swampert",
+      "form": "0260M1:swampert-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Swampertite.json"
+    },
+    "Tyranitarite": {
+      "base": "0248:tyranitar",
+      "form": "0248M1:tyranitar-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Tyranitarite.json"
+    },
+    "Venusaurite": {
+      "base": "0003:venusaur",
+      "form": "0003M1:venusaur-mega-form",
+      "source": "Pokerole-Data/v3.0/Items/Venusaurite.json"
+    }
+  },
+  "links": {
+    "Stance Change": {
+      "0681:aegislash": [
+        "0681F1:aegislash-blade-form"
+      ],
+      "0681F1:aegislash-blade-form": [
+        "0681:aegislash"
+      ]
+    },
+    "Zen Mode": {
+      "0555:darmanitan": [
+        "0555F1:darmanitan-zen-form"
+      ],
+      "0555G:darmanitan-galarian-form": [
+        "0555GF1:darmanitan-galarian-zen-form"
+      ]
+    },
+    "Zero to Hero": {
+      "0964F1:palafin-zero-form": [
+        "0964F2:palafin-hero-form"
+      ]
+    },
+    "Schooling": {
+      "0746:wishiwashi": [
+        "0746F1:wishiwashi-swarm-form"
+      ]
+    },
+    "Shields Down": {
+      "0774:minior": [
+        "0774F1:minior-core"
+      ]
+    },
+    "Ice Face": {
+      "0875:eiscue": [
+        "0875F1:eiscue-no-ice-form"
+      ],
+      "0875F1:eiscue-no-ice-form": [
+        "0875:eiscue"
+      ]
+    },
+    "Gulp Missile": {
+      "0845:cramorant": [
+        "0845F1:cramorant-gulping-form",
+        "0845F2:cramorant-gorging-form"
+      ],
+      "0845F1:cramorant-gulping-form": [
+        "0845:cramorant"
+      ],
+      "0845F2:cramorant-gorging-form": [
+        "0845:cramorant"
+      ]
+    },
+    "Power Construct": {
+      "0718:zygarde-cell": [
+        "0718F1:zygarde-10"
+      ],
+      "0718F1:zygarde-10": [
+        "0718F2:zygarde-50"
+      ],
+      "0718F2:zygarde-50": [
+        "0718F3:zygarde-100"
+      ]
+    },
+    "Tera Shift": {
+      "1024F1:terapagos-normal-form": [
+        "1024F2:terapagos-terastal-form"
+      ]
+    }
+  }
+}

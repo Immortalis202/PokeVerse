@@ -287,7 +287,7 @@ async fn host_room(
             .find(|c| c.id == campaign_id)
             .ok_or_else(|| AppError::new("missing", "Unknown campaign"))?;
         if c.host_id() != store.player_id
-            || ![ENGINE, EVENT_ENGINE, LEGACY_ENGINE].contains(&c.engine.as_str())
+            || ![ENGINE, ITEM_ENGINE, EVENT_ENGINE, LEGACY_ENGINE].contains(&c.engine.as_str())
         {
             return Err(AppError::new(
                 "version",

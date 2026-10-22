@@ -22,7 +22,7 @@ pub fn choose_sheer_force(
     owner(c, actor, id)?;
     reason(why)?;
     check_count(dice, 0)?;
-    if fighter(c, id)?.selected_ability != "Sheer Force" || fighter(c, id)?.hp <= 0 {
+    if !fighter(c, id)?.has_ability("Sheer Force") || fighter(c, id)?.hp <= 0 {
         return Err(error("Choose an active, conscious Sheer Force holder"));
     }
     if !flow(c)?.queue.is_empty() || abilities::pending(c) {
@@ -70,8 +70,7 @@ pub fn tag_actions(before: &Campaign, after: &mut Campaign, cat: &Catalog) -> Re
         .combatants
         .iter()
         .filter(|p| {
-            p.selected_ability == "Sheer Force"
-                && p.runtime.ability.flags.contains("sheer-force:damage")
+            p.has_ability("Sheer Force") && p.runtime.ability.flags.contains("sheer-force:damage")
         })
         .map(|p| p.id.clone())
         .collect();
@@ -119,11 +118,11 @@ pub fn retained_attributes(q: &QueuedAction, cat: &Catalog) -> Result<bool> {
 }
 
 pub fn ignore_resistance(c: &Campaign, attacker: &Combatant, target: &Combatant) -> bool {
-    enabled(c) && attacker.side != target.side && attacker.selected_ability == "Tinted Lens"
+    enabled(c) && attacker.side != target.side && attacker.has_ability("Tinted Lens")
 }
 
 pub fn ignores_attributes(c: &Campaign, holder: &Combatant, foe: &Combatant) -> bool {
-    enabled(c) && holder.side != foe.side && holder.selected_ability == "Unaware"
+    enabled(c) && holder.side != foe.side && holder.has_ability("Unaware")
 }
 
 pub fn clash_bonus(
@@ -143,7 +142,7 @@ pub fn clash_bonus(
         !immune
             && !abilities::damage_immune_from(c, a, t, m)
             && !extra::source_immune(c, a, t, effect)
-            && a.selected_ability == "Stakeout"
+            && a.has_ability("Stakeout")
             && a.runtime
                 .ability
                 .flags
@@ -194,24 +193,25 @@ pub fn lifecycle(before: &Campaign, after: &mut Campaign, action: &Action) {
             q.damage_context.as_ref().is_some_and(|ctx| {
                 ctx.ability_sources
                     .iter()
-                    .any(|p| p.id == q.actor_id && p.selected_ability == "Stakeout")
+                    .any(|p| p.id == q.actor_id && p.has_ability("Stakeout"))
             })
         })
         .map(|q| q.actor_id.clone())
         .collect();
     for p in &mut new.combatants {
+        let stakeout = p.has_ability("Stakeout");
         p.runtime.ability.flags.retain(|f| {
             !f.starts_with("stakeout:")
                 || ((active.contains(&p.id) || frozen_sources.contains(&p.id))
                     && active.contains(&f[9..])
-                    && (p.selected_ability == "Stakeout" || frozen_sources.contains(&p.id)))
+                    && (stakeout || frozen_sources.contains(&p.id)))
         });
-        if p.selected_ability == "Stakeout"
+        if p.has_ability("Stakeout")
             && active.contains(&p.id)
             && old
                 .combatants
                 .iter()
-                .any(|q| q.id == p.id && q.deployed && q.hp > 0 && q.selected_ability == "Stakeout")
+                .any(|q| q.id == p.id && q.deployed && q.hp > 0 && q.has_ability("Stakeout"))
         {
             for (id, side) in &arrivals {
                 if *side != p.side {
@@ -230,7 +230,7 @@ pub fn stakeout_bonus(c: &Campaign, q: &QueuedAction, immune: bool) -> i32 {
         return 0;
     };
     i32::from(
-        source.selected_ability == "Stakeout"
+        source.has_ability("Stakeout")
             && fighter(c, &q.actor_id).is_ok_and(|p| {
                 p.runtime
                     .ability

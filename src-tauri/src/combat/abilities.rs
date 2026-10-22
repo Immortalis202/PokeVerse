@@ -75,15 +75,14 @@ pub fn guard(c: &Campaign, source: &Combatant) -> Result<()> {
     if enabled(c)
         && c.battle.as_ref().is_some_and(|b| b.automatic_validation)
         && ((!reviewed::enabled(c)
-            && ["Mold Breaker", "Teravolt", "Turboblaze"]
-                .contains(&source.selected_ability.as_str()))
+            && source.has_any_ability(&["Mold Breaker", "Teravolt", "Turboblaze"]))
             || (!ability_changes::enabled(c)
                 && c.battle
                     .as_ref()
                     .unwrap()
                     .combatants
                     .iter()
-                    .any(|p| p.deployed && p.hp > 0 && p.selected_ability == "Neutralizing Gas")))
+                    .any(|p| p.deployed && p.hp > 0 && p.has_ability("Neutralizing Gas"))))
     {
         return Err(AppError::new("manual_rule","Ability suppression/bypass requires a GM ruling; automatic rolls cannot assume the ordinary ability interaction"));
     }
@@ -102,7 +101,7 @@ pub fn move_guard(c: &Campaign, name: &str) -> Result<()> {
         && battle(c)?
             .combatants
             .iter()
-            .any(|p| p.deployed && p.hp > 0 && p.selected_ability == "Damp")
+            .any(|p| p.deployed && p.hp > 0 && p.has_ability("Damp"))
     {
         return Err(error(
             "Damp prevents this move while its holder is on the field",
@@ -111,8 +110,7 @@ pub fn move_guard(c: &Campaign, name: &str) -> Result<()> {
     Ok(())
 }
 pub fn status_damage_immune(on: bool, p: &Combatant, kind: &str) -> bool {
-    on && (p.selected_ability == "Magic Guard"
-        || (p.selected_ability == "Immunity" && kind.contains("Poison")))
+    on && (p.has_ability("Magic Guard") || (p.has_ability("Immunity") && kind.contains("Poison")))
 }
 pub fn phase(c: &Campaign, action: &Action) -> Result<()> {
     if pending(c)
@@ -151,7 +149,8 @@ pub fn coverage(c: &Campaign, name: &str) -> Option<&'static str> {
             .expect("valid owned ability registry")
     });
     let entry = &REGISTRY["entries"][name];
-    if (entry["introduced_engine"] == "0.18.0-core" && !items::enabled(c))
+    if (entry["introduced_engine"] == "0.19.0-core" && !forms::enabled(c))
+        || (entry["introduced_engine"] == "0.18.0-core" && !items::enabled(c))
         || (entry["introduced_engine"] == "0.17.0-core" && !events::enabled(c))
         || (entry["introduced_engine"] == "0.16.0-core" && !provenance::enabled(c))
         || (entry["introduced_engine"] == "0.15.0-core" && !sequencing::enabled(c))
@@ -170,15 +169,20 @@ pub fn coverage(c: &Campaign, name: &str) -> Option<&'static str> {
     entry["scope"].as_str()
 }
 pub fn status_immune(c: &Campaign, p: &Combatant, kind: &str) -> bool {
+    if forms::status_immune(c, p) {
+        return true;
+    }
     enabled(c)
-        && match p.selected_ability.as_str() {
-            "Limber" => kind == "Paralysis",
-            "Insomnia" | "Vital Spirit" => kind == "Sleep",
-            "Water Veil" => kind.starts_with("Burn"),
-            "Magma Armor" => kind == "Frozen Solid",
-            "Inner Focus" => kind == "Flinch",
-            _ => false,
-        }
+        && p.ability_names()
+            .iter()
+            .any(|ability| match ability.as_str() {
+                "Limber" => kind == "Paralysis",
+                "Insomnia" | "Vital Spirit" => kind == "Sleep",
+                "Water Veil" => kind.starts_with("Burn"),
+                "Magma Armor" => kind == "Frozen Solid",
+                "Inner Focus" => kind == "Flinch",
+                _ => false,
+            })
 }
 pub fn stats(c: &Campaign, p: &Combatant, s: &mut Sheet) {
     if !enabled(c) {
@@ -189,7 +193,7 @@ pub fn stats(c: &Campaign, p: &Combatant, s: &mut Sheet) {
             || v.kind.contains("Poison")
             || ["Paralysis", "Sleep", "Frozen Solid"].contains(&v.kind.as_str())
     });
-    let bonus = match p.selected_ability.as_str() {
+    let bonus = match p.ability_for(&["Guts", "Moxie", "Sap Sipper", "Speed Boost"]) {
         "Guts" if ailment => Some(("Strength", 2)),
         "Moxie" => Some((
             "Strength",
@@ -205,11 +209,12 @@ pub fn stats(c: &Campaign, p: &Combatant, s: &mut Sheet) {
         )),
         _ => None,
     };
-    let intimidated = p.selected_ability != "Inner Focus"
+    let intimidated = !p.has_ability("Inner Focus")
         && flow(c).is_ok_and(|f| f.intimidate.values().any(|ids| ids.contains(&p.id)));
     if let Some((key, n)) = bonus {
         if let Some(v) = s.stats.get_mut(key) {
-            *v = (*v + n - i32::from(intimidated && key == "Strength")).clamp(1, 10);
+            *v = (*v + n - i32::from(intimidated && key == "Strength"))
+                .clamp(1, forms::stat_cap(c, p));
         }
     }
     if intimidated && bonus.is_none_or(|(key, _)| key != "Strength") {
@@ -225,7 +230,7 @@ pub fn defense(c: &Campaign, p: &Combatant, physical: bool) -> i32 {
     i32::from(
         enabled(c)
             && physical
-            && p.selected_ability == "Marvel Scale"
+            && p.has_ability("Marvel Scale")
             && p.runtime.statuses.iter().any(|s| {
                 s.kind.starts_with("Burn")
                     || s.kind.contains("Poison")
@@ -246,18 +251,16 @@ pub fn critical(c: &Campaign, attacker: &Combatant, target: &Combatant) -> i32 {
     if !enabled(c) {
         return 2;
     }
-    if attacker.side != target.side
-        && ["Battle Armor", "Shell Armor"].contains(&target.selected_ability.as_str())
-    {
+    if attacker.side != target.side && target.has_any_ability(&["Battle Armor", "Shell Armor"]) {
         0
-    } else if attacker.selected_ability == "Sniper" {
+    } else if attacker.has_ability("Sniper") {
         3
     } else {
         2
     }
 }
 pub fn low_accuracy(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> i32 {
-    i32::from(enabled(c) && p.selected_ability == "Hustle" && m["Category"] == "Physical")
+    i32::from(enabled(c) && p.has_ability("Hustle") && m["Category"] == "Physical")
 }
 pub fn damage_bonus(
     c: &Campaign,
@@ -270,23 +273,30 @@ pub fn damage_bonus(
     if !enabled(c) {
         return 0;
     }
-    match p.selected_ability.as_str() {
-        "Adaptability" if stab => 1,
-        "Technician" if matches!(m["Power"].as_i64(), Some(1 | 2)) => 1,
-        "Iron Fist" if m["Attributes"]["FistMove"] == true => 1,
-        "Hustle" if m["Category"] == "Physical" => 2,
-        "Flash Fire" if m["Type"] == "Fire" && p.runtime.ability.flags.contains("Flash Fire") => 1,
-        _ => 0,
-    }
+    p.ability_names()
+        .iter()
+        .map(|ability| match ability.as_str() {
+            "Adaptability" if stab => 1,
+            "Technician" if matches!(m["Power"].as_i64(), Some(1 | 2)) => 1,
+            "Iron Fist" if m["Attributes"]["FistMove"] == true => 1,
+            "Hustle" if m["Category"] == "Physical" => 2,
+            "Flash Fire"
+                if m["Type"] == "Fire" && p.runtime.ability.flags.contains("Flash Fire") =>
+            {
+                1
+            }
+            _ => 0,
+        })
+        .sum::<i32>()
 }
 pub fn move_immune(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> bool {
     enabled(c)
-        && ((p.selected_ability == "Levitate"
+        && ((p.has_ability("Levitate")
             && m["Type"] == "Ground"
             && !field::has(c, "Gravity", p)
             && !special::roost(c, &p.id)
             && !items::iron_ball(c, &p.id))
-            || (p.selected_ability == "Soundproof" && m["Attributes"]["SoundMove"] == true))
+            || (p.has_ability("Soundproof") && m["Attributes"]["SoundMove"] == true))
 }
 pub fn damage_immune_from(
     c: &Campaign,
@@ -301,14 +311,16 @@ pub fn damage_immune(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> bool
         || extra::immune(c, p, m)
         || move_immune(c, p, m)
         || (enabled(c)
-            && match p.selected_ability.as_str() {
-                "Flash Fire" => m["Type"] == "Fire",
-                "Sap Sipper" => m["Type"] == "Grass",
-                "Water Absorb" => m["Type"] == "Water",
-                "Dry Skin" if field::enabled(c) => m["Type"] == "Water",
-                "Volt Absorb" => m["Type"] == "Electric",
-                _ => false,
-            })
+            && p.ability_names()
+                .iter()
+                .any(|ability| match ability.as_str() {
+                    "Flash Fire" => m["Type"] == "Fire",
+                    "Sap Sipper" => m["Type"] == "Grass",
+                    "Water Absorb" => m["Type"] == "Water",
+                    "Dry Skin" if field::enabled(c) => m["Type"] == "Water",
+                    "Volt Absorb" => m["Type"] == "Electric",
+                    _ => false,
+                }))
 }
 pub fn reduction(
     c: &Campaign,
@@ -324,17 +336,22 @@ pub fn reduction(
         - i32::from(
             extra::enabled(c)
                 && effective > 0
-                && fighter(c, source).is_ok_and(|p| p.selected_ability == "Neuroforce"),
+                && fighter(c, source).is_ok_and(|p| p.has_ability("Neuroforce")),
         )
-        + match p.selected_ability.as_str() {
-            "Dry Skin" if field::enabled(c) && m["Type"] == "Fire" => -1,
-            "Thick Fat" if m["Type"] == "Fire" || m["Type"] == "Ice" => 1,
-            "Filter" if effective > 0 && fighter(c, source).is_ok_and(|a| a.side != p.side) => 1,
-            "Solid Rock" if effective > 0 => 1,
-            "Multiscale" if p.hp == p.max_hp => 1,
-            "Fur Coat" if m["Category"] == "Physical" => 2,
-            _ => 0,
-        }
+        + p.ability_names()
+            .iter()
+            .map(|ability| match ability.as_str() {
+                "Dry Skin" if field::enabled(c) && m["Type"] == "Fire" => -1,
+                "Thick Fat" if m["Type"] == "Fire" || m["Type"] == "Ice" => 1,
+                "Filter" if effective > 0 && fighter(c, source).is_ok_and(|a| a.side != p.side) => {
+                    1
+                }
+                "Solid Rock" if effective > 0 => 1,
+                "Multiscale" if p.hp == p.max_hp => 1,
+                "Fur Coat" if m["Category"] == "Physical" => 2,
+                _ => 0,
+            })
+            .sum::<i32>()
 }
 pub fn contact(m: &serde_json::Value) -> bool {
     m["Category"] == "Physical"
@@ -343,8 +360,8 @@ pub fn contact(m: &serde_json::Value) -> bool {
 }
 fn damage(c: &mut Campaign, id: &str, amount: i32) -> Result<()> {
     if enabled(c)
-        && (fighter(c, id)?.selected_ability == "Magic Guard"
-            || (extra::enabled(c) && fighter(c, id)?.selected_ability == "Wonder Guard"))
+        && (fighter(c, id)?.has_ability("Magic Guard")
+            || (extra::enabled(c) && fighter(c, id)?.has_ability("Wonder Guard")))
     {
         return Ok(());
     }
@@ -371,9 +388,10 @@ fn enqueue(c: &mut Campaign, p: &Combatant, target: &str, kind: &str, m: &str, c
 }
 pub fn sturdy(c: &mut Campaign, target: &str, amount: i32, before_hp: i32) -> Result<i32> {
     let amount = extra::disguise(c, target, amount)?;
+    let amount = forms::damage_guard(c, target, amount)?;
     let p = fighter(c, target)?;
     if enabled(c)
-        && p.selected_ability == "Sturdy"
+        && p.has_ability("Sturdy")
         && before_hp > 0
         && amount >= before_hp
         && !p.runtime.ability.flags.contains("Sturdy")
@@ -442,6 +460,16 @@ pub fn hit(
     if !enabled(c) || q.actor_id == q.target_id {
         return Ok(());
     }
+    if forms::damage_redirect(c, &q.target_id).is_some() {
+        forms::redirect_losses(
+            &{
+                let mut old = c.clone();
+                fighter_mut(&mut old, &q.target_id)?.hp = before_hp;
+                old
+            },
+            c,
+        )?;
+    }
     let target = fighter(c, &q.target_id)?.clone();
     let attacker = fighter(c, &q.actor_id)?.clone();
     let resolved = field::move_data(c, &attacker, m);
@@ -450,7 +478,7 @@ pub fn hit(
         && before_hp > 0
         && attacker.hp > 0
         && attacker.side != target.side
-        && attacker.selected_ability == "Moxie"
+        && attacker.has_ability("Moxie")
     {
         let v = fighter_mut(c, &q.actor_id)?
             .runtime
@@ -461,82 +489,93 @@ pub fn hit(
         *v = (*v + 1).min(3);
     }
     if !reviewed::damage_bypass(c, &reviewed::source(c, q)?, &target) {
-        match target.selected_ability.as_str() {
-            "Flash Fire" if m["Type"] == "Fire" => {
-                fighter_mut(c, &q.target_id)?
-                    .runtime
-                    .ability
-                    .flags
-                    .insert("Flash Fire".into());
-            }
-            "Sap Sipper" if m["Type"] == "Grass" => {
-                let state = &mut fighter_mut(c, &q.target_id)?.runtime.ability;
-                if state.flags.insert("Sap Sipper".into()) {
-                    state.counters.insert("Sap Sipper".into(), 1);
+        for name in target.ability_names() {
+            let mut variant = target.clone();
+            variant.selected_ability = name;
+            let target = &variant;
+            match target.selected_ability.as_str() {
+                "Flash Fire" if m["Type"] == "Fire" => {
+                    fighter_mut(c, &q.target_id)?
+                        .runtime
+                        .ability
+                        .flags
+                        .insert("Flash Fire".into());
                 }
-            }
-            "Water Absorb" | "Dry Skin"
-                if m["Type"] == "Water"
-                    && (target.selected_ability != "Dry Skin" || field::enabled(c)) =>
-            {
-                enqueue(
+                "Sap Sipper" if m["Type"] == "Grass" => {
+                    let state = &mut fighter_mut(c, &q.target_id)?.runtime.ability;
+                    if state.flags.insert("Sap Sipper".into()) {
+                        state.counters.insert("Sap Sipper".into(), 1);
+                    }
+                }
+                "Water Absorb" | "Dry Skin"
+                    if m["Type"] == "Water"
+                        && (!target.has_ability("Dry Skin") || field::enabled(c)) =>
+                {
+                    enqueue(
+                        c,
+                        target,
+                        &target.id,
+                        "heal",
+                        &q.move_name,
+                        &["heal", "decline"],
+                    )
+                }
+                "Volt Absorb" if m["Type"] == "Electric" => enqueue(
                     c,
-                    &target,
+                    target,
                     &target.id,
                     "heal",
                     &q.move_name,
                     &["heal", "decline"],
-                )
+                ),
+                _ => {}
             }
-            "Volt Absorb" if m["Type"] == "Electric" => enqueue(
-                c,
-                &target,
-                &target.id,
-                "heal",
-                &q.move_name,
-                &["heal", "decline"],
-            ),
-            _ => {}
         }
     }
     reviewed::hit(c, q, m, cat)?;
     items::hit(c, q, m, cat)?;
+    forms::hit(c, q, m, cat, before_hp)?;
     transfers::hit(c, q, m, cat)?;
     extra::hit(c, q, before_hp, m)?;
     tactics::hit(c, q, m)?;
     if move_immune(c, &target, m)
         || !contact(m)
         || attacker.hp == 0
-        || attacker.selected_ability == "Long Reach"
+        || attacker.has_ability("Long Reach")
     {
         return Ok(());
     }
-    match target.selected_ability.as_str() {
-        "Stench" if events::enabled(c) => {
-            enqueue(c, &target, &q.actor_id, "contact", &q.move_name, &["roll"])
+    for name in target.ability_names() {
+        let mut variant = target.clone();
+        variant.selected_ability = name;
+        let target = &variant;
+        match target.selected_ability.as_str() {
+            "Stench" if events::enabled(c) => {
+                enqueue(c, target, &q.actor_id, "contact", &q.move_name, &["roll"])
+            }
+            "Static" | "Poison Point" | "Flame Body" | "Cute Charm" | "Effect Spore" => {
+                enqueue(c, target, &q.actor_id, "contact", &q.move_name, &["roll"])
+            }
+            "Rough Skin" | "Iron Barbs" => enqueue(
+                c,
+                target,
+                &q.actor_id,
+                "retaliate",
+                &q.move_name,
+                &["neutral", "roll"],
+            ),
+            "Aftermath"
+                if target.hp == 0
+                    && before_hp > 0
+                    && !battle(c)?
+                        .combatants
+                        .iter()
+                        .any(|p| p.deployed && p.hp > 0 && p.has_ability("Damp")) =>
+            {
+                damage(c, &q.actor_id, 2)?
+            }
+            _ => {}
         }
-        "Static" | "Poison Point" | "Flame Body" | "Cute Charm" | "Effect Spore" => {
-            enqueue(c, &target, &q.actor_id, "contact", &q.move_name, &["roll"])
-        }
-        "Rough Skin" | "Iron Barbs" => enqueue(
-            c,
-            &target,
-            &q.actor_id,
-            "retaliate",
-            &q.move_name,
-            &["neutral", "roll"],
-        ),
-        "Aftermath"
-            if target.hp == 0
-                && before_hp > 0
-                && !battle(c)?
-                    .combatants
-                    .iter()
-                    .any(|p| p.deployed && p.hp > 0 && p.selected_ability == "Damp") =>
-        {
-            damage(c, &q.actor_id, 2)?
-        }
-        _ => {}
     }
     Ok(())
 }
@@ -568,14 +607,14 @@ pub fn inflict(
     }
     if extra::enabled(c)
         && kind.contains("Poison")
-        && fighter(c, source)?.selected_ability == "Poison Puppeteer"
+        && fighter(c, source)?.has_ability("Poison Puppeteer")
         && fighter(c, target)?.runtime.statuses != before
     {
         let _ = set_status_from(c, target, "Confusion", "", None, cat, Some(source));
     }
     let t = fighter(c, target)?;
     if !enabled(c)
-        || t.selected_ability != "Synchronize"
+        || !t.has_ability("Synchronize")
         || source == target
         || t.runtime.statuses == before
         || fighter(c, source)?.side == t.side
@@ -630,8 +669,8 @@ pub fn dice(c: &Campaign, event_id: &str, choice: &str) -> Result<u32> {
     if let Some(n) = extra::dice(c, e, choice) {
         return Ok(n);
     }
-    let wonder = extra::enabled(c)
-        && fighter(c, &e.target_id).is_ok_and(|p| p.selected_ability == "Wonder Skin");
+    let wonder =
+        extra::enabled(c) && fighter(c, &e.target_id).is_ok_and(|p| p.has_ability("Wonder Skin"));
     Ok(match e.kind.as_str() {
         "contact" => {
             if e.ability == "Stench" {
@@ -672,6 +711,9 @@ pub fn resolve(
     };
     reason(r)?;
     let choice = choice.as_str();
+    if choice == "manual" {
+        gm(c, actor)?;
+    }
     let count = dice(c, event_id, choice)?;
     check_count(results, count)?;
     let e = flow(c)?.ability_events[0].clone();
@@ -679,10 +721,14 @@ pub fn resolve(
         || ["item-symbiosis-order", "item-symbiosis-cycle", "item-frisk"].contains(&e.kind.as_str())
     {
         gm(c, actor)?;
+    } else if e.kind.starts_with("form-") {
+        forms::owner_registered(c, actor, &e.combatant_id)?;
     } else {
         owner(c, actor, &e.combatant_id)?;
     }
-    if e.kind == "item-cud-chew" {
+    if e.kind.starts_with("form-") {
+        forms::resolve(next, &e, choice, cat)?;
+    } else if e.kind == "item-cud-chew" {
         if choice == "manual" {
             gm(c, actor)?;
         }
@@ -805,7 +851,7 @@ pub fn lifecycle(before: &Campaign, next: &mut Campaign) -> Result<()> {
         .iter()
         .filter(|p| {
             active.contains(&p.id)
-                && p.selected_ability == "Intimidate"
+                && p.has_ability("Intimidate")
                 && (!old.contains(&p.id)
                     || (ability_changes::enabled(next)
                         && before
@@ -851,11 +897,7 @@ pub fn end_round(c: &mut Campaign) -> Result<()> {
     }
     let b = c.battle.as_mut().unwrap();
     for p in &mut b.combatants {
-        if p.deployed
-            && p.hp > 0
-            && p.available_round <= b.round
-            && p.selected_ability == "Speed Boost"
-        {
+        if p.deployed && p.hp > 0 && p.available_round <= b.round && p.has_ability("Speed Boost") {
             let v = p
                 .runtime
                 .ability

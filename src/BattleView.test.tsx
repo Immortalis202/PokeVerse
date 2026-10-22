@@ -34,6 +34,7 @@ const sheets = Object.fromEntries(
 );
 const profile = { version: 1, defenses: "split", hp: "vitality" };
 const campaign: Campaign = {
+  form_memory: {},
   ability_inheritance: { minutes: 0, copies: {}, selected: {}, history: [] },
   id: "campaign",
   name: "Gym",
@@ -193,6 +194,18 @@ describe("structured core battle controls", () => {
         automatic_validation: true,
         combatants,
         flow: {
+          forms: {
+            enabled: false,
+            originals: {},
+            current: {},
+            plans: {},
+            choices: {},
+            seen: [],
+            mega_trainers: [],
+            key_stones: [],
+            equipment: {},
+            history: [],
+          },
           items: {
             enabled: false,
             initialized: false,
@@ -556,9 +569,13 @@ describe("structured core battle controls", () => {
     }
     if (symbiosis === "review-gluttony" || symbiosis === "review-klutz") {
       c.battle!.flow!.ability_events = [];
-      c.battle!.combatants[0].selected_ability = symbiosis === "review-gluttony" ? "Gluttony" : "Klutz";
+      c.battle!.combatants[0].selected_ability =
+        symbiosis === "review-gluttony" ? "Gluttony" : "Klutz";
       c.battle!.flow!.items.units.active!.unit.name = "Choice Band";
-      c.battle!.flow!.items.units.active!.review = { scope: "manual", note: "Manual-review marker: this effect requires GM adjudication." };
+      c.battle!.flow!.items.units.active!.review = {
+        scope: "manual",
+        note: "Manual-review marker: this effect requires GM adjudication.",
+      };
     }
     return renderToStaticMarkup(
       <BattleView
@@ -572,10 +589,15 @@ describe("structured core battle controls", () => {
     );
   }
   it("shows private item effect reviews and printed Gluttony/Klutz boundaries", () => {
-    const html = (player: string, kind: string) => core(player, false, "0.17.0-core", false, true, false, false, true, kind);
-    expect(html("player", "review-gluttony")).toContain("no negative ingestion effects");
+    const html = (player: string, kind: string) =>
+      core(player, false, "0.17.0-core", false, true, false, false, true, kind);
+    expect(html("player", "review-gluttony")).toContain(
+      "no negative ingestion effects",
+    );
     expect(html("player", "review-gluttony")).toContain("Manual-review marker");
-    expect(html("gm", "review-klutz")).toContain("printed form/type-changing exceptions");
+    expect(html("gm", "review-klutz")).toContain(
+      "printed form/type-changing exceptions",
+    );
     expect(html("host", "review-klutz")).not.toContain("Manual-review marker");
   });
   it("shows Ball Fetch recording only to the GM and protected balls only to their trainer", () => {

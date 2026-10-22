@@ -1,3 +1,4 @@
+import { battleSheet } from "./sheets";
 import { useState } from "react";
 import type { Campaign } from "./bindings/Campaign";
 import type { Action } from "./bindings/Action";
@@ -181,7 +182,7 @@ export default function SpecialMoveControls({
             Move
             <select value={move} onChange={(e) => setMove(e.target.value)}>
               <option value="">Choose</option>
-              {(source ? campaign.sheets[source.sheet_id]?.moves : [])?.map(
+              {(source ? battleSheet(campaign, source.id)?.moves : [])?.map(
                 (n) => (
                   <option key={n}>{n}</option>
                 ),
