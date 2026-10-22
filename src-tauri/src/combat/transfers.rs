@@ -85,7 +85,7 @@ pub fn active_copy<'a>(c: &'a Campaign, sheet: &str) -> Option<&'a InheritedAbil
         .filter(|r| r.sheet_id == sheet && r.expires > i.minutes)
 }
 pub fn dice(c: &Campaign, command: &TransferCommand) -> Result<u32> {
-    if ![ENGINE, INFORMATION_ENGINE, FORM_ENGINE].contains(&c.engine.as_str()) {
+    if ![ENGINE, STANDALONE_ENGINE, INFORMATION_ENGINE, FORM_ENGINE].contains(&c.engine.as_str()) {
         return Err(AppError::new(
             "version",
             "Adopt the current ability-transfer engine between battles",

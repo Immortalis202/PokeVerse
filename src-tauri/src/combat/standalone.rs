@@ -218,7 +218,8 @@ pub fn accuracy_plan(
         c,
         id,
         targets,
-        m["Attributes"]["SoundMove"] == true
+        interactions::cover_bypass(c, id, &m)
+            || m["Attributes"]["SoundMove"] == true
             || ["Phantom Force", "Shadow Force"].contains(&name.as_str()),
     );
     let targets = tactics::redirect_move(c, id, targets, &m, cat)?;

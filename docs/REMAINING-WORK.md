@@ -1,6 +1,6 @@
 # PokeVerse - remaining work
 
-Snapshot: **22 October 2026**, application **0.28.0**, engine **0.21.0-core**, protocol **29**, user database schema **4**.
+Snapshot: **22 October 2026**, application **0.29.0**, engine **0.22.0-core**, protocol **30**, user database schema **4**.
 
 This is the current project backlog. Implemented foundations are summarized first; unfinished features, explicit GM rulings, verification gaps and excluded scope are distinguished below. Counts come from the checked-in registries and should be refreshed after catalog changes.
 
@@ -8,7 +8,7 @@ This is the current project backlog. Implemented foundations are summarized firs
 
 See the [complete item and ability roadmap](ITEM-ABILITY-ROADMAP.md) for the ordered deliverables and every catalog item. Its [ability inventory](ability-roadmap.csv) accounts for all 305 abilities; its [item inventory](item-roadmap.csv) accounts for all 236 items. This audit distinguishes released scope, disabled worktree implementations, genuinely missing mechanics, GM rulings and exclusions.
 
-The registry records 234 automated, 68 partial and 3 manual abilities. The older tables in sections 8–9 reproduce the pre-release baseline; generic held-item and booster dependencies there are stale and must not override the newer audited worktree assessment. The reviewed held-item batch is released in 0.25.0; transformation batch 2 is delivered in 0.26.0; private-information batch 3 is delivered in 0.27.0; standalone batch 4 is delivered in 0.28.0. There are 30 unimplemented battle/species item definitions, 47 released Mega stones, eight missing medicine definitions and nine medicines with only reviewed Recycle effects. All 35 Z-crystals remain excluded; 10 items explicitly forbid battle use. Other reference-only entries require scope review before becoming battle tasks.
+The registry records 242 automated, 60 partial and 3 manual abilities. The older tables in sections 8–9 reproduce the pre-release baseline; generic held-item and booster dependencies there are stale and must not override the newer audited worktree assessment. The reviewed held-item batch is released in 0.25.0; transformation batch 2 is delivered in 0.26.0; private-information batch 3 is delivered in 0.27.0; standalone batch 4 is delivered in 0.28.0; interaction review batch 5 is delivered in 0.29.0. There are 30 unimplemented battle/species item definitions, 47 released Mega stones, eight missing medicine definitions and nine medicines with only reviewed Recycle effects. All 35 Z-crystals remain excluded; 10 items explicitly forbid battle use. Other reference-only entries require scope review before becoming battle tasks.
 
 ## Implemented foundation
 
@@ -26,8 +26,8 @@ Dancer, Parental Bond, Gorilla Tactics, Truant and Defeatist now use the reviewe
 - [x] **Forms and transformations (batch 2):** reviewed all 20 entries, exact temporary builds/types/abilities/moves, 47 Mega stones and Transform, permanent-sheet protection, scene restoration, persistent Minior Core memory, owner/GM decisions, frozen damage inputs and rollback. Printed ambiguities and absent item stock retain the explicit boundaries in [transformation rules](battle-transformations.md).
 - [x] **Private battle information (batch 3):** Anticipation/Forewarn warnings, private GM comparisons and Insight rulings, linked-trainer recipients, movepool projections, transport, persistence and rollback. See [private-information rules](battle-private-information.md).
 - [x] **Standalone abilities (batch 4):** Heavy/Light Metal weight inputs/formulas, Rivalry comparisons, Moody host sampling, Perish Body and explicit Torrent wording choice. See [standalone ability rules](battle-standalone-abilities.md).
-- [ ] **Other ability families:** finish the remaining partial interaction scopes described in milestone 5. Tinted Lens, Unaware, Stakeout and the move portion of Sheer Force are implemented. The full ability inventory is in sections 8-9.
-- [ ] **Unreviewed trait copying:** Costar and Opportunist now copy supported attribute/defense move and ability channels. Baton Pass transfers supported positive attribute channels, and Snatch steals supported ability modifiers. Review additional trait channels separately; temporary ability identity copying remains distinct. See [stat copying and transfer](battle-stat-channels.md).
+- [x] **Partial interaction review (batch 5):** reviewed all 55 assigned entries, released 67 exact move definitions, shield/field/Cover bypass, forced-switch protection, timing decisions and copied traits. [Reviewed rules and retained boundaries](battle-partial-interactions.md). Tinted Lens, Unaware, Stakeout and the move portion of Sheer Force are implemented. The full ability inventory is in sections 8-9.
+- [ ] **Unreviewed trait copying:** Costar and Opportunist now copy supported attribute/defense move and ability channels. Baton Pass transfers supported positive attribute channels, and Snatch steals supported ability modifiers. Coil/Hone Claws accuracy pools and Focus Energy High Critical now copy in batch 5. Review additional trait channels separately; temporary ability identity copying remains distinct. See [stat copying and transfer](battle-stat-channels.md).
 - [ ] **Remaining identity effects:** review Entrainment, Doodle and Core Enforcer individually. Role Play, Skill Swap, Gastro Acid, Trace, Gas, contact replacement and witnessed ally inheritance already exist.
 - [ ] **Status edge cases:** review severe Burn/Poison escalation with conflicting printed values, unsupported status-producing/cure effects and remaining Will spending/draining effects. Core statuses, durations and expiry already exist; automatic Will recovery remains excluded.
 - [ ] **Ice edge cases:** review any still-adjudicated Snow/special-damage interactions against ice against current fixtures before adding mechanics. Ordinary ice attempts and supported special interactions already have tests.
@@ -42,15 +42,15 @@ Dancer, Parental Bond, Gorilla Tactics, Truant and Defeatist now use the reviewe
 | Shadow Force | Persist its 24-hour recovery restriction after leaving the encounter; encounter-local debt already works. |
 | Bide | Keep the recorded GM choice for contradictory printed User/Target wording. Do not silently select an interpretation. |
 | Magic Coat | Extend supported reflected Support effects. Keep the explicit GM duration ruling because the card does not state one. |
-| Mycelium Might | Resolve printed Reaction versus granted Late Reaction collisions explicitly. Pokerole grants Never Miss/Late Reaction, not video-game ability bypass. |
+| Mycelium Might | The GM now records printed versus granted Late Reaction timing in targeting controls; the choice persists and rolls back. Pokerole grants Never Miss/Late Reaction, not video-game ability bypass. |
 | Tangled Feet | Mixed target-specific success and critical results are implemented in engine 0.17; historical encounters retain their previous ruling. |
-| Teravolt / Turboblaze | Extend held-item and unsupported effect-blocker interactions; retain explicit conflicting unique-ability rulings. Current type/damage/status immunity, supported shields/decoys, redirection and charge-target access are implemented. |
+| Teravolt / Turboblaze | Batch 5 adds force-field, Cover and non-unique forced-switch prevention bypass. Extend individually unsupported move/item definitions; retain explicit conflicting unique-ability rulings. Current type/damage/status immunity, supported shields/decoys, redirection and charge-target access are implemented. |
 | Neutralizing Gas | Opposing emitters require a recorded GM policy. This is a rules stalemate, not a missing host validation step. |
 | Receiver / Power of Alchemy | Narrative acquisition outside witnessed campaign fainting; explicit timing for switching active copies during combat. Witnessed acquisition, one active copy, game-time expiry and persistence already work. |
 | Terrain overlaps | Preserve recorded GM decisions where the manual does not define precedence. Do not substitute video-game terrain replacement rules. |
 | Torn World | Define or record the retargeting distribution before automating it. |
 | Arena examples | Supply GM parameters where examples omit healing amounts or check difficulty; narrative escape and encounter-rate effects remain manual. |
-| Magic Room | Integrate the future held-item engine; recording a field effect is already supported. |
+| Magic Room | Held-item suppression is integrated since batch 1; remaining individual item definitions belong to batch 6. |
 | Night parameters | Reconcile the legacy per-Pokémon Moonlight night parameter with the new battlefield night setting, preserving explicitly logged GM overrides. Mind's Eye currently uses the battlefield setting. |
 
 These are not all bugs to eliminate: contradictory or unspecified rules can remain explicit, logged GM decisions. New definitions must include reviewed evidence, previews, host validation, history, retry/rollback behavior and meaningful fixtures.
@@ -129,9 +129,13 @@ Application 0.23.0 / engine 0.16.0-core / protocol 24 enables Tinted Lens, Unawa
 
 Application 0.24.0 / engine 0.17.0-core / protocol 25 enables Stench's battle reaction, Pressure's entry Will expenditure, mixed-target Tangled Feet success/critical results, and Electric Support charge consumption for Wind Power and Electromorphosis. Historical encounters retain their saved rule flags. See [battle events and per-target accuracy](battle-event-accuracy.md) for exact behavior and fixtures. Stench's out-of-battle encounter effects remain excluded. Held items and dependent abilities followed in 0.25.0.
 
+### Partial-interaction milestone
+
+Application 0.29.0 / engine 0.22.0-core / protocol 30 delivers ordered milestone **5 of 7**. See [reviewed interactions](battle-partial-interactions.md) for all 55 assigned abilities, 67 exact move definitions, retained GM boundaries, compatibility and verification. Next is **milestone 6: remaining in-battle item definitions and medicine**.
+
 ### Standalone ability milestone
 
-Application 0.28.0 / engine 0.21.0-core / protocol 29 delivers ordered milestone **4 of 7**. See [standalone ability rules](battle-standalone-abilities.md) for six reviewed cards, source wording conflicts, exact weight formulas, unbiased Moody sampling, Perish timing, target-specific Rivalry, shared snapshots, compatibility and verification. Discretionary metal weights and conflicting Rivalry/Torrent wording remain explicit GM decisions. Next is **milestone 5: finish partial battle interactions**.
+Application 0.28.0 / engine 0.21.0-core / protocol 29 delivers ordered milestone **4 of 7**. See [standalone ability rules](battle-standalone-abilities.md) for six reviewed cards, source wording conflicts, exact weight formulas, unbiased Moody sampling, Perish timing, target-specific Rivalry, shared snapshots, compatibility and verification. Discretionary metal weights and conflicting Rivalry/Torrent wording remain explicit GM decisions. The interaction review was subsequently delivered in milestone 5.
 
 ### Private-information milestone
 

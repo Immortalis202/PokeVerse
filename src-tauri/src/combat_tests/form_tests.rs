@@ -811,6 +811,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
     let ended = decision(&c, "gm", Action::EndBattle);
     for engine in [
         ENGINE,
+        STANDALONE_ENGINE,
         INFORMATION_ENGINE,
         FORM_ENGINE,
         ITEM_ENGINE,
@@ -827,15 +828,19 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             },
         );
         let flow = n.battle.as_ref().unwrap().flow.as_ref().unwrap();
+        assert_eq!(flow.interaction_rules, engine == ENGINE);
         assert_eq!(
             flow.forms.enabled,
-            [ENGINE, INFORMATION_ENGINE, FORM_ENGINE].contains(&engine)
+            [ENGINE, STANDALONE_ENGINE, INFORMATION_ENGINE, FORM_ENGINE].contains(&engine)
         );
         assert_eq!(
             flow.information.enabled,
-            [ENGINE, INFORMATION_ENGINE].contains(&engine)
+            [ENGINE, STANDALONE_ENGINE, INFORMATION_ENGINE].contains(&engine)
         );
-        assert_eq!(flow.standalone.enabled, engine == ENGINE);
+        assert_eq!(
+            flow.standalone.enabled,
+            [ENGINE, STANDALONE_ENGINE].contains(&engine)
+        );
         assert_eq!(flow.items.enabled, engine != EVENT_ENGINE);
         assert!(flow.events.enabled);
         let mut data = serde_json::to_value(&n).unwrap();
@@ -843,9 +848,14 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             .as_object_mut()
             .unwrap()
             .remove("forms");
+        data["battle"]["flow"]
+            .as_object_mut()
+            .unwrap()
+            .remove("interaction_rules");
         data.as_object_mut().unwrap().remove("form_memory");
         let old: Campaign = serde_json::from_value(data).unwrap();
         assert!(!forms::enabled(&old));
+        assert!(!crate::combat::interactions::enabled(&old));
         assert!(old.form_memory.is_empty());
     }
 }

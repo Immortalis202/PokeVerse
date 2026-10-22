@@ -8,7 +8,7 @@ pub fn enabled(c: &Campaign) -> bool {
         .and_then(|b| b.flow.as_ref())
         .is_some_and(|f| f.reviewed_rules)
 }
-fn effective_subject<'a>(c: &'a Campaign, p: &'a Combatant) -> &'a Combatant {
+pub(super) fn effective_subject<'a>(c: &'a Campaign, p: &'a Combatant) -> &'a Combatant {
     c.battle
         .as_ref()
         .and_then(|b| b.flow.as_ref())
@@ -89,8 +89,20 @@ pub fn move_data(c: &Campaign, p: &Combatant, m: &mut serde_json::Value) {
         m["Attributes"]["NeverMiss"] = serde_json::json!(true);
     }
     if p.has_ability("Mycelium Might") && support {
-        // Printed priority collisions remain explicit; do not silently erase a card's Reaction.
-        m["Attributes"]["LateReaction"] = serde_json::json!("1");
+        // Conflicting printed timing requires a persisted GM choice.
+        let mode = flow(c).ok().and_then(|f| {
+            f.tactics.priority_choices.get(&format!(
+                "{}:{}",
+                p.id,
+                m["Name"].as_str().unwrap_or("")
+            ))
+        });
+        if !interactions::enabled(c) || mode.map(String::as_str) != Some("printed") {
+            m["Attributes"]["LateReaction"] = serde_json::json!("1");
+            if interactions::enabled(c) && mode.map(String::as_str) == Some("ability") {
+                m["Attributes"].as_object_mut().unwrap().remove("Reaction");
+            }
+        }
     }
 }
 pub fn hit(c: &mut Campaign, q: &QueuedAction, m: &serde_json::Value, cat: &Catalog) -> Result<()> {

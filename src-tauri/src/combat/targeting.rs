@@ -27,6 +27,7 @@ pub struct FieldEffect {
 pub(super) fn require_targeting(c: &Campaign) -> Result<()> {
     if ![
         ENGINE,
+        STANDALONE_ENGINE,
         INFORMATION_ENGINE,
         FORM_ENGINE,
         ITEM_ENGINE,
@@ -462,6 +463,9 @@ pub(super) fn cover_pool(c: &Campaign, id: &str, ally: &str, cat: &Catalog) -> R
     let f = flow(c)?;
     let q = incoming(c)?;
     let m = move_entry(cat, &q.move_name)?;
+    if interactions::cover_bypass(c, &q.actor_id, &m) {
+        return Err(error("This move or ability bypasses Cover"));
+    }
     if special::enabled(c)
         && (m["Attributes"]["SoundMove"] == true
             || ["Phantom Force", "Shadow Force"].contains(&q.move_name.as_str())

@@ -4606,3 +4606,95 @@ fn items_release_activates_new_battles_and_preserves_historical_engines() {
         assert!(!items::enabled(&loaded));
     }
 }
+#[test]
+fn interactions_new_native_flinch_merges_item_pool_once_and_sheer_force_removes_both() {
+    for (source, target, expected) in [
+        ("", "", 4),
+        ("Serene Grace", "", 6),
+        ("Serene Grace", "Wonder Skin", 4),
+    ] {
+        let (mut c, a, t) = chance_setup("Razor Fang", "Iron Head", source, target);
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .interaction_rules = true;
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .ability_changes
+            .enabled = true;
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .tactics
+            .enabled = true;
+        let attack = super::targeting_tests::attack(&a, vec![t.clone()], "Iron Head");
+        let c = super::targeting_tests::roll(&c, "player", &attack, 4);
+        let c = super::targeting_tests::pass(&c);
+        let c = super::targeting_tests::roll(
+            &c,
+            "player",
+            &super::targeting_tests::damage_command(&c),
+            4,
+        );
+        assert!(c.battle.as_ref().unwrap().flow.as_ref().unwrap().queue[0]
+            .damage_context
+            .is_some());
+        assert_eq!(
+            rules::dice_count(&c, &orb_effect(&c), &catalog()).unwrap(),
+            expected
+        );
+        let mut changed = c.clone();
+        pm(&mut changed, &a).selected_ability = if source == "Serene Grace" {
+            "Stench"
+        } else {
+            "Serene Grace"
+        }
+        .into();
+        assert_eq!(
+            rules::dice_count(&changed, &orb_effect(&changed), &catalog()).unwrap(),
+            expected,
+            "Frozen source chance modifiers"
+        );
+        let done = super::targeting_tests::roll(&c, "player", &orb_effect(&c), 6);
+        assert_eq!(
+            p(&done, &t)
+                .runtime
+                .statuses
+                .iter()
+                .filter(|s| s.kind == "Flinch")
+                .count(),
+            1
+        );
+    }
+    let (mut c, a, t) = chance_setup("Razor Fang", "Iron Head", "Sheer Force", "");
+    let f = c.battle.as_mut().unwrap().flow.as_mut().unwrap();
+    f.interaction_rules = true;
+    f.provenance_rules = true;
+    pm(&mut c, &a)
+        .runtime
+        .ability
+        .flags
+        .insert("sheer-force:damage".into());
+    let c = chance_damage(&c, &a, &t, "Iron Head");
+    // Sheer Force completes the attack without an added-effect obligation.
+    assert!(c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .queue
+        .is_empty());
+    assert!(p(&c, &t).runtime.statuses.is_empty());
+}

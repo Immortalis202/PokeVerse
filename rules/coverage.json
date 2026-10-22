@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.21.0-core",
-  "release": "0.28.0",
-  "protocol": 29,
+  "engine": "0.22.0-core",
+  "release": "0.29.0",
+  "protocol": 30,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -429,10 +429,44 @@
         "standalone_room_gm_rulings_owner_permissions_retry_reconnect_and_rollback"
       ],
       "scope": "Reviewed Heavy/Light Metal, Rivalry, Moody, Perish Body and Torrent with recorded printed ambiguities, host dice, shared snapshots, historical gates and room persistence/rollback."
+    },
+    {
+      "id": "partial-battle-interactions",
+      "status": "partial",
+      "source": "Supplied ability cards and 67 exact move cards, source fingerprints in battle-interactions.json",
+      "scope": "44 sourced stat/trait definitions and 23 status chance definitions; complete Unseen Fist protection bypass, Guard Dog forced-switch prevention, persisted Mycelium timing choices and secondary recoil immunity. Remaining unsupported cards and explicit printed conflicts are enumerated in battle-partial-interactions.md.",
+      "fixtures": [
+        "interactions_unseen_fist_bypasses_shields_screens_and_cover_only_for_contact",
+        "interactions_guard_dog_blocks_forced_switch_and_extreme_bypass_is_scoped",
+        "interactions_mycelium_timing_choice_is_authorized_persisted_and_reversible",
+        "interactions_reviewed_stat_moves_use_protection_reflection_reversal_and_retaliation",
+        "interactions_costar_opportunist_copy_reviewed_traits_without_stacking_or_permanent_edits",
+        "interactions_chance_dice_status_immunity_dust_and_sheer_force_have_distinct_effects",
+        "interactions_secondary_rock_head_reserves_only_chance_dice_and_historical_pools_stay_saved",
+        "interactions_every_owned_stat_definition_executes_and_unknown_cards_remain_manual",
+        "interactions_new_native_flinch_merges_item_pool_once_and_sheer_force_removes_both",
+        "interactions_unseen_fist_uses_frozen_action_identity_after_damage"
+      ]
+    },
+    {
+      "id": "partial-battle-interactions",
+      "status": "partial",
+      "source": "Supplied ability cards and 67 exact move cards, source fingerprints in battle-interactions.json",
+      "scope": "44 sourced stat/trait definitions and 23 status chance definitions; complete Unseen Fist protection bypass, Guard Dog forced-switch prevention, persisted Mycelium timing choices and secondary recoil immunity. Remaining unsupported cards and explicit printed conflicts are enumerated in battle-partial-interactions.md.",
+      "fixtures": [
+        "interactions_unseen_fist_bypasses_shields_screens_and_cover_only_for_contact",
+        "interactions_guard_dog_blocks_forced_switch_and_extreme_bypass_is_scoped",
+        "interactions_mycelium_timing_choice_is_authorized_persisted_and_reversible",
+        "interactions_reviewed_stat_moves_use_protection_reflection_reversal_and_retaliation",
+        "interactions_costar_opportunist_copy_reviewed_traits_without_stacking_or_permanent_edits",
+        "interactions_chance_dice_status_immunity_dust_and_sheer_force_have_distinct_effects",
+        "interactions_secondary_rock_head_reserves_only_chance_dice_and_historical_pools_stay_saved"
+      ]
     }
   ],
-  "ability_registry_hash": "41fc68db3f079a1983f88c88f047d0a85aeaa750f9fd381db9da1c85fe66039e",
+  "ability_registry_hash": "633f938070aa7974014978ebe722ed29abba82b0d7ddd4322179f072c0ee5248",
   "special_registry_hash": "ef7d506fc98bed2d88c4c6d92fc0875de33c220fc01635894dbb60b53e9852fa",
   "tactics_registry_hash": "99b66de76eab04726a6a35dabdc8d8626e4816eb1bb0089dae7d1c8006179a14",
-  "form_registry_hash": "222191f7c2ed47eba141c0ff7b41318f9d7476951ba3f8e909a01370fb490e3a"
+  "form_registry_hash": "222191f7c2ed47eba141c0ff7b41318f9d7476951ba3f8e909a01370fb490e3a",
+  "interaction_registry_hash": "89a963cd535446eaa5c4ee6386348c8eccf67c723a407d68a8fc881ebb41efe4"
 }

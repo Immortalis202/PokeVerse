@@ -1124,7 +1124,9 @@ pub fn transition(
     cat: &Catalog,
 ) -> Result<(Campaign, String)> {
     if let FormCommand::RestoreCore { sheet_id } = command {
-        if ![ENGINE, INFORMATION_ENGINE, FORM_ENGINE].contains(&c.engine.as_str()) {
+        if ![ENGINE, STANDALONE_ENGINE, INFORMATION_ENGINE, FORM_ENGINE]
+            .contains(&c.engine.as_str())
+        {
             return Err(error("Adopt the reviewed form engine between battles"));
         }
         gm(c, actor)?;

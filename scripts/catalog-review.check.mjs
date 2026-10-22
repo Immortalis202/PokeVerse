@@ -135,6 +135,7 @@ test("coverage and PDF fingerprints are preserved with a complete field-level qu
       readFileSync("src-tauri/src/combat_tests/event_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/information_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/standalone_tests.rs", "utf8") +
+      readFileSync("src-tauri/src/combat_tests/item_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/field_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/extra_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/special_tests.rs", "utf8") +
@@ -446,4 +447,78 @@ test("standalone abilities retain printed choices instead of invented multiplier
   assert.ok(
     r.entries["Heavy Metal"].scope.includes("no fixed weight multiplier"),
   );
+});
+
+test("batch 5 exact definitions preserve source fingerprints, effect wording and trait units", () => {
+  const registry = JSON.parse(
+    readFileSync("rules/battle-interactions.json", "utf8"),
+  );
+  const coverage = JSON.parse(readFileSync("rules/coverage.json", "utf8"));
+  assert.equal(
+    coverage.interaction_registry_hash,
+    createHash("sha256")
+      .update(
+        readFileSync("rules/battle-interactions.json", "utf8").replace(
+          /\r\n/g,
+          "\n",
+        ),
+      )
+      .digest("hex"),
+  );
+  assert.equal(Object.keys(registry.moves).length, 44);
+  assert.equal(Object.keys(registry.chance_moves).length, 23);
+  for (const [name, entry] of Object.entries({
+    ...registry.moves,
+    ...registry.chance_moves,
+  })) {
+    const bytes = readFileSync(`../${entry.source}`);
+    const card = JSON.parse(bytes.toString("utf8"));
+    assert.equal(card.Name, name);
+    assert.equal(
+      entry.sha256,
+      createHash("sha256").update(bytes).digest("hex"),
+    );
+    assert.equal(entry.effect, card.Effect);
+    if (entry.changes)
+      for (const change of entry.changes) {
+        assert.ok(
+          change.amount >= -3 && change.amount <= 3 && change.amount !== 0,
+        );
+        assert.ok(
+          change.keys.every((k) =>
+            [
+              "Strength",
+              "Dexterity",
+              "Vitality",
+              "Special",
+              "Insight",
+              "Defense",
+              "SpecialDefense",
+              "AccuracyPool",
+              "HighCritical",
+            ].includes(k),
+          ),
+        );
+      }
+    if (entry.status)
+      assert.equal(entry.dice, card.AddedEffects.Ailments[0].ChanceDice);
+  }
+  assert.equal(registry.moves["Hone Claws"].changes[0].keys[1], "AccuracyPool");
+  assert.equal(
+    registry.moves["Focus Energy"].changes[0].keys[0],
+    "HighCritical",
+  );
+  const abilities = JSON.parse(
+    readFileSync("rules/ability-coverage.json", "utf8"),
+  ).entries;
+  for (const name of [
+    "Hadron Engine",
+    "Orichalcum Pulse",
+    "Protosynthesis",
+    "Quark Drive",
+  ]) {
+    assert.equal(abilities[name].status, "automated");
+    assert.deepEqual(abilities[name].dependencies, []);
+  }
+  assert.equal(abilities["Unseen Fist"].introduced_engine, registry.engine);
 });

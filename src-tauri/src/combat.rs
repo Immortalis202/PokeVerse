@@ -11,6 +11,7 @@ pub(crate) mod extra;
 pub(crate) mod field;
 pub(crate) mod forms;
 pub(crate) mod information;
+pub(crate) mod interactions;
 pub(crate) mod items;
 pub(crate) mod provenance;
 pub(crate) mod reviewed;
@@ -59,6 +60,8 @@ pub struct Status {
 #[derive(Debug, Clone, Default, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct TurnFlow {
+    #[serde(default)]
+    pub interaction_rules: bool,
     #[serde(default)]
     pub standalone: standalone::StandaloneState,
     #[serde(default)]
@@ -1113,6 +1116,9 @@ pub fn preview(c: &Campaign, a: &Action, cat: &Catalog) -> Result<ActionPreview>
         // Constant wording avoids leaking another participant's private equipment.
         warnings.push("Only reviewed held-item effects enter automatic pools. Resolve unreviewed effects with the GM, applying Klutz/Magic Room and printed form/type-changing exceptions.".into());
     }
+    if interactions::enabled(c) {
+        warnings.push("Reviewed stat, trait and chance effects resolve automatically with protection and condition rules. Unsupported added effects require an explicit GM resolution.".into());
+    }
     warnings.extend(special::preview_notes(c, a, cat)?);
     warnings.extend(reviewed::notes(c, a));
     warnings.extend(sequencing::notes(c, a));
@@ -1150,7 +1156,8 @@ pub fn preview(c: &Campaign, a: &Action, cat: &Catalog) -> Result<ActionPreview>
                 c,
                 combatant_id,
                 ids,
-                m["Attributes"]["SoundMove"] == true
+                interactions::cover_bypass(c, combatant_id, &m)
+                    || m["Attributes"]["SoundMove"] == true
                     || ["Phantom Force", "Shadow Force"].contains(&move_name.as_str()),
             )
             .iter()
@@ -1701,7 +1708,8 @@ fn transition_inner(
                 &next,
                 combatant_id,
                 targets,
-                m["Attributes"]["SoundMove"] == true
+                interactions::cover_bypass(c, combatant_id, &m)
+                    || m["Attributes"]["SoundMove"] == true
                     || ["Phantom Force", "Shadow Force"].contains(&move_name.as_str()),
             );
             let targets = tactics::redirect_move(c, combatant_id, targets, &m, cat)?;
@@ -2890,27 +2898,36 @@ fn transition_inner(
             ) {
                 let b = done.battle.as_mut().unwrap();
                 b.flow = Some(TurnFlow {
+                    interaction_rules: c.engine == ENGINE,
                     standalone: standalone::StandaloneState {
-                        enabled: c.engine == ENGINE,
+                        enabled: [ENGINE, STANDALONE_ENGINE].contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     information: information::InformationState {
-                        enabled: [ENGINE, INFORMATION_ENGINE].contains(&c.engine.as_str()),
+                        enabled: [ENGINE, STANDALONE_ENGINE, INFORMATION_ENGINE]
+                            .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     forms: forms::FormState {
-                        enabled: [ENGINE, INFORMATION_ENGINE, FORM_ENGINE]
+                        enabled: [ENGINE, STANDALONE_ENGINE, INFORMATION_ENGINE, FORM_ENGINE]
                             .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     items: items::ItemState {
-                        enabled: [ENGINE, INFORMATION_ENGINE, FORM_ENGINE, ITEM_ENGINE]
-                            .contains(&c.engine.as_str()),
+                        enabled: [
+                            ENGINE,
+                            STANDALONE_ENGINE,
+                            INFORMATION_ENGINE,
+                            FORM_ENGINE,
+                            ITEM_ENGINE,
+                        ]
+                        .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     events: events::EventState {
                         enabled: [
                             ENGINE,
+                            STANDALONE_ENGINE,
                             INFORMATION_ENGINE,
                             FORM_ENGINE,
                             ITEM_ENGINE,
@@ -2921,6 +2938,7 @@ fn transition_inner(
                     },
                     provenance_rules: [
                         ENGINE,
+                        STANDALONE_ENGINE,
                         INFORMATION_ENGINE,
                         FORM_ENGINE,
                         ITEM_ENGINE,
@@ -2931,6 +2949,7 @@ fn transition_inner(
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            STANDALONE_ENGINE,
                             INFORMATION_ENGINE,
                             FORM_ENGINE,
                             ITEM_ENGINE,
@@ -2944,6 +2963,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            STANDALONE_ENGINE,
                             INFORMATION_ENGINE,
                             FORM_ENGINE,
                             ITEM_ENGINE,
@@ -2957,6 +2977,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        STANDALONE_ENGINE,
                         INFORMATION_ENGINE,
                         FORM_ENGINE,
                         ITEM_ENGINE,
@@ -2970,6 +2991,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            STANDALONE_ENGINE,
                             INFORMATION_ENGINE,
                             FORM_ENGINE,
                             ITEM_ENGINE,
@@ -2986,6 +3008,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            STANDALONE_ENGINE,
                             INFORMATION_ENGINE,
                             FORM_ENGINE,
                             ITEM_ENGINE,
@@ -3003,6 +3026,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            STANDALONE_ENGINE,
                             INFORMATION_ENGINE,
                             FORM_ENGINE,
                             ITEM_ENGINE,
@@ -3021,6 +3045,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            STANDALONE_ENGINE,
                             INFORMATION_ENGINE,
                             FORM_ENGINE,
                             ITEM_ENGINE,
@@ -3040,6 +3065,7 @@ fn transition_inner(
                     special: special::SpecialState {
                         enabled: [
                             ENGINE,
+                            STANDALONE_ENGINE,
                             INFORMATION_ENGINE,
                             FORM_ENGINE,
                             ITEM_ENGINE,
@@ -3059,6 +3085,7 @@ fn transition_inner(
                     },
                     ability_rules: [
                         ENGINE,
+                        STANDALONE_ENGINE,
                         INFORMATION_ENGINE,
                         FORM_ENGINE,
                         ITEM_ENGINE,
@@ -3080,6 +3107,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            STANDALONE_ENGINE,
                             INFORMATION_ENGINE,
                             FORM_ENGINE,
                             ITEM_ENGINE,
@@ -3101,6 +3129,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            STANDALONE_ENGINE,
                             INFORMATION_ENGINE,
                             FORM_ENGINE,
                             ITEM_ENGINE,
@@ -3569,6 +3598,9 @@ fn base_effect_dice(c: &Campaign, q: &QueuedAction, _cat: &Catalog) -> Result<u3
     if provenance::enabled(c) && q.sheer_force && !provenance::retained_attributes(q, _cat)? {
         return Ok(0);
     }
+    if let Some(n) = interactions::effect_dice(c, q)? {
+        return Ok(n);
+    }
     if let Some(n) = special::effect_dice(c, q, _cat)? {
         return Ok(n);
     }
@@ -3710,6 +3742,9 @@ fn effects_inner_base(
         return Ok(());
     }
     if ability_changes::move_effect(c, q, cat)? {
+        return Ok(());
+    }
+    if interactions::move_effect(c, q, dice, cat)? {
         return Ok(());
     }
     if extra::move_effect(c, q)? {

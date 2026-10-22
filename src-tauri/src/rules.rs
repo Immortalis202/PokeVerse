@@ -179,6 +179,13 @@ pub fn accuracy(
     };
     let pool = first
         .checked_add(crate::combat::extra::accuracy_bonus(c, p, &m))
+        .and_then(|v| {
+            v.checked_add(crate::combat::interactions::trait_value(
+                c,
+                p,
+                "AccuracyPool",
+            ))
+        })
         .and_then(|v| v.checked_add(crate::combat::items::accuracy_bonus(c, key)))
         .and_then(|v| {
             v.checked_add(
@@ -208,6 +215,7 @@ pub fn accuracy(
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
     if [
         ENGINE,
+        STANDALONE_ENGINE,
         INFORMATION_ENGINE,
         FORM_ENGINE,
         ITEM_ENGINE,

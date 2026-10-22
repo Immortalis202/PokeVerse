@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "engine": "0.21.0-core",
+  "engine": "0.22.0-core",
   "default_status": "manual",
   "entries": {
     "Adaptability": {
@@ -58,10 +58,10 @@
     },
     "Arena Trap": {
       "status": "partial",
-      "scope": "Block ordinary recall for eligible targets in confirmed abstract range, with rank target caps and reviewed Ground/Steel/Ghost exceptions. GM switching overrides remain explicit.",
+      "scope": "Block ordinary recall for eligible targets in confirmed abstract range, with rank target caps and reviewed Ground/Steel/Ghost exceptions. GM switching overrides remain explicit. User Switcher Moves respect trapping. Whether external forced replacement overrides printed blocking remains an explicit GM exception; no video-game precedence is assumed.",
       "page": 537,
       "dependencies": [
-        "forced-switch-move-resolution"
+        "forced-switch-trapping-ruling"
       ],
       "introduced_engine": "0.7.0-core"
     },
@@ -227,11 +227,10 @@
     },
     "Competitive": {
       "status": "partial",
-      "scope": "Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct.",
+      "scope": "Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct. Reviewed ordinary stat cards and Parting Shot use the same sourced protection/reflection/reversal/retaliation path.",
       "page": 540,
       "dependencies": [
-        "unreviewed-stat-moves",
-        "forced-switch-move-resolution"
+        "unreviewed-stat-moves"
       ],
       "introduced_engine": "0.7.0-core"
     },
@@ -244,11 +243,10 @@
     },
     "Contrary": {
       "status": "partial",
-      "scope": "Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct.",
+      "scope": "Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct. Reviewed ordinary stat cards and Parting Shot use the same sourced protection/reflection/reversal/retaliation path.",
       "page": 540,
       "dependencies": [
-        "unreviewed-stat-moves",
-        "forced-switch-move-resolution"
+        "unreviewed-stat-moves"
       ],
       "introduced_engine": "0.7.0-core"
     },
@@ -263,7 +261,7 @@
     },
     "Costar": {
       "status": "partial",
-      "scope": "On field entry, copy one active ally's supported positive move and ability attribute/defense channels. One eligible ally is automatic; multiple allies use frozen entry snapshots and an owner choice. Highest modifiers do not stack within a channel; sheets and ability identities are unchanged.",
+      "scope": "On field entry, copy one active ally's supported positive move and ability attribute/defense channels. One eligible ally is automatic; multiple allies use frozen entry snapshots and an owner choice. Highest modifiers do not stack within a channel; sheets and ability identities are unchanged. Reviewed Coil/Hone Claws accuracy-pool dice and Focus Energy High Critical copy independently with their own units; other trait definitions remain manual.",
       "page": 541,
       "dependencies": [
         "unreviewed-trait-channels"
@@ -353,11 +351,10 @@
     },
     "Defiant": {
       "status": "partial",
-      "scope": "Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct.",
+      "scope": "Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct. Reviewed ordinary stat cards and Parting Shot use the same sourced protection/reflection/reversal/retaliation path.",
       "page": 542,
       "dependencies": [
-        "unreviewed-stat-moves",
-        "forced-switch-move-resolution"
+        "unreviewed-stat-moves"
       ],
       "introduced_engine": "0.7.0-core"
     },
@@ -627,11 +624,10 @@
     },
     "Guard Dog": {
       "status": "partial",
-      "scope": "Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct.",
+      "scope": "Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct. Reviewed ordinary stat cards and Parting Shot use the same sourced protection/reflection/reversal/retaliation path. Foe Switcher Moves are prevented; Teravolt/Turboblaze bypass this non-unique prevention.",
       "page": 548,
       "dependencies": [
-        "unreviewed-stat-moves",
-        "forced-switch-move-resolution"
+        "unreviewed-stat-moves"
       ],
       "introduced_engine": "0.7.0-core"
     },
@@ -649,12 +645,10 @@
       "introduced_engine": "0.5.0-core"
     },
     "Hadron Engine": {
-      "status": "partial",
+      "status": "automated",
       "scope": "Add two Special under Electric Terrain or two Strength under Sunny/Desolate respectively. Weather/terrain activation follows the reviewed field definition.",
       "page": 548,
-      "dependencies": [
-        "held-booster-item-system"
-      ],
+      "dependencies": [],
       "introduced_engine": "0.7.0-core"
     },
     "Harvest": {
@@ -958,10 +952,10 @@
     },
     "Magnet Pull": {
       "status": "partial",
-      "scope": "Block ordinary recall for eligible targets in confirmed abstract range, with rank target caps and reviewed Ground/Steel/Ghost exceptions. GM switching overrides remain explicit.",
+      "scope": "Block ordinary recall for eligible targets in confirmed abstract range, with rank target caps and reviewed Ground/Steel/Ghost exceptions. GM switching overrides remain explicit. User Switcher Moves respect trapping. Whether external forced replacement overrides printed blocking remains an explicit GM exception; no video-game precedence is assumed.",
       "page": 555,
       "dependencies": [
-        "forced-switch-move-resolution"
+        "forced-switch-trapping-ruling"
       ],
       "introduced_engine": "0.7.0-core"
     },
@@ -972,12 +966,10 @@
       "introduced_engine": "0.5.0-core"
     },
     "Mega Launcher": {
-      "status": "partial",
-      "scope": "Pulse/Aura damaging moves gain two damage dice. Heal Pulse uses five-HP Complete Healing and one Will.",
+      "status": "automated",
+      "scope": "Pulse/Aura damaging Moves gain two damage dice; Heal Pulse, the sole supplied healing Pulse card, uses Complete Heal with the printed Will cost and shared healing restrictions.",
       "page": 555,
-      "dependencies": [
-        "other-pulse-healing-definitions"
-      ],
+      "dependencies": [],
       "introduced_engine": "0.7.0-core"
     },
     "Merciless": {
@@ -1010,11 +1002,10 @@
     },
     "Mirror Armor": {
       "status": "partial",
-      "scope": "Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct.",
+      "scope": "Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct. Reviewed ordinary stat cards and Parting Shot use the same sourced protection/reflection/reversal/retaliation path.",
       "page": 556,
       "dependencies": [
-        "unreviewed-stat-moves",
-        "forced-switch-move-resolution"
+        "unreviewed-stat-moves"
       ],
       "introduced_engine": "0.7.0-core"
     },
@@ -1073,10 +1064,10 @@
     },
     "Mycelium Might": {
       "status": "partial",
-      "scope": "Support moves gain Never Miss and Late Reaction 1; no ability bypass is granted by the printed card. Printed Reaction collisions require explicit GM adjudication.",
+      "scope": "Support moves gain Never Miss and Late Reaction 1; no ability bypass is granted by the printed card. Printed Reaction collisions require explicit GM adjudication. For printed Reaction collisions the GM can persist printed or ability Late Reaction timing before damage; Never Miss remains in both choices.",
       "page": 557,
       "dependencies": [
-        "conflicting-printed-reaction"
+        "conflicting-printed-reaction-ruling"
       ],
       "introduced_engine": "0.13.0-core"
     },
@@ -1125,7 +1116,7 @@
     },
     "Opportunist": {
       "status": "partial",
-      "scope": "Copy supported foe move/ability attribute and defense increases on authoritative state changes, retaining the highest within each channel. Immutable before/after observation prevents reciprocal loops. Decreases and unchanged modifiers do not trigger a copy.",
+      "scope": "Copy supported foe move/ability attribute and defense increases on authoritative state changes, retaining the highest within each channel. Immutable before/after observation prevents reciprocal loops. Decreases and unchanged modifiers do not trigger a copy. Reviewed Coil/Hone Claws accuracy-pool dice and Focus Energy High Critical copy independently with their own units; other trait definitions remain manual.",
       "page": 558,
       "dependencies": [
         "unreviewed-trait-channels"
@@ -1133,12 +1124,10 @@
       "introduced_engine": "0.14.0-core"
     },
     "Orichalcum Pulse": {
-      "status": "partial",
+      "status": "automated",
       "scope": "Add two Special under Electric Terrain or two Strength under Sunny/Desolate respectively. Weather/terrain activation follows the reviewed field definition.",
       "page": 558,
-      "dependencies": [
-        "held-booster-item-system"
-      ],
+      "dependencies": [],
       "introduced_engine": "0.7.0-core"
     },
     "Overcoat": {
@@ -1306,12 +1295,10 @@
       "introduced_engine": "0.7.0-core"
     },
     "Protosynthesis": {
-      "status": "partial",
+      "status": "automated",
       "scope": "Under qualifying weather/terrain boost the highest attribute by one, or Dexterity by two; tied highest attributes require an owner choice.",
       "page": 561,
-      "dependencies": [
-        "held-booster-item-system"
-      ],
+      "dependencies": [],
       "introduced_engine": "0.7.0-core"
     },
     "Psychic Surge": {
@@ -1341,12 +1328,10 @@
       "introduced_engine": "0.7.0-core"
     },
     "Quark Drive": {
-      "status": "partial",
+      "status": "automated",
       "scope": "Under qualifying weather/terrain boost the highest attribute by one, or Dexterity by two; tied highest attributes require an owner choice.",
       "page": 562,
-      "dependencies": [
-        "held-booster-item-system"
-      ],
+      "dependencies": [],
       "introduced_engine": "0.7.0-core"
     },
     "Queenly Majesty": {
@@ -1400,12 +1385,10 @@
       "introduced_engine": "0.12.0-core"
     },
     "Reckless": {
-      "status": "partial",
-      "scope": "Recoil-tagged moves and reviewed Submission gain two damage dice; other unreviewed recoil formulas still need GM resolution.",
+      "status": "automated",
+      "scope": "All supplied Recoil-tagged Move cards gain two damage dice; self-damage without the Recoil tag is a distinct rule.",
       "page": 563,
-      "dependencies": [
-        "unreviewed-recoil-moves"
-      ],
+      "dependencies": [],
       "introduced_engine": "0.7.0-core"
     },
     "Refrigerate": {
@@ -1438,12 +1421,10 @@
       "introduced_engine": "0.21.0-core"
     },
     "Rock Head": {
-      "status": "partial",
-      "scope": "Ignore the supported Submission recoil; other recoil moves require reviewed definitions.",
+      "status": "automated",
+      "scope": "All supplied Recoil-tagged Move cards prevent recoil damage, including the second As One ability channel. Explicit self-damage costs are distinct from recoil.",
       "page": 564,
-      "dependencies": [
-        "unreviewed-recoil-moves"
-      ],
+      "dependencies": [],
       "introduced_engine": "0.7.0-core"
     },
     "Rocky Payload": {
@@ -1535,7 +1516,7 @@
     },
     "Serene Grace": {
       "status": "partial",
-      "scope": "Add two chance dice to supported move added effects; unreviewed chance effects still need GM resolution.",
+      "scope": "Add two chance dice to supported move added effects; unreviewed chance effects still need GM resolution. Batch 5 adds 23 exact chance definitions with sourced status immunity, Shield Dust and Sheer Force behavior; unsupported multi-effect cards remain explicit.",
       "page": 566,
       "dependencies": [
         "unreviewed-chance-moves"
@@ -1551,10 +1532,10 @@
     },
     "Shadow Tag": {
       "status": "partial",
-      "scope": "Block ordinary recall for eligible targets in confirmed abstract range, with rank target caps and reviewed Ground/Steel/Ghost exceptions. GM switching overrides remain explicit.",
+      "scope": "Block ordinary recall for eligible targets in confirmed abstract range, with rank target caps and reviewed Ground/Steel/Ghost exceptions. GM switching overrides remain explicit. User Switcher Moves respect trapping. Whether external forced replacement overrides printed blocking remains an explicit GM exception; no video-game precedence is assumed.",
       "page": 566,
       "dependencies": [
-        "forced-switch-move-resolution"
+        "forced-switch-trapping-ruling"
       ],
       "introduced_engine": "0.7.0-core"
     },
@@ -1600,11 +1581,10 @@
     },
     "Simple": {
       "status": "partial",
-      "scope": "Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct.",
+      "scope": "Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct. Reviewed ordinary stat cards and Parting Shot use the same sourced protection/reflection/reversal/retaliation path.",
       "page": 567,
       "dependencies": [
-        "unreviewed-stat-moves",
-        "forced-switch-move-resolution"
+        "unreviewed-stat-moves"
       ],
       "introduced_engine": "0.7.0-core"
     },
@@ -1914,11 +1894,11 @@
     },
     "Teravolt": {
       "status": "partial",
-      "scope": "Action-scoped foe type/damage/status immunity bypass, supported shields, decoys, redirection and charging-target access. Unique-effect stalemates, held items and unsupported effect blockers require GM adjudication.",
+      "scope": "Action-scoped foe type/damage/status immunity bypass, supported shields, decoys, redirection and charging-target access. Unique-effect stalemates, held items and unsupported effect blockers require GM adjudication. Force fields, Cover and non-unique forced-switch prevention are also bypassed in engine 0.22.",
       "page": 574,
       "dependencies": [
         "unique-stalemates",
-        "held-item-system",
+        "unimplemented-item-definitions",
         "unsupported-support-effects"
       ],
       "introduced_engine": "0.13.0-core"
@@ -2010,11 +1990,11 @@
     },
     "Turboblaze": {
       "status": "partial",
-      "scope": "Action-scoped foe type/damage/status immunity bypass, supported shields, decoys, redirection and charging-target access. Unique-effect stalemates, held items and unsupported effect blockers require GM adjudication.",
+      "scope": "Action-scoped foe type/damage/status immunity bypass, supported shields, decoys, redirection and charging-target access. Unique-effect stalemates, held items and unsupported effect blockers require GM adjudication. Force fields, Cover and non-unique forced-switch prevention are also bypassed in engine 0.22.",
       "page": 576,
       "dependencies": [
         "unique-stalemates",
-        "held-item-system",
+        "unimplemented-item-definitions",
         "unsupported-support-effects"
       ],
       "introduced_engine": "0.13.0-core"
@@ -2041,13 +2021,11 @@
       "introduced_engine": "0.18.0-core"
     },
     "Unseen Fist": {
-      "status": "partial",
-      "scope": "Non-ranged Physical Moves bypass Substitute/Shed Tail decoys. Remaining shield, force-field and Cover bypass hooks require implementation.",
+      "status": "automated",
+      "scope": "Non-ranged Physical Moves ignore supported Shields (including retaliation), force fields, Substitute/Shed Tail decoys and Cover; ranged Physical and Special Moves retain protection.",
       "page": 576,
-      "dependencies": [
-        "shield-force-field-cover-bypass"
-      ],
-      "introduced_engine": "0.10.0-core"
+      "dependencies": [],
+      "introduced_engine": "0.22.0-core"
     },
     "Vessel of Ruin": {
       "status": "automated",
@@ -2163,7 +2141,7 @@
     },
     "Wonder Skin": {
       "status": "partial",
-      "scope": "Reduce chance dice for supported incoming added effects by two; independent selectors remain independent.",
+      "scope": "Reduce chance dice for supported incoming added effects by two; independent selectors remain independent. Batch 5 adds 23 exact chance definitions with sourced status immunity, Shield Dust and Sheer Force behavior; unsupported multi-effect cards remain explicit.",
       "page": 579,
       "dependencies": [
         "unreviewed-chance-moves"

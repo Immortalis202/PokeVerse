@@ -758,7 +758,8 @@ pub fn reduction(
     if special::vulnerable(c, &target.id, m["Name"].as_str().unwrap_or("")) {
         n -= 2;
     }
-    if !source.has_ability("Infiltrator")
+    if !interactions::cover_bypass(c, &source.id, m)
+        && !source.has_ability("Infiltrator")
         && !(special::enabled(c)
             && (m["Attributes"]["SoundMove"] == true
                 || [

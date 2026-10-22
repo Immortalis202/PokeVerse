@@ -79,7 +79,11 @@ fn snapshot(
     moves: bool,
 ) -> Vec<StatGrant> {
     let mut grants = vec![];
-    for key in KEYS {
+    for key in KEYS.into_iter().chain(if interactions::enabled(c) {
+        vec!["AccuracyPool", "HighCritical"]
+    } else {
+        vec![]
+    }) {
         let (positive, negative) = channel(c, p, key);
         let positive = (positive - permanent(c, p, key)).max(0);
         if positive > 0 || (reductions && negative < 0) {
@@ -104,19 +108,31 @@ fn snapshot(
                     e.target == p.id
                         && (e.name == format!("buff:{key}") || e.name == format!("debuff:{key}"))
                 })
-                .map(|e| match p.ability_for(&["Contrary", "Simple"]) {
-                    "Contrary" => -e.amount,
-                    "Simple" => e.amount + e.amount.signum(),
-                    _ => e.amount,
+                .map(|e| {
+                    match if ["AccuracyPool", "HighCritical"].contains(&key) {
+                        ""
+                    } else {
+                        p.ability_for(&["Contrary", "Simple"])
+                    } {
+                        "Contrary" => -e.amount,
+                        "Simple" => e.amount + e.amount.signum(),
+                        _ => e.amount,
+                    }
                 })
                 .collect();
             if values.is_empty() {
                 let amount = p.runtime.modifiers.get(key).copied().unwrap_or(0);
-                values.push(match p.ability_for(&["Contrary", "Simple"]) {
-                    "Contrary" => -amount,
-                    "Simple" => amount + amount.signum(),
-                    _ => amount,
-                });
+                values.push(
+                    match if ["AccuracyPool", "HighCritical"].contains(&key) {
+                        ""
+                    } else {
+                        p.ability_for(&["Contrary", "Simple"])
+                    } {
+                        "Contrary" => -amount,
+                        "Simple" => amount + amount.signum(),
+                        _ => amount,
+                    },
+                );
                 if key == "Defense"
                     && flow(c)
                         .unwrap()
@@ -125,11 +141,17 @@ fn snapshot(
                         .get(&p.id)
                         .is_some_and(|q| q.action.move_name == "Skull Bash")
                 {
-                    values.push(match p.ability_for(&["Contrary", "Simple"]) {
-                        "Contrary" => -1,
-                        "Simple" => 2,
-                        _ => 1,
-                    });
+                    values.push(
+                        match if ["AccuracyPool", "HighCritical"].contains(&key) {
+                            ""
+                        } else {
+                            p.ability_for(&["Contrary", "Simple"])
+                        } {
+                            "Contrary" => -1,
+                            "Simple" => 2,
+                            _ => 1,
+                        },
+                    );
                 }
             }
             values.extend(move_values(c, p, key));
@@ -198,7 +220,9 @@ pub fn transfer(c: &mut Campaign, source: &str, target: &str, cause: &str) -> Re
     let grants = snapshot(c, &p, target, cause, reductions, true)
         .into_iter()
         .filter(|g| {
-            cause != "Baton Pass" || !["Defense", "SpecialDefense"].contains(&g.key.as_str())
+            cause != "Baton Pass"
+                || ["Strength", "Dexterity", "Vitality", "Special", "Insight"]
+                    .contains(&g.key.as_str())
         })
         .collect::<Vec<_>>();
     if reductions {

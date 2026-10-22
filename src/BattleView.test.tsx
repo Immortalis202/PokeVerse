@@ -285,6 +285,7 @@ describe("structured core battle controls", () => {
             choices: {},
             history: [],
           },
+          interaction_rules: false,
           reviewed_rules: engine === "0.13.0-core",
           transfers: {
             enabled: false,

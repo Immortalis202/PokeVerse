@@ -10,6 +10,7 @@ pub fn transition(
 ) -> Result<(Campaign, String)> {
     if [
         ENGINE,
+        STANDALONE_ENGINE,
         INFORMATION_ENGINE,
         FORM_ENGINE,
         ITEM_ENGINE,
@@ -374,6 +375,7 @@ pub fn transition(
             }
             if ![
                 ENGINE,
+                STANDALONE_ENGINE,
                 INFORMATION_ENGINE,
                 FORM_ENGINE,
                 ITEM_ENGINE,

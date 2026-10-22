@@ -38,6 +38,13 @@ fn setup(name: &str) -> (Campaign, String, String) {
         c.sheets.get_mut(&p.sheet_id).unwrap().trainer_id = Some(tr.id.clone());
         c.sheets.insert(tr.id.clone(), tr);
     }
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .interaction_rules = true;
     (c, a, t)
 }
 fn fighter<'a>(c: &'a Campaign, id: &str) -> &'a Combatant {
@@ -1477,4 +1484,407 @@ fn stat_channels_snatch_keeps_resolved_values_and_stronger_recipient_move_modifi
             .stats["Strength"],
         7
     );
+}
+#[test]
+fn interactions_unseen_fist_bypasses_shields_screens_and_cover_only_for_contact() {
+    use crate::combat::{interactions, special};
+    for (name, expected) in [
+        ("Tackle", true),
+        ("Thunderbolt", false),
+        ("Rock Slide", false),
+    ] {
+        let (mut c, a, t) = setup(name);
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .reviewed_rules = true;
+        ability(&mut c, &a, "Unseen Fist");
+        let cover = add(&mut c, &t, true);
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .covers
+            .insert(t.clone(), cover.clone());
+        let m = catalog().find("moves", "Name", name).unwrap();
+        assert_eq!(interactions::cover_bypass(&c, &a, &m), expected);
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .special
+            .shields
+            .insert(
+                t.clone(),
+                special::Shield {
+                    name: "Spiky Shield".into(),
+                    source: t.clone(),
+                    round: 1,
+                    armed_turn: 0,
+                    available: true,
+                },
+            );
+        let screen_scope = format!("side:{}", fighter(&c, &t).side);
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .battlefield
+            .rules
+            .push(field::FieldRule {
+                id: "screen".into(),
+                kind: if m["Category"] == "Physical" {
+                    "Reflect"
+                } else {
+                    "Light Screen"
+                }
+                .into(),
+                source: t.clone(),
+                scope: screen_scope,
+                rounds: Some(4),
+                parameter: 2,
+                started_round: 1,
+            });
+        let pending = hit(&c, &a, &t, name);
+        if expected {
+            let cover_action = Action::CoverAlly {
+                combatant_id: cover.clone(),
+                ally_id: t.clone(),
+                reason: "Attempt new cover".into(),
+            };
+            let error = rules::dice_count(&pending, &cover_action, &catalog()).unwrap_err();
+            assert!(
+                error.message.contains("bypasses Cover"),
+                "{}",
+                error.message
+            );
+        }
+        let mut q = f(&pending).queue[0].clone();
+        assert_eq!(q.target_id, if expected { t.clone() } else { cover });
+        q.actor_id = a.clone();
+        q.target_id = t.clone();
+        q.move_name = name.into();
+        assert_eq!(
+            special::shield_reduction(&c, &q, &m),
+            if expected { 0 } else { 3 }
+        );
+        assert_eq!(
+            field::reduction(&c, fighter(&c, &a), fighter(&c, &t), &m),
+            if expected { 0 } else { 2 }
+        );
+        c.engine = STANDALONE_ENGINE.into();
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .interaction_rules = false;
+        assert!(!interactions::unseen(&c, fighter(&c, &a), &m));
+        assert_eq!(special::shield_reduction(&c, &q, &m), 3);
+    }
+}
+#[test]
+fn interactions_guard_dog_blocks_forced_switch_and_extreme_bypass_is_scoped() {
+    for ab in ["Guard Dog", "Suction Cups"] {
+        for attacker in ["", "Teravolt", "Turboblaze"] {
+            let (mut c, a, t) = setup("Roar");
+            c.battle
+                .as_mut()
+                .unwrap()
+                .flow
+                .as_mut()
+                .unwrap()
+                .reviewed_rules = true;
+            ability(&mut c, &t, ab);
+            ability(&mut c, &a, attacker);
+            add(&mut c, &t, false);
+            let c = effect(&pass(&hit(&c, &a, &t, "Roar")));
+            assert_eq!(
+                f(&c).tactics.switches.is_empty(),
+                attacker.is_empty(),
+                "{ab} / {attacker}"
+            );
+        }
+    }
+}
+#[test]
+fn interactions_mycelium_timing_choice_is_authorized_persisted_and_reversible() {
+    let (mut c, a, _) = setup("Protect");
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .reviewed_rules = true;
+    ability(&mut c, &a, "Mycelium Might");
+    let raw = catalog().find("moves", "Name", "Protect").unwrap();
+    assert!(tactics::priority_guard(&c, fighter(&c, &a), &raw).is_err());
+    for mode in ["ability", "printed"] {
+        let command = tac(tactics::TacticsCommand::Priority {
+            combatant_id: a.clone(),
+            move_name: "Protect".into(),
+            mode: mode.into(),
+        });
+        assert!(battle::transition(&c, "player", &command, vec![], &catalog()).is_err());
+        let next = run(&c, "gm", &command, 4);
+        let next: Campaign = serde_json::from_value(serde_json::to_value(&next).unwrap()).unwrap();
+        let data = field::move_data(&next, fighter(&next, &a), &raw);
+        assert!(tactics::priority_guard(&next, fighter(&next, &a), &data).is_ok());
+        assert_eq!(data["Attributes"]["NeverMiss"], true);
+        assert_eq!(data["Attributes"]["Reaction"].is_null(), mode == "ability");
+        assert_eq!(
+            data["Attributes"]["LateReaction"].is_null(),
+            mode == "printed"
+        );
+        let restored = run(
+            &next,
+            "gm",
+            &Action::RollbackBattle {
+                event_sequence: next.battle_undo.last().unwrap().event_sequence,
+                reason: "Undo timing ruling".into(),
+            },
+            4,
+        );
+        assert!(f(&restored).tactics.priority_choices.is_empty());
+    }
+}
+#[test]
+fn interactions_reviewed_stat_moves_use_protection_reflection_reversal_and_retaliation() {
+    for (ab, stat, expected, retaliate) in [
+        ("Big Pecks", "Defense", 0, 0),
+        ("Mirror Armor", "Defense", 0, 0),
+        ("Contrary", "Defense", -2, 0),
+        ("Simple", "Defense", -2, 0),
+        ("Competitive", "Special", 2, 2),
+        ("Defiant", "Strength", 2, 2),
+    ] {
+        let (mut c, a, t) = setup("Screech");
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .reviewed_rules = true;
+        ability(&mut c, &t, ab);
+        let c = effect(&pass(&hit(&c, &a, &t, "Screech")));
+        if retaliate > 0 {
+            assert_eq!(
+                fighter(&c, &t).runtime.ability.counters[&format!("boost:{stat}")],
+                expected
+            );
+        } else {
+            assert_eq!(
+                fighter(&c, &t)
+                    .runtime
+                    .modifiers
+                    .get("Defense")
+                    .copied()
+                    .unwrap_or(0),
+                expected
+            );
+        }
+        if ab == "Mirror Armor" {
+            assert_eq!(fighter(&c, &a).runtime.modifiers["Defense"], -2);
+        }
+    }
+}
+
+#[test]
+fn interactions_chance_dice_status_immunity_dust_and_sheer_force_have_distinct_effects() {
+    use crate::combat::interactions;
+    for (source, target, dice_count, burned) in [
+        ("Serene Grace", "", 3, true),
+        ("Serene Grace", "Wonder Skin", 1, true),
+        ("", "Wonder Skin", 0, false),
+        ("Serene Grace", "Shield Dust", 3, false),
+        ("Teravolt", "Shield Dust", 1, true),
+        ("Teravolt", "Wonder Skin", 1, true),
+        ("", "Water Veil", 1, false),
+    ] {
+        let (mut c, a, t) = setup("Ember");
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .reviewed_rules = true;
+        ability(&mut c, &a, source);
+        ability(&mut c, &t, target);
+        let c = damage(&pass(&hit(&c, &a, &t, "Ember")));
+        let q = f(&c).queue[0].clone();
+        assert_eq!(interactions::effect_dice(&c, &q).unwrap(), Some(dice_count));
+        let cmd = Action::ResolveEffect {
+            sequence: q.sequence,
+            reason: "Resolve chance effect".into(),
+        };
+        assert_eq!(rules::dice_count(&c, &cmd, &catalog()).unwrap(), dice_count);
+        let n = run(&c, "gm", &cmd, 6);
+        assert_eq!(
+            fighter(&n, &t)
+                .runtime
+                .statuses
+                .iter()
+                .any(|s| s.kind == "Burn"),
+            burned,
+            "{source}/{target}"
+        );
+        let restored = run(
+            &n,
+            "gm",
+            &Action::RollbackBattle {
+                event_sequence: n.battle_undo.last().unwrap().event_sequence,
+                reason: "Undo chance".into(),
+            },
+            4,
+        );
+        assert!(fighter(&restored, &t).runtime.statuses.is_empty());
+        assert_eq!(f(&restored).queue[0].sequence, q.sequence);
+    }
+}
+#[test]
+fn interactions_secondary_rock_head_reserves_only_chance_dice_and_historical_pools_stay_saved() {
+    use crate::combat::special;
+    let (mut c, a, t) = setup("Flare Blitz");
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .reviewed_rules = true;
+    ability(&mut c, &a, "Stench");
+    c.battle
+        .as_mut()
+        .unwrap()
+        .combatants
+        .iter_mut()
+        .find(|p| p.id == a)
+        .unwrap()
+        .runtime
+        .ability
+        .flags
+        .insert("as-one:Rock Head".into());
+    let mut q = f(&hit(&c, &a, &t, "Flare Blitz")).queue[0].clone();
+    q.raw_damage_successes = 5;
+    assert_eq!(special::effect_dice(&c, &q, &catalog()).unwrap(), Some(1));
+    let hp = fighter(&c, &a).hp;
+    assert!(special::effects(&mut c, &q, &[1], &catalog()).unwrap());
+    assert_eq!(fighter(&c, &a).hp, hp);
+    c.engine = STANDALONE_ENGINE.into();
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .interaction_rules = false;
+    assert_eq!(special::effect_dice(&c, &q, &catalog()).unwrap(), Some(6));
+}
+#[test]
+fn interactions_every_owned_stat_definition_executes_and_unknown_cards_remain_manual() {
+    use crate::combat::{extra, interactions};
+    let data: serde_json::Value =
+        serde_json::from_str(include_str!("../../../rules/battle-interactions.json")).unwrap();
+    for (name, definition) in data["moves"].as_object().unwrap() {
+        let (mut c, a, t) = setup("Tackle");
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .reviewed_rules = true;
+        let mut q = f(&hit(&c, &a, &t, "Tackle")).queue[0].clone();
+        q.move_name = name.clone();
+        let sheets = serde_json::to_value(&c.sheets).unwrap();
+        assert!(
+            interactions::move_effect(&mut c, &q, &[], &catalog()).unwrap(),
+            "{name}"
+        );
+        for change in definition["changes"].as_array().unwrap() {
+            let id = if change["self"] == true { &a } else { &t };
+            for key in change["keys"].as_array().unwrap() {
+                let key = key.as_str().unwrap();
+                assert_eq!(
+                    fighter(&c, id).runtime.modifiers[key],
+                    change["amount"].as_i64().unwrap() as i32,
+                    "{name}/{key}"
+                );
+            }
+        }
+        assert_eq!(serde_json::to_value(&c.sheets).unwrap(), sheets);
+        c.engine = STANDALONE_ENGINE.into();
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .interaction_rules = false;
+        assert!(!interactions::move_effect(&mut c, &q, &[], &catalog()).unwrap());
+    }
+    let (mut c, a, t) = setup("Tackle");
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .reviewed_rules = true;
+    ability(&mut c, &a, "Teravolt");
+    ability(&mut c, &t, "Clear Body");
+    extra::change_stat(&mut c, &a, &t, "Strength", -1).unwrap();
+    assert_eq!(fighter(&c, &t).runtime.modifiers["Strength"], -1);
+    ability(&mut c, &t, "Full Metal Body");
+    assert!(extra::change_stat(&mut c, &a, &t, "Strength", -1).is_err());
+    let mut q = f(&hit(&c, &a, &t, "Tackle")).queue[0].clone();
+    q.move_name = "Acupressure".into();
+    assert!(!interactions::move_effect(&mut c, &q, &[], &catalog()).unwrap());
+}
+#[test]
+fn interactions_unseen_fist_uses_frozen_action_identity_after_damage() {
+    use crate::combat::{interactions, special};
+    let (mut c, a, t) = setup("Iron Head");
+    let state = c.battle.as_mut().unwrap().flow.as_mut().unwrap();
+    state.reviewed_rules = true;
+    state.ability_changes.enabled = true;
+    ability(&mut c, &a, "Unseen Fist");
+    let mut c = damage(&pass(&hit(&c, &a, &t, "Iron Head")));
+    let q = f(&c).queue[0].clone();
+    assert!(q.damage_context.is_some());
+    ability(&mut c, &a, "");
+    let m = catalog().find("moves", "Name", "Iron Head").unwrap();
+    assert!(interactions::unseen(&c, fighter(&c, &a), &m));
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .special
+        .shields
+        .insert(
+            t.clone(),
+            special::Shield {
+                name: "Spiky Shield".into(),
+                source: t,
+                round: 1,
+                armed_turn: 0,
+                available: true,
+            },
+        );
+    assert_eq!(special::shield_reduction(&c, &q, &m), 0);
 }

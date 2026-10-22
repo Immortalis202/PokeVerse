@@ -1134,12 +1134,11 @@ pub fn effects(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) -
         return Ok(true);
     }
     if m["Attributes"]["Recoil"] == true {
-        let recoil =
-            if ["Rock Head", "Magic Guard"].contains(&fighter(c, a)?.selected_ability.as_str()) {
-                0
-            } else {
-                q.raw_damage_successes as usize
-            };
+        let recoil = if recoil_immune(c, fighter(c, a)?) {
+            0
+        } else {
+            q.raw_damage_successes as usize
+        };
         let p = fighter(c, a)?;
         if !p.has_any_ability(&["Rock Head", "Magic Guard"]) {
             indirect(c, a, rules::successes(&dice[..recoil]))?;
@@ -1749,9 +1748,7 @@ pub fn effect_dice(c: &Campaign, q: &QueuedAction, cat: &Catalog) -> Result<Opti
                 0
             } else {
                 chance_dice(c, q)?
-            }) + if ["Rock Head", "Magic Guard"]
-                .contains(&fighter(c, &q.actor_id)?.selected_ability.as_str())
-            {
+            }) + if recoil_immune(c, fighter(c, &q.actor_id)?) {
                 0
             } else {
                 q.raw_damage_successes
@@ -1792,7 +1789,17 @@ pub fn shield_reduction(c: &Campaign, q: &QueuedAction, m: &serde_json::Value) -
             _ => 3,
         })
 }
+fn recoil_immune(c: &Campaign, p: &Combatant) -> bool {
+    if interactions::enabled(c) {
+        p.has_any_ability(&["Rock Head", "Magic Guard"])
+    } else {
+        ["Rock Head", "Magic Guard"].contains(&p.selected_ability.as_str())
+    }
+}
 fn bypass(c: &Campaign, q: &QueuedAction, m: &serde_json::Value) -> bool {
+    if fighter(c, &q.actor_id).is_ok_and(|p| interactions::unseen(c, p, m)) {
+        return true;
+    }
     fighter(c, &q.actor_id).is_ok_and(|p| reviewed::extreme(c, p))
         || m["Attributes"]["IgnoreShield"] == true
         || vulnerable(c, &q.target_id, &q.move_name)

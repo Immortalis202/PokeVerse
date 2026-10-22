@@ -153,7 +153,8 @@ pub fn coverage(c: &Campaign, name: &str) -> Option<&'static str> {
             .expect("valid owned ability registry")
     });
     let entry = &REGISTRY["entries"][name];
-    if (entry["introduced_engine"] == "0.21.0-core" && !standalone::enabled(c))
+    if (entry["introduced_engine"] == "0.22.0-core" && !interactions::enabled(c))
+        || (entry["introduced_engine"] == "0.21.0-core" && !standalone::enabled(c))
         || (entry["introduced_engine"] == "0.20.0-core" && !information::enabled(c))
         || (entry["introduced_engine"] == "0.19.0-core" && !forms::enabled(c))
         || (entry["introduced_engine"] == "0.18.0-core" && !items::enabled(c))

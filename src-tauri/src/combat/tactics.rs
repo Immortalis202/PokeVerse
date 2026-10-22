@@ -155,6 +155,12 @@ pub fn priority_guard(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> Res
         && p.has_ability("Mycelium Might")
         && m["Category"] == "Support"
         && number(m, "Reaction").is_some()
+        && !(interactions::enabled(c)
+            && state(c).priority_choices.contains_key(&format!(
+                "{}:{}",
+                p.id,
+                m["Name"].as_str().unwrap_or("")
+            )))
     {
         return Err(AppError::new("manual_rule","Mycelium Might Late Reaction 1 conflicts with printed Reaction; GM adjudication required"));
     }
@@ -545,7 +551,12 @@ pub fn command(
             gm(c, actor)?;
             let p = fighter(c, combatant_id)?;
             let m = move_entry(cat, move_name)?;
-            if !ability_priority(p, &m) || !["printed", "ability"].contains(&mode.as_str()) {
+            if !(ability_priority(p, &m)
+                || (interactions::enabled(c)
+                    && p.has_ability("Mycelium Might")
+                    && m["Category"] == "Support"))
+                || !["printed", "ability"].contains(&mode.as_str())
+            {
                 return Err(error(
                     "Choose printed or ability timing for this priority conflict",
                 ));
@@ -970,10 +981,19 @@ pub fn move_effect(c: &mut Campaign, q: &QueuedAction, cat: &Catalog) -> Result<
     }
     let out = if forced { &q.target_id } else { &q.actor_id };
     let p = fighter(c, out)?.clone();
-    if forced && p.side != fighter(c, &q.actor_id)?.side && p.has_ability("Suction Cups") {
+    if forced
+        && p.side != fighter(c, &q.actor_id)?.side
+        && (p.has_ability("Suction Cups")
+            || (interactions::enabled(c) && p.has_ability("Guard Dog")))
+        && !(interactions::enabled(c) && reviewed::extreme(c, &reviewed::source(c, q)?))
+    {
         record(
             c,
-            format!("{} prevents forced switching with Suction Cups", p.name),
+            format!(
+                "{} prevents forced switching with {}",
+                p.name,
+                p.ability_for(&["Suction Cups", "Guard Dog"])
+            ),
         );
         return Ok(true);
     }

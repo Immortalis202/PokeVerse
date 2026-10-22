@@ -36,6 +36,17 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
   const coverageRegistry = JSON.parse(
     await readFile(path.join(app, "rules/coverage.json"), "utf8"),
   );
+  const interactionText = (
+    await readFile(path.join(app, "rules/battle-interactions.json"), "utf8")
+  ).replace(/\r\n/g, "\n");
+  const interactions = JSON.parse(interactionText);
+  if (
+    coverageRegistry.interaction_registry_hash !==
+    createHash("sha256").update(interactionText).digest("hex")
+  )
+    throw new Error(
+      "Interaction definitions changed without updating the coverage fingerprint",
+    );
   const formText = (
     await readFile(path.join(app, "rules/battle-forms.json"), "utf8")
   ).replace(/\r\n/g, "\n");
@@ -139,6 +150,22 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
       }
       if (kind === "moves" && specialRegistry.entries[entry.Name])
         entry.SpecialRules = specialRegistry.entries[entry.Name];
+      if (
+        kind === "moves" &&
+        (interactions.moves[entry.Name] ||
+          interactions.chance_moves[entry.Name])
+      ) {
+        const definition =
+          interactions.moves[entry.Name] ??
+          interactions.chance_moves[entry.Name];
+        entry.InteractionRules = {
+          engine: interactions.engine,
+          status: "automated",
+          scope: `Reviewed in engine ${interactions.engine}: ${definition.effect} Uses sourced stat/trait or chance/status interactions; older encounters retain their saved rules.`,
+          source: definition.source,
+          sha256: definition.sha256,
+        };
+      }
       if (tacticsRegistry[kind]?.[entry.Name])
         entry.TacticsRules = tacticsRegistry[kind][entry.Name];
       entry.Review = {
@@ -148,6 +175,7 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
           (kind === "abilities"
             ? abilityRegistry.entries[entry.Name]?.scope
             : null) ??
+          entry.InteractionRules?.scope ??
           entry.TacticsRules?.scope ??
           entry.SpecialRules?.scope ??
           evidence?.coverage ??

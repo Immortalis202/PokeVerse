@@ -25,6 +25,13 @@ fn setup(ability: &str) -> (Campaign, String, String) {
     f.reviewed_rules = true;
     f.tactics.enabled = true;
     pm(&mut c, &a).selected_ability = ability.into();
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .interaction_rules = true;
     (c, a, t)
 }
 fn sync(c: &mut Campaign) {
@@ -563,4 +570,72 @@ fn stat_channels_copied_moves_keep_stronger_legacy_modifiers_and_separate_reduct
     extra::change_stat(&mut c, &t, &t, "Strength", 2).unwrap();
     sync(&mut c);
     assert_eq!(stat(&c, &a, "Strength"), 5);
+}
+#[test]
+fn interactions_costar_opportunist_copy_reviewed_traits_without_stacking_or_permanent_edits() {
+    use crate::combat::interactions;
+    for ab in ["Costar", "Opportunist"] {
+        let (mut c, a, t) = setup(ab);
+        if ab == "Costar" {
+            pm(&mut c, &t).side = p(&c, &a).side.clone();
+        }
+        let accuracy_before = rules::accuracy(&c, &a, "Tackle", 0, &catalog()).unwrap().0;
+        let before = c.clone();
+        for key in ["AccuracyPool", "HighCritical"] {
+            special::record_modifier(&mut c, &t, &t, key, 1).unwrap();
+            pm(&mut c, &t).runtime.modifiers.insert(key.into(), 1);
+        }
+        stat_channels::transfer(&mut c, &t, &a, "Baton Pass").unwrap();
+        assert_eq!(
+            interactions::trait_value(&c, p(&c, &a), "AccuracyPool"),
+            0,
+            "Baton Pass transfers attributes, not traits"
+        );
+        assert_eq!(interactions::trait_value(&c, p(&c, &a), "HighCritical"), 0);
+        let sheets = serde_json::to_value(&c.sheets).unwrap();
+        stat_channels::lifecycle(&before, &mut c).unwrap();
+        assert_eq!(interactions::trait_value(&c, p(&c, &a), "AccuracyPool"), 1);
+        assert_eq!(interactions::trait_value(&c, p(&c, &a), "HighCritical"), 1);
+        assert_eq!(
+            rules::accuracy(&c, &a, "Tackle", 0, &catalog()).unwrap().0,
+            accuracy_before + 1
+        );
+        let m = catalog().find("moves", "Name", "Tackle").unwrap();
+        assert_eq!(extra::critical_margin(&c, p(&c, &a), &m), 2);
+        let count = c
+            .battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .stat_channels
+            .grants
+            .len();
+        let before = c.clone();
+        stat_channels::lifecycle(&before, &mut c).unwrap();
+        assert_eq!(
+            c.battle
+                .as_ref()
+                .unwrap()
+                .flow
+                .as_ref()
+                .unwrap()
+                .stat_channels
+                .grants
+                .len(),
+            count
+        );
+        assert_eq!(serde_json::to_value(&c.sheets).unwrap(), sheets);
+        c.engine = STANDALONE_ENGINE.into();
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .interaction_rules = false;
+        assert_eq!(interactions::trait_value(&c, p(&c, &a), "HighCritical"), 0);
+        assert_eq!(extra::critical_margin(&c, p(&c, &a), &m), 3);
+    }
 }

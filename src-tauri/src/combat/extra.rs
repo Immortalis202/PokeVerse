@@ -801,10 +801,18 @@ fn apply_stat(
     }
     let p = fighter(c, id)?.clone();
     let hostile = source != id && fighter(c, source)?.side != p.side;
+    let bypass = interactions::enabled(c) && hostile && reviewed::extreme(c, fighter(c, source)?);
+    if bypass && n < 0 && p.has_any_ability(&["Full Metal Body", "Mirror Armor"]) {
+        return Err(AppError::new(
+            "manual_rule",
+            "Conflicting unique stat protection and Teravolt/Turboblaze require a GM ruling",
+        ));
+    }
     if n < 0 && hostile && p.has_ability("Mirror Armor") && !reflected {
         return apply_stat(c, id, source, key, n, true);
     }
-    if source != id && ((n < 0 && protected(c, &p, key)) || p.has_ability("Clear Body")) {
+    if source != id && !bypass && ((n < 0 && protected(c, &p, key)) || p.has_ability("Clear Body"))
+    {
         if n < 0 && key == "Strength" && p.has_ability("Guard Dog") {
             boost(c, id, key, 2)?;
         }
@@ -1344,7 +1352,9 @@ pub fn critical_margin(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> i3
     if special::enabled(c) && m["Attributes"]["AlwaysCrit"] == true {
         return -1000;
     }
-    let base = if m["Attributes"]["HighCritical"] == true {
+    let base = if m["Attributes"]["HighCritical"] == true
+        || (m["Category"] != "Support" && interactions::trait_value(c, p, "HighCritical") > 0)
+    {
         2
     } else {
         3

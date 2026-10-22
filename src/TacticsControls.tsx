@@ -235,7 +235,9 @@ export default function TacticsControls({
               Timing
               <select value={mode} onChange={(e) => setMode(e.target.value)}>
                 <option value="printed">Printed timing</option>
-                <option value="ability">Ability Reaction 1</option>
+                <option value="ability">
+                  Ability timing (Reaction / Late Reaction 1)
+                </option>
               </select>
             </label>
           </div>
