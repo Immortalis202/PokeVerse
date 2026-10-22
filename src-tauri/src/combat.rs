@@ -10,6 +10,7 @@ pub(crate) mod events;
 pub(crate) mod extra;
 pub(crate) mod field;
 pub(crate) mod forms;
+pub(crate) mod information;
 pub(crate) mod items;
 pub(crate) mod provenance;
 pub(crate) mod reviewed;
@@ -57,6 +58,8 @@ pub struct Status {
 #[derive(Debug, Clone, Default, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct TurnFlow {
+    #[serde(default)]
+    pub information: information::InformationState,
     #[serde(default)]
     pub forms: forms::FormState,
     #[serde(default)]
@@ -982,6 +985,7 @@ pub fn transition(
     dice: Vec<u8>,
     cat: &Catalog,
 ) -> Result<(Campaign, String)> {
+    information::authorize(c, actor, a)?;
     if let Action::Form { command, reason } = a {
         return forms::transition(c, actor, command, reason, &dice, cat);
     }
@@ -1035,6 +1039,9 @@ pub fn transition(
         }
     }
     forms::lifecycle(c, &mut next, a, cat)?;
+    if !matches!(a, Action::RollbackBattle { .. }) {
+        information::lifecycle(&mut next, cat)?;
+    }
     Ok((next, log))
 }
 pub fn preview(c: &Campaign, a: &Action, cat: &Catalog) -> Result<ActionPreview> {
@@ -2804,23 +2811,35 @@ fn transition_inner(
             ) {
                 let b = done.battle.as_mut().unwrap();
                 b.flow = Some(TurnFlow {
-                    forms: forms::FormState {
+                    information: information::InformationState {
                         enabled: c.engine == ENGINE,
                         ..Default::default()
                     },
+                    forms: forms::FormState {
+                        enabled: [ENGINE, FORM_ENGINE].contains(&c.engine.as_str()),
+                        ..Default::default()
+                    },
                     items: items::ItemState {
-                        enabled: [ENGINE, ITEM_ENGINE].contains(&c.engine.as_str()),
+                        enabled: [ENGINE, FORM_ENGINE, ITEM_ENGINE].contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     events: events::EventState {
-                        enabled: [ENGINE, ITEM_ENGINE, EVENT_ENGINE].contains(&c.engine.as_str()),
+                        enabled: [ENGINE, FORM_ENGINE, ITEM_ENGINE, EVENT_ENGINE]
+                            .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
-                    provenance_rules: [ENGINE, ITEM_ENGINE, EVENT_ENGINE, PROVENANCE_ENGINE]
-                        .contains(&c.engine.as_str()),
+                    provenance_rules: [
+                        ENGINE,
+                        FORM_ENGINE,
+                        ITEM_ENGINE,
+                        EVENT_ENGINE,
+                        PROVENANCE_ENGINE,
+                    ]
+                    .contains(&c.engine.as_str()),
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            FORM_ENGINE,
                             ITEM_ENGINE,
                             EVENT_ENGINE,
                             PROVENANCE_ENGINE,
@@ -2832,6 +2851,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            FORM_ENGINE,
                             ITEM_ENGINE,
                             EVENT_ENGINE,
                             PROVENANCE_ENGINE,
@@ -2843,6 +2863,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        FORM_ENGINE,
                         ITEM_ENGINE,
                         EVENT_ENGINE,
                         PROVENANCE_ENGINE,
@@ -2854,6 +2875,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            FORM_ENGINE,
                             ITEM_ENGINE,
                             EVENT_ENGINE,
                             PROVENANCE_ENGINE,
@@ -2868,6 +2890,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            FORM_ENGINE,
                             ITEM_ENGINE,
                             EVENT_ENGINE,
                             PROVENANCE_ENGINE,
@@ -2883,6 +2906,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            FORM_ENGINE,
                             ITEM_ENGINE,
                             EVENT_ENGINE,
                             PROVENANCE_ENGINE,
@@ -2899,6 +2923,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            FORM_ENGINE,
                             ITEM_ENGINE,
                             EVENT_ENGINE,
                             PROVENANCE_ENGINE,
@@ -2916,6 +2941,7 @@ fn transition_inner(
                     special: special::SpecialState {
                         enabled: [
                             ENGINE,
+                            FORM_ENGINE,
                             ITEM_ENGINE,
                             EVENT_ENGINE,
                             PROVENANCE_ENGINE,
@@ -2933,6 +2959,7 @@ fn transition_inner(
                     },
                     ability_rules: [
                         ENGINE,
+                        FORM_ENGINE,
                         ITEM_ENGINE,
                         EVENT_ENGINE,
                         PROVENANCE_ENGINE,
@@ -2952,6 +2979,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            FORM_ENGINE,
                             ITEM_ENGINE,
                             EVENT_ENGINE,
                             PROVENANCE_ENGINE,
@@ -2971,6 +2999,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            FORM_ENGINE,
                             ITEM_ENGINE,
                             EVENT_ENGINE,
                             PROVENANCE_ENGINE,

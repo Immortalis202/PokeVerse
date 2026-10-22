@@ -194,6 +194,7 @@ describe("structured core battle controls", () => {
         automatic_validation: true,
         combatants,
         flow: {
+          information: { enabled: false, active: [], offers: {}, reveals: [] },
           forms: {
             enabled: false,
             originals: {},

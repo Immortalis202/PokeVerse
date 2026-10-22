@@ -149,7 +149,8 @@ pub fn coverage(c: &Campaign, name: &str) -> Option<&'static str> {
             .expect("valid owned ability registry")
     });
     let entry = &REGISTRY["entries"][name];
-    if (entry["introduced_engine"] == "0.19.0-core" && !forms::enabled(c))
+    if (entry["introduced_engine"] == "0.20.0-core" && !information::enabled(c))
+        || (entry["introduced_engine"] == "0.19.0-core" && !forms::enabled(c))
         || (entry["introduced_engine"] == "0.18.0-core" && !items::enabled(c))
         || (entry["introduced_engine"] == "0.17.0-core" && !events::enabled(c))
         || (entry["introduced_engine"] == "0.16.0-core" && !provenance::enabled(c))
@@ -717,7 +718,8 @@ pub fn resolve(
     let count = dice(c, event_id, choice)?;
     check_count(results, count)?;
     let e = flow(c)?.ability_events[0].clone();
-    if e.kind == "ability-gas"
+    if e.kind.starts_with("info-")
+        || e.kind == "ability-gas"
         || ["item-symbiosis-order", "item-symbiosis-cycle", "item-frisk"].contains(&e.kind.as_str())
     {
         gm(c, actor)?;
@@ -726,7 +728,9 @@ pub fn resolve(
     } else {
         owner(c, actor, &e.combatant_id)?;
     }
-    if e.kind.starts_with("form-") {
+    if e.kind.starts_with("info-") {
+        information::resolve(next, &e, choice, r, cat)?;
+    } else if e.kind.starts_with("form-") {
         forms::resolve(next, &e, choice, cat)?;
     } else if e.kind == "item-cud-chew" {
         if choice == "manual" {
@@ -809,6 +813,9 @@ pub fn resolve(
     flow_mut(next).ability_events.remove(0);
     sequencing::resume(next);
     sync_labels(next);
+    if e.kind.starts_with("info-") {
+        return Ok("Private trainer information decision recorded by the GM".into());
+    }
     Ok(format!(
         "{}: {} chose {choice}; host dice {results:?}. {r}",
         e.ability, e.combatant_id

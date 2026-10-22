@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "engine": "0.19.0-core",
+  "engine": "0.20.0-core",
   "default_status": "manual",
   "entries": {
     "Adaptability": {
@@ -50,12 +50,11 @@
       "introduced_engine": "0.7.0-core"
     },
     "Anticipation": {
-      "status": "manual",
-      "scope": "Requires a private GM/owner information-reveal operation with reviewed move classification.",
+      "status": "partial",
+      "scope": "Private trainer alert at the reviewed entry/acquisition window from current deployed conscious foes. Classify structured lethal flags and supported super-effective typing/conversions/immunities; Support/self/ally cards do not qualify. Unresolved cards and timing outside this window require a private GM ruling. No foe or move names are sent with the alert.",
       "page": 537,
-      "dependencies": [
-        "hidden-information-preview"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.20.0-core"
     },
     "Arena Trap": {
       "status": "partial",
@@ -525,12 +524,11 @@
       "introduced_engine": "0.6.0-core"
     },
     "Forewarn": {
-      "status": "manual",
-      "scope": "Requires a private GM/owner information-reveal operation with reviewed move classification.",
+      "status": "partial",
+      "scope": "Private strongest-move message to the linked trainer owner, falling back to Pokemon owner when unlinked. GM compares current foe cards using printed Power, handles variable/fixed damage and ties, and records the trainer Insight result without inventing a difficulty. Candidates/rulings remain private; host transport, rollback and persistence are supported.",
       "page": 546,
-      "dependencies": [
-        "hidden-information-preview"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.20.0-core"
     },
     "Friend Guard": {
       "status": "automated",

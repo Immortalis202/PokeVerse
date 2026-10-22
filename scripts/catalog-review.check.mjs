@@ -133,6 +133,7 @@ test("coverage and PDF fingerprints are preserved with a complete field-level qu
       readFileSync("src-tauri/src/combat_tests/stat_channel_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/sequencing_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/event_tests.rs", "utf8") +
+      readFileSync("src-tauri/src/combat_tests/information_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/field_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/extra_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/special_tests.rs", "utf8") +
@@ -171,11 +172,11 @@ test("ability inventory exposes reviewed scopes and preserves manual boundaries"
   assert.equal(inventory.entries.length, 305);
   assert.equal(
     inventory.entries.filter((e) => e.status !== "manual").length,
-    294,
+    296,
   );
   assert.equal(
     Object.values(registry.entries).filter((e) => e.status !== "manual").length,
-    294,
+    296,
   );
   assert.equal(
     inventory.entries.find((e) => e.name === "Static").status,
@@ -406,4 +407,20 @@ test("form mappings preserve exact supplied identities, source values and a comp
   } finally {
     db.close();
   }
+});
+
+test("private warning scopes preserve printed cards and GM comparison boundaries", () => {
+  const r = JSON.parse(readFileSync("rules/ability-coverage.json", "utf8"));
+  for (const name of ["Anticipation", "Forewarn"]) {
+    assert.equal(r.entries[name].introduced_engine, "0.20.0-core");
+    assert.equal(r.entries[name].status, "partial");
+    assert.deepEqual(r.entries[name].dependencies, []);
+    const card = JSON.parse(
+      readFileSync(`../Pokerole-Data/v3.0/Abilities/${name}.json`, "utf8"),
+    );
+    assert.equal(card.Name, name);
+    assert.ok(r.entries[name].scope.includes("Private"));
+  }
+  assert.ok(r.entries.Forewarn.scope.includes("Insight"));
+  assert.ok(r.entries.Forewarn.scope.includes("ties"));
 });

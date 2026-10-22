@@ -41,6 +41,7 @@ function campaign(ability = "Multitype", enabled = true): Campaign {
         },
       ],
       flow: {
+        information: { enabled: false, active: [], offers: {}, reveals: [] },
         forms: {
           enabled,
           originals: {},

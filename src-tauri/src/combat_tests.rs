@@ -1196,3 +1196,6 @@ mod sequencing_tests;
 
 #[path = "combat_tests/form_tests.rs"]
 mod form_tests;
+
+#[path = "combat_tests/information_tests.rs"]
+mod information_tests;

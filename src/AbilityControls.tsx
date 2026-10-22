@@ -334,7 +334,7 @@ export default function AbilityControls({
           </button>
         </details>
       )}
-      {event && (
+      {event && !event.kind.startsWith("info-") && (
         <div className="notice" role="status">
           <h4>Pending: {event.ability}</h4>
           <p>

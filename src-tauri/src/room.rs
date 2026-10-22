@@ -132,6 +132,7 @@ impl Host {
         {
             return Err(AppError::new("catalog_adoption","The appointed GM must adopt the installed catalog in Training encounters before shared changes"));
         }
+        crate::combat::information::authorize(&current, actor, &cmd.action)?;
         let count = crate::rules::dice_count(&current, &cmd.action, &self.catalog)?;
         if count > crate::combat::sequencing::roll_limit(&current, &cmd.action) {
             return Err(AppError::new(

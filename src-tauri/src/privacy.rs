@@ -9,6 +9,16 @@ fn equipment(sheet: &mut Sheet, player: &str) {
         sheet.inventory.clear();
     }
 }
+fn learned_moves(sheet: &mut Sheet, player: &str) {
+    if sheet.owner_id != player {
+        sheet.moves.clear();
+        if let Some(build) = sheet.workflow.as_mut() {
+            build.learned.clear();
+            build.forgotten.clear();
+            build.ledger.clear();
+        }
+    }
+}
 fn action_view(action: &mut crate::combat::QueuedAction, owned: &BTreeSet<String>) {
     if owned.contains(&action.actor_id) {
         return;
@@ -27,6 +37,30 @@ fn battle_view(battle: &mut Battle, player: &str, owned_sheets: &BTreeSet<String
         .filter(|p| p.owner_id == player)
         .map(|p| p.id.clone())
         .collect();
+    if flow.information.enabled {
+        flow.information.offers.clear();
+        flow.information.active.clear();
+        flow.information.reveals.retain(|r| r.recipient == player);
+        for message in &mut flow.information.reveals {
+            message.reason.clear();
+            if message.move_name.is_some() {
+                message.decision = "reveal".into();
+            }
+        }
+        for event in &mut flow.ability_events {
+            if event.kind.starts_with("info-")
+                || (event.kind == "sequence-gorilla" && !owned.contains(&event.combatant_id))
+            {
+                event.choices.clear();
+            }
+        }
+        for original in flow.forms.originals.values_mut() {
+            learned_moves(&mut original.sheet, player);
+        }
+        for current in flow.forms.current.values_mut() {
+            learned_moves(&mut current.sheet, player);
+        }
+    }
     for original in flow.forms.originals.values_mut() {
         equipment(&mut original.sheet, player);
     }
@@ -132,7 +166,12 @@ pub fn for_player(campaign: &Campaign, player: &str) -> Campaign {
             .iter()
             .chain(campaign.finished_battles.iter())
             .any(|b| b.flow.as_ref().is_some_and(|f| f.items.enabled));
-    if player == campaign.gm_id || !private_items {
+    let private_moves = campaign
+        .battle
+        .iter()
+        .chain(campaign.finished_battles.iter())
+        .any(|b| b.flow.as_ref().is_some_and(|f| f.information.enabled));
+    if player == campaign.gm_id || (!private_items && !private_moves) {
         return view;
     }
     let owned_sheets: BTreeSet<_> = campaign
@@ -143,6 +182,9 @@ pub fn for_player(campaign: &Campaign, player: &str) -> Campaign {
         .collect();
     for sheet in view.sheets.values_mut() {
         equipment(sheet, player);
+        if private_moves {
+            learned_moves(sheet, player);
+        }
     }
     view.proposals
         .retain(|p| p.request.sheet.owner_id == player);

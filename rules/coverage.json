@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.19.0-core",
-  "release": "0.26.0",
-  "protocol": 27,
+  "engine": "0.20.0-core",
+  "release": "0.27.0",
+  "protocol": 28,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -404,9 +404,21 @@
         "events_dancer_preserves_individual_source_results_without_collapsing_to_last_target"
       ],
       "scope": "Host-rolled contact Flinch, non-stacking entry Will expenditure, frozen per-target accuracy/critical outcomes and Electric Support charge consumption. Narrative encounter effects are excluded; historical encounters retain prior rules."
+    },
+    {
+      "id": "private-battle-information",
+      "status": "partial",
+      "source": "MASTER 537,546; supplied v3.0 Anticipation/Forewarn cards",
+      "fixtures": [
+        "information_anticipation_classifies_lethal_super_effective_support_and_immunity",
+        "information_forewarn_preserves_ties_variable_cards_and_gm_insight_rulings",
+        "information_recipient_projection_hides_candidates_movepools_archives_and_undo",
+        "information_room_private_trainer_transport_receipts_stale_reconnect_and_rollback"
+      ],
+      "scope": "Secret trainer warnings with GM comparison and Insight rulings, private candidate transport and movepool projections, entry/re-entry gates, saved decisions and rollback. Unprinted strongest-move/tie formulas are not invented."
     }
   ],
-  "ability_registry_hash": "81ac6c488ab15770d2f847f94b06cf4e28ebffd69e0f1f1e54a5029ae12c08d8",
+  "ability_registry_hash": "a7c32e83f2c91cb883a0e82cd58f99c81034ae7bcf6b1d54995e6da720349102",
   "special_registry_hash": "ef7d506fc98bed2d88c4c6d92fc0875de33c220fc01635894dbb60b53e9852fa",
   "tactics_registry_hash": "99b66de76eab04726a6a35dabdc8d8626e4816eb1bb0089dae7d1c8006179a14",
   "form_registry_hash": "222191f7c2ed47eba141c0ff7b41318f9d7476951ba3f8e909a01370fb490e3a"

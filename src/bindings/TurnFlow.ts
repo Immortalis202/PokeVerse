@@ -7,6 +7,7 @@ import type { EventState } from "./EventState";
 import type { ExtraState } from "./ExtraState";
 import type { FieldEffect } from "./FieldEffect";
 import type { FormState } from "./FormState";
+import type { InformationState } from "./InformationState";
 import type { ItemState } from "./ItemState";
 import type { QueuedAction } from "./QueuedAction";
 import type { SequencingState } from "./SequencingState";
@@ -16,6 +17,7 @@ import type { TacticsState } from "./TacticsState";
 import type { TransferState } from "./TransferState";
 
 export type TurnFlow = {
+  information: InformationState;
   forms: FormState;
   items: ItemState;
   events: EventState;
