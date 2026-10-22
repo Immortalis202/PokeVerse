@@ -9,6 +9,7 @@ pub(crate) mod decoys;
 pub(crate) mod events;
 pub(crate) mod extra;
 pub(crate) mod field;
+pub(crate) mod items;
 pub(crate) mod provenance;
 pub(crate) mod reviewed;
 pub(crate) mod sequencing;
@@ -55,6 +56,8 @@ pub struct Status {
 #[derive(Debug, Clone, Default, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct TurnFlow {
+    #[serde(default)]
+    pub items: items::ItemState,
     #[serde(default)]
     pub events: events::EventState,
     #[serde(default)]
@@ -394,7 +397,17 @@ pub fn apply_stats(c: &Campaign, p: &Combatant, s: &mut Sheet) {
         extra::apply_stats(c, p, s);
         return;
     }
-    for (key, amount) in &p.runtime.modifiers {
+    let mut modifiers = p.runtime.modifiers.clone();
+    if items::stat_reduction(c, p, "Dexterity") != 0 {
+        modifiers.entry("Dexterity".into()).or_insert(0);
+    }
+    for (key, amount) in &modifiers {
+        let item = items::stat_reduction(c, p, key);
+        let amount = if item != 0 {
+            amount.max(&0) + amount.min(&item)
+        } else {
+            *amount
+        };
         if let Some(v) = s.stats.get_mut(key) {
             *v = (*v + amount).clamp(1, 10);
         }
@@ -495,7 +508,9 @@ fn refresh_initiative(before: &Campaign, after: &mut Campaign) -> Result<()> {
             let old_stats =
                 crate::creation::profile_stats(&rules::effective_sheet(before, previous)?);
             let new_stats = crate::creation::profile_stats(&rules::effective_sheet(after, p)?);
-            let delta = new_stats["Initiative"] - old_stats["Initiative"];
+            let delta = new_stats["Initiative"] - old_stats["Initiative"]
+                + items::initiative_bonus(after, &p.id)
+                - items::initiative_bonus(before, &previous.id);
             updates.push((p.id.clone(), delta));
         }
     }
@@ -737,7 +752,8 @@ fn ice_damage_pool(c: &Campaign, q: &QueuedAction, modifier: i32, cat: &Catalog)
             0
         }
         + modifier
-        + provenance::sheer_force_bonus(c, &q.actor_id, q.sequence);
+        + provenance::sheer_force_bonus(c, &q.actor_id, q.sequence)
+        + items::damage_dice_bonus(c, p, q.sequence, &field::move_data(c, p, &m), cat)?;
     if !(1..=100).contains(&n) {
         return Err(error("Ice damage pool outside 1-100 dice"));
     }
@@ -747,6 +763,21 @@ pub fn dice_count(c: &Campaign, a: &Action, cat: &Catalog) -> Result<u32> {
     sequencing::dice(c, a, cat)
 }
 fn base_dice_count(c: &Campaign, a: &Action, cat: &Catalog) -> Result<u32> {
+    if let Action::HeldItem {
+        command:
+            items::ItemCommand::Retrieve {
+                combatant_id,
+                unit_id,
+            },
+        ..
+    } = a
+    {
+        tactics::phase(c, a)?;
+        abilities::phase(c, a)?;
+        field::phase(c, a)?;
+        items::retrieve_guard(c, combatant_id, unit_id, cat)?;
+        return Ok(0);
+    }
     if let Action::AbilityTransfer { command, .. } = a {
         return transfers::dice(c, command);
     }
@@ -937,6 +968,15 @@ pub fn transition(
     dice: Vec<u8>,
     cat: &Catalog,
 ) -> Result<(Campaign, String)> {
+    if let Action::HeldItem {
+        command,
+        reason: why,
+    } = a
+    {
+        if !matches!(command, items::ItemCommand::Retrieve { .. }) {
+            return items::transition(c, actor, command, why, &dice, cat);
+        }
+    }
     if let Action::ChooseSheerForce {
         combatant_id,
         ignore_added_effects,
@@ -959,6 +999,13 @@ pub fn transition(
     provenance::lifecycle(c, &mut next, a);
     if !matches!(a, Action::RollbackBattle { .. }) {
         events::lifecycle(&mut next)?;
+        if next.battle.as_ref().is_some_and(|b| b.active) {
+            items::initialize(&mut next, cat)?;
+            items::prune_offers(&mut next);
+            items::frisk_lifecycle(&mut next)?;
+        } else {
+            items::finalize(&mut next, cat)?;
+        }
     }
     Ok((next, log))
 }
@@ -967,7 +1014,19 @@ pub fn preview(c: &Campaign, a: &Action, cat: &Catalog) -> Result<ActionPreview>
     if matches!(a, Action::AbilityTransfer { .. }) {
         return Ok(ActionPreview{dice,warnings:vec!["Campaign game-time clock; 24 hours = 1440 minutes. Selection never changes permanent sheets. During combat the GM confirms selection timing; advance time between battles.".into()],source:"MASTER 534,560,563".into()});
     }
+    let hidden_items = c
+        .battle
+        .as_ref()
+        .and_then(|b| b.flow.as_ref())
+        .is_some_and(|f| f.items.redacted);
     let mut warnings=vec!["Preview rolls no dice and spends no resources. The host validates the current revision on commit.".into()];
+    if hidden_items {
+        warnings.push("Other trainers' item details are hidden. The authoritative host validates the final pools and item interactions.".into());
+    }
+    if items::enabled(c) {
+        // Constant wording avoids leaking another participant's private equipment.
+        warnings.push("Only reviewed held-item effects enter automatic pools. Resolve unreviewed effects with the GM, applying Klutz/Magic Room and printed form/type-changing exceptions.".into());
+    }
     warnings.extend(special::preview_notes(c, a, cat)?);
     warnings.extend(reviewed::notes(c, a));
     warnings.extend(sequencing::notes(c, a));
@@ -1105,14 +1164,15 @@ fn checkpoint(current: &Campaign, next: &mut Campaign, description: &str) {
             description: description.into(),
             battle: b.clone(),
             ability_inheritance: Some(current.ability_inheritance.clone()),
-            resources: b
-                .combatants
-                .iter()
-                .filter_map(|p| {
-                    current.sheets.get(&p.sheet_id).map(|s| {
+            resources: items::resource_sheets(current, next)
+                .into_iter()
+                .filter_map(|sheet_id| {
+                    current.sheets.get(&sheet_id).map(|s| {
                         (
                             s.id.clone(),
                             BattleResources {
+                                equipment: items::enabled(current)
+                                    .then(|| items::EquipmentResources::snapshot(s)),
                                 hp: s.hp,
                                 conditions: s.conditions.clone(),
                                 will: s.workflow.as_ref().map(|b| b.will),
@@ -1135,6 +1195,12 @@ fn transition_inner(
     dice: Vec<u8>,
     cat: &Catalog,
 ) -> Result<(Campaign, String)> {
+    if let Action::HeldItem { command, reason } = a {
+        tactics::phase(c, a)?;
+        abilities::phase(c, a)?;
+        field::phase(c, a)?;
+        return items::transition(c, actor, command, reason, &dice, cat);
+    }
     if let Action::AbilityTransfer { command, reason } = a {
         check_count(&dice, 0)?;
         let mut next = c.clone();
@@ -1272,12 +1338,15 @@ fn transition_inner(
             check_count(&dice, dice_count(c, a, cat)?)?;
             let p = fighter(c, combatant_id)?;
             let m = move_entry(cat, move_name)?;
-            let net = (action_success(&mut next, combatant_id, &dice, base)
-                + m["Attributes"]["AccuracyReduction"]
+            let low = items::reduce_low_accuracy(
+                c,
+                combatant_id,
+                m["Attributes"]["AccuracyReduction"]
                     .as_i64()
                     .unwrap_or(0)
-                    .min(0) as i32)
-                .max(0)
+                    .min(0) as i32,
+            );
+            let net = (action_success(&mut next, combatant_id, &dice, base) + low).max(0)
                 + i32::from(p.runtime.fate_pending);
             let required = p.actions + 1;
             let pp = fighter_mut(&mut next, combatant_id)?;
@@ -1551,7 +1620,11 @@ fn transition_inner(
                     || ["Phantom Force", "Shadow Force"].contains(&move_name.as_str()),
             );
             let targets = tactics::redirect_move(c, combatant_id, targets, &m, cat)?;
-            if reviewed::enabled(c) && !events::enabled(c) && targets.len() > 1 {
+            if reviewed::enabled(c)
+                && !events::enabled(c)
+                && !items::enabled(c)
+                && targets.len() > 1
+            {
                 let mut penalties = targets
                     .iter()
                     .map(|id| fighter(c, id).map(|t| reviewed::accuracy_penalty(c, p, t, 0)))
@@ -1606,7 +1679,7 @@ fn transition_inner(
                 net
             };
             let mut target_outcomes = BTreeMap::new();
-            if events::enabled(c) && targets.len() > 1 {
+            if (events::enabled(c) || items::enabled(c)) && targets.len() > 1 {
                 for id in &targets {
                     let low =
                         reviewed::accuracy_penalty(c, p, special::registered(c, id)?, common_low);
@@ -1715,6 +1788,7 @@ fn transition_inner(
             }
             provenance::tag_actions(c, &mut next, cat)?;
             special::after_accuracy(&mut next, combatant_id, &m, net >= required as i32, cat)?;
+            items::commit_item_move(c, &mut next, combatant_id, move_name, c.revision + 1, cat)?;
             format!("{move_name}: host dice {dice:?}, {net} successes, requires {required}. {r}")
         }
         Action::React {
@@ -1770,6 +1844,16 @@ fn transition_inner(
             }
             responded(&mut next);
             break_cover(&mut next, combatant_id);
+            if kind == "clash" {
+                items::commit_item_move(
+                    c,
+                    &mut next,
+                    combatant_id,
+                    move_name,
+                    incoming.sequence,
+                    cat,
+                )?;
+            }
             if kind == "evade" || kind == "clash" {
                 if kind == "clash" {
                     fighter_mut(&mut next, combatant_id)?
@@ -1783,13 +1867,18 @@ fn transition_inner(
                             && move_entry(cat, &incoming.move_name)?["Target"] == "Area",
                     );
                     if kind == "clash" {
-                        let attack = move_entry(cat, &incoming.move_name)?;
-                        let defend = move_entry(cat, move_name)?;
+                        let attack = field::move_data(
+                            c,
+                            fighter(c, &incoming.actor_id)?,
+                            &move_entry(cat, &incoming.move_name)?,
+                        );
+                        let defend = field::move_data(c, p, &move_entry(cat, move_name)?);
                         let mut to_def = clash_damage(
                             c,
                             &incoming.actor_id,
                             &incoming.target_id,
                             attack["Type"].as_str().unwrap_or(""),
+                            incoming.sequence,
                             cat,
                         )?;
                         let mut to_att = clash_damage(
@@ -1797,6 +1886,7 @@ fn transition_inner(
                             &incoming.target_id,
                             &incoming.actor_id,
                             defend["Type"].as_str().unwrap_or(""),
+                            incoming.sequence,
                             cat,
                         )?;
                         if abilities::enabled(c) {
@@ -1940,6 +2030,20 @@ fn transition_inner(
             }
             provenance::tag_actions(c, &mut next, cat)?;
             special::after_reaction(&mut next, combatant_id, kind, cat)?;
+            if kind != "evade" {
+                items::commit_item_move(
+                    c,
+                    &mut next,
+                    combatant_id,
+                    move_name,
+                    if kind == "clash" {
+                        incoming.sequence
+                    } else {
+                        c.revision + 1
+                    },
+                    cat,
+                )?;
+            }
             format!(
                 "{kind} {move_name}: {dice:?}, {net} successes against {}. {r}",
                 incoming.successes
@@ -1966,12 +2070,22 @@ fn transition_inner(
         } => {
             owner(c, actor, combatant_id)?;
             let mut damage_campaign = c.clone();
-            if abilities::enabled(c)
+            items::capture_damage(&mut damage_campaign, current(c)?, cat)?;
+            items::capture_damage(&mut next, current(c)?, cat)?;
+            if (abilities::enabled(c) || items::enabled(c))
                 && !current(c)?.targets.is_empty()
                 && current(c)?.damage_context.is_none()
             {
                 let p = fighter(c, combatant_id)?;
                 let context = abilities::DamageContext {
+                    expert_belt: items::expert_belt(c, &p.id),
+                    item_damage_bonus: items::damage_dice_bonus(
+                        c,
+                        p,
+                        *sequence,
+                        &field::move_data(c, p, &move_entry(cat, &current(c)?.move_name)?),
+                        cat,
+                    )?,
                     base_stats: rules::base_sheet(c, p)?.stats,
                     special_bonus: if special::enabled(c) {
                         battle(c)?
@@ -2081,7 +2195,9 @@ fn transition_inner(
                     pending.damage_done = true;
                     pending.damage = amount;
                     pending.raw_damage_successes = raw as u32;
-                    if !["Submission", "Hyper Beam"].contains(&q.move_name.as_str()) {
+                    if !["Submission", "Hyper Beam"].contains(&q.move_name.as_str())
+                        && items::recoil_dice(&next, flow(&next)?.queue.first().unwrap(), cat)? == 0
+                    {
                         finish(&mut next)
                     }
                     sync_labels(&mut next);
@@ -2270,7 +2386,7 @@ fn transition_inner(
             } else {
                 before - after
             };
-            let immune = rules::damage_pool(
+            let item_pool = rules::damage_pool(
                 &temp,
                 &q.actor_id,
                 q.sequence,
@@ -2280,10 +2396,19 @@ fn transition_inner(
                     0
                 },
                 cat,
-            )?
-            .immune;
+            )?;
+            let immune = item_pool.immune;
+            let item_damage = items::extra_damage(
+                c,
+                &q.actor_id,
+                &q.target_id,
+                q.sequence,
+                (item_pool.effectiveness, immune),
+                cat,
+            )?;
             let stakeout = provenance::stakeout_bonus(c, &q, immune);
-            let mut damage = (raw_amount + stakeout - shield - thick_fat - field_reduction).max(0);
+            let mut damage =
+                (raw_amount + stakeout + item_damage - shield - thick_fat - field_reduction).max(0);
             provenance::consume_stakeout(&mut done, &q, immune);
             if field::enabled(c) {
                 let Action::Damage { pool_modifier, .. } = a else {
@@ -2331,12 +2456,14 @@ fn transition_inner(
                 &field::move_data(c, fighter(c, &q.actor_id)?, &move_data),
             );
             next = done;
-            if (provenance::enabled(c)
-                && q.sheer_force
-                && !provenance::retained_attributes(&q, cat)?)
-                || no_effect(&q.move_name, cat)?
-                || ((!special::enabled(c) && (shield > 0 || holding_back(c, &q)))
-                    && !(["Submission", "Hyper Beam"].contains(&q.move_name.as_str())))
+            if items::recoil_dice(&next, flow(&next)?.queue.first().unwrap(), cat)? == 0
+                && items::chance_dice(&next, flow(&next)?.queue.first().unwrap(), cat)? == 0
+                && ((provenance::enabled(c)
+                    && q.sheer_force
+                    && !provenance::retained_attributes(&q, cat)?)
+                    || no_effect(&q.move_name, cat)?
+                    || ((!special::enabled(c) && (shield > 0 || holding_back(c, &q)))
+                        && !(["Submission", "Hyper Beam"].contains(&q.move_name.as_str()))))
             {
                 finish(&mut next);
             }
@@ -2567,6 +2694,7 @@ fn transition_inner(
                 extra::end_round(&mut temp)?;
                 field::end(&mut temp, cat)?;
                 special::end_round(&mut temp)?;
+                items::end_round(&mut temp, cat)?;
             }
             if field::pending(&temp) || abilities::pending(&temp) || special::ticks_pending(&temp) {
                 temp.engine = c.engine.clone();
@@ -2655,23 +2783,35 @@ fn transition_inner(
             ) {
                 let b = done.battle.as_mut().unwrap();
                 b.flow = Some(TurnFlow {
-                    events: events::EventState {
+                    items: items::ItemState {
                         enabled: c.engine == ENGINE,
                         ..Default::default()
                     },
-                    provenance_rules: [ENGINE, PROVENANCE_ENGINE].contains(&c.engine.as_str()),
+                    events: events::EventState {
+                        enabled: [ENGINE, EVENT_ENGINE].contains(&c.engine.as_str()),
+                        ..Default::default()
+                    },
+                    provenance_rules: [ENGINE, EVENT_ENGINE, PROVENANCE_ENGINE]
+                        .contains(&c.engine.as_str()),
                     sequencing: sequencing::SequencingState {
-                        enabled: [ENGINE, PROVENANCE_ENGINE, SEQUENCING_ENGINE]
+                        enabled: [ENGINE, EVENT_ENGINE, PROVENANCE_ENGINE, SEQUENCING_ENGINE]
                             .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     stat_channels: stat_channels::StatChannels {
-                        enabled: [ENGINE, PROVENANCE_ENGINE, SEQUENCING_ENGINE, STAT_ENGINE]
-                            .contains(&c.engine.as_str()),
+                        enabled: [
+                            ENGINE,
+                            EVENT_ENGINE,
+                            PROVENANCE_ENGINE,
+                            SEQUENCING_ENGINE,
+                            STAT_ENGINE,
+                        ]
+                        .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     reviewed_rules: [
                         ENGINE,
+                        EVENT_ENGINE,
                         PROVENANCE_ENGINE,
                         SEQUENCING_ENGINE,
                         STAT_ENGINE,
@@ -2681,6 +2821,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            EVENT_ENGINE,
                             PROVENANCE_ENGINE,
                             SEQUENCING_ENGINE,
                             STAT_ENGINE,
@@ -2693,6 +2834,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            EVENT_ENGINE,
                             PROVENANCE_ENGINE,
                             SEQUENCING_ENGINE,
                             STAT_ENGINE,
@@ -2706,6 +2848,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            EVENT_ENGINE,
                             PROVENANCE_ENGINE,
                             SEQUENCING_ENGINE,
                             STAT_ENGINE,
@@ -2720,6 +2863,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            EVENT_ENGINE,
                             PROVENANCE_ENGINE,
                             SEQUENCING_ENGINE,
                             STAT_ENGINE,
@@ -2735,6 +2879,7 @@ fn transition_inner(
                     special: special::SpecialState {
                         enabled: [
                             ENGINE,
+                            EVENT_ENGINE,
                             PROVENANCE_ENGINE,
                             SEQUENCING_ENGINE,
                             STAT_ENGINE,
@@ -2750,6 +2895,7 @@ fn transition_inner(
                     },
                     ability_rules: [
                         ENGINE,
+                        EVENT_ENGINE,
                         PROVENANCE_ENGINE,
                         SEQUENCING_ENGINE,
                         STAT_ENGINE,
@@ -2767,6 +2913,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            EVENT_ENGINE,
                             PROVENANCE_ENGINE,
                             SEQUENCING_ENGINE,
                             STAT_ENGINE,
@@ -2784,6 +2931,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            EVENT_ENGINE,
                             PROVENANCE_ENGINE,
                             SEQUENCING_ENGINE,
                             STAT_ENGINE,
@@ -2957,6 +3105,7 @@ fn clash_damage(
     source: &str,
     id: &str,
     move_type: &str,
+    sequence: u32,
     cat: &Catalog,
 ) -> Result<i32> {
     let p = fighter(c, id)?;
@@ -2966,7 +3115,7 @@ fn clash_damage(
     } else {
         move_type
     };
-    if reviewed::enabled(c) {
+    if reviewed::enabled(c) || items::enabled(c) {
         let a = fighter(c, source)?;
         let (effect, immune) = rules::type_matchup(c, a, p, move_type, cat)?;
         reviewed::unique_damage_guard(c, a, p, effect)?;
@@ -2991,6 +3140,7 @@ fn clash_damage(
     {
         damage = damage.min(1);
     }
+    damage += items::extra_damage(c, source, id, sequence, (damage - 1, false), cat)?;
     Ok(damage.max(0))
 }
 
@@ -3229,7 +3379,16 @@ fn chance_effect(name: &str) -> Option<(&str, u32)> {
         _ => None,
     }
 }
-fn effect_dice(c: &Campaign, q: &QueuedAction, _cat: &Catalog) -> Result<u32> {
+fn effect_dice(c: &Campaign, q: &QueuedAction, cat: &Catalog) -> Result<u32> {
+    let chance = items::chance_dice(c, q, cat)?;
+    base_effect_dice(c, q, cat)?
+        .saturating_sub(items::native_item_flinch_dice(c, q, cat)?)
+        .checked_add(items::recoil_dice(c, q, cat)?)
+        .and_then(|n| n.checked_add(chance))
+        .filter(|n| *n <= 100)
+        .ok_or_else(|| error("Effect pool outside 0-100 dice"))
+}
+fn base_effect_dice(c: &Campaign, q: &QueuedAction, _cat: &Catalog) -> Result<u32> {
     if provenance::enabled(c) && q.sheer_force && !provenance::retained_attributes(q, _cat)? {
         return Ok(0);
     }
@@ -3295,7 +3454,39 @@ fn effects(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) -> Re
     effects_inner(c, q, dice, cat)
 }
 fn effects_inner(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) -> Result<()> {
+    let recoil = items::recoil_dice(c, q, cat)? as usize;
+    let chance = items::chance_dice(c, q, cat)? as usize;
+    if recoil > 0 || chance > 0 {
+        if recoil > 0 {
+            items::apply_recoil(c, q, &dice[..recoil], cat)?;
+        }
+        if chance > 0 {
+            items::apply_chance(c, q, &dice[recoil..recoil + chance], cat)?;
+        }
+        let m = move_entry(cat, &q.move_name)?;
+        if no_effect(&q.move_name, cat)?
+            || special::formula_name(&q.move_name)
+            || (q.ice && m["Attributes"]["MustRecharge"] != true)
+        {
+            return Ok(());
+        }
+        return effects_inner_base(c, q, &dice[recoil + chance..], cat);
+    }
+    effects_inner_base(c, q, dice, cat)
+}
+fn effects_inner_base(
+    c: &mut Campaign,
+    q: &QueuedAction,
+    dice: &[u8],
+    cat: &Catalog,
+) -> Result<()> {
     if provenance::enabled(c) && q.sheer_force && !provenance::retained_attributes(q, cat)? {
+        return Ok(());
+    }
+    if items::recycle_effect(c, q, cat)? {
+        return Ok(());
+    }
+    if items::resolved_effects(c, q) {
         return Ok(());
     }
     if tactics::move_effect(c, q, cat)? {

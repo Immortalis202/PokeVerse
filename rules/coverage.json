@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.17.0-core",
-  "release": "0.24.0",
-  "protocol": 25,
+  "engine": "0.18.0-core",
+  "release": "0.25.0",
+  "protocol": 26,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -406,7 +406,7 @@
       "scope": "Host-rolled contact Flinch, non-stacking entry Will expenditure, frozen per-target accuracy/critical outcomes and Electric Support charge consumption. Narrative encounter effects are excluded; historical encounters retain prior rules."
     }
   ],
-  "ability_registry_hash": "f46ec4637e4f8ec73aeeec53756d4f2ee3c43aa55603f313e9efa0aa3c3dbade",
+  "ability_registry_hash": "43405acc74b0d88f32649f95a9bdc697d21c16285de61c8f1df42d8059e588f5",
   "special_registry_hash": "ef7d506fc98bed2d88c4c6d92fc0875de33c220fc01635894dbb60b53e9852fa",
   "tactics_registry_hash": "99b66de76eab04726a6a35dabdc8d8626e4816eb1bb0089dae7d1c8006179a14"
 }

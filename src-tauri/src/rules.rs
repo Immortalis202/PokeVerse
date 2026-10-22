@@ -171,6 +171,7 @@ pub fn accuracy(
     };
     let pool = first
         .checked_add(crate::combat::extra::accuracy_bonus(c, p, &m))
+        .and_then(|v| v.checked_add(crate::combat::items::accuracy_bonus(c, key)))
         .and_then(|v| {
             v.checked_add(
                 if crate::combat::special::enabled(c)
@@ -199,6 +200,7 @@ pub fn accuracy(
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
     if [
         ENGINE,
+        EVENT_ENGINE,
         PROVENANCE_ENGINE,
         SEQUENCING_ENGINE,
         STAT_ENGINE,
@@ -320,7 +322,8 @@ pub fn damage_pool(
         .find("moves", "Name", &hit.move_name)
         .ok_or_else(|| AppError::new("missing", "Unknown move"))?;
     let m = crate::combat::field::move_data(c, attacker, &m);
-    if let Some(pool) = crate::combat::special::formula(c, attacker, target, &m, modifier, catalog)?
+    if let Some(pool) =
+        crate::combat::special::formula(c, attacker, target, &m, sequence, modifier, catalog)?
     {
         return Ok(pool);
     }
@@ -467,6 +470,11 @@ pub fn damage_pool(
     };
     let pool = (attribute + power - defense).max(1)
         + crate::combat::provenance::sheer_force_bonus(c, key, sequence)
+        + crate::combat::items::damage_bonus(c, key, sequence)
+        + match context {
+            Some(ctx) => ctx.item_damage_bonus,
+            None => crate::combat::items::damage_dice_bonus(c, attacker, sequence, &m, catalog)?,
+        }
         + stab
         + critical
         + modifier
@@ -603,7 +611,8 @@ pub fn type_matchup(
             && !(move_type == "Ground"
                 && t == "Flying"
                 && (crate::combat::field::has(c, "Gravity", target)
-                    || crate::combat::special::roost(c, &target.id)));
+                    || crate::combat::special::roost(c, &target.id)
+                    || crate::combat::items::iron_ball(c, &target.id)));
         if effect == -1 && ignore_resistance {
             ignore_resistance = false;
         } else if effect != -100 {

@@ -2,7 +2,8 @@ use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 use ts_rs::TS;
 
-pub const ENGINE: &str = "0.17.0-core";
+pub const ENGINE: &str = "0.18.0-core";
+pub const EVENT_ENGINE: &str = "0.17.0-core";
 pub const PROVENANCE_ENGINE: &str = "0.16.0-core";
 pub const SEQUENCING_ENGINE: &str = "0.15.0-core";
 pub const STAT_ENGINE: &str = "0.14.0-core";
@@ -21,6 +22,7 @@ pub const PREVIOUS_ENGINE: &str = "0.2.0-core";
 pub fn core_engine(engine: &str) -> bool {
     [
         ENGINE,
+        EVENT_ENGINE,
         PROVENANCE_ENGINE,
         SEQUENCING_ENGINE,
         STAT_ENGINE,
@@ -40,7 +42,7 @@ pub fn core_engine(engine: &str) -> bool {
     .contains(&engine)
 }
 pub const LEGACY_ENGINE: &str = "0.1.0-manual";
-pub const PROTOCOL: u32 = 25;
+pub const PROTOCOL: u32 = 26;
 pub fn enabled() -> bool {
     true
 }
@@ -102,6 +104,12 @@ pub struct Sheet {
     pub max_hp: i32,
     pub xp: i32,
     pub inventory: BTreeMap<String, i32>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub held_items: Option<Vec<crate::combat::items::HeldItem>>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub stored_items: Option<Vec<crate::combat::items::HeldItem>>,
     pub notes: String,
     pub archived: bool,
     pub squad_order: i32,
@@ -294,6 +302,8 @@ pub struct Battle {
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct BattleResources {
     #[serde(default)]
+    pub equipment: Option<crate::combat::items::EquipmentResources>,
+    #[serde(default)]
     pub will: Option<i32>,
     pub hp: i32,
     pub conditions: Vec<String>,
@@ -390,6 +400,10 @@ pub struct SyncSheet {
 #[serde(tag = "type", rename_all = "snake_case")]
 #[ts(export, export_to = "../../src/bindings/")]
 pub enum Action {
+    HeldItem {
+        command: crate::combat::items::ItemCommand,
+        reason: String,
+    },
     AdjustWill {
         combatant_id: String,
         will: i32,

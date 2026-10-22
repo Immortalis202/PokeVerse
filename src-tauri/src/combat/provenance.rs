@@ -75,15 +75,27 @@ pub fn tag_actions(before: &Campaign, after: &mut Campaign, cat: &Catalog) -> Re
         })
         .map(|p| p.id.clone())
         .collect();
+    let mut item_input = None;
     if let Some(f) = after.battle.as_mut().and_then(|b| b.flow.as_mut()) {
         for q in &mut f.queue {
             if !existing.contains(&(q.actor_id.clone(), q.sequence, q.move_name.clone())) {
-                let m = move_entry(cat, &q.move_name)?;
+                let raw = move_entry(cat, &q.move_name)?;
+                let m = if items::enabled(before) {
+                    // Eligibility must use this action's target/category, including
+                    // Bide preparation and friendly/healing variants of attacks.
+                    let input = item_input.get_or_insert_with(|| before.clone());
+                    flow_mut(input).queue = vec![q.clone()];
+                    field::move_data(input, fighter(input, &q.actor_id)?, &raw)
+                } else {
+                    raw
+                };
                 q.sheer_force = selected.contains(&q.actor_id)
+                    && !(items::enabled(before) && special::fixed(&q.move_name))
                     && ["Physical", "Special"].contains(&m["Category"].as_str().unwrap_or(""))
-                    && m["AddedEffects"]
+                    && (m["AddedEffects"]
                         .as_object()
-                        .is_some_and(|effects| !effects.is_empty());
+                        .is_some_and(|effects| !effects.is_empty())
+                        || items::chance_base(before, fighter(before, &q.actor_id)?, &m) > 0);
             }
         }
     }

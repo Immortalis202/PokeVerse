@@ -24,6 +24,10 @@ pub fn enabled(c: &Campaign) -> bool {
 }
 fn subject(a: &Action) -> Option<&str> {
     match a {
+        Action::HeldItem {
+            command: items::ItemCommand::Retrieve { combatant_id, .. },
+            ..
+        } => Some(combatant_id),
         Action::Accuracy { combatant_id, .. }
         | Action::AccuracyTargets { combatant_id, .. }
         | Action::React { combatant_id, .. }
@@ -267,7 +271,8 @@ pub fn transition(
             | Action::BreakIce { reason: r, .. }
             | Action::StatusCheck { reason: r, .. }
             | Action::SpecialMove { reason: r, .. }
-            | Action::Tactics { reason: r, .. } => reason(r)?,
+            | Action::Tactics { reason: r, .. }
+            | Action::HeldItem { reason: r, .. } => reason(r)?,
             _ => {}
         }
         note = Some(format!(

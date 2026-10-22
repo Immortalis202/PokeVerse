@@ -10,6 +10,7 @@ pub fn transition(
 ) -> Result<(Campaign, String)> {
     if [
         ENGINE,
+        EVENT_ENGINE,
         PROVENANCE_ENGINE,
         SEQUENCING_ENGINE,
         STAT_ENGINE,
@@ -47,6 +48,7 @@ pub fn transition(
         | Action::BattleStat { .. }
         | Action::Battlefield { .. }
         | Action::ResolveAbility { .. }
+        | Action::HeldItem { .. }
         | Action::ChooseSheerForce { .. }
         | Action::InflictStatus { .. }
         | Action::AccuracyTargets { .. }
@@ -322,6 +324,20 @@ pub fn transition(
                         .checked_add(1)
                         .ok_or_else(|| AppError::new("limit", "Sheet revision exhausted"))?;
                 }
+                if let Some(equipment) = resource.equipment {
+                    if s.held_items != equipment.held_items
+                        || s.stored_items != equipment.stored_items
+                        || s.inventory != equipment.inventory
+                    {
+                        s.held_items = equipment.held_items;
+                        s.stored_items = equipment.stored_items;
+                        s.inventory = equipment.inventory;
+                        s.revision = s
+                            .revision
+                            .checked_add(1)
+                            .ok_or_else(|| AppError::new("limit", "Sheet revision exhausted"))?;
+                    }
+                }
             }
             format!(
                 "GM rolled back battle step #{} ({}): {reason}. Original events and dice retained",
@@ -352,6 +368,7 @@ pub fn transition(
             }
             if ![
                 ENGINE,
+                EVENT_ENGINE,
                 PROVENANCE_ENGINE,
                 SEQUENCING_ENGINE,
                 STAT_ENGINE,
@@ -412,11 +429,16 @@ pub fn transition(
                 } else {
                     0
                 };
-            let total = base + i32::from(dice[0]);
+            let item_bonus = crate::combat::items::initiative_bonus(&c, combatant_id);
+            let total = base + i32::from(dice[0]) + item_bonus;
             let p_mut = combatant(active(&mut c)?, combatant_id)?;
             p_mut.initiative = total;
             p_mut.initiative_rolled = true;
-            format!("{} initiative: Dexterity + Alert ({base}) + {} = {total}; ties use base score, then GM reroll", p.name, dice[0])
+            if item_bonus == 0 {
+                format!("{} initiative: Dexterity + Alert ({base}) + {} = {total}; ties use base score, then GM reroll", p.name, dice[0])
+            } else {
+                format!("{} initiative: Dexterity + Alert ({base}) + {} + held-item bonus {item_bonus} = {total}; ties use base score, then GM reroll", p.name, dice[0])
+            }
         }
         Action::Accuracy {
             combatant_id,
@@ -1027,14 +1049,15 @@ pub fn transition(
         Action::RollbackBattle { .. } | Action::AssignGm { .. }
     ) {
         if let Some(b) = current.battle.as_ref().filter(|b| b.active) {
-            let resources = b
-                .combatants
-                .iter()
-                .filter_map(|p| {
-                    current.sheets.get(&p.sheet_id).map(|s| {
+            let resources = crate::combat::items::resource_sheets(current, &c)
+                .into_iter()
+                .filter_map(|sheet_id| {
+                    current.sheets.get(&sheet_id).map(|s| {
                         (
                             s.id.clone(),
                             BattleResources {
+                                equipment: crate::combat::items::enabled(current)
+                                    .then(|| crate::combat::items::EquipmentResources::snapshot(s)),
                                 will: s.workflow.as_ref().map(|w| w.will),
                                 hp: s.hp,
                                 conditions: s.conditions.clone(),

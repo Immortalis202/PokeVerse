@@ -327,7 +327,11 @@ fn events_new_battles_enable_rules_and_preserve_provenance_engine_behavior() {
     let (c, a, t) = setup("Tackle", "", "");
     let sheets = vec![p(&c, &a).sheet_id.clone(), p(&c, &t).sheet_id.clone()];
     let ended = decision(&c, "gm", Action::EndBattle);
-    for (engine, expected) in [(ENGINE, true), (PROVENANCE_ENGINE, false)] {
+    for (engine, expected) in [
+        (ENGINE, true),
+        (EVENT_ENGINE, true),
+        (PROVENANCE_ENGINE, false),
+    ] {
         let mut c = ended.clone();
         c.engine = engine.into();
         let c = decision(

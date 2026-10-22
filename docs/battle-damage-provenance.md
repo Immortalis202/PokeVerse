@@ -26,6 +26,8 @@ Eligibility currently uses the supplied card's nonempty `AddedEffects` object an
 
 The focused tests cover ownership, no action cost, optionality, two extra ordinary damage dice, suppression of Ember's burn, rejection of mid-action changes, no bonus on Tackle, shared targets after source identity changes, successive Twineedle hits, both charge-choice directions through Bounce release, and retaining Volt Tackle recoil while suppressing its paralysis chance. The room fixture covers separate host/GM/owner roles, duplicate and stale submissions, reconnect, SQLite persistence and rollback of the choice.
 
+The staged held-item engine additionally recognizes matching King's Rock (Special) and Razor Fang (Physical) chance effects when tagging Sheer Force eligibility. Item-only and combined move/item added effects award the same two extra dice once; traded Flinch effects do not roll. Historical item-disabled battles retain card-only eligibility. The item engine also preserves Life Orb/native Recoil separately from traded move added effects. These held-item rules remain disabled in ordinary new encounters until their milestone is released; see [held-item integration](battle-held-items.md).
+
 ## Remaining integration
 
 Held-item added effects belong to the following held-item milestone. Remaining event/accuracy definitions, including target-specific Tangled Feet penalties, remain in the roadmap before that milestone. Existing contradictory/unspecified printed rules remain explicit GM decisions.

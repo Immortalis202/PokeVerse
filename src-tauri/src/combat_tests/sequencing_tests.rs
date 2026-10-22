@@ -28,7 +28,7 @@ fn learn(c: &mut Campaign, id: &str, name: &str) {
     let sid = p(c, id).sheet_id.clone();
     c.sheets.get_mut(&sid).unwrap().moves.push(name.into());
 }
-fn loyal(c: &mut Campaign, id: &str, n: i32) {
+pub(super) fn loyal(c: &mut Campaign, id: &str, n: i32) {
     let sid = p(c, id).sheet_id.clone();
     c.sheets.get_mut(&sid).unwrap().workflow = Some(CharacterBuild {
         version: 1,

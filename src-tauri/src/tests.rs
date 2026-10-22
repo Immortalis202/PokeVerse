@@ -32,6 +32,8 @@ fn trainer(owner: &str) -> Sheet {
         max_hp: 10,
         xp: 10,
         inventory: BTreeMap::new(),
+        held_items: None,
+        stored_items: None,
         notes: "".into(),
         archived: false,
         squad_order: 0,

@@ -171,11 +171,11 @@ test("ability inventory exposes reviewed scopes and preserves manual boundaries"
   assert.equal(inventory.entries.length, 305);
   assert.equal(
     inventory.entries.filter((e) => e.status !== "manual").length,
-    261,
+    275,
   );
   assert.equal(
     Object.values(registry.entries).filter((e) => e.status !== "manual").length,
-    261,
+    275,
   );
   assert.equal(
     inventory.entries.find((e) => e.name === "Static").status,
@@ -193,7 +193,7 @@ test("ability inventory exposes reviewed scopes and preserves manual boundaries"
     assert.equal(registry.entries[name].status, "automated");
     assert.equal(registry.entries[name].introduced_engine, "0.16.0-core");
   }
-  assert.equal(registry.entries["Sheer Force"].status, "partial");
+  assert.equal(registry.entries["Sheer Force"].status, "automated");
   for (const name of [
     "Stench",
     "Pressure",
@@ -204,9 +204,17 @@ test("ability inventory exposes reviewed scopes and preserves manual boundaries"
     assert.equal(registry.entries[name].status, "automated");
     assert.equal(registry.entries[name].introduced_engine, "0.17.0-core");
   }
-  assert.deepEqual(registry.entries["Sheer Force"].dependencies, [
-    "held-item-system",
-  ]);
+  assert.deepEqual(registry.entries["Sheer Force"].dependencies, []);
+  for (const name of [
+    "Ball Fetch",
+    "Frisk",
+    "Cud Chew",
+    "Ripen",
+    "Symbiosis",
+  ]) {
+    assert.equal(registry.entries[name].status, "automated");
+    assert.equal(registry.entries[name].introduced_engine, "0.18.0-core");
+  }
   for (const entry of inventory.entries) {
     if (entry.status === "manual")
       assert.ok(entry.dependencies.length, entry.name);

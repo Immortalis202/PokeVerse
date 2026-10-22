@@ -279,6 +279,8 @@ pub fn capture_preview(
         max_hp: 1,
         xp: 0,
         inventory: BTreeMap::new(),
+        held_items: None,
+        stored_items: None,
         notes: format!(
             "Training encounter {} in {}. Capture confirmed by GM; victory assumed.",
             e.id, e.habitat_id

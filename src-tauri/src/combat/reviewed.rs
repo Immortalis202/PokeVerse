@@ -62,18 +62,20 @@ pub fn syrup(c: &Campaign, a: &Combatant, t: &Combatant) -> bool {
     ids.contains(&t.id.as_str())
 }
 pub fn accuracy_penalty(c: &Campaign, a: &Combatant, t: &Combatant, penalty: i32) -> i32 {
-    if !enabled(c) {
-        return penalty;
-    }
-    if a.selected_ability == "Keen Eye" {
+    if enabled(c) && a.selected_ability == "Keen Eye" {
         return 0;
     }
-    penalty
-        - if t.side != a.side && t.selected_ability == "Tangled Feet" && status(t, "Confusion") {
+    let penalty = penalty
+        - if enabled(c)
+            && t.side != a.side
+            && t.selected_ability == "Tangled Feet"
+            && status(t, "Confusion")
+        {
             2
         } else {
             0
-        }
+        };
+    items::accuracy_penalty(c, a, t, penalty)
 }
 pub fn move_data(c: &Campaign, p: &Combatant, m: &mut serde_json::Value) {
     if !enabled(c) {

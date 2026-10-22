@@ -461,6 +461,7 @@ pub fn live_types(c: &Campaign, p: &Combatant, cat: &Catalog) -> Result<Vec<Stri
 }
 pub fn grounded(c: &Campaign, p: &Combatant, cat: &Catalog) -> bool {
     has(c, "Gravity", p)
+        || items::iron_ball(c, &p.id)
         || (!types(c, p, cat)
             .unwrap_or_default()
             .iter()
@@ -520,12 +521,13 @@ pub fn stats(c: &Campaign, p: &Combatant, s: &mut Sheet) {
         }
     }
     if has(c, "mud", p)
-        && p.selected_ability != "Levitate"
-        && !state(c)
-            .unwrap()
-            .species_types
-            .get(&p.id)
-            .is_some_and(|ts| ts.iter().any(|t| t == "Flying"))
+        && (items::iron_ball(c, &p.id)
+            || (p.selected_ability != "Levitate"
+                && !state(c)
+                    .unwrap()
+                    .species_types
+                    .get(&p.id)
+                    .is_some_and(|ts| ts.iter().any(|t| t == "Flying"))))
     {
         let v = s.stats.entry("Dexterity".into()).or_default();
         *v = (*v - 1).max(1);
@@ -1042,7 +1044,8 @@ pub fn start(c: &mut Campaign, cat: &Catalog) -> Result<()> {
             Some(Weather::Desolate) if !ts.contains(&"Fire".into()) => Some(("Vitality", "Fire")),
             Some(Weather::Typhoon) if !ts.contains(&"Water".into()) => Some(("Vitality", "Water")),
             Some(Weather::StrongWinds)
-                if !ts.contains(&"Flying".into()) && p.selected_ability != "Levitate" =>
+                if items::iron_ball(c, &p.id)
+                    || (!ts.contains(&"Flying".into()) && p.selected_ability != "Levitate") =>
             {
                 Some(("Dexterity", "Neutral"))
             }
@@ -1683,6 +1686,7 @@ fn apply_terrain(c: &mut Campaign, t: &TerrainSource) {
 /// Resolve context-sensitive catalog fields before every accuracy/damage calculation.
 pub fn move_data(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> serde_json::Value {
     let mut m = m.clone();
+    items::move_data(c, p, &mut m);
     if !enabled(c) {
         return m;
     }

@@ -197,6 +197,9 @@ pub fn attribute_channel(c: &Campaign, p: &Combatant, key: &str) -> (i32, i32) {
 }
 pub fn apply_stats(c: &Campaign, p: &Combatant, s: &mut Sheet) {
     let mut modifiers = p.runtime.modifiers.clone();
+    if items::stat_reduction(c, p, "Dexterity") != 0 {
+        modifiers.entry("Dexterity".into()).or_insert(0);
+    }
     if stat_channels::enabled(c) {
         for key in stat_channels::KEYS {
             if !stat_channels::move_values(c, p, key).is_empty() {

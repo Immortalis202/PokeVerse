@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "engine": "0.17.0-core",
+  "engine": "0.18.0-core",
   "default_status": "manual",
   "entries": {
     "Adaptability": {
@@ -107,12 +107,11 @@
       "introduced_engine": "0.7.0-core"
     },
     "Ball Fetch": {
-      "status": "manual",
-      "scope": "Requires noncombat item gathering or daily recovery; no video-game battle substitute is applied.",
+      "status": "automated",
+      "scope": "GM records an owned failed wild-capture throw during battle; the same protected ball returns to its trainer at round end. Capture rolls remain separately adjudicated.",
       "page": 538,
-      "dependencies": [
-        "outside-battle-activities"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.18.0-core"
     },
     "Battery": {
       "status": "automated",
@@ -171,12 +170,11 @@
       "introduced_engine": "0.7.0-core"
     },
     "Cheek Pouch": {
-      "status": "manual",
-      "scope": "Requires held-item ownership, consumption, transfer or activation hooks.",
+      "status": "automated",
+      "scope": "Eating a reviewed non-healing berry restores two HP, respecting the shared round healing cap and healing restrictions.",
       "page": 539,
-      "dependencies": [
-        "held-item-system"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.18.0-core"
     },
     "Chilling Neigh": {
       "status": "automated",
@@ -281,12 +279,11 @@
       "introduced_engine": "0.13.0-core"
     },
     "Cud Chew": {
-      "status": "manual",
-      "scope": "Requires held-item ownership, consumption, transfer or activation hooks.",
+      "status": "automated",
+      "scope": "Held, recycled and Fling-hit berries queue one private owner-controlled second activation; Recycle stacks charges without duplicating units.",
       "page": 541,
-      "dependencies": [
-        "held-item-system"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.18.0-core"
     },
     "Curious Medicine": {
       "status": "automated",
@@ -546,12 +543,11 @@
       "introduced_engine": "0.7.0-core"
     },
     "Frisk": {
-      "status": "manual",
-      "scope": "Requires held-item ownership, consumption, transfer or activation hooks.",
+      "status": "automated",
+      "scope": "Entry reveals a GM-selected foe held item privately to the trainer and GM; re-entry, rollback and transport preserve recipient privacy.",
       "page": 546,
-      "dependencies": [
-        "held-item-system"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.18.0-core"
     },
     "Full Metal Body": {
       "status": "partial",
@@ -586,12 +582,13 @@
       "introduced_engine": "0.7.0-core"
     },
     "Gluttony": {
-      "status": "manual",
-      "scope": "Requires held-item ownership, consumption, transfer or activation hooks.",
+      "status": "partial",
+      "scope": "May hold three berries with different reviewed effects. Adverse food and herbal medicine ingestion remains GM-managed until those definitions exist.",
       "page": 547,
       "dependencies": [
-        "held-item-system"
-      ]
+        "adverse-ingestion-definitions"
+      ],
+      "introduced_engine": "0.18.0-core"
     },
     "Good As Gold": {
       "status": "automated",
@@ -667,12 +664,11 @@
       "introduced_engine": "0.7.0-core"
     },
     "Harvest": {
-      "status": "manual",
-      "scope": "Requires held-item ownership, consumption, transfer or activation hooks.",
+      "status": "automated",
+      "scope": "A berry used as a held item regrows at battle end using the same tracked unit and ownership/persistence hooks.",
       "page": 548,
-      "dependencies": [
-        "held-item-system"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.18.0-core"
     },
     "Healer": {
       "status": "automated",
@@ -870,12 +866,13 @@
       "introduced_engine": "0.13.0-core"
     },
     "Klutz": {
-      "status": "manual",
-      "scope": "Requires held-item ownership, consumption, transfer or activation hooks.",
+      "status": "partial",
+      "scope": "Suppresses reviewed ordinary held effects. Printed transformation/type exceptions are retained as boundaries for the form milestone; excluded mechanics remain excluded.",
       "page": 552,
       "dependencies": [
-        "held-item-system"
-      ]
+        "form-transformation"
+      ],
+      "introduced_engine": "0.18.0-core"
     },
     "Leaf Guard": {
       "status": "automated",
@@ -961,12 +958,11 @@
       "introduced_engine": "0.5.0-core"
     },
     "Magician": {
-      "status": "manual",
-      "scope": "Requires held-item ownership, consumption, transfer or activation hooks.",
+      "status": "automated",
+      "scope": "After a damaging Physical or Special hit, choose to steal or exchange an eligible foe held item; ownership, Sticky Hold, hit timing and private choices are validated.",
       "page": 554,
-      "dependencies": [
-        "held-item-system"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.18.0-core"
     },
     "Magma Armor": {
       "status": "automated",
@@ -1203,12 +1199,11 @@
       ]
     },
     "Pickpocket": {
-      "status": "manual",
-      "scope": "Requires held-item ownership, consumption, transfer or activation hooks.",
+      "status": "automated",
+      "scope": "An empty-handed user may steal the foe held item after its non-ranged Physical hit, respecting Sticky Hold and hit timing.",
       "page": 559,
-      "dependencies": [
-        "held-item-system"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.18.0-core"
     },
     "Pickup": {
       "status": "manual",
@@ -1448,12 +1443,11 @@
       ]
     },
     "Ripen": {
-      "status": "manual",
-      "scope": "Requires held-item ownership, consumption, transfer or activation hooks.",
+      "status": "automated",
+      "scope": "Natural Gift and berry Fling gain two saved damage dice. Increased berry healing requires an explicit recorded GM amount and respects shared healing limits.",
       "page": 564,
-      "dependencies": [
-        "held-item-system"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.18.0-core"
     },
     "Rivalry": {
       "status": "manual",
@@ -1600,12 +1594,10 @@
       "introduced_engine": "0.7.0-core"
     },
     "Sheer Force": {
-      "status": "partial",
-      "scope": "Owner or GM chooses whether damaging moves trade their structured AddedEffects for two damage dice. Freeze the choice for shared targets, successive hits and charge release; preserve recoil and recharge attributes. Held-item added effects await the item engine.",
+      "status": "automated",
+      "scope": "Owner or GM chooses whether damaging moves trade their structured AddedEffects for two damage dice. Freeze the choice for shared targets, successive hits and charge release; preserve recoil and recharge attributes. Engine 0.18 adds reviewed held-item chance effects to the tradeoff without doubling its bonus; historical encounters retain their saved move-only rules.",
       "page": 567,
-      "dependencies": [
-        "held-item-system"
-      ],
+      "dependencies": [],
       "introduced_engine": "0.16.0-core"
     },
     "Shell Armor": {
@@ -1785,12 +1777,11 @@
       "introduced_engine": "0.17.0-core"
     },
     "Sticky Hold": {
-      "status": "manual",
-      "scope": "Requires held-item ownership, consumption, transfer or activation hooks.",
+      "status": "automated",
+      "scope": "Prevents reviewed involuntary held-item removal and exchange; explicit GM overrides retain their recorded reason.",
       "page": 571,
-      "dependencies": [
-        "held-item-system"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.18.0-core"
     },
     "Storm Drain": {
       "status": "automated",
@@ -1875,12 +1866,11 @@
       "introduced_engine": "0.7.0-core"
     },
     "Symbiosis": {
-      "status": "manual",
-      "scope": "Requires held-item ownership, consumption, transfer or activation hooks.",
+      "status": "automated",
+      "scope": "Queues free owned-item handoffs after ally loss/consumption. Multiple donors and cycles require explicit GM ordering/rulings.",
       "page": 572,
-      "dependencies": [
-        "held-item-system"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.18.0-core"
     },
     "Synchronize": {
       "status": "partial",
@@ -2062,20 +2052,18 @@
       "introduced_engine": "0.16.0-core"
     },
     "Unburden": {
-      "status": "manual",
-      "scope": "Requires held-item ownership, consumption, transfer or activation hooks.",
+      "status": "automated",
+      "scope": "First loss/consumption leaving no held item adds two temporary Dexterity; rollback and encounter persistence preserve the once-only trigger.",
       "page": 576,
-      "dependencies": [
-        "held-item-system"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.18.0-core"
     },
     "Unnerve": {
-      "status": "manual",
-      "scope": "Requires held-item ownership, consumption, transfer or activation hooks.",
+      "status": "automated",
+      "scope": "Active foes cannot consume held or recycled berries; saved second berry activations respect the same suppression.",
       "page": 576,
-      "dependencies": [
-        "held-item-system"
-      ]
+      "dependencies": [],
+      "introduced_engine": "0.18.0-core"
     },
     "Unseen Fist": {
       "status": "partial",

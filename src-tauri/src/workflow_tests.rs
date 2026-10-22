@@ -4,6 +4,8 @@ use std::collections::BTreeMap;
 use std::sync::{Arc, Mutex};
 #[path = "encounter_tests.rs"]
 mod encounter_tests;
+#[path = "held_item_tests.rs"]
+mod held_item_tests;
 #[path = "point_tests.rs"]
 mod point_tests;
 fn catalog() -> Catalog {
@@ -584,6 +586,8 @@ fn sheet(kind: &str) -> Sheet {
         max_hp: 1,
         xp: 0,
         inventory: BTreeMap::new(),
+        held_items: None,
+        stored_items: None,
         notes: String::new(),
         archived: false,
         squad_order: 0,

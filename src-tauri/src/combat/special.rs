@@ -1947,6 +1947,7 @@ pub fn formula(
     a: &Combatant,
     t: &Combatant,
     m: &serde_json::Value,
+    sequence: u32,
     modifier: i32,
     cat: &Catalog,
 ) -> Result<Option<rules::DamagePool>> {
@@ -1967,7 +1968,9 @@ pub fn formula(
             if n == -100 {
                 if !(ty == "Ground"
                     && dt == "Flying"
-                    && (field::has(c, "Gravity", t) || roost(c, &t.id)))
+                    && (field::has(c, "Gravity", t)
+                        || roost(c, &t.id)
+                        || items::iron_ball(c, &t.id)))
                 {
                     immune = true;
                 }
@@ -2041,7 +2044,17 @@ pub fn formula(
         }
         0
     } else {
-        let n = n + modifier;
+        let n = n
+            + modifier
+            + if items::enabled(c) {
+                provenance::sheer_force_bonus(c, &a.id, sequence)
+            } else {
+                0
+            }
+            + match abilities::context(c, &a.id, sequence) {
+                Some(ctx) => ctx.item_damage_bonus,
+                None => items::damage_dice_bonus(c, a, sequence, m, cat)?,
+            };
         if !(0..=100).contains(&n) || (n == 0 && name != "Bide") {
             return Err(error("Varied damage requires 1–100 dice"));
         }
@@ -2112,6 +2125,14 @@ pub fn resolve_formula(
         (base + pool.effectiveness + damage_modifier).max(0)
     };
     amount += provenance::stakeout_bonus(c, q, pool.immune);
+    amount += items::extra_damage(
+        c,
+        &q.actor_id,
+        &q.target_id,
+        q.sequence,
+        (pool.effectiveness, pool.immune),
+        cat,
+    )?;
     provenance::consume_stakeout(c, q, pool.immune);
     if q.move_name == "Endeavor" {
         amount = amount.min((fighter(c, &q.target_id)?.hp - fighter(c, &q.actor_id)?.hp).max(0));
@@ -2172,7 +2193,11 @@ pub fn resolve_formula(
     if q.move_name == "Bide" {
         state_mut(c).bides.remove(&q.actor_id);
     }
-    finish(c);
+    if items::recoil_dice(c, flow(c)?.queue.first().unwrap(), cat)? == 0
+        && items::chance_dice(c, flow(c)?.queue.first().unwrap(), cat)? == 0
+    {
+        finish(c);
+    }
     Ok(format!("{}: {} dice, {amount} final damage; typed immunity/effectiveness {}, explicit formula without STAB/critical bonuses",q.move_name,pool.dice,pool.effectiveness))
 }
 pub fn variable_name(n: &str) -> bool {
@@ -2778,8 +2803,22 @@ pub fn record_modifier(c: &mut Campaign, source: &str, id: &str, key: &str, n: i
         + values.iter().copied().min().unwrap_or(0).min(0))
 }
 pub fn modifier(c: &Campaign, p: &Combatant, key: &str) -> Option<i32> {
+    let item = items::stat_reduction(c, p, key);
+    let item_up = items::stat_increase(c, p, key);
     if !enabled(c) {
-        return None;
+        return (item != 0 || item_up != 0).then(|| {
+            let amount = p.runtime.modifiers.get(key).copied().unwrap_or(0);
+            let amount = if extra::enabled(c) {
+                match p.selected_ability.as_str() {
+                    "Contrary" => -amount,
+                    "Simple" => amount + amount.signum(),
+                    _ => amount,
+                }
+            } else {
+                amount
+            };
+            amount.max(item_up) + amount.min(item)
+        });
     }
     let names = [format!("buff:{key}"), format!("debuff:{key}")];
     let mut values: Vec<_> = state(c)
@@ -2805,7 +2844,7 @@ pub fn modifier(c: &Campaign, p: &Combatant, key: &str) -> Option<i32> {
         });
     }
     let copied = stat_channels::move_values(c, p, key);
-    if values.is_empty() && !copied.is_empty() {
+    if values.is_empty() && (!copied.is_empty() || item != 0 || item_up != 0) {
         if let Some(amount) = p.runtime.modifiers.get(key) {
             values.push(match p.selected_ability.as_str() {
                 "Contrary" => -*amount,
@@ -2815,6 +2854,12 @@ pub fn modifier(c: &Campaign, p: &Combatant, key: &str) -> Option<i32> {
         }
     }
     values.extend(copied);
+    if item != 0 {
+        values.push(item);
+    }
+    if item_up != 0 {
+        values.push(item_up);
+    }
     if values.is_empty() {
         None
     } else {
@@ -2825,6 +2870,7 @@ pub fn modifier(c: &Campaign, p: &Combatant, key: &str) -> Option<i32> {
     }
 }
 pub fn guard(c: &Campaign, id: &str, m: &serde_json::Value, cat: &Catalog) -> Result<()> {
+    items::guard_move(c, id, m, cat)?;
     if !enabled(c) {
         return Ok(());
     }

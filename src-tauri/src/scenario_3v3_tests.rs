@@ -423,8 +423,19 @@ impl Driver {
             }
             // Reparse typed sets after UUID remapping so set order is canonical.
             let normalized: Campaign = serde_json::from_str(&encoded).unwrap();
+            let authoritative = net.host.host.snapshot().unwrap();
+            assert_eq!(
+                serde_json::to_value(&normalized).unwrap(),
+                serde_json::to_value(&authoritative).unwrap(),
+                "authoritative engine/WebSocket divergence: {context}"
+            );
+            let projected = if role == 0 {
+                normalized
+            } else {
+                crate::privacy::for_player(&normalized, &self.owners[role])
+            };
             if let Some(diff) = difference(
-                &serde_json::to_value(normalized).unwrap(),
+                &serde_json::to_value(projected).unwrap(),
                 &serde_json::to_value(&actual).unwrap(),
                 "campaign",
             ) {
@@ -434,7 +445,7 @@ impl Driver {
                 net.host.host.test_roll.lock().unwrap().is_none(),
                 "scripted dice were not consumed: {context}"
             );
-            actual
+            authoritative
         } else {
             expected
         };
@@ -512,7 +523,8 @@ impl Driver {
             let c = net.reconnect(role).await;
             assert_eq!(
                 serde_json::to_value(c).unwrap(),
-                serde_json::to_value(&self.c).unwrap()
+                serde_json::to_value(crate::privacy::for_player(&self.c, &self.owners[role]))
+                    .unwrap()
             );
         }
     }
@@ -524,7 +536,12 @@ impl Driver {
                 .unwrap();
             assert_eq!(
                 serde_json::to_value(c).unwrap(),
-                serde_json::to_value(&self.c).unwrap(),
+                serde_json::to_value(if receipt.0 == 0 {
+                    self.c.clone()
+                } else {
+                    crate::privacy::for_player(&self.c, &self.owners[receipt.0])
+                })
+                .unwrap(),
                 "retry duplicated command"
             );
             let mut stale = receipt.1.clone();

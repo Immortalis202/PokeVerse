@@ -10,6 +10,8 @@ export type DamageContext = {
   field_snapshot: FieldSnapshot | null;
   types: Array<string>;
   field_bonus: number;
+  item_damage_bonus: number;
+  expert_belt: boolean;
   stats: { [key in string]?: number };
   hp: number;
   pain_ignored: number;

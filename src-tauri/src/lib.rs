@@ -6,6 +6,7 @@ pub mod diagnostics;
 pub mod encounter;
 pub mod model;
 pub mod points;
+pub mod privacy;
 pub mod room;
 pub mod rules;
 pub mod store;
@@ -247,7 +248,12 @@ fn search_catalog(
 }
 #[tauri::command]
 fn list_campaigns(state: State<AppState>) -> Result<Vec<Campaign>> {
-    room::lock(&state.store)?.available_campaigns()
+    let store = room::lock(&state.store)?;
+    Ok(store
+        .available_campaigns()?
+        .iter()
+        .map(|c| privacy::for_player(c, &store.player_id))
+        .collect())
 }
 #[tauri::command]
 fn create_campaign(state: State<AppState>, name: String) -> Result<Campaign> {
@@ -280,7 +286,9 @@ async fn host_room(
             .into_iter()
             .find(|c| c.id == campaign_id)
             .ok_or_else(|| AppError::new("missing", "Unknown campaign"))?;
-        if c.host_id() != store.player_id || ![ENGINE, LEGACY_ENGINE].contains(&c.engine.as_str()) {
+        if c.host_id() != store.player_id
+            || ![ENGINE, EVENT_ENGINE, LEGACY_ENGINE].contains(&c.engine.as_str())
+        {
             return Err(AppError::new(
                 "version",
                 "Only the campaign host can host this campaign with a supported rules engine",
@@ -351,7 +359,10 @@ async fn room_command(state: State<'_, AppState>, command: Command) -> Result<Ca
     match &*session {
         Session::Host(hosting) => {
             let player = room::lock(&state.store)?.player_id.clone();
-            hosting.host.apply(&player, &command)
+            hosting
+                .host
+                .apply(&player, &command)
+                .map(|c| privacy::for_player(&c, &player))
         }
         Session::Remote(remote) => {
             let sender = remote.sender.clone();

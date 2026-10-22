@@ -1,8 +1,14 @@
 # PokeVerse - remaining work
 
-Snapshot: **20 October 2026**, application **0.24.0**, engine **0.17.0-core**, protocol **25**, user database schema **4**.
+Snapshot: **22 October 2026**, application **0.25.0**, engine **0.18.0-core**, protocol **26**, user database schema **4**.
 
 This is the current project backlog. Implemented foundations are summarized first; unfinished features, explicit GM rulings, verification gaps and excluded scope are distinguished below. Counts come from the checked-in registries and should be refreshed after catalog changes.
+
+## Complete item and ability inventory (22 October audit)
+
+See the [complete item and ability roadmap](ITEM-ABILITY-ROADMAP.md) for the ordered deliverables and every catalog item. Its [ability inventory](ability-roadmap.csv) accounts for all 305 abilities; its [item inventory](item-roadmap.csv) accounts for all 236 items. This audit distinguishes released scope, disabled worktree implementations, genuinely missing mechanics, GM rulings and exclusions.
+
+The registry records 213 automated, 62 partial and 30 manual abilities. The older tables in sections 8–9 reproduce the pre-release baseline; generic held-item and booster dependencies there are stale and must not override the newer audited worktree assessment. The reviewed held-item batch is released in 0.25.0; transformations remain core and next. There are 30 unimplemented battle/species item definitions, 47 pending Mega stones, eight missing medicine definitions and nine medicines with only staged Recycle effects. All 35 Z-crystals remain excluded; 10 items explicitly forbid battle use. Other reference-only entries require scope review before becoming battle tasks.
 
 ## Implemented foundation
 
@@ -16,7 +22,7 @@ Dancer, Parental Bond, Gorilla Tactics, Truant and Defeatist now use the reviewe
 
 ## 1. Remaining battle systems
 
-- [ ] **Held items:** model equip/unequip, ownership, consumption/loss/theft, provenance, trigger choices, rollback and synchronization. Integrate berries, item-dependent abilities and Magic Room/Klutz restrictions without implying reference-only inventory is an active held-item engine.
+- [x] **Held-item ability batch:** released in 0.25.0 with owned equipment, reviewed effects, dependent abilities, private decisions, rollback and synchronization. Remaining item definitions are batch 6; native acceptance remains batch 7.
 - [ ] **Forms and transformations:** define supported temporary form changes, entry/exit, stat/type/ability replacement and restoration, preserving permanent sheets and frozen attack inputs. Review each ability separately. Excluded mechanics below must remain excluded.
 - [ ] **Other ability families:** remaining event/accuracy definitions, weight/gender formulas, private battle-information reveals and random stat choices. Tinted Lens, Unaware, Stakeout and the move portion of Sheer Force are implemented. The full ability inventory is in sections 8-9.
 - [ ] **Unreviewed trait copying:** Costar and Opportunist now copy supported attribute/defense move and ability channels. Baton Pass transfers supported positive attribute channels, and Snatch steals supported ability modifiers. Review additional trait channels separately; temporary ability identity copying remains distinct. See [stat copying and transfer](battle-stat-channels.md).
@@ -106,7 +112,7 @@ Version 0.24.0 / engine 0.17.0-core / protocol 25 passed all 448 Rust checks: 81
 User-approved scope: implement all remaining in-battle abilities in this order, including transformation abilities as core battle mechanics. Out-of-battle ability effects are excluded from implementation. Mixed abilities retain their in-battle effects in scope. The existing Dynamax, Max Move and Z-Move exclusions still apply.
 
 1. Damage-provenance and event/accuracy abilities: implemented in 0.23.0 and 0.24.0; remaining card-specific boundaries stay visible in the inventory.
-2. Held items and their dependent abilities.
+2. Held items and their dependent abilities: released in 0.25.0; remaining item definitions are batch 6.
 3. Supported form changes and transformations, retaining the exclusions above.
 4. Remaining reviewed move/status interactions and catalog audit work.
 5. Native Windows and physical LAN acceptance, followed by distribution/signing work as needed.
@@ -115,13 +121,27 @@ Each milestone should preserve historical engines, bump authoritative versions w
 
 ### Damage-provenance milestone
 
-Application 0.23.0 / engine 0.16.0-core / protocol 24 enables Tinted Lens, Unaware, Stakeout and the battle-move portion of Sheer Force. Historical encounters retain their saved feature flags. See [damage-provenance rules](battle-damage-provenance.md) for exact behavior and fixtures. Sheer Force remains partial until held-item added effects are integrated. The event/accuracy batch followed in 0.24.0; held items are the next milestone.
+Application 0.23.0 / engine 0.16.0-core / protocol 24 enables Tinted Lens, Unaware, Stakeout and the battle-move portion of Sheer Force. Historical encounters retain their saved feature flags. See [damage-provenance rules](battle-damage-provenance.md) for exact behavior and fixtures. The event/accuracy batch followed in 0.24.0; reviewed held-item added effects completed Sheer Force in 0.25.0.
 
 ### Event/accuracy milestone
 
-Application 0.24.0 / engine 0.17.0-core / protocol 25 enables Stench's battle reaction, Pressure's entry Will expenditure, mixed-target Tangled Feet success/critical results, and Electric Support charge consumption for Wind Power and Electromorphosis. Historical encounters retain their saved rule flags. See [battle events and per-target accuracy](battle-event-accuracy.md) for exact behavior and fixtures. Stench's out-of-battle encounter effects remain excluded. Held items and dependent abilities are the next milestone.
+Application 0.24.0 / engine 0.17.0-core / protocol 25 enables Stench's battle reaction, Pressure's entry Will expenditure, mixed-target Tangled Feet success/critical results, and Electric Support charge consumption for Wind Power and Electromorphosis. Historical encounters retain their saved rule flags. See [battle events and per-target accuracy](battle-event-accuracy.md) for exact behavior and fixtures. Stench's out-of-battle encounter effects remain excluded. Held items and dependent abilities followed in 0.25.0.
 
-Held-item scope review: the supplied Pickup card is scene-end narrative gathering and Honey Gather is daily production; both are excluded by the user's out-of-battle boundary. Ball Fetch differs: its supplied card describes returning a failed-capture ball at round end. Review that battle hook with ball ownership rather than treating it as narrative gathering; automatic capture rolls remain a separate deferred system. The older registry dependency descriptions are not substitutes for these printed cards.
+### Held-item milestone
+
+Application 0.25.0 / engine 0.18.0-core / protocol 26 releases ordered deliverable **1 of 7** in the [complete roadmap](ITEM-ABILITY-ROADMAP.md). New battles enable reviewed item rules; saved encounters preserve historical flags. Private owner/GM decisions, equipment persistence and rollback are described in [held-item rules and verification](battle-held-items.md). Gluttony ingestion, discretionary Ripen healing and unreviewed items retain explicit boundaries. Transformations are next. Native Windows and physical LAN acceptance remains separate.
+
+Verification: 555 Rust checks (94 binding exports and 461 behavioral), 48 frontend tests, 12 catalog checks, TypeScript, formatting, warnings-denied Clippy and production build passed. Windows NSIS package: `src-tauri/target/release/bundle/nsis/PokeVerse_0.25.0_x64-setup.exe` (214.08 MiB). Neither executable nor installer was launched. See the held-item release verification for environment restrictions and acceptance limits.
+
+The following notes record implementation history before activation:
+
+Held-item worktree progress: Ball Fetch owned failed-throw returns and trainer-resource rollback, King's Rock/Razor Fang chance pools and item-granted Sheer Force eligibility, Life Orb dice and saved recoil, Expert Belt across ordinary/formula/Clash damage, all 18 type boosters with saved shared damage, Eviolite reviewed-stage defenses, Iron Ball stat/grounding effects, Quick Claw initiative and Wide Lens/Zoom Lens/Bright Powder accuracy effects are staged with suppression and per-target results. Owned equipment preparation, encounter unit history, free reviewed berry consumption, GM transfer/swap/loss/recovery, end-of-battle persistence and equipment rollback are staged behind a disabled encounter flag. Reviewed hooks cover Sticky Hold, Unburden, Unnerve, Cheek Pouch, Cud Chew held-berry activation, Harvest end-of-battle regrowth, queued Symbiosis handoffs, hit-triggered Magician/Pickpocket theft and Klutz/Magic Room berry suppression. Symbiosis supports donor ownership, simultaneous-donor GM ordering and explicit cycle rulings. Leftovers round-end healing and lifetime consumption now use the same loss/persistence hooks. Frisk entry reveals and per-player equipment projections cover room welcome, accepted commands, broadcasts, reconnect, local host notifications, archives and undo views; the host retains full authoritative state. Natural Gift now uses persistent GM-recorded berry flavors, spends its ingredient on an attempt, and freezes Ripen's two-die damage bonus. Ripen healing increases require explicit GM rulings. Fling snapshots item/rarity and Ripen damage bonuses, tracks thrown ground units, supports paid retrieval through sequencing checks, and queues Cud Chew berry-hit effects after damage. Recycle reuses reviewed spent consumables from either side with a three-attempt battle limit and no unit duplication. Cud Chew stores owner-controlled second activations, and item healing now shares the printed three-HP round limit with moves. Magic Room forbids berry/item use according to its card. The staged battle panel exposes owner berry use and GM item rulings; remaining item effects and multiplayer acceptance still require integration. See [held-item implementation notes](battle-held-items.md).
+
+Held-item scope review: the supplied Pickup card is scene-end narrative gathering and Honey Gather is daily production; both are excluded by the user's out-of-battle boundary. Ball Fetch differs: its supplied card describes returning a failed-capture ball at round end. That battle hook is now staged with owned-ball tracking and GM-recorded failed throws; automatic capture rolls remain a separate deferred system. The older registry dependency descriptions are not substitutes for these printed cards.
+
+### Held-item milestone in progress
+
+The worktree now has individually owned item units, stored/held equipment, equip/unequip progression and editor controls, capacity validation, preserved partial usage, backward-compatible sheet serialization and atomic inventory/equipment reconciliation. The packaged 0.24.0 release does not contain this staged work. The staged battle layer now includes reviewed consumption, transfers, theft and dependent-ability hooks. Remaining item-definition/blocker review, battle activation, compatibility gates and release integration remain; see [held-item implementation and remaining work](battle-held-items.md).
 
 ## 8. All manual abilities (44)
 
@@ -131,7 +151,7 @@ Every currently manual registry entry appears below. Dependencies describe remai
 | --- | --- |
 | Anticipation | Requires a private GM/owner information-reveal operation with reviewed move classification. |
 | As One | Requires encounter form/state transformation and reviewed replacement metadata. |
-| Ball Fetch | Requires noncombat item gathering or daily recovery; no video-game battle substitute is applied. |
+| Ball Fetch | Staged GM-recorded failed wild throws protect an owned ball and return it at round end; activation/release gates remain. |
 | Cheek Pouch | Requires held-item ownership, consumption, transfer or activation hooks. |
 | Commander | Requires encounter form/state transformation and reviewed replacement metadata. |
 | Cud Chew | Requires held-item ownership, consumption, transfer or activation hooks. |

@@ -29,6 +29,8 @@ const operations = [
   "bond",
   "resources",
   "inventory",
+  "equip",
+  "unequip",
   "exception",
 ];
 const labels: Record<string, string> = {
@@ -45,6 +47,8 @@ const labels: Record<string, string> = {
   bond: "Happiness / Loyalty",
   resources: "Healing / Will / conditions",
   inventory: "Inventory grant / correction",
+  equip: "Equip an owned item",
+  unequip: "Put a held item away",
   exception: "GM-reviewed rebuild / rule exception",
 };
 const skills = [
@@ -289,13 +293,19 @@ export default function SheetEditor({
                 {initial.workflow?.status !== "strict" && (
                   <option value="review">Review legacy sheet</option>
                 )}
-                {operations.map((k) => (
-                  <option key={k} value={k}>
-                    {k === "award" && initial.kind === "pokemon"
-                      ? "Legacy Pok�mon balance correction (GM)"
-                      : labels[k]}
-                  </option>
-                ))}
+                {operations
+                  .filter(
+                    (k) =>
+                      initial.kind === "pokemon" ||
+                      !["equip", "unequip"].includes(k),
+                  )
+                  .map((k) => (
+                    <option key={k} value={k}>
+                      {k === "award" && initial.kind === "pokemon"
+                        ? "Legacy Pok�mon balance correction (GM)"
+                        : labels[k]}
+                    </option>
+                  ))}
               </select>
             </label>
           )}
@@ -823,6 +833,55 @@ export default function SheetEditor({
                 />
               </label>
             </div>
+          )}
+          {["equip", "unequip"].includes(request.kind) && (
+            <>
+              <p>
+                Prepare equipment between battles. Battle item effects are not
+                active in this build.
+              </p>
+              <label>
+                {request.kind === "equip"
+                  ? "Owned item to equip"
+                  : "Held item to put away"}
+                <select
+                  value={request.move_name}
+                  onChange={(e) => change({ move_name: e.target.value })}
+                >
+                  <option value="">Choose an item</option>
+                  {request.kind === "equip" ? (
+                    <>
+                      {Object.entries(sheet.inventory)
+                        .filter(([, quantity]) => (quantity ?? 0) > 0)
+                        .map(([name, quantity]) => (
+                          <option key={`bulk:${name}`} value={name}>
+                            {name} ({quantity} available)
+                          </option>
+                        ))}
+                      {(sheet.stored_items ?? []).map((unit) => (
+                        <option key={unit.id} value={unit.id}>
+                          {unit.name} — stored
+                          {unit.uses > 0 ? `, recorded usage ${unit.uses}` : ""}
+                        </option>
+                      ))}
+                    </>
+                  ) : (
+                    (sheet.held_items ?? []).map((unit) => (
+                      <option key={unit.id} value={unit.id}>
+                        {unit.name}
+                        {unit.uses > 0 ? ` — recorded usage ${unit.uses}` : ""}
+                      </option>
+                    ))
+                  )}
+                </select>
+              </label>
+              <p>
+                Currently held:{" "}
+                {(sheet.held_items ?? []).map((unit) => unit.name).join(", ") ||
+                  "None"}
+                .
+              </p>
+            </>
           )}
           {request.kind === "inventory" && (
             <>

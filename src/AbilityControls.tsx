@@ -30,10 +30,29 @@ export default function AbilityControls({
   const owned =
     owner &&
     (gm ||
-      (!["extra-download", "ability-gas", "transfer-review"].includes(
-        event?.kind ?? "",
-      ) &&
+      (![
+        "extra-download",
+        "ability-gas",
+        "transfer-review",
+        "item-symbiosis-order",
+        "item-symbiosis-cycle",
+        "item-frisk",
+      ].includes(event?.kind ?? "") &&
         owner.owner_id === playerId));
+  const hitBerryId = event && owned ? f.items?.berry_hits[event.id] : undefined;
+  const hitBerryName = hitBerryId
+    ? f.items?.units[hitBerryId]?.unit.name
+    : undefined;
+  const theftLabel = (choice: string) => {
+    if (choice === "decline") return "Keep my held item";
+    const offer = f.items?.thefts[event?.id ?? ""]?.[choice];
+    const stolen = offer && f.items?.units[offer.stolen_id]?.unit.name;
+    const outgoing =
+      offer?.outgoing_id && f.items?.units[offer.outgoing_id]?.unit.name;
+    return outgoing
+      ? `Exchange ${outgoing} for ${stolen ?? "foe's item"}`
+      : `Take ${stolen ?? "foe's item"}`;
+  };
   const command = (choice: string): Action => ({
     type: "resolve_ability",
     event_id: event!.id,
@@ -319,14 +338,41 @@ export default function AbilityControls({
           <h4>Pending: {event.ability}</h4>
           <p>
             {owner?.name} →{" "}
-            {event.kind === "ability-trace"
-              ? "random eligible foe"
-              : event.kind === "ability-gas"
-                ? "opposing Gas sources"
-                : target?.name}{" "}
+            {event.kind === "item-frisk"
+              ? "one foe selected by the GM"
+              : event.kind === "ability-trace"
+                ? "random eligible foe"
+                : event.kind === "ability-gas"
+                  ? "opposing Gas sources"
+                  : target?.name}{" "}
             after {event.move_name}. Resolve this trigger before continuing the
             battle. It does not spend another action.
           </p>
+          {event.kind === "item-cud-chew" && (
+            <p>
+              {hitBerryName ?? "The thrown berry"} activates after damage has
+              been recorded. A second activation is saved for later. This spends
+              the berry and no additional action.
+            </p>
+          )}
+          {event.kind === "item-frisk" && (
+            <p>
+              The GM chooses one foe. Its held items are revealed only to this
+              Pokémon's trainer.
+            </p>
+          )}
+          {event.kind === "item-symbiosis-order" && (
+            <p>
+              Several allies can give an item. The GM selects the donor for this
+              simultaneous trigger.
+            </p>
+          )}
+          {event.kind === "item-symbiosis-cycle" && (
+            <p>
+              Repeated Symbiosis handoffs would form a cycle. The GM must record
+              how the chain ends.
+            </p>
+          )}
           {event.kind === "sequence-dancer-random" && (
             <p>
               The GM selects the random foe; the owner may decline the free
@@ -355,7 +401,18 @@ export default function AbilityControls({
                       }
                       onClick={() => preview(choice)}
                     >
-                      Preview {choice}
+                      Preview{" "}
+                      {event.kind === "item-cud-chew"
+                        ? "Activate the berry; save another chew"
+                        : event.kind === "item-frisk"
+                          ? `Reveal held items of ${b.combatants.find((p) => p.id === choice)?.name ?? "foe"}`
+                          : event.kind === "item-theft"
+                            ? theftLabel(choice)
+                            : event.kind.startsWith("item-symbiosis") &&
+                                choice !== "manual"
+                              ? (f.items?.units[choice.slice(5)]?.unit.name ??
+                                choice)
+                              : choice}
                     </button>
                     <button
                       disabled={
@@ -366,27 +423,38 @@ export default function AbilityControls({
                       }
                       onClick={() => execute(command(choice))}
                     >
-                      {choice.startsWith("activate:")
-                        ? `Copy ${f.transfers?.offers[event.id]?.donors[Number(choice.slice(9))]?.ability ?? "ability"} from ${f.transfers?.offers[event.id]?.donors[Number(choice.slice(9))]?.name ?? "ally"}`
-                        : choice === "store"
-                          ? "Store all copies; keep Power of Alchemy active"
-                          : choice === "neutral"
-                            ? "Deal 1 neutral damage"
-                            : choice === "copy"
-                              ? "Copy this dance"
-                              : choice === "roll"
-                                ? "Roll ability dice"
-                                : choice === "heal"
-                                  ? "Restore 1 HP"
-                                  : choice === "decline"
-                                    ? "Decline"
-                                    : choice === "simultaneous"
-                                      ? "Confirm both Gas emitters remain active"
-                                      : choice === "activate"
-                                        ? "Activate No Guard"
-                                        : (b.combatants.find(
-                                            (p) => p.id === choice,
-                                          )?.name ?? `Select ${choice}`)}
+                      {event.kind === "item-cud-chew"
+                        ? "Activate the berry; save another chew"
+                        : event.kind === "item-frisk"
+                          ? `Reveal held items of ${b.combatants.find((p) => p.id === choice)?.name ?? "foe"}`
+                          : event.kind === "item-theft"
+                            ? theftLabel(choice)
+                            : event.kind.startsWith("item-symbiosis")
+                              ? choice === "manual"
+                                ? "Record GM cycle ruling"
+                                : `Give ${f.items?.units[choice.slice(5)]?.unit.name ?? "item"} from ${b.combatants.find((p) => p.id === f.items?.units[choice.slice(5)]?.holder)?.name ?? "ally"} to ${target?.name ?? "ally"}`
+                              : choice.startsWith("activate:")
+                                ? `Copy ${f.transfers?.offers[event.id]?.donors[Number(choice.slice(9))]?.ability ?? "ability"} from ${f.transfers?.offers[event.id]?.donors[Number(choice.slice(9))]?.name ?? "ally"}`
+                                : choice === "store"
+                                  ? "Store all copies; keep Power of Alchemy active"
+                                  : choice === "neutral"
+                                    ? "Deal 1 neutral damage"
+                                    : choice === "copy"
+                                      ? "Copy this dance"
+                                      : choice === "roll"
+                                        ? "Roll ability dice"
+                                        : choice === "heal"
+                                          ? "Restore 1 HP"
+                                          : choice === "decline"
+                                            ? "Decline"
+                                            : choice === "simultaneous"
+                                              ? "Confirm both Gas emitters remain active"
+                                              : choice === "activate"
+                                                ? "Activate No Guard"
+                                                : (b.combatants.find(
+                                                    (p) => p.id === choice,
+                                                  )?.name ??
+                                                  `Select ${choice}`)}
                     </button>
                     {event.kind === "stat-costar" && (
                       <small>

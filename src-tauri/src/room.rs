@@ -181,12 +181,13 @@ impl Host {
             params![next.id, cmd.id, actor],
         )?;
         tx.commit()?;
+        let viewer = store.player_id.clone();
         drop(store);
         let _ = self.changes.send(next.clone());
         (self.notify)(
             "room-message",
             serde_json::to_value(ServerMessage::Snapshot {
-                campaign: next.clone(),
+                campaign: crate::privacy::for_player(&next, &viewer),
             })?,
         );
         Ok(next)
@@ -403,7 +404,7 @@ async fn serve_socket(host: Arc<Host>, mut socket: WebSocket) {
         if !send(
             &mut socket,
             ServerMessage::Welcome {
-                campaign: c,
+                campaign: crate::privacy::for_player(&c, &hello.player_id),
                 credential,
             },
         )
@@ -424,7 +425,7 @@ async fn serve_socket(host: Arc<Host>, mut socket: WebSocket) {
                 Some(Ok(Message::Text(text)))=>{
                     last_seen=std::time::Instant::now();
                     let msg=match serde_json::from_str::<Command>(&text) {
-                        Ok(cmd)=>match host.apply(&hello.player_id,&cmd) {Ok(c)=>ServerMessage::Accepted{command_id:cmd.id,campaign:c},Err(e)=>ServerMessage::Error{command_id:Some(cmd.id),error:e}},
+                        Ok(cmd)=>match host.apply(&hello.player_id,&cmd) {Ok(c)=>ServerMessage::Accepted{command_id:cmd.id,campaign:crate::privacy::for_player(&c,&hello.player_id)},Err(e)=>ServerMessage::Error{command_id:Some(cmd.id),error:e}},
                         Err(_)=>ServerMessage::Error{command_id:None,error:AppError::new("format","Malformed command")}
                     };
                     if !send(&mut socket,msg).await {break;}
@@ -435,7 +436,7 @@ async fn serve_socket(host: Arc<Host>, mut socket: WebSocket) {
             },
             update=changes.recv()=>{
                 let c=match update {Ok(c)=>Ok(c),Err(broadcast::error::RecvError::Lagged(_))=>host.snapshot(),Err(_)=>break};
-                if let Ok(c)=c {if !send(&mut socket,ServerMessage::Snapshot{campaign:c}).await {break;}}
+                if let Ok(c)=c {if !send(&mut socket,ServerMessage::Snapshot{campaign:crate::privacy::for_player(&c,&hello.player_id)}).await {break;}}
             },
             _=heartbeat.tick()=>{
                 if last_seen.elapsed()>Duration::from_secs(65) || socket.send(Message::Ping(vec![].into())).await.is_err() {break;}

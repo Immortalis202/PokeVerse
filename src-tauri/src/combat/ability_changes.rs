@@ -304,7 +304,8 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
                 e.combatant_id != p.id
                     || e.kind == "ability-gas"
                     || (contact_changed
-                        && ["contact", "retaliate", "extra-poison"].contains(&e.kind.as_str()))
+                        && ["contact", "retaliate", "extra-poison", "item-theft"]
+                            .contains(&e.kind.as_str()))
             });
             if f.battlefield
                 .weather

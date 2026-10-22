@@ -549,6 +549,18 @@ pub fn preview(
             approvals.push("GM must confirm inventory additions/removals".into());
             preserve_moves = true;
         }
+        "equip" | "unequip" => {
+            let result = if req.kind == "equip" {
+                crate::combat::items::equip(&s, &req.move_name, &req.operation_id, catalog)
+            } else {
+                crate::combat::items::unequip(&s, &req.move_name, catalog)
+            };
+            match result {
+                Ok(next) => s = next,
+                Err(error) => errors.push(error.message),
+            }
+            preserve_moves = true;
+        }
         _ => errors.push("Unknown progression operation".into()),
     }
     if old.is_some_and(|s| s.workflow.as_ref().is_none_or(|b| b.status == "review"))
@@ -928,6 +940,19 @@ pub fn preview(
     }
     if old.is_none() && !s.inventory.is_empty() {
         approvals.push("Authorize starting inventory".into());
+    }
+    if let Err(error) = crate::combat::items::validate_equipment(&s, catalog) {
+        errors.push(error.message);
+    }
+    if old.is_none() && s.held_items.as_ref().is_some_and(|items| !items.is_empty()) {
+        approvals.push("Authorize starting held-item units".into());
+    }
+    if old.is_none()
+        && s.stored_items
+            .as_ref()
+            .is_some_and(|items| !items.is_empty())
+    {
+        approvals.push("Authorize starting stored item units".into());
     }
     if s.moves.len()
         != s.moves

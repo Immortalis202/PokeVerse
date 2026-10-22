@@ -172,6 +172,8 @@ describe("structured core battle controls", () => {
     ability = false,
     provenance = false,
     events = false,
+    heldItems = false,
+    symbiosis = "",
   ) {
     const combatants = ["active", "opponent"].map(fighter);
     if (provenance) combatants[0].selected_ability = "Sheer Force";
@@ -191,6 +193,38 @@ describe("structured core battle controls", () => {
         automatic_validation: true,
         combatants,
         flow: {
+          items: {
+            enabled: false,
+            initialized: false,
+            finalized: false,
+            return_policy: null,
+            units: {},
+            history: [],
+            unburdened: [],
+            symbiosis_chains: {},
+            thefts: {},
+            theft_seen: [],
+            end_round: 0,
+            redacted: false,
+            frisk_active: [],
+            reveals: [],
+            natural_gift: {},
+            berry_moves: {},
+            fling: {},
+            fling_moves: {},
+            fling_hits: [],
+            berry_hits: {},
+            recycle: {},
+            recycle_uses: {},
+            recycle_attempts: [],
+            recycle_moves: {},
+            chew_charges: {},
+            chew_serial: 0,
+            stages: {},
+            life_orb_moves: {},
+            chance_moves: {},
+            fetches: {},
+          },
           events: {
             enabled: events,
             pressure_sources: [],
@@ -402,6 +436,130 @@ describe("structured core battle controls", () => {
         },
       },
     };
+    if (heldItems) {
+      const items = c.battle!.flow!.items;
+      items.enabled = true;
+      items.initialized = true;
+      for (const [holder, berry] of [
+        ["active", "Oran Berry"],
+        ["opponent", "Sitrus Berry"],
+      ]) {
+        items.units[holder] = {
+          unit: {
+            id: holder,
+            item_id: berry,
+            name: berry,
+            origin_sheet_id: holder,
+            uses: 0,
+          },
+          initial_holder: holder,
+          initial_slot: 0,
+          holder,
+          slot: 0,
+          state: "held",
+          harvest_pending: false,
+        };
+      }
+    }
+    if (symbiosis) {
+      c.battle!.flow!.ability_rules = true;
+      c.battle!.flow!.ability_events = [
+        {
+          id: "symbiosis-event",
+          combatant_id: "active",
+          target_id: "opponent",
+          ability: "Symbiosis",
+          kind: symbiosis,
+          move_name: "Held-item loss",
+          choices: ["give:active"],
+        },
+      ];
+    }
+    if (symbiosis === "item-frisk") {
+      c.battle!.flow!.ability_events[0].ability = "Frisk";
+      c.battle!.flow!.ability_events[0].choices = ["opponent"];
+      c.battle!.flow!.items.reveals = [
+        {
+          owner_id: "player",
+          source_id: "active",
+          target_id: "opponent",
+          items: ["Revealed Berry"],
+          round: 1,
+        },
+      ];
+    }
+    if (symbiosis === "item-theft") {
+      c.battle!.flow!.ability_events[0].ability = "Magician";
+      c.battle!.flow!.ability_events[0].choices = ["swap:0", "decline"];
+      c.battle!.flow!.items.thefts["symbiosis-event"] = {
+        "swap:0": {
+          thief_id: "active",
+          target_id: "opponent",
+          stolen_id: "opponent",
+          outgoing_id: "active",
+        },
+      };
+    }
+    if (symbiosis === "natural-gift") {
+      c.sheets = structuredClone(c.sheets);
+      c.sheets.active!.moves = ["Natural Gift"];
+      c.battle!.combatants[0].selected_ability = "Ripen";
+      c.battle!.flow!.ability_events = [];
+      c.battle!.flow!.items.units.active!.unit.flavor = "Spicy";
+    }
+    if (symbiosis === "fling") {
+      c.sheets = structuredClone(c.sheets);
+      c.sheets.active!.moves = ["Fling"];
+      c.battle!.flow!.ability_events = [];
+      c.battle!.flow!.items.units.opponent!.state = "ground";
+    }
+    if (symbiosis === "item-cud-chew") {
+      c.battle!.flow!.ability_events[0].ability = "Cud Chew";
+      c.battle!.flow!.ability_events[0].choices = ["activate"];
+      c.battle!.flow!.items.berry_hits["symbiosis-event"] = "opponent";
+      c.battle!.flow!.items.units.opponent!.state = "berry_hit_pending";
+    }
+    if (symbiosis === "recycle") {
+      c.sheets = structuredClone(c.sheets);
+      c.sheets.active!.moves = ["Recycle"];
+      c.battle!.combatants[0].selected_ability = "Cud Chew";
+      c.battle!.flow!.ability_events = [];
+      const items = c.battle!.flow!.items;
+      items.units.opponent!.state = "consumed";
+      items.recycle_uses.active = 1;
+      items.chew_charges.saved = {
+        combatant_id: "active",
+        unit: items.units.opponent!.unit,
+        source: "recycle",
+      };
+    }
+    if (symbiosis === "fetch") {
+      c.sheets = structuredClone(c.sheets);
+      c.sheets.trainer!.inventory = { Pokeball: 1 };
+      c.sheets.opponent!.trainer_id = null;
+      c.battle!.combatants[0].selected_ability = "Ball Fetch";
+      c.battle!.flow!.ability_events = [];
+      c.battle!.flow!.items.fetches["capture-roll-1"] = {
+        trainer_id: "trainer",
+        fetcher_id: "active",
+        target_id: "opponent",
+        unit: {
+          id: "protected-ball",
+          item_id: "pokeball",
+          name: "Pokeball",
+          origin_sheet_id: "trainer",
+          uses: 0,
+        },
+        round: 1,
+        returned: false,
+      };
+    }
+    if (symbiosis === "review-gluttony" || symbiosis === "review-klutz") {
+      c.battle!.flow!.ability_events = [];
+      c.battle!.combatants[0].selected_ability = symbiosis === "review-gluttony" ? "Gluttony" : "Klutz";
+      c.battle!.flow!.items.units.active!.unit.name = "Choice Band";
+      c.battle!.flow!.items.units.active!.review = { scope: "manual", note: "Manual-review marker: this effect requires GM adjudication." };
+    }
     return renderToStaticMarkup(
       <BattleView
         campaign={c}
@@ -413,6 +571,189 @@ describe("structured core battle controls", () => {
       />,
     );
   }
+  it("shows private item effect reviews and printed Gluttony/Klutz boundaries", () => {
+    const html = (player: string, kind: string) => core(player, false, "0.17.0-core", false, true, false, false, true, kind);
+    expect(html("player", "review-gluttony")).toContain("no negative ingestion effects");
+    expect(html("player", "review-gluttony")).toContain("Manual-review marker");
+    expect(html("gm", "review-klutz")).toContain("printed form/type-changing exceptions");
+    expect(html("host", "review-klutz")).not.toContain("Manual-review marker");
+  });
+  it("shows Ball Fetch recording only to the GM and protected balls only to their trainer", () => {
+    const html = (player: string) =>
+      core(
+        player,
+        false,
+        "0.17.0-core",
+        false,
+        true,
+        false,
+        false,
+        true,
+        "fetch",
+      );
+    expect(html("gm")).toContain("Record failed capture and protect this ball");
+    expect(html("player")).not.toContain(
+      "Record failed capture and protect this ball",
+    );
+    expect(html("player")).toContain("capture-roll-1");
+    expect(html("host")).not.toContain("capture-roll-1");
+    expect(html("gm")).toContain("Adjudicate its action cost first");
+  });
+  it("offers spent-item Recycle choices and saved Cud Chew effects only for owned participants", () => {
+    const html = (player: string) =>
+      core(
+        player,
+        false,
+        "0.17.0-core",
+        false,
+        true,
+        false,
+        false,
+        true,
+        "recycle",
+      );
+    expect(html("player")).toContain("Select Sitrus Berry for Recycle");
+    expect(html("player")).toContain("Recycle attempts this battle: 1/3");
+    expect(html("player")).toContain("Chew Sitrus Berry again");
+    expect(html("host")).not.toContain("Select Sitrus Berry for Recycle");
+    expect(html("host")).not.toContain("Chew Sitrus Berry again");
+    expect(html("gm")).toContain("Record item spent after adjudication");
+    expect(html("player")).not.toContain(
+      "Record item spent after adjudication",
+    );
+  });
+  it("offers Fling selection and paid ground retrieval only through owned combatants", () => {
+    const html = (player: string) =>
+      core(
+        player,
+        false,
+        "0.17.0-core",
+        false,
+        true,
+        false,
+        false,
+        true,
+        "fling",
+      );
+    expect(html("player")).toContain("Use Oran Berry for Fling");
+    expect(html("player")).toContain(
+      "Retrieve Sitrus Berry for active · spend one action",
+    );
+    expect(html("host")).not.toContain("Use Oran Berry for Fling");
+    expect(html("host")).not.toContain("Retrieve Sitrus Berry for active");
+  });
+  it("names Cud Chew's thrown-berry decision for its owner and GM", () => {
+    const html = (player: string) =>
+      core(
+        player,
+        false,
+        "0.17.0-core",
+        false,
+        true,
+        false,
+        false,
+        true,
+        "item-cud-chew",
+      );
+    expect(html("player")).toContain("Activate the berry; save another chew");
+    expect(html("player")).toContain("Sitrus Berry");
+    expect(html("host")).not.toContain("Sitrus Berry");
+    expect(html("gm")).toContain("Activate the berry; save another chew");
+    expect(html("host")).not.toContain("Activate the berry; save another chew");
+  });
+  it("offers Natural Gift selection to owners and leaves flavor and Ripen healing rulings with the GM", () => {
+    const html = (player: string) =>
+      core(
+        player,
+        false,
+        "0.17.0-core",
+        false,
+        true,
+        false,
+        false,
+        true,
+        "natural-gift",
+      );
+    expect(html("player")).toContain("Use Oran Berry for Natural Gift");
+    expect(html("player")).toContain("flavor Spicy");
+    expect(html("player")).not.toContain("GM Ripen extra healing");
+    expect(html("gm")).toContain("GM Ripen extra healing");
+    expect(html("gm")).toContain("Record the berry&#x27;s actual flavor");
+    expect(html("host")).not.toContain("Use Oran Berry for Natural Gift");
+  });
+  it("keeps Frisk findings with the trainer and reserves the target choice for the GM", () => {
+    const html = (player: string) =>
+      core(
+        player,
+        false,
+        "0.17.0-core",
+        false,
+        true,
+        false,
+        false,
+        true,
+        "item-frisk",
+      );
+    expect(html("player")).toContain("Revealed Berry");
+    expect(html("player")).not.toContain("Reveal held items of opponent");
+    expect(html("gm")).toContain("Reveal held items of opponent");
+    expect(html("gm")).toContain("Revealed Berry");
+    expect(html("host")).not.toContain("Revealed Berry");
+    expect(html("host")).not.toContain("Reveal held items of opponent");
+  });
+  it("labels Magician exchanges and the choice to keep an item for its owner", () => {
+    const html = (player: string) =>
+      core(
+        player,
+        false,
+        "0.17.0-core",
+        false,
+        true,
+        false,
+        false,
+        true,
+        "item-theft",
+      );
+    expect(html("player")).toContain("Exchange Oran Berry for Sitrus Berry");
+    expect(html("player")).toContain("Keep my held item");
+    expect(html("gm")).toContain("Exchange Oran Berry for Sitrus Berry");
+    expect(html("host")).not.toContain("Exchange Oran Berry for Sitrus Berry");
+  });
+  it("shows named Symbiosis handoffs to the donor owner and simultaneous ordering only to the GM", () => {
+    const html = (player: string, kind: string) =>
+      core(player, false, "0.17.0-core", false, true, false, false, true, kind);
+    expect(html("player", "item-symbiosis")).toContain(
+      "Give Oran Berry from active to opponent",
+    );
+    expect(html("host", "item-symbiosis")).not.toContain("Give Oran Berry");
+    expect(html("player", "item-symbiosis-order")).not.toContain(
+      "Give Oran Berry",
+    );
+    expect(html("gm", "item-symbiosis-order")).toContain(
+      "Give Oran Berry from active to opponent",
+    );
+    expect(html("gm", "item-symbiosis-cycle")).toContain(
+      "Repeated Symbiosis handoffs would form a cycle",
+    );
+  });
+  it("exposes held berry use only to owners and reserves item rulings for the GM", () => {
+    const html = (player: string) =>
+      core(player, false, "0.17.0-core", false, false, false, false, true);
+    const player = html("player");
+    expect(player).toContain("Consume Oran Berry for active");
+    expect(player).not.toContain("Sitrus Berry");
+    expect(player).not.toContain("Record transfer");
+    const gm = html("gm");
+    expect(gm).toContain("Consume Sitrus Berry for opponent");
+    expect(gm).toContain("Record atomic swap");
+    expect(gm).toContain("Explicitly override Sticky Hold");
+    expect(gm).toContain("Return surviving items");
+    const host = html("host");
+    expect(host).not.toContain("Oran Berry");
+    expect(host).not.toContain("Sitrus Berry");
+    expect(host).not.toContain("Record item loss");
+    expect(core("gm")).not.toContain("Held battle items");
+  });
   it("shows owned Will/reaction decisions and reserves GM adjudication for the appointed GM", () => {
     const player = core("player", true);
     expect(player).toContain("Will: fate");

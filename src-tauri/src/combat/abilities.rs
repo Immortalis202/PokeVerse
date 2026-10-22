@@ -35,6 +35,10 @@ pub struct DamageContext {
     pub types: Vec<String>,
     #[serde(default)]
     pub field_bonus: i32,
+    #[serde(default)]
+    pub item_damage_bonus: i32,
+    #[serde(default)]
+    pub expert_belt: bool,
     pub stats: BTreeMap<String, i32>,
     pub hp: i32,
     pub pain_ignored: i32,
@@ -147,7 +151,8 @@ pub fn coverage(c: &Campaign, name: &str) -> Option<&'static str> {
             .expect("valid owned ability registry")
     });
     let entry = &REGISTRY["entries"][name];
-    if (entry["introduced_engine"] == "0.17.0-core" && !events::enabled(c))
+    if (entry["introduced_engine"] == "0.18.0-core" && !items::enabled(c))
+        || (entry["introduced_engine"] == "0.17.0-core" && !events::enabled(c))
         || (entry["introduced_engine"] == "0.16.0-core" && !provenance::enabled(c))
         || (entry["introduced_engine"] == "0.15.0-core" && !sequencing::enabled(c))
         || (entry["introduced_engine"] == "0.14.0-core" && !stat_channels::enabled(c))
@@ -227,6 +232,15 @@ pub fn defense(c: &Campaign, p: &Combatant, physical: bool) -> i32 {
                     || ["Paralysis", "Sleep", "Frozen Solid"].contains(&s.kind.as_str())
             }),
     ) * 2
+        + items::stat_increase(
+            c,
+            p,
+            if physical {
+                "Defense"
+            } else {
+                "SpecialDefense"
+            },
+        )
 }
 pub fn critical(c: &Campaign, attacker: &Combatant, target: &Combatant) -> i32 {
     if !enabled(c) {
@@ -270,7 +284,8 @@ pub fn move_immune(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> bool {
         && ((p.selected_ability == "Levitate"
             && m["Type"] == "Ground"
             && !field::has(c, "Gravity", p)
-            && !special::roost(c, &p.id))
+            && !special::roost(c, &p.id)
+            && !items::iron_ball(c, &p.id))
             || (p.selected_ability == "Soundproof" && m["Attributes"]["SoundMove"] == true))
 }
 pub fn damage_immune_from(
@@ -485,6 +500,7 @@ pub fn hit(
         }
     }
     reviewed::hit(c, q, m, cat)?;
+    items::hit(c, q, m, cat)?;
     transfers::hit(c, q, m, cat)?;
     extra::hit(c, q, before_hp, m)?;
     tactics::hit(c, q, m)?;
@@ -659,12 +675,31 @@ pub fn resolve(
     let count = dice(c, event_id, choice)?;
     check_count(results, count)?;
     let e = flow(c)?.ability_events[0].clone();
-    if e.kind == "ability-gas" {
+    if e.kind == "ability-gas"
+        || ["item-symbiosis-order", "item-symbiosis-cycle", "item-frisk"].contains(&e.kind.as_str())
+    {
         gm(c, actor)?;
     } else {
         owner(c, actor, &e.combatant_id)?;
     }
-    if choice == "manual" {
+    if e.kind == "item-cud-chew" {
+        if choice == "manual" {
+            gm(c, actor)?;
+        }
+        items::resolve_berry_hit(next, &e, choice, cat)?;
+    } else if e.kind == "item-frisk" {
+        items::resolve_frisk(next, &e, choice)?;
+    } else if e.kind == "item-theft" {
+        if choice == "manual" {
+            gm(c, actor)?;
+        }
+        items::resolve_theft(next, &e, choice, cat)?;
+    } else if e.kind.starts_with("item-symbiosis") {
+        if choice == "manual" {
+            gm(c, actor)?;
+        }
+        items::resolve(next, &e, choice, cat)?;
+    } else if choice == "manual" {
         gm(c, actor)?;
     } else if e.kind == "transfer-inherit" {
         transfers::resolve(next, &e, choice, cat)?;

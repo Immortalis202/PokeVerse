@@ -98,6 +98,8 @@ pub fn merge(
                 "max_hp",
                 "xp",
                 "inventory",
+                "held_items",
+                "stored_items",
                 "trainer_id",
             ] {
                 if let Some(v) = map.remove(key) {
