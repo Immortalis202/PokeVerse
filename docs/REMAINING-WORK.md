@@ -80,6 +80,8 @@ Milestone 7 preparation is delivered: [isolated lab, preservation evidence and 1
 - [ ] Test direct LAN joining on separate physical Windows machines, firewall/connection errors and reconnection. Record private-VPN tests separately from direct LAN tests.
 - [ ] Finish and verify the trusted Windows signing/distribution process; building an installer does not establish a trusted signature or remove Windows execution prompts. Do not automatically launch executables or installers during unattended checks.
 
+Linux x86-64 packaging is now available for v0.30.0, with 651 Rust tests passing on Ubuntu 26.04 and verified Debian/AppImage catalog contents. See [Linux build and installation](linux-build.md). Native Ubuntu 26.10 and physical Windows/Linux Tailscale acceptance remain pending.
+
 ## 5. Deliberately deferred product features
 
 These require a separate scope decision; they are not missing parts of the assumed-victory training-encounter flow.

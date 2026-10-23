@@ -14,7 +14,9 @@
     "test:3v3": "cargo test --manifest-path src-tauri/Cargo.toml scenario_3v3 --lib -- --nocapture",
     "test:rust": "npm run catalog && cargo test --manifest-path src-tauri/Cargo.toml --lib",
     "bindings": "npm run catalog && cargo test --manifest-path src-tauri/Cargo.toml export_bindings",
-    "format": "prettier --write src scripts package.json tsconfig.json vite.config.ts index.html README.md && cargo fmt --manifest-path src-tauri/Cargo.toml"
+    "format": "prettier --write src scripts package.json tsconfig.json vite.config.ts index.html README.md && cargo fmt --manifest-path src-tauri/Cargo.toml",
+    "build:bundled": "tsc --noEmit && vite build",
+    "package:linux": "tauri build --config src-tauri/tauri.linux.conf.json"
   },
   "dependencies": {
     "@tauri-apps/api": "^2.0.0",

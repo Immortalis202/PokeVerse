@@ -30,6 +30,8 @@ npm.cmd run package
 
 The Windows NSIS installer is emitted under `src-tauri/target/release/bundle/nsis/`. It is configured to include the offline WebView2 installer; the packaging machine must download that installer on its first build. The installer is unsigned unless you configure signing for distribution.
 
+Linux x86-64: [build, installation and Windows/Linux room connection](docs/linux-build.md).
+
 ## First session
 
 1. Create a trainer in Library, then create its Pokémon through the guided steps. Defaults are a Rookie teen trainer, matching starter rank, Happiness/Loyalty 2, and zero Training Points. Preview shows baselines, allocations, modifiers, unused points and derived resources.
