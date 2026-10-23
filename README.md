@@ -2,7 +2,7 @@
 
 Current release: **0.30.0**, engine **0.23.0-core**, protocol **31**, schema **4**. [Battle items and medicine](docs/battle-item-completion.md); [Partial battle interactions](docs/battle-partial-interactions.md); [Standalone battle abilities](docs/battle-standalone-abilities.md); [private battle information](docs/battle-private-information.md); [battle forms and transformations](docs/battle-transformations.md).
 
-Current unfinished features and verification gaps: [remaining work](docs/REMAINING-WORK.md).
+Current unfinished features and verification gaps: [remaining work](docs/REMAINING-WORK.md). Milestone 7: [Windows/LAN acceptance kit and manual cases](docs/windows-lan-acceptance.md) (manual acceptance pending).
 
 Windows desktop workspace for Pokerole 3.0. Built with Tauri 2, React/TypeScript, and Rust. Each installation keeps its library locally and can host a persistent campaign over LAN or a private VPN.
 

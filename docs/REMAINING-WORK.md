@@ -1,6 +1,6 @@
 # PokeVerse - remaining work
 
-Snapshot: **22 October 2026**, application **0.30.0**, engine **0.23.0-core**, protocol **31**, user database schema **4**.
+Snapshot: **23 October 2026**, application **0.30.0**, engine **0.23.0-core**, protocol **31**, user database schema **4**.
 
 This is the current project backlog. Implemented foundations are summarized first; unfinished features, explicit GM rulings, verification gaps and excluded scope are distinguished below. Counts come from the checked-in registries and should be refreshed after catalog changes.
 
@@ -69,6 +69,8 @@ Current catalog: 1,200 species/forms and 892 moves. The special-move registry co
 ## 4. Windows, multiplayer and distribution acceptance
 
 Headless localhost WebSocket tests establish separate host/GM/owner authority, receipts, reconnect, rollback and database persistence. They do not establish interactive Windows or physical LAN acceptance.
+
+Milestone 7 preparation is delivered: [isolated lab, preservation evidence and 15 manual acceptance cases](windows-lan-acceptance.md). The user selected preparation of the checks; native installation/workflows, physical LAN and signing remain pending. See [the 23 October automated baseline](acceptance-baseline-2026-10-23.md).
 
 - [ ] Install, upgrade and uninstall the packaged app in isolated Windows installations; verify preservation of personal data and offline catalog/sprites.
 - [ ] Exercise creation, progression, trainer-point distribution, Compendium links/Back navigation and dialogs at 960x650, 1280x850 and 1920x1080, including keyboard access and long content.

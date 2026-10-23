@@ -10,7 +10,7 @@
     "tauri": "tauri",
     "desktop": "tauri dev",
     "package": "tauri build",
-    "test": "vitest run && node --test scripts/catalog-preview.check.mjs scripts/habitats.check.mjs scripts/compendium.check.mjs scripts/catalog-review.check.mjs",
+    "test": "vitest run && node --test scripts/catalog-preview.check.mjs scripts/habitats.check.mjs scripts/compendium.check.mjs scripts/catalog-review.check.mjs scripts/acceptance-data.check.mjs",
     "test:3v3": "cargo test --manifest-path src-tauri/Cargo.toml scenario_3v3 --lib -- --nocapture",
     "test:rust": "npm run catalog && cargo test --manifest-path src-tauri/Cargo.toml --lib",
     "bindings": "npm run catalog && cargo test --manifest-path src-tauri/Cargo.toml export_bindings",
