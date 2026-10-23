@@ -79,6 +79,10 @@ git diff --check
 
 Rust binding tests regenerate TypeScript files; format changed bindings with Prettier before reviewing the final diff. Rebuild with `npm run package` only when application/catalog changes require a new artifact. The acceptance preparation itself does not alter the application version, protocol, schema or existing installer. Keep automation evidence distinct from the manual case ledger.
 
+## Private-group scope decision — 23 October 2026
+
+The user declined public release/signing work for the private friend group. Case A15 is outside the planned scope, not passed. The installer remains unsigned. Installation, UI and networking results retain their actual pending/passed status; do not infer successful tests from this decision. Future gameplay work follows [the GM-choice roadmap](GM-CHOICE-ROADMAP.md).
+
 ## Completion rule
 
 Milestone 7 can be marked complete only when applicable cases have recorded results and evidence, all failures are fixed/retested, and native installation/upgrade/uninstall, interactive workflows, physical LAN and signing are explicitly resolved. A user-approved deferral must stay labelled as a deferral. Until then the kit and automated checks are delivered, and acceptance remains pending.

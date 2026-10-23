@@ -10,6 +10,10 @@ See the [complete item and ability roadmap](ITEM-ABILITY-ROADMAP.md) for the ord
 
 The registry records 242 automated, 60 partial and 3 manual abilities. The older tables in sections 8–9 reproduce the pre-release baseline; generic held-item and booster dependencies there are stale and must not override the newer audited worktree assessment. The reviewed held-item batch is released in 0.25.0; transformation batch 2 is delivered in 0.26.0; private-information batch 3 is delivered in 0.27.0; standalone batch 4 is delivered in 0.28.0; interaction review batch 5 is delivered in 0.29.0. Milestone 6 delivers the 30 battle/species item definitions and all 17 ordinary medicines with reviewed Recycle. The 47 Mega stones remain released. See [item rules and retained GM policies](battle-item-completion.md). All 35 Z-crystals remain excluded; 10 items explicitly forbid battle use. Other reference-only entries require scope review before becoming battle tasks.
 
+## Current priority
+
+Private friend-group use: public release/signing/distribution polish is not planned, by user decision on 23 October 2026. Next work is [reducing recurring GM choices](GM-CHOICE-ROADMAP.md): campaign house rules first, then source-defined effects still requiring manual resolution. Genuine ambiguities and narrative choices remain explicit. This does not mark unperformed native/network tests as passed.
+
 ## Implemented foundation
 
 Offline trainer/Pokémon creation and named progression use shared Rust budgets, costs, prerequisites and derived resources. Campaign synchronization supports accepted offline purchases, indivisible progression chains and scoped GM exception approval. The host appoints the GM and automatically validates normal commands; these roles can be separate people.
@@ -78,7 +82,7 @@ Milestone 7 preparation is delivered: [isolated lab, preservation evidence and 1
 - [ ] Exercise training-encounter draft privacy, publication, mixed capture recipients, trainer rewards, owner library imports and subsequent offline progression.
 - [ ] Exercise stale previews, duplicate submissions, disconnect/reconnect, replacement GM, conflicting offline branches and backup restoration through the native interface.
 - [ ] Test direct LAN joining on separate physical Windows machines, firewall/connection errors and reconnection. Record private-VPN tests separately from direct LAN tests.
-- [ ] Finish and verify the trusted Windows signing/distribution process; building an installer does not establish a trusted signature or remove Windows execution prompts. Do not automatically launch executables or installers during unattended checks.
+- **Not planned for private group use:** trusted Windows signing/public distribution. The current installer remains unsigned; packaging is separate from native acceptance. Do not automatically launch executables or installers during unattended checks.
 
 Linux x86-64 packaging is now available for v0.30.0, with 651 Rust tests passing on Ubuntu 26.04 and verified Debian/AppImage catalog contents. See [Linux build and installation](linux-build.md). Native Ubuntu 26.10 and physical Windows/Linux Tailscale acceptance remain pending.
 
