@@ -339,6 +339,7 @@ fn events_new_battles_enable_rules_and_preserve_provenance_engine_behavior() {
             &c,
             "gm",
             Action::StartBattle {
+                environment: None,
                 sheet_ids: sheets.clone(),
                 sides: BTreeMap::new(),
             },

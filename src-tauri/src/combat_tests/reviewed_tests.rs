@@ -462,6 +462,7 @@ fn provenance_new_battles_enable_rules_and_historical_sequencing_engine_stays_co
             &c,
             "gm",
             Action::StartBattle {
+                environment: None,
                 sheet_ids: sheets.clone(),
                 sides: BTreeMap::new(),
             },

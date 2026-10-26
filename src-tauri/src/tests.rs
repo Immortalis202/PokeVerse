@@ -103,6 +103,7 @@ fn core_battle(move_name: &str) -> (Campaign, String) {
         &c,
         "gm",
         &Action::StartBattle {
+            environment: None,
             sheet_ids: vec![p.id],
             sides: BTreeMap::new(),
         },
@@ -930,6 +931,7 @@ fn battle_lifecycle_persists_resources_and_freezes_participating_sheets() {
         &campaign,
         "gm",
         &Action::StartBattle {
+            environment: None,
             sheet_ids: vec![p.id.clone()],
             sides: BTreeMap::new(),
         },
@@ -973,6 +975,7 @@ fn player_cannot_resolve_damage_or_roll_another_players_combatant() {
         &campaign,
         "gm",
         &Action::StartBattle {
+            environment: None,
             sheet_ids: vec![t.id],
             sides: BTreeMap::new(),
         },
@@ -1006,6 +1009,7 @@ fn invalid_resolution_is_atomic() {
         &state,
         "gm",
         &Action::StartBattle {
+            environment: None,
             sheet_ids: vec![t.id],
             sides: BTreeMap::new(),
         },
@@ -1409,6 +1413,7 @@ async fn host_automatically_accepts_player_accuracy_and_rollback_keeps_receipts_
                 id: id(),
                 expected_revision: 1,
                 action: Action::StartBattle {
+                    environment: None,
                     sheet_ids: vec![p.id],
                     sides: BTreeMap::new(),
                 },

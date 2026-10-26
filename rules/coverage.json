@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.24.0-core",
-  "release": "0.31.1",
-  "protocol": 32,
+  "engine": "0.25.0-core",
+  "release": "0.32.0",
+  "protocol": 33,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -515,6 +515,20 @@
         "house_mirror_coat_is_a_late_response_using_the_exact_incoming_pool",
         "house_mirror_coat_rejects_ordinary_physical_ally_and_spent_reaction_uses",
         "house_mirror_coat_failed_accuracy_spends_the_slot_and_rollback_restores_it"
+      ]
+    },
+    {
+      "id": "starting-multiplayer-battlefield",
+      "status": "automated",
+      "source": "GM encounter-specific selections; existing RULING 78,88-91 field mechanics and supplied Moonlight card",
+      "scope": "Atomic GM-only starting day/night, all eight natural weather types, one terrain, supported rooms/Gravity and arena presets for manually started multiplayer battles; wild/training preparation unchanged. Initial snapshot, live changes, entry conflicts, remaining duration and Moonlight override preserved.",
+      "fixtures": [
+        "environment_start_snapshots_all_weather_without_spending_actions_or_touching_wild_encounters",
+        "environment_rejects_invalid_setup_unauthorized_starts_and_historical_engines_atomically",
+        "environment_rooms_gravity_expiry_and_live_changes_preserve_initial_snapshot_on_rollback",
+        "environment_entry_abilities_resolve_against_preexisting_conditions",
+        "environment_moonlight_uses_live_night_with_explicit_overrides_and_historical_fallback",
+        "separate_gm_three_trainers_receipts_reconnect_and_persistence"
       ]
     }
   ],

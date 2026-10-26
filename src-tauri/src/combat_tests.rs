@@ -1202,3 +1202,6 @@ mod information_tests;
 
 #[path = "combat_tests/standalone_tests.rs"]
 mod standalone_tests;
+
+#[path = "combat_tests/environment_tests.rs"]
+mod environment_tests;

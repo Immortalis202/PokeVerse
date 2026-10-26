@@ -112,9 +112,23 @@ export default function BattlefieldControls({
           : "none"}
         . Air Lock suppresses weather globally; Cloud Nine protects its holder.{" "}
         {field.night
-          ? "Night time: Mind’s Eye grants Never Miss."
+          ? "Night time: Mind’s Eye grants Never Miss; Moonlight uses the arena night setting unless overridden."
           : "Day time."}
       </p>
+      {field.initial && (
+        <details>
+          <summary>GM starting conditions</summary>
+          <p>
+            {field.initial.night ? "Night" : "Day"} ·{" "}
+            {field.initial.weather ?? "Clear"} ·{" "}
+            {field.initial.terrain?.kind ?? "No terrain"} ·{" "}
+            {field.initial.effects.map((e) => e.kind).join(", ") ||
+              "No extra effects"}
+            . This records the starting conditions; current effects are listed
+            below.
+          </p>
+        </details>
+      )}
       {event && (
         <div className="notice" role="status">
           <strong>Pending: {event.kind}</strong> ·{" "}
@@ -298,6 +312,7 @@ export default function BattlefieldControls({
               </label>
             </div>
             {[
+              "0.25.0-core",
               "0.24.0-core",
               "0.23.0-core",
               "0.22.0-core",

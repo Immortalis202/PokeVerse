@@ -1,6 +1,6 @@
-# PokeVerse v0.31.1
+# PokeVerse v0.32.0
 
-Current build: **0.31.1**, engine **0.24.0-core**, protocol **32**, schema **4**. [Battle items and medicine](docs/battle-item-completion.md); [Partial battle interactions](docs/battle-partial-interactions.md); [Standalone battle abilities](docs/battle-standalone-abilities.md); [private battle information](docs/battle-private-information.md); [battle forms and transformations](docs/battle-transformations.md).
+Current build: **0.32.0**, engine **0.25.0-core**, protocol **33**, schema **4**. [Battle items and medicine](docs/battle-item-completion.md); [Partial battle interactions](docs/battle-partial-interactions.md); [Standalone battle abilities](docs/battle-standalone-abilities.md); [private battle information](docs/battle-private-information.md); [battle forms and transformations](docs/battle-transformations.md).
 
 [Selected group rules](docs/battle-group-rules.md) are applied in new current-engine encounters. Version 0.31.1 corrects Mirror Coat as a Late Reaction 5 to an incoming Special move.
 
@@ -8,7 +8,7 @@ Current unfinished features and verification gaps: [remaining work](docs/REMAINI
 
 Windows desktop workspace for Pokerole 3.0. Built with Tauri 2, React/TypeScript, and Rust. Each installation keeps its library locally and can host a persistent campaign over LAN or a private VPN.
 
-The default Nocturne workspace uses RodeoPokemon's dark purple palette, a compact navigation rail and a toolbar with campaign, connection and separate host/GM status. Creation, progression, training encounters and battles retain their existing workflows. Version 0.31.1 uses protocol 32 and retains database schema 4; all room clients must use matching builds.
+The default Nocturne workspace uses RodeoPokemon's dark purple palette, a compact navigation rail and a toolbar with campaign, connection and separate host/GM status. Creation, progression, training encounters and battles retain their existing workflows. Version 0.32.0 uses protocol 33 and retains database schema 4; all room clients must use matching builds.
 
 ## Run
 
@@ -129,3 +129,5 @@ Targeting/reactions in 0.16.0: [multi-target responses, redirection and controll
 Decoys in 0.17.0: [Substitute, Shed Tail and Snatch](docs/battle-decoys.md). Dynamax, all Max Moves (including Max Guard), and Z-Moves are out of scope and remain reference-only catalog entries.
 
 Contact transfers and campaign-scoped 24-hour inheritance are documented in [battle ability transfers](docs/battle-ability-transfers.md).
+
+[Starting multiplayer battlefield](docs/battle-starting-environment.md): the GM chooses day/night, natural weather, terrain, rooms and arena effects before starting a battle. Wild encounters retain their own preparation.

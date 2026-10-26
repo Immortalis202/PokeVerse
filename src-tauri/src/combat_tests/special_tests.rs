@@ -503,6 +503,7 @@ fn special_weight_hp_dexterity_and_happiness_formulas_have_exact_caps() {
         &c,
         "gm",
         &cmd(special::SpecialCommand::Parameters {
+            night_override: None,
             combatant_id: t.clone(),
             weight_kg: Some(300.),
             lift_kg: None,
@@ -777,6 +778,7 @@ async fn special_room_host_validates_gm_parameters_receipts_stale_commands_and_r
         id: id(),
         expected_revision: c.revision,
         action: cmd(special::SpecialCommand::Parameters {
+            night_override: None,
             combatant_id: a.clone(),
             weight_kg: Some(200.),
             lift_kg: Some(300.),

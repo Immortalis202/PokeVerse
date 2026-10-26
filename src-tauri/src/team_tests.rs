@@ -29,6 +29,7 @@ fn setup(owners: [&str; 4]) -> (Campaign, Action) {
     (
         c,
         Action::StartTeamBattle {
+            environment: None,
             sheet_ids: roster,
             sides,
             active_sheet_ids: starters,
@@ -137,6 +138,7 @@ fn twelve_registered_six_active_and_reserves_are_not_combatants() {
             &invalid,
             "gm",
             &Action::StartTeamBattle {
+                environment: None,
                 sheet_ids,
                 sides,
                 active_sheet_ids,
@@ -366,7 +368,26 @@ async fn separate_gm_three_trainers_receipts_reconnect_and_persistence() {
         .iter()
         .map(|s| s.lock().unwrap().player_id.clone())
         .collect();
-    let (c, action) = setup([&owners[0], &owners[1], &owners[2], &owners[3]]);
+    let (mut c, mut action) = setup([&owners[0], &owners[1], &owners[2], &owners[3]]);
+    c.engine = ENGINE.into();
+    if let Action::StartTeamBattle { environment, .. } = &mut action {
+        *environment = Some(crate::combat::field::EncounterField {
+            night: true,
+            weather: Some(crate::combat::field::Weather::Rain),
+            indoors: false,
+            sunlight: true,
+            terrain: Some(crate::combat::field::InitialFieldEffect {
+                kind: "Grassy Terrain".into(),
+                rounds: None,
+                parameter: 1,
+            }),
+            effects: vec![crate::combat::field::InitialFieldEffect {
+                kind: "Gravity".into(),
+                rounds: None,
+                parameter: 1,
+            }],
+        });
+    }
     stores[0].lock().unwrap().put_campaign(&c).unwrap();
     let cat = Arc::new(catalog());
     let notify: room::Notify = Arc::new(|_, _| {});
@@ -400,16 +421,29 @@ async fn separate_gm_three_trainers_receipts_reconnect_and_persistence() {
             .unwrap()
             .unwrap()
     }
-    let mut next = send(
-        &remotes[2],
-        Command {
-            id: id(),
-            expected_revision: c.revision,
-            action,
-        },
-    )
-    .await
-    .unwrap();
+    let start_command = Command {
+        id: id(),
+        expected_revision: c.revision,
+        action: action.clone(),
+    };
+    assert!(host.host.apply(&owners[0], &start_command).is_err());
+    assert!(send(&remotes[0], start_command.clone()).await.is_err());
+    let mut next = send(&remotes[2], start_command.clone()).await.unwrap();
+    assert_eq!(
+        send(&remotes[2], start_command).await.unwrap().revision,
+        next.revision
+    );
+    let initial = &next
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .battlefield;
+    assert!(initial.night && initial.initial.is_some());
+    assert_eq!(initial.natural, Some(crate::combat::field::Weather::Rain));
+    assert!(initial.rules.iter().any(|r| r.kind == "Gravity"));
     let (out, incoming) = pair(&next, &owners[1]);
     let command = Command {
         id: id(),
@@ -495,7 +529,7 @@ async fn separate_gm_three_trainers_receipts_reconnect_and_persistence() {
         .find(|saved| saved.id == c.id)
         .unwrap();
     assert_eq!(
-        serde_json::to_value(saved.battle).unwrap(),
+        serde_json::to_value(crate::privacy::for_player(&saved, &owners[1]).battle).unwrap(),
         serde_json::to_value(next.battle).unwrap()
     );
     replacement.task.abort();

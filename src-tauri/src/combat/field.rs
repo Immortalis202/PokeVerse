@@ -14,6 +14,129 @@ pub enum Weather {
     Typhoon,
     StrongWinds,
 }
+/// Explicit initial conditions for a manually started multiplayer battle.
+#[derive(Debug, Clone, Serialize, Deserialize, TS)]
+#[ts(export, export_to = "../../src/bindings/")]
+pub struct EncounterField {
+    pub night: bool,
+    pub weather: Option<Weather>,
+    pub indoors: bool,
+    pub sunlight: bool,
+    pub terrain: Option<InitialFieldEffect>,
+    pub effects: Vec<InitialFieldEffect>,
+}
+#[derive(Debug, Clone, Serialize, Deserialize, TS)]
+#[ts(export, export_to = "../../src/bindings/")]
+pub struct InitialFieldEffect {
+    pub kind: String,
+    pub rounds: Option<u32>,
+    pub parameter: i32,
+}
+pub fn start_setup(a: &Action) -> Option<&EncounterField> {
+    match a {
+        Action::StartBattle { environment, .. } | Action::StartTeamBattle { environment, .. } => {
+            environment.as_ref()
+        }
+        _ => None,
+    }
+}
+pub fn validate_setup(s: &EncounterField) -> Result<()> {
+    if s.indoors
+        && matches!(
+            s.weather,
+            Some(Weather::Sunny | Weather::Rain | Weather::Sandstorm | Weather::Hail)
+        )
+    {
+        return Err(error(
+            "The selected natural weather cannot reach an indoor arena",
+        ));
+    }
+    if s.weather == Some(Weather::Sunny) && !s.sunlight {
+        return Err(error("Sunny weather requires reachable sunlight"));
+    }
+    if s.effects.len() > 22 {
+        return Err(error("Too many starting battlefield effects"));
+    }
+    let mut names = BTreeSet::new();
+    for (e, terrain) in s
+        .terrain
+        .iter()
+        .map(|e| (e, true))
+        .chain(s.effects.iter().map(|e| (e, false)))
+    {
+        let allowed = if terrain {
+            [
+                "Electric Terrain",
+                "Grassy Terrain",
+                "Misty Terrain",
+                "Psychic Terrain",
+            ]
+            .contains(&e.kind.as_str())
+        } else {
+            [
+                "Trick Room",
+                "Wonder Room",
+                "Magic Room",
+                "Gravity",
+                "Reflect",
+                "Light Screen",
+                "Aurora Veil",
+                "fog",
+                "mud",
+                "underwater",
+                "fire",
+                "electric-poles",
+                "flowers",
+                "sewage",
+                "jungle",
+                "high-poles",
+                "sprinklers",
+                "cemetery",
+                "minefield",
+                "healing-pits",
+                "torn-world",
+                "final-destination",
+            ]
+            .contains(&e.kind.as_str())
+        };
+        if !allowed
+            || !names.insert(e.kind.as_str())
+            || e.rounds.is_some_and(|n| n == 0 || n > 1000)
+            || !(-20..=100).contains(&e.parameter)
+            || (["high-poles", "healing-pits"].contains(&e.kind.as_str()) && e.parameter < 1)
+        {
+            return Err(error(
+                "Invalid or duplicate starting field effect, duration or parameter",
+            ));
+        }
+    }
+    Ok(())
+}
+pub fn prepare(c: &mut Campaign, setup: &EncounterField) -> Result<()> {
+    validate_setup(setup)?;
+    if !enabled(c) {
+        return Err(error("Starting conditions require battlefield rules"));
+    }
+    let f = state_mut(c);
+    f.initial = Some(setup.clone());
+    f.night = setup.night;
+    f.natural = setup.weather;
+    f.indoors = setup.indoors;
+    f.sunlight = setup.sunlight;
+    for e in setup.terrain.iter().chain(setup.effects.iter()) {
+        insert(c, &e.kind, "setup:gm", "all", e.rounds, e.parameter);
+    }
+    Ok(())
+}
+/// Current prepared encounters use the arena clock; historical ones retain their parameter.
+pub fn moonlight_night(c: &Campaign, legacy: bool, explicit: Option<bool>) -> bool {
+    match state(c).filter(|f| f.initial.is_some()) {
+        Some(f) => explicit
+            .or(if legacy { Some(true) } else { None })
+            .unwrap_or(f.night),
+        None => legacy,
+    }
+}
 #[derive(Debug, Clone, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct FieldSnapshot {
@@ -146,6 +269,8 @@ pub struct TerrainSource {
 #[derive(Debug, Clone, Default, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct Battlefield {
+    #[serde(default)]
+    pub initial: Option<EncounterField>,
     pub enabled: bool,
     pub natural: Option<Weather>,
     pub weather: Option<WeatherSource>,

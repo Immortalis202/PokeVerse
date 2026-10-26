@@ -1,5 +1,5 @@
 import { battleSheet } from "./sheets";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Campaign } from "./bindings/Campaign";
 import type { Action } from "./bindings/Action";
 import type { SpecialCommand } from "./bindings/SpecialCommand";
@@ -26,8 +26,24 @@ export default function SpecialMoveControls({
     [notice, setNotice] = useState("");
   const [asReaction, setAsReaction] = useState(false);
   const [lift, setLift] = useState("");
+  const [nightOverride, setNightOverride] = useState("arena");
   const [weight, setWeight] = useState(""),
     [night, setNight] = useState(false);
+  useEffect(() => {
+    const p = campaign.battle?.flow?.special.parameters[actor];
+    setNightOverride(
+      p?.night_override == null
+        ? p?.night
+          ? "night"
+          : "arena"
+        : p.night_override
+          ? "night"
+          : "day",
+    );
+    setNight(p?.night ?? false);
+    setWeight(p?.weight_kg == null ? "" : String(p.weight_kg));
+    setLift(p?.lift_kg == null ? "" : String(p.lift_kg));
+  }, [actor, campaign.battle?.id]);
   const b = campaign.battle,
     f = b?.flow,
     s = f?.special;
@@ -270,24 +286,42 @@ export default function SpecialMoveControls({
                   onChange={(e) => setLift(e.target.value)}
                 />
               </label>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={night}
-                  onChange={(e) => setNight(e.target.checked)}
-                />
-                Nighttime
-              </label>
+              {f.battlefield.initial ? (
+                <label>
+                  Moonlight night override
+                  <select
+                    value={nightOverride}
+                    onChange={(e) => setNightOverride(e.target.value)}
+                  >
+                    <option value="arena">Use battlefield day/night</option>
+                    <option value="night">Treat as night</option>
+                    <option value="day">Treat as day</option>
+                  </select>
+                </label>
+              ) : (
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={night}
+                    onChange={(e) => setNight(e.target.checked)}
+                  />
+                  Nighttime
+                </label>
+              )}
             </div>
             <button
               disabled={disabled || !actor || !reason.trim()}
               onClick={() =>
                 send({
                   kind: "Parameters",
+                  night_override:
+                    f.battlefield.initial && nightOverride !== "arena"
+                      ? nightOverride === "night"
+                      : null,
                   combatant_id: actor,
                   weight_kg: weight ? Number(weight) : null,
                   lift_kg: lift ? Number(lift) : null,
-                  night,
+                  night: f.battlefield.initial ? false : night,
                 })
               }
             >

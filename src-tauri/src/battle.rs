@@ -10,6 +10,7 @@ pub fn transition(
 ) -> Result<(Campaign, String)> {
     if [
         ENGINE,
+        GROUP_RULES_ENGINE,
         ITEM_COMPLETION_ENGINE,
         INTERACTION_ENGINE,
         STANDALONE_ENGINE,
@@ -35,6 +36,12 @@ pub fn transition(
     .contains(&current.engine.as_str())
     {
         return crate::combat::transition(current, actor, action, dice, catalog);
+    }
+    if crate::combat::field::start_setup(action).is_some() {
+        return Err(AppError::new(
+            "version",
+            "Upgrade between battles to configure the starting battlefield",
+        ));
     }
     let mut c = current.clone();
     let gm = actor == c.gm_id;
@@ -84,6 +91,7 @@ pub fn transition(
             ))
         }
         Action::StartTeamBattle {
+            environment: _,
             sheet_ids,
             sides,
             active_sheet_ids,
@@ -379,6 +387,7 @@ pub fn transition(
             }
             if ![
                 ENGINE,
+                GROUP_RULES_ENGINE,
                 ITEM_COMPLETION_ENGINE,
                 INTERACTION_ENGINE,
                 STANDALONE_ENGINE,
@@ -724,7 +733,9 @@ pub fn transition(
             }
             format!("Synchronized {} sheets", sheets.len())
         }
-        Action::StartBattle { sheet_ids, sides } => {
+        Action::StartBattle {
+            sheet_ids, sides, ..
+        } => {
             gm_only()?;
             if c.battle.as_ref().is_some_and(|b| b.active) {
                 return Err(AppError::new("battle", "End the current battle first"));

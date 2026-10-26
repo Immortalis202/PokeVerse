@@ -78,6 +78,8 @@ pub struct Hit {
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct Parameters {
     #[serde(default)]
+    pub night_override: Option<bool>,
+    #[serde(default)]
     pub lift_kg: Option<f64>,
     pub weight_kg: Option<f64>,
     pub night: bool,
@@ -132,6 +134,8 @@ pub enum SpecialCommand {
         sequence: u32,
     },
     Parameters {
+        #[serde(default)]
+        night_override: Option<bool>,
         combatant_id: String,
         weight_kg: Option<f64>,
         #[serde(default)]
@@ -288,6 +292,7 @@ pub fn command(
     }
     match cmd {
         SpecialCommand::Parameters {
+            night_override,
             combatant_id,
             weight_kg,
             lift_kg,
@@ -304,6 +309,7 @@ pub fn command(
             state_mut(c).parameters.insert(
                 combatant_id.clone(),
                 Parameters {
+                    night_override: *night_override,
                     lift_kg: *lift_kg,
                     weight_kg: *weight_kg,
                     night: *night,
@@ -1205,7 +1211,12 @@ pub fn effects(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) -
                 if matches!(
                     weather,
                     Some(field::Weather::Sunny | field::Weather::Desolate)
-                ) || (name == "Moonlight" && state(c).parameters.get(a).is_some_and(|p| p.night))
+                ) || (name == "Moonlight"
+                    && field::moonlight_night(
+                        c,
+                        state(c).parameters.get(a).is_some_and(|p| p.night),
+                        state(c).parameters.get(a).and_then(|p| p.night_override),
+                    ))
                 {
                     5
                 } else if matches!(

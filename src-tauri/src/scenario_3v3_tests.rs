@@ -163,6 +163,7 @@ fn fixture(owners: &[String; 4], variant: &str) -> (Campaign, Action) {
     (
         c,
         Action::StartTeamBattle {
+            environment: None,
             sheet_ids: roster,
             sides,
             active_sheet_ids: starters,

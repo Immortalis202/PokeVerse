@@ -2,7 +2,8 @@ use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 use ts_rs::TS;
 
-pub const ENGINE: &str = "0.24.0-core";
+pub const ENGINE: &str = "0.25.0-core";
+pub const GROUP_RULES_ENGINE: &str = "0.24.0-core";
 pub const ITEM_COMPLETION_ENGINE: &str = "0.23.0-core";
 pub const INTERACTION_ENGINE: &str = "0.22.0-core";
 pub const STANDALONE_ENGINE: &str = "0.21.0-core";
@@ -28,6 +29,7 @@ pub const PREVIOUS_ENGINE: &str = "0.2.0-core";
 pub fn core_engine(engine: &str) -> bool {
     [
         ENGINE,
+        GROUP_RULES_ENGINE,
         ITEM_COMPLETION_ENGINE,
         INTERACTION_ENGINE,
         STANDALONE_ENGINE,
@@ -54,7 +56,7 @@ pub fn core_engine(engine: &str) -> bool {
     .contains(&engine)
 }
 pub const LEGACY_ENGINE: &str = "0.1.0-manual";
-pub const PROTOCOL: u32 = 32;
+pub const PROTOCOL: u32 = 33;
 pub fn enabled() -> bool {
     true
 }
@@ -613,6 +615,8 @@ pub enum Action {
     },
 
     StartTeamBattle {
+        #[serde(default)]
+        environment: Option<crate::combat::field::EncounterField>,
         sheet_ids: Vec<String>,
         sides: BTreeMap<String, String>,
         active_sheet_ids: Vec<String>,
@@ -695,6 +699,8 @@ pub enum Action {
         sheets: Vec<SyncSheet>,
     },
     StartBattle {
+        #[serde(default)]
+        environment: Option<crate::combat::field::EncounterField>,
         sheet_ids: Vec<String>,
         sides: BTreeMap<String, String>,
     },

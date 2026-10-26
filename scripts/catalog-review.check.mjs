@@ -142,9 +142,11 @@ test("coverage and PDF fingerprints are preserved with a complete field-level qu
         "utf8",
       ) +
       readFileSync("src-tauri/src/combat_tests/field_tests.rs", "utf8") +
+      readFileSync("src-tauri/src/combat_tests/environment_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/extra_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/special_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/tactics_tests.rs", "utf8") +
+      readFileSync("src-tauri/src/team_tests.rs", "utf8") +
       readFileSync("src-tauri/src/tests.rs", "utf8");
     const coverage = JSON.parse(readFileSync("rules/coverage.json", "utf8"));
     for (const entry of coverage.entries)

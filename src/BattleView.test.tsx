@@ -100,9 +100,10 @@ function fighter(id: string): Combatant {
     selected_ability: "Static",
   };
 }
-function render(player: string, active = false) {
+function render(player: string, active = false, engine = campaign.engine) {
   const c = {
     ...campaign,
+    engine,
     battle: active
       ? {
           flow: null,
@@ -135,6 +136,24 @@ function select(html: string, label: string) {
   );
 }
 describe("registered battle teams", () => {
+  it("offers starting conditions only to the GM before a current multiplayer battle", () => {
+    expect(render("gm", false, "0.25.0-core")).toContain(
+      "Starting battlefield",
+    );
+    expect(render("player", false, "0.25.0-core")).not.toContain(
+      "Starting battlefield",
+    );
+    expect(render("host", false, "0.25.0-core")).not.toContain(
+      "Starting battlefield",
+    );
+    expect(render("gm", true, "0.25.0-core")).not.toContain(
+      "Starting battlefield",
+    );
+    expect(render("gm", false, "0.24.0-core")).not.toContain(
+      "Starting battlefield",
+    );
+  });
+
   it("GM preparation exposes starters and three active slots", () => {
     const html = render("gm");
     expect(html).toContain("Active slots per side");
@@ -378,6 +397,7 @@ describe("structured core battle controls", () => {
             round_started: 0,
           },
           battlefield: {
+            initial: null,
             enabled: [
               "0.6.0-core",
               "0.7.0-core",
@@ -970,7 +990,7 @@ describe("structured core battle controls", () => {
     const html = core(
       "gm",
       false,
-      "0.24.0-core",
+      "0.25.0-core",
       false,
       false,
       false,

@@ -59,7 +59,7 @@ export function WorkspaceRail({
       >
         P
         <span className="rail-tooltip" aria-hidden="true">
-          PokeVerse · v0.31.1
+          PokeVerse · v0.32.0
         </span>
       </button>
       <nav aria-label="Workspace">

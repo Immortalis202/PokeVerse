@@ -29,7 +29,7 @@ Completion criterion: the selected interpretation is visible at campaign setup a
 
 After recurring policies, implement source-reviewed mechanics in separate coherent batches:
 
-- Reconcile Moonlight's legacy individual night parameter with the existing battlefield night setting, retaining deliberate overrides.
+- Completed in 0.32.0: [starting multiplayer day/night, weather, terrain and arena effects](battle-starting-environment.md), including Moonlight using the live night setting with deliberate overrides. Wild/training encounters retain separate preparation.
 - Persist Shadow Force's defined recovery restriction beyond the encounter; encounter-local debt already exists.
 - Review remaining identity effects individually: Entrainment, Doodle and Core Enforcer.
 - Extend executable Support/stat/status/move definitions so reflection, copied traits and dependent abilities can resolve more effects automatically. Review the exact cards; ordinary damage support does not imply all 892 move effects are implemented.

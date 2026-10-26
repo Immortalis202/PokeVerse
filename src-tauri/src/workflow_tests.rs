@@ -554,6 +554,7 @@ async fn offline_progression_reconnects_through_real_host_and_gm_approval() {
                 id: id(),
                 expected_revision: synced.revision,
                 action: Action::StartBattle {
+                    environment: None,
                     sheet_ids: vec![p.id.clone()],
                     sides: BTreeMap::new(),
                 },

@@ -4563,6 +4563,7 @@ fn items_release_activates_new_battles_and_preserves_historical_engines() {
             &old,
             "gm",
             Action::StartBattle {
+                environment: None,
                 sheet_ids: sheets.clone(),
                 sides: BTreeMap::new(),
             },

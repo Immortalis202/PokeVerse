@@ -69,6 +69,7 @@ pub fn start(
         c,
         actor,
         &Action::StartBattle {
+            environment: None,
             sheet_ids: roster.to_vec(),
             sides: sides.clone(),
         },
