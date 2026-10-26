@@ -1,6 +1,6 @@
 # PokeVerse - remaining work
 
-Snapshot: **26 October 2026**, application **0.31.0**, engine **0.24.0-core**, protocol **32**, user database schema **4**.
+Snapshot: **26 October 2026**, application **0.31.1**, engine **0.24.0-core**, protocol **32**, user database schema **4**.
 
 This is the current project backlog. Implemented foundations are summarized first; unfinished features, explicit GM rulings, verification gaps and excluded scope are distinguished below. Counts come from the checked-in registries and should be refreshed after catalog changes.
 
@@ -12,7 +12,7 @@ The registry records 242 automated, 60 partial and 3 manual abilities. The older
 
 ## Current priority
 
-Private friend-group use: public release/signing/distribution polish is not planned, by user decision on 23 October 2026. Next work is [reducing recurring GM choices](GM-CHOICE-ROADMAP.md): the eight selected group rules are implemented in 0.31.0; next are source-defined effects still requiring manual resolution. See [the group-rule behavior and compatibility](battle-group-rules.md). Genuine ambiguities and narrative choices remain explicit. This does not mark unperformed native/network tests as passed.
+Private friend-group use: public release/signing/distribution polish is not planned, by user decision on 23 October 2026. Next work is [reducing recurring GM choices](GM-CHOICE-ROADMAP.md): the eight selected group rules are implemented in 0.31.0, and 0.31.1 corrects Mirror Coat as a source-defined conditional Late Reaction; next are other source-defined effects still requiring manual resolution. See [the group-rule behavior and compatibility](battle-group-rules.md). Genuine ambiguities and narrative choices remain explicit. This does not mark unperformed native/network tests as passed.
 
 ## Implemented foundation
 

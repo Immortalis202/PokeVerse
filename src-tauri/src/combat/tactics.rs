@@ -330,6 +330,12 @@ pub fn reaction_targets(
             "Ally" => vec![incoming.target_id.clone()],
             _ => vec![],
         });
+    if house::enabled(c) && m["Name"] == "Mirror Coat" {
+        if ids != [incoming.actor_id.clone()] {
+            return Err(error("Mirror Coat must target the Special move's attacker"));
+        }
+        return plan(c, id, &ids, m);
+    }
     let (ids, scope) = plan(c, id, &ids, m)?;
     let ids = redirect_move(c, id, ids, m, cat)?;
     Ok((ids, scope))
@@ -404,6 +410,11 @@ pub fn react(
             .ok_or_else(|| error("No reaction timing"))?;
         let target = targets.first().cloned().unwrap_or_else(|| id.into());
         flow_mut(c).queue.push(QueuedAction {
+            response_to: if house::enabled(&before) && name == "Mirror Coat" {
+                Some(incoming(&before)?.sequence)
+            } else {
+                None
+            },
             actor_id: id.into(),
             target_id: target,
             move_name: name.into(),
@@ -639,6 +650,7 @@ pub fn queue_clash(
     cat: &Catalog,
 ) -> Result<()> {
     let counter = QueuedAction {
+        response_to: None,
         actor_id: incoming.target_id.clone(),
         target_id: incoming.actor_id.clone(),
         move_name: name.into(),
@@ -1306,6 +1318,7 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
             continue;
         }
         let q = QueuedAction {
+            response_to: None,
             actor_id: p.id.clone(),
             target_id: p.id.clone(),
             move_name: p.selected_ability.clone(),

@@ -436,6 +436,7 @@ describe("structured core battle controls", () => {
           queue: queued
             ? [
                 {
+                  response_to: null,
                   sequencing_penalty: false,
                   sheer_force: false,
                   special_index: 0,

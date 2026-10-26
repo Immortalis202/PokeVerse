@@ -565,6 +565,6 @@ test("group interpretations retain explicit provenance and a compatibility finge
   );
   assert.match(r.provenance, /user/i);
   assert.equal(Object.keys(r.entries.abilities).length, 3);
-  assert.equal(Object.keys(r.entries.moves).length, 2);
+  assert.equal(Object.keys(r.entries.moves).length, 3);
   assert.equal(Object.keys(r.entries.items).length, 4);
 });

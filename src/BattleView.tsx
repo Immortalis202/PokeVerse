@@ -760,9 +760,13 @@ export default function BattleView({
                   {(gm && !battle.automatic_validation
                     ? catalog.moves.map((m) => m.Name)
                     : (actorSheet?.moves ?? [])
-                  ).map((m) => (
-                    <option key={m}>{m}</option>
-                  ))}
+                  )
+                    .filter(
+                      (m) => !battle.flow?.house_rules || m !== "Mirror Coat",
+                    )
+                    .map((m) => (
+                      <option key={m}>{m}</option>
+                    ))}
                 </select>
               </label>
               {core && gm && (

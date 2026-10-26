@@ -478,3 +478,195 @@ fn house_ring_removes_status_tick_and_recoil_immunity() {
     let historical = special::effect_dice(&c, &q, &catalog()).unwrap().unwrap();
     assert_eq!(with_ring, historical + 3);
 }
+
+fn mirror_response(id: &str) -> Action {
+    Action::React {
+        combatant_id: id.into(),
+        kind: "move".into(),
+        move_name: "Mirror Coat".into(),
+        reason: "Answer the incoming Special move".into(),
+    }
+}
+#[test]
+fn house_mirror_coat_is_a_late_response_using_the_exact_incoming_pool() {
+    let (mut c, a, t) = setup_house("Leftovers", "");
+    learn(&mut c, &t, "Mirror Coat");
+    for id in [&a, &t] {
+        let p = pm(&mut c, id);
+        p.hp = 100;
+        p.max_hp = 100;
+    }
+    c.revision = 10;
+    let mut c = attempt(&c, &a, &t, "Swift", 6);
+    let incoming_sequence = c.battle.as_ref().unwrap().flow.as_ref().unwrap().queue[0].sequence;
+    c.revision += 1;
+    let response = mirror_response(&t);
+    let c = roll(&c, "gm", &response, 6);
+    let f = c.battle.as_ref().unwrap().flow.as_ref().unwrap();
+    assert_eq!(f.queue[0].move_name, "Swift");
+    let q = f
+        .queue
+        .iter()
+        .find(|q| q.move_name == "Mirror Coat")
+        .unwrap();
+    assert_eq!(
+        (&*q.timing, q.priority, q.response_to),
+        ("after", 5, Some(incoming_sequence))
+    );
+    assert_eq!(p(&c, &t).actions, 1);
+    assert!(f.reacted.contains(&t));
+    let c: Campaign = serde_json::from_value(serde_json::to_value(&c).unwrap()).unwrap();
+    let n = rules::dice_count(&c, &damage_command(&c), &catalog()).unwrap();
+    let c = roll(&c, "gm", &damage_command(&c), 1);
+    let c = if c.battle.as_ref().unwrap().flow.as_ref().unwrap().queue[0].move_name == "Swift" {
+        effect(&c)
+    } else {
+        c
+    };
+    assert_eq!(
+        c.battle.as_ref().unwrap().flow.as_ref().unwrap().queue[0].move_name,
+        "Mirror Coat"
+    );
+    let c = if c.battle.as_ref().unwrap().flow.as_ref().unwrap().window {
+        pass(&c)
+    } else {
+        c
+    };
+    let q = &c.battle.as_ref().unwrap().flow.as_ref().unwrap().queue[0];
+    let m = catalog().find("moves", "Name", "Mirror Coat").unwrap();
+    let pool = special::formula(&c, p(&c, &t), p(&c, &a), &m, q.sequence, 0, &catalog())
+        .unwrap()
+        .unwrap();
+    assert_eq!(
+        rules::dice_count(&c, &damage_command(&c), &catalog()).unwrap(),
+        n + 2
+    );
+    assert_eq!(pool.dice, n + 2);
+    assert_eq!(pool.defense, 0);
+    let mut altered = c.clone();
+    altered
+        .battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .special
+        .history
+        .last_mut()
+        .unwrap()
+        .dice += 3;
+    assert_eq!(
+        rules::dice_count(&altered, &damage_command(&altered), &catalog()).unwrap(),
+        n + 5
+    );
+    let mut unrelated = c.clone();
+    unrelated
+        .battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .special
+        .history
+        .last_mut()
+        .unwrap()
+        .sequence += 100;
+    assert!(rules::dice_count(&unrelated, &damage_command(&unrelated), &catalog()).is_err());
+    let c = roll(&c, "gm", &damage_command(&c), 4);
+    assert!(p(&c, &a).hp < 100);
+}
+#[test]
+fn house_mirror_coat_rejects_ordinary_physical_ally_and_spent_reaction_uses() {
+    let (mut c, a, t) = setup_house("Leftovers", "");
+    learn(&mut c, &t, "Mirror Coat");
+    force_turn(&mut c, &t);
+    let ordinary = Action::Accuracy {
+        combatant_id: t.clone(),
+        target_id: Some(a.clone()),
+        move_name: "Mirror Coat".into(),
+        pool_modifier: 0,
+        success_modifier: 0,
+        reason: "Not a stored shield".into(),
+    };
+    assert!(rules::dice_count(&c, &ordinary, &catalog()).is_err());
+    let c = attempt(&c, &a, &t, "Tackle", 6);
+    assert!(rules::dice_count(&c, &mirror_response(&t), &catalog()).is_err());
+    let c = attempt(&c, &a, &t, "Swift", 6);
+    let mut spent = c.clone();
+    spent
+        .battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .reacted
+        .insert(t.clone());
+    assert!(rules::dice_count(&spent, &mirror_response(&t), &catalog()).is_err());
+    let mut other = c.clone();
+    other.battle.as_mut().unwrap().flow.as_mut().unwrap().queue[0].target_id = a.clone();
+    assert!(rules::dice_count(&other, &mirror_response(&t), &catalog()).is_err());
+    let wrong = Action::Tactics {
+        command: tactics::TacticsCommand::Reaction {
+            combatant_id: t.clone(),
+            move_name: "Mirror Coat".into(),
+            target_ids: vec![t.clone()],
+        },
+        reason: "Cannot redirect the counter".into(),
+    };
+    assert!(rules::dice_count(&c, &wrong, &catalog()).is_err());
+    let mut late = c.clone();
+    let q = &mut late.battle.as_mut().unwrap().flow.as_mut().unwrap().queue[0];
+    q.timing = "after".into();
+    q.priority = 5;
+    assert!(rules::dice_count(&late, &mirror_response(&t), &catalog()).is_err());
+}
+#[test]
+fn house_mirror_coat_failed_accuracy_spends_the_slot_and_rollback_restores_it() {
+    let (mut c, a, t) = setup_house("Leftovers", "");
+    learn(&mut c, &t, "Mirror Coat");
+    let c = attempt(&c, &a, &t, "Swift", 6);
+    let before = serde_json::to_value(&c).unwrap();
+    let failed = roll(&c, "gm", &mirror_response(&t), 1);
+    assert!(failed
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .reacted
+        .contains(&t));
+    assert_eq!(p(&failed, &t).actions, 1);
+    assert!(!failed
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .queue
+        .iter()
+        .any(|q| q.move_name == "Mirror Coat"));
+    let undo = Action::RollbackBattle {
+        event_sequence: failed.battle_undo.last().unwrap().event_sequence,
+        reason: "Undo failed Mirror Coat".into(),
+    };
+    let restored = battle::transition(&failed, "gm", &undo, vec![], &catalog())
+        .unwrap()
+        .0;
+    assert!(!restored
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .reacted
+        .contains(&t));
+    assert_eq!(p(&restored, &t).actions, 0);
+    assert_eq!(serde_json::to_value(&c).unwrap(), before);
+    assert!(rules::dice_count(&restored, &mirror_response(&t), &catalog()).is_ok());
+}

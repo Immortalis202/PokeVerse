@@ -944,6 +944,7 @@ fn forms_transform_uses_the_move_pipeline_and_preserves_user_skills_rank_and_res
 fn forms_gulp_missile_tracks_form_and_gm_recorded_retaliation_once() {
     let (mut c, a, t) = setup("Cramorant", "Gulp Missile");
     let mut q = crate::combat::QueuedAction {
+        response_to: None,
         actor_id: a.clone(),
         target_id: t.clone(),
         move_name: "Surf".into(),

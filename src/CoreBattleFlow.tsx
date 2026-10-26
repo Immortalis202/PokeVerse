@@ -248,11 +248,27 @@ export default function CoreBattleFlow({
                   onChange={(e) => setReactionMove(e.target.value)}
                 >
                   <option value="">Choose a move</option>
-                  {battleSheet(campaign, defender.id)?.moves.map((m) => (
-                    <option key={m}>{m}</option>
-                  ))}
+                  {battleSheet(campaign, defender.id)
+                    ?.moves.filter(
+                      (m) =>
+                        !f.house_rules ||
+                        m !== "Mirror Coat" ||
+                        catalog.moves.find(
+                          (v) => v.Name === incoming?.move_name,
+                        )?.Category === "Special",
+                    )
+                    .map((m) => (
+                      <option key={m}>{m}</option>
+                    ))}
                 </select>
               </label>
+              {f.house_rules && reactionMove === "Mirror Coat" && (
+                <p>
+                  Mirror Coat uses your Evasion/reaction slot. Late Reaction 5:
+                  take the incoming Special move first, then return its damage
+                  pool plus two dice, ignoring defenses.
+                </p>
+              )}
               <div className="toolbar">
                 {["evade", "clash", "move"].map((kind) => (
                   <button

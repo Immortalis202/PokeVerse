@@ -3,6 +3,10 @@ import type { DamageContext } from "./DamageContext";
 import type { TargetImpact } from "./TargetImpact";
 
 export type QueuedAction = {
+  /**
+   * Incoming action answered by a conditional counter move.
+   */
+  response_to: number | null;
   sheer_force: boolean;
   sequencing_penalty: boolean;
   special_index: number;

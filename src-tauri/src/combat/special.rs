@@ -63,6 +63,8 @@ pub struct TimedEffect {
 #[derive(Debug, Clone, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct Hit {
+    #[serde(default)]
+    pub sequence: u32,
     pub source: String,
     pub target: String,
     pub name: String,
@@ -653,6 +655,11 @@ pub fn accuracy_guard(c: &Campaign, id: &str, name: &str) -> Result<()> {
     if !enabled(c) {
         return Ok(());
     }
+    if house::enabled(c) && name == "Mirror Coat" && !flow(c)?.window {
+        return Err(error(
+            "Use Mirror Coat as a Late Reaction to an incoming Special move",
+        ));
+    }
     if state(c).charges.contains_key(id) {
         return Err(error("Release or cancel the stored charged move"));
     }
@@ -895,6 +902,7 @@ pub fn lifecycle(_before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<
         let round = battle(c)?.round;
         let turn = flow(c)?.turn;
         state_mut(c).history.push(Hit {
+            sequence: 0,
             source: id.clone(),
             target: id,
             name: "[fainted]".into(),
@@ -2040,6 +2048,13 @@ pub fn formula(
                     h.source == t.id
                         && h.target == a.id
                         && ["Physical", "Special"].contains(&h.category.as_str())
+                        && (name != "Mirror Coat"
+                            || !house::enabled(c)
+                            || flow(c).is_ok_and(|f| {
+                                f.queue.iter().any(|q| {
+                                    q.sequence == sequence && q.response_to == Some(h.sequence)
+                                })
+                            }))
                 })
                 .ok_or_else(|| error("No previous incoming damage pool from this target"))?;
             if (name == "Counter" && h.category != "Physical")
@@ -2579,6 +2594,7 @@ pub fn hit(
         }
     }
     state_mut(c).history.push(Hit {
+        sequence: q.sequence,
         source: q.actor_id.clone(),
         target: q.target_id.clone(),
         name: q.move_name.clone(),
@@ -2710,6 +2726,15 @@ pub fn target_guard(c: &Campaign, source: &str, id: &str, m: &serde_json::Value)
 pub fn reaction_guard(c: &Campaign, id: &str, kind: &str, name: &str, cat: &Catalog) -> Result<()> {
     if !enabled(c) {
         return Ok(());
+    }
+    if house::enabled(c) && kind == "move" && name == "Mirror Coat" {
+        let q = incoming(c)?;
+        let m = field::move_data(c, fighter(c, &q.actor_id)?, &move_entry(cat, &q.move_name)?);
+        if q.target_id != id || q.actor_id == id || m["Category"] != "Special" {
+            return Err(error(
+                "Mirror Coat can only answer a Special move attacking its user",
+            ));
+        }
     }
     if ["evade", "clash"].contains(&kind) && state(c).bides.get(id).is_some_and(|b| b.received < 2)
     {

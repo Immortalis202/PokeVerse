@@ -9,7 +9,8 @@
     },
     "moves": {
       "Magic Coat": "Group rule: lasts until the user takes its next action, including reactions. Foe actions and round changes do not consume it.",
-      "Bide": "Group rule: accumulate the user damage over the existing two-hit preparation, then hit the last Pokemon to attack the user. Later misses update the attacker, without adding damage."
+      "Bide": "Group rule: accumulate the user damage over the existing two-hit preparation, then hit the last Pokemon to attack the user. Later misses update the attacker, without adding damage.",
+      "Mirror Coat": "Source-defined correction: Late Reaction 5, only as a response to a Special move attacking the user. Target that attacker; roll its exact incoming damage pool plus two dice, ignoring defenses. Uses the shared Evasion/reaction slot; no stored coat or later reuse."
     },
     "items": {
       "Max Revive": "Group rule: full revival is not limited by the shared three-HP round cap. Existing fainting eligibility and healing blocks remain.",

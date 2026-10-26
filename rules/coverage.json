@@ -1,7 +1,7 @@
 {
   "version": 1,
   "engine": "0.24.0-core",
-  "release": "0.31.0",
+  "release": "0.31.1",
   "protocol": 32,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
@@ -511,7 +511,10 @@
         "house_missing_flag_stays_historical_in_serialization",
         "house_room_rules_persist_through_owner_receipts_reconnect_and_rollback",
         "house_ring_preserves_contact_retaliation_allows_drops_and_coat_survives_round_change",
-        "house_ring_removes_status_tick_and_recoil_immunity"
+        "house_ring_removes_status_tick_and_recoil_immunity",
+        "house_mirror_coat_is_a_late_response_using_the_exact_incoming_pool",
+        "house_mirror_coat_rejects_ordinary_physical_ally_and_spent_reaction_uses",
+        "house_mirror_coat_failed_accuracy_spends_the_slot_and_rollback_restores_it"
       ]
     }
   ],
@@ -521,5 +524,5 @@
   "form_registry_hash": "222191f7c2ed47eba141c0ff7b41318f9d7476951ba3f8e909a01370fb490e3a",
   "interaction_registry_hash": "89a963cd535446eaa5c4ee6386348c8eccf67c723a407d68a8fc881ebb41efe4",
   "item_completion_registry_hash": "b319b916dcbb15a0fb11da997075b5ba2a5444a9dd2fd9e2e6503e6e2f83d8cc",
-  "group_rules_registry_hash": "f14b3c092ed4c93546dea2ddca8d82934bcaa4531075983641fe50306d98416f"
+  "group_rules_registry_hash": "807b7285b7a8289f87c51b967bff00e7971c59f347dd263082f8a7aabd7e6325"
 }

@@ -123,6 +123,9 @@ pub struct TurnFlow {
 #[derive(Debug, Clone, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct QueuedAction {
+    /// Incoming action answered by a conditional counter move.
+    #[serde(default)]
+    pub response_to: Option<u32>,
     #[serde(default)]
     pub sheer_force: bool,
     #[serde(default)]
@@ -1458,6 +1461,7 @@ fn transition_inner(
                         .retain(|s| s.kind != "Frozen Solid");
                 } else {
                     flow_mut(&mut next).queue.push(QueuedAction {
+                        response_to: None,
                         actor_id: combatant_id.clone(),
                         target_id: target_id.clone(),
                         sequencing_penalty: false,
@@ -1817,6 +1821,7 @@ fn transition_inner(
                 let critical = m["Category"] != "Support"
                     && net >= required as i32 + extra::critical_margin(c, p, &m);
                 flow_mut(&mut next).queue.push(QueuedAction {
+                    response_to: None,
                     actor_id: combatant_id.clone(),
                     target_id: target.clone(),
                     sequencing_penalty: false,
@@ -2034,6 +2039,7 @@ fn transition_inner(
                         }
                         let attacker_hp = fighter(c, &incoming.actor_id)?.hp;
                         let counter = QueuedAction {
+                            response_to: None,
                             actor_id: incoming.target_id.clone(),
                             target_id: incoming.actor_id.clone(),
                             move_name: move_name.clone(),
@@ -2084,6 +2090,11 @@ fn transition_inner(
                 extra::accuracy_attempt(&mut next, combatant_id, &m, cat)?;
                 if net >= required as i32 {
                     flow_mut(&mut next).queue.push(QueuedAction {
+                        response_to: if house::enabled(c) && move_name == "Mirror Coat" {
+                            Some(incoming.sequence)
+                        } else {
+                            None
+                        },
                         actor_id: combatant_id.clone(),
                         target_id: if m["Target"] == "Self"
                             || (special::enabled(c) && special::ally_shield(&m))

@@ -671,6 +671,7 @@ pub fn resolve(
         return Ok(());
     }
     let q = QueuedAction {
+        response_to: None,
         actor_id: p.id.clone(),
         target_id: ids.first().cloned().unwrap_or_else(|| p.id.clone()),
         move_name: source.move_name,
@@ -768,6 +769,7 @@ pub fn missed_with_targets(
         return;
     }
     let q = QueuedAction {
+        response_to: None,
         actor_id: id.into(),
         target_id: id.into(),
         move_name: name.into(),

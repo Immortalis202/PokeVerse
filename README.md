@@ -1,14 +1,14 @@
-# PokeVerse v0.31.0
+# PokeVerse v0.31.1
 
-Current build: **0.31.0**, engine **0.24.0-core**, protocol **32**, schema **4**. [Battle items and medicine](docs/battle-item-completion.md); [Partial battle interactions](docs/battle-partial-interactions.md); [Standalone battle abilities](docs/battle-standalone-abilities.md); [private battle information](docs/battle-private-information.md); [battle forms and transformations](docs/battle-transformations.md).
+Current build: **0.31.1**, engine **0.24.0-core**, protocol **32**, schema **4**. [Battle items and medicine](docs/battle-item-completion.md); [Partial battle interactions](docs/battle-partial-interactions.md); [Standalone battle abilities](docs/battle-standalone-abilities.md); [private battle information](docs/battle-private-information.md); [battle forms and transformations](docs/battle-transformations.md).
 
-[Selected group rules](docs/battle-group-rules.md) are applied in new current-engine encounters.
+[Selected group rules](docs/battle-group-rules.md) are applied in new current-engine encounters. Version 0.31.1 corrects Mirror Coat as a Late Reaction 5 to an incoming Special move.
 
 Current unfinished features and verification gaps: [remaining work](docs/REMAINING-WORK.md). Milestone 7: [Windows/LAN acceptance kit and manual cases](docs/windows-lan-acceptance.md) (manual acceptance pending).
 
 Windows desktop workspace for Pokerole 3.0. Built with Tauri 2, React/TypeScript, and Rust. Each installation keeps its library locally and can host a persistent campaign over LAN or a private VPN.
 
-The default Nocturne workspace uses RodeoPokemon's dark purple palette, a compact navigation rail and a toolbar with campaign, connection and separate host/GM status. Creation, progression, training encounters and battles retain their existing workflows. Version 0.31.0 uses protocol 32 and retains database schema 4; all room clients must use matching builds.
+The default Nocturne workspace uses RodeoPokemon's dark purple palette, a compact navigation rail and a toolbar with campaign, connection and separate host/GM status. Creation, progression, training encounters and battles retain their existing workflows. Version 0.31.1 uses protocol 32 and retains database schema 4; all room clients must use matching builds.
 
 ## Run
 
