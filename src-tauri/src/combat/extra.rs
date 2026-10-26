@@ -141,10 +141,11 @@ fn own_stat(c: &Campaign, p: &Combatant, key: &str) -> i32 {
 }
 fn protected(c: &Campaign, p: &Combatant, key: &str) -> bool {
     items::completion::has(c, &p.id, "Clear Amulet")
-        || p.has_any_ability(&["Clear Body", "Full Metal Body", "White Smoke"])
-        || (key == "Strength" && p.has_any_ability(&["Hyper Cutter", "Guard Dog"]))
-        || (key == "Defense" && p.has_ability("Big Pecks"))
-        || field::aura(c, p, "Flower Veil", true)
+        || (!house::ring(c, p)
+            && (p.has_any_ability(&["Clear Body", "Full Metal Body", "White Smoke"])
+                || (key == "Strength" && p.has_any_ability(&["Hyper Cutter", "Guard Dog"]))
+                || (key == "Defense" && p.has_ability("Big Pecks"))
+                || field::aura(c, p, "Flower Veil", true)))
 }
 pub fn attribute_channel(c: &Campaign, p: &Combatant, key: &str) -> (i32, i32) {
     let intimidated = flow(c).is_ok_and(|f| f.intimidate.values().any(|ids| ids.contains(&p.id)));
@@ -154,7 +155,7 @@ pub fn attribute_channel(c: &Campaign, p: &Combatant, key: &str) -> (i32, i32) {
     } else {
         0
     };
-    if !p.has_ability("Clear Body") {
+    if house::ring(c, p) || !p.has_ability("Clear Body") {
         if key == "Strength"
             && matches!(
                 field::weather(c, Some(p)),
@@ -168,7 +169,11 @@ pub fn attribute_channel(c: &Campaign, p: &Combatant, key: &str) -> (i32, i32) {
             positive = positive.max(1);
         }
     }
-    if key == "Strength" && intimidated && !p.has_ability("Inner Focus") && !protected(c, p, key) {
+    if key == "Strength"
+        && intimidated
+        && (house::ring(c, p) || !p.has_ability("Inner Focus"))
+        && !protected(c, p, key)
+    {
         match p.ability_for(&["Contrary", "Simple"]) {
             "Contrary" => positive = positive.max(1),
             "Simple" => negative = -2,
@@ -490,6 +495,9 @@ pub fn immune(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> bool {
             })
 }
 pub fn source_immune(c: &Campaign, source: &Combatant, target: &Combatant, effective: i32) -> bool {
+    if house::ring(c, target) {
+        return false;
+    }
     if reviewed::damage_bypass(c, source, target) {
         return false;
     }
@@ -500,6 +508,9 @@ pub fn source_immune(c: &Campaign, source: &Combatant, target: &Combatant, effec
             || (target.has_ability("Wonder Guard") && effective <= 0))
 }
 pub fn status_immune(c: &Campaign, p: &Combatant, kind: &str, source: Option<&str>) -> bool {
+    if house::ring(c, p) {
+        return false;
+    }
     if !enabled(c) {
         return false;
     }
@@ -590,13 +601,18 @@ fn enqueue(
     });
 }
 fn hurt(c: &mut Campaign, id: &str, n: i32) -> Result<()> {
-    if !["Magic Guard", "Wonder Guard"].contains(&fighter(c, id)?.selected_ability.as_str()) {
+    if house::ring(c, fighter(c, id)?)
+        || !["Magic Guard", "Wonder Guard"].contains(&fighter(c, id)?.selected_ability.as_str())
+    {
         let p = fighter_mut(c, id)?;
         p.hp = (p.hp - n).max(0);
     }
     Ok(())
 }
 pub fn disguise(c: &mut Campaign, id: &str, n: i32) -> Result<i32> {
+    if fighter(c, id).is_ok_and(|p| house::ring(c, p)) {
+        return Ok(n);
+    }
     if enabled(c)
         && n > 0
         && fighter(c, id)?.has_ability("Disguise")
@@ -659,7 +675,8 @@ pub fn hit(c: &mut Campaign, q: &QueuedAction, before: i32, m: &serde_json::Valu
     if target.has_ability("Sand Spit") && abilities::contact(m) {
         field::sand_spit(c, &target.id)?;
     }
-    let bypass = reviewed::damage_bypass(c, &reviewed::source(c, q)?, &target);
+    let bypass =
+        house::ring(c, &target) || reviewed::damage_bypass(c, &reviewed::source(c, q)?, &target);
     if target.hp > 0 {
         for name in target.ability_names() {
             let mut variant = target.clone();
@@ -810,16 +827,20 @@ fn apply_stat(
     if source != id && n < 0 && items::completion::has(c, id, "Clear Amulet") && !bypass {
         return Ok(());
     }
-    if bypass && n < 0 && p.has_any_ability(&["Full Metal Body", "Mirror Armor"]) {
+    let ring = house::ring(c, &p);
+    if bypass && !ring && n < 0 && p.has_any_ability(&["Full Metal Body", "Mirror Armor"]) {
         return Err(AppError::new(
             "manual_rule",
             "Conflicting unique stat protection and Teravolt/Turboblaze require a GM ruling",
         ));
     }
-    if n < 0 && hostile && p.has_ability("Mirror Armor") && !reflected {
+    if n < 0 && hostile && !ring && p.has_ability("Mirror Armor") && !reflected {
         return apply_stat(c, id, source, key, n, true);
     }
-    if source != id && !bypass && ((n < 0 && protected(c, &p, key)) || p.has_ability("Clear Body"))
+    if source != id
+        && !ring
+        && !bypass
+        && ((n < 0 && protected(c, &p, key)) || p.has_ability("Clear Body"))
     {
         if n < 0 && key == "Strength" && p.has_ability("Guard Dog") {
             boost(c, id, key, 2)?;
@@ -1459,7 +1480,8 @@ pub fn effects_immune(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> boo
     if items::completion::added_immune(c, &p.id, m) {
         return true;
     }
-    enabled(c)
+    !house::ring(c, p)
+        && enabled(c)
         && ((p.has_ability("Overcoat") && m["Attributes"]["PowderMove"] == true)
             || ([
                 "Taunt",

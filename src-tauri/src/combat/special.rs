@@ -475,7 +475,7 @@ pub fn command(
             if !secondary_id.is_empty() {
                 registered(c, secondary_id)?;
             }
-            if q.move_name == "Bide" {
+            if q.move_name == "Bide" && !house::enabled(c) {
                 gm(c, actor)?;
                 if secondary_id != &q.actor_id && secondary_id != &q.target_id {
                     return Err(error("Bide's ambiguous wording requires a GM-recorded User or Target damage basis"));
@@ -937,8 +937,9 @@ pub fn lifecycle(_before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<
     Ok(())
 }
 fn indirect(c: &mut Campaign, id: &str, n: i32) -> Result<()> {
+    let ring = fighter(c, id).is_ok_and(|p| house::ring(c, p));
     let p = fighter_mut(c, id)?;
-    if !p.has_any_ability(&["Magic Guard", "Wonder Guard"]) {
+    if ring || !p.has_any_ability(&["Magic Guard", "Wonder Guard"]) {
         p.hp = (p.hp - n.max(0)).max(0);
     }
     Ok(())
@@ -1143,7 +1144,7 @@ pub fn effects(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) -
             q.raw_damage_successes as usize
         };
         let p = fighter(c, a)?;
-        if !p.has_any_ability(&["Rock Head", "Magic Guard"]) {
+        if house::ring(c, p) || !p.has_any_ability(&["Rock Head", "Magic Guard"]) {
             indirect(c, a, rules::successes(&dice[..recoil]))?;
         }
         if name == "Wave Crash" {
@@ -1328,10 +1329,11 @@ pub fn effects(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) -
             }
         }
         "Bide" => {
-            let selected = state(c).selections.get(&q.sequence).ok_or_else(|| {
-                error("Bide requires the GM to choose User or Target as the ambiguous damage basis")
-            })?;
-            let basis = selected.secondary_id.clone();
+            let basis = if house::enabled(c) {
+                a.clone()
+            } else {
+                state(c).selections.get(&q.sequence).ok_or_else(|| error("Bide requires the GM to choose User or Target as the ambiguous damage basis"))?.secondary_id.clone()
+            };
             state_mut(c).bides.insert(
                 a.clone(),
                 Bide {
@@ -1796,6 +1798,9 @@ pub fn shield_reduction(c: &Campaign, q: &QueuedAction, m: &serde_json::Value) -
         })
 }
 fn recoil_immune(c: &Campaign, p: &Combatant) -> bool {
+    if house::ring(c, p) {
+        return false;
+    }
     if interactions::enabled(c) {
         p.has_any_ability(&["Rock Head", "Magic Guard"])
     } else {
@@ -2559,7 +2564,11 @@ pub fn hit(
     }
     let round = battle(c)?.round;
     let turn = flow(c)?.turn;
+    let group = house::enabled(c);
     for (id, bide) in &mut state_mut(c).bides {
+        if group && *id == q.target_id && q.actor_id != q.target_id {
+            bide.target_id = q.actor_id.clone();
+        }
         if bide.received < 2 {
             if bide.basis_id == q.target_id {
                 bide.damage += damage;
@@ -2960,7 +2969,7 @@ pub fn preview_notes(c: &Campaign, a: &Action, cat: &Catalog) -> Result<Vec<Stri
         Action::SpecialMove{command:SpecialCommand::Successive{attempts,..},..}=>notes.push(format!("Commit {attempts} actions and independent accuracy rolls now. All hits retain one turn and one Evasion/reaction slot; each incoming attack may still be Clashed.")),
         Action::Accuracy{combatant_id,move_name,..}|Action::AccuracyTargets{combatant_id,move_name,..}=>{let m=move_entry(cat,move_name)?;if m["Attributes"]["Charge"]==true{notes.push("Charge accuracy is stored. Release spends another action on a later user turn; reactions open only on release. Reviewed weather may skip or extend preparation.".into());}
  if m["Attributes"]["Rampage"]==true{notes.push("Rampage permits up to three uses this round. Ending it inflicts Confusion; Evasion requires ending it first.".into());}
- if move_name=="Bide"{notes.push(format!("Bide requires a recorded GM choice for its ambiguous damage basis; {} then forgoes Evasion/Clash against the next two attacks",fighter(c,combatant_id)?.name));}},
+ if move_name=="Bide" && !house::enabled(c){notes.push(format!("Bide requires a recorded GM choice for its ambiguous damage basis; {} then forgoes Evasion/Clash against the next two attacks",fighter(c,combatant_id)?.name));}},
         Action::Damage{combatant_id,pool_modifier,..}=>{let q=current(c)?;let mut temp=old(c);install_pending(&mut temp,q);let pool=rules::damage_pool(&temp,combatant_id,q.sequence,*pool_modifier,cat)?;let m=field::move_data(c,fighter(c,combatant_id)?,&move_entry(cat,&q.move_name)?);if formula_name(&q.move_name){notes.push(format!("{}: literal card formula, {} dice, effectiveness {}, immunity {}; set/varied pools bypass ordinary attribute/defense calculations",q.move_name,pool.dice,pool.effectiveness,pool.immune));}else{let n=q.damage_context.as_ref().and_then(|ctx|ctx.special_bonus.get(&q.target_id)).copied().unwrap_or(bonus(c,fighter(c,combatant_id)?,fighter(c,&q.target_id)?,&m,cat)?);if n!=0{notes.push(format!("{} conditional/successive damage modifier: {n:+} dice",q.move_name));}}},
         _=>{},
     }

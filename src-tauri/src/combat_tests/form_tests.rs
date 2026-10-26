@@ -811,6 +811,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
     let ended = decision(&c, "gm", Action::EndBattle);
     for engine in [
         ENGINE,
+        ITEM_COMPLETION_ENGINE,
         INTERACTION_ENGINE,
         STANDALONE_ENGINE,
         INFORMATION_ENGINE,
@@ -831,13 +832,18 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
         let flow = n.battle.as_ref().unwrap().flow.as_ref().unwrap();
         assert_eq!(
             flow.interaction_rules,
-            [ENGINE, INTERACTION_ENGINE].contains(&engine)
+            [ENGINE, ITEM_COMPLETION_ENGINE, INTERACTION_ENGINE].contains(&engine)
         );
-        assert_eq!(flow.items.completion.enabled, engine == ENGINE);
+        assert_eq!(
+            flow.items.completion.enabled,
+            [ENGINE, ITEM_COMPLETION_ENGINE].contains(&engine)
+        );
+        assert_eq!(flow.house_rules, engine == ENGINE);
         assert_eq!(
             flow.forms.enabled,
             [
                 ENGINE,
+                ITEM_COMPLETION_ENGINE,
                 INTERACTION_ENGINE,
                 STANDALONE_ENGINE,
                 INFORMATION_ENGINE,
@@ -849,6 +855,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.information.enabled,
             [
                 ENGINE,
+                ITEM_COMPLETION_ENGINE,
                 INTERACTION_ENGINE,
                 STANDALONE_ENGINE,
                 INFORMATION_ENGINE
@@ -857,7 +864,13 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
         );
         assert_eq!(
             flow.standalone.enabled,
-            [ENGINE, INTERACTION_ENGINE, STANDALONE_ENGINE].contains(&engine)
+            [
+                ENGINE,
+                ITEM_COMPLETION_ENGINE,
+                INTERACTION_ENGINE,
+                STANDALONE_ENGINE
+            ]
+            .contains(&engine)
         );
         assert_eq!(flow.items.enabled, engine != EVENT_ENGINE);
         assert!(flow.events.enabled);

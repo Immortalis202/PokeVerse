@@ -1,0 +1,21 @@
+{
+  "engine": "0.24.0-core",
+  "provenance": "Explicit user selections on 26 October 2026, including Magic Coat clarification: until the user next acts. These are private-group interpretations, not edits to source cards.",
+  "entries": {
+    "abilities": {
+      "Torrent": "Group rule: behave like Blaze, Overgrow and Swarm: Water accuracy/damage ignore pain; add two Water damage dice at half HP or less. Shared attacks retain frozen inputs.",
+      "Rivalry": "Group rule: against a foe, same gender grants +1 Strength and opposite gender -1. Unknown/genderless cases are neutral; actual individual gender remains an explicit input.",
+      "Mycelium Might": "Group rule: all Support moves have Never Miss and Late Reaction 1, overriding printed Reaction. A selected Choice Scarf overrides Late Reaction."
+    },
+    "moves": {
+      "Magic Coat": "Group rule: lasts until the user takes its next action, including reactions. Foe actions and round changes do not consume it.",
+      "Bide": "Group rule: accumulate the user damage over the existing two-hit preparation, then hit the last Pokemon to attack the user. Later misses update the attacker, without adding damage."
+    },
+    "items": {
+      "Max Revive": "Group rule: full revival is not limited by the shared three-HP round cap. Existing fainting eligibility and healing blocks remain.",
+      "Revival Herb": "Group rule: full revival is not limited by the shared three-HP round cap. Herbal acceptance/Gluttony and fainting eligibility remain.",
+      "Ring Target": "Group rule: remove the holder type and ability immunities, including unique ability immunities. Does not erase other ability benefits or item/field protection; Klutz and Magic Room still suppress the item.",
+      "Choice Scarf": "Group rule: the selected move gains Reaction 5 overriding Late Reaction, including Mycelium Might; other printed Choice effects are unchanged."
+    }
+  }
+}

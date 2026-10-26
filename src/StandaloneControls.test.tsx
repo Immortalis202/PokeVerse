@@ -146,3 +146,14 @@ it("explains Moody rejections and action-free rerolls at the pending owner decis
   expect(html).toContain("leave this decision pending");
   expect(html).toContain("Roll ability dice");
 });
+
+it("shows fixed group Torrent and Rivalry rules without obsolete alternatives", () => {
+  const c = current();
+  c.battle!.flow!.house_rules = true;
+  const html = render(c, "gm");
+  expect(html).toContain("2 extra Water damage dice at half HP or less");
+  expect(html).toContain("gender");
+  expect(html).not.toContain("Use printed preference wording");
+  expect(html).not.toContain("Record Torrent:");
+  expect(html).toContain("Record profile for");
+});

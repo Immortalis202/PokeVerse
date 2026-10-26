@@ -91,10 +91,11 @@ pub fn live(c: &Campaign, id: &str, name: &str) -> bool {
 }
 pub fn ring(c: &Campaign, p: &Combatant, wide: bool) -> bool {
     live(c, &p.id, "Ring Target")
-        && state(c)
-            .rulings
-            .get(&format!("ring:{}", p.id))
-            .is_some_and(|v| v == "reviewed" || (!wide && v == "types"))
+        && (house::enabled(c)
+            || state(c)
+                .rulings
+                .get(&format!("ring:{}", p.id))
+                .is_some_and(|v| v == "reviewed" || (!wide && v == "types")))
 }
 pub fn healing_locked(c: &Campaign, id: &str) -> bool {
     special::registered(c, id)
@@ -193,6 +194,7 @@ pub fn guard(c: &Campaign, id: &str, m: &serde_json::Value) -> Result<()> {
         .filter(|p| p.deployed && p.hp > 0)
     {
         if live(c, &p.id, "Ring Target")
+            && !house::enabled(c)
             && !state(c).rulings.contains_key(&format!("ring:{}", p.id))
         {
             return Err(AppError::new(
@@ -214,6 +216,7 @@ pub fn guard(c: &Campaign, id: &str, m: &serde_json::Value) -> Result<()> {
             return Err(error("Select this held item's move or trait before acting"));
         }
         if u.name == "Choice Scarf"
+            && !house::enabled(c)
             && state(c).choices.get(&u.id).is_some_and(|n| m["Name"] == *n)
             && !m["Attributes"]["LateReaction"].is_null()
             && !state(c).rulings.contains_key(&format!("scarf:{}", u.id))
@@ -227,10 +230,14 @@ pub fn move_data(c: &Campaign, p: &Combatant, m: &mut serde_json::Value) {
     for u in units(c, &p.id) {
         if u.name == "Choice Scarf" && state(c).choices.get(&u.id).is_some_and(|n| m["Name"] == *n)
         {
-            let mode = state(c)
-                .rulings
-                .get(&format!("scarf:{}", u.id))
-                .map(String::as_str);
+            let mode = if house::enabled(c) {
+                Some("item")
+            } else {
+                state(c)
+                    .rulings
+                    .get(&format!("scarf:{}", u.id))
+                    .map(String::as_str)
+            };
             if !m["Attributes"]["LateReaction"].is_null() && mode != Some("item") {
                 continue;
             }
@@ -337,7 +344,9 @@ pub fn survive(c: &mut Campaign, q: &QueuedAction, before: i32, damage: i32) -> 
 }
 fn hurt(c: &mut Campaign, id: &str, n: i32) -> Result<()> {
     let p = fighter(c, id)?;
-    if p.has_ability("Wonder Guard") || (p.has_ability("Magic Guard") && !ring(c, p, true)) {
+    if (p.has_ability("Wonder Guard") && !house::ring(c, p))
+        || (p.has_ability("Magic Guard") && !ring(c, p, true))
+    {
         return Ok(());
     }
     let p = fighter_mut(c, id)?;
@@ -599,6 +608,15 @@ pub fn command(
             state_mut(c).choices.insert(unit_id.clone(), value.clone());
         }
         CompletionCommand::Rule { key, value } => {
+            if house::enabled(c)
+                && ((key == "revive" && value != "full")
+                    || (key.starts_with("ring:") && value != "reviewed")
+                    || (key.starts_with("scarf:") && value != "item"))
+            {
+                return Err(error(
+                    "This decision is fixed by the group rules for this encounter",
+                ));
+            }
             gm(c, actor)?;
             if !flow(c)?.queue.is_empty() {
                 return Err(error("Record item rulings between action chains"));
@@ -736,7 +754,9 @@ fn medicine(c: &mut Campaign, actor: &str, cmd: &CompletionCommand, cat: &Catalo
     }
     let max = ["Max Potion", "Full Restore"].contains(&name.as_str());
     let full_revive = ["Max Revive", "Revival Herb"].contains(&name.as_str());
-    let full = if full_revive {
+    let full = if full_revive && house::enabled(c) {
+        true
+    } else if full_revive {
         match state(c).rulings.get("revive").map(String::as_str) {Some("full")=>true,Some("capped")=>false,_=>return Err(AppError::new("manual_rule","Full-HP revival wording conflicts with the listed three-HP exceptions; record full or capped healing"))}
     } else {
         max
@@ -980,6 +1000,7 @@ pub fn recycle_medicine(
     }
     let full = match name {
         "Max Potion" | "Full Restore" => true,
+        "Max Revive" | "Revival Herb" if house::enabled(c) => true,
         "Max Revive" | "Revival Herb" => match state(c).rulings.get("revive").map(String::as_str) {
             Some("full") => true,
             Some("capped") => false,

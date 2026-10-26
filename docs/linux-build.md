@@ -1,13 +1,13 @@
 # Linux x86-64 build
 
-PokeVerse 0.30.0 uses the same engine 0.23.0-core, protocol 31 and schema 4 on Windows and Linux. The Linux bundle is intended for the user's Intel/AMD x86-64 Ubuntu 26.10 computer. It is built with an Ubuntu 26.04 x86-64 toolchain; native operation on the other computer and Windows/Linux Tailscale acceptance remain separate checks.
+PokeVerse 0.31.0 uses the same engine 0.24.0-core, protocol 32 and schema 4 on Windows and Linux. The Linux bundle is intended for the user's Intel/AMD x86-64 Ubuntu 26.10 computer. It is built with an Ubuntu 26.04 x86-64 toolchain; native operation on the other computer and Windows/Linux Tailscale acceptance remain separate checks.
 
 ## Install and connect
 
 Copy the Linux delivery files to the Ubuntu PC. In the directory containing the Debian package:
 
 ```bash
-sudo apt install ./PokeVerse_0.30.0_amd64.deb
+sudo apt install ./PokeVerse_0.31.0_amd64.deb
 ```
 
 Open PokeVerse from the application menu. The package manager installs required system libraries; the app includes its reference catalog and sprites. Create a fresh Linux identity rather than copying a Windows profile to create a second client. Join the matching Windows host with `ws://WINDOWS-TAILSCALE-IP:39231/room`, using its displayed port and access token. Installing/configuring Tailscale and firewall changes are not performed by the build.
@@ -32,7 +32,21 @@ Outputs are under `src-tauri/target/release/bundle/deb/` and `src-tauri/target/r
 See [Debian packaging](https://v2.tauri.app/distribute/debian/) and [AppImage limitations](https://v2.tauri.app/distribute/appimage/) for platform packaging requirements.
 
 
-## Verified build — 23 October 2026
+## Current v0.31.0 verification — 26 October 2026
+
+Windows NSIS and Linux Debian/AppImage production builds passed. All **662 Rust tests passed on Windows and on Linux** (Linux release mode), alongside 60 frontend tests, 21 script/catalog checks, TypeScript, Rust formatting and Clippy checks. The selected group rules and historical encounter behavior are covered in [battle-group-rules.md](battle-group-rules.md).
+
+The Debian package declares version 0.31.0, architecture `amd64`, and GTK3/WebKit4.1 dependencies. Its ELF is x86-64; all linked libraries resolve on the Ubuntu build system. Both extracted Linux packages contain the Windows catalog with SHA256 `f2793511fef9bbf3c24908698fbf4b5833499a29b11359cddd17646e96a1b29e`. Native installation, GUI and physical Tailscale testing remain unverified.
+
+Delivery: `src-tauri/target/linux-bundle/0.31.0/PokeVerse_0.31.0_linux_x64.zip`, containing both packages, installation instructions, checksums and build metadata. The matching Windows installer is `src-tauri/target/release/bundle/nsis/PokeVerse_0.31.0_x64-setup.exe`. Upgrade both clients together; protocol 32 requires matching builds, and the new group rules apply to new current-engine encounters.
+
+| Package | SHA256 |
+| --- | --- |
+| PokeVerse_0.31.0_amd64.deb | `84c68d0b04277ff6b930fb46678c514d38182aa74849dc902d30c3863386dc7d` |
+| PokeVerse_0.31.0_amd64.AppImage | `d5c3229003c343ae215002d9a5bc90c60b06ae5e3ce7fdd93bcf9f72dc9947b5` |
+| PokeVerse_0.31.0_x64-setup.exe | `90844d19b25c1f5cadb816d25b902d191bdba4f4572b8738e4088ad51134f1f0` |
+
+## Previous v0.30.0 verification — 23 October 2026
 
 The Ubuntu 26.04 WSL2 x86-64 release build produced both bundles successfully, using Rust 1.93.1 and checksum-verified Node 24.22.1. All **651 Rust tests passed on Linux** (`cargo test --release --locked --lib -- --test-threads=4`), including localhost room/GM/owner, retry, reconnect, rollback and persistence scenarios. The Rust dependency lockfile matches Windows after normalizing line endings. The frontend production build passed.
 

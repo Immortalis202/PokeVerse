@@ -122,6 +122,7 @@ test("coverage and PDF fingerprints are preserved with a complete field-level qu
     );
     const tests =
       readFileSync("src-tauri/src/combat_tests.rs", "utf8") +
+      readFileSync("src-tauri/src/combat_tests/house_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/targeting_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/ability_tests.rs", "utf8") +
       readFileSync(
@@ -549,4 +550,21 @@ test("milestone 6 item definitions retain exact source identity and wording", ()
       entry.sha256,
     );
   }
+});
+
+test("group interpretations retain explicit provenance and a compatibility fingerprint", () => {
+  const text = readFileSync("rules/group-rules.json", "utf8").replace(
+    /\r\n/g,
+    "\n",
+  );
+  const r = JSON.parse(text),
+    coverage = JSON.parse(readFileSync("rules/coverage.json", "utf8"));
+  assert.equal(
+    coverage.group_rules_registry_hash,
+    createHash("sha256").update(text).digest("hex"),
+  );
+  assert.match(r.provenance, /user/i);
+  assert.equal(Object.keys(r.entries.abilities).length, 3);
+  assert.equal(Object.keys(r.entries.moves).length, 2);
+  assert.equal(Object.keys(r.entries.items).length, 4);
 });

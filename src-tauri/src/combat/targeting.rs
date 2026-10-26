@@ -27,6 +27,7 @@ pub struct FieldEffect {
 pub(super) fn require_targeting(c: &Campaign) -> Result<()> {
     if ![
         ENGINE,
+        ITEM_COMPLETION_ENGINE,
         INTERACTION_ENGINE,
         STANDALONE_ENGINE,
         INFORMATION_ENGINE,
@@ -93,6 +94,25 @@ pub(super) fn plan(
     m: &serde_json::Value,
 ) -> Result<(Vec<String>, Option<String>)> {
     let p = fighter(c, id)?;
+    if house::enabled(c) && m["Name"] == "Bide" {
+        if let Some(b) = flow(c)?.special.bides.get(id).filter(|b| b.received >= 2) {
+            let target = fighter(c, &b.target_id)?;
+            if target.hp <= 0
+                || !target.deployed
+                || target.id == id
+                || flow(c)?
+                    .ranges
+                    .get(id)
+                    .is_some_and(|ids| !ids.contains(&target.id))
+            {
+                return Err(error(
+                    "Bide's last attacker is no longer an eligible target",
+                ));
+            }
+            special::target_guard(c, id, &target.id, m)?;
+            return Ok((vec![target.id.clone()], None));
+        }
+    }
     if special::enabled(c) && ["Wish", "Lunar Blessing"].contains(&m["Name"].as_str().unwrap_or(""))
     {
         if requested.len() != 1 {

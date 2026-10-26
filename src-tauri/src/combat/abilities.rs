@@ -148,6 +148,15 @@ pub fn phase(c: &Campaign, action: &Action) -> Result<()> {
     Ok(())
 }
 pub fn coverage(c: &Campaign, name: &str) -> Option<&'static str> {
+    if house::enabled(c) {
+        static GROUP: std::sync::LazyLock<serde_json::Value> = std::sync::LazyLock::new(|| {
+            serde_json::from_str(include_str!("../../../rules/group-rules.json"))
+                .expect("valid group rules")
+        });
+        if let Some(scope) = GROUP["entries"]["abilities"][name].as_str() {
+            return Some(scope);
+        }
+    }
     static REGISTRY: std::sync::LazyLock<serde_json::Value> = std::sync::LazyLock::new(|| {
         serde_json::from_str(include_str!("../../../rules/ability-coverage.json"))
             .expect("valid owned ability registry")
@@ -176,6 +185,9 @@ pub fn coverage(c: &Campaign, name: &str) -> Option<&'static str> {
     entry["scope"].as_str()
 }
 pub fn status_immune(c: &Campaign, p: &Combatant, kind: &str) -> bool {
+    if house::ring(c, p) {
+        return false;
+    }
     if forms::status_immune(c, p) {
         return true;
     }
@@ -297,6 +309,9 @@ pub fn damage_bonus(
         .sum::<i32>()
 }
 pub fn move_immune(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> bool {
+    if house::ring(c, p) {
+        return false;
+    }
     enabled(c)
         && ((p.has_ability("Levitate")
             && m["Type"] == "Ground"
@@ -314,7 +329,7 @@ pub fn damage_immune_from(
     if m["Type"] == "Ground"
         && items::completion::has(c, &t.id, "Air Balloon")
         && !reviewed::extreme(c, a)
-        && !items::completion::ring(c, t, true)
+        && (!items::completion::ring(c, t, true) || house::enabled(c))
     {
         return true;
     }
@@ -323,6 +338,9 @@ pub fn damage_immune_from(
         && damage_immune(c, t, m)
 }
 pub fn damage_immune(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> bool {
+    if house::ring(c, p) {
+        return false;
+    }
     tactics::damage_immune(c, p, m)
         || extra::immune(c, p, m)
         || move_immune(c, p, m)
@@ -376,6 +394,7 @@ pub fn contact(m: &serde_json::Value) -> bool {
 }
 fn damage(c: &mut Campaign, id: &str, amount: i32) -> Result<()> {
     if enabled(c)
+        && !house::ring(c, fighter(c, id)?)
         && (fighter(c, id)?.has_ability("Magic Guard")
             || (extra::enabled(c) && fighter(c, id)?.has_ability("Wonder Guard")))
     {
@@ -504,7 +523,7 @@ pub fn hit(
             .or_default();
         *v = (*v + 1).min(3);
     }
-    if !reviewed::damage_bypass(c, &reviewed::source(c, q)?, &target) {
+    if !house::ring(c, &target) && !reviewed::damage_bypass(c, &reviewed::source(c, q)?, &target) {
         for name in target.ability_names() {
             let mut variant = target.clone();
             variant.selected_ability = name;

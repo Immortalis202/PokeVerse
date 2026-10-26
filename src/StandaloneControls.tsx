@@ -9,10 +9,12 @@ function ProfileEditor({
   profile,
   send,
   disabled,
+  houseRules = false,
 }: {
   id: string;
   name: string;
   profile?: BattleProfile;
+  houseRules?: boolean;
   send: (c: StandaloneCommand) => void;
   disabled: boolean;
 }) {
@@ -24,25 +26,29 @@ function ProfileEditor({
     <details>
       <summary>{name}: weight and Rivalry inputs</summary>
       <label>
-        Gender (supplied JSON)
+        Gender
         <select value={gender} onChange={(e) => setGender(e.target.value)}>
           {["unknown", "genderless", "male", "female"].map((v) => (
             <option key={v}>{v}</option>
           ))}
         </select>
       </label>
-      <label>
-        Preference comparison (printed rule)
-        <select
-          value={preference}
-          onChange={(e) => setPreference(e.target.value)}
-        >
-          <option value="unknown">Unknown</option>
-          <option value="neutral">Neutral</option>
-          <option value="male">Group A</option>
-          <option value="female">Group B</option>
-        </select>
-      </label>
+      {!houseRules && (
+        <>
+          <label>
+            Preference comparison (historical rule)
+            <select
+              value={preference}
+              onChange={(e) => setPreference(e.target.value)}
+            >
+              <option value="unknown">Unknown</option>
+              <option value="neutral">Neutral</option>
+              <option value="male">Group A</option>
+              <option value="female">Group B</option>
+            </select>
+          </label>
+        </>
+      )}
       <label>
         Ordinary encounter weight, kg (blank uses catalog / recorded move
         parameters)
@@ -108,17 +114,21 @@ export default function StandaloneControls({
       <h3>Standalone battle abilities</h3>
       <p>
         Heavy/Light Metal use a recorded weight, with no fixed multiplier.
-        Rivalry uses a recorded wording choice and individual comparisons. Moody
-        rolls two host dice with rejection sampling for distinct, unbiased
-        attributes. Perish Body expires after three full rounds unless the
-        cursed Pokémon leaves battle.
+        Rivalry uses individual gender comparisons under group rules; historical
+        battles retain their recorded wording choice. Moody rolls two host dice
+        with rejection sampling for distinct, unbiased attributes. Perish Body
+        expires after three full rounds unless the cursed Pokémon leaves battle.
       </p>
       <p>
         Torrent:{" "}
-        {state.torrent_bonus === null
+        {!f?.house_rules && state.torrent_bonus === null
           ? "GM must choose the printed one- or two-die bonus"
-          : `${state.torrent_bonus} extra Water damage dice at half HP or less`}
-        . Rivalry basis: {state.rivalry_basis ?? "GM ruling required"}.
+          : `${f?.house_rules ? 2 : state.torrent_bonus} extra Water damage dice at half HP or less`}
+        . Rivalry basis:{" "}
+        {f?.house_rules
+          ? "gender"
+          : (state.rivalry_basis ?? "GM ruling required")}
+        .
       </p>
       {Object.entries(state.perish).map(([id, curse]) => (
         <p key={id}>
@@ -141,46 +151,51 @@ export default function StandaloneControls({
               onChange={(e) => setReason(e.target.value)}
             />
           </label>
-          <p>
-            Rivalry's supplied JSON says gender; printed page 564 says
-            preference. Unknown, genderless or neutral cases receive no
-            automatic change. No species ratio assigns an individual gender.
-          </p>
-          <button
-            disabled={disabled || !reason.trim()}
-            onClick={() =>
-              send({ operation: "rivalry_basis", basis: "gender" })
-            }
-          >
-            Use supplied-card gender wording
-          </button>
-          <button
-            disabled={disabled || !reason.trim()}
-            onClick={() =>
-              send({ operation: "rivalry_basis", basis: "preference" })
-            }
-          >
-            Use printed preference wording
-          </button>
-          <p>
-            Torrent's text grants two dice; its icon grants one. Water pain
-            immunity applies at every HP level.
-          </p>
-          {[1, 2].map((bonus) => (
-            <button
-              key={bonus}
-              disabled={disabled || !reason.trim()}
-              onClick={() => send({ operation: "torrent", bonus })}
-            >
-              Record Torrent: {bonus} {bonus === 1 ? "die" : "dice"}
-            </button>
-          ))}
+          {!f?.house_rules && (
+            <>
+              <p>
+                Rivalry's supplied JSON says gender; printed page 564 says
+                preference. Unknown, genderless or neutral cases receive no
+                automatic change. No species ratio assigns an individual gender.
+              </p>
+              <button
+                disabled={disabled || !reason.trim()}
+                onClick={() =>
+                  send({ operation: "rivalry_basis", basis: "gender" })
+                }
+              >
+                Use supplied-card gender wording
+              </button>
+              <button
+                disabled={disabled || !reason.trim()}
+                onClick={() =>
+                  send({ operation: "rivalry_basis", basis: "preference" })
+                }
+              >
+                Use printed preference wording
+              </button>
+              <p>
+                Torrent's text grants two dice; its icon grants one. Water pain
+                immunity applies at every HP level.
+              </p>
+              {[1, 2].map((bonus) => (
+                <button
+                  key={bonus}
+                  disabled={disabled || !reason.trim()}
+                  onClick={() => send({ operation: "torrent", bonus })}
+                >
+                  Record Torrent: {bonus} {bonus === 1 ? "die" : "dice"}
+                </button>
+              ))}
+            </>
+          )}
           {b.combatants.map((p) => (
             <ProfileEditor
               key={`${p.id}:${JSON.stringify(state.profiles[p.id])}`}
               id={p.id}
               name={p.name}
               profile={state.profiles[p.id]}
+              houseRules={!!f?.house_rules}
               send={send}
               disabled={disabled || !reason.trim()}
             />

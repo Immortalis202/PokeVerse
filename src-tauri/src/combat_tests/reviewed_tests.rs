@@ -451,7 +451,11 @@ fn provenance_new_battles_enable_rules_and_historical_sequencing_engine_stays_co
     let (c, a, t) = setup("Tackle", "", "");
     let sheets = vec![p(&c, &a).sheet_id.clone(), p(&c, &t).sheet_id.clone()];
     let ended = decision(&c, "gm", Action::EndBattle);
-    for (engine, expected) in [(ENGINE, true), (SEQUENCING_ENGINE, false)] {
+    for (engine, expected) in [
+        (ENGINE, true),
+        (ITEM_COMPLETION_ENGINE, true),
+        (SEQUENCING_ENGINE, false),
+    ] {
         let mut c = ended.clone();
         c.engine = engine.into();
         let c = decision(

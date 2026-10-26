@@ -10,6 +10,7 @@ pub(crate) mod events;
 pub(crate) mod extra;
 pub(crate) mod field;
 pub(crate) mod forms;
+pub(crate) mod house;
 pub(crate) mod information;
 pub(crate) mod interactions;
 pub(crate) mod items;
@@ -60,6 +61,8 @@ pub struct Status {
 #[derive(Debug, Clone, Default, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct TurnFlow {
+    #[serde(default)]
+    pub house_rules: bool,
     #[serde(default)]
     pub interaction_rules: bool,
     #[serde(default)]
@@ -1096,6 +1099,7 @@ pub fn transition(
         information::lifecycle(&mut next, cat)?;
         standalone::lifecycle(&mut next)?;
         items::completion::lifecycle(c, &mut next, cat)?;
+        house::lifecycle(c, &mut next);
     }
     Ok((next, log))
 }
@@ -1157,7 +1161,8 @@ pub fn preview(c: &Campaign, a: &Action, cat: &Catalog) -> Result<ActionPreview>
                 c,
                 combatant_id,
                 ids,
-                interactions::cover_bypass(c, combatant_id, &m)
+                (house::enabled(c) && move_name == "Bide")
+                    || interactions::cover_bypass(c, combatant_id, &m)
                     || m["Attributes"]["SoundMove"] == true
                     || ["Phantom Force", "Shadow Force"].contains(&move_name.as_str()),
             )
@@ -1529,6 +1534,7 @@ fn transition_inner(
                     "Record severe status outcomes at round end, after all turns and chains",
                 ));
             }
+            let ring = house::ring(c, fighter(c, combatant_id)?);
             let p = fighter_mut(&mut next, combatant_id)?;
             if p.runtime.adjudicated_round == round {
                 return Err(error("Status outcome already recorded this round"));
@@ -1542,6 +1548,7 @@ fn transition_inner(
                 return Err(error("No ambiguous severe status to adjudicate"));
             }
             if abilities::enabled(c)
+                && !ring
                 && *damage > 0
                 && (p.has_ability("Magic Guard")
                     || (p.has_ability("Immunity")
@@ -1709,7 +1716,8 @@ fn transition_inner(
                 &next,
                 combatant_id,
                 targets,
-                interactions::cover_bypass(c, combatant_id, &m)
+                (house::enabled(c) && move_name == "Bide")
+                    || interactions::cover_bypass(c, combatant_id, &m)
                     || m["Attributes"]["SoundMove"] == true
                     || ["Phantom Force", "Shadow Force"].contains(&move_name.as_str()),
             );
@@ -1742,6 +1750,9 @@ fn transition_inner(
             }
             let (base, target_pools) = standalone::accuracy_plan(c, a, cat)?;
             check_count(&dice, dice_count(c, a, cat)?)?;
+            if m["Category"] != "Support" {
+                house::attacked(&mut next, combatant_id, &targets);
+            }
             let low = m["Attributes"]["AccuracyReduction"]
                 .as_i64()
                 .unwrap_or(0)
@@ -2903,15 +2914,23 @@ fn transition_inner(
             ) {
                 let b = done.battle.as_mut().unwrap();
                 b.flow = Some(TurnFlow {
-                    interaction_rules: [ENGINE, INTERACTION_ENGINE].contains(&c.engine.as_str()),
+                    house_rules: c.engine == ENGINE,
+                    interaction_rules: [ENGINE, ITEM_COMPLETION_ENGINE, INTERACTION_ENGINE]
+                        .contains(&c.engine.as_str()),
                     standalone: standalone::StandaloneState {
-                        enabled: [ENGINE, INTERACTION_ENGINE, STANDALONE_ENGINE]
-                            .contains(&c.engine.as_str()),
+                        enabled: [
+                            ENGINE,
+                            ITEM_COMPLETION_ENGINE,
+                            INTERACTION_ENGINE,
+                            STANDALONE_ENGINE,
+                        ]
+                        .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     information: information::InformationState {
                         enabled: [
                             ENGINE,
+                            ITEM_COMPLETION_ENGINE,
                             INTERACTION_ENGINE,
                             STANDALONE_ENGINE,
                             INFORMATION_ENGINE,
@@ -2922,6 +2941,7 @@ fn transition_inner(
                     forms: forms::FormState {
                         enabled: [
                             ENGINE,
+                            ITEM_COMPLETION_ENGINE,
                             INTERACTION_ENGINE,
                             STANDALONE_ENGINE,
                             INFORMATION_ENGINE,
@@ -2932,11 +2952,12 @@ fn transition_inner(
                     },
                     items: items::ItemState {
                         completion: items::completion::CompletionState {
-                            enabled: c.engine == ENGINE,
+                            enabled: [ENGINE, ITEM_COMPLETION_ENGINE].contains(&c.engine.as_str()),
                             ..Default::default()
                         },
                         enabled: [
                             ENGINE,
+                            ITEM_COMPLETION_ENGINE,
                             INTERACTION_ENGINE,
                             STANDALONE_ENGINE,
                             INFORMATION_ENGINE,
@@ -2949,6 +2970,7 @@ fn transition_inner(
                     events: events::EventState {
                         enabled: [
                             ENGINE,
+                            ITEM_COMPLETION_ENGINE,
                             INTERACTION_ENGINE,
                             STANDALONE_ENGINE,
                             INFORMATION_ENGINE,
@@ -2961,6 +2983,7 @@ fn transition_inner(
                     },
                     provenance_rules: [
                         ENGINE,
+                        ITEM_COMPLETION_ENGINE,
                         INTERACTION_ENGINE,
                         STANDALONE_ENGINE,
                         INFORMATION_ENGINE,
@@ -2973,6 +2996,7 @@ fn transition_inner(
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            ITEM_COMPLETION_ENGINE,
                             INTERACTION_ENGINE,
                             STANDALONE_ENGINE,
                             INFORMATION_ENGINE,
@@ -2988,6 +3012,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            ITEM_COMPLETION_ENGINE,
                             INTERACTION_ENGINE,
                             STANDALONE_ENGINE,
                             INFORMATION_ENGINE,
@@ -3003,6 +3028,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        ITEM_COMPLETION_ENGINE,
                         INTERACTION_ENGINE,
                         STANDALONE_ENGINE,
                         INFORMATION_ENGINE,
@@ -3018,6 +3044,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            ITEM_COMPLETION_ENGINE,
                             INTERACTION_ENGINE,
                             STANDALONE_ENGINE,
                             INFORMATION_ENGINE,
@@ -3036,6 +3063,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            ITEM_COMPLETION_ENGINE,
                             INTERACTION_ENGINE,
                             STANDALONE_ENGINE,
                             INFORMATION_ENGINE,
@@ -3055,6 +3083,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            ITEM_COMPLETION_ENGINE,
                             INTERACTION_ENGINE,
                             STANDALONE_ENGINE,
                             INFORMATION_ENGINE,
@@ -3075,6 +3104,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            ITEM_COMPLETION_ENGINE,
                             INTERACTION_ENGINE,
                             STANDALONE_ENGINE,
                             INFORMATION_ENGINE,
@@ -3096,6 +3126,7 @@ fn transition_inner(
                     special: special::SpecialState {
                         enabled: [
                             ENGINE,
+                            ITEM_COMPLETION_ENGINE,
                             INTERACTION_ENGINE,
                             STANDALONE_ENGINE,
                             INFORMATION_ENGINE,
@@ -3117,6 +3148,7 @@ fn transition_inner(
                     },
                     ability_rules: [
                         ENGINE,
+                        ITEM_COMPLETION_ENGINE,
                         INTERACTION_ENGINE,
                         STANDALONE_ENGINE,
                         INFORMATION_ENGINE,
@@ -3140,6 +3172,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            ITEM_COMPLETION_ENGINE,
                             INTERACTION_ENGINE,
                             STANDALONE_ENGINE,
                             INFORMATION_ENGINE,
@@ -3163,6 +3196,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            ITEM_COMPLETION_ENGINE,
                             INTERACTION_ENGINE,
                             STANDALONE_ENGINE,
                             INFORMATION_ENGINE,
@@ -3456,6 +3490,7 @@ fn set_status_from(
             fighter(c, id).is_ok_and(|a| reviewed::extreme(c, a) && a.side != p.side)
         });
     if bypass
+        && !house::ring(c, p)
         && ability_changes::unique(cat, &p.selected_ability)?
         && (abilities::status_immune(c, p, kind) || extra::status_immune(c, p, kind, source))
     {
@@ -3483,7 +3518,7 @@ fn set_status_from(
     } else {
         immune
     };
-    if !ring
+    if (!ring || house::enabled(c))
         && (field::prevents_status(c, p, kind)
             || (kind == "Burn"
                 && p.runtime
@@ -3559,8 +3594,21 @@ fn set_status_from(
     Ok(())
 }
 fn end_round(c: &mut Campaign, _cat: &Catalog) -> Result<()> {
+    let rings: BTreeSet<_> = c
+        .battle
+        .as_ref()
+        .into_iter()
+        .flat_map(|b| &b.combatants)
+        .filter(|p| house::ring(c, p))
+        .map(|p| p.id.clone())
+        .collect();
     let abilities_on = abilities::enabled(c);
     let extended = extra::enabled(c);
+    let immune = |p: &Combatant, kind: &str| {
+        !rings.contains(&p.id)
+            && (abilities::status_damage_immune(abilities_on, p, kind)
+                || (extended && extra::status_damage_immune(p, kind)))
+    };
     let b = c.battle.as_mut().unwrap();
     for p in &mut b.combatants {
         if p.hp == 0 {
@@ -3571,16 +3619,13 @@ fn end_round(c: &mut Campaign, _cat: &Catalog) -> Result<()> {
         }
         if p.runtime.statuses.iter().any(|s| {
             ["Burn 3", "Badly Poisoned"].contains(&s.kind.as_str())
-                && !(abilities::status_damage_immune(abilities_on, p, &s.kind)
-                    || (extended && extra::status_damage_immune(p, &s.kind)))
+                && !immune(p, &s.kind)
                 && p.runtime.adjudicated_round != b.round
         }) {
             return Err(AppError::new("manual_rule","Severe status escalation conflicts between pp.84-86; record the GM severe-status outcome before advancing"));
         }
         for s in &p.runtime.statuses {
-            let damage = if abilities::status_damage_immune(abilities_on, p, &s.kind)
-                || (extended && extra::status_damage_immune(p, &s.kind))
-            {
+            let damage = if immune(p, &s.kind) {
                 0
             } else {
                 match s.kind.as_str() {
@@ -3665,6 +3710,7 @@ fn base_effect_dice(c: &Campaign, q: &QueuedAction, _cat: &Catalog) -> Result<u3
     }
     Ok(if q.move_name == "Submission" {
         if abilities::enabled(c)
+            && !house::ring(c, fighter(c, &q.actor_id)?)
             && (fighter(c, &q.actor_id)?.has_ability("Magic Guard")
                 || (extra::enabled(c) && fighter(c, &q.actor_id)?.has_ability("Rock Head")))
         {
@@ -3850,6 +3896,7 @@ fn effects_inner_base(
         }
         "Submission" => {
             let damage = if abilities::enabled(c)
+                && !house::ring(c, fighter(c, &q.actor_id)?)
                 && (fighter(c, &q.actor_id)?.has_ability("Magic Guard")
                     || (extra::enabled(c) && fighter(c, &q.actor_id)?.has_ability("Rock Head")))
             {

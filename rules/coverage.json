@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.23.0-core",
-  "release": "0.30.0",
-  "protocol": 31,
+  "engine": "0.24.0-core",
+  "release": "0.31.0",
+  "protocol": 32,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -494,6 +494,25 @@
         "completion_medicine_checkpoints_include_linked_trainers_without_unrelated_inventory"
       ],
       "scope": "47 reviewed item definitions; explicit GM wording, herbal acceptance, battle pocket and revival rulings. See battle-item-completion.md."
+    },
+    {
+      "id": "private-group-rules",
+      "status": "automated",
+      "source": "Explicit user decisions, 26 October 2026; source cards retained unchanged",
+      "scope": "Eight selected interpretations snapshotted into new engine encounters; historical encounters retain prior rules.",
+      "fixtures": [
+        "house_torrent_matches_starter_boosts_without_a_ruling_and_freezes_zero",
+        "house_rivalry_uses_explicit_gender_and_rejects_the_other_policy",
+        "house_full_revives_and_recycle_ignore_round_cap_without_minting_stock",
+        "house_ring_target_removes_type_and_unique_ability_immunities_but_keeps_items",
+        "house_mycelium_supports_are_never_miss_late_and_scarf_overrides_late",
+        "house_magic_coat_survives_foe_actions_and_expires_on_own_action_with_rollback",
+        "house_bide_uses_users_received_damage_and_last_attacker_including_a_miss",
+        "house_missing_flag_stays_historical_in_serialization",
+        "house_room_rules_persist_through_owner_receipts_reconnect_and_rollback",
+        "house_ring_preserves_contact_retaliation_allows_drops_and_coat_survives_round_change",
+        "house_ring_removes_status_tick_and_recoil_immunity"
+      ]
     }
   ],
   "ability_registry_hash": "edd27e9c00f7b2463118affdf4310cb15a42f271d543a700d9993c1d36631c88",
@@ -501,5 +520,6 @@
   "tactics_registry_hash": "99b66de76eab04726a6a35dabdc8d8626e4816eb1bb0089dae7d1c8006179a14",
   "form_registry_hash": "222191f7c2ed47eba141c0ff7b41318f9d7476951ba3f8e909a01370fb490e3a",
   "interaction_registry_hash": "89a963cd535446eaa5c4ee6386348c8eccf67c723a407d68a8fc881ebb41efe4",
-  "item_completion_registry_hash": "b319b916dcbb15a0fb11da997075b5ba2a5444a9dd2fd9e2e6503e6e2f83d8cc"
+  "item_completion_registry_hash": "b319b916dcbb15a0fb11da997075b5ba2a5444a9dd2fd9e2e6503e6e2f83d8cc",
+  "group_rules_registry_hash": "f14b3c092ed4c93546dea2ddca8d82934bcaa4531075983641fe50306d98416f"
 }

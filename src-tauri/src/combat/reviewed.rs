@@ -97,9 +97,14 @@ pub fn move_data(c: &Campaign, p: &Combatant, m: &mut serde_json::Value) {
                 m["Name"].as_str().unwrap_or("")
             ))
         });
-        if !interactions::enabled(c) || mode.map(String::as_str) != Some("printed") {
+        if house::enabled(c)
+            || !interactions::enabled(c)
+            || mode.map(String::as_str) != Some("printed")
+        {
             m["Attributes"]["LateReaction"] = serde_json::json!("1");
-            if interactions::enabled(c) && mode.map(String::as_str) == Some("ability") {
+            if house::enabled(c)
+                || (interactions::enabled(c) && mode.map(String::as_str) == Some("ability"))
+            {
                 m["Attributes"].as_object_mut().unwrap().remove("Reaction");
             }
         }
@@ -184,7 +189,12 @@ pub fn notes(c: &Campaign, a: &Action) -> Vec<String> {
 }
 
 pub fn unique_damage_guard(c: &Campaign, a: &Combatant, t: &Combatant, effect: i32) -> Result<()> {
-    if extreme(c, a) && a.side != t.side && t.has_ability("Wonder Guard") && effect <= 0 {
+    if !house::ring(c, t)
+        && extreme(c, a)
+        && a.side != t.side
+        && t.has_ability("Wonder Guard")
+        && effect <= 0
+    {
         return Err(AppError::new("manual_rule","Unique ability stalemate: Teravolt/Turboblaze versus Wonder Guard requires a recorded GM ruling"));
     }
     Ok(())

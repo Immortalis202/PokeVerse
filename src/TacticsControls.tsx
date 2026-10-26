@@ -279,26 +279,33 @@ export default function TacticsControls({
             >
               Record priority ruling
             </button>
-            <label>
-              Magic Coat duration
-              <select value={coat} onChange={(e) => setCoat(e.target.value)}>
-                <option value="next_effect">Next reflected effect</option>
-                <option value="round">Current round</option>
-                <option value="scene">Encounter until recall</option>
-              </select>
-            </label>
-            <button
-              disabled={disabled || !source || !reason.trim()}
-              onClick={() =>
-                send({
-                  kind: "CoatDuration",
-                  combatant_id: source,
-                  duration: coat,
-                })
-              }
-            >
-              Record Magic Coat duration
-            </button>
+            {!f?.house_rules && (
+              <>
+                <label>
+                  Magic Coat duration
+                  <select
+                    value={coat}
+                    onChange={(e) => setCoat(e.target.value)}
+                  >
+                    <option value="next_effect">Next reflected effect</option>
+                    <option value="round">Current round</option>
+                    <option value="scene">Encounter until recall</option>
+                  </select>
+                </label>
+                <button
+                  disabled={disabled || !source || !reason.trim()}
+                  onClick={() =>
+                    send({
+                      kind: "CoatDuration",
+                      combatant_id: source,
+                      duration: coat,
+                    })
+                  }
+                >
+                  Record Magic Coat duration
+                </button>
+              </>
+            )}
           </div>
         </details>
       )}

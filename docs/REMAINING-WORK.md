@@ -1,6 +1,6 @@
 # PokeVerse - remaining work
 
-Snapshot: **23 October 2026**, application **0.30.0**, engine **0.23.0-core**, protocol **31**, user database schema **4**.
+Snapshot: **26 October 2026**, application **0.31.0**, engine **0.24.0-core**, protocol **32**, user database schema **4**.
 
 This is the current project backlog. Implemented foundations are summarized first; unfinished features, explicit GM rulings, verification gaps and excluded scope are distinguished below. Counts come from the checked-in registries and should be refreshed after catalog changes.
 
@@ -12,7 +12,7 @@ The registry records 242 automated, 60 partial and 3 manual abilities. The older
 
 ## Current priority
 
-Private friend-group use: public release/signing/distribution polish is not planned, by user decision on 23 October 2026. Next work is [reducing recurring GM choices](GM-CHOICE-ROADMAP.md): campaign house rules first, then source-defined effects still requiring manual resolution. Genuine ambiguities and narrative choices remain explicit. This does not mark unperformed native/network tests as passed.
+Private friend-group use: public release/signing/distribution polish is not planned, by user decision on 23 October 2026. Next work is [reducing recurring GM choices](GM-CHOICE-ROADMAP.md): the eight selected group rules are implemented in 0.31.0; next are source-defined effects still requiring manual resolution. See [the group-rule behavior and compatibility](battle-group-rules.md). Genuine ambiguities and narrative choices remain explicit. This does not mark unperformed native/network tests as passed.
 
 ## Implemented foundation
 
@@ -44,9 +44,9 @@ Dancer, Parental Bond, Gorilla Tactics, Truant and Defeatist now use the reviewe
 | Baton Pass | Supported positive move and ability attribute channels and replacement rules are implemented. |
 | Snatch | Review additional effects; supported move/ability modifiers, shields, decoys and typed effects already transfer. |
 | Shadow Force | Persist its 24-hour recovery restriction after leaving the encounter; encounter-local debt already works. |
-| Bide | Keep the recorded GM choice for contradictory printed User/Target wording. Do not silently select an interpretation. |
-| Magic Coat | Extend supported reflected Support effects. Keep the explicit GM duration ruling because the card does not state one. |
-| Mycelium Might | The GM now records printed versus granted Late Reaction timing in targeting controls; the choice persists and rolls back. Pokerole grants Never Miss/Late Reaction, not video-game ability bypass. |
+| Bide | Engine 0.24 uses the selected group rule: user damage basis, return to the last attacker. Historical encounters retain their recorded interpretation. |
+| Magic Coat | Group rule: reflect supported effects until the user next acts. Extend unsupported Support definitions separately; historical durations remain recorded. |
+| Mycelium Might | Engine 0.24 fixes all Support moves to Never Miss/Late Reaction 1; a selected Choice Scarf overrides Late Reaction. Historical encounters retain their recorded timing. No ability bypass. |
 | Tangled Feet | Mixed target-specific success and critical results are implemented in engine 0.17; historical encounters retain their previous ruling. |
 | Teravolt / Turboblaze | Batch 5 adds force-field, Cover and non-unique forced-switch prevention bypass. Extend individually unsupported move/item definitions; retain explicit conflicting unique-ability rulings. Current type/damage/status immunity, supported shields/decoys, redirection and charge-target access are implemented. |
 | Neutralizing Gas | Opposing emitters require a recorded GM policy. This is a rules stalemate, not a missing host validation step. |

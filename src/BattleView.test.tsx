@@ -176,6 +176,7 @@ describe("structured core battle controls", () => {
     heldItems = false,
     symbiosis = "",
     completion = false,
+    groupRules = false,
   ) {
     const combatants = ["active", "opponent"].map(fighter);
     if (provenance) combatants[0].selected_ability = "Sheer Force";
@@ -298,6 +299,7 @@ describe("structured core battle controls", () => {
             choices: {},
             history: [],
           },
+          house_rules: groupRules,
           interaction_rules: false,
           reviewed_rules: engine === "0.13.0-core",
           transfers: {
@@ -962,5 +964,24 @@ describe("structured core battle controls", () => {
     expect(html("player")).not.toContain("Record GM item ruling");
     expect(html("gm")).toContain("Record GM item ruling");
     expect(html("player", false)).not.toContain("Use owned medicine");
+  });
+  it("shows group interpretations and removes obsolete Magic Coat and item policy prompts", () => {
+    const html = core(
+      "gm",
+      false,
+      "0.24.0-core",
+      false,
+      false,
+      false,
+      false,
+      true,
+      "",
+      true,
+      true,
+    );
+    expect(html).toContain("Group battle rules");
+    expect(html).toContain("last Pokémon");
+    expect(html).not.toContain("Record Magic Coat duration");
+    expect(html).not.toContain("Full-HP revive versus round cap");
   });
 });

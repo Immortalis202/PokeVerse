@@ -329,6 +329,7 @@ fn events_new_battles_enable_rules_and_preserve_provenance_engine_behavior() {
     let ended = decision(&c, "gm", Action::EndBattle);
     for (engine, expected) in [
         (ENGINE, true),
+        (ITEM_COMPLETION_ENGINE, true),
         (EVENT_ENGINE, true),
         (PROVENANCE_ENGINE, false),
     ] {

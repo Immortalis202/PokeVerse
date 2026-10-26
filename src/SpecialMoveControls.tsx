@@ -299,16 +299,17 @@ export default function SpecialMoveControls({
       {pending && owned(pending.actor_id) && (
         <div className="notice">
           <strong>Pending move effect: {pending.move_name}</strong>
-          {["Magnitude", "Present"].includes(pending.move_name) && (
-            <button
-              disabled={disabled || s.random[pending.sequence] != null}
-              onClick={() =>
-                send({ kind: "Randomize", sequence: pending.sequence })
-              }
-            >
-              Host-roll {pending.move_name}
-            </button>
-          )}
+          {["Magnitude", "Present"].includes(pending.move_name) &&
+            !(f?.house_rules && pending.move_name === "Bide") && (
+              <button
+                disabled={disabled || s.random[pending.sequence] != null}
+                onClick={() =>
+                  send({ kind: "Randomize", sequence: pending.sequence })
+                }
+              >
+                Host-roll {pending.move_name}
+              </button>
+            )}
           {[
             "Healing Wish",
             "Lunar Dance",
@@ -316,65 +317,69 @@ export default function SpecialMoveControls({
             "Parabolic Charge",
             "Purify",
             "Bide",
-          ].includes(pending.move_name) && (
-            <>
-              <div className="form-grid">
-                <label>
-                  {pending.move_name === "Bide"
-                    ? "GM damage basis (user or target)"
-                    : "Allied healing recipient"}
-                  <select
-                    value={recipient}
-                    onChange={(e) => setRecipient(e.target.value)}
-                  >
-                    <option value="">None / decline optional healing</option>
-                    {b.combatants
-                      .filter((p) =>
-                        pending.move_name === "Bide"
-                          ? [pending.actor_id, pending.target_id].includes(p.id)
-                          : p.side ===
-                            b.combatants.find((v) => v.id === pending.actor_id)
-                              ?.side,
-                      )
-                      .map((p) => (
+          ].includes(pending.move_name) &&
+            !(f?.house_rules && pending.move_name === "Bide") && (
+              <>
+                <div className="form-grid">
+                  <label>
+                    {pending.move_name === "Bide"
+                      ? "GM damage basis (user or target)"
+                      : "Allied healing recipient"}
+                    <select
+                      value={recipient}
+                      onChange={(e) => setRecipient(e.target.value)}
+                    >
+                      <option value="">None / decline optional healing</option>
+                      {b.combatants
+                        .filter((p) =>
+                          pending.move_name === "Bide"
+                            ? [pending.actor_id, pending.target_id].includes(
+                                p.id,
+                              )
+                            : p.side ===
+                              b.combatants.find(
+                                (v) => v.id === pending.actor_id,
+                              )?.side,
+                        )
+                        .map((p) => (
+                          <option key={p.id} value={p.id}>
+                            {p.name}
+                            {!p.deployed ? " (reserve)" : ""}
+                            {p.hp === 0 ? " (fainted)" : ""}
+                          </option>
+                        ))}
+                    </select>
+                  </label>
+                  <label>
+                    Additional affected target
+                    <select
+                      value={secondary}
+                      onChange={(e) => setSecondary(e.target.value)}
+                    >
+                      <option value="">Choose if needed</option>
+                      {b.combatants.map((p) => (
                         <option key={p.id} value={p.id}>
                           {p.name}
-                          {!p.deployed ? " (reserve)" : ""}
-                          {p.hp === 0 ? " (fainted)" : ""}
                         </option>
                       ))}
-                  </select>
-                </label>
-                <label>
-                  Additional affected target
-                  <select
-                    value={secondary}
-                    onChange={(e) => setSecondary(e.target.value)}
-                  >
-                    <option value="">Choose if needed</option>
-                    {b.combatants.map((p) => (
-                      <option key={p.id} value={p.id}>
-                        {p.name}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-              </div>
-              <button
-                disabled={disabled || (pending.move_name === "Bide" && !gm)}
-                onClick={() =>
-                  send({
-                    kind: "Select",
-                    sequence: pending.sequence,
-                    recipient_id: recipient,
-                    secondary_id: secondary,
-                  })
-                }
-              >
-                Record move choices
-              </button>
-            </>
-          )}
+                    </select>
+                  </label>
+                </div>
+                <button
+                  disabled={disabled || (pending.move_name === "Bide" && !gm)}
+                  onClick={() =>
+                    send({
+                      kind: "Select",
+                      sequence: pending.sequence,
+                      recipient_id: recipient,
+                      secondary_id: secondary,
+                    })
+                  }
+                >
+                  Record move choices
+                </button>
+              </>
+            )}
           <button
             disabled={disabled || f.window}
             onClick={() =>

@@ -151,6 +151,19 @@ pub fn move_data(c: &Campaign, p: &Combatant, m: &mut serde_json::Value) {
     }
 }
 pub fn priority_guard(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> Result<()> {
+    if house::enabled(c) {
+        let mut selected = m.clone();
+        items::completion::move_data(c, p, &mut selected);
+        if selected["Attributes"]["Reaction"] == "5"
+            && selected["Attributes"]["LateReaction"].is_null()
+        {
+            return Ok(());
+        }
+    }
+
+    if house::enabled(c) && p.has_ability("Mycelium Might") && m["Category"] == "Support" {
+        return Ok(());
+    }
     if reviewed::enabled(c)
         && p.has_ability("Mycelium Might")
         && m["Category"] == "Support"
@@ -191,10 +204,14 @@ fn guard_targets(c: &Campaign, id: &str, targets: &[String], m: &serde_json::Val
         if t.side != source.side && reviewed::extreme(c, source) {
             continue;
         }
-        if t.side != source.side && t.has_any_ability(&["Dazzling", "Queenly Majesty"]) {
+        if t.side != source.side
+            && !house::ring(c, t)
+            && t.has_any_ability(&["Dazzling", "Queenly Majesty"])
+        {
             return Err(error("Dazzling/Queenly Majesty prevents reaction moves against this foe; Evasion and Clash remain maneuvers"));
         }
-        if m["Category"] != "Support"
+        if !house::ring(c, t)
+            && m["Category"] != "Support"
             && living(c)
                 .any(|p| p.side == t.side && p.has_ability("Armor Tail") && in_range(c, &p.id, key))
         {
@@ -215,9 +232,13 @@ pub fn redirect_move(
     if !enabled(c) {
         return Ok(ids);
     }
+    if house::enabled(c) && m["Name"] == "Bide" {
+        return Ok(ids);
+    }
     let source = fighter(c, id)?;
-    let powder_immune = source.has_ability("Overcoat")
-        || field::types(c, source, cat)?.iter().any(|t| t == "Grass");
+    let powder_immune = !house::ring(c, source)
+        && (source.has_ability("Overcoat")
+            || field::types(c, source, cat)?.iter().any(|t| t == "Grass"));
     let mut result = ids;
     if !bypass(c, id)
         && result.len() == 1
@@ -526,6 +547,9 @@ pub fn command(
             duration,
         } => {
             gm(c, actor)?;
+            if house::enabled(c) {
+                return Err(error("Group Magic Coat lasts until its user's next action"));
+            }
             fighter(c, combatant_id)?;
             if !["next_effect", "round", "scene"].contains(&duration.as_str()) {
                 return Err(error(
@@ -551,6 +575,15 @@ pub fn command(
             gm(c, actor)?;
             let p = fighter(c, combatant_id)?;
             let m = move_entry(cat, move_name)?;
+            if house::enabled(c)
+                && p.has_ability("Mycelium Might")
+                && m["Category"] == "Support"
+                && mode != "ability"
+            {
+                return Err(error(
+                    "Group Mycelium Might always grants Never Miss and Late Reaction 1",
+                ));
+            }
             if !(ability_priority(p, &m)
                 || (interactions::enabled(c)
                     && p.has_ability("Mycelium Might")
@@ -592,7 +625,7 @@ pub fn automatic_response(c: &Campaign, q: &QueuedAction, id: &str) -> bool {
     let cat_type = q.defense_key == "Support";
     cat_type
         && fighter(c, id).is_ok_and(|p| {
-            p.has_ability("Good As Gold")
+            (!house::ring(c, p) && p.has_ability("Good As Gold"))
                 || (p.has_ability("Magic Bounce")
                     && fighter(c, &q.actor_id).is_ok_and(|a| a.side != p.side)
                     && !bypass(c, &q.actor_id))
@@ -698,7 +731,8 @@ fn flush_clashes(c: &mut Campaign, cat: &Catalog) -> Result<()> {
     Ok(())
 }
 pub fn damage_immune(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> bool {
-    enabled(c)
+    !house::ring(c, p)
+        && enabled(c)
         && ((p.has_ability("Lightning Rod") && m["Type"] == "Electric")
             || (p.has_ability("Storm Drain") && m["Type"] == "Water"))
 }
@@ -739,7 +773,11 @@ pub fn effect_target(
     let source = fighter(c, &q.actor_id)?.clone();
     let target = fighter(c, &q.target_id)?.clone();
     let mut next = q.clone();
-    if q.field_scope.is_none() && target.id != source.id && target.has_ability("Good As Gold") {
+    if q.field_scope.is_none()
+        && target.id != source.id
+        && !house::ring(c, &target)
+        && target.has_ability("Good As Gold")
+    {
         next.cancelled = true;
         record(
             c,
@@ -786,10 +824,11 @@ pub fn effect_target(
         None
     };
     if let Some(reflector) = reflector {
-        if state(c)
-            .coat_rules
-            .get(&reflector)
-            .is_some_and(|mode| mode == "next_effect")
+        if !house::enabled(c)
+            && state(c)
+                .coat_rules
+                .get(&reflector)
+                .is_some_and(|mode| mode == "next_effect")
         {
             state_mut(c)
                 .lures
@@ -810,7 +849,10 @@ pub fn effect_target(
                 source.name
             ),
         );
-        if source.has_ability("Good As Gold") && next.field_scope.is_none() {
+        if !house::ring(c, &source)
+            && source.has_ability("Good As Gold")
+            && next.field_scope.is_none()
+        {
             next.cancelled = true;
             clear_payer(c);
         }
@@ -902,7 +944,9 @@ pub fn move_effect(c: &mut Campaign, q: &QueuedAction, cat: &Catalog) -> Result<
         } else {
             q.actor_id.clone()
         };
-        let round = if q.move_name == "Magic Coat" {
+        let round = if q.move_name == "Magic Coat" && house::enabled(c) {
+            0
+        } else if q.move_name == "Magic Coat" {
             match state(c).coat_rules.get(&q.actor_id).map(String::as_str) { Some("scene")=>0, Some("next_effect"|"round")=>battle(c)?.round, _=>return Err(AppError::new("manual_rule","Magic Coat has no stated duration; GM must record next effect, round or scene duration")) }
         } else {
             battle(c)?.round

@@ -53,6 +53,9 @@ pub fn enabled(c: &Campaign) -> bool {
         .is_some_and(|f| f.standalone.enabled)
 }
 pub fn torrent_choice(c: &Campaign) -> Option<i32> {
+    if house::enabled(c) {
+        return Some(2);
+    }
     c.battle.as_ref()?.flow.as_ref()?.standalone.torrent_bonus
 }
 pub fn torrent(
@@ -90,7 +93,12 @@ pub fn rivalry(c: &Campaign, a: &Combatant, t: &Combatant) -> Result<i32> {
         return Ok(0);
     }
     let state = &flow(c)?.standalone;
-    let basis = state.rivalry_basis.as_deref().ok_or_else(|| {
+    let basis = (if house::enabled(c) {
+        Some("gender")
+    } else {
+        state.rivalry_basis.as_deref()
+    })
+    .ok_or_else(|| {
         AppError::new(
             "manual_rule",
             "Rivalry: GM must choose supplied-card gender or printed preference wording",
@@ -342,12 +350,20 @@ pub fn transition(
             }
         }
         StandaloneCommand::RivalryBasis { basis } => {
+            if house::enabled(c) && basis != "gender" {
+                return Err(error("Group rules use Rivalry gender comparisons"));
+            }
             if !["gender", "preference"].contains(&basis.as_str()) {
                 return Err(error("Choose JSON gender or printed preference wording"));
             }
             flow_mut(&mut next).standalone.rivalry_basis = Some(basis.clone());
         }
         StandaloneCommand::Torrent { bonus } => {
+            if house::enabled(c) && *bonus != 2 {
+                return Err(error(
+                    "Group rules use the same two-die bonus as Blaze, Overgrow and Swarm",
+                ));
+            }
             if ![1, 2].contains(bonus) {
                 return Err(error("Torrent's printed alternatives are one or two dice"));
             }
@@ -463,7 +479,7 @@ pub fn end_round(c: &mut Campaign) -> Result<()> {
         .collect();
     for id in due {
         let p = fighter(c, &id)?.clone();
-        let damage = if p.has_any_ability(&["Magic Guard", "Wonder Guard"]) {
+        let damage = if !house::ring(c, &p) && p.has_any_ability(&["Magic Guard", "Wonder Guard"]) {
             0
         } else {
             p.hp

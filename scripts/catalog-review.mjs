@@ -36,6 +36,15 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
   const coverageRegistry = JSON.parse(
     await readFile(path.join(app, "rules/coverage.json"), "utf8"),
   );
+  const groupText = (
+    await readFile(path.join(app, "rules/group-rules.json"), "utf8")
+  ).replace(/\r\n/g, "\n");
+  const groupRegistry = JSON.parse(groupText);
+  if (
+    coverageRegistry.group_rules_registry_hash !==
+    createHash("sha256").update(groupText).digest("hex")
+  )
+    throw new Error("Group rules fingerprint mismatch");
   const itemText = (
     await readFile(path.join(app, "rules/item-completion.json"), "utf8")
   ).replace(/\r\n/g, "\n");
@@ -190,6 +199,12 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
           engine: itemRegistry.engine,
           ...itemRegistry.entries[entry.Name],
         };
+      if (groupRegistry.entries[kind]?.[entry.Name])
+        entry.GroupRules = {
+          engine: groupRegistry.engine,
+          provenance: groupRegistry.provenance,
+          scope: groupRegistry.entries[kind][entry.Name],
+        };
       entry.Review = {
         version: 1,
         fields: fieldReview,
@@ -197,6 +212,7 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
           (kind === "abilities"
             ? abilityRegistry.entries[entry.Name]?.scope
             : null) ??
+          entry.GroupRules?.scope ??
           entry.ItemRules?.scope ??
           entry.InteractionRules?.scope ??
           entry.TacticsRules?.scope ??

@@ -2930,6 +2930,7 @@ pub fn transition(
     };
     extra::lifecycle(c, &mut next, cat)?;
     completion::lifecycle(c, &mut next, cat)?;
+    house::lifecycle(c, &mut next);
     refresh_initiative(c, &mut next)?;
     sync_labels(&mut next);
     information::lifecycle(&mut next, cat)?;

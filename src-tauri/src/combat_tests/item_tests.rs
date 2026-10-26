@@ -4553,6 +4553,7 @@ fn items_release_activates_new_battles_and_preserves_historical_engines() {
     let ended = decision(&c, "gm", Action::EndBattle);
     for (engine, enabled, events) in [
         (ENGINE, true, true),
+        (ITEM_COMPLETION_ENGINE, true, true),
         (EVENT_ENGINE, false, true),
         (PROVENANCE_ENGINE, false, false),
     ] {

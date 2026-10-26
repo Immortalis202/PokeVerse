@@ -765,6 +765,9 @@ fn completion_new_state_is_private_in_snapshots_archives_undo_and_missing_fields
 }
 #[tokio::test]
 async fn completion_room_medicine_permissions_receipts_reconnect_and_rollback() {
+    room_fixture(false).await;
+}
+async fn room_fixture(group: bool) {
     use crate::{room, store::Store};
     use std::{
         sync::{Arc, Mutex},
@@ -788,6 +791,13 @@ async fn completion_room_medicine_permissions_receipts_reconnect_and_rollback() 
         .map(|s| s.lock().unwrap().player_id.clone())
         .collect();
     let (mut c, a, _) = setup6("Leftovers", "");
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .house_rules = group;
     stock(&mut c, &a, "Super Potion");
     c.host_id = ids[0].clone();
     c.gm_id = ids[2].clone();
@@ -851,6 +861,16 @@ async fn completion_room_medicine_permissions_receipts_reconnect_and_rollback() 
     };
     assert!(send(&observer, medicine.clone()).await.is_err());
     let done = send(&owner, medicine.clone()).await.unwrap();
+    assert_eq!(
+        done.battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .house_rules,
+        group
+    );
     assert_eq!(p(&done, &a).hp, 14);
     assert_eq!(done.sheets[&sid].inventory["Super Potion"], 1);
     assert_eq!(
@@ -873,6 +893,17 @@ async fn completion_room_medicine_permissions_receipts_reconnect_and_rollback() 
     assert_eq!(
         reconnected.sheets[&sid].stored_items.as_ref().unwrap()[0].uses,
         2
+    );
+    assert_eq!(
+        reconnected
+            .battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .house_rules,
+        group
     );
     let saved = stores[0].lock().unwrap().campaigns().unwrap().remove(0);
     assert_eq!(saved.sheets[&sid].inventory["Super Potion"], 1);
@@ -983,3 +1014,6 @@ fn completion_medicine_checkpoints_include_linked_trainers_without_unrelated_inv
     assert!(ids.contains("linked-trainer"));
     assert!(!ids.contains("unrelated"));
 }
+
+#[path = "house_tests.rs"]
+mod house_tests;

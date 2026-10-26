@@ -122,6 +122,7 @@ export default function BattleView({
     "0.9.0-core",
     "0.10.0-core",
     "0.11.0-core",
+    "0.24.0-core",
     "0.23.0-core",
     "0.22.0-core",
     "0.21.0-core",
@@ -193,7 +194,7 @@ export default function BattleView({
         {core
           ? `Server checks are automatic and need no host-player approval. ${battle?.automatic_validation === false ? "Battle rule enforcement is OFF: the GM adjudicates exceptions." : "Battle rule enforcement is ON for the supported core rules."} Select a target and roll accuracy, resolve reactions, then roll automatic damage. The host calculates ordinary Pokémon damage pools, defenses, STAB, critical bonuses, pain and type effectiveness, and updates HP. Reviewed effects and turn/reaction controls are available below in the new engine. Unsupported abilities and move effects remain explicitly adjudicated.`
           : "Upgrade between battles to enable verified core rolls. Previous records are preserved."}
-        {campaign.engine !== "0.23.0-core" && gm && !battle?.active && (
+        {campaign.engine !== "0.24.0-core" && gm && !battle?.active && (
           <button
             disabled={busy}
             onClick={() => execute({ type: "upgrade_rules" })}
@@ -257,6 +258,19 @@ export default function BattleView({
         execute={execute}
         disabled={busy}
       />
+      {campaign.battle?.flow?.house_rules && (
+        <section className="panel">
+          <h3>Group battle rules</h3>
+          <p>
+            Torrent follows Blaze/Overgrow/Swarm. Rivalry compares genders. Full
+            revival ignores the round cap. Ring Target removes type and ability
+            immunities. Choice Scarf overrides Late Reaction; Mycelium Support
+            moves gain Never Miss and Late Reaction 1. Magic Coat lasts until
+            the user's next action. Bide returns damage to the last Pokémon that
+            attacked its user.
+          </p>
+        </section>
+      )}
       <CoreBattleFlow
         catalog={catalog}
         campaign={campaign}
@@ -924,6 +938,7 @@ export default function BattleView({
                   "0.9.0-core",
                   "0.10.0-core",
                   "0.11.0-core",
+                  "0.24.0-core",
                   "0.23.0-core",
                   "0.22.0-core",
                   "0.21.0-core",
@@ -981,6 +996,7 @@ export default function BattleView({
                         "0.9.0-core",
                         "0.10.0-core",
                         "0.11.0-core",
+                        "0.24.0-core",
                         "0.23.0-core",
                         "0.22.0-core",
                         "0.21.0-core",
@@ -1029,6 +1045,7 @@ export default function BattleView({
                       "0.9.0-core",
                       "0.10.0-core",
                       "0.11.0-core",
+                      "0.24.0-core",
                       "0.23.0-core",
                       "0.22.0-core",
                       "0.21.0-core",
@@ -1074,6 +1091,7 @@ export default function BattleView({
                         "0.9.0-core",
                         "0.10.0-core",
                         "0.11.0-core",
+                        "0.24.0-core",
                         "0.23.0-core",
                         "0.22.0-core",
                         "0.21.0-core",

@@ -42,8 +42,12 @@ export default function ItemCompletionControls({
   const [trainer, setTrainer] = useState(false);
   const [reason, setReason] = useState("");
   const [notice, setNotice] = useState("");
-  const [rule, setRule] = useState("revive");
-  const [ruling, setRuling] = useState("full");
+  const [rule, setRule] = useState(
+    campaign.battle?.flow?.house_rules ? "pocket" : "revive",
+  );
+  const [ruling, setRuling] = useState(
+    campaign.battle?.flow?.house_rules ? "accessible" : "full",
+  );
   const b = campaign.battle,
     f = b?.flow,
     items = f?.items,
@@ -256,6 +260,12 @@ export default function ItemCompletionControls({
           Trainer is on the battlefield and pays their own action
         </label>
       )}
+      {f?.house_rules && (
+        <p>
+          Group rules: full revival has no round cap; Ring Target removes type
+          and ability immunities; Choice Scarf overrides Late Reaction.
+        </p>
+      )}
       <p>
         Use during the acting Pokémon's turn. Normally it pays one action.
         GM-confirmed supplies must be accessible in the small battle pocket.
@@ -324,12 +334,18 @@ export default function ItemCompletionControls({
                 );
               }}
             >
-              <option value="revive">Full-HP revive versus round cap</option>
-              <option value="ring">Ring Target immunity scope</option>
+              {!f?.house_rules && (
+                <option value="revive">Full-HP revive versus round cap</option>
+              )}
+              {!f?.house_rules && (
+                <option value="ring">Ring Target immunity scope</option>
+              )}
               <option value="herbal">
                 Herbal acceptance and happiness ruling
               </option>
-              <option value="scarf">Choice Scarf conflicting timing</option>
+              {!f?.house_rules && (
+                <option value="scarf">Choice Scarf conflicting timing</option>
+              )}
               <option value="pocket">Accessible battle-pocket supplies</option>
               <option value="recycle-balloon">Recycled balloon duration</option>
             </select>
@@ -353,13 +369,18 @@ export default function ItemCompletionControls({
               ))}
             </select>
           </label>
-          <p>
-            Ring Target: “types” removes type-chart immunities; “reviewed” also
-            removes supported non-unique ability and field immunities.
-            Conflicting unique rules and undefined effects still require
-            adjudication. Record herbal acceptance and any narrative happiness
-            consequence in the reason; no penalty amount is invented.
-          </p>
+          {!f?.house_rules && (
+            <>
+              <p>
+                Ring Target: “types” removes type-chart immunities; “reviewed”
+                also removes supported non-unique ability and field immunities.
+                Conflicting unique rules and undefined effects still require
+                adjudication. Record herbal acceptance and any narrative
+                happiness consequence in the reason; no penalty amount is
+                invented.
+              </p>
+            </>
+          )}
           <button
             disabled={
               busy ||

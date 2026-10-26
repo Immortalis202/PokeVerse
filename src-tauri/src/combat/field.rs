@@ -834,7 +834,7 @@ fn hurt(c: &mut Campaign, id: &str, n: i32, t: &str, cat: &Catalog) -> Result<()
     let p = fighter(c, id)?;
     if p.hp == 0
         || (p.has_ability("Magic Guard") && !items::completion::ring(c, p, true))
-        || (extra::enabled(c) && p.has_ability("Wonder Guard"))
+        || (extra::enabled(c) && p.has_ability("Wonder Guard") && !house::ring(c, p))
     {
         return Ok(());
     }
@@ -1768,6 +1768,9 @@ pub fn move_data(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> serde_js
     special::move_data(c, p, &mut m);
     tactics::move_data(c, p, &mut m);
     reviewed::move_data(c, p, &mut m);
+    if house::enabled(c) {
+        items::completion::move_data(c, p, &mut m);
+    }
     m
 }
 pub fn target_bonus(c: &Campaign, target: &Combatant, m: &serde_json::Value) -> i32 {

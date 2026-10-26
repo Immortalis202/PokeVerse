@@ -2,11 +2,11 @@
 
 Direction agreed 23 October 2026: PokeVerse is for a private friend group with technical users. Public release, trusted Windows signing and distribution polish are not planned work. Native and networking test results must still describe checks actually performed; this scope decision does not mark pending acceptance tests as passed.
 
-This roadmap follows the implemented ability/item batches. It distinguishes missing automation from intentional rules choices. Runtime behavior has not changed in this audit.
+This roadmap follows the implemented ability/item batches. It distinguishes missing automation from intentional rules choices. The initial audit did not change runtime behavior. The user supplied the eight interpretations on 26 October; they are now implemented in app 0.31.0 / engine 0.24.0-core. See [selected group rules](battle-group-rules.md).
 
 ## 1. Campaign house rules
 
-First implementation batch: allow the GM to select a campaign interpretation once and reuse it in new encounters. Preserve encounter-local overrides, explanations, privacy, host validation, receipts, rollback and historical encounter settings. A campaign default must not silently rewrite an active/saved battle. Unselected policies must remain explicit; recommendations must not become invented official rules.
+Implemented first batch: the eight interpretations selected by this private group are fixed defaults in new current-engine encounters, so no repeated policy selection is required. Preserve historical encounter-local decisions, explanations, privacy, host validation, receipts and rollback. Generic GM adjudication remains available for explicit exceptions. A campaign default must not silently rewrite an active/saved battle. Unselected policies must remain explicit; recommendations must not become invented official rules.
 
 These recurring choices are present in current runtime code and documented batch reviews:
 
@@ -23,7 +23,7 @@ These recurring choices are present in current runtime code and documented batch
 
 Keep actor-specific choices separate from campaign policies. A learned move for a Choice item, the actual weight of a form, a private Forewarn comparison, accessible supplies, individual herbal acceptance and a replacement Pokémon are not global rules defaults.
 
-Completion criterion: the selected interpretation is visible at campaign setup and encounter preparation, applied only through authoritative commands, snapshotted into new battles, explicitly overridable, and covered by permissions/retry/reconnect/rollback/historical tests. No numerical interpretation is selected by this document.
+Completion criterion: the selected interpretation is visible at campaign setup and encounter preparation, applied only through authoritative commands, snapshotted into new battles, protected from conflicting policy commands, and covered by permissions/retry/reconnect/rollback/historical tests. The selected interpretations are recorded in battle-group-rules.md and rules/group-rules.json. This audit table retains the original reasons choices existed.
 
 ## 2. Automate defined effects currently delegated to the GM
 
