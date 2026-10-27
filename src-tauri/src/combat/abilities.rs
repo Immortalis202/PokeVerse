@@ -814,6 +814,7 @@ pub fn resolve(
             p.hp = (p.hp + 1).min(p.max_hp);
         }
     } else if e.kind == "retaliate" {
+        let before_hp = fighter(next, &e.target_id)?.hp;
         damage(
             next,
             &e.target_id,
@@ -823,6 +824,8 @@ pub fn resolve(
                 rules::successes(results)
             },
         )?;
+        let dealt = before_hp - fighter(next, &e.target_id)?.hp;
+        ability_changes::record_sourced(next, &e.combatant_id, &e.target_id, dealt, &e.ability);
     } else if e.kind == "contact"
         && results[..results.len() - usize::from(e.ability == "Effect Spore")].contains(&6)
         && fighter(c, &e.target_id)?.hp > 0

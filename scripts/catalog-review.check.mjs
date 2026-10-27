@@ -123,6 +123,7 @@ test("coverage and PDF fingerprints are preserved with a complete field-level qu
     const tests =
       readFileSync("src-tauri/src/combat_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/house_tests.rs", "utf8") +
+      readFileSync("src-tauri/src/combat_tests/identity_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/targeting_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/ability_tests.rs", "utf8") +
       readFileSync(
@@ -569,4 +570,48 @@ test("group interpretations retain explicit provenance and a compatibility finge
   assert.equal(Object.keys(r.entries.abilities).length, 3);
   assert.equal(Object.keys(r.entries.moves).length, 3);
   assert.equal(Object.keys(r.entries.items).length, 4);
+});
+
+test("scene identity moves retain source fingerprints and the exact three executable scopes", () => {
+  const text = readFileSync("rules/identity-moves.json", "utf8").replace(
+      /\r\n/g,
+      "\n",
+    ),
+    registry = JSON.parse(text),
+    coverage = JSON.parse(readFileSync("rules/coverage.json", "utf8"));
+  assert.equal(
+    coverage.identity_registry_hash,
+    createHash("sha256").update(text).digest("hex"),
+  );
+  assert.deepEqual(Object.keys(registry.entries), [
+    "Entrainment",
+    "Doodle",
+    "Core Enforcer",
+  ]);
+  const db = new DatabaseSync("src-tauri/resources/catalog.db", {
+    readOnly: true,
+  });
+  try {
+    for (const [name, definition] of Object.entries(registry.entries)) {
+      const bytes = readFileSync(`../${definition.source}`);
+      assert.equal(
+        createHash("sha256").update(bytes).digest("hex"),
+        definition.sha256,
+      );
+      assert.equal(
+        JSON.parse(bytes.toString("utf8")).Effect,
+        definition.effect,
+      );
+      const move = JSON.parse(
+        db
+          .prepare("select data from entries where kind='moves' and name=?")
+          .get(name).data,
+      );
+      assert.equal(move.IdentityRules.status, "automated");
+      assert.equal(move.IdentityRules.introduced_engine, "0.26.0-core");
+      assert.equal(move.Review.coverage, definition.scope);
+    }
+  } finally {
+    db.close();
+  }
 });

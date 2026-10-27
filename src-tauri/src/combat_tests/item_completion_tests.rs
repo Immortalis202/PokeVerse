@@ -488,10 +488,32 @@ fn completion_move_damage_pops_balloon_and_focus_sash_survives_only_once() {
 }
 #[test]
 fn completion_contact_helmet_barb_pads_and_policy_follow_real_hits() {
-    let (c, a, t) = setup6("Rocky Helmet", "");
+    let (mut c, a, t) = setup6("Rocky Helmet", "");
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .identity_moves = true;
     let hp = p(&c, &t).hp;
     let c = foe_attack(c, &a, &t, "Tackle");
     assert_eq!(p(&c, &t).hp, hp - 1);
+    let view = crate::privacy::for_player(&c, "other");
+    let history = &view
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .special
+        .history;
+    assert!(history.iter().any(|h| h.source == a
+        && h.target == t
+        && h.damage > 0
+        && h.name == "contact retaliation"));
+    assert!(!history.iter().any(|h| h.name == "Rocky Helmet"));
     let (c, a, t) = setup6("Sticky Barb", "");
     let c = foe_attack(c.clone(), &a, &t, "Tackle");
     assert!(items::held(&c, &a).is_empty());

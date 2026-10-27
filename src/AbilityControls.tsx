@@ -160,6 +160,15 @@ export default function AbilityControls({
       {f.ability_changes?.enabled && (
         <details>
           <summary>Temporary ability history</summary>
+          {f.identity_moves && (
+            <p>
+              Entrainment passes the user's ability to its target; Doodle copies
+              the target's ability onto the user only. Core Enforcer removes the
+              target's ability only after damage from that target this round.
+              These changes last for the scene, including switching; Unique
+              abilities remain protected.
+            </p>
+          )}
           {f.ability_changes.history.map((entry, i) => (
             <p key={i}>{entry}</p>
           ))}

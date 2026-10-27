@@ -62,6 +62,8 @@ pub struct Status {
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct TurnFlow {
     #[serde(default)]
+    pub identity_moves: bool,
+    #[serde(default)]
     pub house_rules: bool,
     #[serde(default)]
     pub interaction_rules: bool,
@@ -1073,7 +1075,7 @@ pub fn transition(
         );
     }
     if let Some(setup) = field::start_setup(a) {
-        if c.engine != ENGINE {
+        if ![ENGINE, ENVIRONMENT_ENGINE].contains(&c.engine.as_str()) {
             return Err(error(
                 "Upgrade between battles to configure the starting battlefield",
             ));
@@ -1154,6 +1156,16 @@ pub fn preview(c: &Campaign, a: &Action, cat: &Catalog) -> Result<ActionPreview>
     }
     if ability_changes::enabled(c) {
         warnings.push("Temporary abilities: scene assignments persist through switching; Trace ends on exit; Gas negates foes in rank-limited range. See ability history for originals and current effects.".into());
+    }
+    if flow(c).is_ok_and(|f| f.identity_moves) {
+        if let Action::Accuracy { move_name, .. } | Action::AccuracyTargets { move_name, .. } = a {
+            match move_name.as_str() {
+                "Entrainment" => warnings.push("Entrainment replaces the target's ability for the whole scene, even after switching. Unique or unavailable abilities produce no change.".into()),
+                "Doodle" => warnings.push("Doodle copies onto the user only; whole scene duration. Unique or unavailable abilities produce no change.".into()),
+                "Core Enforcer" => warnings.push("Core Enforcer deals ordinary damage; ability removal requires positive damage from this target to the user this round. Unique abilities remain protected.".into()),
+                _ => {}
+            }
+        }
     }
     warnings.extend(tactics::preview_notes(c, a, cat)?);
     if let Action::AccuracyTargets {
@@ -2941,9 +2953,12 @@ fn transition_inner(
             ) {
                 let b = done.battle.as_mut().unwrap();
                 b.flow = Some(TurnFlow {
-                    house_rules: [ENGINE, GROUP_RULES_ENGINE].contains(&c.engine.as_str()),
+                    identity_moves: c.engine == ENGINE,
+                    house_rules: [ENGINE, ENVIRONMENT_ENGINE, GROUP_RULES_ENGINE]
+                        .contains(&c.engine.as_str()),
                     interaction_rules: [
                         ENGINE,
+                        ENVIRONMENT_ENGINE,
                         GROUP_RULES_ENGINE,
                         ITEM_COMPLETION_ENGINE,
                         INTERACTION_ENGINE,
@@ -2952,6 +2967,7 @@ fn transition_inner(
                     standalone: standalone::StandaloneState {
                         enabled: [
                             ENGINE,
+                            ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
                             ITEM_COMPLETION_ENGINE,
                             INTERACTION_ENGINE,
@@ -2963,6 +2979,7 @@ fn transition_inner(
                     information: information::InformationState {
                         enabled: [
                             ENGINE,
+                            ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
                             ITEM_COMPLETION_ENGINE,
                             INTERACTION_ENGINE,
@@ -2975,6 +2992,7 @@ fn transition_inner(
                     forms: forms::FormState {
                         enabled: [
                             ENGINE,
+                            ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
                             ITEM_COMPLETION_ENGINE,
                             INTERACTION_ENGINE,
@@ -2987,12 +3005,18 @@ fn transition_inner(
                     },
                     items: items::ItemState {
                         completion: items::completion::CompletionState {
-                            enabled: [ENGINE, GROUP_RULES_ENGINE, ITEM_COMPLETION_ENGINE]
-                                .contains(&c.engine.as_str()),
+                            enabled: [
+                                ENGINE,
+                                ENVIRONMENT_ENGINE,
+                                GROUP_RULES_ENGINE,
+                                ITEM_COMPLETION_ENGINE,
+                            ]
+                            .contains(&c.engine.as_str()),
                             ..Default::default()
                         },
                         enabled: [
                             ENGINE,
+                            ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
                             ITEM_COMPLETION_ENGINE,
                             INTERACTION_ENGINE,
@@ -3007,6 +3031,7 @@ fn transition_inner(
                     events: events::EventState {
                         enabled: [
                             ENGINE,
+                            ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
                             ITEM_COMPLETION_ENGINE,
                             INTERACTION_ENGINE,
@@ -3021,6 +3046,7 @@ fn transition_inner(
                     },
                     provenance_rules: [
                         ENGINE,
+                        ENVIRONMENT_ENGINE,
                         GROUP_RULES_ENGINE,
                         ITEM_COMPLETION_ENGINE,
                         INTERACTION_ENGINE,
@@ -3035,6 +3061,7 @@ fn transition_inner(
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
                             ITEM_COMPLETION_ENGINE,
                             INTERACTION_ENGINE,
@@ -3052,6 +3079,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
                             ITEM_COMPLETION_ENGINE,
                             INTERACTION_ENGINE,
@@ -3069,6 +3097,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        ENVIRONMENT_ENGINE,
                         GROUP_RULES_ENGINE,
                         ITEM_COMPLETION_ENGINE,
                         INTERACTION_ENGINE,
@@ -3086,6 +3115,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
                             ITEM_COMPLETION_ENGINE,
                             INTERACTION_ENGINE,
@@ -3106,6 +3136,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
                             ITEM_COMPLETION_ENGINE,
                             INTERACTION_ENGINE,
@@ -3127,6 +3158,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
                             ITEM_COMPLETION_ENGINE,
                             INTERACTION_ENGINE,
@@ -3149,6 +3181,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
                             ITEM_COMPLETION_ENGINE,
                             INTERACTION_ENGINE,
@@ -3172,6 +3205,7 @@ fn transition_inner(
                     special: special::SpecialState {
                         enabled: [
                             ENGINE,
+                            ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
                             ITEM_COMPLETION_ENGINE,
                             INTERACTION_ENGINE,
@@ -3195,6 +3229,7 @@ fn transition_inner(
                     },
                     ability_rules: [
                         ENGINE,
+                        ENVIRONMENT_ENGINE,
                         GROUP_RULES_ENGINE,
                         ITEM_COMPLETION_ENGINE,
                         INTERACTION_ENGINE,
@@ -3220,6 +3255,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
                             ITEM_COMPLETION_ENGINE,
                             INTERACTION_ENGINE,
@@ -3245,6 +3281,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
                             ITEM_COMPLETION_ENGINE,
                             INTERACTION_ENGINE,

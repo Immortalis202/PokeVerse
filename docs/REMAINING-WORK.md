@@ -1,6 +1,6 @@
 # PokeVerse - remaining work
 
-Snapshot: **26 October 2026**, application **0.32.0**, engine **0.25.0-core**, protocol **33**, user database schema **4**.
+Snapshot: **26 October 2026**, application **0.33.0**, engine **0.26.0-core**, protocol **34**, user database schema **4**.
 
 This is the current project backlog. Implemented foundations are summarized first; unfinished features, explicit GM rulings, verification gaps and excluded scope are distinguished below. Counts come from the checked-in registries and should be refreshed after catalog changes.
 
@@ -32,7 +32,7 @@ Dancer, Parental Bond, Gorilla Tactics, Truant and Defeatist now use the reviewe
 - [x] **Standalone abilities (batch 4):** Heavy/Light Metal weight inputs/formulas, Rivalry comparisons, Moody host sampling, Perish Body and explicit Torrent wording choice. See [standalone ability rules](battle-standalone-abilities.md).
 - [x] **Partial interaction review (batch 5):** reviewed all 55 assigned entries, released 67 exact move definitions, shield/field/Cover bypass, forced-switch protection, timing decisions and copied traits. [Reviewed rules and retained boundaries](battle-partial-interactions.md). Tinted Lens, Unaware, Stakeout and the move portion of Sheer Force are implemented. The full ability inventory is in sections 8-9.
 - [ ] **Unreviewed trait copying:** Costar and Opportunist now copy supported attribute/defense move and ability channels. Baton Pass transfers supported positive attribute channels, and Snatch steals supported ability modifiers. Coil/Hone Claws accuracy pools and Focus Energy High Critical now copy in batch 5. Review additional trait channels separately; temporary ability identity copying remains distinct. See [stat copying and transfer](battle-stat-channels.md).
-- [ ] **Remaining identity effects:** review Entrainment, Doodle and Core Enforcer individually. Role Play, Skill Swap, Gastro Acid, Trace, Gas, contact replacement and witnessed ally inheritance already exist.
+- [x] **Scene identity effects:** Entrainment, Doodle and Core Enforcer are implemented in 0.33.0; see [exact rules and verification](battle-identity-moves.md). Role Play, Skill Swap, Gastro Acid, Trace, Gas, contact replacement and witnessed ally inheritance already exist.
 - [ ] **Status edge cases:** review severe Burn/Poison escalation with conflicting printed values, unsupported status-producing/cure effects and remaining Will spending/draining effects. Core statuses, durations and expiry already exist; automatic Will recovery remains excluded.
 - [ ] **Ice edge cases:** review any still-adjudicated Snow/special-damage interactions against ice against current fixtures before adding mechanics. Ordinary ice attempts and supported special interactions already have tests.
 - [ ] **Unreviewed move effects:** extend executable definitions beyond the selected special/targeting registries. Ordinary damage automation does not imply every added effect on all 892 moves is executable. Preserve explicit GM resolution for unsupported cards.
@@ -43,7 +43,7 @@ Dancer, Parental Bond, Gorilla Tactics, Truant and Defeatist now use the reviewe
 | --- | --- |
 | Baton Pass | Supported positive move and ability attribute channels and replacement rules are implemented. |
 | Snatch | Review additional effects; supported move/ability modifiers, shields, decoys and typed effects already transfer. |
-| Shadow Force | Persist its 24-hour recovery restriction after leaving the encounter; encounter-local debt already works. |
+| Shadow Force | Cross-encounter recovery enforcement is intentionally not scheduled, by user decision on 27 October 2026. Existing encounter-local debt is unchanged. |
 | Bide | Engine 0.24 uses the selected group rule: user damage basis, return to the last attacker. Historical encounters retain their recorded interpretation. |
 | Magic Coat | Group rule: reflect supported effects until the user next acts. Extend unsupported Support definitions separately; historical durations remain recorded. |
 | Mycelium Might | Engine 0.24 fixes all Support moves to Never Miss/Late Reaction 1; a selected Choice Scarf overrides Late Reaction. Historical encounters retain their recorded timing. No ability bypass. |

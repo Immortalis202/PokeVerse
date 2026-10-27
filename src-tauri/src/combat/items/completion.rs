@@ -361,7 +361,10 @@ pub fn hit(c: &mut Campaign, q: &QueuedAction, m: &serde_json::Value, cat: &Cata
         && !pads(c, &q.actor_id)
         && !fighter(c, &q.actor_id)?.has_ability("Long Reach");
     if contact && live(c, &q.target_id, "Rocky Helmet") {
+        let hp = fighter(c, &q.actor_id)?.hp;
         hurt(c, &q.actor_id, 1)?;
+        let dealt = hp - fighter(c, &q.actor_id)?.hp;
+        ability_changes::record_sourced(c, &q.target_id, &q.actor_id, dealt, "contact retaliation");
     }
     if contact && live(c, &q.target_id, "Sticky Barb") && fighter(c, &q.actor_id)?.hp > 0 {
         let unit = super::held(c, &q.target_id)

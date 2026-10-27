@@ -10,6 +10,7 @@ pub fn transition(
 ) -> Result<(Campaign, String)> {
     if [
         ENGINE,
+        ENVIRONMENT_ENGINE,
         GROUP_RULES_ENGINE,
         ITEM_COMPLETION_ENGINE,
         INTERACTION_ENGINE,
@@ -387,6 +388,7 @@ pub fn transition(
             }
             if ![
                 ENGINE,
+                ENVIRONMENT_ENGINE,
                 GROUP_RULES_ENGINE,
                 ITEM_COMPLETION_ENGINE,
                 INTERACTION_ENGINE,

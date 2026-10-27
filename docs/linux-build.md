@@ -1,13 +1,13 @@
 # Linux x86-64 build
 
-PokeVerse 0.32.0 uses the same engine 0.25.0-core, protocol 33 and schema 4 on Windows and Linux. The Linux bundle is intended for the user's Intel/AMD x86-64 Ubuntu 26.10 computer. It is built with an Ubuntu 26.04 x86-64 toolchain; native operation on the other computer and Windows/Linux Tailscale acceptance remain separate checks.
+PokeVerse 0.33.0 uses the same engine 0.26.0-core, protocol 34 and schema 4 on Windows and Linux. The Linux bundle is intended for the user's Intel/AMD x86-64 Ubuntu 26.10 computer. It is built with an Ubuntu 26.04 x86-64 toolchain; native operation on the other computer and Windows/Linux Tailscale acceptance remain separate checks.
 
 ## Install and connect
 
 Copy the Linux delivery files to the Ubuntu PC. In the directory containing the Debian package:
 
 ```bash
-sudo apt install ./PokeVerse_0.32.0_amd64.deb
+sudo apt install ./PokeVerse_0.33.0_amd64.deb
 ```
 
 Open PokeVerse from the application menu. The package manager installs required system libraries; the app includes its reference catalog and sprites. Create a fresh Linux identity rather than copying a Windows profile to create a second client. Join the matching Windows host with `ws://WINDOWS-TAILSCALE-IP:39231/room`, using its displayed port and access token. Installing/configuring Tailscale and firewall changes are not performed by the build.
@@ -32,7 +32,21 @@ Outputs are under `src-tauri/target/release/bundle/deb/` and `src-tauri/target/r
 See [Debian packaging](https://v2.tauri.app/distribute/debian/) and [AppImage limitations](https://v2.tauri.app/distribute/appimage/) for platform packaging requirements.
 
 
-## Current v0.32.0 verification — 26 October 2026
+## Current v0.33.0 verification — 27 October 2026
+
+[Entrainment, Doodle and Core Enforcer](battle-identity-moves.md) are implemented as source-defined scene ability effects. Shadow Force cross-encounter recovery work is intentionally not scheduled; its encounter-local behavior and the separate wild/training workflow are unchanged. All **682 Rust tests passed on Windows and Linux** (release mode on Linux), plus 63 frontend tests, 22 catalog/script checks, TypeScript, warnings-denied Clippy and formatting/diff checks.
+
+Windows NSIS and Linux Debian/AppImage production builds passed. The Debian package declares version 0.33.0, architecture `amd64`, and GTK3/WebKit4.1 dependencies. Its ELF is x86-64 and all linked libraries resolve on the build system. Both extracted Linux packages contain catalog SHA256 `29d0c1604979c3f5e6c46a1cd9db6f5ca063ae8c6750667fbb96107687ed08a5`, matching Windows. Native installation, GUI and physical Tailscale acceptance remain unverified.
+
+Delivery: `src-tauri/target/linux-bundle/0.33.0/PokeVerse_0.33.0_linux_x64.zip`; matching Windows installer: `src-tauri/target/release/bundle/nsis/PokeVerse_0.33.0_x64-setup.exe`. Use matching v0.33.0/protocol 34 clients and upgrade the campaign to engine 0.26.0-core between battles. Schema 4 is retained.
+
+| Package | SHA256 |
+| --- | --- |
+| PokeVerse_0.33.0_amd64.deb | `8d76e528fdb90eca6931ab5474db75a4ae0aa248453544b6c85b656c195cdd13` |
+| PokeVerse_0.33.0_amd64.AppImage | `0ac69d217273da1ef56e5decacda1a524e5fb4c794fa78b014ebebb635283337` |
+| PokeVerse_0.33.0_x64-setup.exe | `1e0beee86c5abedc878d602c5c3bc6edafedf0e95be6ca721517160cd89f3462` |
+
+## Previous v0.32.0 verification — 26 October 2026
 
 The GM can select [starting multiplayer battlefield conditions](battle-starting-environment.md) before battle. Wild/training encounters remain separate. All **672 Rust tests passed on Windows and Linux** (release mode on Linux), plus 63 frontend tests, 21 catalog/script checks, TypeScript, Clippy and formatting/diff checks. Windows NSIS and Linux Debian/AppImage production builds passed.
 

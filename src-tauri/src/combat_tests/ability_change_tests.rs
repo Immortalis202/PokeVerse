@@ -492,3 +492,6 @@ fn ability_changes_trace_exit_restores_underlying_scene_assignment() {
         "Run Away"
     );
 }
+
+#[path = "identity_tests.rs"]
+mod identity_tests;

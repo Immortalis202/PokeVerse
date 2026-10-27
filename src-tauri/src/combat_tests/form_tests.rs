@@ -811,6 +811,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
     let ended = decision(&c, "gm", Action::EndBattle);
     for engine in [
         ENGINE,
+        ENVIRONMENT_ENGINE,
         GROUP_RULES_ENGINE,
         ITEM_COMPLETION_ENGINE,
         INTERACTION_ENGINE,
@@ -832,10 +833,12 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             },
         );
         let flow = n.battle.as_ref().unwrap().flow.as_ref().unwrap();
+        assert_eq!(flow.identity_moves, engine == ENGINE);
         assert_eq!(
             flow.interaction_rules,
             [
                 ENGINE,
+                ENVIRONMENT_ENGINE,
                 GROUP_RULES_ENGINE,
                 ITEM_COMPLETION_ENGINE,
                 INTERACTION_ENGINE
@@ -844,16 +847,23 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
         );
         assert_eq!(
             flow.items.completion.enabled,
-            [ENGINE, GROUP_RULES_ENGINE, ITEM_COMPLETION_ENGINE].contains(&engine)
+            [
+                ENGINE,
+                ENVIRONMENT_ENGINE,
+                GROUP_RULES_ENGINE,
+                ITEM_COMPLETION_ENGINE
+            ]
+            .contains(&engine)
         );
         assert_eq!(
             flow.house_rules,
-            [ENGINE, GROUP_RULES_ENGINE].contains(&engine)
+            [ENGINE, ENVIRONMENT_ENGINE, GROUP_RULES_ENGINE].contains(&engine)
         );
         assert_eq!(
             flow.forms.enabled,
             [
                 ENGINE,
+                ENVIRONMENT_ENGINE,
                 GROUP_RULES_ENGINE,
                 ITEM_COMPLETION_ENGINE,
                 INTERACTION_ENGINE,
@@ -867,6 +877,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.information.enabled,
             [
                 ENGINE,
+                ENVIRONMENT_ENGINE,
                 GROUP_RULES_ENGINE,
                 ITEM_COMPLETION_ENGINE,
                 INTERACTION_ENGINE,
@@ -879,6 +890,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.standalone.enabled,
             [
                 ENGINE,
+                ENVIRONMENT_ENGINE,
                 GROUP_RULES_ENGINE,
                 ITEM_COMPLETION_ENGINE,
                 INTERACTION_ENGINE,

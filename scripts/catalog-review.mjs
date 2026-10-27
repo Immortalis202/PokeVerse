@@ -45,6 +45,23 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
     createHash("sha256").update(groupText).digest("hex")
   )
     throw new Error("Group rules fingerprint mismatch");
+  const identityText = (
+    await readFile(path.join(app, "rules/identity-moves.json"), "utf8")
+  ).replace(/\r\n/g, "\n");
+  const identityRegistry = JSON.parse(identityText);
+  if (
+    coverageRegistry.identity_registry_hash !==
+    createHash("sha256").update(identityText).digest("hex")
+  )
+    throw new Error("Identity registry fingerprint mismatch");
+  for (const definition of Object.values(identityRegistry.entries)) {
+    const bytes = await readFile(path.join(root, definition.source));
+    if (
+      createHash("sha256").update(bytes).digest("hex") !== definition.sha256 ||
+      JSON.parse(bytes.toString("utf8")).Effect !== definition.effect
+    )
+      throw new Error("Identity source fingerprint mismatch");
+  }
   const itemText = (
     await readFile(path.join(app, "rules/item-completion.json"), "utf8")
   ).replace(/\r\n/g, "\n");
@@ -174,6 +191,8 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
             pdf_page: entry.Creation?.pdf_page ?? null,
           });
       }
+      if (kind === "moves" && identityRegistry.entries[entry.Name])
+        entry.IdentityRules = identityRegistry.entries[entry.Name];
       if (kind === "moves" && specialRegistry.entries[entry.Name])
         entry.SpecialRules = specialRegistry.entries[entry.Name];
       if (
@@ -212,6 +231,7 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
           (kind === "abilities"
             ? abilityRegistry.entries[entry.Name]?.scope
             : null) ??
+          entry.IdentityRules?.scope ??
           entry.GroupRules?.scope ??
           entry.ItemRules?.scope ??
           entry.InteractionRules?.scope ??

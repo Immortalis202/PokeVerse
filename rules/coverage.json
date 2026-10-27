@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.25.0-core",
-  "release": "0.32.0",
-  "protocol": 33,
+  "engine": "0.26.0-core",
+  "release": "0.33.0",
+  "protocol": 34,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -530,6 +530,24 @@
         "environment_moonlight_uses_live_night_with_explicit_overrides_and_historical_fallback",
         "separate_gm_three_trainers_receipts_reconnect_and_persistence"
       ]
+    },
+    {
+      "id": "scene-identity-moves",
+      "status": "automated",
+      "source": "Supplied v3.0 Entrainment, Doodle and Core Enforcer JSON cards, fingerprinted in identity-moves.json",
+      "scope": "Three source-defined scene ability effects. Current encounters only; protected Unique identities and composite/manual boundaries remain explicit. Cross-encounter Shadow Force work is intentionally not scheduled.",
+      "fixtures": [
+        "identity_entrainment_replaces_only_target_for_scene_and_rollback_restores_it",
+        "identity_entrainment_protects_unique_identities_and_does_not_pass_source_negation",
+        "identity_doodle_copies_only_user_and_retains_the_copy_for_scene",
+        "identity_doodle_copies_current_identity_without_copying_source_negation",
+        "identity_core_enforcer_checks_actual_damage_from_that_target_this_round",
+        "identity_core_enforcer_does_not_confuse_actions_old_hits_or_other_attackers_with_qualifying_damage",
+        "identity_core_enforcer_preserves_unique_and_type_immunity_and_allows_unique_user",
+        "identity_moves_keep_permissions_historical_flags_and_effect_rollback",
+        "identity_moves_room_receipts_reconnect_and_rollback_preserve_scene_changes",
+        "identity_core_enforcer_counts_actual_contact_retaliation_without_reusing_counter_pools"
+      ]
     }
   ],
   "ability_registry_hash": "edd27e9c00f7b2463118affdf4310cb15a42f271d543a700d9993c1d36631c88",
@@ -538,5 +556,6 @@
   "form_registry_hash": "222191f7c2ed47eba141c0ff7b41318f9d7476951ba3f8e909a01370fb490e3a",
   "interaction_registry_hash": "89a963cd535446eaa5c4ee6386348c8eccf67c723a407d68a8fc881ebb41efe4",
   "item_completion_registry_hash": "b319b916dcbb15a0fb11da997075b5ba2a5444a9dd2fd9e2e6503e6e2f83d8cc",
-  "group_rules_registry_hash": "807b7285b7a8289f87c51b967bff00e7971c59f347dd263082f8a7aabd7e6325"
+  "group_rules_registry_hash": "807b7285b7a8289f87c51b967bff00e7971c59f347dd263082f8a7aabd7e6325",
+  "identity_registry_hash": "4b6e4c6aa7c463c80339f337901fac82e924eca1d98c7fd0b6d1687a748fc22a"
 }

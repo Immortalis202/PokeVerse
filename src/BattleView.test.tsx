@@ -318,6 +318,7 @@ describe("structured core battle controls", () => {
             choices: {},
             history: [],
           },
+          identity_moves: false,
           house_rules: groupRules,
           interaction_rules: false,
           reviewed_rules: engine === "0.13.0-core",
@@ -990,7 +991,7 @@ describe("structured core battle controls", () => {
     const html = core(
       "gm",
       false,
-      "0.25.0-core",
+      "0.26.0-core",
       false,
       false,
       false,

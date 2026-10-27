@@ -509,9 +509,13 @@ pub fn command(
             let before = fighter(c, &e.target)?.hp;
             indirect(c, &e.target, n)?;
             let dealt = before - fighter(c, &e.target)?.hp;
+            ability_changes::record_sourced(c, &e.source, &e.target, dealt, &e.name);
             let ooze = fighter(c, &e.target)?.has_ability("Liquid Ooze");
             if ooze {
+                let hp = fighter(c, &e.source)?.hp;
                 indirect(c, &e.source, dealt)?;
+                let lost = hp - fighter(c, &e.source)?.hp;
+                ability_changes::record_sourced(c, &e.target, &e.source, lost, "Liquid Ooze");
             } else {
                 heal(c, &e.source, dealt, false)?;
             }
@@ -1279,7 +1283,10 @@ pub fn effects(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) -
             }
         }
         if ooze {
+            let hp = fighter(c, a)?.hp;
             indirect(c, a, amount)?;
+            let lost = hp - fighter(c, a)?.hp;
+            ability_changes::record_sourced(c, t, a, lost, "Liquid Ooze");
         } else {
             heal(c, a, amount.min(3), false)?;
         }

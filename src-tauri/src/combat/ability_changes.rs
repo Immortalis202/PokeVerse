@@ -71,6 +71,11 @@ pub(super) fn unique(cat: &Catalog, name: &str) -> Result<bool> {
         .contains("unique ability"))
 }
 pub fn move_effect(c: &mut Campaign, q: &QueuedAction, cat: &Catalog) -> Result<bool> {
+    if ["Entrainment", "Doodle", "Core Enforcer"].contains(&q.move_name.as_str())
+        && flow(c).is_ok_and(|f| f.identity_moves)
+    {
+        return identity_move(c, q, cat);
+    }
     if ![
         "Skill Swap",
         "Role Play",
@@ -148,6 +153,94 @@ pub fn move_effect(c: &mut Campaign, q: &QueuedAction, cat: &Catalog) -> Result<
     state_mut(c).history.push(format!(
         "{}: {} ({ua}) -> {} ({ta}); whole scene",
         q.move_name, user.name, target.name
+    ));
+    Ok(true)
+}
+/// Preserve explicit non-move damage sources for Core Enforcer without guessing from HP changes.
+pub fn record_sourced(c: &mut Campaign, source: &str, target: &str, damage: i32, name: &str) {
+    if source == target || damage <= 0 || !flow(c).is_ok_and(|f| f.identity_moves) {
+        return;
+    }
+    let round = c.battle.as_ref().unwrap().round;
+    let turn = flow(c).unwrap().turn;
+    let sequence = c.revision + 1;
+    flow_mut(c).special.history.push(special::Hit {
+        sequence,
+        source: source.into(),
+        target: target.into(),
+        name: name.into(),
+        category: "Indirect".into(),
+        dice: 0,
+        damage,
+        round,
+        turn,
+    });
+}
+// Source-defined scene assignments. Copy identity, not the source suppression state.
+fn identity_move(c: &mut Campaign, q: &QueuedAction, cat: &Catalog) -> Result<bool> {
+    if !enabled(c) {
+        return Err(error(
+            "Ability changes require the reviewed encounter engine",
+        ));
+    }
+    let user = fighter(c, &q.actor_id)?.clone();
+    let target = fighter(c, &q.target_id)?.clone();
+    if q.move_name == "Core Enforcer" {
+        let round = battle(c)?.round;
+        let qualified = flow(c)?.special.history.iter().any(|h| {
+            h.source == target.id && h.target == user.id && h.round == round && h.damage > 0
+        });
+        let m = field::move_data(c, &user, &move_entry(cat, &q.move_name)?);
+        let (effectiveness, immune) = rules::type_matchup(c, &user, &target, "Dragon", cat)?;
+        if !qualified
+            || immune
+            || abilities::damage_immune_from(c, &user, &target, &m)
+            || extra::source_immune(c, &user, &target, effectiveness)
+            || unique(cat, &assigned(c, &target))?
+        {
+            state_mut(c).history.push("Core Enforcer: no ability removed; requires damage from this target this round and an eligible target ability".into());
+            return Ok(true);
+        }
+        if forms::union_active(c, &target.id) {
+            return Err(AppError::new(
+                "manual_rule",
+                "Composite target ability requires an explicit GM resolution",
+            ));
+        }
+        state_mut(c).negated.insert(target.id.clone());
+        state_mut(c).history.push(format!(
+            "Core Enforcer: {} lost its ability for the scene; switching does not end it",
+            target.name
+        ));
+        return Ok(true);
+    }
+    if forms::union_active(c, &user.id) || forms::union_active(c, &target.id) {
+        return Err(AppError::new(
+            "manual_rule",
+            "Composite ability identities require an explicit GM resolution",
+        ));
+    }
+    let (source, recipient) = if q.move_name == "Doodle" {
+        (&target, &user)
+    } else {
+        (&user, &target)
+    };
+    let passed = assigned(c, source);
+    if passed.is_empty() || unique(cat, &passed)? || unique(cat, &assigned(c, recipient))? {
+        state_mut(c).history.push(format!(
+            "{}: no change; unavailable or Unique ability",
+            q.move_name
+        ));
+        return Ok(true);
+    }
+    state_mut(c)
+        .assignments
+        .insert(recipient.id.clone(), passed.clone());
+    state_mut(c).trace.remove(&recipient.id);
+    transfers::clear_contact(c, &recipient.id);
+    state_mut(c).history.push(format!(
+        "{}: {} receives {passed} from {}; whole scene, switching does not end it",
+        q.move_name, recipient.name, source.name
     ));
     Ok(true)
 }

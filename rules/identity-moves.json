@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "engine": "0.26.0-core",
+  "release": "0.33.0",
+  "provenance": "Supplied Pokerole v3.0 move cards; no video-game substitutions. Source cards remain unchanged.",
+  "entries": {
+    "Entrainment": {
+      "id": "entrainment:Entrainment",
+      "status": "automated",
+      "scope": "Replace only the target's scene ability identity with the user's current identity for the scene, including switching. Do not transfer suppression/negation; Unique and unresolved identities remain protected. Permanent sheets are unchanged.",
+      "source": "Pokerole-Data/v3.0/Moves/Entrainment.json",
+      "sha256": "c1b864009e51b354f940e503cc48d86733e3def85a304d803ae348e7f735ffab",
+      "effect": "Single Target. Replace the Target's Ability with the User's. Unique Abilities can't be passed or replaced. Whole Scene Duration. This effect does not end by switching out the affected Pokemon.",
+      "introduced_engine": "0.26.0-core"
+    },
+    "Doodle": {
+      "id": "doodle:Doodle",
+      "status": "automated",
+      "scope": "Copy the target's current scene ability identity onto the user only for the scene, including switching. Do not transfer source suppression/negation. Unique identities cannot be copied or replaced. No ally-wide effect is added.",
+      "source": "Pokerole-Data/v3.0/Moves/Doodle.json",
+      "sha256": "4a6bbc67ab45a840e4edcae7f139cf072ed8aa436fa4e7cdec3459d1cf233e58",
+      "effect": "Single Target. Replace the User's Ability with the Target's. Whole Scene Duration. Unique Abilities can't be copied.",
+      "introduced_engine": "0.26.0-core"
+    },
+    "Core Enforcer": {
+      "id": "core-enforcer:Core Enforcer",
+      "status": "automated",
+      "scope": "Deal ordinary Dragon/Special damage. Remove the target's ability for the scene only if that target dealt positive damage to the user during this round. Switching does not end removal. Unique identities, damage immunities and normal protection/decoy rules remain respected.",
+      "source": "Pokerole-Data/v3.0/Moves/Core Enforcer.json",
+      "sha256": "cbff8bac73952413a6a7b55d8aee71e2aeff1385756a602800fb663865784b6a",
+      "effect": "Single Target. If the User has already received Damage from the Target this Round, Remove the Target's Ability for the rest of the scene. This effect does not end by switching out the affected Pokemon. Unique Abilities are not affected by this effect.",
+      "introduced_engine": "0.26.0-core"
+    }
+  }
+}

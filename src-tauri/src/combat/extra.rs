@@ -670,7 +670,10 @@ pub fn hit(c: &mut Campaign, q: &QueuedAction, before: i32, m: &serde_json::Valu
         }
     }
     if target.hp == 0 && before > 0 && target.has_ability("Innards Out") {
+        let hp = fighter(c, &source.id)?.hp;
         hurt(c, &source.id, before)?;
+        let dealt = hp - fighter(c, &source.id)?.hp;
+        ability_changes::record_sourced(c, &target.id, &source.id, dealt, "Innards Out");
     }
     if target.has_ability("Sand Spit") && abilities::contact(m) {
         field::sand_spit(c, &target.id)?;
@@ -962,7 +965,10 @@ pub fn end_round(c: &mut Campaign) -> Result<()> {
         }
         if p.has_ability("Bad Dreams") {
             for t in ps.iter().filter(|t| status(t, "Sleep")) {
+                let hp = fighter(c, &t.id)?.hp;
                 hurt(c, &t.id, 1)?;
+                let dealt = hp - fighter(c, &t.id)?.hp;
+                ability_changes::record_sourced(c, &p.id, &t.id, dealt, "Bad Dreams");
             }
         }
         if p.has_ability("Poison Heal")
