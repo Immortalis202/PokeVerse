@@ -18,6 +18,7 @@ import type { TacticsState } from "./TacticsState";
 import type { TransferState } from "./TransferState";
 
 export type TurnFlow = {
+  status_escalation: boolean;
   identity_moves: boolean;
   house_rules: boolean;
   interaction_rules: boolean;

@@ -180,6 +180,7 @@ fn mixed() -> (Campaign, String, String, String) {
         detail: "".into(),
         rounds: None,
         progress: 0,
+        elapsed_rounds: 0,
     });
     (c, a, t, h)
 }

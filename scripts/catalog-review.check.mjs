@@ -124,6 +124,10 @@ test("coverage and PDF fingerprints are preserved with a complete field-level qu
       readFileSync("src-tauri/src/combat_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/house_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/identity_tests.rs", "utf8") +
+      readFileSync(
+        "src-tauri/src/combat_tests/status_escalation_tests.rs",
+        "utf8",
+      ) +
       readFileSync("src-tauri/src/combat_tests/targeting_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/ability_tests.rs", "utf8") +
       readFileSync(

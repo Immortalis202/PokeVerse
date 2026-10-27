@@ -57,10 +57,14 @@ pub struct Status {
     pub detail: String,
     pub rounds: Option<u32>,
     pub progress: i32,
+    #[serde(default)]
+    pub elapsed_rounds: u32,
 }
 #[derive(Debug, Clone, Default, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct TurnFlow {
+    #[serde(default)]
+    pub status_escalation: bool,
     #[serde(default)]
     pub identity_moves: bool,
     #[serde(default)]
@@ -1075,7 +1079,7 @@ pub fn transition(
         );
     }
     if let Some(setup) = field::start_setup(a) {
-        if ![ENGINE, ENVIRONMENT_ENGINE].contains(&c.engine.as_str()) {
+        if ![ENGINE, IDENTITY_ENGINE, ENVIRONMENT_ENGINE].contains(&c.engine.as_str()) {
             return Err(error(
                 "Upgrade between battles to configure the starting battlefield",
             ));
@@ -1548,6 +1552,9 @@ fn transition_inner(
         } => {
             gm(c, actor)?;
             reason(r)?;
+            if flow(c)?.status_escalation {
+                return Err(error("Severe status damage is automatic; use an explicit HP correction for a GM exception"));
+            }
             if !(0..=999).contains(damage) {
                 return Err(error("Status damage must be 0-999"));
             }
@@ -2953,11 +2960,18 @@ fn transition_inner(
             ) {
                 let b = done.battle.as_mut().unwrap();
                 b.flow = Some(TurnFlow {
-                    identity_moves: c.engine == ENGINE,
-                    house_rules: [ENGINE, ENVIRONMENT_ENGINE, GROUP_RULES_ENGINE]
-                        .contains(&c.engine.as_str()),
+                    identity_moves: [ENGINE, IDENTITY_ENGINE].contains(&c.engine.as_str()),
+                    status_escalation: c.engine == ENGINE,
+                    house_rules: [
+                        ENGINE,
+                        IDENTITY_ENGINE,
+                        ENVIRONMENT_ENGINE,
+                        GROUP_RULES_ENGINE,
+                    ]
+                    .contains(&c.engine.as_str()),
                     interaction_rules: [
                         ENGINE,
+                        IDENTITY_ENGINE,
                         ENVIRONMENT_ENGINE,
                         GROUP_RULES_ENGINE,
                         ITEM_COMPLETION_ENGINE,
@@ -2967,6 +2981,7 @@ fn transition_inner(
                     standalone: standalone::StandaloneState {
                         enabled: [
                             ENGINE,
+                            IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
                             ITEM_COMPLETION_ENGINE,
@@ -2979,6 +2994,7 @@ fn transition_inner(
                     information: information::InformationState {
                         enabled: [
                             ENGINE,
+                            IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
                             ITEM_COMPLETION_ENGINE,
@@ -2992,6 +3008,7 @@ fn transition_inner(
                     forms: forms::FormState {
                         enabled: [
                             ENGINE,
+                            IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
                             ITEM_COMPLETION_ENGINE,
@@ -3007,6 +3024,7 @@ fn transition_inner(
                         completion: items::completion::CompletionState {
                             enabled: [
                                 ENGINE,
+                                IDENTITY_ENGINE,
                                 ENVIRONMENT_ENGINE,
                                 GROUP_RULES_ENGINE,
                                 ITEM_COMPLETION_ENGINE,
@@ -3016,6 +3034,7 @@ fn transition_inner(
                         },
                         enabled: [
                             ENGINE,
+                            IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
                             ITEM_COMPLETION_ENGINE,
@@ -3031,6 +3050,7 @@ fn transition_inner(
                     events: events::EventState {
                         enabled: [
                             ENGINE,
+                            IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
                             ITEM_COMPLETION_ENGINE,
@@ -3046,6 +3066,7 @@ fn transition_inner(
                     },
                     provenance_rules: [
                         ENGINE,
+                        IDENTITY_ENGINE,
                         ENVIRONMENT_ENGINE,
                         GROUP_RULES_ENGINE,
                         ITEM_COMPLETION_ENGINE,
@@ -3061,6 +3082,7 @@ fn transition_inner(
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
                             ITEM_COMPLETION_ENGINE,
@@ -3079,6 +3101,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
                             ITEM_COMPLETION_ENGINE,
@@ -3097,6 +3120,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        IDENTITY_ENGINE,
                         ENVIRONMENT_ENGINE,
                         GROUP_RULES_ENGINE,
                         ITEM_COMPLETION_ENGINE,
@@ -3115,6 +3139,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
                             ITEM_COMPLETION_ENGINE,
@@ -3136,6 +3161,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
                             ITEM_COMPLETION_ENGINE,
@@ -3158,6 +3184,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
                             ITEM_COMPLETION_ENGINE,
@@ -3181,6 +3208,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
                             ITEM_COMPLETION_ENGINE,
@@ -3205,6 +3233,7 @@ fn transition_inner(
                     special: special::SpecialState {
                         enabled: [
                             ENGINE,
+                            IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
                             ITEM_COMPLETION_ENGINE,
@@ -3229,6 +3258,7 @@ fn transition_inner(
                     },
                     ability_rules: [
                         ENGINE,
+                        IDENTITY_ENGINE,
                         ENVIRONMENT_ENGINE,
                         GROUP_RULES_ENGINE,
                         ITEM_COMPLETION_ENGINE,
@@ -3255,6 +3285,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
                             ITEM_COMPLETION_ENGINE,
@@ -3281,6 +3312,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
                             ITEM_COMPLETION_ENGINE,
@@ -3334,6 +3366,7 @@ fn transition_inner(
                                 detail: String::new(),
                                 rounds: None,
                                 progress: 0,
+                                elapsed_rounds: 0,
                             });
                         }
                     }
@@ -3425,6 +3458,7 @@ fn transition_inner(
                             detail: String::new(),
                             rounds: None,
                             progress: 0,
+                            elapsed_rounds: 0,
                         });
                     }
                 }
@@ -3641,6 +3675,17 @@ fn set_status_from(
     if kind == "Flinch" {
         p.runtime.flinch_round = round;
     }
+    let automatic = flow(c)?.status_escalation;
+    let p = fighter_mut(c, id)?;
+    let previous = p
+        .runtime
+        .statuses
+        .iter()
+        .find(|s| {
+            (kind.starts_with("Burn") && s.kind.starts_with("Burn"))
+                || (kind.contains("Poison") && s.kind.contains("Poison"))
+        })
+        .cloned();
     let mut kind = kind.to_string();
     if kind.starts_with("Burn") {
         if let Some(previous) = p
@@ -3649,9 +3694,13 @@ fn set_status_from(
             .iter()
             .find(|s| s.kind.starts_with("Burn"))
         {
-            kind = match previous.kind.as_str() {
-                "Burn" => "Burn 2",
-                _ => "Burn 3",
+            kind = if automatic && kind == "Burn 3" {
+                "Burn 3"
+            } else {
+                match previous.kind.as_str() {
+                    "Burn" => "Burn 2",
+                    _ => "Burn 3",
+                }
             }
             .into();
         }
@@ -3668,11 +3717,25 @@ fn set_status_from(
         .statuses
         .retain(|s| s.kind != kind || (kind == "Disable" && s.detail != detail));
     let applied = kind.clone();
+    let progress = if automatic {
+        previous.as_ref().map_or(0, |s| s.progress)
+    } else {
+        0
+    };
+    let elapsed_rounds = if automatic {
+        previous
+            .as_ref()
+            .filter(|s| s.kind == kind)
+            .map_or(0, |s| s.elapsed_rounds)
+    } else {
+        0
+    };
     p.runtime.statuses.push(Status {
         kind,
         detail: detail.into(),
         rounds,
-        progress: 0,
+        progress,
+        elapsed_rounds,
     });
     extra::after_status(c, id, &applied)?;
     if knot
@@ -3684,6 +3747,10 @@ fn set_status_from(
     }
     Ok(())
 }
+pub(crate) fn severe_status_damage(s: &Status) -> i32 {
+    let base: i32 = if s.kind == "Burn 3" { 3 } else { 2 };
+    base.saturating_add(s.elapsed_rounds.saturating_mul(2).min(i32::MAX as u32) as i32)
+}
 fn end_round(c: &mut Campaign, _cat: &Catalog) -> Result<()> {
     let rings: BTreeSet<_> = c
         .battle
@@ -3693,6 +3760,7 @@ fn end_round(c: &mut Campaign, _cat: &Catalog) -> Result<()> {
         .filter(|p| house::ring(c, p))
         .map(|p| p.id.clone())
         .collect();
+    let automatic = flow(c)?.status_escalation;
     let abilities_on = abilities::enabled(c);
     let extended = extra::enabled(c);
     let immune = |p: &Combatant, kind: &str| {
@@ -3708,11 +3776,13 @@ fn end_round(c: &mut Campaign, _cat: &Catalog) -> Result<()> {
                 .retain(|s| !s.kind.starts_with("Burn") && !s.kind.contains("Poison"));
             continue;
         }
-        if p.runtime.statuses.iter().any(|s| {
-            ["Burn 3", "Badly Poisoned"].contains(&s.kind.as_str())
-                && !immune(p, &s.kind)
-                && p.runtime.adjudicated_round != b.round
-        }) {
+        if !automatic
+            && p.runtime.statuses.iter().any(|s| {
+                ["Burn 3", "Badly Poisoned"].contains(&s.kind.as_str())
+                    && !immune(p, &s.kind)
+                    && p.runtime.adjudicated_round != b.round
+            })
+        {
             return Err(AppError::new("manual_rule","Severe status escalation conflicts between pp.84-86; record the GM severe-status outcome before advancing"));
         }
         for s in &p.runtime.statuses {
@@ -3722,19 +3792,28 @@ fn end_round(c: &mut Campaign, _cat: &Catalog) -> Result<()> {
                 match s.kind.as_str() {
                     "Burn" => 1,
                     "Burn 2" | "Poison" => 2,
+                    "Burn 3" | "Badly Poisoned" if automatic => severe_status_damage(s),
                     _ => 0,
                 }
             };
             p.hp = (p.hp - damage).max(0);
         }
         for s in &mut p.runtime.statuses {
+            if automatic && ["Burn 3", "Badly Poisoned"].contains(&s.kind.as_str()) {
+                s.elapsed_rounds = s.elapsed_rounds.saturating_add(1);
+            }
             if let Some(r) = s.rounds.as_mut() {
                 *r = r.saturating_sub(1);
             }
         }
         p.runtime.statuses.retain(|s| {
             s.rounds != Some(0)
-                && (p.hp > 0 || !["Burn", "Burn 2", "Poison"].contains(&s.kind.as_str()))
+                && (p.hp > 0
+                    || if automatic {
+                        !(s.kind.starts_with("Burn") || s.kind.contains("Poison"))
+                    } else {
+                        !["Burn", "Burn 2", "Poison"].contains(&s.kind.as_str())
+                    })
         });
     }
     Ok(())

@@ -352,6 +352,7 @@ fn forms_all_47_mega_stones_activate_exact_forms_and_restore_original_resources(
             detail: "original body".into(),
             rounds: None,
             progress: 0,
+            elapsed_rounds: 0,
         });
         let n = decision(
             &c,
@@ -811,6 +812,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
     let ended = decision(&c, "gm", Action::EndBattle);
     for engine in [
         ENGINE,
+        IDENTITY_ENGINE,
         ENVIRONMENT_ENGINE,
         GROUP_RULES_ENGINE,
         ITEM_COMPLETION_ENGINE,
@@ -833,11 +835,16 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             },
         );
         let flow = n.battle.as_ref().unwrap().flow.as_ref().unwrap();
-        assert_eq!(flow.identity_moves, engine == ENGINE);
+        assert_eq!(flow.status_escalation, engine == ENGINE);
+        assert_eq!(
+            flow.identity_moves,
+            [ENGINE, IDENTITY_ENGINE].contains(&engine)
+        );
         assert_eq!(
             flow.interaction_rules,
             [
                 ENGINE,
+                IDENTITY_ENGINE,
                 ENVIRONMENT_ENGINE,
                 GROUP_RULES_ENGINE,
                 ITEM_COMPLETION_ENGINE,
@@ -849,6 +856,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.items.completion.enabled,
             [
                 ENGINE,
+                IDENTITY_ENGINE,
                 ENVIRONMENT_ENGINE,
                 GROUP_RULES_ENGINE,
                 ITEM_COMPLETION_ENGINE
@@ -857,12 +865,19 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
         );
         assert_eq!(
             flow.house_rules,
-            [ENGINE, ENVIRONMENT_ENGINE, GROUP_RULES_ENGINE].contains(&engine)
+            [
+                ENGINE,
+                IDENTITY_ENGINE,
+                ENVIRONMENT_ENGINE,
+                GROUP_RULES_ENGINE
+            ]
+            .contains(&engine)
         );
         assert_eq!(
             flow.forms.enabled,
             [
                 ENGINE,
+                IDENTITY_ENGINE,
                 ENVIRONMENT_ENGINE,
                 GROUP_RULES_ENGINE,
                 ITEM_COMPLETION_ENGINE,
@@ -877,6 +892,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.information.enabled,
             [
                 ENGINE,
+                IDENTITY_ENGINE,
                 ENVIRONMENT_ENGINE,
                 GROUP_RULES_ENGINE,
                 ITEM_COMPLETION_ENGINE,
@@ -890,6 +906,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.standalone.enabled,
             [
                 ENGINE,
+                IDENTITY_ENGINE,
                 ENVIRONMENT_ENGINE,
                 GROUP_RULES_ENGINE,
                 ITEM_COMPLETION_ENGINE,

@@ -1205,3 +1205,6 @@ mod standalone_tests;
 
 #[path = "combat_tests/environment_tests.rs"]
 mod environment_tests;
+
+#[path = "combat_tests/status_escalation_tests.rs"]
+mod status_escalation_tests;

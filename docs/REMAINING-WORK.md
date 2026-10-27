@@ -1,6 +1,6 @@
 # PokeVerse - remaining work
 
-Snapshot: **26 October 2026**, application **0.33.0**, engine **0.26.0-core**, protocol **34**, user database schema **4**.
+Snapshot: **27 October 2026**, application **0.34.0**, engine **0.27.0-core**, protocol **35**, user database schema **4**.
 
 This is the current project backlog. Implemented foundations are summarized first; unfinished features, explicit GM rulings, verification gaps and excluded scope are distinguished below. Counts come from the checked-in registries and should be refreshed after catalog changes.
 
@@ -33,7 +33,8 @@ Dancer, Parental Bond, Gorilla Tactics, Truant and Defeatist now use the reviewe
 - [x] **Partial interaction review (batch 5):** reviewed all 55 assigned entries, released 67 exact move definitions, shield/field/Cover bypass, forced-switch protection, timing decisions and copied traits. [Reviewed rules and retained boundaries](battle-partial-interactions.md). Tinted Lens, Unaware, Stakeout and the move portion of Sheer Force are implemented. The full ability inventory is in sections 8-9.
 - [ ] **Unreviewed trait copying:** Costar and Opportunist now copy supported attribute/defense move and ability channels. Baton Pass transfers supported positive attribute channels, and Snatch steals supported ability modifiers. Coil/Hone Claws accuracy pools and Focus Energy High Critical now copy in batch 5. Review additional trait channels separately; temporary ability identity copying remains distinct. See [stat copying and transfer](battle-stat-channels.md).
 - [x] **Scene identity effects:** Entrainment, Doodle and Core Enforcer are implemented in 0.33.0; see [exact rules and verification](battle-identity-moves.md). Role Play, Skill Swap, Gastro Acid, Trace, Gas, contact replacement and witnessed ally inheritance already exist.
-- [ ] **Status edge cases:** review severe Burn/Poison escalation with conflicting printed values, unsupported status-producing/cure effects and remaining Will spending/draining effects. Core statuses, durations and expiry already exist; automatic Will recovery remains excluded.
+- [x] **Burn and Poison escalation:** selected detailed rules automated in 0.34.0; see [rules and verification](battle-status-escalation.md).
+- [ ] **Status edge cases:** unsupported status-producing/cure effects and remaining Will spending/draining effects. Core statuses, durations and expiry already exist; automatic Will recovery remains excluded.
 - [ ] **Ice edge cases:** review any still-adjudicated Snow/special-damage interactions against ice against current fixtures before adding mechanics. Ordinary ice attempts and supported special interactions already have tests.
 - [ ] **Unreviewed move effects:** extend executable definitions beyond the selected special/targeting registries. Ordinary damage automation does not imply every added effect on all 892 moves is executable. Preserve explicit GM resolution for unsupported cards.
 

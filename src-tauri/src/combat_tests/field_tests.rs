@@ -672,6 +672,7 @@ fn field_round_end_events_complete_before_expiry_and_ticks_are_once() {
             detail: "".into(),
             rounds: None,
             progress: 0,
+            elapsed_rounds: 0,
         });
     let mut c = battle::transition(&c, "gm", &Action::NextRound, vec![], &catalog())
         .unwrap()

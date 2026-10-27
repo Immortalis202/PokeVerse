@@ -200,6 +200,7 @@ fn items_berry_cures_follow_the_printed_degree_and_status_boundaries() {
             detail: "".into(),
             rounds: None,
             progress: 0,
+            elapsed_rounds: 0,
         });
         let done = decision(&c, "player", use_berry(&a));
         assert_eq!(
@@ -279,6 +280,7 @@ fn items_magic_room_forbids_berry_use_without_consumption_or_cheek_pouch_healing
             detail: "".into(),
             rounds: None,
             progress: 0,
+            elapsed_rounds: 0,
         });
         c.battle
             .as_mut()
@@ -2543,6 +2545,7 @@ fn items_recycled_medicine_obeys_printed_cures_cap_and_does_not_trigger_berry_ab
                 detail: "".into(),
                 rounds: None,
                 progress: 0,
+                elapsed_rounds: 0,
             });
         }
         c.battle.as_mut().unwrap().automatic_validation = false;
@@ -3009,6 +3012,7 @@ fn items_eviolite_uses_reviewed_stage_and_combines_move_and_ability_channels() {
             detail: "".into(),
             rounds: None,
             progress: 0,
+            elapsed_rounds: 0,
         });
         assert_eq!(
             crate::combat::abilities::defense(&c, p(&c, &a), true),

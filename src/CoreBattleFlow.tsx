@@ -152,7 +152,7 @@ export default function CoreBattleFlow({
                 {p.runtime.statuses
                   .map(
                     (s) =>
-                      `${s.kind}${s.rounds ? ` (${s.rounds} rounds)` : ""}`,
+                      `${s.kind}${s.rounds ? ` (${s.rounds} rounds)` : ""}${f.status_escalation && ["Burn 3", "Badly Poisoned"].includes(s.kind) ? ` · next round-end ${Math.min(2147483647, (s.kind === "Burn 3" ? 3 : 2) + 2 * s.elapsed_rounds)} damage before immunity` : ""}`,
                   )
                   .join(", ") || "No structured conditions"}
               </p>
@@ -311,6 +311,7 @@ export default function CoreBattleFlow({
             "0.9.0-core",
             "0.10.0-core",
             "0.11.0-core",
+            "0.27.0-core",
             "0.26.0-core",
             "0.25.0-core",
             "0.24.0-core",
@@ -790,33 +791,45 @@ export default function CoreBattleFlow({
           >
             Correct encounter Will
           </button>
-          <label>
-            GM severe status damage this round
-            <input
-              type="number"
-              min={0}
-              max={999}
-              value={severeDamage}
-              onChange={(e) => setSevereDamage(Number(e.target.value))}
-            />
-          </label>
-          <button
-            disabled={disabled || !statusTarget || !reason.trim()}
-            onClick={() =>
-              send({
-                type: "adjudicate_status",
-                combatant_id: statusTarget,
-                damage: severeDamage,
-                reason,
-              })
-            }
-          >
-            Record severe status outcome
-          </button>
-          <p className="muted">
-            Severe status escalation has contradictory PDF values and requires
-            explicit GM adjudication. Unknown text conditions remain manual.
-          </p>
+          {f.status_escalation ? (
+            <p className="muted">
+              End-of-round damage: Burn 1; Burn 2 and Poison 2. Third-degree
+              Burn starts at 3 and Badly Poisoned at 2; each increases by 2
+              every round. Burn treatment needs 4/6/8 cumulative successes.
+              Immunities still apply. Use an HP correction for a GM exception.
+            </p>
+          ) : (
+            <>
+              <label>
+                GM severe status damage this round
+                <input
+                  type="number"
+                  min={0}
+                  max={999}
+                  value={severeDamage}
+                  onChange={(e) => setSevereDamage(Number(e.target.value))}
+                />
+              </label>
+              <button
+                disabled={disabled || !statusTarget || !reason.trim()}
+                onClick={() =>
+                  send({
+                    type: "adjudicate_status",
+                    combatant_id: statusTarget,
+                    damage: severeDamage,
+                    reason,
+                  })
+                }
+              >
+                Record severe status outcome
+              </button>
+              <p className="muted">
+                Severe status escalation has contradictory PDF values and
+                requires explicit GM adjudication. Unknown text conditions
+                remain manual.
+              </p>
+            </>
+          )}
         </details>
       )}
     </section>

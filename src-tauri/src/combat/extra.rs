@@ -1027,6 +1027,7 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
                 detail: "Comatose".into(),
                 rounds: None,
                 progress: 0,
+                elapsed_rounds: 0,
             });
         }
         let intimidated = flow(c)?.intimidate.values().any(|ids| ids.contains(&p.id));

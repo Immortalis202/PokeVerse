@@ -427,6 +427,7 @@ fn ability_changes_negation_removes_only_ability_generated_comatose_sleep() {
             detail: "Sleep Powder".into(),
             rounds: None,
             progress: 0,
+            elapsed_rounds: 0,
         });
     c.battle
         .as_mut()

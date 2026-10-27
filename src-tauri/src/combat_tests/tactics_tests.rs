@@ -1158,6 +1158,7 @@ fn decoys_weather_and_existing_poison_hit_owner_not_decoy() {
             detail: "Existing ailment".into(),
             rounds: None,
             progress: 0,
+            elapsed_rounds: 0,
         });
     c.battle
         .as_mut()

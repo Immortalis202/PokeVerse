@@ -733,6 +733,7 @@ fn reviewed_keen_eye_and_tangled_feet_adjust_successes_not_action_budget() {
         detail: String::new(),
         rounds: None,
         progress: 0,
+        elapsed_rounds: 0,
     });
     assert_eq!(reviewed::accuracy_penalty(&c, p(&c, &a), p(&c, &t), -3), 0);
     pm(&mut c, &a).selected_ability.clear();

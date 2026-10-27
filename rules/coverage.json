@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.26.0-core",
-  "release": "0.33.0",
-  "protocol": 34,
+  "engine": "0.27.0-core",
+  "release": "0.34.0",
+  "protocol": 35,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -72,7 +72,7 @@
         "sleep_recovery_consumes_actions_and_flinch_spends_the_next_turn",
         "reapplication_escalates_poison_and_does_not_reset_active_duration"
       ],
-      "scope": "Type immunities, Paralysis, Sleep, Confusion, Flinch, Disable, In Love, timed expiry and switch cleanup. Severe burn/poison escalation has contradictory values and requires a recorded GM outcome."
+      "scope": "Type immunities, Paralysis, Sleep, Confusion, Flinch, Disable, In Love, timed expiry and switch cleanup. Current battles use the selected detailed rules (RULING 84-85): Burn 3 starts at 3, Badly Poisoned at 2, both +2 per round. Historical battles retain recorded GM adjudication."
     },
     {
       "id": "frozen",
@@ -547,6 +547,24 @@
         "identity_moves_keep_permissions_historical_flags_and_effect_rollback",
         "identity_moves_room_receipts_reconnect_and_rollback_preserve_scene_changes",
         "identity_core_enforcer_counts_actual_contact_retaliation_without_reusing_counter_pools"
+      ]
+    },
+    {
+      "id": "burn-poison-escalation",
+      "status": "automated",
+      "source": "RULING 84-85 detailed ailment rules; user selected +2 over the conflicting +1 guide on page 86 on 27 October 2026. Source SHA256 f50014b330cc00db83906cf232ba432855f4f624684a84c3c494b47390284d74.",
+      "scope": "Encounter-local escalation, independent cumulative treatment, preserved immunity/cure paths, current-engine snapshots. Optional lethal damage/death and outside-battle time are excluded.",
+      "fixtures": [
+        "status_escalation_uses_detailed_manual_pools_and_separate_condition_ages",
+        "status_escalation_reinfliction_keeps_age_and_cumulative_treatment",
+        "status_escalation_cure_expiry_and_faint_clear_the_condition_clock",
+        "status_escalation_immunity_prevents_damage_without_rewinding_elapsed_rounds",
+        "status_escalation_does_not_change_fixed_ailments_or_historical_adjudication",
+        "status_escalation_permissions_rollback_and_manual_double_damage_guard",
+        "status_escalation_pool_saturates_and_direct_severe_burn_never_downgrades",
+        "status_escalation_burn_treatment_uses_4_6_8_successes_and_cure_restarts_age",
+        "status_escalation_poison_heal_preserves_existing_healing_and_finite_cure",
+        "status_escalation_room_retry_reconnect_persistence_and_rollback"
       ]
     }
   ],

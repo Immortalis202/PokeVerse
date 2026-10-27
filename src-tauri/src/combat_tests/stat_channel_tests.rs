@@ -510,6 +510,7 @@ fn stat_channels_new_ability_activation_does_not_inherit_a_stolen_channel_mask()
         detail: "".into(),
         rounds: None,
         progress: 0,
+        elapsed_rounds: 0,
     });
     stat_channels::transfer(&mut c, &t, &a, "Snatch").unwrap();
     sync(&mut c);

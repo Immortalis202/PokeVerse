@@ -254,6 +254,7 @@ fn special_healing_caps_will_and_rest_does_not_invent_a_status_cure() {
             detail: "".into(),
             rounds: None,
             progress: 0,
+            elapsed_rounds: 0,
         });
     let c = attack(&c, &a, &a, "Rest");
     let c = effect(&c);
@@ -863,6 +864,7 @@ fn special_charge_defense_is_temporary_and_matcha_can_break_its_own_ice() {
             detail: "ice".into(),
             rounds: None,
             progress: 0,
+            elapsed_rounds: 0,
         });
     let c = attack(&c, &a, &t, "Matcha Gotcha");
     assert!(!c.battle.as_ref().unwrap().combatants[0]

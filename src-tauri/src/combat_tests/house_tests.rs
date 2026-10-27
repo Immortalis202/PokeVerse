@@ -670,3 +670,33 @@ fn house_mirror_coat_failed_accuracy_spends_the_slot_and_rollback_restores_it() 
     assert_eq!(serde_json::to_value(&c).unwrap(), before);
     assert!(rules::dice_count(&restored, &mirror_response(&t), &catalog()).is_ok());
 }
+
+#[test]
+fn status_escalation_ring_target_removes_severe_damage_immunity() {
+    for (item, first, second) in [("Ring Target", 2, 4), ("Air Balloon", 0, 0)] {
+        let (mut c, a, t) = setup_house(item, "Magic Guard");
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .status_escalation = true;
+        abilities::inflict(&mut c, &t, &a, "Badly Poisoned", "", None, &catalog()).unwrap();
+        let hp = p(&c, &a).hp;
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .order
+            .clear();
+        let mut next = decision(&c, "gm", Action::NextRound);
+        assert_eq!(p(&next, &a).hp, hp - first);
+        assert_eq!(p(&next, &a).runtime.statuses[0].elapsed_rounds, 1);
+        pm(&mut next, &a).hp = hp;
+        let next = decision(&next, "gm", Action::NextRound);
+        assert_eq!(p(&next, &a).hp, (hp - second).max(0));
+    }
+}

@@ -161,6 +161,7 @@ fn extra_conditional_stats_and_ability_channels_do_not_duplicate_bonuses() {
                 detail: "".into(),
                 rounds: None,
                 progress: 0,
+                elapsed_rounds: 0,
             });
         }
         assert_eq!(score(&c, &a, key), want, "{ability}");
@@ -175,6 +176,7 @@ fn extra_conditional_stats_and_ability_channels_do_not_duplicate_bonuses() {
             detail: "".into(),
             rounds: None,
             progress: 0,
+            elapsed_rounds: 0,
         });
     c.battle
         .as_mut()
@@ -256,6 +258,7 @@ fn extra_poison_heal_ticks_once_cures_after_three_rounds_and_does_not_revive() {
             detail: "".into(),
             rounds: None,
             progress: 0,
+            elapsed_rounds: 0,
         });
     c.battle
         .as_mut()
@@ -358,6 +361,7 @@ fn extra_end_round_cure_precedes_round_expiry_without_duplicate_status_damage() 
             detail: "".into(),
             rounds: None,
             progress: 0,
+            elapsed_rounds: 0,
         });
     c.battle
         .as_mut()
@@ -543,6 +547,7 @@ fn extra_cursed_body_tracks_distinct_disabled_moves_and_shed_skin_selects_withou
                 detail: "Tackle".into(),
                 rounds: None,
                 progress: 0,
+                elapsed_rounds: 0,
             });
     }
     c.battle
@@ -719,6 +724,7 @@ fn extra_paralysis_and_weather_immunity_do_not_rewrite_historical_engines() {
             detail: "".into(),
             rounds: None,
             progress: 0,
+            elapsed_rounds: 0,
         });
     assert_eq!(score(&c, &a, "Dexterity"), 0);
     c.battle
@@ -795,6 +801,7 @@ fn extra_pending_round_choices_preserve_knockout_provenance() {
             detail: "".into(),
             rounds: None,
             progress: 0,
+            elapsed_rounds: 0,
         });
     }
     let c = battle::transition(&c, "gm", &Action::NextRound, vec![], &catalog())

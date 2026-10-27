@@ -528,6 +528,7 @@ fn reductions_marvel_scale_and_hustle_apply_to_the_correct_rolls() {
                 detail: "".into(),
                 rounds: None,
                 progress: 0,
+                elapsed_rounds: 0,
             });
         assert_eq!(
             rules::dice_count(&c, &damage_command(&c), &catalog()).unwrap(),

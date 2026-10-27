@@ -1,14 +1,16 @@
-# PokeVerse v0.33.0
+# PokeVerse v0.34.0
 
-Current build: **0.33.0**, engine **0.26.0-core**, protocol **34**, schema **4**. [Battle items and medicine](docs/battle-item-completion.md); [Partial battle interactions](docs/battle-partial-interactions.md); [Standalone battle abilities](docs/battle-standalone-abilities.md); [private battle information](docs/battle-private-information.md); [battle forms and transformations](docs/battle-transformations.md).
+Current build: **0.34.0**, engine **0.27.0-core**, protocol **35**, schema **4**. [Battle items and medicine](docs/battle-item-completion.md); [Partial battle interactions](docs/battle-partial-interactions.md); [Standalone battle abilities](docs/battle-standalone-abilities.md); [private battle information](docs/battle-private-information.md); [battle forms and transformations](docs/battle-transformations.md).
 
 [Selected group rules](docs/battle-group-rules.md) are applied in new current-engine encounters. Version 0.31.1 corrects Mirror Coat as a Late Reaction 5 to an incoming Special move.
+
+New battles automate [Burn and Poison escalation](docs/battle-status-escalation.md) using the selected detailed manual rules. App binaries and packages are built only on explicit request.
 
 Current unfinished features and verification gaps: [remaining work](docs/REMAINING-WORK.md). Milestone 7: [Windows/LAN acceptance kit and manual cases](docs/windows-lan-acceptance.md) (manual acceptance pending).
 
 Windows desktop workspace for Pokerole 3.0. Built with Tauri 2, React/TypeScript, and Rust. Each installation keeps its library locally and can host a persistent campaign over LAN or a private VPN.
 
-The default Nocturne workspace uses RodeoPokemon's dark purple palette, a compact navigation rail and a toolbar with campaign, connection and separate host/GM status. Creation, progression, training encounters and battles retain their existing workflows. Version 0.33.0 uses protocol 34 and retains database schema 4; all room clients must use matching builds.
+The default Nocturne workspace uses RodeoPokemon's dark purple palette, a compact navigation rail and a toolbar with campaign, connection and separate host/GM status. Creation, progression, training encounters and battles retain their existing workflows. Version 0.34.0 uses protocol 35 and retains database schema 4; all room clients must use matching builds.
 
 ## Run
 
