@@ -4,6 +4,33 @@ import { readFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { DatabaseSync } from "node:sqlite";
 import { compendiumDetail } from "./compendium-preview.mjs";
+
+test("Will move audit preserves exact source cards and manual boundaries", () => {
+  const review = JSON.parse(
+    readFileSync("rules/will-moves-review.json", "utf8"),
+  );
+  assert.equal(review.moves.length, 34);
+  for (const entry of review.moves) {
+    const bytes = readFileSync(`../${entry.source}`);
+    assert.equal(
+      createHash("sha256").update(bytes).digest("hex"),
+      entry.sha256,
+    );
+    const source = JSON.parse(bytes);
+    assert.equal(source.Name, entry.name);
+    assert.equal(source.Effect, entry.effect);
+    assert.deepEqual(source.AddedEffects, entry.added_effects);
+  }
+  assert.match(
+    review.moves.find((m) => m.name === "Spite").will_scope,
+    /automated/,
+  );
+  for (const name of ["Eerie Spell", "Grudge", "Sappy Seed"])
+    assert.match(
+      review.moves.find((m) => m.name === name).will_scope,
+      /manual/,
+    );
+});
 test("review evidence corrects owned catalog data and keeps source JSON unchanged", () => {
   const db = new DatabaseSync("src-tauri/resources/catalog.db", {
     readOnly: true,
@@ -122,6 +149,7 @@ test("coverage and PDF fingerprints are preserved with a complete field-level qu
     );
     const tests =
       readFileSync("src-tauri/src/combat_tests.rs", "utf8") +
+      readFileSync("src-tauri/src/combat_tests/will_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/house_tests.rs", "utf8") +
       readFileSync("src-tauri/src/combat_tests/identity_tests.rs", "utf8") +
       readFileSync(

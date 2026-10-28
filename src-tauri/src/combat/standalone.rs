@@ -252,7 +252,8 @@ pub fn accuracy_success(
     exempt: bool,
 ) -> i32 {
     let values = &dice[..base as usize];
-    let chance = p.runtime.chance_round == battle(c).unwrap().round
+    let chance = (p.runtime.chance_round == battle(c).unwrap().round
+        && !p.runtime.chance_cancelled)
         && values.iter().any(|v| *v < 4)
         && dice.get(shared as usize).is_some_and(|v| *v >= 4);
     (rules::successes(values) + i32::from(chance)

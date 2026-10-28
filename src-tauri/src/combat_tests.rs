@@ -1208,3 +1208,6 @@ mod environment_tests;
 
 #[path = "combat_tests/status_escalation_tests.rs"]
 mod status_escalation_tests;
+
+#[path = "combat_tests/will_tests.rs"]
+mod will_tests;

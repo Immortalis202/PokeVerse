@@ -31,6 +31,8 @@ pub struct CombatState {
     pub ability: abilities::AbilityState,
     pub will: i32,
     pub pain_ignored: i32,
+    #[serde(default)]
+    pub chance_cancelled: bool,
     pub chance_round: u32,
     pub fate_round: u32,
     pub fate_pending: bool,
@@ -65,6 +67,8 @@ pub struct Status {
 pub struct TurnFlow {
     #[serde(default)]
     pub status_escalation: bool,
+    #[serde(default)]
+    pub spite: bool,
     #[serde(default)]
     pub identity_moves: bool,
     #[serde(default)]
@@ -452,7 +456,7 @@ fn check_count(dice: &[u8], count: u32) -> Result<()> {
 }
 fn action_success(c: &mut Campaign, id: &str, dice: &[u8], base: u32) -> i32 {
     let p = fighter(c, id).unwrap();
-    let chance = p.runtime.chance_round == battle(c).unwrap().round;
+    let chance = p.runtime.chance_round == battle(c).unwrap().round && !p.runtime.chance_cancelled;
     let raw = rules::successes(&dice[..base as usize])
         + i32::from(
             chance
@@ -1007,7 +1011,9 @@ fn base_dice_count(c: &Campaign, a: &Action, cat: &Catalog) -> Result<u32> {
     };
     Ok(base
         + u32::from(id.is_some_and(|id| {
-            fighter(c, id).is_ok_and(|p| p.runtime.chance_round == battle(c).unwrap().round)
+            fighter(c, id).is_ok_and(|p| {
+                p.runtime.chance_round == battle(c).unwrap().round && !p.runtime.chance_cancelled
+            })
         })))
 }
 fn holding_back(c: &Campaign, q: &QueuedAction) -> bool {
@@ -1079,7 +1085,9 @@ pub fn transition(
         );
     }
     if let Some(setup) = field::start_setup(a) {
-        if ![ENGINE, IDENTITY_ENGINE, ENVIRONMENT_ENGINE].contains(&c.engine.as_str()) {
+        if ![ENGINE, STATUS_ENGINE, IDENTITY_ENGINE, ENVIRONMENT_ENGINE]
+            .contains(&c.engine.as_str())
+        {
             return Err(error(
                 "Upgrade between battles to configure the starting battlefield",
             ));
@@ -1170,6 +1178,11 @@ pub fn preview(c: &Campaign, a: &Action, cat: &Catalog) -> Result<ActionPreview>
                 _ => {}
             }
         }
+    }
+    if flow(c).is_ok_and(|f| f.spite)
+        && matches!(a, Action::Accuracy { move_name, .. } | Action::AccuracyTargets { move_name, .. } if move_name == "Spite")
+    {
+        warnings.push("Spite reduces target Will to at most 1 and clears pain relief, Chance and pending Fate benefits. Prior spending and completed rolls are not refunded or undone.".into());
     }
     warnings.extend(tactics::preview_notes(c, a, cat)?);
     if let Action::AccuracyTargets {
@@ -2734,6 +2747,7 @@ fn transition_inner(
                     rt.pain_ignored += 1
                 }
                 "chance" if rt.fate_round != b.round && rt.chance_round != b.round => {
+                    rt.chance_cancelled = false;
                     rt.chance_round = b.round
                 }
                 "fate" if rt.chance_round != b.round && !rt.fate_pending => {
@@ -2776,7 +2790,8 @@ fn transition_inner(
                 return Err(error("A fainted Pokemon cannot check conditions"));
             }
             let net = if ["burn", "sleep"].contains(&kind.as_str()) {
-                let base = dice_count(c, a, cat)? - u32::from(p.runtime.chance_round == b.round);
+                let base = dice_count(c, a, cat)?
+                    - u32::from(p.runtime.chance_round == b.round && !p.runtime.chance_cancelled);
                 action_success(&mut next, combatant_id, &dice, base)
                     + i32::from(p.runtime.fate_pending)
             } else {
@@ -2960,10 +2975,13 @@ fn transition_inner(
             ) {
                 let b = done.battle.as_mut().unwrap();
                 b.flow = Some(TurnFlow {
-                    identity_moves: [ENGINE, IDENTITY_ENGINE].contains(&c.engine.as_str()),
-                    status_escalation: c.engine == ENGINE,
+                    identity_moves: [ENGINE, STATUS_ENGINE, IDENTITY_ENGINE]
+                        .contains(&c.engine.as_str()),
+                    status_escalation: [ENGINE, STATUS_ENGINE].contains(&c.engine.as_str()),
+                    spite: c.engine == ENGINE,
                     house_rules: [
                         ENGINE,
+                        STATUS_ENGINE,
                         IDENTITY_ENGINE,
                         ENVIRONMENT_ENGINE,
                         GROUP_RULES_ENGINE,
@@ -2971,6 +2989,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     interaction_rules: [
                         ENGINE,
+                        STATUS_ENGINE,
                         IDENTITY_ENGINE,
                         ENVIRONMENT_ENGINE,
                         GROUP_RULES_ENGINE,
@@ -2981,6 +3000,7 @@ fn transition_inner(
                     standalone: standalone::StandaloneState {
                         enabled: [
                             ENGINE,
+                            STATUS_ENGINE,
                             IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
@@ -2994,6 +3014,7 @@ fn transition_inner(
                     information: information::InformationState {
                         enabled: [
                             ENGINE,
+                            STATUS_ENGINE,
                             IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
@@ -3008,6 +3029,7 @@ fn transition_inner(
                     forms: forms::FormState {
                         enabled: [
                             ENGINE,
+                            STATUS_ENGINE,
                             IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
@@ -3024,6 +3046,7 @@ fn transition_inner(
                         completion: items::completion::CompletionState {
                             enabled: [
                                 ENGINE,
+                                STATUS_ENGINE,
                                 IDENTITY_ENGINE,
                                 ENVIRONMENT_ENGINE,
                                 GROUP_RULES_ENGINE,
@@ -3034,6 +3057,7 @@ fn transition_inner(
                         },
                         enabled: [
                             ENGINE,
+                            STATUS_ENGINE,
                             IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
@@ -3050,6 +3074,7 @@ fn transition_inner(
                     events: events::EventState {
                         enabled: [
                             ENGINE,
+                            STATUS_ENGINE,
                             IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
@@ -3066,6 +3091,7 @@ fn transition_inner(
                     },
                     provenance_rules: [
                         ENGINE,
+                        STATUS_ENGINE,
                         IDENTITY_ENGINE,
                         ENVIRONMENT_ENGINE,
                         GROUP_RULES_ENGINE,
@@ -3082,6 +3108,7 @@ fn transition_inner(
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            STATUS_ENGINE,
                             IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
@@ -3101,6 +3128,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            STATUS_ENGINE,
                             IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
@@ -3120,6 +3148,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        STATUS_ENGINE,
                         IDENTITY_ENGINE,
                         ENVIRONMENT_ENGINE,
                         GROUP_RULES_ENGINE,
@@ -3139,6 +3168,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            STATUS_ENGINE,
                             IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
@@ -3161,6 +3191,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            STATUS_ENGINE,
                             IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
@@ -3184,6 +3215,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            STATUS_ENGINE,
                             IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
@@ -3208,6 +3240,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            STATUS_ENGINE,
                             IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
@@ -3233,6 +3266,7 @@ fn transition_inner(
                     special: special::SpecialState {
                         enabled: [
                             ENGINE,
+                            STATUS_ENGINE,
                             IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
@@ -3258,6 +3292,7 @@ fn transition_inner(
                     },
                     ability_rules: [
                         ENGINE,
+                        STATUS_ENGINE,
                         IDENTITY_ENGINE,
                         ENVIRONMENT_ENGINE,
                         GROUP_RULES_ENGINE,
@@ -3285,6 +3320,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            STATUS_ENGINE,
                             IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
@@ -3312,6 +3348,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            STATUS_ENGINE,
                             IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
                             GROUP_RULES_ENGINE,
@@ -4015,6 +4052,19 @@ fn effects_inner_base(
             &move_entry(cat, &q.move_name)?,
         )
     {
+        return Ok(());
+    }
+    if q.move_name == "Spite" && flow(c)?.spite {
+        if !special::target_effects_blocked(c, q, &data)
+            && (reviewed::extreme(c, &reviewed::source(c, q)?)
+                || !abilities::move_immune(c, fighter(c, &q.target_id)?, &data))
+        {
+            let rt = &mut fighter_mut(c, &q.target_id)?.runtime;
+            rt.will = rt.will.min(1);
+            rt.pain_ignored = 0;
+            rt.fate_pending = false;
+            rt.chance_cancelled = true;
+        }
         return Ok(());
     }
     if ability_changes::move_effect(c, q, cat)? {

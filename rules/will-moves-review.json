@@ -1,0 +1,476 @@
+{
+  "version": 1,
+  "moves": [
+    {
+      "name": "Aqua Ring",
+      "source": "Pokerole-Data/v3.0/Moves/Aqua Ring.json",
+      "sha256": "c9e1fb4fba3fb29c32571106bcf14ca112a595ce774a3d924eef731dcbe28a25",
+      "effect": "Target Self. The User heals 1 HP at the end of each Round. Spend 1 Will point to activate. Whole Scene Duration.",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "AquaRingLifeDew",
+            "Affects": "Targets",
+            "Rounds": 4
+          }
+        ]
+      },
+      "will_scope": "existing executable Will activation or Will-dependent formula; see battle-will-effects.md"
+    },
+    {
+      "name": "Eerie Spell",
+      "source": "Pokerole-Data/v3.0/Moves/Eerie Spell.json",
+      "sha256": "6118c67a3e33206a668b2a0dcdf5e2f6e79a7835de17be600c2f7bb7b09702fd",
+      "effect": "Single Target. Sound Move. Target spends 3 Will points without any benefit, this effect does not stack.",
+      "added_effects": {},
+      "will_scope": "manual: non-stacking scope requires review"
+    },
+    {
+      "name": "Floral Healing",
+      "source": "Pokerole-Data/v3.0/Moves/Floral Healing.json",
+      "sha256": "c15969aecebbab3f298203b3bb0371d9e2d9da7cd98714fee7a24e39e936827f",
+      "effect": "Target One Ally. Basic Heal. If successful, spend 1 Will point to activate. If Performed over Grassy Terrain this move is a Complete Heal.",
+      "added_effects": {
+        "Heal": {
+          "Type": "Basic",
+          "Target": "Targets",
+          "WillPointCost": 1
+        }
+      },
+      "will_scope": "existing executable Will activation or Will-dependent formula; see battle-will-effects.md"
+    },
+    {
+      "name": "Grassy Terrain",
+      "source": "Pokerole-Data/v3.0/Moves/Grassy Terrain.json",
+      "sha256": "afaaefe0ff94c3cd61bfb235e0b015bb40c61839e25e7be3f4e91a835b28d83a",
+      "effect": "Target User's side of the field. Add 1 Extra Damage Dice to all Physical & Special Grass-Type Moves. Everyone on the User's side of the field heals 1 HP at the end of each Round. Spend 1 Will Point t activate. Duration 4 Rounds.",
+      "added_effects": {
+        "TerrainEffect": "GrassyTerrain"
+      },
+      "will_scope": "existing executable Will activation or Will-dependent formula; see battle-will-effects.md"
+    },
+    {
+      "name": "Grudge",
+      "source": "Pokerole-Data/v3.0/Moves/Grudge.json",
+      "sha256": "4acc5e9814882c719a01a3468127aa698dcb36e01bf77dbb61fb9b1c5bcc6457",
+      "effect": "Single Target. The User Faints. Reduce the Target's Will to 0 points and reset any effect it got from spending them. Roll Target's Loyalty at the end of the round, increase difficulty by 1 each round. Failing this roll faints the Target.",
+      "added_effects": {},
+      "will_scope": "manual: drain, spending reset, escalating Loyalty checks"
+    },
+    {
+      "name": "Heal Order",
+      "source": "Pokerole-Data/v3.0/Moves/Heal Order.json",
+      "sha256": "e1b9f6115176d30e9d03d5c4a99dc12e26000f55780c91c84bfdee1a87202fed",
+      "effect": "Target Self. Basic Heal. If successful, spend 1 Will point to activate.",
+      "added_effects": {
+        "Heal": {
+          "Type": "Basic",
+          "Target": "Targets",
+          "WillPointCost": 1
+        }
+      },
+      "will_scope": "existing executable Will activation or Will-dependent formula; see battle-will-effects.md"
+    },
+    {
+      "name": "Heal Pulse",
+      "source": "Pokerole-Data/v3.0/Moves/Heal Pulse.json",
+      "sha256": "e75f1520eb39eafadade70e2d9c07c08ff1665b58a6e560ba01757b4cded82b3",
+      "effect": "Target One Ally. Basic Heal. If successful, spend 1 Will point to activate.",
+      "added_effects": {
+        "Heal": {
+          "Type": "Basic",
+          "Target": "Targets",
+          "WillPointCost": 1
+        }
+      },
+      "will_scope": "existing executable Will activation or Will-dependent formula; see battle-will-effects.md"
+    },
+    {
+      "name": "Healing Wish",
+      "source": "Pokerole-Data/v3.0/Moves/Healing Wish.json",
+      "sha256": "e5af6c8463a3d6b9af9bfc405e13c032e3718ead2fda6745b10eb78790bcfac4",
+      "effect": "Target Self. The user faints. One allied Target restores its full HP and it is cured from any Status Condition. If the chosen Target is not in-battle, it is called out and ready to fight with the same remaining actions as the user.",
+      "added_effects": {
+        "AilmentHeal": [
+          "All"
+        ],
+        "Heal": {
+          "Type": "Complete",
+          "WillPointCost": 1,
+          "Target": "Targets"
+        }
+      },
+      "will_scope": "existing full-HP sacrifice path; metadata lists one Will but prose lists no Will cost; preserve explicit source discrepancy"
+    },
+    {
+      "name": "Ingrain",
+      "source": "Pokerole-Data/v3.0/Moves/Ingrain.json",
+      "sha256": "340e83956e4be18ea47f9f559b81fd33ed20beae313029614c8991b7b1f9712c",
+      "effect": "Target Self. The User heals 1 HP at the end of each Round. Spend 1 Will point to activate. Blocks. Whole Scene Duration.",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Ingrain",
+            "Affects": "Targets"
+          }
+        ]
+      },
+      "will_scope": "existing executable Will activation or Will-dependent formula; see battle-will-effects.md"
+    },
+    {
+      "name": "Jungle Healing",
+      "source": "Pokerole-Data/v3.0/Moves/Jungle Healing.json",
+      "sha256": "c844ea7eb7574a59d589ba77277844b3776100496a9b2016e84ae1ff0306455e",
+      "effect": "Target User and Allies in Range. Heal any Status Ailment (Burn, Freeze, Paralysis, Poison & Sleep) on the Targets. Restore 1 HP to the targets. If successful spend 1 Will point to activate.",
+      "added_effects": {
+        "AilmentHeal": [
+          "Burn1",
+          "Burn2",
+          "Burn3",
+          "Freeze",
+          "Paralysis",
+          "Poison",
+          "BadlyPoison",
+          "Sleep"
+        ],
+        "Heal": {
+          "Type": "Basic",
+          "Target": "Targets",
+          "WillPointCost": 1
+        }
+      },
+      "will_scope": "existing executable Will activation or Will-dependent formula; see battle-will-effects.md"
+    },
+    {
+      "name": "Leech Seed",
+      "source": "Pokerole-Data/v3.0/Moves/Leech Seed.json",
+      "sha256": "be64308d4e679b554af2174df6bd2c7232cd56cf163478af842077c9a04c6aaa",
+      "effect": "Single Target. Low Accuracy 1. Spend 1 Will point to activate. At the end of each Round, Roll 2 Dice of Typeless Damage against the target ignoring defenses. The User heals 1 HP for every damage dealt this way. Grass-Type Pokémon are immune to this Effect. Whole Scene Duration.",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Leech Seed",
+            "Affects": "Targets"
+          }
+        ]
+      },
+      "will_scope": "existing executable Will activation or Will-dependent formula; see battle-will-effects.md"
+    },
+    {
+      "name": "Life Dew",
+      "source": "Pokerole-Data/v3.0/Moves/Life Dew.json",
+      "sha256": "c0cf620c44c9d17477469737462d4d9a9b62d3338cbb16f0818467fff628803a",
+      "effect": "Target User and Allies in Range. If successful, spend 1 Will point to activate. User and Allies in Range heal 1 HP at the end of each Round. Duration 4 Rounds.",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "AquaRingLifeDew",
+            "Affects": "Targets",
+            "Rounds": 4
+          }
+        ]
+      },
+      "will_scope": "existing executable Will activation or Will-dependent formula; see battle-will-effects.md"
+    },
+    {
+      "name": "Lunar Blessing",
+      "source": "Pokerole-Data/v3.0/Moves/Lunar Blessing.json",
+      "sha256": "8d47d5f77aaf1a0ce5df9f7c8e08f8b0700f77a9ca927348e13720ba0348320f",
+      "effect": "*Target User or Target one Ally. Unique. If successful, spend 1 Will point to activate. Complete Heal. Heal all status Ailments on the Target. Reduce 1 success to all Accuracy Rolls of one foe.",
+      "added_effects": {
+        "StatChanges": [
+          {
+            "Stats": [
+              "Accuracy"
+            ],
+            "Stages": -1,
+            "Affects": "Targets"
+          }
+        ]
+      },
+      "will_scope": "existing executable Will activation or Will-dependent formula; see battle-will-effects.md"
+    },
+    {
+      "name": "Milk Drink",
+      "source": "Pokerole-Data/v3.0/Moves/Milk Drink.json",
+      "sha256": "5383a1eba49c613985e3e5ac63c0c11c84ef90322d64d1b0bd3fadfeddff577a",
+      "effect": "Target Self. Basic Heal. If successful, spend 1 Will point to activate. Out of battle, this Move can be used on allies.",
+      "added_effects": {
+        "Heal": {
+          "Type": "Basic",
+          "Target": "Targets",
+          "WillPointCost": 1
+        }
+      },
+      "will_scope": "existing executable Will activation or Will-dependent formula; see battle-will-effects.md"
+    },
+    {
+      "name": "Moonlight",
+      "source": "Pokerole-Data/v3.0/Moves/Moonlight.json",
+      "sha256": "a0efb61ef7aed1b1a9eb82395319a3f329d29b2038b3f7a431b6ce22b4a209f5",
+      "effect": "Target Self. Basic Heal. If successful, spend 1 Will point to activate. Night Time and Sunny Weather increase it to Complete Heal. Rain, Sandstorm and Hail Weather reduceto Minor Heal of 1 HP.",
+      "added_effects": {
+        "Heal": {
+          "Type": "Basic",
+          "Target": "Targets",
+          "WillPointCost": 1
+        }
+      },
+      "will_scope": "existing executable Will activation or Will-dependent formula; see battle-will-effects.md"
+    },
+    {
+      "name": "Morning Sun",
+      "source": "Pokerole-Data/v3.0/Moves/Morning Sun.json",
+      "sha256": "c280468b13cf48e142d13d0ec509e5e8cde61b729fcb8d52b029d283268448fc",
+      "effect": "Target Self. Basic Heal. If successful, spend 1 Will point to activate. If Sunny Weather is in effect, this Move becomes a Complete Heal. If performed under Rain, Sandstorm, Hail or Snowy Weather, this Move is a Minor heal only heals 1 HP.",
+      "added_effects": {
+        "Heal": {
+          "Type": "Basic",
+          "Target": "Targets",
+          "WillPointCost": 1
+        }
+      },
+      "will_scope": "existing executable Will activation or Will-dependent formula; see battle-will-effects.md"
+    },
+    {
+      "name": "Pain Split",
+      "source": "Pokerole-Data/v3.0/Moves/Pain Split.json",
+      "sha256": "69080d1fa5a2478b59501db16323d8058e7a74ffae9f6271c8c51456ec60d888",
+      "effect": "Single Target. Spend 1 Will Point to activate. *Deal up to 3 Typeless Damage to the Target, Heal 1 HP to the User for every Damage dealt this way. This Move Fails if the User has more than Half HP rounded down. This Move cannot reduce a Target to less than 1 HP.",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "PainSplitUser",
+            "Affects": "User"
+          },
+          {
+            "Type": "PainSplitTarget",
+            "Affects": "Targets"
+          }
+        ]
+      },
+      "will_scope": "existing executable Will activation or Will-dependent formula; see battle-will-effects.md"
+    },
+    {
+      "name": "Pollen Puff",
+      "source": "Pokerole-Data/v3.0/Moves/Pollen Puff.json",
+      "sha256": "4fa59ae84f907ca278547c089b86d5a5e28e86b01668e2897317f6aa6de074de",
+      "effect": "Single Target. Projectile Move. * Or target One Ally. *When this move is used against an ally, it will heal 2 HP instead of damage, Spend 1 Will Point to get this effect.",
+      "added_effects": {},
+      "will_scope": "existing executable Will activation or Will-dependent formula; see battle-will-effects.md"
+    },
+    {
+      "name": "Purify",
+      "source": "Pokerole-Data/v3.0/Moves/Purify.json",
+      "sha256": "26d4b1fbb220535136a6ad77578c606591543cd9f297e40d6d048210a1c74b79",
+      "effect": "Single Target. Heal a Target's Status Ailment (Burns, Freeze, Paralysis, Poisons, Sleep). *If a Status Ailment was healed this way, the User may spend 1 Will point to restore 2 HP.",
+      "added_effects": {
+        "AilmentHeal": [
+          "All"
+        ]
+      },
+      "will_scope": "existing executable Will activation or Will-dependent formula; see battle-will-effects.md"
+    },
+    {
+      "name": "Recover",
+      "source": "Pokerole-Data/v3.0/Moves/Recover.json",
+      "sha256": "b2f2e37bea50da3aca729527825f9f9a9613946b559af5faec6663c34725219b",
+      "effect": "Target Self. Basic Heal. If successful, spend 1 Will point to activate.",
+      "added_effects": {
+        "Heal": {
+          "Type": "Basic",
+          "Target": "Targets",
+          "WillPointCost": 1
+        }
+      },
+      "will_scope": "existing executable Will activation or Will-dependent formula; see battle-will-effects.md"
+    },
+    {
+      "name": "Rest",
+      "source": "Pokerole-Data/v3.0/Moves/Rest.json",
+      "sha256": "1f06c6f8859d426097ff36d1841f4e2bd7beae35db0de707f9f7e63ceb193c37",
+      "effect": "Target Self. Complete Heal. If successful, spend 1 Will point to activate. Put the User to Sleep.",
+      "added_effects": {
+        "Heal": {
+          "Type": "Complete",
+          "WillPointCost": 1,
+          "Target": "Targets"
+        },
+        "Ailments": [
+          {
+            "Type": "Sleep",
+            "Affects": "User",
+            "Rounds": 1
+          }
+        ]
+      },
+      "will_scope": "existing executable Will activation or Will-dependent formula; see battle-will-effects.md"
+    },
+    {
+      "name": "Revival Blessing",
+      "source": "Pokerole-Data/v3.0/Moves/Revival Blessing.json",
+      "sha256": "ab4c5475e5bca07842d2af0136f5a14685faa6cddc9e655c1dca5c4a7740eb1f",
+      "effect": "Target One Ally. The User must spend all of their remaining Will points, if the user has no remaining Will points, this Move fails. Restore conciousness and 2 HP to a fainted ally. If no Ally is fainted this Move fails. The ally does not need to be active in combat.",
+      "added_effects": {},
+      "will_scope": "existing executable Will activation or Will-dependent formula; see battle-will-effects.md"
+    },
+    {
+      "name": "Roar Of Time",
+      "source": "Pokerole-Data/v3.0/Moves/Roar Of Time.json",
+      "sha256": "8e007c770435ad0f341662a2a1653cd00965439c41c2487e2a4be17be47c7131",
+      "effect": "Single Target. Low Accuracy 1. Must Recharge. Lethal. Unique. If successful, the target can't take any action unless they spend 1 Will point per action attempted. Duration 1 Round.",
+      "added_effects": {},
+      "will_scope": "existing executable Will activation or Will-dependent formula; see battle-will-effects.md"
+    },
+    {
+      "name": "Roost",
+      "source": "Pokerole-Data/v3.0/Moves/Roost.json",
+      "sha256": "dd71953917a3d612a54c8655188bba73c66c2ddb2417862d72eef403124360df",
+      "effect": "Target Self. Basic Heal. If successful, spend 1 Will point to activate. Remove the User's Immunity to Ground-Type Moves. Duration 1 Round.",
+      "added_effects": {
+        "Heal": {
+          "Type": "Basic",
+          "Target": "Targets",
+          "WillPointCost": 1
+        },
+        "Ailments": [
+          {
+            "Type": "Grounded",
+            "Affects": "User"
+          }
+        ]
+      },
+      "will_scope": "existing executable Will activation or Will-dependent formula; see battle-will-effects.md"
+    },
+    {
+      "name": "Sappy Seed",
+      "source": "Pokerole-Data/v3.0/Moves/Sappy Seed.json",
+      "sha256": "68e567aa5f6f7143b9401934b67f88594724547784ec0130480d40ab7d9b80b0",
+      "effect": "Single Target. Low Accuracy 1. Ranged. Spend 1 Will point to activate. At the end of the Round, Roll 2 Dice of Typeless Damage against one target. Ignore Defenses. The User deals 1 HP for every damage dealt this way. If the user of this Move is at its Final Stage of Evolution, this move fails.",
+      "added_effects": {},
+      "will_scope": "manual: recurring effect unsupported; printed p.479 says heals while JSON says deals; evolution eligibility must be reviewed"
+    },
+    {
+      "name": "Shore Up",
+      "source": "Pokerole-Data/v3.0/Moves/Shore Up.json",
+      "sha256": "ce08f5e0ca7d0fa5b2ba3ced4b4b0b0bf51c64af0dc94819a964c05510d8becc",
+      "effect": "Target Self. Basic Heal. If successful, spend 1 Will point to activate. If performed under Sandstorm weather, this Move is a Complete Heal.",
+      "added_effects": {
+        "Heal": {
+          "Type": "Basic",
+          "Target": "Targets",
+          "WillPointCost": 1
+        }
+      },
+      "will_scope": "existing executable Will activation or Will-dependent formula; see battle-will-effects.md"
+    },
+    {
+      "name": "Slack Off",
+      "source": "Pokerole-Data/v3.0/Moves/Slack Off.json",
+      "sha256": "b157f352c1dea51fac3b10df2d7cbb051bfd23fbd0a59397e856296b645a50f6",
+      "effect": "Target Self. Basic Heal. If successful, spend 1 Will point to activate.",
+      "added_effects": {
+        "Heal": {
+          "Type": "Basic",
+          "Target": "Targets",
+          "WillPointCost": 1
+        }
+      },
+      "will_scope": "existing executable Will activation or Will-dependent formula; see battle-will-effects.md"
+    },
+    {
+      "name": "Soft Boiled",
+      "source": "Pokerole-Data/v3.0/Moves/Soft Boiled.json",
+      "sha256": "d4070894feec0777d1f6542f5c47b9c1b34c0fe0375bfb5258338b0f7dc018b4",
+      "effect": "Target Self. Basic Heal. If successful, spend 1 Will point to activate. Out of battle, this Move can be used on allies.",
+      "added_effects": {
+        "Heal": {
+          "Type": "Basic",
+          "Target": "Targets",
+          "WillPointCost": 1
+        }
+      },
+      "will_scope": "existing executable Will activation or Will-dependent formula; see battle-will-effects.md"
+    },
+    {
+      "name": "Spite",
+      "source": "Pokerole-Data/v3.0/Moves/Spite.json",
+      "sha256": "aa420a40fcd21ca85bba9bbeae58154fe0057762ee2ec4a2bf96f30256a050bb",
+      "effect": "Single Target. Reduce the Target's Will to 1 point. Reset any effects it got from spending Will Points.",
+      "added_effects": {},
+      "will_scope": "automated in 0.35.0; new encounter gate"
+    },
+    {
+      "name": "Strength Sap",
+      "source": "Pokerole-Data/v3.0/Moves/Strength Sap.json",
+      "sha256": "e6deb3170ffc9bdfad591708a240bdb92c3e71ca79e679ec6e2a8ef06978721a",
+      "effect": "Single Target. Reduce Target's Strength by 1. Heal 1 HP to the user. If successful, spend 1 Will Point to activate.",
+      "added_effects": {
+        "Heal": {
+          "Type": "Basic",
+          "Target": "User",
+          "WillPointCost": 1
+        },
+        "StatChanges": [
+          {
+            "Stats": [
+              "Strength"
+            ],
+            "Stages": -1,
+            "Affects": "Targets"
+          }
+        ]
+      },
+      "will_scope": "existing executable Will activation or Will-dependent formula; see battle-will-effects.md"
+    },
+    {
+      "name": "Swallow",
+      "source": "Pokerole-Data/v3.0/Moves/Swallow.json",
+      "sha256": "46f65f65bcdcea0bba0475ef9a448d71525f511ee7d39065e8a3dec461b1e04a",
+      "effect": "Target Self. The user must have previously used the Move \"Stockpile\", otherwise this Move will fail. Complete Heal, if successful, spend 1 Will point to activate. Reduce by 1 the User's Defense and Sp. Defense.",
+      "added_effects": {},
+      "will_scope": "existing executable Will activation or Will-dependent formula; see battle-will-effects.md"
+    },
+    {
+      "name": "Synthesis",
+      "source": "Pokerole-Data/v3.0/Moves/Synthesis.json",
+      "sha256": "f97fa98660d56fc8a9137d545d0a27bc459fc9bb69add755a87add9d58309568",
+      "effect": "Target Self. Basic Heal. If successful, spend 1 Will Point to activate. If Sunny Weather is in effect, this Move becomes a Complete Heal. If performed under Rain, Sandstorm, Hail or Snowy Weather, this Move is a Minor heal and only heals 1 HP.",
+      "added_effects": {
+        "Heal": {
+          "Type": "Basic",
+          "Target": "Targets",
+          "WillPointCost": 1
+        }
+      },
+      "will_scope": "existing executable Will activation or Will-dependent formula; see battle-will-effects.md"
+    },
+    {
+      "name": "Trump Card",
+      "source": "Pokerole-Data/v3.0/Moves/Trump Card.json",
+      "sha256": "503c2a223893ecae91e3c6340df059dbc80d523167500f6805c69bd5b8d85d9a",
+      "effect": "Single Target. *If the User's Will Points are at half or less, add 2 Extra Dice to the Damage pool. **If the User's Will points are depleted, add 8 Extra Dice to the Damage pool of this Move instead.",
+      "added_effects": {},
+      "will_scope": "existing executable Will activation or Will-dependent formula; see battle-will-effects.md"
+    },
+    {
+      "name": "Wish",
+      "source": "Pokerole-Data/v3.0/Moves/Wish.json",
+      "sha256": "42be9778ca882d62e815b62fa648c13b8f1d038e7772b82f514537330bcb7a80",
+      "effect": "Target Self / Target One Ally. Basic Heal. If successful, spend 1 Will point to activate. This move has its effect at the beginning of the Next Round. If the User is switched it will heal whoever takes their place.",
+      "added_effects": {},
+      "will_scope": "existing executable Will activation or Will-dependent formula; see battle-will-effects.md"
+    }
+  ],
+  "printed_review": {
+    "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+    "sha256": "f8a1ab8c7c059c1e32b658a6770893e58f364fd4c8d28ca87ec912154cfd6cc2",
+    "pages": {
+      "Spite": 474,
+      "Grudge": 472,
+      "Eerie Spell": 511,
+      "Sappy Seed": 479
+    },
+    "note": "Sappy Seed printed healing differs from supplied JSON deals wording; source JSON retained unchanged."
+  }
+}

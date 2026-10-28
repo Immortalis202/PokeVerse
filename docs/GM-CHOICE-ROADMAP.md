@@ -34,6 +34,7 @@ After recurring policies, implement source-reviewed mechanics in separate cohere
 - Completed in 0.33.0: [Entrainment, Doodle and Core Enforcer](battle-identity-moves.md), reviewed and implemented individually in one requested batch.
 - Extend executable Support/stat/status/move definitions so reflection, copied traits and dependent abilities can resolve more effects automatically. Review the exact cards; ordinary damage support does not imply all 892 move effects are implemented.
 - Completed in 0.34.0: [Burn and Poison escalation](battle-status-escalation.md), using the user-selected detailed +2 rules from RULING 84-85.
+- Completed in 0.35.0: [Will card audit and Spite](battle-will-effects.md). Eerie Spell, Grudge and Sappy Seed remain separate reviewed-effect work.
 - Review remaining status-producing/cure effects and Will spending/draining cards. Preserve explicit choices when printed values conflict. Automatic Will recovery remains excluded.
 
 Each batch needs source evidence, clear supported boundaries, host validation, preview/output feedback, ownership/privacy, persistence, retry/rollback and relevant regressions. Version changes are warranted for changed authoritative behavior; public release/signing work is not a prerequisite.

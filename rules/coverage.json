@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.27.0-core",
-  "release": "0.34.0",
-  "protocol": 35,
+  "engine": "0.28.0-core",
+  "release": "0.35.0",
+  "protocol": 36,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -566,6 +566,16 @@
         "status_escalation_poison_heal_preserves_existing_healing_and_finite_cure",
         "status_escalation_room_retry_reconnect_persistence_and_rollback"
       ]
+    },
+    {
+      "id": "spite-will-drain",
+      "status": "automated",
+      "source": "MASTER 474; Pokerole-Data/v3.0/Moves/Spite.json",
+      "fixtures": [
+        "spite_drains_and_clears_live_benefits_without_refunding_history",
+        "spite_room_retry_reconnect_persistence_and_rollback"
+      ],
+      "scope": "New encounter Spite gate: reduce Will to at most one, clear pain relief, Chance and pending Fate; preserve spending history. Eerie Spell, Grudge and Sappy Seed remain manual."
     }
   ],
   "ability_registry_hash": "edd27e9c00f7b2463118affdf4310cb15a42f271d543a700d9993c1d36631c88",

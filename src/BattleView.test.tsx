@@ -59,6 +59,7 @@ function fighter(id: string): Combatant {
       will: 0,
       pain_ignored: 0,
       chance_round: 0,
+      chance_cancelled: false,
       fate_round: 0,
       fate_pending: false,
       statuses: [],
@@ -319,7 +320,8 @@ describe("structured core battle controls", () => {
             history: [],
           },
           identity_moves: false,
-          status_escalation: engine === "0.27.0-core",
+          status_escalation: ["0.28.0-core", "0.27.0-core"].includes(engine),
+          spite: engine === "0.28.0-core",
           house_rules: groupRules,
           interaction_rules: false,
           reviewed_rules: engine === "0.13.0-core",
@@ -1008,14 +1010,14 @@ describe("structured core battle controls", () => {
     expect(html).not.toContain("Full-HP revive versus round cap");
   });
   it("automates severe statuses in new battles and retains historical GM controls", () => {
-    const current = core("gm", false, "0.27.0-core");
+    const current = core("gm", false, "0.28.0-core");
     expect(current).toContain("each increases by 2");
     expect(current).toContain("4/6/8 cumulative successes");
     expect(current).not.toContain("Record severe status outcome");
     expect(core("gm", false, "0.26.0-core")).toContain(
       "Record severe status outcome",
     );
-    expect(core("player", false, "0.27.0-core")).not.toContain(
+    expect(core("player", false, "0.28.0-core")).not.toContain(
       "Record severe status outcome",
     );
   });
