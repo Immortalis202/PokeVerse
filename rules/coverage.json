@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.28.0-core",
-  "release": "0.35.0",
-  "protocol": 36,
+  "engine": "0.29.0-core",
+  "release": "0.36.0",
+  "protocol": 37,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -575,7 +575,18 @@
         "spite_drains_and_clears_live_benefits_without_refunding_history",
         "spite_room_retry_reconnect_persistence_and_rollback"
       ],
-      "scope": "New encounter Spite gate: reduce Will to at most one, clear pain relief, Chance and pending Fate; preserve spending history. Eerie Spell, Grudge and Sappy Seed remain manual."
+      "scope": "New encounter Spite gate: reduce Will to at most one, clear pain relief, Chance and pending Fate; preserve spending history. Eerie Spell and Grudge follow in 0.36.0; Sappy Seed excluded by user decision."
+    },
+    {
+      "id": "grudge-eerie-will-drains",
+      "status": "automated",
+      "source": "MASTER 472,511; user interpretation 2026-10-28",
+      "fixtures": [
+        "grudge_faints_user_drains_resets_and_recurs_with_increasing_difficulty",
+        "grudge_check_room_retry_reconnect_persistence_and_rollback",
+        "eerie_spell_removes_only_three_will_and_clamps_at_zero"
+      ],
+      "scope": "New encounter flag: Grudge sacrifice, Will reset and recurring target Loyalty with escalating successes; Eerie Spell flat three-Will drain per hit. Sappy Seed excluded; automatic Will recovery excluded."
     }
   ],
   "ability_registry_hash": "edd27e9c00f7b2463118affdf4310cb15a42f271d543a700d9993c1d36631c88",

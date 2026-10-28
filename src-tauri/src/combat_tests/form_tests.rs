@@ -812,6 +812,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
     let ended = decision(&c, "gm", Action::EndBattle);
     for engine in [
         ENGINE,
+        SPITE_ENGINE,
         STATUS_ENGINE,
         IDENTITY_ENGINE,
         ENVIRONMENT_ENGINE,
@@ -836,19 +837,21 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             },
         );
         let flow = n.battle.as_ref().unwrap().flow.as_ref().unwrap();
-        assert_eq!(flow.spite, engine == ENGINE);
+        assert_eq!(flow.spite, [ENGINE, SPITE_ENGINE].contains(&engine));
+        assert_eq!(flow.will_drains, engine == ENGINE);
         assert_eq!(
             flow.status_escalation,
-            [ENGINE, STATUS_ENGINE].contains(&engine)
+            [ENGINE, SPITE_ENGINE, STATUS_ENGINE].contains(&engine)
         );
         assert_eq!(
             flow.identity_moves,
-            [ENGINE, STATUS_ENGINE, IDENTITY_ENGINE].contains(&engine)
+            [ENGINE, SPITE_ENGINE, STATUS_ENGINE, IDENTITY_ENGINE].contains(&engine)
         );
         assert_eq!(
             flow.interaction_rules,
             [
                 ENGINE,
+                SPITE_ENGINE,
                 STATUS_ENGINE,
                 IDENTITY_ENGINE,
                 ENVIRONMENT_ENGINE,
@@ -862,6 +865,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.items.completion.enabled,
             [
                 ENGINE,
+                SPITE_ENGINE,
                 STATUS_ENGINE,
                 IDENTITY_ENGINE,
                 ENVIRONMENT_ENGINE,
@@ -874,6 +878,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.house_rules,
             [
                 ENGINE,
+                SPITE_ENGINE,
                 STATUS_ENGINE,
                 IDENTITY_ENGINE,
                 ENVIRONMENT_ENGINE,
@@ -885,6 +890,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.forms.enabled,
             [
                 ENGINE,
+                SPITE_ENGINE,
                 STATUS_ENGINE,
                 IDENTITY_ENGINE,
                 ENVIRONMENT_ENGINE,
@@ -901,6 +907,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.information.enabled,
             [
                 ENGINE,
+                SPITE_ENGINE,
                 STATUS_ENGINE,
                 IDENTITY_ENGINE,
                 ENVIRONMENT_ENGINE,
@@ -916,6 +923,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.standalone.enabled,
             [
                 ENGINE,
+                SPITE_ENGINE,
                 STATUS_ENGINE,
                 IDENTITY_ENGINE,
                 ENVIRONMENT_ENGINE,

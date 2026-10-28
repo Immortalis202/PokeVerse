@@ -6,6 +6,8 @@ use super::*;
 pub struct SpecialState {
     pub enabled: bool,
     #[serde(default)]
+    pub grudges: BTreeMap<String, will::Grudge>,
+    #[serde(default)]
     pub bides: BTreeMap<String, Bide>,
     pub charges: BTreeMap<String, Charge>,
     pub rampages: BTreeMap<String, Rampage>,
@@ -108,6 +110,9 @@ pub struct Series {
 #[serde(tag = "kind")]
 #[ts(export, export_to = "../../src/bindings/")]
 pub enum SpecialCommand {
+    GrudgeCheck {
+        target_id: String,
+    },
     Release {
         combatant_id: String,
     },
@@ -255,6 +260,7 @@ pub fn dice(c: &Campaign, cmd: &SpecialCommand, cat: &Catalog) -> Result<u32> {
             }
             1
         }
+        SpecialCommand::GrudgeCheck { target_id } => will::dice(c, target_id)?,
         SpecialCommand::Tick { index } => {
             if !flow(c)?.queue.is_empty()
                 || !flow(c)?.order.is_empty()
@@ -292,6 +298,9 @@ pub fn command(
         ));
     }
     match cmd {
+        SpecialCommand::GrudgeCheck { target_id } => {
+            return Ok(format!("{}. {r}", will::check(c, actor, target_id, faces)?));
+        }
         SpecialCommand::Parameters {
             night_override,
             combatant_id,
@@ -821,6 +830,7 @@ pub fn after_accuracy(
     Ok(())
 }
 pub fn lifecycle(_before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<()> {
+    will::lifecycle(c);
     if !enabled(c) || c.battle.as_ref().is_none_or(|b| !b.active) {
         return Ok(());
     }

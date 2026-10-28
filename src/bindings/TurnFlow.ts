@@ -20,6 +20,7 @@ import type { TransferState } from "./TransferState";
 export type TurnFlow = {
   status_escalation: boolean;
   spite: boolean;
+  will_drains: boolean;
   identity_moves: boolean;
   house_rules: boolean;
   interaction_rules: boolean;

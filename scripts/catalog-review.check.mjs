@@ -25,11 +25,15 @@ test("Will move audit preserves exact source cards and manual boundaries", () =>
     review.moves.find((m) => m.name === "Spite").will_scope,
     /automated/,
   );
-  for (const name of ["Eerie Spell", "Grudge", "Sappy Seed"])
+  for (const name of ["Eerie Spell", "Grudge"])
     assert.match(
       review.moves.find((m) => m.name === name).will_scope,
-      /manual/,
+      /automated/,
     );
+  assert.match(
+    review.moves.find((m) => m.name === "Sappy Seed").will_scope,
+    /excluded by user/,
+  );
 });
 test("review evidence corrects owned catalog data and keeps source JSON unchanged", () => {
   const db = new DatabaseSync("src-tauri/resources/catalog.db", {

@@ -23,6 +23,7 @@ pub(crate) mod stat_channels;
 pub(crate) mod tactics;
 mod targeting;
 pub(crate) mod transfers;
+pub(crate) mod will;
 use targeting::*;
 #[derive(Debug, Clone, Default, Serialize, Deserialize, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
@@ -69,6 +70,8 @@ pub struct TurnFlow {
     pub status_escalation: bool,
     #[serde(default)]
     pub spite: bool,
+    #[serde(default)]
+    pub will_drains: bool,
     #[serde(default)]
     pub identity_moves: bool,
     #[serde(default)]
@@ -1085,8 +1088,14 @@ pub fn transition(
         );
     }
     if let Some(setup) = field::start_setup(a) {
-        if ![ENGINE, STATUS_ENGINE, IDENTITY_ENGINE, ENVIRONMENT_ENGINE]
-            .contains(&c.engine.as_str())
+        if ![
+            ENGINE,
+            SPITE_ENGINE,
+            STATUS_ENGINE,
+            IDENTITY_ENGINE,
+            ENVIRONMENT_ENGINE,
+        ]
+        .contains(&c.engine.as_str())
         {
             return Err(error(
                 "Upgrade between battles to configure the starting battlefield",
@@ -1185,6 +1194,20 @@ pub fn preview(c: &Campaign, a: &Action, cat: &Catalog) -> Result<ActionPreview>
         warnings.push("Spite reduces target Will to at most 1 and clears pain relief, Chance and pending Fate benefits. Prior spending and completed rolls are not refunded or undone.".into());
     }
     warnings.extend(tactics::preview_notes(c, a, cat)?);
+    if will::enabled(c) {
+        match a {
+            Action::Accuracy { move_name, .. } | Action::AccuracyTargets { move_name, .. } if move_name == "Grudge" =>
+                warnings.push("Grudge faints the user, drains target Will to zero and clears core Will benefits. Target rolls recorded Loyalty at each round end: 1 success, then 2, 3 and so on; failure faints it. Switching does not clear the curse.".into()),
+            Action::Accuracy { move_name, .. } | Action::AccuracyTargets { move_name, .. } if move_name == "Eerie Spell" =>
+                warnings.push("Eerie Spell deals ordinary Psychic sound damage and removes up to 3 current Will per successful unblocked hit. No spending benefit or lasting drain effect is created.".into()),
+            Action::SpecialMove { command: special::SpecialCommand::GrudgeCheck { target_id }, .. } => {
+                if let Some(g) = flow(c)?.special.grudges.get(target_id) {
+                    warnings.push(format!("Grudge: roll target Loyalty; {} successes required. Failure faints the target; success increases next round's requirement by one.", g.difficulty));
+                }
+            }
+            _ => {}
+        }
+    }
     if let Action::AccuracyTargets {
         combatant_id,
         move_name,
@@ -1334,6 +1357,7 @@ fn transition_inner(
     dice: Vec<u8>,
     cat: &Catalog,
 ) -> Result<(Campaign, String)> {
+    will::phase(c, a)?;
     if let Action::HeldItem { command, reason } = a {
         tactics::phase(c, a)?;
         abilities::phase(c, a)?;
@@ -2881,7 +2905,11 @@ fn transition_inner(
                 items::end_round(&mut temp, cat)?;
                 standalone::end_round(&mut temp)?;
             }
-            if field::pending(&temp) || abilities::pending(&temp) || special::ticks_pending(&temp) {
+            if field::pending(&temp)
+                || abilities::pending(&temp)
+                || special::ticks_pending(&temp)
+                || will::pending(&temp)
+            {
                 temp.engine = c.engine.clone();
                 ability_changes::lifecycle(c, &mut temp, cat)?;
                 tactics::lifecycle(c, &mut temp, cat)?;
@@ -2975,12 +3003,15 @@ fn transition_inner(
             ) {
                 let b = done.battle.as_mut().unwrap();
                 b.flow = Some(TurnFlow {
-                    identity_moves: [ENGINE, STATUS_ENGINE, IDENTITY_ENGINE]
+                    identity_moves: [ENGINE, SPITE_ENGINE, STATUS_ENGINE, IDENTITY_ENGINE]
                         .contains(&c.engine.as_str()),
-                    status_escalation: [ENGINE, STATUS_ENGINE].contains(&c.engine.as_str()),
-                    spite: c.engine == ENGINE,
+                    status_escalation: [ENGINE, SPITE_ENGINE, STATUS_ENGINE]
+                        .contains(&c.engine.as_str()),
+                    spite: [ENGINE, SPITE_ENGINE].contains(&c.engine.as_str()),
+                    will_drains: c.engine == ENGINE,
                     house_rules: [
                         ENGINE,
+                        SPITE_ENGINE,
                         STATUS_ENGINE,
                         IDENTITY_ENGINE,
                         ENVIRONMENT_ENGINE,
@@ -2989,6 +3020,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     interaction_rules: [
                         ENGINE,
+                        SPITE_ENGINE,
                         STATUS_ENGINE,
                         IDENTITY_ENGINE,
                         ENVIRONMENT_ENGINE,
@@ -3000,6 +3032,7 @@ fn transition_inner(
                     standalone: standalone::StandaloneState {
                         enabled: [
                             ENGINE,
+                            SPITE_ENGINE,
                             STATUS_ENGINE,
                             IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
@@ -3014,6 +3047,7 @@ fn transition_inner(
                     information: information::InformationState {
                         enabled: [
                             ENGINE,
+                            SPITE_ENGINE,
                             STATUS_ENGINE,
                             IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
@@ -3029,6 +3063,7 @@ fn transition_inner(
                     forms: forms::FormState {
                         enabled: [
                             ENGINE,
+                            SPITE_ENGINE,
                             STATUS_ENGINE,
                             IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
@@ -3046,6 +3081,7 @@ fn transition_inner(
                         completion: items::completion::CompletionState {
                             enabled: [
                                 ENGINE,
+                                SPITE_ENGINE,
                                 STATUS_ENGINE,
                                 IDENTITY_ENGINE,
                                 ENVIRONMENT_ENGINE,
@@ -3057,6 +3093,7 @@ fn transition_inner(
                         },
                         enabled: [
                             ENGINE,
+                            SPITE_ENGINE,
                             STATUS_ENGINE,
                             IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
@@ -3074,6 +3111,7 @@ fn transition_inner(
                     events: events::EventState {
                         enabled: [
                             ENGINE,
+                            SPITE_ENGINE,
                             STATUS_ENGINE,
                             IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
@@ -3091,6 +3129,7 @@ fn transition_inner(
                     },
                     provenance_rules: [
                         ENGINE,
+                        SPITE_ENGINE,
                         STATUS_ENGINE,
                         IDENTITY_ENGINE,
                         ENVIRONMENT_ENGINE,
@@ -3108,6 +3147,7 @@ fn transition_inner(
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            SPITE_ENGINE,
                             STATUS_ENGINE,
                             IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
@@ -3128,6 +3168,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            SPITE_ENGINE,
                             STATUS_ENGINE,
                             IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
@@ -3148,6 +3189,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        SPITE_ENGINE,
                         STATUS_ENGINE,
                         IDENTITY_ENGINE,
                         ENVIRONMENT_ENGINE,
@@ -3168,6 +3210,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            SPITE_ENGINE,
                             STATUS_ENGINE,
                             IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
@@ -3191,6 +3234,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            SPITE_ENGINE,
                             STATUS_ENGINE,
                             IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
@@ -3215,6 +3259,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            SPITE_ENGINE,
                             STATUS_ENGINE,
                             IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
@@ -3240,6 +3285,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            SPITE_ENGINE,
                             STATUS_ENGINE,
                             IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
@@ -3266,6 +3312,7 @@ fn transition_inner(
                     special: special::SpecialState {
                         enabled: [
                             ENGINE,
+                            SPITE_ENGINE,
                             STATUS_ENGINE,
                             IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
@@ -3292,6 +3339,7 @@ fn transition_inner(
                     },
                     ability_rules: [
                         ENGINE,
+                        SPITE_ENGINE,
                         STATUS_ENGINE,
                         IDENTITY_ENGINE,
                         ENVIRONMENT_ENGINE,
@@ -3320,6 +3368,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            SPITE_ENGINE,
                             STATUS_ENGINE,
                             IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
@@ -3348,6 +3397,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            SPITE_ENGINE,
                             STATUS_ENGINE,
                             IDENTITY_ENGINE,
                             ENVIRONMENT_ENGINE,
@@ -4061,10 +4111,11 @@ fn effects_inner_base(
         {
             let rt = &mut fighter_mut(c, &q.target_id)?.runtime;
             rt.will = rt.will.min(1);
-            rt.pain_ignored = 0;
-            rt.fate_pending = false;
-            rt.chance_cancelled = true;
+            will::reset(rt);
         }
+        return Ok(());
+    }
+    if will::effect(c, q, cat)? {
         return Ok(());
     }
     if ability_changes::move_effect(c, q, cat)? {

@@ -428,6 +428,25 @@ export default function SpecialMoveControls({
           </button>
         </div>
       )}
+      {Object.entries(s.grudges ?? {}).map(
+        ([id, g]) =>
+          g && (
+            <div className="notice" key={`grudge:${id}`}>
+              {name(id)}: Grudge — Loyalty needs {g.difficulty} successes at
+              round end.
+              {f.battlefield.end_round === b.round &&
+                g.checked_round < b.round &&
+                owned(id) && (
+                  <button
+                    disabled={disabled}
+                    onClick={() => send({ kind: "GrudgeCheck", target_id: id })}
+                  >
+                    Roll Grudge Loyalty
+                  </button>
+                )}
+            </div>
+          ),
+      )}
       {f.battlefield.end_round === b.round &&
         s.effects.map(
           (e, index) =>

@@ -320,8 +320,13 @@ describe("structured core battle controls", () => {
             history: [],
           },
           identity_moves: false,
-          status_escalation: ["0.28.0-core", "0.27.0-core"].includes(engine),
-          spite: engine === "0.28.0-core",
+          status_escalation: [
+            "0.29.0-core",
+            "0.28.0-core",
+            "0.27.0-core",
+          ].includes(engine),
+          spite: ["0.29.0-core", "0.28.0-core"].includes(engine),
+          will_drains: engine === "0.29.0-core",
           house_rules: groupRules,
           interaction_rules: false,
           reviewed_rules: engine === "0.13.0-core",
@@ -374,6 +379,7 @@ describe("structured core battle controls", () => {
             payer: null,
           },
           special: {
+            grudges: {},
             enabled: ["0.8.0-core", "0.9.0-core", "0.10.0-core"].includes(
               engine,
             ),
@@ -616,6 +622,17 @@ describe("structured core battle controls", () => {
         },
         round: 1,
         returned: false,
+      };
+    }
+    if (symbiosis === "grudge" || symbiosis === "grudge-checked") {
+      const f = c.battle!.flow!;
+      f.will_drains = true;
+      f.special.enabled = true;
+      f.battlefield.end_round = c.battle!.round;
+      f.special.grudges.active = {
+        source: "opponent",
+        difficulty: 2,
+        checked_round: symbiosis === "grudge-checked" ? c.battle!.round : 0,
       };
     }
     if (symbiosis === "review-gluttony" || symbiosis === "review-klutz") {
@@ -1009,15 +1026,26 @@ describe("structured core battle controls", () => {
     expect(html).not.toContain("Record Magic Coat duration");
     expect(html).not.toContain("Full-HP revive versus round cap");
   });
+  it("shows recurring Grudge difficulty and restricts roll controls to target owner or GM", () => {
+    const html = (who: string, state = "grudge") =>
+      core(who, false, "0.29.0-core", false, false, false, false, false, state);
+    expect(html("player")).toContain("Loyalty needs 2 successes");
+    expect(html("player")).toContain("Roll Grudge Loyalty");
+    expect(html("gm")).toContain("Roll Grudge Loyalty");
+    expect(html("host")).not.toContain("Roll Grudge Loyalty");
+    expect(html("player", "grudge-checked")).not.toContain(
+      "Roll Grudge Loyalty",
+    );
+  });
   it("automates severe statuses in new battles and retains historical GM controls", () => {
-    const current = core("gm", false, "0.28.0-core");
+    const current = core("gm", false, "0.29.0-core");
     expect(current).toContain("each increases by 2");
     expect(current).toContain("4/6/8 cumulative successes");
     expect(current).not.toContain("Record severe status outcome");
     expect(core("gm", false, "0.26.0-core")).toContain(
       "Record severe status outcome",
     );
-    expect(core("player", false, "0.28.0-core")).not.toContain(
+    expect(core("player", false, "0.29.0-core")).not.toContain(
       "Record severe status outcome",
     );
   });
