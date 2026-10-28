@@ -4211,3 +4211,10 @@ fn effects_inner_base(
     }
     Ok(())
 }
+
+/// Diagnostic only: probe the current effect pipeline, not accuracy, damage or card completeness.
+#[cfg(test)]
+pub(crate) fn audit_effect_route(c: &mut Campaign, q: &QueuedAction, cat: &Catalog) -> Result<()> {
+    let n = effect_dice(c, q, cat)?;
+    effects(c, q, &vec![6; n as usize], cat)
+}

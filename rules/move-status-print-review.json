@@ -1,0 +1,286 @@
+{
+  "source": "Pokerole-Data/POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+  "sha256": "f8a1ab8c7c059c1e32b658a6770893e58f364fd4c8d28ca87ec912154cfd6cc2",
+  "checks": [
+    {
+      "name": "Alluring Voice",
+      "printed_pages": [
+        455
+      ],
+      "pdf_pages": [
+        322
+      ],
+      "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
+    },
+    {
+      "name": "Attract",
+      "printed_pages": [
+        487
+      ],
+      "pdf_pages": [
+        354
+      ],
+      "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
+    },
+    {
+      "name": "Confuse Ray",
+      "printed_pages": [
+        472
+      ],
+      "pdf_pages": [
+        339
+      ],
+      "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
+    },
+    {
+      "name": "Dark Void",
+      "printed_pages": [
+        444
+      ],
+      "pdf_pages": [
+        311
+      ],
+      "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
+    },
+    {
+      "name": "Dynamic Punch",
+      "printed_pages": [
+        460
+      ],
+      "pdf_pages": [
+        327
+      ],
+      "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
+    },
+    {
+      "name": "Glare",
+      "printed_pages": [
+        493
+      ],
+      "pdf_pages": [
+        360
+      ],
+      "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
+    },
+    {
+      "name": "Grass Whistle",
+      "printed_pages": [
+        476
+      ],
+      "pdf_pages": [
+        343
+      ],
+      "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
+    },
+    {
+      "name": "Inferno",
+      "printed_pages": [
+        467
+      ],
+      "pdf_pages": [
+        334
+      ],
+      "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
+    },
+    {
+      "name": "Nuzzle",
+      "printed_pages": [
+        453
+      ],
+      "pdf_pages": [
+        320
+      ],
+      "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
+    },
+    {
+      "name": "Poison Gas",
+      "printed_pages": [
+        508
+      ],
+      "pdf_pages": [
+        375
+      ],
+      "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
+    },
+    {
+      "name": "Poison Powder",
+      "printed_pages": [
+        508
+      ],
+      "pdf_pages": [
+        375
+      ],
+      "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
+    },
+    {
+      "name": "Sing",
+      "printed_pages": [
+        500
+      ],
+      "pdf_pages": [
+        367
+      ],
+      "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
+    },
+    {
+      "name": "Sleep Powder",
+      "printed_pages": [
+        479
+      ],
+      "pdf_pages": [
+        346
+      ],
+      "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
+    },
+    {
+      "name": "Spore",
+      "printed_pages": [
+        479
+      ],
+      "pdf_pages": [
+        346
+      ],
+      "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
+    },
+    {
+      "name": "Stun Spore",
+      "printed_pages": [
+        480
+      ],
+      "pdf_pages": [
+        347
+      ],
+      "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
+    },
+    {
+      "name": "Supersonic",
+      "printed_pages": [
+        503
+      ],
+      "pdf_pages": [
+        370
+      ],
+      "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
+    },
+    {
+      "name": "Sweet Kiss",
+      "printed_pages": [
+        458
+      ],
+      "pdf_pages": [
+        325
+      ],
+      "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
+    },
+    {
+      "name": "Teeter Dance",
+      "printed_pages": [
+        504
+      ],
+      "pdf_pages": [
+        371
+      ],
+      "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
+    },
+    {
+      "name": "Thunder Wave",
+      "printed_pages": [
+        454
+      ],
+      "pdf_pages": [
+        321
+      ],
+      "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
+    },
+    {
+      "name": "Toxic",
+      "printed_pages": [
+        509
+      ],
+      "pdf_pages": [
+        376
+      ],
+      "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
+    },
+    {
+      "name": "Will-O-Wisp",
+      "printed_pages": [
+        468
+      ],
+      "pdf_pages": [
+        335
+      ],
+      "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
+    },
+    {
+      "name": "Zap Cannon",
+      "printed_pages": [
+        455
+      ],
+      "pdf_pages": [
+        322
+      ],
+      "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
+    },
+    {
+      "name": "Wild Charge",
+      "printed_pages": [
+        455
+      ],
+      "pdf_pages": [
+        322
+      ],
+      "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
+    },
+    {
+      "name": "Safeguard",
+      "printed_pages": [
+        499
+      ],
+      "pdf_pages": [
+        366
+      ],
+      "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
+    },
+    {
+      "name": "Toxic Spikes",
+      "printed_pages": [
+        509
+      ],
+      "pdf_pages": [
+        376
+      ],
+      "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
+    },
+    {
+      "name": "Sparkling Aria",
+      "printed_pages": [
+        526
+      ],
+      "pdf_pages": [
+        393
+      ],
+      "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
+    },
+    {
+      "name": "Uproar",
+      "printed_pages": [
+        505
+      ],
+      "pdf_pages": [
+        372
+      ],
+      "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
+    },
+    {
+      "name": "Healing Wish",
+      "printed_pages": [
+        512
+      ],
+      "pdf_pages": [
+        379
+      ],
+      "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
+    }
+  ]
+}

@@ -1211,3 +1211,6 @@ mod status_escalation_tests;
 
 #[path = "combat_tests/will_tests.rs"]
 mod will_tests;
+
+#[path = "combat_tests/move_audit.rs"]
+mod move_audit;

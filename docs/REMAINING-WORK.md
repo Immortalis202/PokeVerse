@@ -14,6 +14,14 @@ The registry records 242 automated, 60 partial and 3 manual abilities. Sections 
 
 Private friend-group use: public release/signing/distribution polish is not planned, by user decision on 23 October 2026. Next work is [reducing recurring GM choices](GM-CHOICE-ROADMAP.md): the eight selected group rules are implemented in 0.31.0, and 0.31.1 corrects Mirror Coat as a source-defined conditional Late Reaction; 0.32.0 adds [starting multiplayer battlefield conditions](battle-starting-environment.md), including Moonlight reading live day/night. Scene identity moves (0.33.0), severe Burn/Poison escalation (0.34.0), Spite (0.35.0), and Grudge/Eerie Spell (0.36.0) are also delivered. Next are the remaining source-defined effects still requiring manual resolution; Sappy Seed is excluded. See [the group-rule behavior and compatibility](battle-group-rules.md). Genuine ambiguities and narrative choices remain explicit. This does not mark unperformed native/network tests as passed.
 
+## Move-effect milestone queue (28 October 2026)
+
+- [x] **Milestone 1: move-effect audit.** [Named source-backed queue and limits](MOVE-EFFECT-AUDIT.md), covering all 892 effect routes and a focused semantic review of 180 status-related cards. The 107 actionable status cards are divided into five implementation sub-batches. Route success is not whole-card completion, and manual-route totals are not counts of distinct missing mechanics.
+- [ ] **Milestone 2: implement the audited effects.** Begin with M2-A direct status application, then chance effects, compound conditions, recurring/sleep effects and cure/protection entry paths. Preserve implemented scopes and exclusions.
+- [ ] **Milestone 3: battlefield/ice edge-case review.** Review exact source rules before adding defined mechanics; retain genuine precedence/parameter choices.
+- [ ] **Milestone 4: catalog reliability.** Resolve exact missing references, creation/evolution review and asset gaps.
+- [ ] **Milestone 5: native multiplayer acceptance.** Record actual native, physical LAN and private-VPN outcomes separately from automated tests.
+
 ## Implemented foundation
 
 Offline trainer/Pokémon creation and named progression use shared Rust budgets, costs, prerequisites and derived resources. Campaign synchronization supports accepted offline purchases, indivisible progression chains and scoped GM exception approval. The host appoints the GM and automatically validates normal commands; these roles can be separate people.
@@ -35,9 +43,9 @@ Dancer, Parental Bond, Gorilla Tactics, Truant and Defeatist now use the reviewe
 - [ ] **Additional unreviewed trait effects:** review specific source-defined traits beyond the implemented channels before extending copying. This remaining boundary is why Costar and Opportunist retain a `partial` registry label; their supported copying behavior is already implemented. Temporary ability identity copying is a separate implemented system.
 - [x] **Scene identity effects:** Entrainment, Doodle and Core Enforcer are implemented in 0.33.0; see [exact rules and verification](battle-identity-moves.md). Role Play, Skill Swap, Gastro Acid, Trace, Gas, contact replacement and witnessed ally inheritance already exist.
 - [x] **Burn and Poison escalation:** selected detailed rules automated in 0.34.0; see [rules and verification](battle-status-escalation.md).
-- [ ] **Status edge cases:** unsupported status-producing/cure effects and remaining Will spending/draining effects. [Will audit and Spite](battle-will-effects.md) completed in 0.35.0; Grudge and Eerie Spell completed in 0.36.0. Sappy Seed is excluded by user decision on 28 October 2026. The Healing Wish metadata/prose cost discrepancy remains recorded without a new charge. Core statuses, durations and expiry already exist; automatic Will recovery remains excluded.
+- [ ] **Status edge cases:** use the concrete [107-card status-effect queue](MOVE-EFFECT-AUDIT.md), not generic ability labels, for the next implementation batches. [Will audit and Spite](battle-will-effects.md) completed in 0.35.0; Grudge and Eerie Spell completed in 0.36.0. Sappy Seed is excluded by user decision on 28 October 2026. The Healing Wish metadata/prose cost discrepancy remains recorded without a new charge. Core statuses, durations and expiry already exist; automatic Will recovery remains excluded.
 - [ ] **Ice edge cases:** review any still-adjudicated Snow/special-damage interactions against ice against current fixtures before adding mechanics. Ordinary ice attempts and supported special interactions already have tests.
-- [ ] **Unreviewed move effects:** extend executable definitions beyond the selected special/targeting registries. Ordinary damage automation does not imply every added effect on all 892 moves is executable. Preserve explicit GM resolution for unsupported cards.
+- [ ] **Unreviewed move effects:** the [892-card route inventory](../rules/move-effect-audit.json) names every effect-route outcome; semantic review outside the focused status subset remains separate. Extend executable definitions beyond the selected special/targeting registries. Ordinary damage automation does not imply every added effect on all 892 moves is executable. Preserve explicit GM resolution for unsupported cards.
 
 ## 2. Remaining named move and battlefield boundaries
 
