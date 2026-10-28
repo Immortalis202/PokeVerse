@@ -1,6 +1,6 @@
 # PokeVerse - remaining work
 
-Snapshot: **27 October 2026**, application **0.34.0**, engine **0.27.0-core**, protocol **35**, user database schema **4**.
+Snapshot: **28 October 2026**, application **0.36.0**, engine **0.29.0-core**, protocol **37**, user database schema **4**.
 
 This is the current project backlog. Implemented foundations are summarized first; unfinished features, explicit GM rulings, verification gaps and excluded scope are distinguished below. Counts come from the checked-in registries and should be refreshed after catalog changes.
 
@@ -8,11 +8,11 @@ This is the current project backlog. Implemented foundations are summarized firs
 
 See the [complete item and ability roadmap](ITEM-ABILITY-ROADMAP.md) for the ordered deliverables and every catalog item. Its [ability inventory](ability-roadmap.csv) accounts for all 305 abilities; its [item inventory](item-roadmap.csv) accounts for all 236 items. This audit distinguishes released scope, disabled worktree implementations, genuinely missing mechanics, GM rulings and exclusions.
 
-The registry records 242 automated, 60 partial and 3 manual abilities. The older tables in sections 8–9 reproduce the pre-release baseline; generic held-item and booster dependencies there are stale and must not override the newer audited worktree assessment. The reviewed held-item batch is released in 0.25.0; transformation batch 2 is delivered in 0.26.0; private-information batch 3 is delivered in 0.27.0; standalone batch 4 is delivered in 0.28.0; interaction review batch 5 is delivered in 0.29.0. Milestone 6 delivers the 30 battle/species item definitions and all 17 ordinary medicines with reviewed Recycle. The 47 Mega stones remain released. See [item rules and retained GM policies](battle-item-completion.md). All 35 Z-crystals remain excluded; 10 items explicitly forbid battle use. Other reference-only entries require scope review before becoming battle tasks.
+The registry records 242 automated, 60 partial and 3 manual abilities. Sections 8–9 below are refreshed from `rules/ability-coverage.json`. A partial entry describes implemented behavior plus a remaining boundary; it does not mean the whole ability is unimplemented. The reviewed held-item batch is released in 0.25.0; transformation batch 2 is delivered in 0.26.0; private-information batch 3 is delivered in 0.27.0; standalone batch 4 is delivered in 0.28.0; interaction review batch 5 is delivered in 0.29.0. Milestone 6 delivers the 30 battle/species item definitions and all 17 ordinary medicines with reviewed Recycle. The 47 Mega stones remain released. See [item rules and retained GM policies](battle-item-completion.md). All 35 Z-crystals remain excluded; 10 items explicitly forbid battle use. Other reference-only entries require scope review before becoming battle tasks.
 
 ## Current priority
 
-Private friend-group use: public release/signing/distribution polish is not planned, by user decision on 23 October 2026. Next work is [reducing recurring GM choices](GM-CHOICE-ROADMAP.md): the eight selected group rules are implemented in 0.31.0, and 0.31.1 corrects Mirror Coat as a source-defined conditional Late Reaction; 0.32.0 adds [starting multiplayer battlefield conditions](battle-starting-environment.md), including Moonlight reading live day/night. Next are other source-defined effects still requiring manual resolution. See [the group-rule behavior and compatibility](battle-group-rules.md). Genuine ambiguities and narrative choices remain explicit. This does not mark unperformed native/network tests as passed.
+Private friend-group use: public release/signing/distribution polish is not planned, by user decision on 23 October 2026. Next work is [reducing recurring GM choices](GM-CHOICE-ROADMAP.md): the eight selected group rules are implemented in 0.31.0, and 0.31.1 corrects Mirror Coat as a source-defined conditional Late Reaction; 0.32.0 adds [starting multiplayer battlefield conditions](battle-starting-environment.md), including Moonlight reading live day/night. Scene identity moves (0.33.0), severe Burn/Poison escalation (0.34.0), Spite (0.35.0), and Grudge/Eerie Spell (0.36.0) are also delivered. Next are the remaining source-defined effects still requiring manual resolution; Sappy Seed is excluded. See [the group-rule behavior and compatibility](battle-group-rules.md). Genuine ambiguities and narrative choices remain explicit. This does not mark unperformed native/network tests as passed.
 
 ## Implemented foundation
 
@@ -26,12 +26,13 @@ Dancer, Parental Bond, Gorilla Tactics, Truant and Defeatist now use the reviewe
 
 ## 1. Remaining battle systems
 
-- [x] **Held-item ability batch:** released in 0.25.0 with owned equipment, reviewed effects, dependent abilities, private decisions, rollback and synchronization. Remaining item definitions are batch 6; native acceptance remains batch 7.
+- [x] **Held-item ability batch:** released in 0.25.0 with owned equipment, reviewed effects, dependent abilities, private decisions, rollback and synchronization. Reviewed item/medicine definitions were delivered in batch 6 (0.30.0); native acceptance remains batch 7.
 - [x] **Forms and transformations (batch 2):** reviewed all 20 entries, exact temporary builds/types/abilities/moves, 47 Mega stones and Transform, permanent-sheet protection, scene restoration, persistent Minior Core memory, owner/GM decisions, frozen damage inputs and rollback. Printed ambiguities and absent item stock retain the explicit boundaries in [transformation rules](battle-transformations.md).
 - [x] **Private battle information (batch 3):** Anticipation/Forewarn warnings, private GM comparisons and Insight rulings, linked-trainer recipients, movepool projections, transport, persistence and rollback. See [private-information rules](battle-private-information.md).
 - [x] **Standalone abilities (batch 4):** Heavy/Light Metal weight inputs/formulas, Rivalry comparisons, Moody host sampling, Perish Body and explicit Torrent wording choice. See [standalone ability rules](battle-standalone-abilities.md).
 - [x] **Partial interaction review (batch 5):** reviewed all 55 assigned entries, released 67 exact move definitions, shield/field/Cover bypass, forced-switch protection, timing decisions and copied traits. [Reviewed rules and retained boundaries](battle-partial-interactions.md). Tinted Lens, Unaware, Stakeout and the move portion of Sheer Force are implemented. The full ability inventory is in sections 8-9.
-- [ ] **Unreviewed trait copying:** Costar and Opportunist now copy supported attribute/defense move and ability channels. Baton Pass transfers supported positive attribute channels, and Snatch steals supported ability modifiers. Coil/Hone Claws accuracy pools and Focus Energy High Critical now copy in batch 5. Review additional trait channels separately; temporary ability identity copying remains distinct. See [stat copying and transfer](battle-stat-channels.md).
+- [x] **Supported stat/trait copying:** Costar copies a selected ally's supported positive move/ability channels on entry; Opportunist copies supported foe increases. Baton Pass and Snatch transfer their reviewed channels. Coil/Hone Claws accuracy pools and Focus Energy High Critical are also supported. See [stat copying and transfer](battle-stat-channels.md) and [the later trait review](battle-partial-interactions.md).
+- [ ] **Additional unreviewed trait effects:** review specific source-defined traits beyond the implemented channels before extending copying. This remaining boundary is why Costar and Opportunist retain a `partial` registry label; their supported copying behavior is already implemented. Temporary ability identity copying is a separate implemented system.
 - [x] **Scene identity effects:** Entrainment, Doodle and Core Enforcer are implemented in 0.33.0; see [exact rules and verification](battle-identity-moves.md). Role Play, Skill Swap, Gastro Acid, Trace, Gas, contact replacement and witnessed ally inheritance already exist.
 - [x] **Burn and Poison escalation:** selected detailed rules automated in 0.34.0; see [rules and verification](battle-status-escalation.md).
 - [ ] **Status edge cases:** unsupported status-producing/cure effects and remaining Will spending/draining effects. [Will audit and Spite](battle-will-effects.md) completed in 0.35.0; Grudge and Eerie Spell completed in 0.36.0. Sappy Seed is excluded by user decision on 28 October 2026. The Healing Wish metadata/prose cost discrepancy remains recorded without a new charge. Core statuses, durations and expiry already exist; automatic Will recovery remains excluded.
@@ -55,8 +56,8 @@ Dancer, Parental Bond, Gorilla Tactics, Truant and Defeatist now use the reviewe
 | Terrain overlaps | Preserve recorded GM decisions where the manual does not define precedence. Do not substitute video-game terrain replacement rules. |
 | Torn World | Define or record the retargeting distribution before automating it. |
 | Arena examples | Supply GM parameters where examples omit healing amounts or check difficulty; narrative escape and encounter-rate effects remain manual. |
-| Magic Room | Held-item suppression is integrated since batch 1; remaining individual item definitions belong to batch 6. |
-| Night parameters | Reconcile the legacy per-Pokémon Moonlight night parameter with the new battlefield night setting, preserving explicitly logged GM overrides. Mind's Eye currently uses the battlefield setting. |
+| Magic Room | Held-item suppression is integrated since batch 1; reviewed item/medicine definitions were delivered in batch 6 (0.30.0). Unreviewed reference-only items need scope review, not reimplementation of the released batch. |
+| Night parameters | Implemented in 0.32.0: Moonlight reads live battlefield day/night, with explicit individual day/night overrides and preserved legacy positive-night rulings. Mind's Eye uses the battlefield setting. See starting-environment rules. |
 
 These are not all bugs to eliminate: contradictory or unspecified rules can remain explicit, logged GM decisions. New definitions must include reviewed evidence, previews, host validation, history, retry/rollback behavior and meaningful fixtures.
 
@@ -75,7 +76,7 @@ Current catalog: 1,200 species/forms and 892 moves. The special-move registry co
 
 Headless localhost WebSocket tests establish separate host/GM/owner authority, receipts, reconnect, rollback and database persistence. They do not establish interactive Windows or physical LAN acceptance.
 
-Milestone 7 preparation is delivered: [isolated lab, preservation evidence and 15 manual acceptance cases](windows-lan-acceptance.md). The user selected preparation of the checks; native installation/workflows, physical LAN and signing remain pending. See [the 23 October automated baseline](acceptance-baseline-2026-10-23.md).
+Milestone 7 preparation is delivered: [isolated lab, preservation evidence and 15 manual acceptance cases](windows-lan-acceptance.md). The user selected preparation of the checks; native installation/workflows and physical LAN remain pending. Trusted signing/public distribution is not planned for this private group. See [the 23 October automated baseline](acceptance-baseline-2026-10-23.md).
 
 - [ ] Install, upgrade and uninstall the packaged app in isolated Windows installations; verify preservation of personal data and offline catalog/sprites.
 - [ ] Exercise creation, progression, trainer-point distribution, Compendium links/Back navigation and dialogs at 960x650, 1280x850 and 1920x1080, including keyboard access and long content.
@@ -123,12 +124,12 @@ Version 0.24.0 / engine 0.17.0-core / protocol 25 passed all 448 Rust checks: 81
 User-approved scope: implement all remaining in-battle abilities in this order, including transformation abilities as core battle mechanics. Out-of-battle ability effects are excluded from implementation. Mixed abilities retain their in-battle effects in scope. The existing Dynamax, Max Move and Z-Move exclusions still apply.
 
 1. Damage-provenance and event/accuracy abilities: implemented in 0.23.0 and 0.24.0; remaining card-specific boundaries stay visible in the inventory.
-2. Held items and their dependent abilities: released in 0.25.0; remaining item definitions are batch 6.
+2. Held items and their dependent abilities: released in 0.25.0; reviewed item/medicine definitions delivered in batch 6 (0.30.0).
 3. Supported form changes and transformations: delivered in 0.26.0, retaining exclusions and recorded GM boundaries.
 4. Remaining reviewed move/status interactions and catalog audit work.
-5. Native Windows and physical LAN acceptance, followed by distribution/signing work as needed.
+5. Native Windows and physical LAN/private-VPN acceptance. Trusted signing/public distribution is not planned.
 
-Each milestone should preserve historical engines, bump authoritative versions when needed, update coverage and this document, run appropriate regressions, package Windows and commit separately.
+Each milestone should preserve historical engines, bump authoritative versions when needed, update coverage and this document, run appropriate regressions and commit separately. App packaging and Clippy run only when explicitly requested, as recorded in `AGENTS.md`.
 
 ### Damage-provenance milestone
 
@@ -166,128 +167,86 @@ Held-item worktree progress: Ball Fetch owned failed-throw returns and trainer-r
 
 Held-item scope review: the supplied Pickup card is scene-end narrative gathering and Honey Gather is daily production; both are excluded by the user's out-of-battle boundary. Ball Fetch differs: its supplied card describes returning a failed-capture ball at round end. That battle hook is now staged with owned-ball tracking and GM-recorded failed throws; automatic capture rolls remain a separate deferred system. The older registry dependency descriptions are not substitutes for these printed cards.
 
-### Held-item milestone in progress
+### Historical held-item staging notes (before 0.25.0 release)
 
-The worktree now has individually owned item units, stored/held equipment, equip/unequip progression and editor controls, capacity validation, preserved partial usage, backward-compatible sheet serialization and atomic inventory/equipment reconciliation. The packaged 0.24.0 release does not contain this staged work. The staged battle layer now includes reviewed consumption, transfers, theft and dependent-ability hooks. Remaining item-definition/blocker review, battle activation, compatibility gates and release integration remain; see [held-item implementation and remaining work](battle-held-items.md).
+Historical status, superseded by the 0.25.0 release and 0.30.0 item-completion milestone: the worktree had individually owned item units, stored/held equipment, equip/unequip progression and editor controls, capacity validation, preserved partial usage, backward-compatible sheet serialization and atomic inventory/equipment reconciliation. The packaged 0.24.0 release does not contain this staged work. The staged battle layer now includes reviewed consumption, transfers, theft and dependent-ability hooks. Remaining item-definition/blocker review, battle activation, compatibility gates and release integration remain; see [held-item implementation and remaining work](battle-held-items.md).
 
-## 8. All manual abilities (44)
+## 8. Manual ability registry entries (3)
 
-Every currently manual registry entry appears below. Dependencies describe remaining boundaries; excluded out-of-battle effects are not implementation tasks.
+Refreshed from the current ability registry on 28 October 2026. These entries have no automated battle implementation in their recorded scope; excluded narrative effects are not new tasks.
 
-| Ability | Current boundary |
-| --- | --- |
-| Anticipation | Requires a private GM/owner information-reveal operation with reviewed move classification. |
-| As One | Requires encounter form/state transformation and reviewed replacement metadata. |
-| Ball Fetch | Staged GM-recorded failed wild throws protect an owned ball and return it at round end; activation/release gates remain. |
-| Cheek Pouch | Requires held-item ownership, consumption, transfer or activation hooks. |
-| Commander | Requires encounter form/state transformation and reviewed replacement metadata. |
-| Cud Chew | Requires held-item ownership, consumption, transfer or activation hooks. |
-| Embody Aspect | Requires encounter form/state transformation and reviewed replacement metadata. |
-| Forewarn | Requires a private GM/owner information-reveal operation with reviewed move classification. |
-| Frisk | Requires held-item ownership, consumption, transfer or activation hooks. |
-| Gluttony | Requires held-item ownership, consumption, transfer or activation hooks. |
-| Gulp Missile | Requires encounter form/state transformation and reviewed replacement metadata. |
-| Harvest | Requires held-item ownership, consumption, transfer or activation hooks. |
-| Heavy Metal | Requires reviewed weight/gender inputs and formulas in the shared damage calculation. |
-| Honey Gather | Requires noncombat item gathering or daily recovery; no video-game battle substitute is applied. |
-| Hunger Switch | Requires encounter form/state transformation and reviewed replacement metadata. |
-| Ice Face | Requires encounter form/state transformation and reviewed replacement metadata. |
-| Illusion | Requires encounter form/state transformation and reviewed replacement metadata. |
-| Imposter | Requires encounter form/state transformation and reviewed replacement metadata. |
-| Klutz | Requires held-item ownership, consumption, transfer or activation hooks. |
-| Light Metal | Requires reviewed weight/gender inputs and formulas in the shared damage calculation. |
-| Magician | Requires held-item ownership, consumption, transfer or activation hooks. |
-| Moody | Requires independent unbiased attribute increase/reduction choices and their recorded provenance. |
-| Multitype | Requires encounter form/state transformation and reviewed replacement metadata. |
-| Perish Body | Existing hook families are available; this individual definition and its ordering still require implementation and fixtures. |
-| Pickpocket | Requires held-item ownership, consumption, transfer or activation hooks. |
-| Pickup | Requires held-item ownership, consumption, transfer or activation hooks. |
-| Power Construct | Requires encounter form/state transformation and reviewed replacement metadata. |
-| RKS System | Requires encounter form/state transformation and reviewed replacement metadata. |
-| Regenerator | Requires noncombat item gathering or daily recovery; no video-game battle substitute is applied. |
-| Ripen | Requires held-item ownership, consumption, transfer or activation hooks. |
-| Rivalry | Requires reviewed weight/gender inputs and formulas in the shared damage calculation. |
-| Schooling | Requires encounter form/state transformation and reviewed replacement metadata. |
-| Shields Down | Requires encounter form/state transformation and reviewed replacement metadata. |
-| Stance Change | Requires encounter form/state transformation and reviewed replacement metadata. |
-| Sticky Hold | Requires held-item ownership, consumption, transfer or activation hooks. |
-| Symbiosis | Requires held-item ownership, consumption, transfer or activation hooks. |
-| Tera Shell | Requires encounter form/state transformation and reviewed replacement metadata. |
-| Tera Shift | Requires encounter form/state transformation and reviewed replacement metadata. |
-| Teraform Zero | Requires encounter form/state transformation and reviewed replacement metadata. |
-| Torrent | Printed text grants 2 damage dice but icon grants 1. GM ruling required. |
-| Unburden | Requires held-item ownership, consumption, transfer or activation hooks. |
-| Unnerve | Requires held-item ownership, consumption, transfer or activation hooks. |
-| Zen Mode | Requires encounter form/state transformation and reviewed replacement metadata. |
-| Zero to Hero | Requires encounter form/state transformation and reviewed replacement metadata. |
-
-## 9. All partial abilities (61)
-
-Every currently partial registry entry appears below. Dependencies describe remaining boundaries; excluded out-of-battle effects are not implementation tasks.
-
-| Ability | Current implementation and boundary | Dependencies |
+| Ability | Recorded scope | Remaining boundary |
 | --- | --- | --- |
-| Arena Trap | Block ordinary recall for eligible targets in confirmed abstract range, with rank target caps and reviewed Ground/Steel/Ghost exceptions. GM switching overrides remain explicit. | forced-switch-move-resolution |
+| Honey Gather | Requires noncombat item gathering or daily recovery; no video-game battle substitute is applied. | outside-battle-activities |
+| Pickup | Outside-battle found-item acquisition remains GM adjudicated; battle equipment ownership and transfer are implemented. | outside-battle-acquisition |
+| Regenerator | Requires noncombat item gathering or daily recovery; no video-game battle substitute is applied. | outside-battle-activities |
+
+## 9. Partially automated abilities (60)
+
+Refreshed from the current ability registry on 28 October 2026. The implementation column is already delivered. Only the remaining boundary needs review; a narrative or intentionally excluded boundary is not an implementation task.
+
+| Ability | Implemented scope | Remaining boundary |
+| --- | --- | --- |
+| Anticipation | Private trainer alert at the reviewed entry/acquisition window from current deployed conscious foes. Classify structured lethal flags and supported super-effective typing/conversions/immunities; Support/self/ally cards do not qualify. Unresolved cards and timing outside this window require a private GM ruling. No foe or move names are sent with the alert. | See recorded scope |
+| Arena Trap | Block ordinary recall for eligible targets in confirmed abstract range, with rank target caps and reviewed Ground/Steel/Ghost exceptions. GM switching overrides remain explicit. User Switcher Moves respect trapping. Whether external forced replacement overrides printed blocking remains an explicit GM exception; no video-game precedence is assumed. | forced-switch-trapping-ruling |
 | Aroma Veil | In-range allies and user ignore In Love and reviewed Taunt, Torment, Spite, Attract, Disable, Encore and Heal Block effects. | unreviewed-move-effects |
+| As One | GM selects an exact reviewed joint-form build and one available ability from each conscious allied component. Movepools combine and both supported ability channels remain active; the partner cannot act separately. Conflicting type/stat precedence and nested joint-form changes remain explicit GM boundaries. | joint-form-precedence-ruling |
 | Aura Break | Reviewed range-limited Dark/Fairy damage aura and Aura Break inversion. Duplicate sources do not stack; attack/cooperation narrative restrictions require a GM ruling. | narrative-relationship-rulings |
 | Big Pecks | Protect the reviewed stat changes through sourced battle effects and supported moves; Clear Body also rejects external increases and Flower Veil protects in-range allies. | unreviewed-stat-moves |
 | Clear Body | Protect the reviewed stat changes through sourced battle effects and supported moves; Clear Body also rejects external increases and Flower Veil protects in-range allies. | unreviewed-stat-moves |
-| Competitive | Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct. | unreviewed-stat-moves, forced-switch-move-resolution |
-| Contrary | Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct. | unreviewed-stat-moves, forced-switch-move-resolution |
+| Competitive | Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct. Reviewed ordinary stat cards and Parting Shot use the same sourced protection/reflection/reversal/retaliation path. | unreviewed-stat-moves |
+| Contrary | Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct. Reviewed ordinary stat cards and Parting Shot use the same sourced protection/reflection/reversal/retaliation path. | unreviewed-stat-moves |
 | Corrosion | Source-tracked Poison bypasses type/status poison immunity; global battlefield status restrictions still apply. | ability-bypass-interactions |
-| Costar | On field entry, copy one active ally's supported positive move and ability attribute/defense channels. One eligible ally is automatic; multiple allies use frozen entry snapshots and an owner choice. Highest modifiers do not stack within a channel; sheets and ability identities are unchanged. | unreviewed-trait-channels |
+| Costar | On field entry, copy one active ally's supported positive move and ability attribute/defense channels. One eligible ally is automatic; multiple allies use frozen entry snapshots and an owner choice. Highest modifiers do not stack within a channel; sheets and ability identities are unchanged. Reviewed Coil/Hone Claws accuracy-pool dice and Focus Energy High Critical copy independently with their own units; other trait definitions remain manual. | unreviewed-trait-channels |
 | Dancer | Once per round, choose a free copy of a completed Dance move, including self and field targeting, inheriting Accuracy successes and rolling fresh damage. Owner target choice, GM random-foe selection, normal move/status/range guards and one-use rampage copies apply. Engine 0.17 preserves each original target accuracy result through the copied action, including missed sources; new targets use the highest recorded source count. Unreviewed dance added effects remain explicitly adjudicated. | unsupported-dance-move-definitions |
 | Dark Aura | Reviewed range-limited Dark/Fairy damage aura and Aura Break inversion. Duplicate sources do not stack; attack/cooperation narrative restrictions require a GM ruling. | narrative-relationship-rulings |
 | Dauntless Shield | On entry, add two temporary Defense or Strength respectively. Outside-battle narrative effects are GM adjudicated. | narrative-effects |
-| Defiant | Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct. | unreviewed-stat-moves, forced-switch-move-resolution |
-| Disguise | Negate the first damaging hit in a scene. Cosmetic disguise and species/form transformations remain manual. | form-transformation |
+| Defiant | Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct. Reviewed ordinary stat cards and Parting Shot use the same sourced protection/reflection/reversal/retaliation path. | unreviewed-stat-moves |
 | Early Bird | Structured Sleep duration is halved (rounded up); waking requires two cumulative Insight successes. Rest is excluded. Narrative sleep remains manual. | outside-battle-activities |
 | Fairy Aura | Reviewed range-limited Dark/Fairy damage aura and Aura Break inversion. Duplicate sources do not stack; attack/cooperation narrative restrictions require a GM ruling. | narrative-relationship-rulings |
 | Flower Veil | Protect the reviewed stat changes through sourced battle effects and supported moves; Clear Body also rejects external increases and Flower Veil protects in-range allies. | unreviewed-stat-moves |
+| Forewarn | Private strongest-move message to the linked trainer owner, falling back to Pokemon owner when unlinked. GM compares current foe cards using printed Power, handles variable/fixed damage and ties, and records the trainer Insight result without inventing a difficulty. Candidates/rulings remain private; host transport, rollback and persistence are supported. | See recorded scope |
 | Full Metal Body | Protect the reviewed stat changes through sourced battle effects and supported moves; Clear Body also rejects external increases and Flower Veil protects in-range allies. | unreviewed-stat-moves |
 | Gale Wings | Add Reaction 1 to Flying moves without imposing a video-game full-HP requirement. Retain higher printed early priority; conflicting Late Reaction needs a recorded timing ruling. Charge reactions still need adjudication. | conflicting-late-priority-ruling, charge-reaction-definition |
-| Guard Dog | Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct. | unreviewed-stat-moves, forced-switch-move-resolution |
-| Hadron Engine | Add two Special under Electric Terrain or two Strength under Sunny/Desolate respectively. Weather/terrain activation follows the reviewed field definition. | held-booster-item-system |
+| Gluttony | May hold three berries with different reviewed effects. Ignores negative ingestion effects for the 17 reviewed ordinary medicines, including herbal acceptance/happiness penalties. Other narrative food ingestion remains GM-managed. | narrative-food-ingestion |
+| Guard Dog | Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct. Reviewed ordinary stat cards and Parting Shot use the same sourced protection/reflection/reversal/retaliation path. Foe Switcher Moves are prevented; Teravolt/Turboblaze bypass this non-unique prevention. | unreviewed-stat-moves |
+| Heavy Metal | GM records an increased encounter weight for the exact current form. Reviewed Low Kick/Grass Knot and Heavy Slam/Heat Crash formulas use literal 50 kg steps capped at four dice; no fixed weight multiplier is invented. Suppression restores ordinary weight; saved shared damage freezes the resulting bonus. | See recorded scope |
 | Hospitality | On entry the owner may spend one Will to heal one wounded active ally by three HP. No revival; lethal wounds remain manual. | lethal-resource-system |
 | Hyper Cutter | Protect the reviewed stat changes through sourced battle effects and supported moves; Clear Body also rejects external increases and Flower Veil protects in-range allies. | unreviewed-stat-moves |
 | Illuminate | In-range user/allies ignore the supported fog/visibility accuracy penalty; narrative encounter effects remain manual. | narrative-encounter-effects |
-| Intimidate | Entry-only rank-limited Strength reduction, non-stacking, removed when source leaves or faints. GM range defaults to all deployed foes; stable IDs break excess-target ties. An explicit GM range correction updates affected targets. |  |
+| Intimidate | Entry-only rank-limited Strength reduction, non-stacking, removed when source leaves or faints. GM range defaults to all deployed foes; stable IDs break excess-target ties. An explicit GM range correction updates affected targets. | See recorded scope |
 | Intrepid Sword | On entry, add two temporary Defense or Strength respectively. Outside-battle narrative effects are GM adjudicated. | narrative-effects |
 | Justified | Dark hits raise the separate Strength ability channel by one, capped at three; narrative injustice triggers remain GM adjudicated. | outside-battle-activities |
-| Levitate | Ground move immunity automated; terrain and entry-hazard effects remain manual. |  |
+| Levitate | Ground move immunity automated; terrain and entry-hazard effects remain manual. | See recorded scope |
+| Light Metal | GM records a reduced encounter weight for the exact current form. Reviewed weight formulas use the recorded kg and literal 50 kg steps capped at four dice. No half/quarter multiplier is silently chosen; suppression and shared damage snapshots preserve the selected inputs. | See recorded scope |
 | Magic Bounce | Reflect executable foe Support effects aimed at the holder or its side, once, without extra actions/accuracy. Preserve original resource payer and reflected effect source. Unimplemented Support effects still require adjudication; manual field records retain reflected scope. | unsupported-support-effects |
-| Magic Guard | Prevents reviewed ability damage, burn/poison ticks and Submission recoil. Confusion and direct move damage remain; weather, held items and entry hazards await their mechanics. |  |
-| Magnet Pull | Block ordinary recall for eligible targets in confirmed abstract range, with rank target caps and reviewed Ground/Steel/Ghost exceptions. GM switching overrides remain explicit. | forced-switch-move-resolution |
-| Mega Launcher | Pulse/Aura damaging moves gain two damage dice. Heal Pulse uses five-HP Complete Healing and one Will. | other-pulse-healing-definitions |
-| Mirror Armor | Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct. | unreviewed-stat-moves, forced-switch-move-resolution |
-| Mycelium Might | Support moves gain Never Miss and Late Reaction 1; no ability bypass is granted by the printed card. Printed Reaction collisions require explicit GM adjudication. | conflicting-printed-reaction |
+| Magic Guard | Prevents reviewed ability damage, burn/poison ticks and Submission recoil. Confusion and direct move damage remain; weather, held items and entry hazards await their mechanics. | See recorded scope |
+| Magnet Pull | Block ordinary recall for eligible targets in confirmed abstract range, with rank target caps and reviewed Ground/Steel/Ghost exceptions. GM switching overrides remain explicit. User Switcher Moves respect trapping. Whether external forced replacement overrides printed blocking remains an explicit GM exception; no video-game precedence is assumed. | forced-switch-trapping-ruling |
+| Mirror Armor | Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct. Reviewed ordinary stat cards and Parting Shot use the same sourced protection/reflection/reversal/retaliation path. | unreviewed-stat-moves |
+| Mycelium Might | Support moves gain Never Miss and Late Reaction 1; no ability bypass is granted by the printed card. Printed Reaction collisions require explicit GM adjudication. For printed Reaction collisions the GM can persist printed or ability Late Reaction timing before damage; Never Miss remains in both choices. | conflicting-printed-reaction-ruling |
 | Neutralizing Gas | Negates foes in abstract range subject to rank target cap; restores on source departure, fainting or range change. Unique abilities prevail. Opposing Gas stalemates require GM ruling. | GM ruling for opposing Gas stalemates |
-| Oblivious | Immune to In Love; other feeling-related and narrative effects remain GM-adjudicated. |  |
-| Opportunist | Copy supported foe move/ability attribute and defense increases on authoritative state changes, retaining the highest within each channel. Immutable before/after observation prevents reciprocal loops. Decreases and unchanged modifiers do not trigger a copy. | unreviewed-trait-channels |
-| Orichalcum Pulse | Add two Special under Electric Terrain or two Strength under Sunny/Desolate respectively. Weather/terrain activation follows the reviewed field definition. | held-booster-item-system |
+| Oblivious | Immune to In Love; other feeling-related and narrative effects remain GM-adjudicated. | See recorded scope |
+| Opportunist | Copy supported foe move/ability attribute and defense increases on authoritative state changes, retaining the highest within each channel. Immutable before/after observation prevents reciprocal loops. Decreases and unchanged modifiers do not trigger a copy. Reviewed Coil/Hone Claws accuracy-pool dice and Focus Energy High Critical copy independently with their own units; other trait definitions remain manual. | unreviewed-trait-channels |
 | Power of Alchemy | On active allies fainting, store multiple eligible ability snapshots for 1440 game minutes, with one active copy. Acquisition requires Power of Alchemy to be active; selecting within combat requires a GM timing ruling. Campaign clock, provenance and rollback persist. | GM ruling for selection timing during combat, Narrative acquisition outside witnessed campaign fainting |
 | Prankster | Add Reaction 1 to Support moves. Retain higher printed early reaction priority; conflicting Late Reaction requires a recorded printed/ability timing ruling. Unsupported move effects and charge reaction exceptions remain explicit. | conflicting-late-priority-ruling, charge-reaction-definition |
-| Protosynthesis | Under qualifying weather/terrain boost the highest attribute by one, or Dexterity by two; tied highest attributes require an owner choice. | held-booster-item-system |
-| Quark Drive | Under qualifying weather/terrain boost the highest attribute by one, or Dexterity by two; tied highest attributes require an owner choice. | held-booster-item-system |
 | Receiver | On an active ally fainting, the owner chooses one eligible ability snapshot. One unexpired copy, preserved in campaign state for 1440 game minutes; the GM advances game time between encounters. Unique donor abilities cannot be copied. | Narrative acquisition outside witnessed campaign fainting |
-| Reckless | Recoil-tagged moves and reviewed Submission gain two damage dice; other unreviewed recoil formulas still need GM resolution. | unreviewed-recoil-moves |
-| Rock Head | Ignore the supported Submission recoil; other recoil moves require reviewed definitions. | unreviewed-recoil-moves |
+| Rivalry | GM chooses supplied JSON gender versus printed preference wording and records individual comparison groups. Same/opposite foe comparisons change Strength by +1/-1 through existing channel/cap rules, including target-specific accuracy prefixes, reactions and frozen shared damage. Unknown, genderless and neutral groups are neutral. | See recorded scope |
 | Run Away | Ignore supported Blocked recall restrictions. Narrative escape and capture consequences require GM adjudication. | narrative-escape-effects |
-| Sand Veil | Weather damage immunity; the table rule still limits Evasion to once per turn and five total actions per round. |  |
-| Serene Grace | Add two chance dice to supported move added effects; unreviewed chance effects still need GM resolution. | unreviewed-chance-moves |
-| Shadow Tag | Block ordinary recall for eligible targets in confirmed abstract range, with rank target caps and reviewed Ground/Steel/Ghost exceptions. GM switching overrides remain explicit. | forced-switch-move-resolution |
-| Sheer Force | Owner or GM chooses whether damaging moves trade their structured AddedEffects for two damage dice. Freeze the choice for shared targets, successive hits and charge release; preserve recoil and recharge attributes. Held-item added effects await the item engine. | held-item-system |
-| Simple | Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct. | unreviewed-stat-moves, forced-switch-move-resolution |
-| Snow Cloak | Weather damage immunity; the table rule still limits Evasion to once per turn and five total actions per round. |  |
+| Sand Veil | Weather damage immunity; the table rule still limits Evasion to once per turn and five total actions per round. | See recorded scope |
+| Serene Grace | Add two chance dice to supported move added effects; unreviewed chance effects still need GM resolution. Batch 5 adds 23 exact chance definitions with sourced status immunity, Shield Dust and Sheer Force behavior; unsupported multi-effect cards remain explicit. | unreviewed-chance-moves |
+| Shadow Tag | Block ordinary recall for eligible targets in confirmed abstract range, with rank target caps and reviewed Ground/Steel/Ghost exceptions. GM switching overrides remain explicit. User Switcher Moves respect trapping. Whether external forced replacement overrides printed blocking remains an explicit GM exception; no video-game precedence is assumed. | forced-switch-trapping-ruling |
+| Simple | Sourced stat changes trigger reviewed protection, once-only retaliation, single reflection, reversal or one additional point. Move and ability channels remain distinct. Reviewed ordinary stat cards and Parting Shot use the same sourced protection/reflection/reversal/retaliation path. | unreviewed-stat-moves |
+| Snow Cloak | Weather damage immunity; the table rule still limits Evasion to once per turn and five total actions per round. | See recorded scope |
 | Supersweet Syrup | Foes in confirmed range cannot Evade the holder moves; Clash remains available. Narrative encounter-rate changes remain GM adjudicated. | narrative-encounter-effects |
-| Synchronize | Reflect source-tracked statuses once, respecting immunities. GM status edits without an inflictor have no inferred source. |  |
-| Teravolt | Action-scoped foe type/damage/status immunity bypass, supported shields, decoys, redirection and charging-target access. Unique-effect stalemates, held items and unsupported effect blockers require GM adjudication. | unique-stalemates, held-item-system, unsupported-support-effects |
+| Synchronize | Reflect source-tracked statuses once, respecting immunities. GM status edits without an inflictor have no inferred source. | See recorded scope |
+| Teraform Zero | Active Terapagos removes supported battlefield effects, weather and terrain and suppresses ordinary abilities. Existing unique-ability protection remains; conflicting unique effects require a recorded GM ruling. | unique-ability-stalemate-ruling |
+| Teravolt | Action-scoped foe type/damage/status immunity bypass, supported shields, decoys, redirection and charging-target access. Unique-effect stalemates and unsupported effect blockers require GM adjudication. Reviewed holder immunities are integrated with the item definitions in engine 0.23. Force fields, Cover and non-unique forced-switch prevention are also bypassed in engine 0.22. | unique-stalemates, unsupported-support-effects |
+| Torrent | Water accuracy/damage ignore pain at every HP level. GM chooses the conflicting text two-dice versus icon one-die bonus; the chosen Water damage-pool bonus applies at half HP or less and is frozen for shared damage. Support moves require no damage-bonus ruling. | See recorded scope |
 | Triage | Reviewed Basic Heal and status-cure Support moves gain Reaction 1, including selected allies and multi-target cures. Existing action, capacity, target, Will and phase validation apply. Unsupported healing/cure definitions remain manual. | unsupported-healing-cure-definitions |
-| Turboblaze | Action-scoped foe type/damage/status immunity bypass, supported shields, decoys, redirection and charging-target access. Unique-effect stalemates, held items and unsupported effect blockers require GM adjudication. | unique-stalemates, held-item-system, unsupported-support-effects |
-| Unseen Fist | Non-ranged Physical Moves bypass Substitute/Shed Tail decoys. Remaining shield, force-field and Cover bypass hooks require implementation. | shield-force-field-cover-bypass |
+| Turboblaze | Action-scoped foe type/damage/status immunity bypass, supported shields, decoys, redirection and charging-target access. Unique-effect stalemates and unsupported effect blockers require GM adjudication. Reviewed holder immunities are integrated with the item definitions in engine 0.23. Force fields, Cover and non-unique forced-switch prevention are also bypassed in engine 0.22. | unique-stalemates, unsupported-support-effects |
 | White Smoke | Protect the reviewed stat changes through sourced battle effects and supported moves; Clear Body also rejects external increases and Flower Veil protects in-range allies. | unreviewed-stat-moves |
 | Wonder Guard | Prevent non-super-effective move damage and supported indirect damage; condition damage still applies. | ability-bypass-interactions |
-| Wonder Skin | Reduce chance dice for supported incoming added effects by two; independent selectors remain independent. | unreviewed-chance-moves |
+| Wonder Skin | Reduce chance dice for supported incoming added effects by two; independent selectors remain independent. Batch 5 adds 23 exact chance definitions with sourced status immunity, Shield Dust and Sheer Force behavior; unsupported multi-effect cards remain explicit. | unreviewed-chance-moves |
 
 ## References and completion discipline
 
