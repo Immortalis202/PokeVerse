@@ -7,6 +7,7 @@ pub(crate) mod abilities;
 pub(crate) mod ability_changes;
 pub(crate) mod chance_status;
 pub(crate) mod compound;
+pub(crate) mod cure_protection;
 pub(crate) mod decoys;
 pub(crate) mod direct_status;
 pub(crate) mod events;
@@ -80,6 +81,8 @@ pub struct TurnFlow {
     pub direct_status: bool,
     #[serde(default)]
     pub chance_status: bool,
+    #[serde(default)]
+    pub cure_protection: bool,
     #[serde(default)]
     pub compound: compound::CompoundState,
     #[serde(default)]
@@ -1115,6 +1118,7 @@ pub fn transition(
     if let Some(setup) = field::start_setup(a) {
         if ![
             ENGINE,
+            RECURRING_STATUS_ENGINE,
             COMPOUND_STATUS_ENGINE,
             CHANCE_STATUS_ENGINE,
             DIRECT_STATUS_ENGINE,
@@ -1168,6 +1172,7 @@ pub fn transition(
         items::completion::lifecycle(c, &mut next, cat)?;
         house::lifecycle(c, &mut next);
         compound::lifecycle(c, &mut next, a, cat)?;
+        cure_protection::cure_sleep(&mut next, cat)?;
         recurring::lifecycle(&mut next)?;
     }
     Ok((next, log))
@@ -3076,6 +3081,7 @@ fn transition_inner(
                 b.flow = Some(TurnFlow {
                     identity_moves: [
                         ENGINE,
+                        RECURRING_STATUS_ENGINE,
                         COMPOUND_STATUS_ENGINE,
                         CHANCE_STATUS_ENGINE,
                         DIRECT_STATUS_ENGINE,
@@ -3087,6 +3093,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     status_escalation: [
                         ENGINE,
+                        RECURRING_STATUS_ENGINE,
                         COMPOUND_STATUS_ENGINE,
                         CHANCE_STATUS_ENGINE,
                         DIRECT_STATUS_ENGINE,
@@ -3097,6 +3104,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     spite: [
                         ENGINE,
+                        RECURRING_STATUS_ENGINE,
                         COMPOUND_STATUS_ENGINE,
                         CHANCE_STATUS_ENGINE,
                         DIRECT_STATUS_ENGINE,
@@ -3106,6 +3114,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     will_drains: [
                         ENGINE,
+                        RECURRING_STATUS_ENGINE,
                         COMPOUND_STATUS_ENGINE,
                         CHANCE_STATUS_ENGINE,
                         DIRECT_STATUS_ENGINE,
@@ -3114,23 +3123,32 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     direct_status: [
                         ENGINE,
+                        RECURRING_STATUS_ENGINE,
                         COMPOUND_STATUS_ENGINE,
                         CHANCE_STATUS_ENGINE,
                         DIRECT_STATUS_ENGINE,
                     ]
                     .contains(&c.engine.as_str()),
-                    chance_status: [ENGINE, COMPOUND_STATUS_ENGINE, CHANCE_STATUS_ENGINE]
-                        .contains(&c.engine.as_str()),
+                    chance_status: [
+                        ENGINE,
+                        RECURRING_STATUS_ENGINE,
+                        COMPOUND_STATUS_ENGINE,
+                        CHANCE_STATUS_ENGINE,
+                    ]
+                    .contains(&c.engine.as_str()),
+                    cure_protection: c.engine == ENGINE,
                     recurring: Box::new(recurring::RecurringState {
-                        enabled: c.engine == ENGINE,
+                        enabled: [ENGINE, RECURRING_STATUS_ENGINE].contains(&c.engine.as_str()),
                         ..Default::default()
                     }),
                     compound: compound::CompoundState {
-                        enabled: [ENGINE, COMPOUND_STATUS_ENGINE].contains(&c.engine.as_str()),
+                        enabled: [ENGINE, RECURRING_STATUS_ENGINE, COMPOUND_STATUS_ENGINE]
+                            .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     house_rules: [
                         ENGINE,
+                        RECURRING_STATUS_ENGINE,
                         COMPOUND_STATUS_ENGINE,
                         CHANCE_STATUS_ENGINE,
                         DIRECT_STATUS_ENGINE,
@@ -3144,6 +3162,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     interaction_rules: [
                         ENGINE,
+                        RECURRING_STATUS_ENGINE,
                         COMPOUND_STATUS_ENGINE,
                         CHANCE_STATUS_ENGINE,
                         DIRECT_STATUS_ENGINE,
@@ -3160,6 +3179,7 @@ fn transition_inner(
                     standalone: standalone::StandaloneState {
                         enabled: [
                             ENGINE,
+                            RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
                             CHANCE_STATUS_ENGINE,
                             DIRECT_STATUS_ENGINE,
@@ -3179,6 +3199,7 @@ fn transition_inner(
                     information: information::InformationState {
                         enabled: [
                             ENGINE,
+                            RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
                             CHANCE_STATUS_ENGINE,
                             DIRECT_STATUS_ENGINE,
@@ -3199,6 +3220,7 @@ fn transition_inner(
                     forms: forms::FormState {
                         enabled: [
                             ENGINE,
+                            RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
                             CHANCE_STATUS_ENGINE,
                             DIRECT_STATUS_ENGINE,
@@ -3221,6 +3243,7 @@ fn transition_inner(
                         completion: items::completion::CompletionState {
                             enabled: [
                                 ENGINE,
+                                RECURRING_STATUS_ENGINE,
                                 COMPOUND_STATUS_ENGINE,
                                 CHANCE_STATUS_ENGINE,
                                 DIRECT_STATUS_ENGINE,
@@ -3237,6 +3260,7 @@ fn transition_inner(
                         },
                         enabled: [
                             ENGINE,
+                            RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
                             CHANCE_STATUS_ENGINE,
                             DIRECT_STATUS_ENGINE,
@@ -3259,6 +3283,7 @@ fn transition_inner(
                     events: events::EventState {
                         enabled: [
                             ENGINE,
+                            RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
                             CHANCE_STATUS_ENGINE,
                             DIRECT_STATUS_ENGINE,
@@ -3281,6 +3306,7 @@ fn transition_inner(
                     },
                     provenance_rules: [
                         ENGINE,
+                        RECURRING_STATUS_ENGINE,
                         COMPOUND_STATUS_ENGINE,
                         CHANCE_STATUS_ENGINE,
                         DIRECT_STATUS_ENGINE,
@@ -3303,6 +3329,7 @@ fn transition_inner(
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
                             CHANCE_STATUS_ENGINE,
                             DIRECT_STATUS_ENGINE,
@@ -3328,6 +3355,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
                             CHANCE_STATUS_ENGINE,
                             DIRECT_STATUS_ENGINE,
@@ -3353,6 +3381,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        RECURRING_STATUS_ENGINE,
                         COMPOUND_STATUS_ENGINE,
                         CHANCE_STATUS_ENGINE,
                         DIRECT_STATUS_ENGINE,
@@ -3378,6 +3407,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
                             CHANCE_STATUS_ENGINE,
                             DIRECT_STATUS_ENGINE,
@@ -3406,6 +3436,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
                             CHANCE_STATUS_ENGINE,
                             DIRECT_STATUS_ENGINE,
@@ -3435,6 +3466,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
                             CHANCE_STATUS_ENGINE,
                             DIRECT_STATUS_ENGINE,
@@ -3465,6 +3497,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
                             CHANCE_STATUS_ENGINE,
                             DIRECT_STATUS_ENGINE,
@@ -3496,6 +3529,7 @@ fn transition_inner(
                     special: special::SpecialState {
                         enabled: [
                             ENGINE,
+                            RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
                             CHANCE_STATUS_ENGINE,
                             DIRECT_STATUS_ENGINE,
@@ -3527,6 +3561,7 @@ fn transition_inner(
                     },
                     ability_rules: [
                         ENGINE,
+                        RECURRING_STATUS_ENGINE,
                         COMPOUND_STATUS_ENGINE,
                         CHANCE_STATUS_ENGINE,
                         DIRECT_STATUS_ENGINE,
@@ -3560,6 +3595,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
                             CHANCE_STATUS_ENGINE,
                             DIRECT_STATUS_ENGINE,
@@ -3593,6 +3629,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
                             CHANCE_STATUS_ENGINE,
                             DIRECT_STATUS_ENGINE,
@@ -3931,7 +3968,8 @@ fn set_status_from(
         immune
     };
     if (!ring || house::enabled(c))
-        && (field::prevents_status(c, p, kind)
+        && ((field::prevents_status(c, p, kind)
+            || cure_protection::prevents_status(c, p, source, cat))
             || (kind == "Burn"
                 && p.runtime
                     .statuses
@@ -4024,6 +4062,7 @@ fn set_status_from(
         progress,
         elapsed_rounds,
     });
+    cure_protection::cure_sleep(c, cat)?;
     recurring::on_status(c, id, &applied, source)?;
     extra::after_status(c, id, &applied)?;
     if applied.contains("Poison") {
@@ -4148,6 +4187,9 @@ fn effect_dice(c: &Campaign, q: &QueuedAction, cat: &Catalog) -> Result<u32> {
 }
 fn base_effect_dice(c: &Campaign, q: &QueuedAction, _cat: &Catalog) -> Result<u32> {
     if provenance::enabled(c) && q.sheer_force && !provenance::retained_attributes(q, _cat)? {
+        return Ok(0);
+    }
+    if cure_protection::handles(c, &q.move_name) {
         return Ok(0);
     }
     if let Some(n) = recurring::effect_dice(c, q, _cat)? {
@@ -4278,6 +4320,9 @@ fn effects_inner_base(
         return Ok(());
     }
     if tactics::move_effect(c, q, cat)? {
+        return Ok(());
+    }
+    if cure_protection::effect(c, q, cat)? {
         return Ok(());
     }
     if recurring::effect(c, q, dice, cat)? {

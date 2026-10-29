@@ -25,6 +25,7 @@ export type TurnFlow = {
   will_drains: boolean;
   direct_status: boolean;
   chance_status: boolean;
+  cure_protection: boolean;
   compound: CompoundState;
   recurring: RecurringState;
   identity_moves: boolean;

@@ -812,6 +812,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
     let ended = decision(&c, "gm", Action::EndBattle);
     for engine in [
         ENGINE,
+        RECURRING_STATUS_ENGINE,
         COMPOUND_STATUS_ENGINE,
         CHANCE_STATUS_ENGINE,
         DIRECT_STATUS_ENGINE,
@@ -845,6 +846,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.direct_status,
             [
                 ENGINE,
+                RECURRING_STATUS_ENGINE,
                 COMPOUND_STATUS_ENGINE,
                 CHANCE_STATUS_ENGINE,
                 DIRECT_STATUS_ENGINE
@@ -853,17 +855,28 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
         );
         assert_eq!(
             flow.chance_status,
-            [ENGINE, COMPOUND_STATUS_ENGINE, CHANCE_STATUS_ENGINE].contains(&engine)
+            [
+                ENGINE,
+                RECURRING_STATUS_ENGINE,
+                COMPOUND_STATUS_ENGINE,
+                CHANCE_STATUS_ENGINE
+            ]
+            .contains(&engine)
         );
         assert_eq!(
             flow.compound.enabled,
-            [ENGINE, COMPOUND_STATUS_ENGINE].contains(&engine)
+            [ENGINE, RECURRING_STATUS_ENGINE, COMPOUND_STATUS_ENGINE].contains(&engine)
         );
-        assert_eq!(flow.recurring.enabled, engine == ENGINE);
+        assert_eq!(
+            flow.recurring.enabled,
+            [ENGINE, RECURRING_STATUS_ENGINE].contains(&engine)
+        );
+        assert_eq!(flow.cure_protection, engine == ENGINE);
         assert_eq!(
             flow.spite,
             [
                 ENGINE,
+                RECURRING_STATUS_ENGINE,
                 COMPOUND_STATUS_ENGINE,
                 CHANCE_STATUS_ENGINE,
                 DIRECT_STATUS_ENGINE,
@@ -876,6 +889,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.will_drains,
             [
                 ENGINE,
+                RECURRING_STATUS_ENGINE,
                 COMPOUND_STATUS_ENGINE,
                 CHANCE_STATUS_ENGINE,
                 DIRECT_STATUS_ENGINE,
@@ -887,6 +901,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.status_escalation,
             [
                 ENGINE,
+                RECURRING_STATUS_ENGINE,
                 COMPOUND_STATUS_ENGINE,
                 CHANCE_STATUS_ENGINE,
                 DIRECT_STATUS_ENGINE,
@@ -900,6 +915,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.identity_moves,
             [
                 ENGINE,
+                RECURRING_STATUS_ENGINE,
                 COMPOUND_STATUS_ENGINE,
                 CHANCE_STATUS_ENGINE,
                 DIRECT_STATUS_ENGINE,
@@ -914,6 +930,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.interaction_rules,
             [
                 ENGINE,
+                RECURRING_STATUS_ENGINE,
                 COMPOUND_STATUS_ENGINE,
                 CHANCE_STATUS_ENGINE,
                 DIRECT_STATUS_ENGINE,
@@ -932,6 +949,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.items.completion.enabled,
             [
                 ENGINE,
+                RECURRING_STATUS_ENGINE,
                 COMPOUND_STATUS_ENGINE,
                 CHANCE_STATUS_ENGINE,
                 DIRECT_STATUS_ENGINE,
@@ -949,6 +967,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.house_rules,
             [
                 ENGINE,
+                RECURRING_STATUS_ENGINE,
                 COMPOUND_STATUS_ENGINE,
                 CHANCE_STATUS_ENGINE,
                 DIRECT_STATUS_ENGINE,
@@ -965,6 +984,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.forms.enabled,
             [
                 ENGINE,
+                RECURRING_STATUS_ENGINE,
                 COMPOUND_STATUS_ENGINE,
                 CHANCE_STATUS_ENGINE,
                 DIRECT_STATUS_ENGINE,
@@ -986,6 +1006,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.information.enabled,
             [
                 ENGINE,
+                RECURRING_STATUS_ENGINE,
                 COMPOUND_STATUS_ENGINE,
                 CHANCE_STATUS_ENGINE,
                 DIRECT_STATUS_ENGINE,
@@ -1006,6 +1027,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.standalone.enabled,
             [
                 ENGINE,
+                RECURRING_STATUS_ENGINE,
                 COMPOUND_STATUS_ENGINE,
                 CHANCE_STATUS_ENGINE,
                 DIRECT_STATUS_ENGINE,

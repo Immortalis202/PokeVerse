@@ -411,7 +411,7 @@ pub fn has(c: &Campaign, name: &str, p: &Combatant) -> bool {
             .iter()
             .any(|r| r.kind == name && applies(&r.scope, p))
 }
-fn insert(
+pub(super) fn insert(
     c: &mut Campaign,
     kind: &str,
     source: &str,
@@ -903,22 +903,7 @@ pub fn reduction(
     if special::vulnerable(c, &target.id, m["Name"].as_str().unwrap_or("")) {
         n -= 2;
     }
-    if !interactions::cover_bypass(c, &source.id, m)
-        && !source.has_ability("Infiltrator")
-        && !(special::enabled(c)
-            && (m["Attributes"]["SoundMove"] == true
-                || [
-                    "Phantom Force",
-                    "Shadow Force",
-                    "Hyperspace Hole",
-                    "Hyperspace Fury",
-                    "Doom Desire",
-                    "Future Sight",
-                ]
-                .contains(&m["Name"].as_str().unwrap_or(""))
-                || special::vulnerable(c, &target.id, m["Name"].as_str().unwrap_or(""))))
-        && !["Brick Break", "Psychic Fangs"].contains(&m["Name"].as_str().unwrap_or(""))
-    {
+    if !force_field_bypass(c, source, target, m) {
         n += state(c)
             .unwrap()
             .rules
@@ -934,6 +919,28 @@ pub fn reduction(
             .unwrap_or(0);
     }
     n
+}
+pub(super) fn force_field_bypass(
+    c: &Campaign,
+    source: &Combatant,
+    target: &Combatant,
+    m: &serde_json::Value,
+) -> bool {
+    !(!interactions::cover_bypass(c, &source.id, m)
+        && !source.has_ability("Infiltrator")
+        && !(special::enabled(c)
+            && (m["Attributes"]["SoundMove"] == true
+                || [
+                    "Phantom Force",
+                    "Shadow Force",
+                    "Hyperspace Hole",
+                    "Hyperspace Fury",
+                    "Doom Desire",
+                    "Future Sight",
+                ]
+                .contains(&m["Name"].as_str().unwrap_or(""))
+                || special::vulnerable(c, &target.id, m["Name"].as_str().unwrap_or(""))))
+        && !["Brick Break", "Psychic Fangs"].contains(&m["Name"].as_str().unwrap_or("")))
 }
 pub fn prevents_status(c: &Campaign, p: &Combatant, kind: &str) -> bool {
     has(c, "Misty Terrain", p)
@@ -1109,8 +1116,10 @@ pub fn move_effect(c: &mut Campaign, q: &QueuedAction, cat: &Catalog) -> Result<
         }
         "Burn Up" => type_rule(c, &q.actor_id, "remove", &["Fire".into()])?,
         "Defog" => {
+            let safeguard = cure_protection::enabled(c);
             state_mut(c).rules.retain(|r| {
-                !(r.kind.ends_with("Terrain")
+                !((safeguard && r.kind == "Safeguard")
+                    || r.kind.ends_with("Terrain")
                     || [
                         "Reflect",
                         "Light Screen",

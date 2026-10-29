@@ -1,9 +1,9 @@
 {
   "version": 1,
   "date": "2026-10-29",
-  "release": "0.40.0",
-  "engine": "0.33.0-core",
-  "scope": "892-card effect-route inventory; focused semantic review of status infliction, cure and protection clauses. M2-A, M2-B, M2-C and M2-D battle status clauses delivered; see scoped registries and retained choices.",
+  "release": "0.41.0",
+  "engine": "0.34.0-core",
+  "scope": "892-card effect-route inventory; focused semantic review of status infliction, cure and protection clauses. M2-A through M2-E battle status clauses delivered; see scoped registries and retained choices.",
   "limits": [
     "An executable route is not full card coverage.",
     "Probes bypass accuracy, damage, timing and public command permissions; no native or network acceptance is implied.",
@@ -19,17 +19,14 @@
   "counts": {
     "routes": {
       "excluded": 38,
-      "executable-scope": 455,
+      "executable-scope": 458,
       "gm-choice": 1,
       "input-required": 12,
-      "manual-effect-route": 386
+      "manual-effect-route": 383
     },
     "status_clauses": {
       "excluded": 6,
-      "implemented-clause": 169,
-      "missing-effect": 2,
-      "missing-move-entry": 1,
-      "partial-clause": 1,
+      "implemented-clause": 173,
       "source-discrepancy": 1
     }
   },
@@ -30325,30 +30322,44 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/cure-protection-moves.json",
+          "status": "automated",
+          "scope": "Own side, four rounds including cast round; all new structured conditions blocked, existing conditions retained. Reuses current force-field bypass rules for hostile sources and removal by Screen Cleaner/Defog.",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-E",
-        "reason": "Safeguard is named only by Screen Cleaner cleanup. Neither its move installation nor its condition-immunity predicate is implemented; the effect resolver falls through.",
-        "evidence": [
-          "src-tauri/src/combat/field.rs:move_effect",
-          "src-tauri/src/combat/field.rs:screen_cleaner"
-        ]
+        "completed": true,
+        "reason": "Reviewed cure/protection and hazard entry path; see rules/cure-protection-moves.json."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -34176,6 +34187,12 @@
       "excluded_clauses": [],
       "declared_scopes": [
         {
+          "registry": "rules/cure-protection-moves.json",
+          "status": "automated",
+          "scope": "Per target: existing Burn cure and Support conversion retained; unburned targets complete normal Special damage and a successful zero-dice effect.",
+          "dependencies": []
+        },
+        {
           "registry": "rules/special-moves.json",
           "status": "automated",
           "scope": "Reviewed HP/status recovery, Will costs, caps, conditional healing, duration, delayed/ongoing recovery, choices and explicit revival exceptions. No automatic Will recovery.",
@@ -34184,13 +34201,10 @@
         }
       ],
       "status_audit": {
-        "status": "partial-clause",
+        "status": "implemented-clause",
         "batch": "M2-E",
-        "reason": "Burned-target cure and Support conversion exist; the unburned-target effect phase falls through to manual_rule. Repair the normal damage/no-cure branch; do not reimplement the existing cure.",
-        "evidence": [
-          "src-tauri/src/combat/special.rs:effects",
-          "src-tauri/src/combat/special.rs:move_data"
-        ]
+        "completed": true,
+        "reason": "Reviewed cure/protection and hazard entry path; see rules/cure-protection-moves.json."
       },
       "probe": {
         "ailments": {
@@ -34208,9 +34222,9 @@
           ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -39198,30 +39212,44 @@
         "TerrainEffect": "ToxicSpikes"
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/cure-protection-moves.json",
+          "status": "automated",
+          "scope": "Install persistent opponents-of-side hazard; no video-game layer stacking. Existing entry handler rolls one host Chance die, Poison normally or Badly Poisoned on six; existing Ground immunity, Boots, status protection and hazard removals retained.",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-move-entry",
+        "status": "implemented-clause",
         "batch": "M2-E",
-        "reason": "Poison hazard entry resolution exists for Toxic Debris/GM field state, but the Toxic Spikes move has no install branch in field::move_effect.",
-        "evidence": [
-          "src-tauri/src/combat/field.rs:move_effect",
-          "src-tauri/src/combat/field.rs:toxic_debris"
-        ]
+        "completed": true,
+        "reason": "Reviewed cure/protection and hazard entry path; see rules/cure-protection-moves.json."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -40292,29 +40320,42 @@
       },
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/cure-protection-moves.json",
+          "status": "automated",
+          "scope": "Normal Random Foe damage, GM records the foe as in the existing targeting pipeline. Successful effect establishes all-field Sleep cure for the remainder of this round, including later inflictions/entries. Soundproof and Comatose retained. This is not a multi-turn rampage.",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-E",
-        "reason": "Printed battlefield-wide Sleep cure and one-round lifecycle have no executable move effect; random-foe targeting is a separate requirement.",
-        "evidence": [
-          "src-tauri/src/combat.rs:effects_inner_base"
-        ]
+        "completed": true,
+        "reason": "Reviewed cure/protection and hazard entry path; see rules/cure-protection-moves.json."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },

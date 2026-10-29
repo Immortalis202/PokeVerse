@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.33.0-core",
-  "release": "0.40.0",
-  "protocol": 41,
+  "engine": "0.34.0-core",
+  "release": "0.41.0",
+  "protocol": 42,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -623,6 +623,18 @@
         "compound_venom_drench_watches_same_round_poison_once_and_expires"
       ],
       "scope": "28 compound/conditional battle move clauses, saved-state and owner/GM choices. Permanent Beauty learning/forgetting and the rest of Minimize remain explicit boundaries."
+    },
+    {
+      "id": "cure-protection-moves",
+      "status": "automated",
+      "source": "MASTER 499,505,509,526",
+      "fixtures": [
+        "cure_protection_safeguard_preserves_existing_conditions_blocks_all_new_conditions_on_own_side",
+        "cure_protection_sparkling_aria_resolves_burned_and_unburned_targets",
+        "cure_protection_uproar_cures_all_sides_and_new_sleep_for_only_current_round",
+        "cure_protection_toxic_spikes_cast_reuses_persistent_entry_chance_and_immunities"
+      ],
+      "scope": "M2-E four reviewed battle clauses: side-wide Safeguard, per-target Sparkling Aria cure/damage, one-round Uproar Sleep cure, Toxic Spikes move installation through the existing hazard system. Current encounter gate only."
     }
   ],
   "ability_registry_hash": "edd27e9c00f7b2463118affdf4310cb15a42f271d543a700d9993c1d36631c88",
@@ -635,5 +647,6 @@
   "identity_registry_hash": "4b6e4c6aa7c463c80339f337901fac82e924eca1d98c7fd0b6d1687a748fc22a",
   "chance_status_registry_hash": "aa09a6376ac0d04ed61a864c33f5f45a1813f38212c571678db4197a674b6965",
   "compound_status_registry_hash": "a199335706695fd174364f6caf647724f629ebd19c6c32f446bc941f0193f956",
-  "recurring_status_registry_hash": "a9c2856aaae67f89c61378e869603640b8fe356a8c66f443f734dda5c6592fa5"
+  "recurring_status_registry_hash": "a9c2856aaae67f89c61378e869603640b8fe356a8c66f443f734dda5c6592fa5",
+  "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb"
 }

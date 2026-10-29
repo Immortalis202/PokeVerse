@@ -1673,11 +1673,12 @@ pub fn effects(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) -
             heal(c, t, 2, false)?;
         }
         "Sparkling Aria"
-            if fighter(c, t)?
-                .runtime
-                .statuses
-                .iter()
-                .any(|s| s.kind.starts_with("Burn")) =>
+            if cure_protection::enabled(c)
+                || fighter(c, t)?
+                    .runtime
+                    .statuses
+                    .iter()
+                    .any(|s| s.kind.starts_with("Burn")) =>
         {
             fighter_mut(c, t)?
                 .runtime

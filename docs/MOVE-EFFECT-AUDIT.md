@@ -1,6 +1,6 @@
 # Move-effect audit: milestone 1
 
-Snapshot refreshed: 29 October 2026, app **0.40.0**, engine **0.33.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-D deliver 103 audited battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep).**
+Snapshot refreshed: 29 October 2026, app **0.41.0**, engine **0.34.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
 
 ## Deliverables and limits
 
@@ -18,28 +18,25 @@ The diagnostic deliberately bypasses accuracy, damage, targeting expansion, acti
 
 | Effect-route result | Cards | Meaning |
 | --- | ---: | --- |
-| executable-scope | 455 | At least one probe resolves; only recorded scopes are asserted. |
+| executable-scope | 458 | At least one probe resolves; only recorded scopes are asserted. |
 | input-required | 12 | Existing handler requests a selection, resource, weather or other legitimate prerequisite. |
-| manual-effect-route | 386 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
+| manual-effect-route | 383 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
 | gm-choice | 1 | Hold Hands: narrative battle-ending decision remains with the storyteller. |
 | excluded | 38 | Supplied Max/Z cards and the user-excluded Sappy Seed. |
 
-These totals sum to 892. **386 manual-effect-route results are not 386 new mechanics or an instruction to implement every card.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
+These totals sum to 892. **383 manual-effect-route results are not 383 new mechanics or an instruction to implement every card.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
 
 | Focused status result | Cards |
 | --- | ---: |
 | excluded | 6 |
-| implemented-clause | 169 |
-| missing-effect | 2 |
-| missing-move-entry | 1 |
-| partial-clause | 1 |
+| implemented-clause | 173 |
 | source-discrepancy | 1 |
 
-The actionable implementation queue contains **4 cards**: 2 missing effects, Toxic Spikes' missing move installation and Sparkling Aria's incomplete branch. These cards form M2-E below; M2-A through M2-D are delivered. A further 169 cards already have a named implemented status clause, six are excluded, and Healing Wish has a source-metadata discrepancy. These 180 classifications are about the audited clauses; an implemented cure does not certify every targeting, range or damage clause on that move.
+The M2 implementation queue is complete at its reviewed battle scope: **0 queued cards remain**. All five batches are delivered. Of the 180 focused classifications, 173 have implemented clauses, six are excluded, and Healing Wish retains its source-metadata discrepancy. Source choices, narrative exclusions and unrelated card clauses remain documented; an implemented cure does not certify every targeting, range or damage clause on that move.
 
 ## Milestone 2: implementation queue
 
-Complete one coherent sub-batch, run relevant regressions, update this inventory and commit before proceeding. M2-A through M2-D are delivered; M2-E remains planned.
+Complete one coherent sub-batch, run relevant regressions, update this inventory and commit before proceeding. M2-A through M2-E are delivered. The next milestone is M3 battlefield/ice edge-case review.
 
 ### M2-A. Direct status application (22 cards) — completed in 0.37.0
 
@@ -67,9 +64,9 @@ Delivered via [recurring battle rules](battle-recurring-status.md) and [source r
 
 Malignant Chain, Nightmare, Perish Song, Sleep Talk, Snore, Yawn.
 
-### M2-E. Cure/protection and missing entry paths (4 cards)
+### M2-E. Cure/protection and missing entry paths (4 cards) - completed in 0.41.0
 
-Uproar needs its printed battlefield Sleep cure and one-round scope. Sparkling Aria already has Burn curing and Support conversion for burned targets; repair its unburned-target effect branch. Safeguard has a cleanup reference but no cast or immunity implementation. Toxic Spikes already has hazard entry behavior through Toxic Debris/field state; add the move installation path, not a duplicate hazard system.
+Delivered via [cure/protection rules](battle-cure-protection.md) and [source registry](../rules/cure-protection-moves.json): Uproar cures Sleep across the field for the rest of its cast round, retaining Soundproof/Comatose and existing GM random-foe selection. Sparkling Aria resolves unburned targets and keeps per-target Burn curing/Support conversion. Safeguard protects the user's side for four rounds without curing existing conditions, sharing force-field bypass and removal behavior. Toxic Spikes casts into the existing persistent hazard system and reuses its entry Chance roll, immunities and cleanup.
 
 Safeguard, Sparkling Aria, Toxic Spikes, Uproar.
 
@@ -169,4 +166,9 @@ See [the delivered clauses, source discrepancies, controls and retained boundari
 
 ## M2-D verification (29 October 2026)
 
-See [recurring battle effects and retained choices](battle-recurring-status.md). All 762 Rust tests passed (640 runtime and 122 serial binding exports), with 17 recurring test groups. The final benched-owner permission adjustment was also checked by rerunning those 17 groups. TypeScript, 71 frontend tests, 30 script/catalog checks, Rust formatting and diff checks passed. All 892 effect routes were refreshed in both profiles. The new recurring state is boxed to keep ordinary battle transition stack usage bounded while preserving its serialized shape. No Clippy, app packaging, native UI or physical-network acceptance was run. M2-E has four remaining cards.
+See [recurring battle effects and retained choices](battle-recurring-status.md). All 762 Rust tests passed (640 runtime and 122 serial binding exports), with 17 recurring test groups. The final benched-owner permission adjustment was also checked by rerunning those 17 groups. TypeScript, 71 frontend tests, 30 script/catalog checks, Rust formatting and diff checks passed. All 892 effect routes were refreshed in both profiles. The new recurring state is boxed to keep ordinary battle transition stack usage bounded while preserving its serialized shape. No Clippy, app packaging, native UI or physical-network acceptance was run. At that checkpoint, M2-E had four remaining cards; they are delivered below.
+
+
+## M2-E verification (29 October 2026)
+
+All 774 Rust tests passed (652 runtime and 122 serial binding exports), including 12 new cure/protection test groups. The groups cover four-round expiry, every structured condition, retained existing conditions, hostile Infiltrator/sound bypass, field cleanup, mixed-area Burn cure versus damage, one-round Sleep cure and later inflictions, Soundproof/Comatose, hazard entry Chance dice, Ground immunity, recast non-stacking, permissions, serialization, rollback and historical gates. TypeScript, 71 frontend tests, 31 script/catalog checks, Rust formatting and diff checks passed. All 892 effect routes were refreshed in both profiles, with the four M2-E baseline routes asserted executable. No Clippy, app packaging, native UI or physical-network acceptance was run. The M2 queue is complete at its reviewed scope; M3 is next.

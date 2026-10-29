@@ -41,7 +41,7 @@ test("status queue distinguishes missing clauses from existing scopes and input 
   );
   assert.equal(
     byName.get("Sparkling Aria").status_audit.status,
-    "partial-clause",
+    "implemented-clause",
   );
   assert.equal(
     byName.get("Healing Wish").status_audit.status,
@@ -61,7 +61,7 @@ test("status queue distinguishes missing clauses from existing scopes and input 
     (m) =>
       m.status_audit?.batch?.startsWith("M2-") && !m.status_audit?.completed,
   );
-  assert.equal(planned.length, 4);
+  assert.equal(planned.length, 0);
   assert.ok(planned.every((m) => m.route !== "excluded"));
   const delivered = read("rules/direct-status-moves.json");
   assert.equal(delivered.moves.length, 22);
@@ -259,4 +259,25 @@ test("recurring registry preserves all six sources and printed references", () =
       r.printed_review[name].pdf_page,
     );
   }
+});
+
+test("M2-E preserves four source cards and completes the audited status queue", () => {
+  const r = read("rules/cure-protection-moves.json");
+  assert.equal(Object.keys(r.moves).length, 4);
+  for (const [name, d] of Object.entries(r.moves)) {
+    assert.equal(d.effect, byName.get(name).effect);
+    assert.equal(d.sha256, byName.get(name).sha256);
+    assert.equal(byName.get(name).status_audit.batch, "M2-E");
+    assert.equal(byName.get(name).status_audit.completed, true);
+    assert.equal(
+      r.printed_review[name].printed_page - 133,
+      r.printed_review[name].pdf_page,
+    );
+  }
+  assert.ok(
+    !audit.moves.some(
+      (m) =>
+        m.status_audit?.batch?.startsWith("M2-") && !m.status_audit.completed,
+    ),
+  );
 });

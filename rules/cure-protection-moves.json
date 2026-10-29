@@ -1,0 +1,69 @@
+{
+  "engine": "0.34.0-core",
+  "release": "0.41.0",
+  "batch": "M2-E",
+  "moves": {
+    "Safeguard": {
+      "effect": "Target User's side of the Field. Force Field. Those affected are immune to all Status Ailements/Conditions. Previously inflicted Status Ailments/Conditions remain. Duration 4 Rounds.",
+      "source": "Pokerole-Data/v3.0/Moves/Safeguard.json",
+      "sha256": "e6fa756fa5f4608db2e81676ea43392b3d509e2a74a4ad20119ff3c58d056146",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Safeguard",
+            "Affects": "Targets"
+          }
+        ]
+      }
+    },
+    "Sparkling Aria": {
+      "effect": "Area Move. Sound Move. *If an effected Pokemon had any level of Burn Status Condition, heal it instead of dealing damage.",
+      "source": "Pokerole-Data/v3.0/Moves/Sparkling Aria.json",
+      "sha256": "78f701d16f87497e32fbd3d2f98dc1435301b7ad5e5a34cae2468fda57be4b86",
+      "added_effects": {}
+    },
+    "Toxic Spikes": {
+      "effect": "Target Foe's side of the Field. Entry Hazard. Foes who enter the battlefield become Poisoned. Roll 1 Chance Die for them to become Badly Poisoned instead. Pokemon with immunity to Ground-Type Moves are not affected.",
+      "source": "Pokerole-Data/v3.0/Moves/Toxic Spikes.json",
+      "sha256": "3341568c06fb3b21675e3117e9d026d7fe151ed2e1d203fc6fa3ee6b56caa55e",
+      "added_effects": {
+        "TerrainEffect": "ToxicSpikes"
+      }
+    },
+    "Uproar": {
+      "effect": "Target Random Foe. Sound Move. This Effect Targets the Battle Field: Pokemon will be cured of the Sleep Status. Duration 1 Round.",
+      "source": "Pokerole-Data/v3.0/Moves/Uproar.json",
+      "sha256": "ba973e450db22aa61b2136253d2e0133f553f38dfe0f0011d4106f2c9b9c5d05",
+      "added_effects": {}
+    }
+  },
+  "printed_source": {
+    "source": "Pokerole-Data/POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+    "sha256": "f8a1ab8c7c059c1e32b658a6770893e58f364fd4c8d28ca87ec912154cfd6cc2",
+    "reviewed_cards": 28
+  },
+  "printed_review": {
+    "Safeguard": {
+      "printed_page": 499,
+      "pdf_page": 366
+    },
+    "Sparkling Aria": {
+      "printed_page": 526,
+      "pdf_page": 393
+    },
+    "Toxic Spikes": {
+      "printed_page": 509,
+      "pdf_page": 376
+    },
+    "Uproar": {
+      "printed_page": 505,
+      "pdf_page": 372
+    }
+  },
+  "decisions": {
+    "Safeguard": "Own side, four rounds including cast round; all new structured conditions blocked, existing conditions retained. Reuses current force-field bypass rules for hostile sources and removal by Screen Cleaner/Defog.",
+    "Sparkling Aria": "Per target: existing Burn cure and Support conversion retained; unburned targets complete normal Special damage and a successful zero-dice effect.",
+    "Toxic Spikes": "Install persistent opponents-of-side hazard; no video-game layer stacking. Existing entry handler rolls one host Chance die, Poison normally or Badly Poisoned on six; existing Ground immunity, Boots, status protection and hazard removals retained.",
+    "Uproar": "Normal Random Foe damage, GM records the foe as in the existing targeting pipeline. Successful effect establishes all-field Sleep cure for the remainder of this round, including later inflictions/entries. Soundproof and Comatose retained. This is not a multi-turn rampage."
+  }
+}

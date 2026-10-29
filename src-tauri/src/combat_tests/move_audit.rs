@@ -33,6 +33,7 @@ fn move_effect_route_inventory() {
             f.chance_status = true;
             f.compound.enabled = true;
             f.recurring.enabled = true;
+            f.cure_protection = true;
             f.identity_moves = true;
             f.house_rules = true;
             f.interaction_rules = true;
@@ -141,7 +142,13 @@ fn move_effect_route_inventory() {
         row("Wild Charge")["scenarios"]["baseline"]["target_statuses"],
         serde_json::json!(["Paralysis"])
     );
-    assert!(missing("Sparkling Aria"));
+    for name in ["Safeguard", "Sparkling Aria", "Toxic Spikes", "Uproar"] {
+        assert_eq!(
+            row(name)["scenarios"]["baseline"]["result"],
+            "route_resolved",
+            "{name}"
+        );
+    }
     assert_eq!(
         row("Sparkling Aria")["scenarios"]["ailments"]["result"],
         "route_resolved"
