@@ -61,7 +61,7 @@ test("status queue distinguishes missing clauses from existing scopes and input 
     (m) =>
       m.status_audit?.batch?.startsWith("M2-") && !m.status_audit?.completed,
   );
-  assert.equal(planned.length, 10);
+  assert.equal(planned.length, 4);
   assert.ok(planned.every((m) => m.route !== "excluded"));
   const delivered = read("rules/direct-status-moves.json");
   assert.equal(delivered.moves.length, 22);
@@ -245,4 +245,18 @@ test("M2-C preserves all 28 source identities, independent pool order and printe
   );
   assert.equal(forms.species["0648:meloetta-pirouette-form"], undefined);
   assert.equal(byName.get("Secret Power").route, "input-required");
+});
+
+test("recurring registry preserves all six sources and printed references", () => {
+  const r = read("rules/recurring-status-moves.json");
+  assert.equal(Object.keys(r.moves).length, 6);
+  for (const [name, d] of Object.entries(r.moves)) {
+    assert.equal(d.effect, byName.get(name).effect);
+    assert.equal(d.sha256, byName.get(name).sha256);
+    assert.equal(byName.get(name).status_audit.batch, "M2-D");
+    assert.equal(
+      r.printed_review[name].printed_page - 133,
+      r.printed_review[name].pdf_page,
+    );
+  }
 });

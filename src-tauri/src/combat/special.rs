@@ -167,6 +167,9 @@ pub fn preparing(c: &Campaign) -> bool {
     enabled(c) && state(c).series.as_ref().is_some_and(|s| s.preparing)
 }
 pub fn repeat(c: &Campaign, id: &str, name: &str) -> bool {
+    if recurring::copy_matches(c, id, name) {
+        return true;
+    }
     enabled(c)
         && (state(c)
             .series
@@ -691,6 +694,14 @@ pub fn accuracy_guard(c: &Campaign, id: &str, name: &str) -> Result<()> {
     Ok(())
 }
 pub fn ready_move(c: &Campaign, id: &str, name: &str) -> Result<()> {
+    if recurring::sleep_allowed(c, id, name) {
+        let mut permitted = c.clone();
+        fighter_mut(&mut permitted, id)?
+            .runtime
+            .statuses
+            .retain(|s| s.kind != "Sleep");
+        return ready(&permitted, id);
+    }
     if enabled(c) && name == "Matcha Gotcha" {
         let mut next = c.clone();
         fighter_mut(&mut next, id)?
@@ -966,7 +977,7 @@ pub fn lifecycle(_before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<
     }
     Ok(())
 }
-fn indirect(c: &mut Campaign, id: &str, n: i32) -> Result<()> {
+pub(super) fn indirect(c: &mut Campaign, id: &str, n: i32) -> Result<()> {
     let ring = fighter(c, id).is_ok_and(|p| house::ring(c, p));
     let p = fighter_mut(c, id)?;
     if ring || !p.has_any_ability(&["Magic Guard", "Wonder Guard"]) {
@@ -2735,6 +2746,9 @@ pub fn target_guard(c: &Campaign, source: &str, id: &str, m: &serde_json::Value)
         return Ok(());
     }
     let name = m["Name"].as_str().unwrap_or("");
+    if recurring::enabled(c) && name == "Nightmare" && !status(fighter(c, id)?, "Sleep") {
+        return Err(error("Nightmare requires a sleeping target"));
+    }
     if name == "Dream Eater" && !status(fighter(c, id)?, "Sleep") {
         return Err(error("Dream Eater requires a sleeping target"));
     }
@@ -2966,6 +2980,7 @@ pub fn modifier(c: &Campaign, p: &Combatant, key: &str) -> Option<i32> {
 }
 pub fn guard(c: &Campaign, id: &str, m: &serde_json::Value, cat: &Catalog) -> Result<()> {
     items::guard_move(c, id, m, cat)?;
+    recurring::guard(c, id, m["Name"].as_str().unwrap_or(""))?;
     compound::guard(c, id, m["Name"].as_str().unwrap_or(""), cat)?;
     if !enabled(c) {
         return Ok(());

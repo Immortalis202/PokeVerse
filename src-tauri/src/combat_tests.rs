@@ -1223,3 +1223,6 @@ mod chance_status_tests;
 
 #[path = "combat_tests/compound_tests.rs"]
 mod compound_tests;
+
+#[path = "combat_tests/recurring_tests.rs"]
+mod recurring_tests;

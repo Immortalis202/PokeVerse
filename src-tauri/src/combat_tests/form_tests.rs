@@ -812,6 +812,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
     let ended = decision(&c, "gm", Action::EndBattle);
     for engine in [
         ENGINE,
+        COMPOUND_STATUS_ENGINE,
         CHANCE_STATUS_ENGINE,
         DIRECT_STATUS_ENGINE,
         WILL_ENGINE,
@@ -842,17 +843,28 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
         let flow = n.battle.as_ref().unwrap().flow.as_ref().unwrap();
         assert_eq!(
             flow.direct_status,
-            [ENGINE, CHANCE_STATUS_ENGINE, DIRECT_STATUS_ENGINE].contains(&engine)
+            [
+                ENGINE,
+                COMPOUND_STATUS_ENGINE,
+                CHANCE_STATUS_ENGINE,
+                DIRECT_STATUS_ENGINE
+            ]
+            .contains(&engine)
         );
         assert_eq!(
             flow.chance_status,
-            [ENGINE, CHANCE_STATUS_ENGINE].contains(&engine)
+            [ENGINE, COMPOUND_STATUS_ENGINE, CHANCE_STATUS_ENGINE].contains(&engine)
         );
-        assert_eq!(flow.compound.enabled, engine == ENGINE);
+        assert_eq!(
+            flow.compound.enabled,
+            [ENGINE, COMPOUND_STATUS_ENGINE].contains(&engine)
+        );
+        assert_eq!(flow.recurring.enabled, engine == ENGINE);
         assert_eq!(
             flow.spite,
             [
                 ENGINE,
+                COMPOUND_STATUS_ENGINE,
                 CHANCE_STATUS_ENGINE,
                 DIRECT_STATUS_ENGINE,
                 WILL_ENGINE,
@@ -864,6 +876,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.will_drains,
             [
                 ENGINE,
+                COMPOUND_STATUS_ENGINE,
                 CHANCE_STATUS_ENGINE,
                 DIRECT_STATUS_ENGINE,
                 WILL_ENGINE
@@ -874,6 +887,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.status_escalation,
             [
                 ENGINE,
+                COMPOUND_STATUS_ENGINE,
                 CHANCE_STATUS_ENGINE,
                 DIRECT_STATUS_ENGINE,
                 WILL_ENGINE,
@@ -886,6 +900,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.identity_moves,
             [
                 ENGINE,
+                COMPOUND_STATUS_ENGINE,
                 CHANCE_STATUS_ENGINE,
                 DIRECT_STATUS_ENGINE,
                 WILL_ENGINE,
@@ -899,6 +914,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.interaction_rules,
             [
                 ENGINE,
+                COMPOUND_STATUS_ENGINE,
                 CHANCE_STATUS_ENGINE,
                 DIRECT_STATUS_ENGINE,
                 WILL_ENGINE,
@@ -916,6 +932,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.items.completion.enabled,
             [
                 ENGINE,
+                COMPOUND_STATUS_ENGINE,
                 CHANCE_STATUS_ENGINE,
                 DIRECT_STATUS_ENGINE,
                 WILL_ENGINE,
@@ -932,6 +949,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.house_rules,
             [
                 ENGINE,
+                COMPOUND_STATUS_ENGINE,
                 CHANCE_STATUS_ENGINE,
                 DIRECT_STATUS_ENGINE,
                 WILL_ENGINE,
@@ -947,6 +965,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.forms.enabled,
             [
                 ENGINE,
+                COMPOUND_STATUS_ENGINE,
                 CHANCE_STATUS_ENGINE,
                 DIRECT_STATUS_ENGINE,
                 WILL_ENGINE,
@@ -967,6 +986,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.information.enabled,
             [
                 ENGINE,
+                COMPOUND_STATUS_ENGINE,
                 CHANCE_STATUS_ENGINE,
                 DIRECT_STATUS_ENGINE,
                 WILL_ENGINE,
@@ -986,6 +1006,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.standalone.enabled,
             [
                 ENGINE,
+                COMPOUND_STATUS_ENGINE,
                 CHANCE_STATUS_ENGINE,
                 DIRECT_STATUS_ENGINE,
                 WILL_ENGINE,

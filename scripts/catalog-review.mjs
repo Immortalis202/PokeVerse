@@ -36,6 +36,22 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
   const coverageRegistry = JSON.parse(
     await readFile(path.join(app, "rules/coverage.json"), "utf8"),
   );
+  const recurringText = (
+    await readFile(path.join(app, "rules/recurring-status-moves.json"), "utf8")
+  ).replace(/\r\n/g, "\n");
+  if (
+    coverageRegistry.recurring_status_registry_hash !==
+    createHash("sha256").update(recurringText).digest("hex")
+  )
+    throw new Error("Recurring status registry fingerprint mismatch");
+  for (const entry of Object.values(JSON.parse(recurringText).moves)) {
+    const bytes = await readFile(path.join(root, entry.source));
+    if (
+      createHash("sha256").update(bytes).digest("hex") !== entry.sha256 ||
+      JSON.parse(bytes).Effect !== entry.effect
+    )
+      throw new Error("Recurring source fingerprint mismatch");
+  }
   const compoundText = (
     await readFile(path.join(app, "rules/compound-status-moves.json"), "utf8")
   ).replace(/\r\n/g, "\n");

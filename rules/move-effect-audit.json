@@ -1,9 +1,9 @@
 {
   "version": 1,
   "date": "2026-10-29",
-  "release": "0.39.0",
-  "engine": "0.32.0-core",
-  "scope": "892-card effect-route inventory; focused semantic review of status infliction, cure and protection clauses. M2-A, M2-B and M2-C battle status clauses delivered; see scoped registries and retained choices.",
+  "release": "0.40.0",
+  "engine": "0.33.0-core",
+  "scope": "892-card effect-route inventory; focused semantic review of status infliction, cure and protection clauses. M2-A, M2-B, M2-C and M2-D battle status clauses delivered; see scoped registries and retained choices.",
   "limits": [
     "An executable route is not full card coverage.",
     "Probes bypass accuracy, damage, timing and public command permissions; no native or network acceptance is implied.",
@@ -19,15 +19,15 @@
   "counts": {
     "routes": {
       "excluded": 38,
-      "executable-scope": 450,
+      "executable-scope": 455,
       "gm-choice": 1,
-      "input-required": 11,
-      "manual-effect-route": 392
+      "input-required": 12,
+      "manual-effect-route": 386
     },
     "status_clauses": {
       "excluded": 6,
-      "implemented-clause": 163,
-      "missing-effect": 8,
+      "implemented-clause": 169,
+      "missing-effect": 2,
       "missing-move-entry": 1,
       "partial-clause": 1,
       "source-discrepancy": 1
@@ -21261,26 +21261,46 @@
       },
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/recurring-status-moves.json",
+          "status": "automated",
+          "scope": "Printed Poison+ icon and source JSON agree on Badly Poisoned despite abbreviated Poison prose. One raw Loyalty roll at the end of the infliction round; failure changes battle side next round until poison is cured. Ownership is unchanged.",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-D",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed recurring clocks and host sleep actions; see rules/recurring-status-moves.json for retained choices."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Paralysis",
+            "Sleep",
+            "Badly Poisoned"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Badly Poisoned"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -24378,25 +24398,43 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/recurring-status-moves.json",
+          "status": "automated",
+          "scope": "One indirect damage after each unsuccessful wake attempt, never a round-end tick.",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-D",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed recurring clocks and host sleep actions; see rules/recurring-status-moves.json for retained choices."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
+          "code": "battle",
+          "message": "Nightmare requires a sleeping target",
           "result": "route_error"
         }
       }
@@ -25430,26 +25468,44 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/recurring-status-moves.json",
+          "status": "automated",
+          "scope": "Remaining HP indirect damage at end of cast round + 3; individual departure cancels; normal Area target rules retained.",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-D",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed recurring clocks and host sleep actions; see rules/recurring-status-moves.json for retained choices."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -33004,25 +33060,33 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "input-required",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/recurring-status-moves.json",
+          "status": "automated",
+          "scope": "Uniform host d6 rejection sampling over all known moves and eligible foes. Normal intrinsic Self/Area targeting retained. Selected move uses ordinary pipeline and spends one action, up to five. Recursive or unsupported selections stay committed for explicit GM failed-attempt adjudication.",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-D",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed recurring clocks and host sleep actions; see rules/recurring-status-moves.json for retained choices."
       },
       "probe": {
         "ailments": {
           "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
+          "message": "Use the host Sleep Talk selection and its ordinary copied move",
           "result": "route_error"
         },
         "baseline": {
           "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
+          "message": "Use the host Sleep Talk selection and its ordinary copied move",
           "result": "route_error"
         }
       }
@@ -33637,25 +33701,44 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/recurring-status-moves.json",
+          "status": "automated",
+          "scope": "Asleep-only normal attack, 3 Chance Flinch. Sleep actions replace wake attempts.",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-D",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed recurring clocks and host sleep actions; see rules/recurring-status-moves.json for retained choices."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Flinch"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
+          "code": "battle",
+          "message": "This move fails unless its user is asleep",
           "result": "route_error"
         }
       }
@@ -42174,26 +42257,44 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/recurring-status-moves.json",
+          "status": "automated",
+          "scope": "Sleep at start of cast round + 1 with immunity checked at delivery; individual departure cancels.",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-D",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed recurring clocks and host sleep actions; see rules/recurring-status-moves.json for retained choices."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },

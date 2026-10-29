@@ -8,6 +8,9 @@ pub struct Chance {
     pub dice: u32,
 }
 pub fn definition(c: &Campaign, name: &str) -> Option<&'static Chance> {
+    if let Some(d) = recurring::chance(c, name) {
+        return Some(d);
+    }
     if !flow(c).is_ok_and(|f| f.chance_status) {
         return None;
     }

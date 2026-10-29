@@ -145,7 +145,8 @@ pub fn phase(c: &Campaign, a: &Action) -> Result<()> {
                 command: special::SpecialCommand::GrudgeCheck { .. }
                     | special::SpecialCommand::Tick { .. },
                 ..
-            } | Action::NextRound
+            } | Action::RecurringMove { .. }
+                | Action::NextRound
                 | Action::Battlefield { .. }
                 | Action::ResolveAbility { .. }
                 | Action::RollbackBattle { .. }

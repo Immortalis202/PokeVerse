@@ -5,6 +5,7 @@ import type { EncounterResolution } from "./EncounterResolution";
 import type { FieldCommand } from "./FieldCommand";
 import type { FormCommand } from "./FormCommand";
 import type { ItemCommand } from "./ItemCommand";
+import type { RecurringCommand } from "./RecurringCommand";
 import type { RulesProfile } from "./RulesProfile";
 import type { SpecialCommand } from "./SpecialCommand";
 import type { StandaloneCommand } from "./StandaloneCommand";
@@ -75,6 +76,7 @@ export type Action =
       reason: string;
     }
   | { type: "tactics"; command: TacticsCommand; reason: string }
+  | { type: "recurring_move"; command: RecurringCommand; reason: string }
   | { type: "compound_move"; command: CompoundCommand; reason: string }
   | { type: "special_move"; command: SpecialCommand; reason: string }
   | {

@@ -1,5 +1,5 @@
 {
-  "engine": "0.32.0-core",
+  "engine": "0.33.0-core",
   "moves": [
     {
       "catalog_attributes": {},
@@ -11280,14 +11280,26 @@
       "name": "Malignant Chain",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Paralysis",
+            "Sleep",
+            "Badly Poisoned"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Badly Poisoned"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -12953,13 +12965,23 @@
       "name": "Nightmare",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
+          "code": "battle",
+          "message": "Nightmare requires a sleeping target",
           "result": "route_error"
         }
       }
@@ -13474,14 +13496,24 @@
       "name": "Perish Song",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -17482,12 +17514,12 @@
       "scenarios": {
         "ailments": {
           "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
+          "message": "Use the host Sleep Talk selection and its ordinary copied move",
           "result": "route_error"
         },
         "baseline": {
           "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
+          "message": "Use the host Sleep Talk selection and its ordinary copied move",
           "result": "route_error"
         }
       }
@@ -17803,13 +17835,24 @@
       "name": "Snore",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Flinch"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
+          "code": "battle",
+          "message": "This move fails unless its user is asleep",
           "result": "route_error"
         }
       }
@@ -22332,14 +22375,24 @@
       "name": "Yawn",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -22463,7 +22516,7 @@
       }
     }
   ],
-  "release": "0.39.0",
+  "release": "0.40.0",
   "scenario": "baseline and synthetic Burn2/Poison/Paralysis/Sleep profiles; effect phase only; wounded participants; no abilities, shields or decoys; all chance dice six; no GM selections/history; current gates enabled",
   "warning": "A resolved route is not proof that every card clause is implemented. Errors may be legitimate input requirements."
 }

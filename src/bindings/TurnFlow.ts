@@ -11,6 +11,7 @@ import type { FormState } from "./FormState";
 import type { InformationState } from "./InformationState";
 import type { ItemState } from "./ItemState";
 import type { QueuedAction } from "./QueuedAction";
+import type { RecurringState } from "./RecurringState";
 import type { SequencingState } from "./SequencingState";
 import type { SpecialState } from "./SpecialState";
 import type { StandaloneState } from "./StandaloneState";
@@ -25,6 +26,7 @@ export type TurnFlow = {
   direct_status: boolean;
   chance_status: boolean;
   compound: CompoundState;
+  recurring: RecurringState;
   identity_moves: boolean;
   house_rules: boolean;
   interaction_rules: boolean;

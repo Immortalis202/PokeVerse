@@ -1,0 +1,121 @@
+{
+  "engine": "0.33.0-core",
+  "release": "0.40.0",
+  "batch": "M2-D",
+  "moves": {
+    "Malignant Chain": {
+      "effect": "Single Target. Unique. Roll 5 Chance Dice to Badly Poison the Target. At the end of the Round, if the Target was Poisoned by this Move, roll their Loyalty, get at least 3 successes, if it fails, from the next Round the Target becomes the user's Ally untl the poison is healed.",
+      "source": "Pokerole-Data/v3.0/Moves/Malignant Chain.json",
+      "sha256": "1c25e89b938d8008aaf035209dab5366622ec07b34cc13ac8aee3e2b72fa3120",
+      "added_effects": {}
+    },
+    "Nightmare": {
+      "effect": "Single Target. Can only be used if the Target has the Sleep Condition. Deal 1 Typeless Damage to the Target after every attempt to resist its Sleep Condition where it doesn't wake up.",
+      "source": "Pokerole-Data/v3.0/Moves/Nightmare.json",
+      "sha256": "5fdaa100a73adb733293d6e6d6c59b3cb3c0f46f92ca9d11bde494d879641039",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Spite",
+            "Affects": "Targets"
+          }
+        ]
+      }
+    },
+    "Perish Song": {
+      "effect": "Area Move. Sound Move. Three Rounds after this Move is used, deal damage to those affected equal to their remaining HP. Removing from battle prevents this effect.",
+      "source": "Pokerole-Data/v3.0/Moves/Perish Song.json",
+      "sha256": "496fd9c5f3916524b859d2103222467a1bf1b5c9c6958b4f453e334428786196",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "PerishSong",
+            "Affects": "Targets"
+          }
+        ]
+      }
+    },
+    "Sleep Talk": {
+      "effect": "If the user is not asleep, this Move fails. Instead of making a roll to try to wake up, the user may choose to use Sleep Talk instead. Choose a Move on the user's Move set at random and Target Random foe with it. Sleep Talk can be repeated up to 5 times per Round.",
+      "source": "Pokerole-Data/v3.0/Moves/Sleep Talk.json",
+      "sha256": "1d05f06bfe14398d828ce079d0597ae9bfae07d59d2842c41a2123571e0715f1",
+      "added_effects": {}
+    },
+    "Snore": {
+      "effect": "Single Target. Sound Move. Roll 3 Chance Dice to Flinch the Target. If the user is not asleep, this Move fails.",
+      "source": "Pokerole-Data/v3.0/Moves/Snore.json",
+      "sha256": "1974dddbff49c1811f3f758548ff28f6cc357dcc59dd729e0f883cdd1ec0c0f5",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Flinch",
+            "Affects": "Targets",
+            "ChanceDice": 3
+          }
+        ]
+      }
+    },
+    "Yawn": {
+      "effect": "Single Target. *If the Target has not been removed from battle at the beginning of the next Round, put it to Sleep.",
+      "source": "Pokerole-Data/v3.0/Moves/Yawn.json",
+      "sha256": "820430dedadb3279470db2cf2f5cbb262d94d521b32449864b80b0e33581e81f",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Drowzy",
+            "Affects": "Targets"
+          }
+        ]
+      }
+    }
+  },
+  "chance_moves": {
+    "Malignant Chain": {
+      "status": "Badly Poisoned",
+      "dice": 5
+    },
+    "Snore": {
+      "status": "Flinch",
+      "dice": 3
+    }
+  },
+  "printed_source": {
+    "source": "Pokerole-Data/POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+    "sha256": "f8a1ab8c7c059c1e32b658a6770893e58f364fd4c8d28ca87ec912154cfd6cc2",
+    "reviewed_cards": 28
+  },
+  "printed_review": {
+    "Malignant Chain": {
+      "printed_page": 508,
+      "pdf_page": 375
+    },
+    "Nightmare": {
+      "printed_page": 473,
+      "pdf_page": 340
+    },
+    "Perish Song": {
+      "printed_page": 497,
+      "pdf_page": 364
+    },
+    "Sleep Talk": {
+      "printed_page": 501,
+      "pdf_page": 368
+    },
+    "Snore": {
+      "printed_page": 501,
+      "pdf_page": 368
+    },
+    "Yawn": {
+      "printed_page": 506,
+      "pdf_page": 373
+    }
+  },
+  "decisions": {
+    "Malignant Chain": "Printed Poison+ icon and source JSON agree on Badly Poisoned despite abbreviated Poison prose. One raw Loyalty roll at the end of the infliction round; failure changes battle side next round until poison is cured. Ownership is unchanged.",
+    "Nightmare": "One indirect damage after each unsuccessful wake attempt, never a round-end tick.",
+    "Perish Song": "Remaining HP indirect damage at end of cast round + 3; individual departure cancels; normal Area target rules retained.",
+    "Yawn": "Sleep at start of cast round + 1 with immunity checked at delivery; individual departure cancels.",
+    "Sleep Talk": "Uniform host d6 rejection sampling over all known moves and eligible foes. Normal intrinsic Self/Area targeting retained. Selected move uses ordinary pipeline and spends one action, up to five. Recursive or unsupported selections stay committed for explicit GM failed-attempt adjudication.",
+    "Snore": "Asleep-only normal attack, 3 Chance Flinch. Sleep actions replace wake attempts."
+  }
+}

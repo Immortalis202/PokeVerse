@@ -32,6 +32,7 @@ fn move_effect_route_inventory() {
             f.direct_status = true;
             f.chance_status = true;
             f.compound.enabled = true;
+            f.recurring.enabled = true;
             f.identity_moves = true;
             f.house_rules = true;
             f.interaction_rules = true;

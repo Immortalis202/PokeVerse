@@ -10,6 +10,7 @@ pub fn transition(
 ) -> Result<(Campaign, String)> {
     if [
         ENGINE,
+        COMPOUND_STATUS_ENGINE,
         CHANCE_STATUS_ENGINE,
         DIRECT_STATUS_ENGINE,
         WILL_ENGINE,
@@ -65,6 +66,7 @@ pub fn transition(
     let description = match action {
         Action::Standalone { .. }
         | Action::Tactics { .. }
+        | Action::RecurringMove { .. }
         | Action::CompoundMove { .. }
         | Action::SpecialMove { .. }
         | Action::BattleStat { .. }
@@ -395,6 +397,7 @@ pub fn transition(
             }
             if ![
                 ENGINE,
+                COMPOUND_STATUS_ENGINE,
                 CHANCE_STATUS_ENGINE,
                 DIRECT_STATUS_ENGINE,
                 WILL_ENGINE,

@@ -2,7 +2,8 @@ use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 use ts_rs::TS;
 
-pub const ENGINE: &str = "0.32.0-core";
+pub const ENGINE: &str = "0.33.0-core";
+pub const COMPOUND_STATUS_ENGINE: &str = "0.32.0-core";
 pub const CHANCE_STATUS_ENGINE: &str = "0.31.0-core";
 pub const DIRECT_STATUS_ENGINE: &str = "0.30.0-core";
 pub const WILL_ENGINE: &str = "0.29.0-core";
@@ -36,6 +37,7 @@ pub const PREVIOUS_ENGINE: &str = "0.2.0-core";
 pub fn core_engine(engine: &str) -> bool {
     [
         ENGINE,
+        COMPOUND_STATUS_ENGINE,
         CHANCE_STATUS_ENGINE,
         DIRECT_STATUS_ENGINE,
         WILL_ENGINE,
@@ -70,7 +72,7 @@ pub fn core_engine(engine: &str) -> bool {
     .contains(&engine)
 }
 pub const LEGACY_ENGINE: &str = "0.1.0-manual";
-pub const PROTOCOL: u32 = 40;
+pub const PROTOCOL: u32 = 41;
 pub fn enabled() -> bool {
     true
 }
@@ -553,6 +555,10 @@ pub enum Action {
     },
     Tactics {
         command: crate::combat::tactics::TacticsCommand,
+        reason: String,
+    },
+    RecurringMove {
+        command: crate::combat::recurring::RecurringCommand,
         reason: String,
     },
     CompoundMove {

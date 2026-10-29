@@ -321,6 +321,7 @@ describe("structured core battle controls", () => {
           },
           identity_moves: false,
           status_escalation: [
+            "0.33.0-core",
             "0.32.0-core",
             "0.31.0-core",
             "0.30.0-core",
@@ -329,6 +330,7 @@ describe("structured core battle controls", () => {
             "0.27.0-core",
           ].includes(engine),
           spite: [
+            "0.33.0-core",
             "0.32.0-core",
             "0.31.0-core",
             "0.30.0-core",
@@ -336,17 +338,19 @@ describe("structured core battle controls", () => {
             "0.28.0-core",
           ].includes(engine),
           will_drains: [
+            "0.33.0-core",
             "0.32.0-core",
             "0.31.0-core",
             "0.30.0-core",
             "0.29.0-core",
           ].includes(engine),
-          direct_status: ["0.32.0-core", "0.31.0-core", "0.30.0-core"].includes(
+          direct_status: ["0.33.0-core", "0.32.0-core", "0.31.0-core", "0.30.0-core"].includes(
             engine,
           ),
-          chance_status: ["0.32.0-core", "0.31.0-core"].includes(engine),
+          chance_status: ["0.33.0-core", "0.32.0-core", "0.31.0-core"].includes(engine),
+          recurring: { enabled:engine === "0.33.0-core", yawn:{}, nightmares:{}, perish:{}, malignant:{}, pending_talk:null, executing:null, ended_round:0 },
           compound: {
-            enabled: engine === "0.32.0-core",
+            enabled: ["0.33.0-core", "0.32.0-core"].includes(engine),
             entered: {},
             venom: [],
             crashes: [],
