@@ -30,6 +30,7 @@ fn move_effect_route_inventory() {
             f.status_escalation = true;
             f.will_drains = true;
             f.direct_status = true;
+            f.chance_status = true;
             f.identity_moves = true;
             f.house_rules = true;
             f.interaction_rules = true;
@@ -136,7 +137,7 @@ fn move_effect_route_inventory() {
     );
     assert_eq!(
         row("Wild Charge")["scenarios"]["baseline"]["target_statuses"],
-        serde_json::json!([])
+        serde_json::json!(["Paralysis"])
     );
     assert!(missing("Sparkling Aria"));
     assert_eq!(

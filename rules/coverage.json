@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.30.0-core",
-  "release": "0.37.0",
-  "protocol": 38,
+  "engine": "0.31.0-core",
+  "release": "0.38.0",
+  "protocol": 39,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -598,6 +598,18 @@
         "direct_status_immunities_reflection_and_guaranteed_damage_effects"
       ],
       "scope": "22 guaranteed status clauses gated to new current-engine encounters; existing saves retain false default. Damage and lethal wounds are separate."
+    },
+    {
+      "id": "chance-status-moves",
+      "status": "automated",
+      "source": "rules/chance-status-moves.json; 47 supplied cards; printed exceptions verified",
+      "fixtures": [
+        "chance_status_all_47_require_sixes_and_exact_pools_without_changing_damage",
+        "chance_status_wild_charge_recoil_and_status_use_separate_dice",
+        "chance_status_area_and_all_foes_keep_independent_target_rolls",
+        "chance_status_pool_modifiers_zero_pool_and_native_flinch_item_merge"
+      ],
+      "scope": "New-encounter chance_status gate. Exact Chance pools and condition degrees, existing modifiers/protections, Wild Charge recoil separation and metadata-empty Sheer Force eligibility. Fiery Wrath uses printed 2 dice; no lethal-wound or narrative automation."
     }
   ],
   "ability_registry_hash": "edd27e9c00f7b2463118affdf4310cb15a42f271d543a700d9993c1d36631c88",
@@ -607,5 +619,6 @@
   "interaction_registry_hash": "89a963cd535446eaa5c4ee6386348c8eccf67c723a407d68a8fc881ebb41efe4",
   "item_completion_registry_hash": "b319b916dcbb15a0fb11da997075b5ba2a5444a9dd2fd9e2e6503e6e2f83d8cc",
   "group_rules_registry_hash": "807b7285b7a8289f87c51b967bff00e7971c59f347dd263082f8a7aabd7e6325",
-  "identity_registry_hash": "4b6e4c6aa7c463c80339f337901fac82e924eca1d98c7fd0b6d1687a748fc22a"
+  "identity_registry_hash": "4b6e4c6aa7c463c80339f337901fac82e924eca1d98c7fd0b6d1687a748fc22a",
+  "chance_status_registry_hash": "aa09a6376ac0d04ed61a864c33f5f45a1813f38212c571678db4197a674b6965"
 }

@@ -36,6 +36,22 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
   const coverageRegistry = JSON.parse(
     await readFile(path.join(app, "rules/coverage.json"), "utf8"),
   );
+  const chanceText = (
+    await readFile(path.join(app, "rules/chance-status-moves.json"), "utf8")
+  ).replace(/\r\n/g, "\n");
+  if (
+    coverageRegistry.chance_status_registry_hash !==
+    createHash("sha256").update(chanceText).digest("hex")
+  )
+    throw new Error("Chance status registry fingerprint mismatch");
+  for (const definition of Object.values(JSON.parse(chanceText).moves)) {
+    const bytes = await readFile(path.join(root, definition.source));
+    if (
+      createHash("sha256").update(bytes).digest("hex") !== definition.sha256 ||
+      JSON.parse(bytes.toString("utf8")).Effect !== definition.effect
+    )
+      throw new Error("Chance status source fingerprint mismatch");
+  }
   const groupText = (
     await readFile(path.join(app, "rules/group-rules.json"), "utf8")
   ).replace(/\r\n/g, "\n");

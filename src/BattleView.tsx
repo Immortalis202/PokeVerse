@@ -128,6 +128,7 @@ export default function BattleView({
     "0.9.0-core",
     "0.10.0-core",
     "0.11.0-core",
+    "0.31.0-core",
     "0.30.0-core",
     "0.29.0-core",
     "0.28.0-core",
@@ -206,7 +207,7 @@ export default function BattleView({
         {core
           ? `Server checks are automatic and need no host-player approval. ${battle?.automatic_validation === false ? "Battle rule enforcement is OFF: the GM adjudicates exceptions." : "Battle rule enforcement is ON for the supported core rules."} Select a target and roll accuracy, resolve reactions, then roll automatic damage. The host calculates ordinary Pokémon damage pools, defenses, STAB, critical bonuses, pain and type effectiveness, and updates HP. Reviewed effects and turn/reaction controls are available below in the new engine. Unsupported abilities and move effects remain explicitly adjudicated.`
           : "Upgrade between battles to enable verified core rolls. Previous records are preserved."}
-        {campaign.engine !== "0.30.0-core" && gm && !battle?.active && (
+        {campaign.engine !== "0.31.0-core" && gm && !battle?.active && (
           <button
             disabled={busy}
             onClick={() => execute({ type: "upgrade_rules" })}
@@ -297,6 +298,7 @@ export default function BattleView({
         <>
           {gm &&
             [
+              "0.31.0-core",
               "0.30.0-core",
               "0.29.0-core",
               "0.28.0-core",
@@ -408,6 +410,7 @@ export default function BattleView({
                     ? {
                         type: "start_team_battle",
                         environment: [
+                          "0.31.0-core",
                           "0.30.0-core",
                           "0.29.0-core",
                           "0.28.0-core",
@@ -435,6 +438,7 @@ export default function BattleView({
                     : {
                         type: "start_battle",
                         environment: [
+                          "0.31.0-core",
                           "0.30.0-core",
                           "0.29.0-core",
                           "0.28.0-core",
@@ -989,6 +993,7 @@ export default function BattleView({
                   "0.9.0-core",
                   "0.10.0-core",
                   "0.11.0-core",
+                  "0.31.0-core",
                   "0.30.0-core",
                   "0.29.0-core",
                   "0.28.0-core",
@@ -1053,6 +1058,7 @@ export default function BattleView({
                         "0.9.0-core",
                         "0.10.0-core",
                         "0.11.0-core",
+                        "0.31.0-core",
                         "0.30.0-core",
                         "0.29.0-core",
                         "0.28.0-core",
@@ -1108,6 +1114,7 @@ export default function BattleView({
                       "0.9.0-core",
                       "0.10.0-core",
                       "0.11.0-core",
+                      "0.31.0-core",
                       "0.30.0-core",
                       "0.29.0-core",
                       "0.28.0-core",
@@ -1160,6 +1167,7 @@ export default function BattleView({
                         "0.9.0-core",
                         "0.10.0-core",
                         "0.11.0-core",
+                        "0.31.0-core",
                         "0.30.0-core",
                         "0.29.0-core",
                         "0.28.0-core",

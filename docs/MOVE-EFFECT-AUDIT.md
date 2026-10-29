@@ -1,11 +1,12 @@
 # Move-effect audit: milestone 1
 
-Snapshot refreshed: 29 October 2026, app **0.37.0**, engine **0.30.0-core**. **Milestone 1 is complete at the scope below; M2-A now delivers the 22 direct-status clauses.**
+Snapshot refreshed: 29 October 2026, app **0.38.0**, engine **0.31.0-core**. **Milestone 1 is complete at the scope below; M2-A delivers 22 direct-status clauses and M2-B delivers 47 Chance-based status clauses.**
 
 ## Deliverables and limits
 
 - [All 892 move cards and classifications](../rules/move-effect-audit.json): exact source prose/metadata, SHA256, application-catalog differences, scoped registry evidence, exclusions, two runtime effect-phase outcomes and the focused status assessment.
 - [Frozen runtime route probes](../rules/move-effect-probes.json): 1,784 isolated effect-phase scenarios, baseline and synthetic Burn 2/Poison/Paralysis/Sleep profiles, with current feature gates enabled.
+- [M2-B source and printed exceptions](../rules/chance-status-moves.json): all 47 JSON card fingerprints and exact Chance definitions, with nine additional printed-card checks; Fiery Wrath was also rendered and visually checked.
 - [Printed-card references](../rules/move-status-print-review.json): 28 cards, including all 22 first-batch cards and the principal exceptions. Their queued status clauses were compared with extracted MASTER card text; printed page 455 was also rendered and visually checked for Wild Charge. This is not a visual review of all 892 cards.
 - [Reproducible generator](../scripts/audit-move-effects.mjs) and [consistency checks](../scripts/move-effect-audit.check.mjs).
 
@@ -17,29 +18,28 @@ The diagnostic deliberately bypasses accuracy, damage, targeting expansion, acti
 
 | Effect-route result | Cards | Meaning |
 | --- | ---: | --- |
-| executable-scope | 377 | At least one probe resolves; only recorded scopes are asserted. |
+| executable-scope | 423 | At least one probe resolves; only recorded scopes are asserted. |
 | input-required | 10 | Existing handler requests a selection, resource, weather or other legitimate prerequisite. |
-| manual-effect-route | 466 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
+| manual-effect-route | 420 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
 | gm-choice | 1 | Hold Hands: narrative battle-ending decision remains with the storyteller. |
 | excluded | 38 | Supplied Max/Z cards and the user-excluded Sappy Seed. |
 
-These totals sum to 892. **466 manual-effect-route results are not 466 new mechanics or an instruction to implement every card.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
+These totals sum to 892. **420 manual-effect-route results are not 420 new mechanics or an instruction to implement every card.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
 
 | Focused status result | Cards |
 | --- | ---: |
 | excluded | 6 |
-| implemented-clause | 88 |
-| missing-clause | 1 |
-| missing-effect | 82 |
+| implemented-clause | 135 |
+| missing-effect | 36 |
 | missing-move-entry | 1 |
 | partial-clause | 1 |
 | source-discrepancy | 1 |
 
-The actionable implementation queue contains **85 cards**: 82 missing effects, Wild Charge's missing clause, Toxic Spikes' missing move installation and Sparkling Aria's incomplete branch. These cards form the four remaining sub-batches below; M2-A is delivered. A further 88 cards already have a named implemented status clause, six are excluded, and Healing Wish has a source-metadata discrepancy. These 180 classifications are about the audited clauses; an implemented cure does not certify every targeting, range or damage clause on that move.
+The actionable implementation queue contains **38 cards**: 36 missing effects, Toxic Spikes' missing move installation and Sparkling Aria's incomplete branch. These cards form the three remaining sub-batches below; M2-A and M2-B are delivered. A further 135 cards already have a named implemented status clause, six are excluded, and Healing Wish has a source-metadata discrepancy. These 180 classifications are about the audited clauses; an implemented cure does not certify every targeting, range or damage clause on that move.
 
 ## Milestone 2: implementation queue
 
-Complete one coherent sub-batch, run relevant regressions, update this inventory and commit before proceeding. M2-A is delivered; M2-B through M2-E remain planned.
+Complete one coherent sub-batch, run relevant regressions, update this inventory and commit before proceeding. M2-A and M2-B are delivered; M2-C through M2-E remain planned.
 
 ### M2-A. Direct status application (22 cards) — completed in 0.37.0
 
@@ -47,9 +47,11 @@ Delivered via [direct-status registry](../rules/direct-status-moves.json) and `c
 
 Alluring Voice, Attract, Confuse Ray, Dark Void, Dynamic Punch, Glare, Grass Whistle, Inferno, Nuzzle, Poison Gas, Poison Powder, Sing, Sleep Powder, Spore, Stun Spore, Supersonic, Sweet Kiss, Teeter Dance, Thunder Wave, Toxic, Will-O-Wisp, Zap Cannon.
 
-### M2-B. Chance-based status effects (47 cards)
+### M2-B. Chance-based status effects (47 cards) — completed in 0.38.0
 
-Extend exact chance definitions with printed dice counts and Burn degrees. Retain Serene Grace, Wonder Skin, Shield Dust, Loaded Dice, shields, decoys and per-target immunity rules. Wild Charge already has recoil; add only its printed one-die paralysis clause. Outside-battle extras on Headbutt/Rock Climb remain out of scope.
+Delivered via [Chance-status registry](../rules/chance-status-moves.json) and `combat/chance_status.rs`: exact dice pools and ailment degrees for all 47 cards. A six triggers the effect; ordinary successes alone do not. Serene Grace, Wonder Skin, Loaded Dice, native/item Flinch merging, Shield Dust, immunities, shields, decoys, sound bypass, Snow/Hail Freeze bonus and per-target resolution are retained. Wild Charge keeps its existing recoil pool and adds a separate one-die Paralysis pool. Sheer Force recognizes the new definitions even when source AddedEffects is empty, suppressing the chance while retaining recoil. New current-engine encounters enable `TurnFlow.chance_status`; saved flows default false.
+
+Source policy: JSON prose and structured ailments agree for most cards. Nine printed exceptions were checked: Fiery Wrath, the five Torque moves, Mountain Gale, Smog and Bleakwind Storm. Fiery Wrath uses **2 dice**, confirmed by printed text and icon (MASTER 445 / PDF 312), despite structured metadata saying 3. The other missing fields follow printed prose. Original JSON is unchanged. Bleakwind Storm's separate accuracy-sign discrepancy remains queued below. Outside-battle extras on Headbutt/Rock Climb and lethal wounds remain excluded.
 
 Aqua Tail, Astonish, Blaze Kick, Blazing Torque, Bleakwind Storm, Blue Flare, Bolt Strike, Bone Club, Chatter, Combat Torque, Cross Poison, Dizzy Punch, Dragon Breath, Dragon Rush, Fiery Wrath, Fire Punch, Flame Wheel, Force Palm, Freezing Glare, Headbutt, Heart Stamp, Heat Wave, Icicle Crash, Lick, Magical Torque, Mirror Shot, Mountain Gale, Needle Arm, Noxious Torque, Poison Fang, Poison Jab, Poison Tail, Pyro Ball, Rock Climb, Rolling Kick, Sacred Fire, Sandsear Storm, Scorching Sands, Searing Shot, Smog, Steam Eruption, Steamroller, Strange Steam, Wicked Torque, Wild Charge, Wildbolt Storm, Zing Zap.
 
@@ -82,7 +84,7 @@ Costar, Opportunist, Grudge, Eerie Spell and Spite remain delivered at their exi
 ## Source discrepancies, partial routes and genuine decisions
 
 - **Healing Wish, MASTER 512 / PDF 379:** the printed card specifies sacrifice and full recovery, with no Will charge. The supplied JSON healing metadata alone adds one Will. The current no-charge implementation matches the printed prose. Track an application-owned metadata correction separately; there is no reason to invent an additional spend or ask the GM to resolve the same mismatch every use. Source JSON remains unchanged.
-- **Wild Charge, MASTER 455 / PDF 322:** printed prose and the paralysis icon both specify one Chance die. The recoil route succeeds, but `special::chance` has no Wild Charge entry, so that secondary clause is missing.
+- **Wild Charge, MASTER 455 / PDF 322:** printed prose and the paralysis icon both specify one Chance die. Delivered in M2-B: the new gated Chance handler adds that Paralysis pool independently of recoil.
 - **Sparkling Aria, MASTER 526 / PDF 393:** curing Burn instead of damage is already handled for burned targets. The baseline non-burned effect route falls through. Treat it as a partial branch repair, not an absent cure.
 - **Safeguard, MASTER 499 / PDF 366:** a name in Screen Cleaner cleanup is not an executable Safeguard definition. The move needs both installation and its protection predicate.
 - **Toxic Spikes, MASTER 509 / PDF 376:** Toxic Debris/field entry poisoning already exists. The move's installation branch does not.
@@ -152,4 +154,10 @@ Verification for this batch: the diagnostic passed all 892 cards in both profile
 
 All 713 Rust tests passed across the regression run and a serial binding-export retry: the four-thread run passed 682 tests and hit Windows mapped-file locks in 31 export tests; all 114 binding-export tests then passed serially. The six new test groups cover every direct-status card through authoritative accuracy/damage/effect commands, ownership, Burn escalation, Inferno degree, Attract source and Magic Bounce identity, immunity rules, Shield Dust on guaranteed effects, decoys/sound bypass, shields, area/all-foes targets and historical fallback. The existing engine-gate regression now also checks the prior Will engine and the new encounter flag.
 
-TypeScript, 65 frontend tests, all 27 script/catalog checks, Rust formatting and diff checks passed. The 892-card two-profile diagnostic was refreshed for this engine; its 1,784 effect-phase scenarios remain an effect-route inventory, not full battle coverage. No Clippy, app packaging or native/physical-network acceptance was run. M2-B is next.
+TypeScript, 65 frontend tests, all 27 script/catalog checks, Rust formatting and diff checks passed. The 892-card two-profile diagnostic was refreshed for this engine; its 1,784 effect-phase scenarios remain an effect-route inventory, not full battle coverage. No Clippy, app packaging or native/physical-network acceptance was run. M2-B followed this batch.
+
+## M2-B verification (29 October 2026)
+
+Eight new Rust test groups cover all 47 cards with triggering and non-triggering dice, exact pool counts, permissions and invalid dice rejection, modifiers and zero pools, native/item Flinch merging including Teravolt/Wonder Skin bypass, metadata-empty Sheer Force, type/condition immunity, sound/decoy behavior, shields, once-per-round Flinch, weather, independent area-target rolls, recoil separation, rollback and historical fallback. The 892-card two-profile diagnostic was refreshed (1,784 effect-phase scenarios, not full battle simulations). All 721 Rust tests passed: 607 runtime regressions including localhost multiplayer checks, plus 114 binding exports run serially to avoid Windows file locks. After the final scoped native/item Flinch adjustment, all eight Chance-status groups and all 136 item regressions passed again. TypeScript, 65 frontend tests, all 28 script/catalog checks, Rust formatting and diff checks passed. No Clippy, app packages, native UI or physical-network acceptance was run.
+
+Remaining source-metadata correction: **Bleakwind Storm, MASTER 469 / PDF 336**, has `AccuracyReduction: +2` in supplied JSON but printed/JSON prose says Low Accuracy 2. This Chance-effect batch preserves existing accuracy behavior; an application-owned correction and accuracy regression remain required.

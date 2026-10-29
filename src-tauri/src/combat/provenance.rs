@@ -94,6 +94,7 @@ pub fn tag_actions(before: &Campaign, after: &mut Campaign, cat: &Catalog) -> Re
                     && (m["AddedEffects"]
                         .as_object()
                         .is_some_and(|effects| !effects.is_empty())
+                        || chance_status::definition(before, &q.move_name).is_some()
                         || items::chance_base(before, fighter(before, &q.actor_id)?, &m) > 0);
             }
         }

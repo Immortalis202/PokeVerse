@@ -1,0 +1,763 @@
+{
+  "engine": "0.31.0-core",
+  "release": "0.38.0",
+  "batch": "M2-B",
+  "gate": "TurnFlow.chance_status; default false for saved flows; new current-engine encounters only",
+  "source_policy": "Supplied JSON prose and structured ailments; verify missing or contradictory structured data against the local MASTER PDF. Source files unchanged.",
+  "printed_pdf": {
+    "source": "Pokerole-Data/POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+    "sha256": "f8a1ab8c7c059c1e32b658a6770893e58f364fd4c8d28ca87ec912154cfd6cc2"
+  },
+  "moves": {
+    "Aqua Tail": {
+      "status": "Flinch",
+      "dice": 3,
+      "effect": "Single Target. Low Accuracy 1. Roll 3 Chance Dice to Flinch the Target.",
+      "source": "Pokerole-Data/v3.0/Moves/Aqua Tail.json",
+      "sha256": "dfcc7f07d2e76ad31ac57653fc92d4b23298e837634f031aedcf24db34dddf11",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Flinch",
+            "Affects": "Targets",
+            "ChanceDice": 3
+          }
+        ]
+      }
+    },
+    "Astonish": {
+      "status": "Flinch",
+      "dice": 3,
+      "effect": "Single Target. Roll 3 Chance Dice to Flinch the Foe.",
+      "source": "Pokerole-Data/v3.0/Moves/Astonish.json",
+      "sha256": "980a7548c7a1af66a3d841b9b3ddb187ceeb950d7bc7f63a53a6f5b1b3cd2a22",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Flinch",
+            "Affects": "Targets",
+            "ChanceDice": 3
+          }
+        ]
+      }
+    },
+    "Blaze Kick": {
+      "status": "Burn 2",
+      "dice": 2,
+      "effect": "Single Target. Low Accuracy 1. High Critical. Roll 2 Chance Dice to inflict 2nd Degree Burn on the Target.",
+      "source": "Pokerole-Data/v3.0/Moves/Blaze Kick.json",
+      "sha256": "b628af9f5d05689e7fb87a332576b6510bc5921c084c92151a39baf0732485ae",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Burn2",
+            "ChanceDice": 2,
+            "Affects": "Targets"
+          }
+        ]
+      }
+    },
+    "Blazing Torque": {
+      "status": "Burn 2",
+      "dice": 3,
+      "effect": "Single Target. Lethal. Ranged. Roll 3 Chance dice to inflict 2nd Degee Burn on the Target.",
+      "source": "Pokerole-Data/v3.0/Moves/Blazing Torque.json",
+      "sha256": "af745474f90e927a250066ad67d784f17f07b6f2980e8615c5a851c1ef98cdec",
+      "added_effects": {},
+      "printed_review": {
+        "pdf_page": 331,
+        "printed_page": 464,
+        "finding": "Printed condition and Chance dice agree with Effect prose."
+      }
+    },
+    "Bleakwind Storm": {
+      "status": "Frozen Solid",
+      "dice": 3,
+      "effect": "Area Move. Low Accuracy 2. Lethal. Wind Move. Roll 3 Chance Dice to Freeze those affected.",
+      "source": "Pokerole-Data/v3.0/Moves/Bleakwind Storm.json",
+      "sha256": "3d4aff4781529c548adf4eac7fbada0c1608460b8b21f1c0943aac6e0258976d",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Freeze",
+            "Affects": "Targets",
+            "ChanceDice": 3
+          }
+        ]
+      },
+      "printed_review": {
+        "pdf_page": 336,
+        "printed_page": 469,
+        "finding": "Printed condition and Chance dice agree with Effect prose."
+      },
+      "remaining_metadata_issue": "AccuracyReduction is +2 despite Low Accuracy 2 prose and MASTER 469. This chance-only batch preserves existing accuracy behavior; reconcile separately."
+    },
+    "Blue Flare": {
+      "status": "Burn 3",
+      "dice": 2,
+      "effect": "Single Target. Low Accuracy 2. Lethal. Unique. Roll 2 Chance Dice to inflict 3rd Degree Burn on the Target.",
+      "source": "Pokerole-Data/v3.0/Moves/Blue Flare.json",
+      "sha256": "1782eaa0c6600bcbdfc28db71fd51dbc324672338f12c28a833177ec22495b6a",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Burn3",
+            "ChanceDice": 2,
+            "Affects": "Targets"
+          }
+        ]
+      }
+    },
+    "Bolt Strike": {
+      "status": "Paralysis",
+      "dice": 2,
+      "effect": "Single Target. Low Accuracy 2. Lethal. Unique. Roll 2 Chance Dice to Paralyze the foe.",
+      "source": "Pokerole-Data/v3.0/Moves/Bolt Strike.json",
+      "sha256": "003d75cf6fa482973556faa8fe52d6d63dc2052d2bb71ee208106c4f6459e351",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Paralyze",
+            "Affects": "Targets",
+            "ChanceDice": 2
+          }
+        ]
+      }
+    },
+    "Bone Club": {
+      "status": "Flinch",
+      "dice": 2,
+      "effect": "Single Target. Low Accuracy 1. Roll 2 Chance Dice to Flinch the Target.",
+      "source": "Pokerole-Data/v3.0/Moves/Bone Club.json",
+      "sha256": "a882db3b1dacdcace25fb50cd825dede7bda8b59cea979cefd36f1b05ca55ce9",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Flinch",
+            "Affects": "Targets",
+            "ChanceDice": 2
+          }
+        ]
+      }
+    },
+    "Chatter": {
+      "status": "Confusion",
+      "dice": 3,
+      "effect": "Single Target. Sound Move. Roll 3 Chance Dice to Confuse the Target.",
+      "source": "Pokerole-Data/v3.0/Moves/Chatter.json",
+      "sha256": "3b43d8b861bf363c7c2afa762f419ee79b1268e996ade6a3c5ccb9b5be7aa0bd",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Confuse",
+            "Affects": "Targets",
+            "ChanceDice": 3
+          }
+        ]
+      }
+    },
+    "Combat Torque": {
+      "status": "Paralysis",
+      "dice": 3,
+      "effect": "Single Target. Lethal. Ranged. Roll 3 Chance dice to Paralyze the Target.",
+      "source": "Pokerole-Data/v3.0/Moves/Combat Torque.json",
+      "sha256": "74b017a517c59b3bcb3c63011b2fe6c5ca9fe5f5d7e1a0a245265d3c177ca7c7",
+      "added_effects": {},
+      "printed_review": {
+        "pdf_page": 326,
+        "printed_page": 459,
+        "finding": "Printed condition and Chance dice agree with Effect prose."
+      }
+    },
+    "Cross Poison": {
+      "status": "Poison",
+      "dice": 1,
+      "effect": "Single Target. Cutter Move. High Critical. Roll 1 Chance Die to Poison the Target.",
+      "source": "Pokerole-Data/v3.0/Moves/Cross Poison.json",
+      "sha256": "1f26bffdaae149740a8a2d3be006ceb5208d551869590393105aedb3da76ce99",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Poison",
+            "Affects": "Targets",
+            "ChanceDice": 1
+          }
+        ]
+      }
+    },
+    "Dizzy Punch": {
+      "status": "Confusion",
+      "dice": 2,
+      "effect": "Single Target. Fist Move. Roll 2 Chance Dice to Confuse the Target.",
+      "source": "Pokerole-Data/v3.0/Moves/Dizzy Punch.json",
+      "sha256": "f78f8412d84c06c6f880661079f31d7b408f0d70bf2ac957555b70766f150504",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Confuse",
+            "Affects": "Targets",
+            "ChanceDice": 2
+          }
+        ]
+      }
+    },
+    "Dragon Breath": {
+      "status": "Paralysis",
+      "dice": 3,
+      "effect": "Single Target. Roll 3 Chance Dice to Paralyze the Target.",
+      "source": "Pokerole-Data/v3.0/Moves/Dragon Breath.json",
+      "sha256": "498a182bf7743e7290cc8d190dbc1143ffe1d02d9cc5416e1dacc6160450d479",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Paralyze",
+            "Affects": "Targets",
+            "ChanceDice": 3
+          }
+        ]
+      }
+    },
+    "Dragon Rush": {
+      "status": "Flinch",
+      "dice": 2,
+      "effect": "Single Target. Low Accuracy 2. Roll 2 Chance Dice to Flinch the Target.",
+      "source": "Pokerole-Data/v3.0/Moves/Dragon Rush.json",
+      "sha256": "6b2e4a1d297798d98cd214911df07a4e3c892467e0ef4a3fc07b8d9d3c229570",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Flinch",
+            "Affects": "Targets",
+            "ChanceDice": 2
+          }
+        ]
+      }
+    },
+    "Fiery Wrath": {
+      "status": "Flinch",
+      "dice": 2,
+      "effect": "Target all Foes in Range. Roll 2 Chance Dice to Flinch those affected.",
+      "source": "Pokerole-Data/v3.0/Moves/Fiery Wrath.json",
+      "sha256": "a8dfe23b8e139871bf286b76ffe1c37fecef5cb1b30675ea35af7f7320de0bde",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Flinch",
+            "Affects": "Targets",
+            "ChanceDice": 3
+          }
+        ]
+      },
+      "printed_review": {
+        "pdf_page": 312,
+        "printed_page": 445,
+        "finding": "Printed text and Flinch icon both specify 2 Chance dice; rendered and visually checked MASTER 445 (PDF 312)."
+      },
+      "discrepancy": "AddedEffects says 3 dice; prose and MASTER 445 say 2. Use 2."
+    },
+    "Fire Punch": {
+      "status": "Burn 2",
+      "dice": 1,
+      "effect": "Single Target. Fist Move. Roll 1 Chance Die to inflict 2nd Degree Burn on the Target.",
+      "source": "Pokerole-Data/v3.0/Moves/Fire Punch.json",
+      "sha256": "5758689b9ad28888909b82b8411bcb6ee742db39da331b1df4e14c1b0aea8e98",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Burn2",
+            "ChanceDice": 1,
+            "Affects": "Targets"
+          }
+        ]
+      }
+    },
+    "Flame Wheel": {
+      "status": "Burn",
+      "dice": 1,
+      "effect": "Single Target. Roll 1 Chance Die to inflict 1st Degree Burn on the Target.",
+      "source": "Pokerole-Data/v3.0/Moves/Flame Wheel.json",
+      "sha256": "0efa4840c07d840e6937af5712c340f02e0ecd5fe21a4c82fb8d33ce0218c597",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Burn",
+            "ChanceDice": 1,
+            "Affects": "Targets"
+          }
+        ]
+      }
+    },
+    "Force Palm": {
+      "status": "Paralysis",
+      "dice": 3,
+      "effect": "Single Target. Roll 3 Chance Dice to Paralyze the Target.",
+      "source": "Pokerole-Data/v3.0/Moves/Force Palm.json",
+      "sha256": "fb134b4c761573778fe3b1fda13974234fb3746243aa3c18249d3b35053822dd",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Paralyze",
+            "Affects": "Targets",
+            "ChanceDice": 3
+          }
+        ]
+      }
+    },
+    "Freezing Glare": {
+      "status": "Frozen Solid",
+      "dice": 1,
+      "effect": "Single Target. Roll 1 Chance Die to Freeze the Target.",
+      "source": "Pokerole-Data/v3.0/Moves/Freezing Glare.json",
+      "sha256": "97f5973587e2227783c5f01e8dfdcd14b1a7ac4f44a92a4ba7299e434ee9d202",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Freeze",
+            "ChanceDice": 1,
+            "Affects": "Targets"
+          }
+        ]
+      }
+    },
+    "Headbutt": {
+      "status": "Flinch",
+      "dice": 3,
+      "effect": "Single Target. Roll 3 Chance Dice to Flinch the Target. Out of battle it may cause a Random encounter when hitting trees and make objects drop from high places. ",
+      "source": "Pokerole-Data/v3.0/Moves/Headbutt.json",
+      "sha256": "fb8813318546e2b075605c0712bec0af9df45c3d553dc8b2b80ff3756cb81883",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Flinch",
+            "Affects": "Targets",
+            "ChanceDice": 3
+          }
+        ]
+      }
+    },
+    "Heart Stamp": {
+      "status": "Flinch",
+      "dice": 3,
+      "effect": "Single Target. Roll 3 Chance Dice to Flinch the Target.",
+      "source": "Pokerole-Data/v3.0/Moves/Heart Stamp.json",
+      "sha256": "08f13b487c103269d4a9d4406138b028dbf3b2528b1661c9f3f68004130709b1",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Flinch",
+            "Affects": "Targets",
+            "ChanceDice": 3
+          }
+        ]
+      }
+    },
+    "Heat Wave": {
+      "status": "Burn",
+      "dice": 1,
+      "effect": "Target All Foes in Range. Low Accuracy 1. Wind Move. Roll 1 Chance Die to inflict 1st Degree Burn on those affected.",
+      "source": "Pokerole-Data/v3.0/Moves/Heat Wave.json",
+      "sha256": "4e79b5a00e2e4ba2641befa7331dbbca2d15baa8a9d3b760db6dc82fd96ce38e",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Burn",
+            "ChanceDice": 1,
+            "Affects": "Targets"
+          }
+        ]
+      }
+    },
+    "Icicle Crash": {
+      "status": "Flinch",
+      "dice": 3,
+      "effect": "Single Target. Low Accuracy 1. Lethal. Roll 3 Chance Dice to Flinch the Target.",
+      "source": "Pokerole-Data/v3.0/Moves/Icicle Crash.json",
+      "sha256": "fd5db3029cf89ad5901e3b50786b91bc640ed808b8468d9256df387976661cc3",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Flinch",
+            "ChanceDice": 3,
+            "Affects": "Targets"
+          }
+        ]
+      }
+    },
+    "Lick": {
+      "status": "Paralysis",
+      "dice": 3,
+      "effect": "Single Target. Roll 3 Chance Dice to Paralyze the Target.",
+      "source": "Pokerole-Data/v3.0/Moves/Lick.json",
+      "sha256": "37c2c919a94c2ac1aac04e15ff435d64d32c2b516dce218d9cbdce195eea8fc1",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Paralyze",
+            "Affects": "Targets",
+            "ChanceDice": 3
+          }
+        ]
+      }
+    },
+    "Magical Torque": {
+      "status": "Confusion",
+      "dice": 3,
+      "effect": "Single Target. Lethal. Ranged. Roll 3 Chance dice to Confuse the Target.",
+      "source": "Pokerole-Data/v3.0/Moves/Magical Torque.json",
+      "sha256": "94e90d85e6f5802efbaea481fa6bed29cdc9dcfdad41dee4dc8dc0de1da480bf",
+      "added_effects": {},
+      "printed_review": {
+        "pdf_page": 324,
+        "printed_page": 457,
+        "finding": "Printed condition and Chance dice agree with Effect prose."
+      }
+    },
+    "Mirror Shot": {
+      "status": "Confusion",
+      "dice": 3,
+      "effect": "Single Target. Low Accuracy 2. Roll 3 Chance Dice to Confuse the Target.",
+      "source": "Pokerole-Data/v3.0/Moves/Mirror Shot.json",
+      "sha256": "815fb01c7b89d36347aab49fb520725fe0c764e147b4fe52aa862d4a75c5a2f1",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Confuse",
+            "Affects": "Targets",
+            "ChanceDice": 3
+          }
+        ]
+      }
+    },
+    "Mountain Gale": {
+      "status": "Flinch",
+      "dice": 3,
+      "effect": "Single Target. Ranged. Roll 3 Chance Dice to Flinch the Foe.",
+      "source": "Pokerole-Data/v3.0/Moves/Mountain Gale.json",
+      "sha256": "04d6df7e16a0abcc2b030a154f9f77ffed86e3b84d9f5636a83a7f370a302c09",
+      "added_effects": {},
+      "printed_review": {
+        "pdf_page": 353,
+        "printed_page": 486,
+        "finding": "Printed condition and Chance dice agree with Effect prose."
+      }
+    },
+    "Needle Arm": {
+      "status": "Flinch",
+      "dice": 3,
+      "effect": "Single Target. Roll 3 Chance Dice to Flinch the Target.",
+      "source": "Pokerole-Data/v3.0/Moves/Needle Arm.json",
+      "sha256": "c7d94e7a6162c0419a3f75c783de1efa102769e32a4ff4cb4d93df097ab8e117",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Flinch",
+            "ChanceDice": 3,
+            "Affects": "Targets"
+          }
+        ]
+      }
+    },
+    "Noxious Torque": {
+      "status": "Poison",
+      "dice": 3,
+      "effect": "Single Target. Lethal. Ranged. Roll 3 Chance Dice to Poison the Target.",
+      "source": "Pokerole-Data/v3.0/Moves/Noxious Torque.json",
+      "sha256": "3a5d60a7ee6f8d9f79f126d8c9a0257fbd06180f51fcb476271b2ac5d19be1bb",
+      "added_effects": {},
+      "printed_review": {
+        "pdf_page": 375,
+        "printed_page": 508,
+        "finding": "Printed condition and Chance dice agree with Effect prose."
+      }
+    },
+    "Poison Fang": {
+      "status": "Badly Poisoned",
+      "dice": 5,
+      "effect": "Single Target. Bite Move. Roll 5 Chance Dice to Badly Poison the Target.",
+      "source": "Pokerole-Data/v3.0/Moves/Poison Fang.json",
+      "sha256": "8f1128b7d36995da90b47baa3d341c5af4568240924e5dbb43a717b74cb8f2ef",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "BadlyPoison",
+            "Affects": "Targets",
+            "ChanceDice": 5
+          }
+        ]
+      }
+    },
+    "Poison Jab": {
+      "status": "Poison",
+      "dice": 3,
+      "effect": "Single Target. Roll 3 Chance Dice to Poison the Target.",
+      "source": "Pokerole-Data/v3.0/Moves/Poison Jab.json",
+      "sha256": "9e8c2d0cad14abe2eb4f8e67d2d057f3b5b4f59321eaa1b08a8f32c199d37dd1",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Poison",
+            "Affects": "Targets",
+            "ChanceDice": 3
+          }
+        ]
+      }
+    },
+    "Poison Tail": {
+      "status": "Poison",
+      "dice": 1,
+      "effect": "Single Target. High Critical. Roll 1 Chance Die to Poison the Target.",
+      "source": "Pokerole-Data/v3.0/Moves/Poison Tail.json",
+      "sha256": "1a9921cad384c183c39af72cac6ed1cc0e976219cf6291e66db998cae0a7b02e",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Poison",
+            "Affects": "Targets",
+            "ChanceDice": 1
+          }
+        ]
+      }
+    },
+    "Pyro Ball": {
+      "status": "Burn 2",
+      "dice": 1,
+      "effect": "Single Target. Low Accuracy 1. Projectile Move. Ranged. Roll 1 Chance die to inflict 2nd Degree Burn on the Target.",
+      "source": "Pokerole-Data/v3.0/Moves/Pyro Ball.json",
+      "sha256": "a9aa031144050cea1bd1c5043c94d5d6fd5cd48314675e80ff276fbea97385ac",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Burn2",
+            "ChanceDice": 1,
+            "Affects": "Targets"
+          }
+        ]
+      }
+    },
+    "Rock Climb": {
+      "status": "Confusion",
+      "dice": 2,
+      "effect": "Single Target. Low Accuracy 2. Roll 2 Chance Dice to Confuse the Target. Out of battle it aids to climb cliffs and mountains with ease.",
+      "source": "Pokerole-Data/v3.0/Moves/Rock Climb.json",
+      "sha256": "12b2d1f09a22ac0b34c3861d1a73e0cc2a1c9f763ffc3e762ed76a197ae99c3b",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Confuse",
+            "Affects": "Targets",
+            "ChanceDice": 2
+          }
+        ]
+      }
+    },
+    "Rolling Kick": {
+      "status": "Flinch",
+      "dice": 3,
+      "effect": "Single Target. Low Accuracy 2. Roll 3 Chance Dice to Flinch the Target.",
+      "source": "Pokerole-Data/v3.0/Moves/Rolling Kick.json",
+      "sha256": "dc20a075ec59e91095381a1731203277241533a5b8132fd626e144107cbfb59f",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Flinch",
+            "Affects": "Targets",
+            "ChanceDice": 3
+          }
+        ]
+      }
+    },
+    "Sacred Fire": {
+      "status": "Burn 3",
+      "dice": 5,
+      "effect": "Single Target. Lethal. Unique. Roll 5 Chance Dice to inflict 3rd Degree Burn on the Target.",
+      "source": "Pokerole-Data/v3.0/Moves/Sacred Fire.json",
+      "sha256": "358d2fd7b0eac1ab248d3c526dda8abbb14f15abb3ccc56c0e5c17513ea978db",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Burn3",
+            "ChanceDice": 5,
+            "Affects": "Targets"
+          }
+        ]
+      }
+    },
+    "Sandsear Storm": {
+      "status": "Burn 2",
+      "dice": 3,
+      "effect": "Area Move. Low Accuracy 2. Lethal. Wind Move. Roll 3 Chance Dice to inflict 2nd Degree Burn on those affected.",
+      "source": "Pokerole-Data/v3.0/Moves/Sandsear Storm.json",
+      "sha256": "79b3abcc8c36eae3d6174487fd745a2a4515e24175738ae157fc8cda149b034b",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Burn2",
+            "Affects": "Targets",
+            "ChanceDice": 3
+          }
+        ]
+      }
+    },
+    "Scorching Sands": {
+      "status": "Burn",
+      "dice": 3,
+      "effect": "Single Target. Roll 3 Chance Dice to inflict 1st Degree Burn on the foe.",
+      "source": "Pokerole-Data/v3.0/Moves/Scorching Sands.json",
+      "sha256": "1e73de084c79dcc6c964771282c22abb7f54f9536408915c2905b74a3eadf654",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Burn1",
+            "Affects": "Targets",
+            "ChanceDice": 3
+          }
+        ]
+      }
+    },
+    "Searing Shot": {
+      "status": "Burn 2",
+      "dice": 3,
+      "effect": "Target All Foes in Range. Lethal. Projectile Move. Roll 3 Chance Dice to inflict 2nd Degree Burn on those affected.",
+      "source": "Pokerole-Data/v3.0/Moves/Searing Shot.json",
+      "sha256": "2323c913252b90661d5b6270a7bd6e8213893174be65f750e6528461747410c2",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Burn2",
+            "ChanceDice": 3,
+            "Affects": "Targets"
+          }
+        ]
+      }
+    },
+    "Smog": {
+      "status": "Poison",
+      "dice": 4,
+      "effect": "Single Target. Low Accuracy 2. Roll 4 Chance Dice to Poison the Target.",
+      "source": "Pokerole-Data/v3.0/Moves/Smog.json",
+      "sha256": "353ae251afa123470b1f1b3d1af8ab44e0f88964713cae6f52ba14f7594793fb",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Poison",
+            "Affects": "Targets"
+          }
+        ]
+      },
+      "printed_review": {
+        "pdf_page": 376,
+        "printed_page": 509,
+        "finding": "Printed condition and Chance dice agree with Effect prose."
+      }
+    },
+    "Steam Eruption": {
+      "status": "Burn 2",
+      "dice": 3,
+      "effect": "Single Target. Low Accuracy 1. Lethal. Roll 3 Chance Dice to inflict 2nd Degree Burn on the Target.",
+      "source": "Pokerole-Data/v3.0/Moves/Steam Eruption.json",
+      "sha256": "362c9f195451671471ff39f656bd991b2a3f69d4ca0deaede3b395086eeb830d",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Burn2",
+            "Affects": "Targets",
+            "ChanceDice": 3
+          }
+        ]
+      }
+    },
+    "Steamroller": {
+      "status": "Flinch",
+      "dice": 3,
+      "effect": "Single Target. Roll 3 Chance Dice to Flinch Target.",
+      "source": "Pokerole-Data/v3.0/Moves/Steamroller.json",
+      "sha256": "a040a9a95ab878c34590201bbd5d0de5baae3c40a35eb1460fe29f8601494f41",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Flinch",
+            "Affects": "Targets",
+            "ChanceDice": 3
+          }
+        ]
+      }
+    },
+    "Strange Steam": {
+      "status": "Confusion",
+      "dice": 2,
+      "effect": "Single Target. Roll 2 Chance Dice to Confuse the Target.",
+      "source": "Pokerole-Data/v3.0/Moves/Strange Steam.json",
+      "sha256": "9ecebeda52362c38502bf781d3485e5d0d534f96105db3722d9188282d74f840",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Confuse",
+            "Affects": "Targets",
+            "ChanceDice": 2
+          }
+        ]
+      }
+    },
+    "Wicked Torque": {
+      "status": "Sleep",
+      "dice": 1,
+      "effect": "Single Target. Lethal. Ranged. Roll 1 Chance die to put th Target to Sleep.",
+      "source": "Pokerole-Data/v3.0/Moves/Wicked Torque.json",
+      "sha256": "9fdcdc356b7f81989a261a31d0913d753daba49e2ab89fedae0d882dd00bf80f",
+      "added_effects": {},
+      "printed_review": {
+        "pdf_page": 315,
+        "printed_page": 448,
+        "finding": "Printed condition and Chance dice agree with Effect prose."
+      }
+    },
+    "Wild Charge": {
+      "status": "Paralysis",
+      "dice": 1,
+      "effect": "Single Target. Recoil. Roll 1 Chance die to Paralyze the Target.",
+      "source": "Pokerole-Data/v3.0/Moves/Wild Charge.json",
+      "sha256": "ab1eef9b642d5429d577936af3e69fad01ae0157651cbd61c59512c26bb3c3c3",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Paralyze",
+            "Affects": "Targets",
+            "ChanceDice": 1
+          }
+        ]
+      }
+    },
+    "Wildbolt Storm": {
+      "status": "Paralysis",
+      "dice": 3,
+      "effect": "Area Move. Low Accuracy 2. Lethal. Wind Move. Roll 3 Chance Dice to Paralyze those affected.",
+      "source": "Pokerole-Data/v3.0/Moves/Wildbolt Storm.json",
+      "sha256": "e05d02f80e5790c3ff6a5bbffd047e36d932698b019f4e6d839eb1fc56be4387",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Paralyze",
+            "Affects": "Targets",
+            "ChanceDice": 3
+          }
+        ]
+      }
+    },
+    "Zing Zap": {
+      "status": "Flinch",
+      "dice": 3,
+      "effect": "Single Target. Roll 3 Chance Dice to Flinch the foe.",
+      "source": "Pokerole-Data/v3.0/Moves/Zing Zap.json",
+      "sha256": "733f9809156e782f89eed1087f5d53227264be6f77bbc3462d3cf96bb2afa590",
+      "added_effects": {
+        "Ailments": [
+          {
+            "Type": "Flinch",
+            "Affects": "Targets",
+            "ChanceDice": 3
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,9 +1,9 @@
 {
   "version": 1,
   "date": "2026-10-29",
-  "release": "0.37.0",
-  "engine": "0.30.0-core",
-  "scope": "892-card effect-route inventory; focused semantic review of status infliction, cure and protection clauses. M2-A direct status clauses delivered; see the scoped registry.",
+  "release": "0.38.0",
+  "engine": "0.31.0-core",
+  "scope": "892-card effect-route inventory; focused semantic review of status infliction, cure and protection clauses. M2-A direct and M2-B chance status clauses delivered; see scoped registries.",
   "limits": [
     "An executable route is not full card coverage.",
     "Probes bypass accuracy, damage, timing and public command permissions; no native or network acceptance is implied.",
@@ -19,16 +19,15 @@
   "counts": {
     "routes": {
       "excluded": 38,
-      "executable-scope": 377,
+      "executable-scope": 423,
       "gm-choice": 1,
       "input-required": 10,
-      "manual-effect-route": 466
+      "manual-effect-route": 420
     },
     "status_clauses": {
       "excluded": 6,
-      "implemented-clause": 88,
-      "missing-clause": 1,
-      "missing-effect": 82,
+      "implemented-clause": 135,
+      "missing-effect": 36,
       "missing-move-entry": 1,
       "partial-clause": 1,
       "source-discrepancy": 1
@@ -1196,26 +1195,47 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "3 Chance dice for Flinch; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Flinch"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Flinch"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -1532,26 +1552,44 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "3 Chance dice for Flinch; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -3051,26 +3089,46 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "2 Chance dice for Burn 2; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Burn 3"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -3089,28 +3147,48 @@
       },
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [
         "Optional lethal wounds are excluded; ordinary damage remains separate"
       ],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "3 Chance dice for Burn 2; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Burn 3"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -3138,28 +3216,49 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [
         "Optional lethal wounds are excluded; ordinary damage remains separate"
       ],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "3 Chance dice for Frozen Solid; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Frozen Solid"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Frozen Solid"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -3361,28 +3460,48 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [
         "Optional lethal wounds are excluded; ordinary damage remains separate"
       ],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "2 Chance dice for Burn 3; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Burn 3"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 3"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -3551,28 +3670,48 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [
         "Optional lethal wounds are excluded; ordinary damage remains separate"
       ],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "2 Chance dice for Paralysis; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Paralysis"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -3598,26 +3737,47 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "2 Chance dice for Flinch; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Flinch"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Flinch"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -5045,26 +5205,47 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "3 Chance dice for Confusion; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Confusion"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Confusion"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -5690,28 +5871,48 @@
       },
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [
         "Optional lethal wounds are excluded; ordinary damage remains separate"
       ],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "3 Chance dice for Paralysis; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Paralysis"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -6771,26 +6972,46 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "1 Chance dice for Poison; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Paralysis",
+            "Sleep",
+            "Badly Poisoned"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Poison"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -7955,26 +8176,47 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "2 Chance dice for Confusion; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Confusion"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Confusion"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -8548,26 +8790,46 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "3 Chance dice for Paralysis; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Paralysis"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -8970,26 +9232,47 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "2 Chance dice for Flinch; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Flinch"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Flinch"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -11378,26 +11661,47 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "2 Chance dice for Flinch; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Flinch"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Flinch"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -11695,26 +11999,46 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "1 Chance dice for Burn 2; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Burn 3"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -12049,26 +12373,46 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "1 Chance dice for Burn; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Burn 3"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -12952,26 +13296,46 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "3 Chance dice for Paralysis; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Paralysis"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -13209,26 +13573,47 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "1 Chance dice for Frozen Solid; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Frozen Solid"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Frozen Solid"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -15471,28 +15856,49 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [
         "Outside-battle narrative clauses are outside this battle audit"
       ],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "3 Chance dice for Flinch; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Flinch"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Flinch"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -15865,26 +16271,47 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "3 Chance dice for Flinch; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Flinch"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Flinch"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -15991,26 +16418,46 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "1 Chance dice for Burn; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Burn 3"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -17517,28 +17964,49 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [
         "Optional lethal wounds are excluded; ordinary damage remains separate"
       ],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "3 Chance dice for Flinch; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Flinch"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Flinch"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -19248,26 +19716,44 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "3 Chance dice for Paralysis; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -20165,28 +20651,49 @@
       },
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [
         "Optional lethal wounds are excluded; ordinary damage remains separate"
       ],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "3 Chance dice for Confusion; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Confusion"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Confusion"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -22322,26 +22829,47 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "3 Chance dice for Confusion; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Confusion"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Confusion"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -22759,26 +23287,47 @@
       },
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "3 Chance dice for Flinch; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Flinch"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Flinch"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -23295,26 +23844,47 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "3 Chance dice for Flinch; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Flinch"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Flinch"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -23652,28 +24222,48 @@
       },
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [
         "Optional lethal wounds are excluded; ordinary damage remains separate"
       ],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "3 Chance dice for Poison; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Paralysis",
+            "Sleep",
+            "Badly Poisoned"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Poison"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -25013,26 +25603,46 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "5 Chance dice for Badly Poisoned; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Paralysis",
+            "Sleep",
+            "Badly Poisoned"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Badly Poisoned"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -25122,26 +25732,46 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "3 Chance dice for Poison; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Paralysis",
+            "Sleep",
+            "Badly Poisoned"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Poison"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -25298,26 +25928,46 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "1 Chance dice for Poison; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Paralysis",
+            "Sleep",
+            "Badly Poisoned"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Poison"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -26891,26 +27541,46 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "1 Chance dice for Burn 2; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Burn 3"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -28412,28 +29082,49 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [
         "Outside-battle narrative clauses are outside this battle audit"
       ],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "2 Chance dice for Confusion; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Confusion"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Confusion"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -28821,26 +29512,47 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "3 Chance dice for Flinch; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Flinch"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Flinch"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -29120,28 +29832,48 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [
         "Optional lethal wounds are excluded; ordinary damage remains separate"
       ],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "5 Chance dice for Burn 3; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Burn 3"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 3"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -29381,28 +30113,48 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [
         "Optional lethal wounds are excluded; ordinary damage remains separate"
       ],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "3 Chance dice for Burn 2; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Burn 3"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -29721,26 +30473,46 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "3 Chance dice for Burn; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Burn 3"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -29858,28 +30630,48 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [
         "Optional lethal wounds are excluded; ordinary damage remains separate"
       ],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "3 Chance dice for Burn 2; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Burn 3"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -32191,26 +32983,46 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "4 Chance dice for Poison; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Paralysis",
+            "Sleep",
+            "Badly Poisoned"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Poison"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -33875,28 +34687,48 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [
         "Optional lethal wounds are excluded; ordinary damage remains separate"
       ],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "3 Chance dice for Burn 2; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Burn 3"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -33920,26 +34752,47 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "3 Chance dice for Flinch; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Flinch"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Flinch"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -34439,26 +35292,47 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "2 Chance dice for Confusion; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Confusion"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Confusion"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -39918,28 +40792,48 @@
       },
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [
         "Optional lethal wounds are excluded; ordinary damage remains separate"
       ],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "1 Chance dice for Sleep; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Sleep"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -40032,6 +40926,12 @@
       "excluded_clauses": [],
       "declared_scopes": [
         {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "1 Chance dice for Paralysis; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        },
+        {
           "registry": "rules/special-moves.json",
           "status": "automated",
           "scope": "Roll raw damage successes again as recoil dice. Rock Head/Magic Guard and reviewed user/target secondary effects apply separately.",
@@ -40040,13 +40940,10 @@
         }
       ],
       "status_audit": {
-        "status": "missing-clause",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Recoil route resolves, but special::chance has no Wild Charge entry: the printed one-die paralysis clause is not applied.",
-        "evidence": [
-          "src-tauri/src/combat/special.rs:effects",
-          "src-tauri/src/combat/special.rs:chance"
-        ]
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
@@ -40066,7 +40963,9 @@
         },
         "baseline": {
           "result": "route_resolved",
-          "target_statuses": [],
+          "target_statuses": [
+            "Paralysis"
+          ],
           "user_statuses": []
         }
       }
@@ -40095,28 +40994,48 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [
         "Optional lethal wounds are excluded; ordinary damage remains separate"
       ],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "3 Chance dice for Paralysis; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Paralysis"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -40872,26 +41791,47 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/chance-status-moves.json",
+          "status": "automated",
+          "scope": "3 Chance dice for Flinch; new encounter gate; other card clauses remain separate",
+          "dependencies": []
+        }
+      ],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-B",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Flinch"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Flinch"
+          ],
+          "user_statuses": []
         }
       }
     },

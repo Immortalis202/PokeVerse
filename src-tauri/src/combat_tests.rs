@@ -1217,3 +1217,6 @@ mod move_audit;
 
 #[path = "combat_tests/direct_status_tests.rs"]
 mod direct_status_tests;
+
+#[path = "combat_tests/chance_status_tests.rs"]
+mod chance_status_tests;

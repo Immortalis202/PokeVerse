@@ -35,7 +35,10 @@ test("status queue distinguishes missing clauses from existing scopes and input 
     byName.get("Air Slash").status_audit.status,
     "implemented-clause",
   );
-  assert.equal(byName.get("Wild Charge").status_audit.status, "missing-clause");
+  assert.equal(
+    byName.get("Wild Charge").status_audit.status,
+    "implemented-clause",
+  );
   assert.equal(
     byName.get("Sparkling Aria").status_audit.status,
     "partial-clause",
@@ -58,7 +61,7 @@ test("status queue distinguishes missing clauses from existing scopes and input 
     (m) =>
       m.status_audit?.batch?.startsWith("M2-") && !m.status_audit?.completed,
   );
-  assert.equal(planned.length, 85);
+  assert.equal(planned.length, 38);
   assert.ok(planned.every((m) => m.route !== "excluded"));
   const delivered = read("rules/direct-status-moves.json");
   assert.equal(delivered.moves.length, 22);
@@ -96,6 +99,88 @@ test("printed review has traceable PDF pages and protects the priority cards", (
     byName.get("Wild Charge").printed_review.printed_pages,
     [455],
   );
+});
+
+test("M2-B registry matches source prose, structured ailments and reviewed printed exceptions", () => {
+  const registry = read("rules/chance-status-moves.json");
+  const coverage = read("rules/coverage.json");
+  assert.equal(
+    createHash("sha256")
+      .update(
+        readFileSync("rules/chance-status-moves.json", "utf8").replace(
+          /\r\n/g,
+          "\n",
+        ),
+      )
+      .digest("hex"),
+    coverage.chance_status_registry_hash,
+  );
+  assert.equal(Object.keys(registry.moves).length, 47);
+  assert.equal(
+    createHash("sha256")
+      .update(readFileSync(`../${registry.printed_pdf.source}`))
+      .digest("hex"),
+    registry.printed_pdf.sha256,
+  );
+  const kinds = {
+    Burn: "Burn",
+    Burn1: "Burn",
+    Burn2: "Burn 2",
+    Burn3: "Burn 3",
+    Poison: "Poison",
+    BadlyPoison: "Badly Poisoned",
+    Paralyze: "Paralysis",
+    Confuse: "Confusion",
+    Flinch: "Flinch",
+    Freeze: "Frozen Solid",
+    Sleep: "Sleep",
+  };
+  let printedExceptions = 0;
+  for (const [name, entry] of Object.entries(registry.moves)) {
+    const bytes = readFileSync(`../${entry.source}`);
+    const source = JSON.parse(bytes);
+    assert.equal(
+      createHash("sha256").update(bytes).digest("hex"),
+      entry.sha256,
+    );
+    assert.equal(source.Name, name);
+    assert.equal(source.Effect, entry.effect);
+    assert.deepEqual(source.AddedEffects, entry.added_effects);
+    assert.equal(
+      entry.dice,
+      Number(/Roll (\d+) Chance/i.exec(source.Effect)[1]),
+      name,
+    );
+    const ailment = source.AddedEffects.Ailments?.[0];
+    if (ailment) {
+      assert.equal(entry.status, kinds[ailment.Type], name);
+      if (ailment.ChanceDice != null && name !== "Fiery Wrath")
+        assert.equal(entry.dice, ailment.ChanceDice, name);
+    }
+    if (!ailment || ailment.ChanceDice == null || name === "Fiery Wrath") {
+      assert.ok(
+        entry.printed_review,
+        `Printed exception review missing for ${name}`,
+      );
+    }
+    if (entry.printed_review) {
+      printedExceptions++;
+      assert.equal(
+        entry.printed_review.printed_page - 133,
+        entry.printed_review.pdf_page,
+      );
+    }
+    const audited = byName.get(name);
+    assert.equal(audited.status_audit.completed, true);
+    assert.equal(audited.status_audit.batch, "M2-B");
+    assert.equal(audited.probe.baseline.result, "route_resolved");
+  }
+  assert.equal(printedExceptions, 9);
+  assert.equal(registry.moves["Fiery Wrath"].dice, 2);
+  assert.equal(registry.moves["Smog"].dice, 4);
+  assert.equal(registry.moves["Blazing Torque"].status, "Burn 2");
+  assert.equal(registry.moves["Wicked Torque"].status, "Sleep");
+  assert.equal(registry.moves["Wild Charge"].dice, 1);
 });
 test("audit artifacts reproduce deterministically from cards, registries and frozen route probes", () => {
   execFileSync(

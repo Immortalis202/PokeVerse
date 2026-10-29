@@ -1,6 +1,6 @@
 # PokeVerse - remaining work
 
-Snapshot: **29 October 2026**, application **0.37.0**, engine **0.30.0-core**, protocol **38**, user database schema **4**.
+Snapshot: **29 October 2026**, application **0.38.0**, engine **0.31.0-core**, protocol **39**, user database schema **4**.
 
 This is the current project backlog. Implemented foundations are summarized first; unfinished features, explicit GM rulings, verification gaps and excluded scope are distinguished below. Counts come from the checked-in registries and should be refreshed after catalog changes.
 
@@ -14,12 +14,12 @@ The registry records 242 automated, 60 partial and 3 manual abilities. Sections 
 
 Private friend-group use: public release/signing/distribution polish is not planned, by user decision on 23 October 2026. Next work is [reducing recurring GM choices](GM-CHOICE-ROADMAP.md): the eight selected group rules are implemented in 0.31.0, and 0.31.1 corrects Mirror Coat as a source-defined conditional Late Reaction; 0.32.0 adds [starting multiplayer battlefield conditions](battle-starting-environment.md), including Moonlight reading live day/night. Scene identity moves (0.33.0), severe Burn/Poison escalation (0.34.0), Spite (0.35.0), and Grudge/Eerie Spell (0.36.0) are also delivered. Next are the remaining source-defined effects still requiring manual resolution; Sappy Seed is excluded. See [the group-rule behavior and compatibility](battle-group-rules.md). Genuine ambiguities and narrative choices remain explicit. This does not mark unperformed native/network tests as passed.
 
-## Move-effect milestone queue (28 October 2026)
+## Move-effect milestone queue (updated 29 October 2026)
 
-- [x] **Milestone 1: move-effect audit.** [Named source-backed queue and limits](MOVE-EFFECT-AUDIT.md), covering all 892 effect routes and a focused semantic review of 180 status-related cards. The 107 actionable status cards are divided into five implementation sub-batches. Route success is not whole-card completion, and manual-route totals are not counts of distinct missing mechanics.
-- [ ] **Milestone 2: implement the audited effects.** M2-A direct status application (22 cards) is delivered in 0.37.0. Next is M2-B chance effects, then compound conditions, recurring/sleep effects and cure/protection entry paths. Preserve implemented scopes and exclusions.
+- [x] **Milestone 1: move-effect audit.** [Named source-backed queue and limits](MOVE-EFFECT-AUDIT.md), covering all 892 effect routes and a focused semantic review of 180 status-related cards. The initial 107 actionable status cards were divided into five implementation sub-batches; 69 are now delivered and 38 remain. Route success is not whole-card completion, and manual-route totals are not counts of distinct missing mechanics.
+- [ ] **Milestone 2: implement the audited effects.** M2-A direct status application (22 cards) is delivered in 0.37.0; M2-B Chance-based status effects (47 cards) is delivered in 0.38.0. Next is M2-C compound conditions, then recurring/sleep effects and cure/protection entry paths. Preserve implemented scopes and exclusions.
 - [ ] **Milestone 3: battlefield/ice edge-case review.** Review exact source rules before adding defined mechanics; retain genuine precedence/parameter choices.
-- [ ] **Milestone 4: catalog reliability.** Resolve exact missing references, creation/evolution review and asset gaps.
+- [ ] **Milestone 4: catalog reliability.** Resolve exact missing references, creation/evolution review and asset gaps. Includes the printed-source-backed Bleakwind Storm accuracy-sign correction (MASTER 469: Low Accuracy 2; supplied metadata says +2).
 - [ ] **Milestone 5: native multiplayer acceptance.** Record actual native, physical LAN and private-VPN outcomes separately from automated tests.
 
 ## Implemented foundation

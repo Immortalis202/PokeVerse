@@ -36,37 +36,7 @@ pub fn move_effect(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalo
         })
     };
     if let Some(effect) = chances().get(&q.move_name) {
-        let m = move_entry(cat, &q.move_name)?;
-        let source = reviewed::source(c, q)?;
-        let target = fighter(c, &q.target_id)?;
-        let (effectiveness, immune) =
-            rules::type_matchup(c, &source, target, m["Type"].as_str().unwrap_or(""), cat)?;
-        if special::target_effects_blocked(c, q, &m)
-            || immune
-            || abilities::damage_immune_from(c, &source, target, &m)
-            || extra::source_immune(c, &source, target, effectiveness)
-            || (!reviewed::extreme(c, &source)
-                && source.side != target.side
-                && target.has_ability("Shield Dust"))
-            || (effect.status == "Flinch" && target.runtime.flinch_round == battle(c)?.round)
-        {
-            return Ok(true);
-        }
-        if dice.contains(&6) {
-            if let Err(e) =
-                abilities::inflict(c, &q.actor_id, &q.target_id, &effect.status, "", None, cat)
-            {
-                if ![
-                    "Species type is immune to this condition",
-                    "Selected ability is immune to this condition",
-                    "Battlefield prevents this condition",
-                ]
-                .contains(&e.message.as_str())
-                {
-                    return Err(e);
-                }
-            }
-        }
+        apply_status_chance(c, q, dice, &effect.status, cat)?;
         return Ok(true);
     }
     let Some(definition) = definitions.get(&q.move_name) else {
@@ -152,4 +122,50 @@ pub fn native_flinch(c: &Campaign, name: &str) -> Option<(&'static str, u32)> {
         .flatten()
         .filter(|e| e.status == "Flinch")
         .map(|e| ("Flinch", e.dice))
+}
+
+/// Shared chance resolution preserves the existing protection and immunity rules.
+pub fn apply_status_chance(
+    c: &mut Campaign,
+    q: &QueuedAction,
+    dice: &[u8],
+    status: &str,
+    cat: &Catalog,
+) -> Result<()> {
+    let mut m = move_entry(cat, &q.move_name)?;
+    let source = reviewed::source(c, q)?;
+    if chance_status::definition(c, &q.move_name).is_some() {
+        // Use the same canonical move type as damage (notably Fighting -> Fight).
+        // Historical interaction handlers retain their previous inputs.
+        special::move_data(c, &source, &mut m);
+        m = field::move_data(c, &source, &m);
+    }
+    let target = fighter(c, &q.target_id)?;
+    let (effectiveness, immune) =
+        rules::type_matchup(c, &source, target, m["Type"].as_str().unwrap_or(""), cat)?;
+    if special::target_effects_blocked(c, q, &m)
+        || immune
+        || abilities::damage_immune_from(c, &source, target, &m)
+        || extra::source_immune(c, &source, target, effectiveness)
+        || (!reviewed::extreme(c, &source)
+            && source.side != target.side
+            && target.has_ability("Shield Dust"))
+        || (status == "Flinch" && target.runtime.flinch_round == battle(c)?.round)
+    {
+        return Ok(());
+    }
+    if dice.contains(&6) {
+        if let Err(e) = abilities::inflict(c, &q.actor_id, &q.target_id, status, "", None, cat) {
+            if ![
+                "Species type is immune to this condition",
+                "Selected ability is immune to this condition",
+                "Battlefield prevents this condition",
+            ]
+            .contains(&e.message.as_str())
+            {
+                return Err(e);
+            }
+        }
+    }
+    Ok(())
 }

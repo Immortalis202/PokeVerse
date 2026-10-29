@@ -894,6 +894,7 @@ pub fn chance_dice(c: &Campaign, q: &QueuedAction, cat: &Catalog) -> Result<u32>
             special::chance(&q.move_name)
                 .or_else(|| chance_effect(&q.move_name))
                 .or_else(|| interactions::native_flinch(c, &q.move_name))
+                .or_else(|| chance_status::native_flinch(c, &q.move_name))
                 .is_some_and(|(kind, _)| kind == "Flinch"),
         )
         + 2 * u32::from(if interactions::enabled(c) {
@@ -905,6 +906,7 @@ pub fn chance_dice(c: &Campaign, q: &QueuedAction, cat: &Catalog) -> Result<u32>
     let native = special::chance(&q.move_name)
         .or_else(|| chance_effect(&q.move_name))
         .or_else(|| interactions::native_flinch(c, &q.move_name))
+        .or_else(|| chance_status::native_flinch(c, &q.move_name))
         .filter(|(kind, _)| *kind == "Flinch")
         .map_or(0, |(_, n)| n);
     Ok((native + base + serene).saturating_sub(wonder))
@@ -928,16 +930,23 @@ pub fn native_item_flinch_dice(c: &Campaign, q: &QueuedAction, cat: &Catalog) ->
     let native = special::chance(&q.move_name)
         .or_else(|| chance_effect(&q.move_name))
         .or_else(|| interactions::native_flinch(c, &q.move_name))
+        .or_else(|| chance_status::native_flinch(c, &q.move_name))
         .filter(|(kind, _)| *kind == "Flinch")
         .map_or(0, |(_, n)| n);
     if native == 0 {
         return Ok(0);
+    }
+    if chance_status::native_flinch(c, &q.move_name).is_some() {
+        // Subtract exactly the pool being replaced, including attack-scoped
+        // Wonder Skin bypass, before adding the merged item/native Flinch pool.
+        return Ok(chance_status::effect_dice(c, q, cat)?.unwrap_or(0));
     }
     let serene = completion::loaded(c, &q.actor_id)
         * u32::from(
             special::chance(&q.move_name)
                 .or_else(|| chance_effect(&q.move_name))
                 .or_else(|| interactions::native_flinch(c, &q.move_name))
+                .or_else(|| chance_status::native_flinch(c, &q.move_name))
                 .is_some_and(|(kind, _)| kind == "Flinch"),
         )
         + 2 * u32::from(if interactions::enabled(c) {

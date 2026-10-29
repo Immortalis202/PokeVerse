@@ -12,6 +12,8 @@ const read = async (name) =>
 const sha = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const directStatus = await read("rules/direct-status-moves.json");
 const deliveredDirect = new Set(directStatus.moves.map((m) => m.name));
+const chanceStatus = await read("rules/chance-status-moves.json");
+const deliveredChance = new Set(Object.keys(chanceStatus.moves));
 const probes = await read("rules/move-effect-probes.json");
 const interaction = await read("rules/battle-interactions.json");
 const special = await read("rules/special-moves.json");
@@ -211,6 +213,11 @@ const nonProducers = new Set([
 ]);
 const registryEvidence = (name) =>
   [
+    chanceStatus.moves[name] && {
+      registry: "rules/chance-status-moves.json",
+      status: "automated",
+      scope: `${chanceStatus.moves[name].dice} Chance dice for ${chanceStatus.moves[name].status}; new encounter gate; other card clauses remain separate`,
+    },
     special.entries[name] && {
       registry: "rules/special-moves.json",
       ...special.entries[name],
@@ -296,33 +303,41 @@ for (const filename of files) {
             reason:
               "Guaranteed printed condition wired through direct_status; see rules/direct-status-moves.json and direct_status_tests.",
           }
-        : (custom[name] ??
-          (supportedStatus.has(name)
-            ? {
-                status: "implemented-clause",
-                reason:
-                  "Named chance/cure/reaction handler exists; this is scope evidence, not certification of every other card clause.",
-              }
-            : allMissing
+        : deliveredChance.has(name)
+          ? {
+              status: "implemented-clause",
+              batch: "M2-B",
+              completed: true,
+              reason:
+                "Reviewed Chance status clause; see rules/chance-status-moves.json and chance_status_tests. Other clauses remain separately scoped.",
+            }
+          : (custom[name] ??
+            (supportedStatus.has(name)
               ? {
-                  status: "missing-effect",
-                  batch: recurring.has(name)
-                    ? "M2-D"
-                    : compound.has(name)
-                      ? "M2-C"
-                      : direct.has(name)
-                        ? "M2-A"
-                        : /Chance/i.test(card.Effect)
-                          ? "M2-B"
-                          : "M2-C",
+                  status: "implemented-clause",
                   reason:
-                    "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause.",
+                    "Named chance/cure/reaction handler exists; this is scope evidence, not certification of every other card clause.",
                 }
-              : {
-                  status: "review-required",
-                  reason:
-                    "A route exists but the status clause has no reviewed named handler in this audit; inspect before claiming automation.",
-                }));
+              : allMissing
+                ? {
+                    status: "missing-effect",
+                    batch: recurring.has(name)
+                      ? "M2-D"
+                      : compound.has(name)
+                        ? "M2-C"
+                        : direct.has(name)
+                          ? "M2-A"
+                          : /Chance/i.test(card.Effect)
+                            ? "M2-B"
+                            : "M2-C",
+                    reason:
+                      "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause.",
+                  }
+                : {
+                    status: "review-required",
+                    reason:
+                      "A route exists but the status clause has no reviewed named handler in this audit; inspect before claiming automation.",
+                  }));
   }
   rows.push({
     name,
@@ -382,7 +397,7 @@ const output = {
   release: version,
   engine: probes.engine,
   scope:
-    "892-card effect-route inventory; focused semantic review of status infliction, cure and protection clauses. M2-A direct status clauses delivered; see the scoped registry.",
+    "892-card effect-route inventory; focused semantic review of status infliction, cure and protection clauses. M2-A direct and M2-B chance status clauses delivered; see scoped registries.",
   limits: [
     "An executable route is not full card coverage.",
     "Probes bypass accuracy, damage, timing and public command permissions; no native or network acceptance is implied.",

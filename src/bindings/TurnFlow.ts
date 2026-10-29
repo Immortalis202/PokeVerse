@@ -22,6 +22,7 @@ export type TurnFlow = {
   spite: boolean;
   will_drains: boolean;
   direct_status: boolean;
+  chance_status: boolean;
   identity_moves: boolean;
   house_rules: boolean;
   interaction_rules: boolean;
