@@ -1,0 +1,468 @@
+{
+  "engine": "0.32.0-core",
+  "release": "0.39.0",
+  "batch": "M2-C",
+  "moves": {
+    "Axe Kick": {
+      "effect": "Single Target. Roll 3 Chance Dice to Confuse the Target. If the Accuracy roll fails, Roll 4 Dice of Typeless Damage against the user, ignoring defenses.",
+      "effects": [
+        {
+          "kind": "Confusion",
+          "dice": 3
+        }
+      ],
+      "source": "Pokerole-Data/v3.0/Moves/Axe Kick.json",
+      "sha256": "4eae0193e7029b002b58e60e00f132ea77cde6c380156bb586426e1e9e3ce84f",
+      "changes": []
+    },
+    "Burning Jealousy": {
+      "effect": "Target All Foes in Range. *Inflict 1st Degree Burn on all affected Targets with Increased Attributes.",
+      "effects": [
+        {
+          "kind": "Burn",
+          "dice": 0
+        }
+      ],
+      "source": "Pokerole-Data/v3.0/Moves/Burning Jealousy.json",
+      "sha256": "d73b1ff62063d78493ed254632099a1064b0a262337df592beea80d94ddf86e8",
+      "changes": []
+    },
+    "Buzzy Buzz": {
+      "effect": "Single Target. Paralyze the foe. If the user of this Move is at its Final Stage of Evolution, this move fails.",
+      "effects": [
+        {
+          "kind": "Paralysis",
+          "dice": 0
+        }
+      ],
+      "source": "Pokerole-Data/v3.0/Moves/Buzzy Buzz.json",
+      "sha256": "36dfb714f11ea2936cb1ee641cdd48039de4df3447a35d5667cf73a9c4e20a4d",
+      "changes": []
+    },
+    "Dire Claw": {
+      "effect": "Single Target. High Critical. Roll 2 Chance Dice to Poison the Target. Roll 2 Chance Dice to Paralyze the Target. Roll 2 Chance Dice to put the Target to Sleep.",
+      "effects": [
+        {
+          "kind": "Poison",
+          "dice": 2
+        },
+        {
+          "kind": "Paralysis",
+          "dice": 2
+        },
+        {
+          "kind": "Sleep",
+          "dice": 2
+        }
+      ],
+      "source": "Pokerole-Data/v3.0/Moves/Dire Claw.json",
+      "sha256": "9761e3677c66a5364473026d6f6addd337d6f8c2e74443253997a0f486e9602e",
+      "changes": []
+    },
+    "Fake Out": {
+      "effect": "Single Target. Reaction 1. Flinch the Target. This Move will only work on the First Round the User is out in battle. from the Second Round on, it will fail automatically.",
+      "effects": [
+        {
+          "kind": "Flinch",
+          "dice": 0
+        }
+      ],
+      "source": "Pokerole-Data/v3.0/Moves/Fake Out.json",
+      "sha256": "96eb539e1fc78db9cfe559b0b02bbc297eb7fc0624a63602ac142d4f165eebf2",
+      "changes": []
+    },
+    "Fire Fang": {
+      "effect": "Single Target. Low Accuracy 1. Bite Move. Roll 2 Chance Dice to Flinch the Target. Roll 2 Chance Dice to inflict 1st Degree Burn on the Target.",
+      "effects": [
+        {
+          "kind": "Flinch",
+          "dice": 2
+        },
+        {
+          "kind": "Burn",
+          "dice": 2
+        }
+      ],
+      "source": "Pokerole-Data/v3.0/Moves/Fire Fang.json",
+      "sha256": "66cb2c1aa0ea721a1c360dc181ac8136b801b6de8abda3ac76e0b50d80fdfd31",
+      "changes": []
+    },
+    "Flatter": {
+      "effect": "Single Target. Increase the Target's Special by 1. Confuse the Target.",
+      "effects": [
+        {
+          "kind": "Confusion",
+          "dice": 0
+        }
+      ],
+      "source": "Pokerole-Data/v3.0/Moves/Flatter.json",
+      "sha256": "cce08d45af7972d0702796ff59d2850414ceeb95ca58e2c4162735ba6c47c25a",
+      "changes": [
+        {
+          "key": "Special",
+          "amount": 1
+        }
+      ]
+    },
+    "Floaty Fall": {
+      "effect": "Single Target. Roll 3 Chance Dice to Flinch the Target. If the user of this Movve is at its Final Stage of Evolution, this move fails.",
+      "effects": [
+        {
+          "kind": "Flinch",
+          "dice": 3
+        }
+      ],
+      "source": "Pokerole-Data/v3.0/Moves/Floaty Fall.json",
+      "sha256": "bbd1a68b3a4d9c45bfbcad816fbc3a53eab0e698c121626da1ce87582d4b77d3",
+      "changes": []
+    },
+    "Glaciate": {
+      "effect": "Target All Foes in Range. Lethal. Unique. Reduce by 1 the Dexterity of those Affected. Roll 3 Chance Dice to Freeze those Affected.",
+      "effects": [
+        {
+          "kind": "Frozen Solid",
+          "dice": 3
+        }
+      ],
+      "source": "Pokerole-Data/v3.0/Moves/Glaciate.json",
+      "sha256": "fbe3baa15a0dffb7c8078f62311106fc27fdf9ae0da8c684bb6260de9e5b47d4",
+      "changes": [
+        {
+          "key": "Dexterity",
+          "amount": -1
+        }
+      ]
+    },
+    "Hydro Steam": {
+      "effect": "Single Target. Roll 3 Chance Dice to inflict 1st Degree Burn on the Target. *If Sunny Weather is active, this Move does not reduce damage due to it, and has 2 Extra Dice to the Damage pool of this Move.",
+      "effects": [
+        {
+          "kind": "Burn",
+          "dice": 3
+        }
+      ],
+      "source": "Pokerole-Data/v3.0/Moves/Hydro Steam.json",
+      "sha256": "80f1ac2fd4d2d27d1a8287157434d60eed70a398d4dc95f1b2e904548d049043",
+      "changes": []
+    },
+    "Hypnosis": {
+      "effect": "Single Target. Low Accuracy 3. Put the Target to sleep. Dark-Type Pokemon are affected by this Move.",
+      "effects": [
+        {
+          "kind": "Sleep",
+          "dice": 0
+        }
+      ],
+      "source": "Pokerole-Data/v3.0/Moves/Hypnosis.json",
+      "sha256": "783e13185c7082ba5d3cdf9d15f5bc7a04cd376f2ce8f1f56da44b7e05897731",
+      "changes": []
+    },
+    "Ice Fang": {
+      "effect": "Single Target. Low Accuracy 1. Bite Move. Roll 2 Chance Dice to Flinch the Target. Roll 2 Chance Dice to Freeze the Target.",
+      "effects": [
+        {
+          "kind": "Flinch",
+          "dice": 2
+        },
+        {
+          "kind": "Frozen Solid",
+          "dice": 2
+        }
+      ],
+      "source": "Pokerole-Data/v3.0/Moves/Ice Fang.json",
+      "sha256": "0e68c22defe61ec739f50adc5c54d33fc713bf7d277ca7a7d87202030d27b4e5",
+      "changes": []
+    },
+    "Infernal Parade": {
+      "effect": "Single Target. Roll 2 Chance Dice to inflict 2nd Degree Burn on the Foe. *If the Target has an active Status Condition, add 2 Extra Dice to the Damage Pool of this Move.",
+      "effects": [
+        {
+          "kind": "Burn 2",
+          "dice": 2
+        }
+      ],
+      "source": "Pokerole-Data/v3.0/Moves/Infernal Parade.json",
+      "sha256": "12d0fc94ca48e65a9186a660f2e12172629350a63d8c98fc147aac970de1f074",
+      "changes": []
+    },
+    "Lovely Kiss": {
+      "effect": "Single Target. Put the Target to Sleep. Pokemon with this Move may forfeit their Beauty score completely, restore 1 Point to their Beauty Score. If the Pokemon forgets this move, restore 1 point to their Beauty Score.",
+      "effects": [
+        {
+          "kind": "Sleep",
+          "dice": 0
+        }
+      ],
+      "source": "Pokerole-Data/v3.0/Moves/Lovely Kiss.json",
+      "sha256": "cb268894cf420a18947bcf0d10ba209c635986455b9bed05b77bcc2408bec88c",
+      "changes": []
+    },
+    "Mortal Spin": {
+      "effect": "All Foes in Range. Poison those Affected. Remove Entry Hazards, Terrains (ie Grassy Terrain, Misty Terrain), Ongoing Damage and Leech seed from the User or their side of the field.",
+      "effects": [
+        {
+          "kind": "Poison",
+          "dice": 0
+        }
+      ],
+      "source": "Pokerole-Data/v3.0/Moves/Mortal Spin.json",
+      "sha256": "1c7a8a76b8a2aa1994bded8841e090db4bf684bcd693ac4a18f78d49e6b692b3",
+      "changes": []
+    },
+    "Relic Song": {
+      "effect": "Target All Foes in Range. Sound Move. Unique. Roll 1 Chance Die to put the foe to Sleep. If successful, the User may choose to change its form afterwards.",
+      "effects": [
+        {
+          "kind": "Sleep",
+          "dice": 1
+        }
+      ],
+      "source": "Pokerole-Data/v3.0/Moves/Relic Song.json",
+      "sha256": "46740a424a34dabce5b503a7f353bffffefdff90861c0b01335933116b50d68e",
+      "changes": []
+    },
+    "Secret Power": {
+      "effect": "Single Target. Roll 3 Chance Dice to Inflict Status determined by the environment or active Terrain. See more on p. 530",
+      "effects": [
+        {
+          "kind": "environment",
+          "dice": 3
+        }
+      ],
+      "source": "Pokerole-Data/v3.0/Moves/Secret Power.json",
+      "sha256": "cdb6234de4d7cf7a134da3500b6e55b2fdf37ad6434921a01ce1d22f9d89bf3a",
+      "changes": []
+    },
+    "Shell Side Arm": {
+      "effect": "Single Target. Roll 2 Chance Dice to Poison the Target. *If the User's Strength score is higher than their Special, this Move becomes Physical, using Brawl for accuracy and inflicting damage with Strength.",
+      "effects": [
+        {
+          "kind": "Poison",
+          "dice": 2
+        }
+      ],
+      "source": "Pokerole-Data/v3.0/Moves/Shell Side Arm.json",
+      "sha256": "dc2bb7ac4daa199f86750eaf2d2f4c83b84a71c7bc956a4ead8a3756ba2e2479",
+      "changes": []
+    },
+    "Sizzly Slide": {
+      "effect": "Single Target. Inflict 1st Degree Burn on the Target. If the User of this Move is at its Final Stage of Evolution, this move fails.",
+      "effects": [
+        {
+          "kind": "Burn",
+          "dice": 0
+        }
+      ],
+      "source": "Pokerole-Data/v3.0/Moves/Sizzly Slide.json",
+      "sha256": "681e8efdf3c27c6d798e5d916de30e06c5a3155cab823d5f87377454d9001e84",
+      "changes": []
+    },
+    "Splishy Splash": {
+      "effect": "Target All Foes in Range. Roll 3 Chance Dice to Paralyze those affected. If the user of this Move is at its Final Stage of Evolution, this move fails.",
+      "effects": [
+        {
+          "kind": "Paralysis",
+          "dice": 3
+        }
+      ],
+      "source": "Pokerole-Data/v3.0/Moves/Splishy Splash.json",
+      "sha256": "1d47e3c12db44f1d0f4f90583e18b935662c8f9d1b8a9034471bdb72adc4ff81",
+      "changes": []
+    },
+    "Stomp": {
+      "effect": "Single Target. Roll 3 Chance Die to Flinch the Target. Targets under the effects of the Move \"Minimize\" are vulnerable.",
+      "effects": [
+        {
+          "kind": "Flinch",
+          "dice": 3
+        }
+      ],
+      "source": "Pokerole-Data/v3.0/Moves/Stomp.json",
+      "sha256": "a18d4341c2a3022303e8ba583b3dfa91150aa36447eb0e80466f31dc775a610f",
+      "changes": []
+    },
+    "Swagger": {
+      "effect": "Single Target. Increase the Target's Strength by 2. Confuse the Target.",
+      "effects": [
+        {
+          "kind": "Confusion",
+          "dice": 0
+        }
+      ],
+      "source": "Pokerole-Data/v3.0/Moves/Swagger.json",
+      "sha256": "6d0a7cb2b9b13dbe0ef4a2d3e7e55ccbe6ebe13ff08b374d36928c86152a4456",
+      "changes": [
+        {
+          "key": "Strength",
+          "amount": 2
+        }
+      ]
+    },
+    "Thunder Fang": {
+      "effect": "Single Target. Low Accuracy 1. Bite Move. Roll 2 Chance Dice to Flinch the Target. Roll 2 Chance Dice to Paralyze the Target.",
+      "effects": [
+        {
+          "kind": "Flinch",
+          "dice": 2
+        },
+        {
+          "kind": "Paralysis",
+          "dice": 2
+        }
+      ],
+      "source": "Pokerole-Data/v3.0/Moves/Thunder Fang.json",
+      "sha256": "931e3b1f3d29cc29a66c48f1e503e21db6b9ea6dd2d319401fbc0386ea1a0fe6",
+      "changes": []
+    },
+    "Toxic Thread": {
+      "effect": "Single Target. Reduce Target's Dexterity by 1. Poison the Foe.",
+      "effects": [
+        {
+          "kind": "Poison",
+          "dice": 0
+        }
+      ],
+      "source": "Pokerole-Data/v3.0/Moves/Toxic Thread.json",
+      "sha256": "7f0656ef0eb7a41d8f1aaaf3f0a321f4485625cdf7951eb334f7735e66a418e7",
+      "changes": [
+        {
+          "key": "Dexterity",
+          "amount": -1
+        }
+      ]
+    },
+    "Tri Attack": {
+      "effect": "Single Target. Roll 2 Chance Dice to inflict 1st Degree Burn on the Target. Roll 2 Chance Dice to Freeze the Target. Roll 2 Chance Dice to Paralyze the Target.",
+      "effects": [
+        {
+          "kind": "Burn",
+          "dice": 2
+        },
+        {
+          "kind": "Frozen Solid",
+          "dice": 2
+        },
+        {
+          "kind": "Paralysis",
+          "dice": 2
+        }
+      ],
+      "source": "Pokerole-Data/v3.0/Moves/Tri Attack.json",
+      "sha256": "db42e748186fbb03a78dc462ec1612ad0903bbf08b1a7026de083b75a6e8f9f3",
+      "changes": []
+    },
+    "Twister": {
+      "effect": "Target all foes in Range. Wind Move. Roll 2 Chance dice to Flinch those affected. If the Target is Out of Range due to using \"Fly\", \"Bounce\" or \"Sky Drop\" this Move hits anyways.",
+      "effects": [
+        {
+          "kind": "Flinch",
+          "dice": 2
+        }
+      ],
+      "source": "Pokerole-Data/v3.0/Moves/Twister.json",
+      "sha256": "34e4f014806b7a9a4d19a435fbc5454e6e00e930d89e9b374db67253a9843a05",
+      "changes": []
+    },
+    "Upper Hand": {
+      "effect": "Single Target. Reaction 3. *If this Move is used as a Reaction to another Reaction, Flinch the Target.",
+      "effects": [
+        {
+          "kind": "Flinch",
+          "dice": 0
+        }
+      ],
+      "source": "Pokerole-Data/v3.0/Moves/Upper Hand.json",
+      "sha256": "cad1e7d27c2d810c7051cf599b8dd57ecc03ebb608a7cb7cabf7cd2e34c52b33",
+      "changes": []
+    },
+    "Venom Drench": {
+      "effect": "Target All Foes in Range. *If the affected are already Poisoned or becomes Poisoned in the same Round this Move was used, Reduce by 1 their Strength, Special and Dexterity.",
+      "effects": [],
+      "source": "Pokerole-Data/v3.0/Moves/Venom Drench.json",
+      "sha256": "bf47bb1864cfe29c4134e41c4a6e321cb0bd7cdcd648b4203de664f382b747d7",
+      "changes": []
+    }
+  },
+  "secret_power": {
+    "City/Building": "Paralysis",
+    "Plains/Grasslands": "Sleep",
+    "Forest/Jungle": "Poison",
+    "Lake/River/Sea": "Strength -2",
+    "Cave/Mountain": "Flinch",
+    "Desert/Volcano": "Burn",
+    "Ice/Snow": "Frozen Solid",
+    "Electric Terrain": "Paralysis",
+    "Grassy Terrain": "Sleep",
+    "Misty Terrain": "In Love",
+    "Psychic Terrain": "Confusion"
+  },
+  "printed_source": {
+    "source": "Pokerole-Data/POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+    "sha256": "f8a1ab8c7c059c1e32b658a6770893e58f364fd4c8d28ca87ec912154cfd6cc2",
+    "reviewed_cards": 28
+  },
+  "scope": "Battle clauses only; optional permanent Beauty learning/forgetting adjustments remain outside battle automation. Secret Power uses confirmed environment and trainer alignment; Relic Song is an optional reviewed Meloetta form choice.",
+  "printed_reviews": {
+    "Axe Kick": {
+      "pdf_page": 326,
+      "printed_page": 459,
+      "method": "Extracted printed move prose compared with supplied JSON and implemented battle clause."
+    },
+    "Upper Hand": {
+      "pdf_page": 330,
+      "printed_page": 463,
+      "method": "Extracted printed move prose compared with supplied JSON and implemented battle clause."
+    },
+    "Fake Out": {
+      "pdf_page": 358,
+      "printed_page": 491,
+      "method": "Extracted printed move prose compared with supplied JSON and implemented battle clause."
+    },
+    "Lovely Kiss": {
+      "pdf_page": 362,
+      "printed_page": 495,
+      "method": "Extracted printed move prose compared with supplied JSON and implemented battle clause."
+    },
+    "Relic Song": {
+      "pdf_page": 366,
+      "printed_page": 499,
+      "method": "Extracted printed move prose compared with supplied JSON and implemented battle clause."
+    },
+    "Mortal Spin": {
+      "pdf_page": 375,
+      "printed_page": 508,
+      "method": "Extracted printed move prose compared with supplied JSON and implemented battle clause."
+    },
+    "Venom Drench": {
+      "pdf_page": 376,
+      "printed_page": 509,
+      "method": "Extracted printed move prose compared with supplied JSON and implemented battle clause."
+    },
+    "Shell Side Arm": {
+      "pdf_page": 376,
+      "printed_page": 509,
+      "method": "Extracted printed move prose compared with supplied JSON and implemented battle clause."
+    },
+    "Hydro Steam": {
+      "pdf_page": 392,
+      "printed_page": 525,
+      "method": "Extracted printed move prose compared with supplied JSON and implemented battle clause."
+    },
+    "Secret Power table": {
+      "pdf_page": 397,
+      "printed_page": 530,
+      "method": "Rendered and visually reviewed all eleven outcomes and free trainer alignment among concurrent sources."
+    },
+    "Meloetta forms": {
+      "pdf_page": 194,
+      "printed_page": 327,
+      "method": "Rendered and visually reviewed both exact stat rows, Normal/Psychic versus Normal/Fight and Serene Grace."
+    }
+  },
+  "boundaries": [
+    "Lovely Kiss optional permanent Beauty forfeit/forgetting adjustment remains outside battle automation. Accuracy uses missing Beauty against the existing rank social cap (5, Champion 7).",
+    "Relic Song optional change is available after an unblocked successful hit, independent of the Sleep Chance result; finish all targets before choosing. Existing form plans and restoration apply; no healing or permanent-sheet rewrite.",
+    "Minimize remains GM-adjudicated. Stomp reads the recorded Minimize prerequisite; the existing GM effect adjudication automatically records it, or GM can explicitly set/clear it.",
+    "Secret Power uses all printed outcomes; ordinary Misty Terrain condition immunity is preserved, including for its In Love outcome."
+  ]
+}

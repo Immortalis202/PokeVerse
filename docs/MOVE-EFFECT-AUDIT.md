@@ -1,6 +1,6 @@
 # Move-effect audit: milestone 1
 
-Snapshot refreshed: 29 October 2026, app **0.38.0**, engine **0.31.0-core**. **Milestone 1 is complete at the scope below; M2-A delivers 22 direct-status clauses and M2-B delivers 47 Chance-based status clauses.**
+Snapshot refreshed: 29 October 2026, app **0.39.0**, engine **0.32.0-core**. **Milestone 1 is complete at the scope below; M2-A, M2-B and M2-C deliver 97 audited battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional).**
 
 ## Deliverables and limits
 
@@ -18,28 +18,28 @@ The diagnostic deliberately bypasses accuracy, damage, targeting expansion, acti
 
 | Effect-route result | Cards | Meaning |
 | --- | ---: | --- |
-| executable-scope | 423 | At least one probe resolves; only recorded scopes are asserted. |
-| input-required | 10 | Existing handler requests a selection, resource, weather or other legitimate prerequisite. |
-| manual-effect-route | 420 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
+| executable-scope | 450 | At least one probe resolves; only recorded scopes are asserted. |
+| input-required | 11 | Existing handler requests a selection, resource, weather or other legitimate prerequisite. |
+| manual-effect-route | 392 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
 | gm-choice | 1 | Hold Hands: narrative battle-ending decision remains with the storyteller. |
 | excluded | 38 | Supplied Max/Z cards and the user-excluded Sappy Seed. |
 
-These totals sum to 892. **420 manual-effect-route results are not 420 new mechanics or an instruction to implement every card.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
+These totals sum to 892. **392 manual-effect-route results are not 392 new mechanics or an instruction to implement every card.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
 
 | Focused status result | Cards |
 | --- | ---: |
 | excluded | 6 |
-| implemented-clause | 135 |
-| missing-effect | 36 |
+| implemented-clause | 163 |
+| missing-effect | 8 |
 | missing-move-entry | 1 |
 | partial-clause | 1 |
 | source-discrepancy | 1 |
 
-The actionable implementation queue contains **38 cards**: 36 missing effects, Toxic Spikes' missing move installation and Sparkling Aria's incomplete branch. These cards form the three remaining sub-batches below; M2-A and M2-B are delivered. A further 135 cards already have a named implemented status clause, six are excluded, and Healing Wish has a source-metadata discrepancy. These 180 classifications are about the audited clauses; an implemented cure does not certify every targeting, range or damage clause on that move.
+The actionable implementation queue contains **10 cards**: 8 missing effects, Toxic Spikes' missing move installation and Sparkling Aria's incomplete branch. These cards form the two remaining sub-batches below; M2-A through M2-C are delivered. A further 163 cards already have a named implemented status clause, six are excluded, and Healing Wish has a source-metadata discrepancy. These 180 classifications are about the audited clauses; an implemented cure does not certify every targeting, range or damage clause on that move.
 
 ## Milestone 2: implementation queue
 
-Complete one coherent sub-batch, run relevant regressions, update this inventory and commit before proceeding. M2-A and M2-B are delivered; M2-C through M2-E remain planned.
+Complete one coherent sub-batch, run relevant regressions, update this inventory and commit before proceeding. M2-A through M2-C are delivered; M2-D and M2-E remain planned.
 
 ### M2-A. Direct status application (22 cards) — completed in 0.37.0
 
@@ -55,9 +55,9 @@ Source policy: JSON prose and structured ailments agree for most cards. Nine pri
 
 Aqua Tail, Astonish, Blaze Kick, Blazing Torque, Bleakwind Storm, Blue Flare, Bolt Strike, Bone Club, Chatter, Combat Torque, Cross Poison, Dizzy Punch, Dragon Breath, Dragon Rush, Fiery Wrath, Fire Punch, Flame Wheel, Force Palm, Freezing Glare, Headbutt, Heart Stamp, Heat Wave, Icicle Crash, Lick, Magical Torque, Mirror Shot, Mountain Gale, Needle Arm, Noxious Torque, Poison Fang, Poison Jab, Poison Tail, Pyro Ball, Rock Climb, Rolling Kick, Sacred Fire, Sandsear Storm, Scorching Sands, Searing Shot, Smog, Steam Eruption, Steamroller, Strange Steam, Wicked Torque, Wild Charge, Wildbolt Storm, Zing Zap.
 
-### M2-C. Compound and conditional status effects (28 cards)
+### M2-C. Compound and conditional status effects (28 cards) — completed in 0.39.0
 
-Handle multiple independent chance pools, stat-plus-condition effects, first-entry/reaction predicates, environment dependence, evolution restrictions and special target rules. Hypnosis explicitly affects Dark types. Do not substitute video-game one-status selection rules for Dire Claw/Tri Attack or invent Secret Power environment outcomes. Relic Song requires a separately reviewed form choice.
+Delivered via [compound battle rules](battle-compound-status.md) and [source registry](../rules/compound-status-moves.json). Separate Chance pools, stat-plus-condition effects, entry/reaction predicates, evolution restrictions, delayed Venom Drench, Axe Kick crash checks, weather/category changes and Mortal Spin cleanup are executable. Hypnosis affects Dark types. Secret Power uses the printed environment table and trainer alignment; Relic Song offers the optional reviewed Meloetta form change. Permanent Beauty learning/forgetting changes and the rest of Minimize remain outside this batch; Stomp consumes recorded Minimize state.
 
 Axe Kick, Burning Jealousy, Buzzy Buzz, Dire Claw, Fake Out, Fire Fang, Flatter, Floaty Fall, Glaciate, Hydro Steam, Hypnosis, Ice Fang, Infernal Parade, Lovely Kiss, Mortal Spin, Relic Song, Secret Power, Shell Side Arm, Sizzly Slide, Splishy Splash, Stomp, Swagger, Thunder Fang, Toxic Thread, Tri Attack, Twister, Upper Hand, Venom Drench.
 
@@ -161,3 +161,7 @@ TypeScript, 65 frontend tests, all 27 script/catalog checks, Rust formatting and
 Eight new Rust test groups cover all 47 cards with triggering and non-triggering dice, exact pool counts, permissions and invalid dice rejection, modifiers and zero pools, native/item Flinch merging including Teravolt/Wonder Skin bypass, metadata-empty Sheer Force, type/condition immunity, sound/decoy behavior, shields, once-per-round Flinch, weather, independent area-target rolls, recoil separation, rollback and historical fallback. The 892-card two-profile diagnostic was refreshed (1,784 effect-phase scenarios, not full battle simulations). All 721 Rust tests passed: 607 runtime regressions including localhost multiplayer checks, plus 114 binding exports run serially to avoid Windows file locks. After the final scoped native/item Flinch adjustment, all eight Chance-status groups and all 136 item regressions passed again. TypeScript, 65 frontend tests, all 28 script/catalog checks, Rust formatting and diff checks passed. No Clippy, app packages, native UI or physical-network acceptance was run.
 
 Remaining source-metadata correction: **Bleakwind Storm, MASTER 469 / PDF 336**, has `AccuracyReduction: +2` in supplied JSON but printed/JSON prose says Low Accuracy 2. This Chance-effect batch preserves existing accuracy behavior; an application-owned correction and accuracy regression remain required.
+
+## M2-C verification (29 October 2026)
+
+See [the delivered clauses, source discrepancies, controls and retained boundaries](battle-compound-status.md). The diagnostic inventory is refreshed for this engine; Secret Power correctly requires scene/terrain input rather than being mislabeled missing. All 740 Rust tests passed (623 runtime and 117 serial binding exports), plus TypeScript, 68 frontend tests, 29 script/catalog checks, Rust formatting and diff checks. All 892 diagnostic routes were refreshed in both profiles; these remain effect-phase probes rather than end-to-end battle certification. No Clippy, app packaging, native UI or physical-network acceptance was run.

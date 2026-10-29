@@ -3464,6 +3464,60 @@
       ],
       "source": "Pokerole-Data/v3.0/Pokedex/Zygarde Cell.json",
       "sha256": "9e09b139ef061d9872a8b4862c81ba7750478e051cc2d48811ddaeb1c1348a8c"
+    },
+    "0648:meloetta": {
+      "name": "Meloetta",
+      "types": [
+        "Normal",
+        "Psychic"
+      ],
+      "stats": {
+        "Strength": 5,
+        "Dexterity": 5,
+        "Vitality": 5,
+        "Special": 7,
+        "Insight": 7
+      },
+      "limits": {
+        "Strength": 5,
+        "Dexterity": 5,
+        "Vitality": 5,
+        "Special": 7,
+        "Insight": 7
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Serene Grace"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Meloetta.json",
+      "sha256": "122ba6bdc4f0b260a0408df50cc2d297056b9842cf39886ef439a22c943292f4"
+    },
+    "0648F1:meloetta-pirouette-form": {
+      "name": "Meloetta (Pirouette Form)",
+      "types": [
+        "Normal",
+        "Fight"
+      ],
+      "stats": {
+        "Strength": 7,
+        "Dexterity": 7,
+        "Vitality": 5,
+        "Special": 5,
+        "Insight": 5
+      },
+      "limits": {
+        "Strength": 7,
+        "Dexterity": 7,
+        "Vitality": 5,
+        "Special": 5,
+        "Insight": 5
+      },
+      "base_hp": 6,
+      "abilities": [
+        "Serene Grace"
+      ],
+      "source": "Pokerole-Data/v3.0/Pokedex/Meloetta (Pirouette Form).json",
+      "sha256": "7c4ef0b889588b0b50a8c4c8a42de5a54417cab1dd475a38c2238887bcdf6bcd"
     }
   },
   "mega": {

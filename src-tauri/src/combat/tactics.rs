@@ -415,7 +415,11 @@ pub fn react(
             .ok_or_else(|| error("No reaction timing"))?;
         let target = targets.first().cloned().unwrap_or_else(|| id.into());
         flow_mut(c).queue.push(QueuedAction {
-            response_to: if house::enabled(&before) && name == "Mirror Coat" {
+            response_to: if (house::enabled(&before) && name == "Mirror Coat")
+                || (compound::enabled(&before)
+                    && name == "Upper Hand"
+                    && incoming(&before)?.timing != "main")
+            {
                 Some(incoming(&before)?.sequence)
             } else {
                 None

@@ -61,7 +61,7 @@ test("status queue distinguishes missing clauses from existing scopes and input 
     (m) =>
       m.status_audit?.batch?.startsWith("M2-") && !m.status_audit?.completed,
   );
-  assert.equal(planned.length, 38);
+  assert.equal(planned.length, 10);
   assert.ok(planned.every((m) => m.route !== "excluded"));
   const delivered = read("rules/direct-status-moves.json");
   assert.equal(delivered.moves.length, 22);
@@ -188,4 +188,61 @@ test("audit artifacts reproduce deterministically from cards, registries and fro
     ["scripts/audit-move-effects.mjs", "--check"],
     { stdio: "pipe" },
   );
+});
+
+test("M2-C preserves all 28 source identities, independent pool order and printed choice tables", () => {
+  const r = read("rules/compound-status-moves.json"),
+    coverage = read("rules/coverage.json");
+  assert.equal(Object.keys(r.moves).length, 28);
+  assert.equal(
+    createHash("sha256")
+      .update(
+        readFileSync("rules/compound-status-moves.json", "utf8").replace(
+          /\r\n/g,
+          "\n",
+        ),
+      )
+      .digest("hex"),
+    coverage.compound_status_registry_hash,
+  );
+  assert.equal(
+    createHash("sha256")
+      .update(readFileSync(`../${r.printed_source.source}`))
+      .digest("hex"),
+    r.printed_source.sha256,
+  );
+  for (const [name, d] of Object.entries(r.moves)) {
+    const bytes = readFileSync(`../${d.source}`),
+      source = JSON.parse(bytes);
+    assert.equal(source.Name, name);
+    assert.equal(source.Effect, d.effect);
+    assert.equal(createHash("sha256").update(bytes).digest("hex"), d.sha256);
+    assert.equal(byName.get(name).status_audit.batch, "M2-C");
+    assert.equal(byName.get(name).status_audit.completed, true);
+    assert.ok(
+      d.effects.every(
+        (p) => Number.isInteger(p.dice) && p.dice >= 0 && p.dice <= 3,
+      ),
+    );
+  }
+  assert.deepEqual(
+    r.moves["Dire Claw"].effects.map((p) => p.kind),
+    ["Poison", "Paralysis", "Sleep"],
+  );
+  assert.deepEqual(
+    r.moves["Tri Attack"].effects.map((p) => p.kind),
+    ["Burn", "Frozen Solid", "Paralysis"],
+  );
+  assert.equal(Object.keys(r.secret_power).length, 11);
+  assert.equal(r.secret_power["Lake/River/Sea"], "Strength -2");
+  assert.equal(r.secret_power["Misty Terrain"], "In Love");
+  assert.equal(r.printed_reviews["Secret Power table"].printed_page, 530);
+  const forms = read("rules/battle-forms.json");
+  assert.equal(forms.species["0648:meloetta"].stats.Special, 7);
+  assert.equal(
+    forms.species["0648F1:meloetta-pirouette-form"].stats.Strength,
+    7,
+  );
+  assert.equal(forms.species["0648:meloetta-pirouette-form"], undefined);
+  assert.equal(byName.get("Secret Power").route, "input-required");
 });

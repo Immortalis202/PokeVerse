@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.31.0-core",
-  "release": "0.38.0",
-  "protocol": 39,
+  "engine": "0.32.0-core",
+  "release": "0.39.0",
+  "protocol": 40,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -610,15 +610,29 @@
         "chance_status_pool_modifiers_zero_pool_and_native_flinch_item_merge"
       ],
       "scope": "New-encounter chance_status gate. Exact Chance pools and condition degrees, existing modifiers/protections, Wild Charge recoil separation and metadata-empty Sheer Force eligibility. Fiery Wrath uses printed 2 dice; no lethal-wound or narrative automation."
+    },
+    {
+      "id": "compound-status-moves",
+      "status": "automated",
+      "source": "rules/compound-status-moves.json; JSON cards, MASTER 327/459/463/491/495/499/500/508/509/525/530",
+      "fixtures": [
+        "compound_all_28_cards_resolve_printed_status_and_stat_clauses",
+        "compound_independent_pools_use_separate_slices_and_can_all_trigger",
+        "compound_axe_kick_miss_requires_owned_four_dice_and_is_rollbackable",
+        "compound_relic_song_form_choice_preserves_library_and_does_not_heal",
+        "compound_venom_drench_watches_same_round_poison_once_and_expires"
+      ],
+      "scope": "28 compound/conditional battle move clauses, saved-state and owner/GM choices. Permanent Beauty learning/forgetting and the rest of Minimize remain explicit boundaries."
     }
   ],
   "ability_registry_hash": "edd27e9c00f7b2463118affdf4310cb15a42f271d543a700d9993c1d36631c88",
   "special_registry_hash": "ef7d506fc98bed2d88c4c6d92fc0875de33c220fc01635894dbb60b53e9852fa",
   "tactics_registry_hash": "99b66de76eab04726a6a35dabdc8d8626e4816eb1bb0089dae7d1c8006179a14",
-  "form_registry_hash": "222191f7c2ed47eba141c0ff7b41318f9d7476951ba3f8e909a01370fb490e3a",
+  "form_registry_hash": "c770d0bee88d2d26020d087dcd945e2b0b0edb00653781a4fcd5d97bb48a469e",
   "interaction_registry_hash": "89a963cd535446eaa5c4ee6386348c8eccf67c723a407d68a8fc881ebb41efe4",
   "item_completion_registry_hash": "b319b916dcbb15a0fb11da997075b5ba2a5444a9dd2fd9e2e6503e6e2f83d8cc",
   "group_rules_registry_hash": "807b7285b7a8289f87c51b967bff00e7971c59f347dd263082f8a7aabd7e6325",
   "identity_registry_hash": "4b6e4c6aa7c463c80339f337901fac82e924eca1d98c7fd0b6d1687a748fc22a",
-  "chance_status_registry_hash": "aa09a6376ac0d04ed61a864c33f5f45a1813f38212c571678db4197a674b6965"
+  "chance_status_registry_hash": "aa09a6376ac0d04ed61a864c33f5f45a1813f38212c571678db4197a674b6965",
+  "compound_status_registry_hash": "a199335706695fd174364f6caf647724f629ebd19c6c32f446bc941f0193f956"
 }

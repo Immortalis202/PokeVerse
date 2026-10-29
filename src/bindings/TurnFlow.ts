@@ -2,6 +2,7 @@
 import type { AbilityChanges } from "./AbilityChanges";
 import type { AbilityEvent } from "./AbilityEvent";
 import type { Battlefield } from "./Battlefield";
+import type { CompoundState } from "./CompoundState";
 import type { DecoyState } from "./DecoyState";
 import type { EventState } from "./EventState";
 import type { ExtraState } from "./ExtraState";
@@ -23,6 +24,7 @@ export type TurnFlow = {
   will_drains: boolean;
   direct_status: boolean;
   chance_status: boolean;
+  compound: CompoundState;
   identity_moves: boolean;
   house_rules: boolean;
   interaction_rules: boolean;

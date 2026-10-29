@@ -36,6 +36,22 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
   const coverageRegistry = JSON.parse(
     await readFile(path.join(app, "rules/coverage.json"), "utf8"),
   );
+  const compoundText = (
+    await readFile(path.join(app, "rules/compound-status-moves.json"), "utf8")
+  ).replace(/\r\n/g, "\n");
+  if (
+    coverageRegistry.compound_status_registry_hash !==
+    createHash("sha256").update(compoundText).digest("hex")
+  )
+    throw new Error("Compound status registry fingerprint mismatch");
+  for (const entry of Object.values(JSON.parse(compoundText).moves)) {
+    const bytes = await readFile(path.join(root, entry.source));
+    if (
+      createHash("sha256").update(bytes).digest("hex") !== entry.sha256 ||
+      JSON.parse(bytes).Effect !== entry.effect
+    )
+      throw new Error("Compound source fingerprint mismatch");
+  }
   const chanceText = (
     await readFile(path.join(app, "rules/chance-status-moves.json"), "utf8")
   ).replace(/\r\n/g, "\n");

@@ -895,6 +895,7 @@ pub fn chance_dice(c: &Campaign, q: &QueuedAction, cat: &Catalog) -> Result<u32>
                 .or_else(|| chance_effect(&q.move_name))
                 .or_else(|| interactions::native_flinch(c, &q.move_name))
                 .or_else(|| chance_status::native_flinch(c, &q.move_name))
+                .or_else(|| compound::native_flinch(c, &q.move_name))
                 .is_some_and(|(kind, _)| kind == "Flinch"),
         )
         + 2 * u32::from(if interactions::enabled(c) {
@@ -907,6 +908,7 @@ pub fn chance_dice(c: &Campaign, q: &QueuedAction, cat: &Catalog) -> Result<u32>
         .or_else(|| chance_effect(&q.move_name))
         .or_else(|| interactions::native_flinch(c, &q.move_name))
         .or_else(|| chance_status::native_flinch(c, &q.move_name))
+        .or_else(|| compound::native_flinch(c, &q.move_name))
         .filter(|(kind, _)| *kind == "Flinch")
         .map_or(0, |(_, n)| n);
     Ok((native + base + serene).saturating_sub(wonder))
@@ -931,10 +933,14 @@ pub fn native_item_flinch_dice(c: &Campaign, q: &QueuedAction, cat: &Catalog) ->
         .or_else(|| chance_effect(&q.move_name))
         .or_else(|| interactions::native_flinch(c, &q.move_name))
         .or_else(|| chance_status::native_flinch(c, &q.move_name))
+        .or_else(|| compound::native_flinch(c, &q.move_name))
         .filter(|(kind, _)| *kind == "Flinch")
         .map_or(0, |(_, n)| n);
     if native == 0 {
         return Ok(0);
+    }
+    if compound::native_flinch(c, &q.move_name).is_some() {
+        return compound::flinch_dice(c, q);
     }
     if chance_status::native_flinch(c, &q.move_name).is_some() {
         // Subtract exactly the pool being replaced, including attack-scoped
@@ -947,6 +953,7 @@ pub fn native_item_flinch_dice(c: &Campaign, q: &QueuedAction, cat: &Catalog) ->
                 .or_else(|| chance_effect(&q.move_name))
                 .or_else(|| interactions::native_flinch(c, &q.move_name))
                 .or_else(|| chance_status::native_flinch(c, &q.move_name))
+                .or_else(|| compound::native_flinch(c, &q.move_name))
                 .is_some_and(|(kind, _)| kind == "Flinch"),
         )
         + 2 * u32::from(if interactions::enabled(c) {

@@ -4,6 +4,7 @@ import type { Campaign } from "./bindings/Campaign";
 import type { Action } from "./bindings/Action";
 import type { SpecialCommand } from "./bindings/SpecialCommand";
 import { api, errorOf } from "./api";
+import CompoundMoveControls from "./CompoundMoveControls";
 
 export default function SpecialMoveControls({
   campaign,
@@ -83,6 +84,12 @@ export default function SpecialMoveControls({
   return (
     <section className="panel" aria-label="Special move automation">
       <h3>Special moves</h3>
+      <CompoundMoveControls
+        campaign={campaign}
+        playerId={playerId}
+        execute={execute}
+        disabled={disabled}
+      />
       <p>
         Commit successive accuracy rolls together, then resolve each hit and its
         responses on the same turn. Stored charges and rampages remain available

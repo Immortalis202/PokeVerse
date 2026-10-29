@@ -4,7 +4,11 @@
     "0025:pikachu": {
       "pdf_page": 9,
       "stage": 2,
-      "moves_reviewed": ["Thunder", "Extreme Speed", "Volt Tackle"],
+      "moves_reviewed": [
+        "Thunder",
+        "Extreme Speed",
+        "Volt Tackle"
+      ],
       "fields": {
         "BaseHP": 4,
         "Strength": 2,
@@ -88,8 +92,29 @@
     "0026:raichu-alolan-form": {
       "pdf_page": 9,
       "stage": 3,
-      "fields": { "Special": 3, "MaxSpecial": 6 },
+      "fields": {
+        "Special": 3,
+        "MaxSpecial": 6
+      },
       "review": "Visual PDF review: vector overpainting must not count dots twice."
+    },
+    "0648:meloetta": {
+      "pdf_page": 194,
+      "moves_reviewed": [],
+      "fields": {
+        "BaseHP": 6,
+        "Strength": 5,
+        "MaxStrength": 5,
+        "Dexterity": 5,
+        "MaxDexterity": 5,
+        "Vitality": 5,
+        "MaxVitality": 5,
+        "Special": 7,
+        "MaxSpecial": 7,
+        "Insight": 7,
+        "MaxInsight": 7
+      },
+      "review": "Visual MASTER 327 / PDF 194: separate Psychic and Fight Meloetta rows. Correct base Meloetta to 5/5/5/7/7; the prior vector extraction applied Pirouette 7/7/5/5/5 to the base identity. Source JSON unchanged; no evolution-stage or learnset certification."
     }
   }
 }

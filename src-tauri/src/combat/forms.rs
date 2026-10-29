@@ -1129,6 +1129,7 @@ pub fn transition(
     if let FormCommand::RestoreCore { sheet_id } = command {
         if ![
             ENGINE,
+            CHANCE_STATUS_ENGINE,
             DIRECT_STATUS_ENGINE,
             WILL_ENGINE,
             SPITE_ENGINE,
@@ -1592,4 +1593,15 @@ pub fn grant_temporary_move(c: &mut Campaign, id: &str, name: &str) {
             }
         }
     }
+}
+
+/// Optional Relic Song choice uses the existing reviewed form builder and restoration.
+pub fn relic_song(c: &mut Campaign, id: &str, cat: &Catalog) -> Result<()> {
+    let current = species(c, id);
+    let target = match current.as_str() {
+        "0648:meloetta" => "0648F1:meloetta-pirouette-form",
+        "0648F1:meloetta-pirouette-form" => "0648:meloetta",
+        _ => return Err(error("Relic Song form changes require Meloetta")),
+    };
+    set_form(c, id, target, "Relic Song", (false, 0, false), cat)
 }

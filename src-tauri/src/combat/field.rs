@@ -840,7 +840,15 @@ pub fn reaction(c: &Campaign, p: &Combatant, kind: &str, cat: &Catalog) -> Resul
 }
 pub fn bonus(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> i32 {
     let t = m["Type"].as_str().unwrap_or("");
-    let mut n = match (weather(c, Some(p)), t) {
+    let mut n = if compound::enabled(c)
+        && m["Name"] == "Hydro Steam"
+        && weather(c, Some(p)) == Some(Weather::Sunny)
+    {
+        2
+    } else {
+        0
+    };
+    n += match (weather(c, Some(p)), t) {
         (Some(Weather::Sunny), "Fire")
         | (Some(Weather::Rain), "Water")
         | (Some(Weather::Snow), "Ice") => 1,
@@ -882,10 +890,13 @@ pub fn reduction(
     }
     let t = m["Type"].as_str().unwrap_or("");
     let physical = m["Category"] == "Physical";
-    let mut n = i32::from(matches!(
-        (weather(c, Some(source)), t),
-        (Some(Weather::Sunny), "Water") | (Some(Weather::Rain), "Fire")
-    ));
+    let mut n = i32::from(
+        !(compound::enabled(c) && m["Name"] == "Hydro Steam")
+            && matches!(
+                (weather(c, Some(source)), t),
+                (Some(Weather::Sunny), "Water") | (Some(Weather::Rain), "Fire")
+            ),
+    );
     if has(c, "flowers", source) {
         n += 2;
     }
@@ -1891,6 +1902,7 @@ pub fn move_data(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> serde_js
     }
     extra::move_data(c, p, &mut m);
     special::move_data(c, p, &mut m);
+    compound::move_data(c, p, &mut m);
     tactics::move_data(c, p, &mut m);
     reviewed::move_data(c, p, &mut m);
     if house::enabled(c) {

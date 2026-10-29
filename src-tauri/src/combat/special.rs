@@ -720,6 +720,7 @@ pub fn after_accuracy(
         return Ok(());
     }
     let name = m["Name"].as_str().unwrap_or("");
+    compound::missed(c, id, name, success);
     if name == "Matcha Gotcha" {
         fighter_mut(c, id)?
             .runtime
@@ -2376,6 +2377,7 @@ pub fn bonus(
         "Heavy Slam" | "Heat Crash" => ((weight(c, a, cat)? - weight(c, t, cat)?) / 50.)
             .floor()
             .clamp(0., 4.) as i32,
+        "Infernal Parade" if compound::enabled(c) && !t.runtime.statuses.is_empty() => 2,
         "Facade" if ailments(a) => 3,
         "Brine" if t.hp <= t.max_hp / 2 => 3,
         "Venoshock" if t.runtime.statuses.iter().any(|s| s.kind.contains("Poison")) => 2,
@@ -2703,6 +2705,9 @@ pub fn vulnerable(c: &Campaign, id: &str, name: &str) -> bool {
     if !enabled(c) {
         return false;
     }
+    if compound::minimized(c, id, name) {
+        return true;
+    }
     charge_for(c, id).is_some_and(|q| match q.action.move_name.as_str() {
         "Fly" | "Bounce" | "Sky Drop" => [
             "Thunder",
@@ -2961,6 +2966,7 @@ pub fn modifier(c: &Campaign, p: &Combatant, key: &str) -> Option<i32> {
 }
 pub fn guard(c: &Campaign, id: &str, m: &serde_json::Value, cat: &Catalog) -> Result<()> {
     items::guard_move(c, id, m, cat)?;
+    compound::guard(c, id, m["Name"].as_str().unwrap_or(""), cat)?;
     if !enabled(c) {
         return Ok(());
     }

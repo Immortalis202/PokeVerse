@@ -161,7 +161,11 @@ pub fn accuracy(
     crate::combat::special::guard(c, key, &m, catalog)?;
     let m = crate::combat::field::move_data(c, p, &m);
     crate::combat::standalone::torrent(c, p, &m, p.hp, None)?;
-    let first = score(&s, m["Accuracy1"].as_str().unwrap_or_default())?;
+    let first = if crate::combat::compound::enabled(c) && name == "Lovely Kiss" {
+        ((if s.rank == "Champion" { 7 } else { 5 }) - score(&s, "Beauty")?).max(0)
+    } else {
+        score(&s, m["Accuracy1"].as_str().unwrap_or_default())?
+    };
     let second = match m["Accuracy2"].as_str().unwrap_or_default() {
         "" => 0,
         source => score(&s, source)?,
@@ -206,7 +210,9 @@ pub fn accuracy(
         .and_then(|v| v.checked_add(rank_bonus))
         .and_then(|v| v.checked_add(modifier))
         .ok_or_else(|| AppError::new("limit", "Pool overflow"))?;
-    if !(1..=100).contains(&pool) {
+    if !(1..=100).contains(&pool)
+        && !(crate::combat::compound::enabled(c) && name == "Lovely Kiss" && pool == 0)
+    {
         return Err(AppError::new(
             "manual_rule",
             "Pool outside 1–100 dice; resolve manually",
@@ -218,6 +224,7 @@ pub fn accuracy(
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
     if [
         ENGINE,
+        CHANCE_STATUS_ENGINE,
         DIRECT_STATUS_ENGINE,
         WILL_ENGINE,
         SPITE_ENGINE,

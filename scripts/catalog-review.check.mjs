@@ -153,6 +153,7 @@ test("coverage and PDF fingerprints are preserved with a complete field-level qu
     );
     const tests =
       readFileSync("src-tauri/src/combat_tests.rs", "utf8") +
+      readFileSync("src-tauri/src/combat_tests/compound_tests.rs", "utf8") +
       readFileSync(
         "src-tauri/src/combat_tests/chance_status_tests.rs",
         "utf8",
@@ -415,7 +416,7 @@ test("form mappings preserve exact supplied identities, source values and a comp
     createHash("sha256").update(text).digest("hex"),
   );
   assert.equal(Object.keys(forms.mega).length, 47);
-  assert.equal(Object.keys(forms.species).length, 127);
+  assert.equal(Object.keys(forms.species).length, 129);
   const db = new DatabaseSync("src-tauri/resources/catalog.db", {
     readOnly: true,
   });

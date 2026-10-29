@@ -134,7 +134,9 @@ pub fn apply_status_chance(
 ) -> Result<()> {
     let mut m = move_entry(cat, &q.move_name)?;
     let source = reviewed::source(c, q)?;
-    if chance_status::definition(c, &q.move_name).is_some() {
+    if chance_status::definition(c, &q.move_name).is_some()
+        || compound::definition(c, &q.move_name).is_some()
+    {
         // Use the same canonical move type as damage (notably Fighting -> Fight).
         // Historical interaction handlers retain their previous inputs.
         special::move_data(c, &source, &mut m);
@@ -155,7 +157,15 @@ pub fn apply_status_chance(
         return Ok(());
     }
     if dice.contains(&6) {
-        if let Err(e) = abilities::inflict(c, &q.actor_id, &q.target_id, status, "", None, cat) {
+        if let Err(e) = abilities::inflict(
+            c,
+            &q.actor_id,
+            &q.target_id,
+            status,
+            if status == "In Love" { &q.actor_id } else { "" },
+            None,
+            cat,
+        ) {
             if ![
                 "Species type is immune to this condition",
                 "Selected ability is immune to this condition",
