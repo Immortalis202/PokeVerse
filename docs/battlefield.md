@@ -1,6 +1,10 @@
 # Battlefield automation
 
-Application 0.13.0, engine 0.6.0-core, protocol 14, storage schema 4.
+Historical release snapshot: application 0.13.0, engine 0.6.0-core, protocol 14, storage schema 4.
+
+For the current app 0.41.0 source/code review, use the [M3 battlefield and ice checklist](M3-BATTLEFIELD-ICE-CHECKLIST.md). The statements below about unsupported held items/transformations and the old validation counts describe that historical release, not the current engine. Current Snow ice HP/defense, ordinary Special ice attacks, item suppression and transformations already exist. Healing Pits has a printed Heal 1 icon; only High Poles difficulty is omitted among those two examples.
+
+## Historical 0.13.0 scope
 
 Adopt the corrected catalog and upgrade campaign rules **between battles**. Every room client must use the same build. Existing battles keep their recorded engine. Temporary typing, field effects and ability changes never update permanent library sheets.
 
@@ -23,7 +27,7 @@ Snowscape's source JSON incorrectly identifies Hail; the owned correction activa
 
 ## Arena presets and visible boundaries
 
-Fog, mud, underwater breathing, fire, electric poles, flowers, sewage, jungle, high poles, sprinklers, cemetery, minefield, healing pits and Final Destination have typed records and supported hooks. High poles requires a GM-defined check difficulty; healing pits require a healing amount, consume one action and are depleted. Underwater difficulty increases with rounds exposed, rather than the battle's absolute round number.
+Fog, mud, underwater breathing, fire, electric poles, flowers, sewage, jungle, high poles, sprinklers, cemetery, minefield, healing pits and Final Destination have typed records and supported hooks. High poles requires a GM-defined check difficulty; healing pits take a configured healing amount, consume one action and are depleted. The M3 visual review confirms the printed Healing Pits example specifies Heal 1, although this older text-only review missed the icon. Underwater difficulty increases with rounds exposed, rather than the battle's absolute round number.
 
 Torn World's unspecified retargeting distribution requires explicit GM target adjudication; ordinary rolls cannot silently ignore it. Cemetery's Run Away effect and other narrative escape effects remain adjudicated. Item restrictions do not imply an implemented held-item system. Transformations, item triggers, charge sequencing and unreviewed move effects remain outside this release. Manual overrides and historical field records remain available.
 

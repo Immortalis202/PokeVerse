@@ -77,11 +77,11 @@
     {
       "id": "frozen",
       "status": "partial",
-      "source": "RULING 85-86",
+      "source": "RULING 85-86,89; M3-I01 through M3-I05 in rules/battlefield-ice-review.json",
       "fixtures": [
         "frozen_subject_can_break_ice_at_round_end_without_losing_its_hp"
       ],
-      "scope": "Ordinary move attempts against 5 HP/defenses 2 ice before next round; successful super-effective move breaks ice. Snow and special damage against ice require adjudication."
+      "scope": "Existing ordinary Physical and Special ice attempts use 5 HP and defenses 2; successful super-effective attacks break ice. Snow already uses 7 HP and a shared defense value 3. Snow Special Defense wording and live-versus-snapshotted block properties need source review and focused regressions. Power-0, SetDamage and Varies ice attacks remain rejected pending named formula review; this is not a blanket lack of Special-category support."
     },
     {
       "id": "healing-shields",
@@ -192,7 +192,7 @@
         "field_move_resolution_uses_normal_action_and_will_cost",
         "field_weather_ability_contest_suppression_departure_and_reconnect"
       ],
-      "scope": "Eight weathers, terrains, screens, rooms, temporary typing and typed arena presets. Torn World target adjudication and narrative Run Away remain manual; no held-item or transformation system."
+      "scope": "Eight weathers, terrains, screens, rooms, temporary typing and typed arena presets are implemented, with later held-item, transformation and M2 cure/protection integrations. M3 source/code reconciliation is in rules/battlefield-ice-review.json: Sunny-at-night validation and Magic Guard/Perish Song are named source/code gaps; mixed terrain precedence and Snow ice wording remain review items; Torn World sampling, High Poles difficulty and narrative escape retain GM input. Healing Pits has a printed Heal 1 icon and an existing configurable amount."
     },
     {
       "id": "extended-abilities",
@@ -637,7 +637,7 @@
       "scope": "M2-E four reviewed battle clauses: side-wide Safeguard, per-target Sparkling Aria cure/damage, one-round Uproar Sleep cure, Toxic Spikes move installation through the existing hazard system. Current encounter gate only."
     }
   ],
-  "ability_registry_hash": "edd27e9c00f7b2463118affdf4310cb15a42f271d543a700d9993c1d36631c88",
+  "ability_registry_hash": "4fca7f21491ead2074e0e91597728ed4f68fb9662d7a1262c0f8f9de7bf86d17",
   "special_registry_hash": "ef7d506fc98bed2d88c4c6d92fc0875de33c220fc01635894dbb60b53e9852fa",
   "tactics_registry_hash": "99b66de76eab04726a6a35dabdc8d8626e4816eb1bb0089dae7d1c8006179a14",
   "form_registry_hash": "c770d0bee88d2d26020d087dcd945e2b0b0edb00653781a4fcd5d97bb48a469e",

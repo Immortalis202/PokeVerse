@@ -1,0 +1,763 @@
+{
+  "version": 1,
+  "date": "2026-10-29",
+  "release": "0.41.0",
+  "engine": "0.34.0-core",
+  "baseline_commit": "bf148ef",
+  "scope": "M3 source/code reconciliation only; no runtime mechanics, house policies or implementation batches changed or scheduled.",
+  "sources": {
+    "ruling": {
+      "path": "Pokerole-Data/POKEROLE COREBOOK 3.0 RULING.pdf",
+      "sha256": "f50014b330cc00db83906cf232ba432855f4f624684a84c3c494b47390284d74",
+      "reviewed_pages": [
+        {
+          "printed": 78,
+          "pdf": 78,
+          "visual": false
+        },
+        {
+          "printed": 85,
+          "pdf": 85,
+          "visual": true
+        },
+        {
+          "printed": 86,
+          "pdf": 86,
+          "visual": false
+        },
+        {
+          "printed": 88,
+          "pdf": 88,
+          "visual": false
+        },
+        {
+          "printed": 89,
+          "pdf": 89,
+          "visual": true
+        },
+        {
+          "printed": 90,
+          "pdf": 90,
+          "visual": false
+        },
+        {
+          "printed": 91,
+          "pdf": 91,
+          "visual": true
+        }
+      ]
+    },
+    "Sonic Boom": {
+      "path": "Pokerole-Data/v3.0/Moves/Sonic Boom.json",
+      "sha256": "cca5dde6719fc1a4bae35a5654f412cf51481818438808db24a93df1a03d31fb",
+      "effect": "Single Target. This Move always inflict 1 Typeless damage. Ignore Defenses, Force Fields, Shield Moves, Cover, Out of Range, Type or Ability that would prevent this damage."
+    },
+    "Dragon Rage": {
+      "path": "Pokerole-Data/v3.0/Moves/Dragon Rage.json",
+      "sha256": "6c29a5aa27ac9034fe1231779aa2c63d0af68219983457fa5790d7737f83bb93",
+      "effect": "Single Target. Set Damage. Deal 2 Dragon-Type Damage to the Target."
+    },
+    "Seismic Toss": {
+      "path": "Pokerole-Data/v3.0/Moves/Seismic Toss.json",
+      "sha256": "1e928950acd10306af583911a2620a84dbcd80523801b767af649b58e22ea3b9",
+      "effect": "Single Target. Roll Fight-Type Damage Dice according to the User's Rank: Starter 1 Die / Rookie 2 Dice / Standard 4 Dice/ Advanced 6 Dice / Expert 8 Dice / Ace and forward 10 Dice. Ignore Defenses."
+    },
+    "Night Shade": {
+      "path": "Pokerole-Data/v3.0/Moves/Night Shade.json",
+      "sha256": "03b068cb1591d485b08cf0829b51565f7e069cbe1964da689363d3e51abdb411",
+      "effect": "Single Target. Roll Ghost-Type Damage Dice according to the User's Rank: Starter 1 Die / Rookie 2 Dice / Standard 4 Dice/ Advanced 6 Dice / Expert 8 Dice / Ace and forward 10 Dice. Ignore Defenses."
+    },
+    "Super Fang": {
+      "path": "Pokerole-Data/v3.0/Moves/Super Fang.json",
+      "sha256": "79f7117efb5f404e9fc12118dae1cd35ebd9f1285fe0a7994cfb4df9dba04ac3",
+      "effect": "Single Target. Low Accuracy 1. Bite Move. Roll Normal-Type Damage Dice equal to Half of the Target's remaining HP. Up to 10 Dice may be rolled this way. Ignore Defenses."
+    },
+    "Grassy Terrain": {
+      "path": "Pokerole-Data/v3.0/Moves/Grassy Terrain.json",
+      "sha256": "afaaefe0ff94c3cd61bfb235e0b015bb40c61839e25e7be3f4e91a835b28d83a",
+      "effect": "Target User's side of the field. Add 1 Extra Damage Dice to all Physical & Special Grass-Type Moves. Everyone on the User's side of the field heals 1 HP at the end of each Round. Spend 1 Will Point t activate. Duration 4 Rounds."
+    },
+    "Electric Terrain": {
+      "path": "Pokerole-Data/v3.0/Moves/Electric Terrain.json",
+      "sha256": "448611d53770d0c48b0727a6925d912fad022af7844415561b2fbbd820262bcf",
+      "effect": "Target Battlefield. Add 1 Extra Damage Dice to all Physical & Special Electric-Type Moves. Pokemon without immunity to Ground will be cured of the Sleep Status. Duration 4 Rounds."
+    },
+    "Misty Terrain": {
+      "path": "Pokerole-Data/v3.0/Moves/Misty Terrain.json",
+      "sha256": "cb8fc0ad7a3a39be12dbc3880216ad6d14729e75e34cfbb885e76d1d31365fd6",
+      "effect": "Target Battlefield. All Status Ailments and Conditions are cured and no more can be inflicted. Physical & Special Dragon-Type Moves have Power 0. Duration 4 Rounds."
+    },
+    "Psychic Terrain": {
+      "path": "Pokerole-Data/v3.0/Moves/Psychic Terrain.json",
+      "sha256": "82f11e1407540df7fa8831e71d1cf28a2ec8ecc5982d149bef7db26a4eeadf71",
+      "effect": "Target Battlefield. Add 1 Extra Damage Dice to all Physical & Special Psychic-Type Moves. Pokemon without immunity to Ground can't use Moves with Reaction or Late Reaction. Duration 4 Rounds."
+    },
+    "Air Lock": {
+      "path": "Pokerole-Data/v3.0/Abilities/Air Lock.json",
+      "sha256": "4966392c80ccaede17b0826babcaccd262f8961a1a30eeb2638ecd1122aef644",
+      "effect": "Negate all the effects of a Weather in the field. If no weather is active, they cannot be activated by Moves or Abilities. If one is already active, it does not disappear but provides no effects. Unique Ability."
+    },
+    "Cloud Nine": {
+      "path": "Pokerole-Data/v3.0/Abilities/Cloud Nine.json",
+      "sha256": "225eba605f0b1a5ec2920b80ead029a57302a6cc228f0a8f1167c97f93469eae",
+      "effect": "Negate the effects of Weather Conditions on this Pokemon."
+    },
+    "Drought": {
+      "path": "Pokerole-Data/v3.0/Abilities/Drought.json",
+      "sha256": "cb7c994999ff14176fe0d3917f9afff380af39551a06f906eab705b4dd0baddc",
+      "effect": "When this Pokemon comes out, it automatically starts the effects of Sunny Weather. The effects end when the Pokemon leaves the battle. (In case of stalemate the Pokemon with higher Will might keep the dominant weather)"
+    },
+    "Drizzle": {
+      "path": "Pokerole-Data/v3.0/Abilities/Drizzle.json",
+      "sha256": "8c76356a236f962ec4198d35b92be4e988f17555a865e58c50e15a5063f8d5fe",
+      "effect": "When this Pokemon comes out, it automatically starts the effects of Rain Weather. The effects end when the Pokemon leaves the battle. (In case of stalemate the Pokemon with higher Will might keep the dominant weather)"
+    },
+    "Grassy Surge": {
+      "path": "Pokerole-Data/v3.0/Abilities/Grassy Surge.json",
+      "sha256": "c798845868c817d4efb591027ec445292ed378405e6343e3976db1c736cfbd83",
+      "effect": "When this Pokemon comes out, it automatically starts the effects of the Move Grassy Terrain. (In case of stalemate the Pokemon with higher Will might keep the dominant Terrain)"
+    },
+    "Electric Surge": {
+      "path": "Pokerole-Data/v3.0/Abilities/Electric Surge.json",
+      "sha256": "7cfa230acb404772c0416986ca3db6e64d204edea883cf7e372e6c4d18d6b79d",
+      "effect": "When this Pokemon comes out, it automatically starts the effects of the Move Electric Terrain. (In case of stalemate the Pokemon with higher Will might keep the dominant Terrain)"
+    },
+    "Misty Surge": {
+      "path": "Pokerole-Data/v3.0/Abilities/Misty Surge.json",
+      "sha256": "50a768d5656a21495be179ae9bf47d905c6ab8d4fa645743a147ba0110a267cb",
+      "effect": "When this Pokemon comes out, it automatically starts the effects of the Move Misty Terrain. (In case of stalemate the Pokemon with higher Will might keep the dominant Terrain)"
+    },
+    "Psychic Surge": {
+      "path": "Pokerole-Data/v3.0/Abilities/Psychic Surge.json",
+      "sha256": "17ce966b80e0d8bd0da3cf2246b99fd60f11cf19e1dda8ec5bdc048383bdc956",
+      "effect": "When this Pokemon comes out, it automatically starts the effects of the Move Psychic Terrain. (In case of stalemate the Pokemon with higher Will might keep the dominant Terrain)"
+    },
+    "Seed Sower": {
+      "path": "Pokerole-Data/v3.0/Abilities/Seed Sower.json",
+      "sha256": "813a1b61133f56a47852bcb1c4fbed5f0f2e51f2b93e199b82f16486e802cf5c",
+      "effect": "If this Pokemon is hit with a Physical or Special Move, it starts the effects of Grassy Terrain. The effect lasts 4 rounds. This effect does not reactivate until the Terrain is removed."
+    },
+    "Run Away": {
+      "path": "Pokerole-Data/v3.0/Abilities/Run Away.json",
+      "sha256": "4956248fa78ea81ec9ccf0859e91de5b901c2cf7e3f38ed17f99244dbe6d109f",
+      "effect": "This Pokemon cannot be Blocked. It may also obtain bonus dice to escape from battle, Pokeballs or captivity at Storyteller's discretion."
+    },
+    "Magic Guard": {
+      "path": "Pokerole-Data/v3.0/Abilities/Magic Guard.json",
+      "sha256": "901ffbf30fa0c80d4a3c3cdd46a9d9017b2cf8d620011b8dd6cc160eb7e18d2c",
+      "effect": "The Pokemon only receives damage from Physical and Special Moves, Ongoing Damage, Confusion status, Pain Split, Destiny Bond, Perish Song & Self-Damaging Moves. Immune to damage from: Abilities, Status Ailments, Entry Hazards, Recoil, Held Items, or Weather. It can still have Status Ailments inflicted."
+    },
+    "Levitate": {
+      "path": "Pokerole-Data/v3.0/Abilities/Levitate.json",
+      "sha256": "950391d9f3274acbf8dec2b5ea13809a31f60bb5b7ace4a4bbf5acca84f578ac",
+      "effect": "This Pokemon has immunity to Ground-Type moves and effects active on the battlefield such as Terrains and certain Entry Hazards."
+    },
+    "master": {
+      "path": "Pokerole-Data/POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "sha256": "f8a1ab8c7c059c1e32b658a6770893e58f364fd4c8d28ca87ec912154cfd6cc2",
+      "pdf_offset": -133,
+      "reviewed_pages": [
+        {
+          "printed": 554,
+          "pdf": 421,
+          "visual": true
+        }
+      ]
+    }
+  },
+  "entries": [
+    {
+      "id": "M3-I01",
+      "title": "Ordinary ice-breaking baseline",
+      "status": "existing",
+      "sources": [
+        {
+          "source": "ruling",
+          "pages": [
+            85,
+            86
+          ]
+        }
+      ],
+      "observed": "End-of-round self/ally attempts, remaining actions, 5 HP, both defenses 2, successful super-effective break and no Pokemon HP loss are implemented. Physical and ordinary Special categories are accepted.",
+      "next_step": "Retain current behavior. Extend dedicated tests only for an identified uncovered branch; do not reimplement ordinary Special attacks.",
+      "code": [
+        {
+          "path": "src-tauri/src/combat.rs",
+          "symbol": "ice_attack"
+        },
+        {
+          "path": "src-tauri/src/combat.rs",
+          "symbol": "ice_damage_pool"
+        }
+      ],
+      "existing_fixtures": [
+        {
+          "path": "src-tauri/src/combat_tests.rs",
+          "name": "frozen_subject_can_break_ice_at_round_end_without_losing_its_hp"
+        },
+        {
+          "path": "src-tauri/src/combat_tests/special_tests.rs",
+          "name": "special_charge_defense_is_temporary_and_matcha_can_break_its_own_ice"
+        }
+      ]
+    },
+    {
+      "id": "M3-I02",
+      "title": "Snow ice HP and physical Defense",
+      "status": "existing-needs-regression",
+      "sources": [
+        {
+          "source": "ruling",
+          "pages": [
+            89
+          ]
+        }
+      ],
+      "observed": "Engine already uses 7 HP and subtracts defense 3 in Snow. The registry claiming all Snow-versus-ice behavior is manual was stale.",
+      "next_step": "Reconcile scope now; later add focused Snow/no-Snow pool and HP-threshold regressions without scheduling a replacement implementation.",
+      "code": [
+        {
+          "path": "src-tauri/src/combat.rs",
+          "symbol": "ice_damage_pool"
+        },
+        {
+          "path": "src-tauri/src/combat.rs",
+          "symbol": "Ice block damage"
+        }
+      ],
+      "existing_fixtures": [
+        {
+          "path": "src-tauri/src/combat_tests/field_tests.rs",
+          "name": "field_all_weather_bonuses_and_move_failures"
+        }
+      ]
+    },
+    {
+      "id": "M3-I03",
+      "title": "Snow ice Special Defense wording",
+      "status": "source-review",
+      "sources": [
+        {
+          "source": "ruling",
+          "pages": [
+            85,
+            89
+          ]
+        }
+      ],
+      "observed": "Page 85 names Defense and Special Defense separately, both 2. Page 89 raises HP and Defense to 7 and 3 but does not explicitly name Special Defense. Current shared ice pool subtracts 3 for either attack category in Snow.",
+      "next_step": "Resolve the narrower printed wording before approving any Special Defense correction; add physical-versus-Special acceptance cases once the interpretation is recorded. Current code is not evidence that Snow Special Defense 3 is official.",
+      "code": [
+        {
+          "path": "src-tauri/src/combat.rs",
+          "symbol": "ice_damage_pool"
+        }
+      ],
+      "existing_fixtures": []
+    },
+    {
+      "id": "M3-I04",
+      "title": "Fixed and variable damage against ice: five named cards",
+      "status": "source-review",
+      "sources": [
+        {
+          "source": "ruling",
+          "pages": [
+            85,
+            86
+          ]
+        },
+        {
+          "source": "Sonic Boom"
+        },
+        {
+          "source": "Dragon Rage"
+        },
+        {
+          "source": "Seismic Toss"
+        },
+        {
+          "source": "Night Shade"
+        },
+        {
+          "source": "Super Fang"
+        }
+      ],
+      "observed": "Ice guard rejects Power 0, SetDamage and Varies, including these otherwise supported damaging moves. Seismic Toss is Fight-type and the printed ice rule grants immediate breaking to super-effective moves. Ordinary Special-category attacks are not this gap.",
+      "next_step": "Review each named formula against the ice object. Separate super-effective instant breaking from neutral fixed/rank/remaining-HP damage; establish object HP, effect and cost handling before selecting an implementation batch. Do not assume every conditional move works on ice.",
+      "code": [
+        {
+          "path": "src-tauri/src/combat.rs",
+          "symbol": "ice_attack"
+        },
+        {
+          "path": "src-tauri/src/combat/special.rs",
+          "symbol": "resolve_formula"
+        }
+      ],
+      "existing_fixtures": []
+    },
+    {
+      "id": "M3-I05",
+      "title": "Snow changes or suppression while ice is damaged",
+      "status": "source-review",
+      "sources": [
+        {
+          "source": "ruling",
+          "pages": [
+            85,
+            89
+          ]
+        },
+        {
+          "source": "Air Lock"
+        },
+        {
+          "source": "Cloud Nine"
+        }
+      ],
+      "observed": "Ice damage progress is stored on the status, while HP threshold and defense are read from live target-effective weather. Source does not explicitly state whether an existing block snapshots Snow or changes with it.",
+      "next_step": "Retain explicit uncertainty. Record timing semantics for Snow starting/ending and suppression; then test partially damaged blocks. Do not silently import video-game rules.",
+      "code": [
+        {
+          "path": "src-tauri/src/combat.rs",
+          "symbol": "ice_damage_pool"
+        },
+        {
+          "path": "src-tauri/src/combat.rs",
+          "symbol": "Ice block damage"
+        },
+        {
+          "path": "src-tauri/src/combat/field.rs",
+          "symbol": "weather"
+        }
+      ],
+      "existing_fixtures": []
+    },
+    {
+      "id": "M3-W01",
+      "title": "Sunny Weather at night",
+      "status": "source-code-gap",
+      "sources": [
+        {
+          "source": "ruling",
+          "pages": [
+            88
+          ]
+        }
+      ],
+      "observed": "Printed Sunny Weather cannot be active at night. Setup validation, move guard and weather activation test sunlight reach/indoors but do not read the independent night flag; Night command only changes that flag.",
+      "next_step": "Before a future fix, reproduce night + reachable sunlight across setup, Sunny Day and Drought. Define handling for changing to night with existing Sunny and preserve historical encounter rules. This audit does not implement the missing night validation.",
+      "code": [
+        {
+          "path": "src-tauri/src/combat/field.rs",
+          "symbol": "validate_setup"
+        },
+        {
+          "path": "src-tauri/src/combat/field.rs",
+          "symbol": "guard_move"
+        },
+        {
+          "path": "src-tauri/src/combat/field.rs",
+          "symbol": "set_weather"
+        },
+        {
+          "path": "src-tauri/src/combat/field.rs",
+          "symbol": "FieldCommand::Night"
+        }
+      ],
+      "existing_fixtures": [
+        {
+          "path": "src-tauri/src/combat_tests/environment_tests.rs",
+          "name": "environment_rejects_invalid_setup_unauthorized_starts_and_historical_engines_atomically"
+        },
+        {
+          "path": "src-tauri/src/combat_tests/environment_tests.rs",
+          "name": "environment_moonlight_uses_live_night_with_explicit_overrides_and_historical_fallback"
+        }
+      ]
+    },
+    {
+      "id": "M3-W02",
+      "title": "Weather priority, ability Will contests and expiry",
+      "status": "existing",
+      "sources": [
+        {
+          "source": "ruling",
+          "pages": [
+            88,
+            89,
+            90
+          ]
+        },
+        {
+          "source": "Drought"
+        },
+        {
+          "source": "Drizzle"
+        }
+      ],
+      "observed": "Move replacement, ability Will contests with tied rerolls, departure, natural fallback and extreme-weather guards exist. These are not a wholly unimplemented precedence system.",
+      "next_step": "Review move-versus-ability replacement/re-entry, equal weather, ties and extreme-weather blockers against existing tests; open a named bug only on a reproduced discrepancy.",
+      "code": [
+        {
+          "path": "src-tauri/src/combat/field.rs",
+          "symbol": "set_weather"
+        },
+        {
+          "path": "src-tauri/src/combat/field.rs",
+          "symbol": "weather-contest"
+        },
+        {
+          "path": "src-tauri/src/combat/field.rs",
+          "symbol": "lifecycle"
+        },
+        {
+          "path": "src-tauri/src/combat/field.rs",
+          "symbol": "expire"
+        }
+      ],
+      "existing_fixtures": [
+        {
+          "path": "src-tauri/src/combat_tests/field_tests.rs",
+          "name": "field_weather_ability_contest_suppression_departure_and_reconnect"
+        },
+        {
+          "path": "src-tauri/src/combat_tests/field_tests.rs",
+          "name": "field_shared_attack_freezes_weather_when_its_source_faints"
+        },
+        {
+          "path": "src-tauri/src/combat_tests/field_tests.rs",
+          "name": "field_round_end_events_complete_before_expiry_and_ticks_are_once"
+        }
+      ]
+    },
+    {
+      "id": "M3-W03",
+      "title": "Air Lock and Cloud Nine suppression",
+      "status": "existing",
+      "sources": [
+        {
+          "source": "Air Lock"
+        },
+        {
+          "source": "Cloud Nine"
+        },
+        {
+          "source": "ruling",
+          "pages": [
+            89,
+            90
+          ]
+        }
+      ],
+      "observed": "Global Air Lock suppression and holder-only Cloud Nine exemption exist, with weather records retained. Ice reads target-effective weather; interactions with old blocks remain M3-I05.",
+      "next_step": "Retain suppression infrastructure; verify entry/exit, retained source and effective-weather edge cases without treating suppression as weather deletion.",
+      "code": [
+        {
+          "path": "src-tauri/src/combat/field.rs",
+          "symbol": "weather"
+        },
+        {
+          "path": "src-tauri/src/combat/field.rs",
+          "symbol": "set_weather"
+        }
+      ],
+      "existing_fixtures": [
+        {
+          "path": "src-tauri/src/combat_tests/field_tests.rs",
+          "name": "field_weather_ability_contest_suppression_departure_and_reconnect"
+        }
+      ]
+    },
+    {
+      "id": "M3-T01",
+      "title": "Mixed terrain precedence and scope",
+      "status": "source-review",
+      "sources": [
+        {
+          "source": "Grassy Terrain"
+        },
+        {
+          "source": "Electric Terrain"
+        },
+        {
+          "source": "Misty Terrain"
+        },
+        {
+          "source": "Psychic Terrain"
+        },
+        {
+          "source": "Grassy Surge"
+        },
+        {
+          "source": "Electric Surge"
+        },
+        {
+          "source": "Misty Surge"
+        },
+        {
+          "source": "Psychic Surge"
+        },
+        {
+          "source": "Seed Sower"
+        },
+        {
+          "source": "Levitate"
+        }
+      ],
+      "observed": "Move-cast overlapping different terrains request a GM ruling. Surge-versus-surge has Will contests; the ability cards mention higher Will as a stalemate hint. Surge-versus-move and Seed Sower conflicts are explicit rulings. Terrain application currently removes other terrain records globally.",
+      "next_step": "Review partially overlapping side/all scopes and the differing source cases. Keep genuinely unspecified move/ability precedence and tied-ability policy visible; do not invent a universal last-cast rule from the weather paragraph.",
+      "code": [
+        {
+          "path": "src-tauri/src/combat/field.rs",
+          "symbol": "move_effect"
+        },
+        {
+          "path": "src-tauri/src/combat/field.rs",
+          "symbol": "terrain-contest"
+        },
+        {
+          "path": "src-tauri/src/combat/field.rs",
+          "symbol": "terrain-ruling"
+        },
+        {
+          "path": "src-tauri/src/combat/field.rs",
+          "symbol": "apply_terrain"
+        },
+        {
+          "path": "src-tauri/src/combat/field.rs",
+          "symbol": "seed_sower"
+        }
+      ],
+      "existing_fixtures": [
+        {
+          "path": "src-tauri/src/combat_tests/environment_tests.rs",
+          "name": "environment_entry_abilities_resolve_against_preexisting_conditions"
+        },
+        {
+          "path": "src-tauri/src/combat_tests/field_tests.rs",
+          "name": "field_terrain_healing_is_capped_and_expiry_does_not_repeat"
+        }
+      ]
+    },
+    {
+      "id": "M3-F01",
+      "title": "Force fields, bypass and cleanup",
+      "status": "existing",
+      "sources": [
+        {
+          "source": "ruling",
+          "pages": [
+            78
+          ]
+        }
+      ],
+      "observed": "Same-category damage reduction does not stack. Existing screen code and M2-E Safeguard have shared bypass/removal behavior; this audit does not reopen their delivered scope.",
+      "next_step": "Retain delivered mechanics. Check combination/expiry regressions only where a concrete edge is identified.",
+      "code": [
+        {
+          "path": "src-tauri/src/combat/field.rs",
+          "symbol": "force_field_bypass"
+        },
+        {
+          "path": "src-tauri/src/combat/field.rs",
+          "symbol": "screen_cleaner"
+        }
+      ],
+      "existing_fixtures": [
+        {
+          "path": "src-tauri/src/combat_tests/field_tests.rs",
+          "name": "field_barriers_do_not_stack_and_require_snow_for_veil"
+        },
+        {
+          "path": "src-tauri/src/combat_tests/cure_protection_tests.rs",
+          "name": "cure_protection_defog_removes_safeguard_and_toxic_spikes"
+        }
+      ]
+    },
+    {
+      "id": "M3-F02",
+      "title": "Magic Guard explicit Perish Song exception",
+      "status": "source-code-gap",
+      "sources": [
+        {
+          "source": "master",
+          "pages": [
+            554
+          ]
+        },
+        {
+          "source": "Magic Guard"
+        }
+      ],
+      "observed": "Printed MASTER 554 / PDF 421 and the exact Magic Guard JSON explicitly allow Perish Song damage. Perish Song currently calls special::indirect, which blocks Magic Guard; an existing M2-D regression asserts that survival. The passing test confirms current behavior, not agreement with the printed rule.",
+      "next_step": "Record this source-backed correction candidate separately from M2 delivery scope. Before a future fix, reproduce the deadline hit with and without Magic Guard, replace the conflicting expectation, and preserve its other indirect-damage immunities and historical encounters. No mechanic changes in this audit.",
+      "code": [
+        {
+          "path": "src-tauri/src/combat/recurring.rs",
+          "symbol": "pub fn end_round"
+        },
+        {
+          "path": "src-tauri/src/combat/special.rs",
+          "symbol": "pub(super) fn indirect"
+        }
+      ],
+      "existing_fixtures": [
+        {
+          "path": "src-tauri/src/combat_tests/recurring_tests.rs",
+          "name": "recurring_perish_indirect_immunity_and_nonstacking_are_preserved"
+        }
+      ]
+    },
+    {
+      "id": "M3-A01",
+      "title": "Healing Pits printed Heal 1 and configurable variants",
+      "status": "parameterized",
+      "sources": [
+        {
+          "source": "ruling",
+          "pages": [
+            91
+          ]
+        }
+      ],
+      "observed": "Visual review confirms a Heal 1 icon omitted by text extraction. Existing UI parameter defaults to 1; engine takes a configured positive amount, spends one action and depletes the pit. Prior documentation incorrectly called the printed amount unspecified.",
+      "next_step": "Correct the documentation now. Keep 1 as the printed reference and distinguish GM-designed variants. No missing healing subsystem or mandatory new amount choice is established by this audit.",
+      "code": [
+        {
+          "path": "src-tauri/src/combat/field.rs",
+          "symbol": "FieldCommand::HealingPit"
+        },
+        {
+          "path": "src/BattlefieldControls.tsx",
+          "symbol": "[parameter, setParameter]"
+        }
+      ],
+      "existing_fixtures": []
+    },
+    {
+      "id": "M3-A02",
+      "title": "High Poles difficulty",
+      "status": "parameterized",
+      "sources": [
+        {
+          "source": "ruling",
+          "pages": [
+            91
+          ]
+        }
+      ],
+      "observed": "Source defines Dexterity + Athletic at round end for non-Flying Pokemon, with 2 damage on failure, but gives no success difficulty. Existing engine validates and uses a positive GM parameter.",
+      "next_step": "Keep GM-defined difficulty with provenance. Do not invent an official default or classify the supported check/damage as missing.",
+      "code": [
+        {
+          "path": "src-tauri/src/combat/field.rs",
+          "symbol": "high-poles"
+        },
+        {
+          "path": "src-tauri/src/combat/field.rs",
+          "symbol": "FieldCommand::Preset"
+        }
+      ],
+      "existing_fixtures": [
+        {
+          "path": "src-tauri/src/combat_tests/field_tests.rs",
+          "name": "field_arena_permissions_typing_and_reaction_restrictions"
+        }
+      ]
+    },
+    {
+      "id": "M3-A03",
+      "title": "Torn World target distribution",
+      "status": "intentional-gm",
+      "sources": [
+        {
+          "source": "ruling",
+          "pages": [
+            91
+          ]
+        }
+      ],
+      "observed": "Source says targets change randomly without a sampling distribution or legality rules. Engine blocks ordinary targeting until GM adjudication.",
+      "next_step": "Retain explicit target ruling. Automation requires a separately recorded group policy covering candidates, Self/Area/Field moves and invalid targets.",
+      "code": [
+        {
+          "path": "src-tauri/src/combat/field.rs",
+          "symbol": "guard_move"
+        }
+      ],
+      "existing_fixtures": []
+    },
+    {
+      "id": "M3-A04",
+      "title": "Cemetery / Run Away narrative escape",
+      "status": "intentional-gm",
+      "sources": [
+        {
+          "source": "ruling",
+          "pages": [
+            91
+          ]
+        },
+        {
+          "source": "Run Away"
+        }
+      ],
+      "observed": "Cemetery supplies an Intimidate bonus and Run Away to non-Ghost Pokemon. Narrative escape bonus dice are explicitly at storyteller discretion in the ability card; existing encounter hooks are separate.",
+      "next_step": "Retain storyteller decisions for narrative escape; do not turn this into a blanket missing battle mechanic.",
+      "code": [
+        {
+          "path": "src-tauri/src/combat/field.rs",
+          "symbol": "cemetery"
+        },
+        {
+          "path": "src-tauri/src/combat/extra.rs",
+          "symbol": "Run Away"
+        }
+      ],
+      "existing_fixtures": []
+    },
+    {
+      "id": "M3-A05",
+      "title": "Arena exposure clocks and round-end ordering",
+      "status": "existing",
+      "sources": [
+        {
+          "source": "ruling",
+          "pages": [
+            90,
+            91
+          ]
+        }
+      ],
+      "observed": "Underwater difficulty uses exposure rounds from effect start, increasing by two. Fire/sewage Chance events, falling checks, expiry ordering and once-per-round ticks already exist.",
+      "next_step": "Retain existing mechanics. Cross-check scoped entrants, suppression, pending events and expiry with named reproductions before adding tasks; trainer damage and narrative simulation stay outside this batch.",
+      "code": [
+        {
+          "path": "src-tauri/src/combat/field.rs",
+          "symbol": "underwater"
+        },
+        {
+          "path": "src-tauri/src/combat/field.rs",
+          "symbol": "end"
+        },
+        {
+          "path": "src-tauri/src/combat/field.rs",
+          "symbol": "expire"
+        }
+      ],
+      "existing_fixtures": [
+        {
+          "path": "src-tauri/src/combat_tests/field_tests.rs",
+          "name": "field_round_end_events_complete_before_expiry_and_ticks_are_once"
+        },
+        {
+          "path": "src-tauri/src/combat_tests/field_tests.rs",
+          "name": "field_round_checks_are_host_rolled_owned_choices_and_idempotent"
+        }
+      ]
+    }
+  ]
+}

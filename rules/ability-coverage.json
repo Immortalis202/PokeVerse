@@ -864,7 +864,7 @@
     },
     "Levitate": {
       "status": "partial",
-      "scope": "Ground move immunity automated; terrain and entry-hazard effects remain manual.",
+      "scope": "Ground move immunity and supported grounded terrain/entry-hazard exclusions use the battlefield service, including Gravity and grounding interactions. Mixed terrain/source precedence is tracked in M3-T01; supported hazard mechanics are not wholly manual.",
       "page": 553,
       "introduced_engine": "0.5.0-core"
     },
@@ -934,7 +934,7 @@
     "Magic Guard": {
       "page": 554,
       "status": "partial",
-      "scope": "Prevents reviewed ability damage, burn/poison ticks and Submission recoil. Confusion and direct move damage remain; weather, held items and entry hazards await their mechanics.",
+      "scope": "Reviewed ability damage, Burn/Poison ticks, recoil, weather and supported item/hazard damage use existing protection hooks; these systems are no longer awaiting implementation. Direct move damage and Confusion remain. M3-F02 records a source/code gap: printed Magic Guard explicitly permits Perish Song damage, but the current shared indirect helper blocks it. Retain partial pending this correction and review of other named exceptions.",
       "introduced_engine": "0.5.0-core"
     },
     "Magician": {
