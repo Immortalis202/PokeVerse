@@ -29,6 +29,7 @@ fn move_effect_route_inventory() {
             f.spite = true;
             f.status_escalation = true;
             f.will_drains = true;
+            f.direct_status = true;
             f.identity_moves = true;
             f.house_rules = true;
             f.interaction_rules = true;
@@ -125,8 +126,8 @@ fn move_effect_route_inventory() {
             .as_str()
             .is_some_and(|m| m.contains("no reviewed executable definition"))
     };
-    assert!(missing("Confuse Ray"));
-    assert!(missing("Thunder Wave"));
+    assert!(!missing("Confuse Ray"));
+    assert!(!missing("Thunder Wave"));
     assert!(!missing("Air Slash"));
     let row = |name: &str| rows.iter().find(|r| r["name"] == name).unwrap();
     assert_eq!(

@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "date": "2026-10-28",
-  "release": "0.36.0",
-  "engine": "0.29.0-core",
-  "scope": "892-card effect-route inventory; focused semantic review of status infliction, cure and protection clauses. No runtime mechanics changed.",
+  "date": "2026-10-29",
+  "release": "0.37.0",
+  "engine": "0.30.0-core",
+  "scope": "892-card effect-route inventory; focused semantic review of status infliction, cure and protection clauses. M2-A direct status clauses delivered; see the scoped registry.",
   "limits": [
     "An executable route is not full card coverage.",
     "Probes bypass accuracy, damage, timing and public command permissions; no native or network acceptance is implied.",
@@ -19,16 +19,16 @@
   "counts": {
     "routes": {
       "excluded": 38,
-      "executable-scope": 355,
+      "executable-scope": 377,
       "gm-choice": 1,
       "input-required": 10,
-      "manual-effect-route": 488
+      "manual-effect-route": 466
     },
     "status_clauses": {
       "excluded": 6,
-      "implemented-clause": 66,
+      "implemented-clause": 88,
       "missing-clause": 1,
-      "missing-effect": 104,
+      "missing-effect": 82,
       "missing-move-entry": 1,
       "partial-clause": 1,
       "source-discrepancy": 1
@@ -692,26 +692,40 @@
       },
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
       "declared_scopes": [],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-A",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Guaranteed printed condition wired through direct_status; see rules/direct-status-moves.json and direct_status_tests."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Confusion"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Confusion"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -1640,26 +1654,40 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
       "declared_scopes": [],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-A",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Guaranteed printed condition wired through direct_status; see rules/direct-status-moves.json and direct_status_tests."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "In Love"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "In Love"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -5878,26 +5906,40 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
       "declared_scopes": [],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-A",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Guaranteed printed condition wired through direct_status; see rules/direct-status-moves.json and direct_status_tests."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Confusion"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Confusion"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -7095,26 +7137,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
       "declared_scopes": [],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-A",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Guaranteed printed condition wired through direct_status; see rules/direct-status-moves.json and direct_status_tests."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Sleep"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -9441,26 +9496,40 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
       "declared_scopes": [],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-A",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Guaranteed printed condition wired through direct_status; see rules/direct-status-moves.json and direct_status_tests."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Confusion"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Confusion"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -14178,26 +14247,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
       "declared_scopes": [],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-A",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Guaranteed printed condition wired through direct_status; see rules/direct-status-moves.json and direct_status_tests."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Paralysis"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -14401,26 +14483,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
       "declared_scopes": [],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-A",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Guaranteed printed condition wired through direct_status; see rules/direct-status-moves.json and direct_status_tests."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Sleep"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -17724,7 +17819,7 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [
@@ -17732,20 +17827,33 @@
       ],
       "declared_scopes": [],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-A",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Guaranteed printed condition wired through direct_status; see rules/direct-status-moves.json and direct_status_tests."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Burn 3"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 3"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -23597,26 +23705,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
       "declared_scopes": [],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-A",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Guaranteed printed condition wired through direct_status; see rules/direct-status-moves.json and direct_status_tests."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Paralysis"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -24945,26 +25066,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
       "declared_scopes": [],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-A",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Guaranteed printed condition wired through direct_status; see rules/direct-status-moves.json and direct_status_tests."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Paralysis",
+            "Sleep",
+            "Badly Poisoned"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Poison"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -25042,26 +25176,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
       "declared_scopes": [],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-A",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Guaranteed printed condition wired through direct_status; see rules/direct-status-moves.json and direct_status_tests."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Paralysis",
+            "Sleep",
+            "Badly Poisoned"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Poison"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -31036,26 +31183,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
       "declared_scopes": [],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-A",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Guaranteed printed condition wired through direct_status; see rules/direct-status-moves.json and direct_status_tests."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Sleep"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -31628,26 +31788,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
       "declared_scopes": [],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-A",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Guaranteed printed condition wired through direct_status; see rules/direct-status-moves.json and direct_status_tests."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Sleep"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -33482,26 +33655,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
       "declared_scopes": [],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-A",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Guaranteed printed condition wired through direct_status; see rules/direct-status-moves.json and direct_status_tests."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Sleep"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -34673,26 +34859,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
       "declared_scopes": [],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-A",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Guaranteed printed condition wired through direct_status; see rules/direct-status-moves.json and direct_status_tests."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Paralysis"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -35163,26 +35362,40 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
       "declared_scopes": [],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-A",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Guaranteed printed condition wired through direct_status; see rules/direct-status-moves.json and direct_status_tests."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Confusion"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Confusion"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -35399,26 +35612,40 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
       "declared_scopes": [],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-A",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Guaranteed printed condition wired through direct_status; see rules/direct-status-moves.json and direct_status_tests."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Confusion"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Confusion"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -36397,26 +36624,40 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
       "declared_scopes": [],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-A",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Guaranteed printed condition wired through direct_status; see rules/direct-status-moves.json and direct_status_tests."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Confusion"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Confusion"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -37072,26 +37313,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
       "declared_scopes": [],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-A",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Guaranteed printed condition wired through direct_status; see rules/direct-status-moves.json and direct_status_tests."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Paralysis"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -37635,26 +37889,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
       "declared_scopes": [],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-A",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Guaranteed printed condition wired through direct_status; see rules/direct-status-moves.json and direct_status_tests."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Paralysis",
+            "Sleep",
+            "Badly Poisoned"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Badly Poisoned"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -39883,26 +40150,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
       "declared_scopes": [],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-A",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Guaranteed printed condition wired through direct_status; see rules/direct-status-moves.json and direct_status_tests."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Poison",
+            "Paralysis",
+            "Sleep",
+            "Burn 3"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn"
+          ],
+          "user_statuses": []
         }
       }
     },
@@ -40470,7 +40750,7 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [
@@ -40478,20 +40758,33 @@
       ],
       "declared_scopes": [],
       "status_audit": {
-        "status": "missing-effect",
+        "status": "implemented-clause",
         "batch": "M2-A",
-        "reason": "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause."
+        "completed": true,
+        "reason": "Guaranteed printed condition wired through direct_status; see rules/direct-status-moves.json and direct_status_tests."
       },
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Paralysis"
+          ],
+          "user_statuses": []
         }
       }
     },

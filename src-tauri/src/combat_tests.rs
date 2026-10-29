@@ -1214,3 +1214,6 @@ mod will_tests;
 
 #[path = "combat_tests/move_audit.rs"]
 mod move_audit;
+
+#[path = "combat_tests/direct_status_tests.rs"]
+mod direct_status_tests;

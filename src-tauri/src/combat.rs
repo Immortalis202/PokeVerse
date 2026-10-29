@@ -6,6 +6,7 @@ use ts_rs::TS;
 pub(crate) mod abilities;
 pub(crate) mod ability_changes;
 pub(crate) mod decoys;
+pub(crate) mod direct_status;
 pub(crate) mod events;
 pub(crate) mod extra;
 pub(crate) mod field;
@@ -72,6 +73,8 @@ pub struct TurnFlow {
     pub spite: bool,
     #[serde(default)]
     pub will_drains: bool,
+    #[serde(default)]
+    pub direct_status: bool,
     #[serde(default)]
     pub identity_moves: bool,
     #[serde(default)]
@@ -1090,6 +1093,7 @@ pub fn transition(
     if let Some(setup) = field::start_setup(a) {
         if ![
             ENGINE,
+            WILL_ENGINE,
             SPITE_ENGINE,
             STATUS_ENGINE,
             IDENTITY_ENGINE,
@@ -3003,14 +3007,22 @@ fn transition_inner(
             ) {
                 let b = done.battle.as_mut().unwrap();
                 b.flow = Some(TurnFlow {
-                    identity_moves: [ENGINE, SPITE_ENGINE, STATUS_ENGINE, IDENTITY_ENGINE]
+                    identity_moves: [
+                        ENGINE,
+                        WILL_ENGINE,
+                        SPITE_ENGINE,
+                        STATUS_ENGINE,
+                        IDENTITY_ENGINE,
+                    ]
+                    .contains(&c.engine.as_str()),
+                    status_escalation: [ENGINE, WILL_ENGINE, SPITE_ENGINE, STATUS_ENGINE]
                         .contains(&c.engine.as_str()),
-                    status_escalation: [ENGINE, SPITE_ENGINE, STATUS_ENGINE]
-                        .contains(&c.engine.as_str()),
-                    spite: [ENGINE, SPITE_ENGINE].contains(&c.engine.as_str()),
-                    will_drains: c.engine == ENGINE,
+                    spite: [ENGINE, WILL_ENGINE, SPITE_ENGINE].contains(&c.engine.as_str()),
+                    will_drains: [ENGINE, WILL_ENGINE].contains(&c.engine.as_str()),
+                    direct_status: c.engine == ENGINE,
                     house_rules: [
                         ENGINE,
+                        WILL_ENGINE,
                         SPITE_ENGINE,
                         STATUS_ENGINE,
                         IDENTITY_ENGINE,
@@ -3020,6 +3032,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     interaction_rules: [
                         ENGINE,
+                        WILL_ENGINE,
                         SPITE_ENGINE,
                         STATUS_ENGINE,
                         IDENTITY_ENGINE,
@@ -3032,6 +3045,7 @@ fn transition_inner(
                     standalone: standalone::StandaloneState {
                         enabled: [
                             ENGINE,
+                            WILL_ENGINE,
                             SPITE_ENGINE,
                             STATUS_ENGINE,
                             IDENTITY_ENGINE,
@@ -3047,6 +3061,7 @@ fn transition_inner(
                     information: information::InformationState {
                         enabled: [
                             ENGINE,
+                            WILL_ENGINE,
                             SPITE_ENGINE,
                             STATUS_ENGINE,
                             IDENTITY_ENGINE,
@@ -3063,6 +3078,7 @@ fn transition_inner(
                     forms: forms::FormState {
                         enabled: [
                             ENGINE,
+                            WILL_ENGINE,
                             SPITE_ENGINE,
                             STATUS_ENGINE,
                             IDENTITY_ENGINE,
@@ -3081,6 +3097,7 @@ fn transition_inner(
                         completion: items::completion::CompletionState {
                             enabled: [
                                 ENGINE,
+                                WILL_ENGINE,
                                 SPITE_ENGINE,
                                 STATUS_ENGINE,
                                 IDENTITY_ENGINE,
@@ -3093,6 +3110,7 @@ fn transition_inner(
                         },
                         enabled: [
                             ENGINE,
+                            WILL_ENGINE,
                             SPITE_ENGINE,
                             STATUS_ENGINE,
                             IDENTITY_ENGINE,
@@ -3111,6 +3129,7 @@ fn transition_inner(
                     events: events::EventState {
                         enabled: [
                             ENGINE,
+                            WILL_ENGINE,
                             SPITE_ENGINE,
                             STATUS_ENGINE,
                             IDENTITY_ENGINE,
@@ -3129,6 +3148,7 @@ fn transition_inner(
                     },
                     provenance_rules: [
                         ENGINE,
+                        WILL_ENGINE,
                         SPITE_ENGINE,
                         STATUS_ENGINE,
                         IDENTITY_ENGINE,
@@ -3147,6 +3167,7 @@ fn transition_inner(
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            WILL_ENGINE,
                             SPITE_ENGINE,
                             STATUS_ENGINE,
                             IDENTITY_ENGINE,
@@ -3168,6 +3189,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            WILL_ENGINE,
                             SPITE_ENGINE,
                             STATUS_ENGINE,
                             IDENTITY_ENGINE,
@@ -3189,6 +3211,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        WILL_ENGINE,
                         SPITE_ENGINE,
                         STATUS_ENGINE,
                         IDENTITY_ENGINE,
@@ -3210,6 +3233,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            WILL_ENGINE,
                             SPITE_ENGINE,
                             STATUS_ENGINE,
                             IDENTITY_ENGINE,
@@ -3234,6 +3258,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            WILL_ENGINE,
                             SPITE_ENGINE,
                             STATUS_ENGINE,
                             IDENTITY_ENGINE,
@@ -3259,6 +3284,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            WILL_ENGINE,
                             SPITE_ENGINE,
                             STATUS_ENGINE,
                             IDENTITY_ENGINE,
@@ -3285,6 +3311,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            WILL_ENGINE,
                             SPITE_ENGINE,
                             STATUS_ENGINE,
                             IDENTITY_ENGINE,
@@ -3312,6 +3339,7 @@ fn transition_inner(
                     special: special::SpecialState {
                         enabled: [
                             ENGINE,
+                            WILL_ENGINE,
                             SPITE_ENGINE,
                             STATUS_ENGINE,
                             IDENTITY_ENGINE,
@@ -3339,6 +3367,7 @@ fn transition_inner(
                     },
                     ability_rules: [
                         ENGINE,
+                        WILL_ENGINE,
                         SPITE_ENGINE,
                         STATUS_ENGINE,
                         IDENTITY_ENGINE,
@@ -3368,6 +3397,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            WILL_ENGINE,
                             SPITE_ENGINE,
                             STATUS_ENGINE,
                             IDENTITY_ENGINE,
@@ -3397,6 +3427,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            WILL_ENGINE,
                             SPITE_ENGINE,
                             STATUS_ENGINE,
                             IDENTITY_ENGINE,
@@ -4113,6 +4144,9 @@ fn effects_inner_base(
             rt.will = rt.will.min(1);
             will::reset(rt);
         }
+        return Ok(());
+    }
+    if direct_status::effect(c, q, cat)? {
         return Ok(());
     }
     if will::effect(c, q, cat)? {

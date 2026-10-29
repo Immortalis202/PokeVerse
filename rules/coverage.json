@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.29.0-core",
-  "release": "0.36.0",
-  "protocol": 37,
+  "engine": "0.30.0-core",
+  "release": "0.37.0",
+  "protocol": 38,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -587,6 +587,17 @@
         "eerie_spell_removes_only_three_will_and_clamps_at_zero"
       ],
       "scope": "New encounter flag: Grudge sacrifice, Will reset and recurring target Loyalty with escalating successes; Eerie Spell flat three-Will drain per hit. Sappy Seed excluded; automatic Will recovery excluded."
+    },
+    {
+      "id": "direct-status-moves",
+      "status": "automated",
+      "source": "rules/direct-status-moves.json; 22 exact printed cards",
+      "fixtures": [
+        "direct_status_all_22_resolve_without_chance_dice_and_attract_records_source",
+        "direct_status_area_and_all_foes_resolve_each_target",
+        "direct_status_immunities_reflection_and_guaranteed_damage_effects"
+      ],
+      "scope": "22 guaranteed status clauses gated to new current-engine encounters; existing saves retain false default. Damage and lethal wounds are separate."
     }
   ],
   "ability_registry_hash": "edd27e9c00f7b2463118affdf4310cb15a42f271d543a700d9993c1d36631c88",

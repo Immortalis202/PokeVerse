@@ -1,6 +1,6 @@
 # Move-effect audit: milestone 1
 
-Snapshot: 28 October 2026, app **0.36.0**, engine **0.29.0-core**. **Milestone 1 is complete at the scope below; no move mechanics changed.**
+Snapshot refreshed: 29 October 2026, app **0.37.0**, engine **0.30.0-core**. **Milestone 1 is complete at the scope below; M2-A now delivers the 22 direct-status clauses.**
 
 ## Deliverables and limits
 
@@ -17,33 +17,33 @@ The diagnostic deliberately bypasses accuracy, damage, targeting expansion, acti
 
 | Effect-route result | Cards | Meaning |
 | --- | ---: | --- |
-| executable-scope | 355 | At least one probe resolves; only recorded scopes are asserted. |
+| executable-scope | 377 | At least one probe resolves; only recorded scopes are asserted. |
 | input-required | 10 | Existing handler requests a selection, resource, weather or other legitimate prerequisite. |
-| manual-effect-route | 488 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
+| manual-effect-route | 466 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
 | gm-choice | 1 | Hold Hands: narrative battle-ending decision remains with the storyteller. |
 | excluded | 38 | Supplied Max/Z cards and the user-excluded Sappy Seed. |
 
-These totals sum to 892. **488 manual-effect-route results are not 488 new mechanics or an instruction to implement every card.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
+These totals sum to 892. **466 manual-effect-route results are not 466 new mechanics or an instruction to implement every card.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
 
 | Focused status result | Cards |
 | --- | ---: |
 | excluded | 6 |
-| implemented-clause | 66 |
+| implemented-clause | 88 |
 | missing-clause | 1 |
-| missing-effect | 104 |
+| missing-effect | 82 |
 | missing-move-entry | 1 |
 | partial-clause | 1 |
 | source-discrepancy | 1 |
 
-The actionable implementation queue contains **107 cards**: 104 missing effects, Wild Charge's missing clause, Toxic Spikes' missing move installation and Sparkling Aria's incomplete branch. These cards form the five sub-batches below. A further 66 cards already have a named implemented status clause, six are excluded, and Healing Wish has a source-metadata discrepancy. These 180 classifications are about the audited clauses; an implemented cure does not certify every targeting, range or damage clause on that move.
+The actionable implementation queue contains **85 cards**: 82 missing effects, Wild Charge's missing clause, Toxic Spikes' missing move installation and Sparkling Aria's incomplete branch. These cards form the four remaining sub-batches below; M2-A is delivered. A further 88 cards already have a named implemented status clause, six are excluded, and Healing Wish has a source-metadata discrepancy. These 180 classifications are about the audited clauses; an implemented cure does not certify every targeting, range or damage clause on that move.
 
 ## Milestone 2: implementation queue
 
-Complete one coherent sub-batch, run relevant regressions, update this inventory and commit before proceeding. These are planned tasks, not behavior added by milestone 1.
+Complete one coherent sub-batch, run relevant regressions, update this inventory and commit before proceeding. M2-A is delivered; M2-B through M2-E remain planned.
 
-### M2-A. Direct status application (22 cards)
+### M2-A. Direct status application (22 cards) — completed in 0.37.0
 
-Reuse existing authoritative condition rules, immunity checks, reflection, range/target expansion and severe-status escalation. No new generic status system is needed. Start with Confuse Ray, Thunder Wave, Toxic, Will-O-Wisp, Spore and Sing, then the other cards below. Attract needs the beloved source identity; area effects need per-target handling.
+Delivered via [direct-status registry](../rules/direct-status-moves.json) and `combat/direct_status.rs`: guaranteed conditions without Chance dice, source identity for Attract, explicit Burn 3 for Inferno, repeated Will-O-Wisp escalation, and per-target area effects. Ordinary accuracy, damage, range/target selection, reflection, shields, decoys and condition immunities are reused. New current-engine encounters enable `TurnFlow.direct_status`; saved flows default false and historical engines retain their prior rules. Lethal wounds remain excluded.
 
 Alluring Voice, Attract, Confuse Ray, Dark Void, Dynamic Punch, Glare, Grass Whistle, Inferno, Nuzzle, Poison Gas, Poison Powder, Sing, Sleep Powder, Spore, Stun Spore, Supersonic, Sweet Kiss, Teeter Dance, Thunder Wave, Toxic, Will-O-Wisp, Zap Cannon.
 
@@ -147,3 +147,9 @@ node --test scripts/move-effect-audit.check.mjs
 The diagnostic test is explicitly ignored by ordinary Rust test runs and writes only when the output environment variable is present. It uses isolated fixtures and a read-only catalog, not saved campaigns. Frozen probes are snapshot evidence: rerun after changing effect handlers, then regenerate the inventory and review classification overrides. `--check` verifies deterministic generation from the frozen probes and sources; it does not rerun Rust or certify a changed engine. The Markdown queue should be updated alongside regenerated classifications.
 
 Verification for this batch: the diagnostic passed all 892 cards in both profiles (1,784 effect-phase scenarios), including explicit assertions for missing direct statuses, existing Air Slash, Wild Charge's unresolved secondary clause and Sparkling Aria's conditional branch. The four audit checks validate complete source coverage, classifications, printed-source fingerprints and deterministic generation. The full frontend suite passed 65 tests and all 27 catalog/script checks passed. Rust formatting and diff checks passed; the existing 707-case Rust suite was not rerun because runtime code is unchanged outside a test-only diagnostic helper. No runtime behavior changed; no app packages or Clippy runs were requested.
+
+## M2-A verification (29 October 2026)
+
+All 713 Rust tests passed across the regression run and a serial binding-export retry: the four-thread run passed 682 tests and hit Windows mapped-file locks in 31 export tests; all 114 binding-export tests then passed serially. The six new test groups cover every direct-status card through authoritative accuracy/damage/effect commands, ownership, Burn escalation, Inferno degree, Attract source and Magic Bounce identity, immunity rules, Shield Dust on guaranteed effects, decoys/sound bypass, shields, area/all-foes targets and historical fallback. The existing engine-gate regression now also checks the prior Will engine and the new encounter flag.
+
+TypeScript, 65 frontend tests, all 27 script/catalog checks, Rust formatting and diff checks passed. The 892-card two-profile diagnostic was refreshed for this engine; its 1,784 effect-phase scenarios remain an effect-route inventory, not full battle coverage. No Clippy, app packaging or native/physical-network acceptance was run. M2-B is next.

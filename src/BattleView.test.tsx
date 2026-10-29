@@ -321,12 +321,14 @@ describe("structured core battle controls", () => {
           },
           identity_moves: false,
           status_escalation: [
+            "0.30.0-core",
             "0.29.0-core",
             "0.28.0-core",
             "0.27.0-core",
           ].includes(engine),
-          spite: ["0.29.0-core", "0.28.0-core"].includes(engine),
-          will_drains: engine === "0.29.0-core",
+          spite: ["0.30.0-core", "0.29.0-core", "0.28.0-core"].includes(engine),
+          will_drains: ["0.30.0-core", "0.29.0-core"].includes(engine),
+          direct_status: engine === "0.30.0-core",
           house_rules: groupRules,
           interaction_rules: false,
           reviewed_rules: engine === "0.13.0-core",
@@ -1028,7 +1030,7 @@ describe("structured core battle controls", () => {
   });
   it("shows recurring Grudge difficulty and restricts roll controls to target owner or GM", () => {
     const html = (who: string, state = "grudge") =>
-      core(who, false, "0.29.0-core", false, false, false, false, false, state);
+      core(who, false, "0.30.0-core", false, false, false, false, false, state);
     expect(html("player")).toContain("Loyalty needs 2 successes");
     expect(html("player")).toContain("Roll Grudge Loyalty");
     expect(html("gm")).toContain("Roll Grudge Loyalty");

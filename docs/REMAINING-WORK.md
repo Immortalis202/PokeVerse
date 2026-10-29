@@ -1,6 +1,6 @@
 # PokeVerse - remaining work
 
-Snapshot: **28 October 2026**, application **0.36.0**, engine **0.29.0-core**, protocol **37**, user database schema **4**.
+Snapshot: **29 October 2026**, application **0.37.0**, engine **0.30.0-core**, protocol **38**, user database schema **4**.
 
 This is the current project backlog. Implemented foundations are summarized first; unfinished features, explicit GM rulings, verification gaps and excluded scope are distinguished below. Counts come from the checked-in registries and should be refreshed after catalog changes.
 
@@ -17,7 +17,7 @@ Private friend-group use: public release/signing/distribution polish is not plan
 ## Move-effect milestone queue (28 October 2026)
 
 - [x] **Milestone 1: move-effect audit.** [Named source-backed queue and limits](MOVE-EFFECT-AUDIT.md), covering all 892 effect routes and a focused semantic review of 180 status-related cards. The 107 actionable status cards are divided into five implementation sub-batches. Route success is not whole-card completion, and manual-route totals are not counts of distinct missing mechanics.
-- [ ] **Milestone 2: implement the audited effects.** Begin with M2-A direct status application, then chance effects, compound conditions, recurring/sleep effects and cure/protection entry paths. Preserve implemented scopes and exclusions.
+- [ ] **Milestone 2: implement the audited effects.** M2-A direct status application (22 cards) is delivered in 0.37.0. Next is M2-B chance effects, then compound conditions, recurring/sleep effects and cure/protection entry paths. Preserve implemented scopes and exclusions.
 - [ ] **Milestone 3: battlefield/ice edge-case review.** Review exact source rules before adding defined mechanics; retain genuine precedence/parameter choices.
 - [ ] **Milestone 4: catalog reliability.** Resolve exact missing references, creation/evolution review and asset gaps.
 - [ ] **Milestone 5: native multiplayer acceptance.** Record actual native, physical LAN and private-VPN outcomes separately from automated tests.

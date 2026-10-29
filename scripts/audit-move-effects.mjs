@@ -10,6 +10,8 @@ const source = path.resolve(app, "../Pokerole-Data/v3.0/Moves");
 const read = async (name) =>
   JSON.parse(await readFile(path.join(app, name), "utf8"));
 const sha = (bytes) => createHash("sha256").update(bytes).digest("hex");
+const directStatus = await read("rules/direct-status-moves.json");
+const deliveredDirect = new Set(directStatus.moves.map((m) => m.name));
 const probes = await read("rules/move-effect-probes.json");
 const interaction = await read("rules/battle-interactions.json");
 const special = await read("rules/special-moves.json");
@@ -286,33 +288,41 @@ for (const filename of files) {
   ) {
     statusAudit = excluded
       ? { status: "excluded", reason: excluded }
-      : (custom[name] ??
-        (supportedStatus.has(name)
-          ? {
-              status: "implemented-clause",
-              reason:
-                "Named chance/cure/reaction handler exists; this is scope evidence, not certification of every other card clause.",
-            }
-          : allMissing
+      : deliveredDirect.has(name)
+        ? {
+            status: "implemented-clause",
+            batch: "M2-A",
+            completed: true,
+            reason:
+              "Guaranteed printed condition wired through direct_status; see rules/direct-status-moves.json and direct_status_tests.",
+          }
+        : (custom[name] ??
+          (supportedStatus.has(name)
             ? {
-                status: "missing-effect",
-                batch: recurring.has(name)
-                  ? "M2-D"
-                  : compound.has(name)
-                    ? "M2-C"
-                    : direct.has(name)
-                      ? "M2-A"
-                      : /Chance/i.test(card.Effect)
-                        ? "M2-B"
-                        : "M2-C",
+                status: "implemented-clause",
                 reason:
-                  "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause.",
+                  "Named chance/cure/reaction handler exists; this is scope evidence, not certification of every other card clause.",
               }
-            : {
-                status: "review-required",
-                reason:
-                  "A route exists but the status clause has no reviewed named handler in this audit; inspect before claiming automation.",
-              }));
+            : allMissing
+              ? {
+                  status: "missing-effect",
+                  batch: recurring.has(name)
+                    ? "M2-D"
+                    : compound.has(name)
+                      ? "M2-C"
+                      : direct.has(name)
+                        ? "M2-A"
+                        : /Chance/i.test(card.Effect)
+                          ? "M2-B"
+                          : "M2-C",
+                  reason:
+                    "Both unprotected effect probes reach the explicit manual_rule fallback; no executable named definition was found for this card's status clause.",
+                }
+              : {
+                  status: "review-required",
+                  reason:
+                    "A route exists but the status clause has no reviewed named handler in this audit; inspect before claiming automation.",
+                }));
   }
   rows.push({
     name,
@@ -368,11 +378,11 @@ const counts = (values) =>
   );
 const output = {
   version: 1,
-  date: "2026-10-28",
+  date: "2026-10-29",
   release: version,
   engine: probes.engine,
   scope:
-    "892-card effect-route inventory; focused semantic review of status infliction, cure and protection clauses. No runtime mechanics changed.",
+    "892-card effect-route inventory; focused semantic review of status infliction, cure and protection clauses. M2-A direct status clauses delivered; see the scoped registry.",
   limits: [
     "An executable route is not full card coverage.",
     "Probes bypass accuracy, damage, timing and public command permissions; no native or network acceptance is implied.",

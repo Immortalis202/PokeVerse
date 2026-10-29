@@ -30,7 +30,7 @@ test("status queue distinguishes missing clauses from existing scopes and input 
     "Toxic",
     "Will-O-Wisp",
   ])
-    assert.equal(byName.get(name).status_audit.status, "missing-effect");
+    assert.equal(byName.get(name).status_audit.status, "implemented-clause");
   assert.equal(
     byName.get("Air Slash").status_audit.status,
     "implemented-clause",
@@ -54,11 +54,25 @@ test("status queue distinguishes missing clauses from existing scopes and input 
   for (const move of missing)
     for (const probe of Object.values(move.probe))
       assert.match(probe.message, /no reviewed executable definition/);
-  const planned = audit.moves.filter((m) =>
-    m.status_audit?.batch?.startsWith("M2-"),
+  const planned = audit.moves.filter(
+    (m) =>
+      m.status_audit?.batch?.startsWith("M2-") && !m.status_audit?.completed,
   );
-  assert.equal(planned.length, 107);
+  assert.equal(planned.length, 85);
   assert.ok(planned.every((m) => m.route !== "excluded"));
+  const delivered = read("rules/direct-status-moves.json");
+  assert.equal(delivered.moves.length, 22);
+  assert.equal(new Set(delivered.moves.map((m) => m.name)).size, 22);
+  for (const move of delivered.moves) {
+    const audited = byName.get(move.name);
+    assert.equal(move.source_sha256, audited.sha256);
+    assert.equal(move.effect, audited.effect);
+    assert.equal(audited.status_audit.completed, true);
+    assert.equal(audited.status_audit.batch, "M2-A");
+    assert.equal(audited.status_audit.status, "implemented-clause");
+    assert.equal(audited.probe.baseline.result, "route_resolved");
+    assert.ok(audited.probe.baseline.target_statuses.includes(move.kind));
+  }
 });
 test("printed review has traceable PDF pages and protects the priority cards", () => {
   const printed = read("rules/move-status-print-review.json");

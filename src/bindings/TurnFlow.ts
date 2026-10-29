@@ -21,6 +21,7 @@ export type TurnFlow = {
   status_escalation: boolean;
   spite: boolean;
   will_drains: boolean;
+  direct_status: boolean;
   identity_moves: boolean;
   house_rules: boolean;
   interaction_rules: boolean;

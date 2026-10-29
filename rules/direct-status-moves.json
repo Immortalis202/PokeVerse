@@ -1,0 +1,230 @@
+{
+  "engine": "0.30.0-core",
+  "release": "0.37.0",
+  "batch": "M2-A",
+  "gate": "TurnFlow.direct_status; default false on saved flows; enabled for new current-engine encounters",
+  "handler": "src-tauri/src/combat/direct_status.rs",
+  "scope": "Guaranteed status on a successful eligible hit. Reuses ordinary accuracy, damage, target selection, reflection, shields, decoys and authoritative condition immunities. No Chance dice or lethal-wound automation.",
+  "moves": [
+    {
+      "name": "Alluring Voice",
+      "kind": "Confusion",
+      "effect": "Single Target. Sound Move. Confuse the Target.",
+      "source_sha256": "91cd66764b42104bf6c1b8dbba669b60650b806ffc194ebaa13121d55a43673d",
+      "printed_pages": [
+        455
+      ],
+      "status": "automated"
+    },
+    {
+      "name": "Attract",
+      "kind": "In Love",
+      "effect": "Single Target. Target is now In Love with the User.",
+      "source_sha256": "55b767a229f5aba0f596cfd8ba6e50965d7c6adbea06218b46889c853fc70e6a",
+      "printed_pages": [
+        487
+      ],
+      "status": "automated"
+    },
+    {
+      "name": "Confuse Ray",
+      "kind": "Confusion",
+      "effect": "Single Target. Confuse the Target.",
+      "source_sha256": "f22d30de0d33f82807083db5fc2e6c4e7bbfb4bcd2a11ab9434cf3b3dd8cdec4",
+      "printed_pages": [
+        472
+      ],
+      "status": "automated"
+    },
+    {
+      "name": "Dark Void",
+      "kind": "Sleep",
+      "effect": "Target all foes in Range. Low Accuracy 3. Put those affected to Sleep.",
+      "source_sha256": "b5735221822dca26e7abd76e56294c9d638f7c2b98a98f92896bc5220c43c5ce",
+      "printed_pages": [
+        444
+      ],
+      "status": "automated"
+    },
+    {
+      "name": "Dynamic Punch",
+      "kind": "Confusion",
+      "effect": "Single Target. Low Accuracy 3. Fist Move. Confuse the Target.",
+      "source_sha256": "5f6467c65cf009aa6b8eebb84291582b1b3c0178bfe41dfe9fff22a514a0d77e",
+      "printed_pages": [
+        460
+      ],
+      "status": "automated"
+    },
+    {
+      "name": "Glare",
+      "kind": "Paralysis",
+      "effect": "Single Target. Low Accuracy 1. Paralyze the Target.",
+      "source_sha256": "7936b693d33edb7c4170a564f804bca8025da05090d0edcd5f6958d984792528",
+      "printed_pages": [
+        493
+      ],
+      "status": "automated"
+    },
+    {
+      "name": "Grass Whistle",
+      "kind": "Sleep",
+      "effect": "Single Target. Low Accuracy 3. Sound Move. Put the Target to Sleep.",
+      "source_sha256": "25d8bb06cb7119b712a3c347223044d83f25ed03d26dce3493bfd19c884fe8bd",
+      "printed_pages": [
+        476
+      ],
+      "status": "automated"
+    },
+    {
+      "name": "Inferno",
+      "kind": "Burn 3",
+      "effect": "Single Target. Low Accuracy 3. Lethal. Inflict 3rd Degree Burn on the Target.",
+      "source_sha256": "c336550fb4f84720e86eba29284e020a1b51650dba2dbb0d463163db86e44aa5",
+      "printed_pages": [
+        467
+      ],
+      "status": "automated"
+    },
+    {
+      "name": "Nuzzle",
+      "kind": "Paralysis",
+      "effect": "Single Target. Paralyze the foe.",
+      "source_sha256": "ccf7ae8d77001cfdc079604fd2a668063b37c1702697a131f7f075b018aa398c",
+      "printed_pages": [
+        453
+      ],
+      "status": "automated"
+    },
+    {
+      "name": "Poison Gas",
+      "kind": "Poison",
+      "effect": "Target All Foes in Range. Low Accuracy 1. Poison those affected.",
+      "source_sha256": "bd543c1a1255654908c1903f17e3d0e80dd7614a72b536349940b4d9337daaf8",
+      "printed_pages": [
+        508
+      ],
+      "status": "automated"
+    },
+    {
+      "name": "Poison Powder",
+      "kind": "Poison",
+      "effect": "Single Target. Low Accuracy 3. Powder Move. Poison the Target.",
+      "source_sha256": "c62a4fbf6895d5045ef3053fcb6d82060578f4e28ddc8805c7d2166f06e56dfb",
+      "printed_pages": [
+        508
+      ],
+      "status": "automated"
+    },
+    {
+      "name": "Sing",
+      "kind": "Sleep",
+      "effect": "Single Target. Low Accuracy 3. Sound Move. Put the Target to sleep.",
+      "source_sha256": "9e62d7a793a936e8bb549142dc5977ff02e94dae22da78ea8a4d6ee9819354d5",
+      "printed_pages": [
+        500
+      ],
+      "status": "automated"
+    },
+    {
+      "name": "Sleep Powder",
+      "kind": "Sleep",
+      "effect": "Single Target. Low Accuracy 3. Powder Move. Put the Target to Sleep.",
+      "source_sha256": "2b5bac36008fd6bc4676ab5b99898172f6692a2501cb0946b1d853a7484bc04f",
+      "printed_pages": [
+        479
+      ],
+      "status": "automated"
+    },
+    {
+      "name": "Spore",
+      "kind": "Sleep",
+      "effect": "Single Target. Powder Move. Put the Target to Sleep.",
+      "source_sha256": "8f998b7ddb075682a3777387d0366102b5c01eb7c817ae952c9dbb5cacb27d5c",
+      "printed_pages": [
+        479
+      ],
+      "status": "automated"
+    },
+    {
+      "name": "Stun Spore",
+      "kind": "Paralysis",
+      "effect": "Single Target. Low Accuracy 3. Powder Move. Paralyze the Target.",
+      "source_sha256": "96a8c515e351f7793b4b4d2f3a12929ec454b9095a4c2f55ca56fd1706d8c57d",
+      "printed_pages": [
+        480
+      ],
+      "status": "automated"
+    },
+    {
+      "name": "Supersonic",
+      "kind": "Confusion",
+      "effect": "Single Target. Low Accuracy 3. Sound Move. Confuse the Target.",
+      "source_sha256": "ac3c18c99f0144c335ffee1e6fd7d14b1f46272a3cdee5f7e1dbc10c98ece52e",
+      "printed_pages": [
+        503
+      ],
+      "status": "automated"
+    },
+    {
+      "name": "Sweet Kiss",
+      "kind": "Confusion",
+      "effect": "Single Target. Low Accuracy 2. Confuse the Target.",
+      "source_sha256": "e347feb7cfd1c739740f281050b4fe0c9de83ab7daabae5abab1962aeb803deb",
+      "printed_pages": [
+        458
+      ],
+      "status": "automated"
+    },
+    {
+      "name": "Teeter Dance",
+      "kind": "Confusion",
+      "effect": "Area Move. Confuse those affected.",
+      "source_sha256": "42ac79b11aef74897737a4207517b176f7f12432dcd62ef6c1dec0a62fba226a",
+      "printed_pages": [
+        504
+      ],
+      "status": "automated"
+    },
+    {
+      "name": "Thunder Wave",
+      "kind": "Paralysis",
+      "effect": "Single Target. Paralyze the Target.",
+      "source_sha256": "e1d35334824362902c1a4c5d705fcb68f74f79994e9a65d2ffc8458b67e083b1",
+      "printed_pages": [
+        454
+      ],
+      "status": "automated"
+    },
+    {
+      "name": "Toxic",
+      "kind": "Badly Poisoned",
+      "effect": "Single Target. Low Accuracy 2. Badly Poison the Target.",
+      "source_sha256": "1911ca195fd068c2496b62fc95f18d750386738d4ec1d8c46e96eef1c5b969e6",
+      "printed_pages": [
+        509
+      ],
+      "status": "automated"
+    },
+    {
+      "name": "Will-O-Wisp",
+      "kind": "Burn",
+      "effect": "Single Target. Low Accuracy 2. Inflict 1st Degree Burn on the Target. Using this Move against the same Target increases the Burn Degree.",
+      "source_sha256": "8d8acc6811e049bc453a75b5dbcaa03d6f69c410393ab483b6c4fe1976cb00b0",
+      "printed_pages": [
+        468
+      ],
+      "status": "automated"
+    },
+    {
+      "name": "Zap Cannon",
+      "kind": "Paralysis",
+      "effect": "Single Target. Low Accuracy 4. Lethal. Paralyze the Target. Projectile Move.",
+      "source_sha256": "1b889496650bd2b75fec93815796fb58b78317ff5289a77b7cda2f62eca6d4ce",
+      "printed_pages": [
+        455
+      ],
+      "status": "automated"
+    }
+  ]
+}
