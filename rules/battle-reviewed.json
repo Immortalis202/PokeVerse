@@ -1197,6 +1197,20 @@
       },
       "coverage": "automated decoy creation; not a Switcher Move",
       "notes": "Printed card has no Switcher icon/text; supplied JSON SwitcherMove removed in application correction layer."
+    },
+    "bleakwind-storm:Bleakwind Storm": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 469,
+      "pdf_page": 336,
+      "fields": {
+        "Attributes": {
+          "AccuracyReduction": -2,
+          "Lethal": true,
+          "WindMove": true
+        }
+      },
+      "coverage": "Existing Area damage and three Chance dice to Freeze; accuracy reduces rolled successes by 2.",
+      "notes": "M4-C01: visually inspected complete MASTER printed 469 / PDF 336 on 30 October 2026. Low Accuracy 2 prose and downward accuracy-2 icon agree. Correct supplied AccuracyReduction +2 to -2; preserve Lethal and WindMove. Source JSON remains unchanged."
     }
   },
   "abilities": {

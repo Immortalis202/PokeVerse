@@ -1,0 +1,1683 @@
+{
+  "version": 1,
+  "date": "2026-10-30",
+  "status": "in-progress",
+  "baseline_commit": "2da1635",
+  "sources": {
+    "POKEROLE COREBOOK 3.0 RULING.pdf": "f50014b330cc00db83906cf232ba432855f4f624684a84c3c494b47390284d74",
+    "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf": "f8a1ab8c7c059c1e32b658a6770893e58f364fd4c8d28ca87ec912154cfd6cc2"
+  },
+  "completed_checks": [
+    {
+      "id": "M4-C01",
+      "name": "Bleakwind Storm accuracy sign",
+      "source": "Pokerole-Data/v3.0/Moves/Bleakwind Storm.json",
+      "sha256": "3d4aff4781529c548adf4eac7fbada0c1608460b8b21f1c0943aac6e0258976d",
+      "printed_page": 469,
+      "pdf_page": 336,
+      "visual_review": true,
+      "corrected_attributes": {
+        "AccuracyReduction": -2,
+        "Lethal": true,
+        "WindMove": true
+      }
+    }
+  ],
+  "baseline": {
+    "missing_references": 35,
+    "missing_assets": 168,
+    "unverified_fields": 28359,
+    "unverified_by_kind": {
+      "abilities": 399,
+      "items": 472,
+      "moves": 9501,
+      "natures": 50,
+      "species": 17937
+    },
+    "unverified_species_fields": {
+      "Ability1": 1196,
+      "Ability2": 1196,
+      "BaseHP": 1195,
+      "Dexterity": 1195,
+      "Evolutions": 1200,
+      "Insight": 1195,
+      "MaxDexterity": 1195,
+      "MaxInsight": 1195,
+      "MaxSpecial": 1195,
+      "MaxStrength": 1195,
+      "MaxVitality": 1195,
+      "Moves": 1200,
+      "Special": 1195,
+      "Strength": 1195,
+      "Vitality": 1195
+    }
+  },
+  "missing_references": [
+    {
+      "kind": "species",
+      "id": "0760:bewear",
+      "name": "Bewear",
+      "field": "Moves:Strength",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    },
+    {
+      "kind": "species",
+      "id": "0879:copperajah",
+      "name": "Copperajah",
+      "field": "Moves:Strength",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    },
+    {
+      "kind": "species",
+      "id": "0878:cufant",
+      "name": "Cufant",
+      "field": "Moves:Strength",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    },
+    {
+      "kind": "species",
+      "id": "0632:durant",
+      "name": "Durant",
+      "field": "Moves:Strength",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    },
+    {
+      "kind": "species",
+      "id": "0500:emboar",
+      "name": "Emboar",
+      "field": "Moves:Strength",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    },
+    {
+      "kind": "species",
+      "id": "0162:furret",
+      "name": "Furret",
+      "field": "Moves:Strength",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    },
+    {
+      "kind": "species",
+      "id": "1020:gouging-fire",
+      "name": "Gouging Fire",
+      "field": "Moves:FIre Blast",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    },
+    {
+      "kind": "species",
+      "id": "0210:granbull",
+      "name": "Granbull",
+      "field": "Moves:Strength",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    },
+    {
+      "kind": "species",
+      "id": "0810:grookey",
+      "name": "Grookey",
+      "field": "Moves:Strength",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    },
+    {
+      "kind": "species",
+      "id": "0383M1:groudon-primal-form",
+      "name": "Groudon (Primal Form)",
+      "field": "Moves:Strength",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    },
+    {
+      "kind": "species",
+      "id": "0383:groudon",
+      "name": "Groudon",
+      "field": "Moves:Strength",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    },
+    {
+      "kind": "species",
+      "id": "0250:ho-oh",
+      "name": "Ho-oh",
+      "field": "Moves:Strength",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    },
+    {
+      "kind": "species",
+      "id": "0382M1:kyogre-primal-form",
+      "name": "Kyogre (Primal Form)",
+      "field": "Moves:Strength",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    },
+    {
+      "kind": "species",
+      "id": "0382:kyogre",
+      "name": "Kyogre",
+      "field": "Moves:Strength",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    },
+    {
+      "kind": "species",
+      "id": "0249:lugia",
+      "name": "Lugia",
+      "field": "Moves:Strength",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    },
+    {
+      "kind": "species",
+      "id": "0068:machamp",
+      "name": "Machamp",
+      "field": "Moves:Strength",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    },
+    {
+      "kind": "species",
+      "id": "0067:machoke",
+      "name": "Machoke",
+      "field": "Moves:Strength",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    },
+    {
+      "kind": "species",
+      "id": "0066:machop",
+      "name": "Machop",
+      "field": "Moves:Strength",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    },
+    {
+      "kind": "species",
+      "id": "0151:mew",
+      "name": "Mew",
+      "field": "Moves:Any Move",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    },
+    {
+      "kind": "species",
+      "id": "0749:mudbray",
+      "name": "Mudbray",
+      "field": "Moves:Strength",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    },
+    {
+      "kind": "species",
+      "id": "0750:mudsdale",
+      "name": "Mudsdale",
+      "field": "Moves:Strength",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    },
+    {
+      "kind": "species",
+      "id": "0127M1:pinsir-mega-form",
+      "name": "Pinsir (Mega Form)",
+      "field": "Moves:Strength",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    },
+    {
+      "kind": "species",
+      "id": "0127:pinsir",
+      "name": "Pinsir",
+      "field": "Moves:Strength",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    },
+    {
+      "kind": "species",
+      "id": "0668:pyroar",
+      "name": "Pyroar",
+      "field": "Moves:Strength",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    },
+    {
+      "kind": "species",
+      "id": "0486:regigigas",
+      "name": "Regigigas",
+      "field": "Moves:Strength",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    },
+    {
+      "kind": "species",
+      "id": "0812:rillaboom",
+      "name": "Rillaboom",
+      "field": "Moves:Strength",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    },
+    {
+      "kind": "species",
+      "id": "0627:rufflet",
+      "name": "Rufflet",
+      "field": "Moves:Strength",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    },
+    {
+      "kind": "species",
+      "id": "0539:sawk",
+      "name": "Sawk",
+      "field": "Moves:Strength",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    },
+    {
+      "kind": "species",
+      "id": "0545:scolipede",
+      "name": "Scolipede",
+      "field": "Moves:Strength",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    },
+    {
+      "kind": "species",
+      "id": "0759:stufful",
+      "name": "Stufful",
+      "field": "Moves:Strength",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    },
+    {
+      "kind": "species",
+      "id": "0216:teddiursa",
+      "name": "Teddiursa",
+      "field": "Moves:Strength",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    },
+    {
+      "kind": "species",
+      "id": "0538:throh",
+      "name": "Throh",
+      "field": "Moves:Strength",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    },
+    {
+      "kind": "species",
+      "id": "0811:thwackey",
+      "name": "Thwackey",
+      "field": "Moves:Strength",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    },
+    {
+      "kind": "species",
+      "id": "0328:trapinch",
+      "name": "Trapinch",
+      "field": "Moves:Strength",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    },
+    {
+      "kind": "species",
+      "id": "0697:tyrantrum",
+      "name": "Tyrantrum",
+      "field": "Moves:Strength",
+      "status": "missing_reference",
+      "reason": "No exact move reference; do not choose a fuzzy match"
+    }
+  ],
+  "missing_assets": [
+    {
+      "kind": "species",
+      "id": "0979:annihilape",
+      "name": "Annihilape",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0930:arboliva",
+      "name": "Arboliva",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "1018:archaludon",
+      "name": "Archaludon",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0997:arctibax",
+      "name": "Arctibax",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0936:armarouge",
+      "name": "Armarouge",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0713H:avalugg-hisuian-form",
+      "name": "Avalugg (Hisuian Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0902F1:basculegion-female-form",
+      "name": "Basculegion (Female Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0902F2:basculegion-male-form",
+      "name": "Basculegion (Male Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0550H:basculin-hisuian-form",
+      "name": "Basculin (Hisuian Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0998:baxcalibur",
+      "name": "Baxcalibur",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0939:bellibolt",
+      "name": "Bellibolt",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0962:bombirdier",
+      "name": "Bombirdier",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0947:brambleghast",
+      "name": "Brambleghast",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0946:bramblin",
+      "name": "Bramblin",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0628H:braviary-hisuian-form",
+      "name": "Braviary (Hisuian Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0986:brute-bonnet",
+      "name": "Brute Bonnet",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0898F1:calyrex-ice-rider-form",
+      "name": "Calyrex (Ice Rider Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0898F2:calyrex-shadow-rider-form",
+      "name": "Calyrex (Shadow Rider Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0951:capsakid",
+      "name": "Capsakid",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0937:ceruledge",
+      "name": "Ceruledge",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0975:cetitan",
+      "name": "Cetitan",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0974:cetoddle",
+      "name": "Cetoddle",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0935:charcadet",
+      "name": "Charcadet",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "1004:chi-yu",
+      "name": "Chi-Yu",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "1002:chien-pao",
+      "name": "Chien-Pao",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0980:clodsire",
+      "name": "Clodsire",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0845F2:cramorant-gorging-form",
+      "name": "Cramorant (Gorging Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0845F1:cramorant-gulping-form",
+      "name": "Cramorant (Gulping Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0910:crocalor",
+      "name": "Crocalor",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0967:cyclizar",
+      "name": "Cyclizar",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0927:dachsbun",
+      "name": "Dachsbun",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0724H:decidueye-hisuian-form",
+      "name": "Decidueye (Hisuian Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0483F1:dialga-origin-form",
+      "name": "Dialga (Origin Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "1011:dipplin",
+      "name": "Dipplin",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0929:dolliv",
+      "name": "Dolliv",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0977:dondozo",
+      "name": "Dondozo",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0982:dudunsparce",
+      "name": "Dudunsparce",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0101H:electrode-hisuian-form",
+      "name": "Electrode (Hisuian Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0905F1:enamorus-therian-form",
+      "name": "Enamorus (Therian Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0956:espathra",
+      "name": "Espathra",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0890F1:eternatus-eternamax-form",
+      "name": "Eternatus (Eternamax Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0981:farigiraf",
+      "name": "Farigiraf",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "1016:fezandipiti",
+      "name": "Fezandipiti",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0926:fidough",
+      "name": "Fidough",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0963:finizen",
+      "name": "Finizen",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0973:flamigo",
+      "name": "Flamigo",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0955:flittle",
+      "name": "Flittle",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0907:floragato",
+      "name": "Floragato",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0987:flutter-mane",
+      "name": "Flutter Mane",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0996:frigibax",
+      "name": "Frigibax",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0909:fuecoco",
+      "name": "Fuecoco",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0934:garganacl",
+      "name": "Garganacl",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "1000:gholdengo",
+      "name": "Gholdengo",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0999F1:gimmighoul-chest-form",
+      "name": "Gimmighoul (Chest Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0999F2:gimmighoul-roaming-form",
+      "name": "Gimmighoul (Roaming Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0969:glimmet",
+      "name": "Glimmet",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0970:glimmora",
+      "name": "Glimmora",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0706H:goodra-hisuian-form",
+      "name": "Goodra (Hisuian Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "1020:gouging-fire",
+      "name": "Gouging Fire",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0945:grafaiai",
+      "name": "Grafaiai",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0984:great-tusk",
+      "name": "Great Tusk",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0971:greavard",
+      "name": "Greavard",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0658F1:greninja-battle-bond-form",
+      "name": "Greninja (Battle Bond Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0972:houndstone",
+      "name": "Houndstone",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "1019:hydrapple",
+      "name": "Hydrapple",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0876F1:indeedee-female-form",
+      "name": "Indeedee (Female Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0876F2:indeedee-male-form",
+      "name": "Indeedee (Male Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "1022:iron-boulder",
+      "name": "Iron Boulder",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0991:iron-bundle",
+      "name": "Iron Bundle",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "1023:iron-crown",
+      "name": "Iron Crown",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0992:iron-hands",
+      "name": "Iron Hands",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0993:iron-jugulis",
+      "name": "Iron Jugulis",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "1010:iron-leaves",
+      "name": "Iron Leaves",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0994:iron-moth",
+      "name": "Iron Moth",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0995:iron-thorns",
+      "name": "Iron Thorns",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0990:iron-treads",
+      "name": "Iron Treads",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "1006:iron-valiant",
+      "name": "Iron Valiant",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0941:kilowattrel",
+      "name": "Kilowattrel",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0983:kingambit",
+      "name": "Kingambit",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0950:klawf",
+      "name": "Klawf",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "1007:koraidon",
+      "name": "Koraidon",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0915:lechonk",
+      "name": "Lechonk",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0549H:lilligant-hisuian-form",
+      "name": "Lilligant (Hisuian Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0920:lokix",
+      "name": "Lokix",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0943:mabosstiff",
+      "name": "Mabosstiff",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0942:maschiff",
+      "name": "Maschiff",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0925:maushold",
+      "name": "Maushold",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0908:meowscarada",
+      "name": "Meowscarada",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "1008:miraidon",
+      "name": "Miraidon",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "1015:munkidori",
+      "name": "Munkidori",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0932:nacli",
+      "name": "Nacli",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0933:naclstack",
+      "name": "Naclstack",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0919:nymble",
+      "name": "Nymble",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "1017F1:ogerpon-cornerstone-mask-form",
+      "name": "Ogerpon (Cornerstone Mask Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "1017F2:ogerpon-hearthflame-mask-form",
+      "name": "Ogerpon (Hearthflame Mask Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "1017F3:ogerpon-teal-mask-form",
+      "name": "Ogerpon (Teal Mask Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "1017F4:ogerpon-wellspring-mask-form",
+      "name": "Ogerpon (Wellspring Mask Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0916:oinkologne-female-form",
+      "name": "Oinkologne (Female Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0916:oinkologne-male-form",
+      "name": "Oinkologne (Male Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "1014:okidogi",
+      "name": "Okidogi",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0968:orthworm",
+      "name": "Orthworm",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0964F2:palafin-hero-form",
+      "name": "Palafin (Hero Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0964F1:palafin-zero-form",
+      "name": "Palafin (Zero Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0484F1:palkia-origin-form",
+      "name": "Palkia (Origin Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0921:pawmi",
+      "name": "Pawmi",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0922:pawmo",
+      "name": "Pawmo",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0923:pawmot",
+      "name": "Pawmot",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "1025:pecharunt",
+      "name": "Pecharunt",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "1012F2:poltchageist-artisan-form",
+      "name": "Poltchageist (Artisan Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "1012F1:poltchageist-counterfeit-form",
+      "name": "Poltchageist (Counterfeit Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0914:quaquaval",
+      "name": "Quaquaval",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0912:quaxly",
+      "name": "Quaxly",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0913:quaxwell",
+      "name": "Quaxwell",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0211H:qwilfish-hisuian-form",
+      "name": "Qwilfish (Hisuian Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0954:rabsca",
+      "name": "Rabsca",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "1021:raging-bolt",
+      "name": "Raging Bolt",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0953:rellor",
+      "name": "Rellor",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0966:revavroom",
+      "name": "Revavroom",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "1005:roaring-moon",
+      "name": "Roaring Moon",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0479F6:rotom-dex-form",
+      "name": "Rotom (Dex Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0503H:samurott-hisuian-form",
+      "name": "Samurott (Hisuian Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0989:sandy-shocks",
+      "name": "Sandy Shocks",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0952:scovillain",
+      "name": "Scovillain",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0985:scream-tail",
+      "name": "Scream Tail",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0944:shroodle",
+      "name": "Shroodle",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "1013F2:sinistcha-masterpiece-form",
+      "name": "Sinistcha (Masterpiece Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "1013F1:sinistcha-unremarkable-form",
+      "name": "Sinistcha (Unremarkable Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0911:skeledirge",
+      "name": "Skeledirge",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0705H:sliggoo-hisuian-form",
+      "name": "Sliggoo (Hisuian Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0988:slither-wing",
+      "name": "Slither Wing",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0928:smoliv",
+      "name": "Smoliv",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0215H:sneasel-hisuian-form",
+      "name": "Sneasel (Hisuian Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0918:spidops",
+      "name": "Spidops",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0906:sprigatito",
+      "name": "Sprigatito",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0931:squawkabilly",
+      "name": "Squawkabilly",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0938:tadbulb",
+      "name": "Tadbulb",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0924:tandemaus",
+      "name": "Tandemaus",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0917:tarountula",
+      "name": "Tarountula",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0978F1:tatsugiri-curly-form",
+      "name": "Tatsugiri (Curly Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0978F3:tatsugiri-droopy-form",
+      "name": "Tatsugiri (Droopy Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0978F2:tatsugiri-stretchy-form",
+      "name": "Tatsugiri (Stretchy Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0128PA:tauros-paldean-form-aqua-form",
+      "name": "Tauros (Paldean Form) (Aqua Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0128PB:tauros-paldean-form-blaze-form",
+      "name": "Tauros (Paldean Form) (Blaze Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0128PC:tauros-paldean-form-combat-form",
+      "name": "Tauros (Paldean Form) (Combat Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "1024F1:terapagos-normal-form",
+      "name": "Terapagos (Normal Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "1024F3:terapagos-stellar-form",
+      "name": "Terapagos (Stellar Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "1024F2:terapagos-terastal-form",
+      "name": "Terapagos (Terastal Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "1003:ting-lu",
+      "name": "Ting-Lu",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0957:tinkatink",
+      "name": "Tinkatink",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0959:tinkaton",
+      "name": "Tinkaton",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0958:tinkatuff",
+      "name": "Tinkatuff",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0948:toedscool",
+      "name": "Toedscool",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0949:toedscruel",
+      "name": "Toedscruel",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0157H:typhlosion-hisuian-form",
+      "name": "Typhlosion (Hisuian Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0901F1:ursaluna-kitakami-form",
+      "name": "Ursaluna (Kitakami Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0892F2:urshifu-rapid-strike-style-form",
+      "name": "Urshifu (Rapid Strike Style Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0892F1:urshifu-single-strike-style-form",
+      "name": "Urshifu (Single Strike Style Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0965:varoom",
+      "name": "Varoom",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0976:veluza",
+      "name": "Veluza",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0100H:voltorb-hisuian-form",
+      "name": "Voltorb (Hisuian Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "1009:walking-wake",
+      "name": "Walking Wake",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0940:wattrel",
+      "name": "Wattrel",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0960:wiglett",
+      "name": "Wiglett",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "1001:wo-chien",
+      "name": "Wo-Chien",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0194P:wooper-paldean-form",
+      "name": "Wooper (Paldean Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0961:wugtrio",
+      "name": "Wugtrio",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0571H:zoroark-hisuian-form",
+      "name": "Zoroark (Hisuian Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    },
+    {
+      "kind": "species",
+      "id": "0570H:zorua-hisuian-form",
+      "name": "Zorua (Hisuian Form)",
+      "field": "Image",
+      "status": "missing_asset",
+      "reason": "Exact local sprite unavailable; retain named placeholder"
+    }
+  ]
+}

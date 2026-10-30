@@ -468,3 +468,17 @@ fn chance_status_shields_block_effect_but_preserve_wild_charge_recoil_and_rollba
     );
     assert_eq!(serde_json::to_value(&restored.battle).unwrap(), before);
 }
+
+#[test]
+fn m4_bleakwind_storm_low_accuracy_removes_two_successes_not_dice() {
+    let (c, a, _) = setup("Bleakwind Storm");
+    let action = attack(&a, vec![], "Bleakwind Storm");
+    let n = rules::dice_count(&c, &action, &catalog()).unwrap();
+    assert!(n > 2);
+    let after = battle::transition(&c, "gm", &action, vec![6; n as usize], &catalog())
+        .unwrap()
+        .0;
+    assert_eq!(q(&after).successes, n as i32 - 2);
+    assert_eq!(after.battle.as_ref().unwrap().combatants[0].actions, 1);
+    assert_eq!(cards()["moves"]["Bleakwind Storm"]["dice"], 3);
+}

@@ -3233,7 +3233,13 @@
           }
         ]
       },
-      "catalog_differences": {},
+      "catalog_differences": {
+        "attributes": {
+          "AccuracyReduction": -2,
+          "Lethal": true,
+          "WindMove": true
+        }
+      },
       "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,

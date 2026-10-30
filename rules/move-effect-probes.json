@@ -1672,7 +1672,7 @@
     },
     {
       "catalog_attributes": {
-        "AccuracyReduction": 2,
+        "AccuracyReduction": -2,
         "Lethal": true,
         "WindMove": true
       },

@@ -90,7 +90,7 @@
         "printed_page": 469,
         "finding": "Printed condition and Chance dice agree with Effect prose."
       },
-      "remaining_metadata_issue": "AccuracyReduction is +2 despite Low Accuracy 2 prose and MASTER 469. This chance-only batch preserves existing accuracy behavior; reconcile separately."
+      "metadata_correction": "M4-C01 resolved on 30 October 2026 in rules/battle-reviewed.json: MASTER 469 / PDF 336 visually confirms Low Accuracy 2, applied as AccuracyReduction -2. Original source metadata remains +2."
     },
     "Blue Flare": {
       "status": "Burn 3",
