@@ -1700,5 +1700,15 @@
       "Mew starting-move selection is searchable. A concrete catalog move must be selected; no Any Move card is created. Unsupported battle effects remain unsupported."
     ],
     "scope_limit": "Source learnset ranks and other species/form fields are not blanket-certified by fixing these references."
+  },
+  "species_fidelity_progress": {
+    "status": "in-progress",
+    "registry": "rules/species-fidelity-review.json",
+    "checklist": "docs/M4-S01-SPECIES-FIDELITY-CHECKLIST.md",
+    "new_manual_identities": 12,
+    "new_field_certifications": 174,
+    "remaining_unverified_species_fields": 17763,
+    "stage_ruling_rows": 192,
+    "unresolved_graph_discrepancies": 13
   }
 }

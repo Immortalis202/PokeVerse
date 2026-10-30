@@ -145,6 +145,16 @@ const referenceReview = JSON.parse(
 await (
   await import("./catalog-references.mjs")
 ).applyReferenceReview(catalog, referenceReview, root);
+const fidelityReview = JSON.parse(
+  await readFile(path.join(app, "rules/species-fidelity-review.json"), "utf8"),
+);
+catalog.species_fidelity = (
+  await import("./species-fidelity.mjs")
+).applySpeciesFidelity(
+  catalog,
+  fidelityReview,
+  createHash("sha256").update(JSON.stringify(original.species)).digest("hex"),
+);
 const moves = new Set(catalog.moves.map((m) => m.Name));
 for (const s of catalog.species) {
   for (const m of s.Moves ?? [])
@@ -227,6 +237,7 @@ for (const key of [
   "warnings",
   "review_sources",
   "rules_coverage_hash",
+  "species_fidelity",
 ])
   metadata.run(key, JSON.stringify(catalog[key]));
 const insert = db.prepare("INSERT INTO entries VALUES (?,?,?,?,?,?,?,?,?)");

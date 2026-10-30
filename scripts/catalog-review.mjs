@@ -216,7 +216,8 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
         kind === "species"
           ? reviewed.species[entry.AppId]
           : overrides[kind]?.[entry.AppId];
-      if (evidence?.fields) Object.assign(entry, evidence.fields);
+      if (kind !== "species" && evidence?.fields)
+        Object.assign(entry, evidence.fields);
       const fieldReview = {};
       for (const field of fields) {
         const verified =
@@ -309,6 +310,7 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
             ...(entry.ReferenceReview ?? []).map(
               (r) => `${r.id}: ${r.decision}`,
             ),
+            ...(entry.FidelityReview ?? []).map((r) => r.decision),
           ]
             .filter(Boolean)
             .join(" ") || null,

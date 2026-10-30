@@ -115,6 +115,1677 @@
         "MaxInsight": 7
       },
       "review": "Visual MASTER 327 / PDF 194: separate Psychic and Fight Meloetta rows. Correct base Meloetta to 5/5/5/7/7; the prior vector extraction applied Pirouette 7/7/5/5/5 to the base identity. Source JSON unchanged; no evolution-stage or learnset certification."
+    },
+    "0001:bulbasaur": {
+      "pdf_page": 1,
+      "stage": 1,
+      "fields": {
+        "BaseHP": 3,
+        "Strength": 2,
+        "MaxStrength": 4,
+        "Dexterity": 2,
+        "MaxDexterity": 4,
+        "Vitality": 2,
+        "MaxVitality": 4,
+        "Special": 2,
+        "MaxSpecial": 4,
+        "Insight": 2,
+        "MaxInsight": 4,
+        "Ability1": "Overgrow",
+        "Ability2": "Chlorophyll",
+        "Moves": [
+          {
+            "Learned": "Starter",
+            "Name": "Tackle"
+          },
+          {
+            "Learned": "Starter",
+            "Name": "Growl"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Growth"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Vine Whip"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Leech Seed"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Razor Leaf"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Poison Powder"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Sleep Powder"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Seed Bomb"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Take Down"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Sweet Scent"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Synthesis"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Worry Seed"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Magical Leaf"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Charm"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Sludge"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Solar Beam"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Double-Edge"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Grassy Terrain"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Grass Whistle"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Grass Pledge"
+          }
+        ],
+        "Evolutions": [
+          {
+            "To": "Ivysaur",
+            "Kind": "Level",
+            "Speed": "Medium"
+          }
+        ]
+      },
+      "moves_reviewed": [
+        "Tackle",
+        "Growl",
+        "Growth",
+        "Vine Whip",
+        "Leech Seed",
+        "Razor Leaf",
+        "Poison Powder",
+        "Sleep Powder",
+        "Seed Bomb",
+        "Take Down",
+        "Sweet Scent",
+        "Synthesis",
+        "Worry Seed",
+        "Magical Leaf",
+        "Charm",
+        "Sludge",
+        "Solar Beam",
+        "Double-Edge",
+        "Grassy Terrain",
+        "Grass Whistle",
+        "Grass Pledge"
+      ],
+      "review": "M4-S01 visual review of complete MASTER 134 / PDF 1: exact identity, base HP, five baseline/limit dot rows, both ordinary ability slots and every move-rank icon. No blanket certification of unreviewed evolution/item prerequisites. Ordinary level-line links and Medium evolution time visually verified.",
+      "evolution_speed": "Medium"
+    },
+    "0002:ivysaur": {
+      "pdf_page": 1,
+      "stage": 2,
+      "fields": {
+        "BaseHP": 4,
+        "Strength": 2,
+        "MaxStrength": 4,
+        "Dexterity": 2,
+        "MaxDexterity": 4,
+        "Vitality": 2,
+        "MaxVitality": 4,
+        "Special": 2,
+        "MaxSpecial": 5,
+        "Insight": 2,
+        "MaxInsight": 5,
+        "Ability1": "Overgrow",
+        "Ability2": "Chlorophyll",
+        "Moves": [
+          {
+            "Learned": "Starter",
+            "Name": "Tackle"
+          },
+          {
+            "Learned": "Starter",
+            "Name": "Growl"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Growth"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Vine Whip"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Leech Seed"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Razor Leaf"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Poison Powder"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Sleep Powder"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Seed Bomb"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Take Down"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Sweet Scent"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Synthesis"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Worry Seed"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Magical Leaf"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Sludge"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Toxic"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Solar Beam"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Double-Edge"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Grassy Terrain"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Grassy Glide"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Grass Pledge"
+          }
+        ],
+        "Evolutions": [
+          {
+            "From": "Bulbasaur",
+            "Kind": "Level",
+            "Speed": "Medium"
+          },
+          {
+            "To": "Venusaur",
+            "Kind": "Level",
+            "Speed": "Medium"
+          }
+        ]
+      },
+      "moves_reviewed": [
+        "Tackle",
+        "Growl",
+        "Growth",
+        "Vine Whip",
+        "Leech Seed",
+        "Razor Leaf",
+        "Poison Powder",
+        "Sleep Powder",
+        "Seed Bomb",
+        "Take Down",
+        "Sweet Scent",
+        "Synthesis",
+        "Worry Seed",
+        "Magical Leaf",
+        "Sludge",
+        "Toxic",
+        "Solar Beam",
+        "Double-Edge",
+        "Grassy Terrain",
+        "Grassy Glide",
+        "Grass Pledge"
+      ],
+      "review": "M4-S01 visual review of complete MASTER 134 / PDF 1: exact identity, base HP, five baseline/limit dot rows, both ordinary ability slots and every move-rank icon. No blanket certification of unreviewed evolution/item prerequisites. Ordinary level-line links and Medium evolution time visually verified.",
+      "evolution_speed": "Medium"
+    },
+    "0003:venusaur": {
+      "pdf_page": 1,
+      "stage": 3,
+      "fields": {
+        "BaseHP": 5,
+        "Strength": 2,
+        "MaxStrength": 5,
+        "Dexterity": 2,
+        "MaxDexterity": 5,
+        "Vitality": 2,
+        "MaxVitality": 5,
+        "Special": 3,
+        "MaxSpecial": 6,
+        "Insight": 3,
+        "MaxInsight": 6,
+        "Ability1": "Overgrow",
+        "Ability2": "Chlorophyll",
+        "Moves": [
+          {
+            "Learned": "Starter",
+            "Name": "Tackle"
+          },
+          {
+            "Learned": "Starter",
+            "Name": "Growl"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Growth"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Vine Whip"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Leech Seed"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Razor Leaf"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Poison Powder"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Sleep Powder"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Seed Bomb"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Take Down"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Sweet Scent"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Synthesis"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Worry Seed"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Petal Blizzard"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Curse"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Toxic"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Venoshock"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Petal Dance"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Solar Beam"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Double-Edge"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Terrain Pulse"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Power Whip"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Outrage"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Frenzy Plant"
+          }
+        ]
+      },
+      "moves_reviewed": [
+        "Tackle",
+        "Growl",
+        "Growth",
+        "Vine Whip",
+        "Leech Seed",
+        "Razor Leaf",
+        "Poison Powder",
+        "Sleep Powder",
+        "Seed Bomb",
+        "Take Down",
+        "Sweet Scent",
+        "Synthesis",
+        "Worry Seed",
+        "Petal Blizzard",
+        "Curse",
+        "Toxic",
+        "Venoshock",
+        "Petal Dance",
+        "Solar Beam",
+        "Double-Edge",
+        "Terrain Pulse",
+        "Power Whip",
+        "Outrage",
+        "Frenzy Plant"
+      ],
+      "review": "M4-S01 visual review of complete MASTER 134 / PDF 1: exact identity, base HP, five baseline/limit dot rows, both ordinary ability slots and every move-rank icon. No blanket certification of unreviewed evolution/item prerequisites."
+    },
+    "0003M1:venusaur-mega-form": {
+      "pdf_page": 1,
+      "stage": null,
+      "fields": {
+        "BaseHP": 6,
+        "Strength": 3,
+        "MaxStrength": 6,
+        "Dexterity": 2,
+        "MaxDexterity": 5,
+        "Vitality": 3,
+        "MaxVitality": 7,
+        "Special": 3,
+        "MaxSpecial": 7,
+        "Insight": 3,
+        "MaxInsight": 7,
+        "Ability1": "Thick Fat",
+        "Ability2": "",
+        "Moves": [
+          {
+            "Learned": "Starter",
+            "Name": "Tackle"
+          },
+          {
+            "Learned": "Starter",
+            "Name": "Growl"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Growth"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Vine Whip"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Leech Seed"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Razor Leaf"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Poison Powder"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Sleep Powder"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Seed Bomb"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Take Down"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Sweet Scent"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Synthesis"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Worry Seed"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Petal Blizzard"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Curse"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Toxic"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Venoshock"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Petal Dance"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Solar Beam"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Double-Edge"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Terrain Pulse"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Power Whip"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Outrage"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Frenzy Plant"
+          }
+        ]
+      },
+      "moves_reviewed": [
+        "Tackle",
+        "Growl",
+        "Growth",
+        "Vine Whip",
+        "Leech Seed",
+        "Razor Leaf",
+        "Poison Powder",
+        "Sleep Powder",
+        "Seed Bomb",
+        "Take Down",
+        "Sweet Scent",
+        "Synthesis",
+        "Worry Seed",
+        "Petal Blizzard",
+        "Curse",
+        "Toxic",
+        "Venoshock",
+        "Petal Dance",
+        "Solar Beam",
+        "Double-Edge",
+        "Terrain Pulse",
+        "Power Whip",
+        "Outrage",
+        "Frenzy Plant"
+      ],
+      "review": "M4-S01 visual review of complete MASTER 134 / PDF 1: exact identity, base HP, five baseline/limit dot rows, both ordinary ability slots and every move-rank icon. No blanket certification of unreviewed evolution/item prerequisites."
+    },
+    "0004:charmander": {
+      "pdf_page": 2,
+      "stage": 1,
+      "fields": {
+        "BaseHP": 3,
+        "Strength": 2,
+        "MaxStrength": 4,
+        "Dexterity": 2,
+        "MaxDexterity": 4,
+        "Vitality": 1,
+        "MaxVitality": 3,
+        "Special": 2,
+        "MaxSpecial": 4,
+        "Insight": 2,
+        "MaxInsight": 4,
+        "Ability1": "Blaze",
+        "Ability2": "Solar Power",
+        "Moves": [
+          {
+            "Learned": "Starter",
+            "Name": "Scratch"
+          },
+          {
+            "Learned": "Starter",
+            "Name": "Growl"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Ember"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Smokescreen"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Dragon Breath"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Flame Burst"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Fire Fang"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Dragon Rage"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Metal Claw"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Bite"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Flamethrower"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Slash"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Scary Face"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Fire Spin"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Flare Blitz"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Inferno"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Dragon Tail"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Dragon Dance"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Fire Pledge"
+          }
+        ],
+        "Evolutions": [
+          {
+            "To": "Charmeleon",
+            "Kind": "Level",
+            "Speed": "Medium"
+          }
+        ]
+      },
+      "moves_reviewed": [
+        "Scratch",
+        "Growl",
+        "Ember",
+        "Smokescreen",
+        "Dragon Breath",
+        "Flame Burst",
+        "Fire Fang",
+        "Dragon Rage",
+        "Metal Claw",
+        "Bite",
+        "Flamethrower",
+        "Slash",
+        "Scary Face",
+        "Fire Spin",
+        "Flare Blitz",
+        "Inferno",
+        "Dragon Tail",
+        "Dragon Dance",
+        "Fire Pledge"
+      ],
+      "review": "M4-S01 visual review of complete MASTER 135 / PDF 2: exact identity, base HP, five baseline/limit dot rows, both ordinary ability slots and every move-rank icon. No blanket certification of unreviewed evolution/item prerequisites. Ordinary level-line links and Medium evolution time visually verified.",
+      "evolution_speed": "Medium"
+    },
+    "0005:charmeleon": {
+      "pdf_page": 2,
+      "stage": 2,
+      "fields": {
+        "BaseHP": 4,
+        "Strength": 2,
+        "MaxStrength": 4,
+        "Dexterity": 2,
+        "MaxDexterity": 5,
+        "Vitality": 2,
+        "MaxVitality": 4,
+        "Special": 2,
+        "MaxSpecial": 5,
+        "Insight": 2,
+        "MaxInsight": 4,
+        "Ability1": "Blaze",
+        "Ability2": "Solar Power",
+        "Moves": [
+          {
+            "Learned": "Starter",
+            "Name": "Scratch"
+          },
+          {
+            "Learned": "Starter",
+            "Name": "Growl"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Ember"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Smokescreen"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Dragon Breath"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Flame Burst"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Fire Fang"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Dragon Rage"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Metal Claw"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Bite"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Flamethrower"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Slash"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Scary Face"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Fire Spin"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Flare Blitz"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Inferno"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Dragon Rush"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Crunch"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Fire Pledge"
+          }
+        ],
+        "Evolutions": [
+          {
+            "From": "Charmander",
+            "Kind": "Level",
+            "Speed": "Medium"
+          },
+          {
+            "To": "Charizard",
+            "Kind": "Level",
+            "Speed": "Medium"
+          }
+        ]
+      },
+      "moves_reviewed": [
+        "Scratch",
+        "Growl",
+        "Ember",
+        "Smokescreen",
+        "Dragon Breath",
+        "Flame Burst",
+        "Fire Fang",
+        "Dragon Rage",
+        "Metal Claw",
+        "Bite",
+        "Flamethrower",
+        "Slash",
+        "Scary Face",
+        "Fire Spin",
+        "Flare Blitz",
+        "Inferno",
+        "Dragon Rush",
+        "Crunch",
+        "Fire Pledge"
+      ],
+      "review": "M4-S01 visual review of complete MASTER 135 / PDF 2: exact identity, base HP, five baseline/limit dot rows, both ordinary ability slots and every move-rank icon. No blanket certification of unreviewed evolution/item prerequisites. Ordinary level-line links and Medium evolution time visually verified.",
+      "evolution_speed": "Medium"
+    },
+    "0006:charizard": {
+      "pdf_page": 2,
+      "stage": 3,
+      "fields": {
+        "BaseHP": 5,
+        "Strength": 2,
+        "MaxStrength": 5,
+        "Dexterity": 3,
+        "MaxDexterity": 6,
+        "Vitality": 2,
+        "MaxVitality": 5,
+        "Special": 3,
+        "MaxSpecial": 6,
+        "Insight": 2,
+        "MaxInsight": 5,
+        "Ability1": "Blaze",
+        "Ability2": "Solar Power",
+        "Moves": [
+          {
+            "Learned": "Starter",
+            "Name": "Scratch"
+          },
+          {
+            "Learned": "Starter",
+            "Name": "Growl"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Ember"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Smokescreen"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Dragon Breath"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Flame Burst"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Fire Fang"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Dragon Rage"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Air Slash"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Wing Attack"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Flamethrower"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Slash"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Scary Face"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Dragon Claw"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Shadow Claw"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Heat Wave"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Dragon Dance"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Fire Spin"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Flare Blitz"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Inferno"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Scorching Sands"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Thunder Punch"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Outrage"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Blast Burn"
+          }
+        ]
+      },
+      "moves_reviewed": [
+        "Scratch",
+        "Growl",
+        "Ember",
+        "Smokescreen",
+        "Dragon Breath",
+        "Flame Burst",
+        "Fire Fang",
+        "Dragon Rage",
+        "Air Slash",
+        "Wing Attack",
+        "Flamethrower",
+        "Slash",
+        "Scary Face",
+        "Dragon Claw",
+        "Shadow Claw",
+        "Heat Wave",
+        "Dragon Dance",
+        "Fire Spin",
+        "Flare Blitz",
+        "Inferno",
+        "Scorching Sands",
+        "Thunder Punch",
+        "Outrage",
+        "Blast Burn"
+      ],
+      "review": "M4-S01 visual review of complete MASTER 135 / PDF 2: exact identity, base HP, five baseline/limit dot rows, both ordinary ability slots and every move-rank icon. No blanket certification of unreviewed evolution/item prerequisites."
+    },
+    "0006M1:charizard-mega-y-form": {
+      "pdf_page": 2,
+      "stage": null,
+      "fields": {
+        "BaseHP": 6,
+        "Strength": 3,
+        "MaxStrength": 6,
+        "Dexterity": 3,
+        "MaxDexterity": 6,
+        "Vitality": 2,
+        "MaxVitality": 5,
+        "Special": 4,
+        "MaxSpecial": 8,
+        "Insight": 3,
+        "MaxInsight": 6,
+        "Ability1": "Drought",
+        "Ability2": "",
+        "Moves": [
+          {
+            "Learned": "Starter",
+            "Name": "Scratch"
+          },
+          {
+            "Learned": "Starter",
+            "Name": "Growl"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Ember"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Smokescreen"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Dragon Breath"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Flame Burst"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Fire Fang"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Dragon Rage"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Air Slash"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Wing Attack"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Flamethrower"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Slash"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Scary Face"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Dragon Claw"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Shadow Claw"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Heat Wave"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Dragon Dance"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Fire Spin"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Flare Blitz"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Inferno"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Scorching Sands"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Thunder Punch"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Outrage"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Blast Burn"
+          }
+        ]
+      },
+      "moves_reviewed": [
+        "Scratch",
+        "Growl",
+        "Ember",
+        "Smokescreen",
+        "Dragon Breath",
+        "Flame Burst",
+        "Fire Fang",
+        "Dragon Rage",
+        "Air Slash",
+        "Wing Attack",
+        "Flamethrower",
+        "Slash",
+        "Scary Face",
+        "Dragon Claw",
+        "Shadow Claw",
+        "Heat Wave",
+        "Dragon Dance",
+        "Fire Spin",
+        "Flare Blitz",
+        "Inferno",
+        "Scorching Sands",
+        "Thunder Punch",
+        "Outrage",
+        "Blast Burn"
+      ],
+      "review": "M4-S01 visual review of complete MASTER 135 / PDF 2: exact identity, base HP, five baseline/limit dot rows, both ordinary ability slots and every move-rank icon. No blanket certification of unreviewed evolution/item prerequisites."
+    },
+    "0006M2:charizard-mega-x-form": {
+      "pdf_page": 3,
+      "stage": null,
+      "fields": {
+        "BaseHP": 6,
+        "Strength": 3,
+        "MaxStrength": 7,
+        "Dexterity": 3,
+        "MaxDexterity": 6,
+        "Vitality": 3,
+        "MaxVitality": 6,
+        "Special": 3,
+        "MaxSpecial": 7,
+        "Insight": 2,
+        "MaxInsight": 5,
+        "Ability1": "Tough Claws",
+        "Ability2": "",
+        "Moves": [
+          {
+            "Learned": "Starter",
+            "Name": "Scratch"
+          },
+          {
+            "Learned": "Starter",
+            "Name": "Growl"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Ember"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Smokescreen"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Dragon Breath"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Flame Burst"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Fire Fang"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Dragon Rage"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Air Slash"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Wing Attack"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Flamethrower"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Slash"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Scary Face"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Dragon Claw"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Shadow Claw"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Heat Wave"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Dragon Dance"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Fire Spin"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Flare Blitz"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Inferno"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Scorching Sands"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Thunder Punch"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Outrage"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Blast Burn"
+          }
+        ]
+      },
+      "moves_reviewed": [
+        "Scratch",
+        "Growl",
+        "Ember",
+        "Smokescreen",
+        "Dragon Breath",
+        "Flame Burst",
+        "Fire Fang",
+        "Dragon Rage",
+        "Air Slash",
+        "Wing Attack",
+        "Flamethrower",
+        "Slash",
+        "Scary Face",
+        "Dragon Claw",
+        "Shadow Claw",
+        "Heat Wave",
+        "Dragon Dance",
+        "Fire Spin",
+        "Flare Blitz",
+        "Inferno",
+        "Scorching Sands",
+        "Thunder Punch",
+        "Outrage",
+        "Blast Burn"
+      ],
+      "review": "M4-S01 visual review of complete MASTER 136 / PDF 3: exact identity, base HP, five baseline/limit dot rows, both ordinary ability slots and every move-rank icon. No blanket certification of unreviewed evolution/item prerequisites."
+    },
+    "0007:squirtle": {
+      "pdf_page": 3,
+      "stage": 1,
+      "fields": {
+        "BaseHP": 3,
+        "Strength": 2,
+        "MaxStrength": 4,
+        "Dexterity": 1,
+        "MaxDexterity": 3,
+        "Vitality": 2,
+        "MaxVitality": 4,
+        "Special": 2,
+        "MaxSpecial": 4,
+        "Insight": 2,
+        "MaxInsight": 4,
+        "Ability1": "Torrent",
+        "Ability2": "Rain Dish",
+        "Moves": [
+          {
+            "Learned": "Starter",
+            "Name": "Tackle"
+          },
+          {
+            "Learned": "Starter",
+            "Name": "Tail Whip"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Water Gun"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Withdraw"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Rapid Spin"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Bite"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Bubble"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Protect"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Water Pulse"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Rain Dance"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Aqua Tail"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Flip Turn"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Shell Smash"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Iron Defense"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Muddy Water"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Skull Bash"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Hydro Pump"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Aqua Jet"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Icy Wind"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Water Pledge"
+          }
+        ],
+        "Evolutions": [
+          {
+            "To": "Wartortle",
+            "Kind": "Level",
+            "Speed": "Medium"
+          }
+        ]
+      },
+      "moves_reviewed": [
+        "Tackle",
+        "Tail Whip",
+        "Water Gun",
+        "Withdraw",
+        "Rapid Spin",
+        "Bite",
+        "Bubble",
+        "Protect",
+        "Water Pulse",
+        "Rain Dance",
+        "Aqua Tail",
+        "Flip Turn",
+        "Shell Smash",
+        "Iron Defense",
+        "Muddy Water",
+        "Skull Bash",
+        "Hydro Pump",
+        "Aqua Jet",
+        "Icy Wind",
+        "Water Pledge"
+      ],
+      "review": "M4-S01 visual review of complete MASTER 136 / PDF 3: exact identity, base HP, five baseline/limit dot rows, both ordinary ability slots and every move-rank icon. No blanket certification of unreviewed evolution/item prerequisites. Ordinary level-line links and Medium evolution time visually verified.",
+      "evolution_speed": "Medium"
+    },
+    "0008:wartortle": {
+      "pdf_page": 3,
+      "stage": 2,
+      "fields": {
+        "BaseHP": 4,
+        "Strength": 2,
+        "MaxStrength": 4,
+        "Dexterity": 2,
+        "MaxDexterity": 4,
+        "Vitality": 2,
+        "MaxVitality": 5,
+        "Special": 2,
+        "MaxSpecial": 4,
+        "Insight": 2,
+        "MaxInsight": 5,
+        "Ability1": "Torrent",
+        "Ability2": "Rain Dish",
+        "Moves": [
+          {
+            "Learned": "Starter",
+            "Name": "Tackle"
+          },
+          {
+            "Learned": "Starter",
+            "Name": "Tail Whip"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Water Gun"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Withdraw"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Rapid Spin"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Bite"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Bubble"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Protect"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Water Pulse"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Rain Dance"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Aqua Tail"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Flip Turn"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Shell Smash"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Iron Defense"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Muddy Water"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Skull Bash"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Hydro Pump"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Aqua Jet"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Mud Sport"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Water Pledge"
+          }
+        ],
+        "Evolutions": [
+          {
+            "From": "Squirtle",
+            "Kind": "Level",
+            "Speed": "Medium"
+          },
+          {
+            "To": "Blastoise",
+            "Kind": "Level",
+            "Speed": "Medium"
+          }
+        ]
+      },
+      "moves_reviewed": [
+        "Tackle",
+        "Tail Whip",
+        "Water Gun",
+        "Withdraw",
+        "Rapid Spin",
+        "Bite",
+        "Bubble",
+        "Protect",
+        "Water Pulse",
+        "Rain Dance",
+        "Aqua Tail",
+        "Flip Turn",
+        "Shell Smash",
+        "Iron Defense",
+        "Muddy Water",
+        "Skull Bash",
+        "Hydro Pump",
+        "Aqua Jet",
+        "Mud Sport",
+        "Water Pledge"
+      ],
+      "review": "M4-S01 visual review of complete MASTER 136 / PDF 3: exact identity, base HP, five baseline/limit dot rows, both ordinary ability slots and every move-rank icon. No blanket certification of unreviewed evolution/item prerequisites. Ordinary level-line links and Medium evolution time visually verified.",
+      "evolution_speed": "Medium"
+    },
+    "0009:blastoise": {
+      "pdf_page": 3,
+      "stage": 3,
+      "fields": {
+        "BaseHP": 5,
+        "Strength": 2,
+        "MaxStrength": 5,
+        "Dexterity": 2,
+        "MaxDexterity": 5,
+        "Vitality": 3,
+        "MaxVitality": 6,
+        "Special": 2,
+        "MaxSpecial": 5,
+        "Insight": 3,
+        "MaxInsight": 6,
+        "Ability1": "Torrent",
+        "Ability2": "Rain Dish",
+        "Moves": [
+          {
+            "Learned": "Starter",
+            "Name": "Tackle"
+          },
+          {
+            "Learned": "Starter",
+            "Name": "Tail Whip"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Water Gun"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Withdraw"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Rapid Spin"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Bite"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Bubble"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Protect"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Water Pulse"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Rain Dance"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Aqua Tail"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Flip Turn"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Shell Smash"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Iron Defense"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Aura Sphere"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Flash Cannon"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Muddy Water"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Life Dew"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Hydro Pump"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Skull Bash"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Water Spout"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Zap Cannon"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Outrage"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Hydro Cannon"
+          }
+        ]
+      },
+      "moves_reviewed": [
+        "Tackle",
+        "Tail Whip",
+        "Water Gun",
+        "Withdraw",
+        "Rapid Spin",
+        "Bite",
+        "Bubble",
+        "Protect",
+        "Water Pulse",
+        "Rain Dance",
+        "Aqua Tail",
+        "Flip Turn",
+        "Shell Smash",
+        "Iron Defense",
+        "Aura Sphere",
+        "Flash Cannon",
+        "Muddy Water",
+        "Life Dew",
+        "Hydro Pump",
+        "Skull Bash",
+        "Water Spout",
+        "Zap Cannon",
+        "Outrage",
+        "Hydro Cannon"
+      ],
+      "review": "M4-S01 visual review of complete MASTER 136 / PDF 3: exact identity, base HP, five baseline/limit dot rows, both ordinary ability slots and every move-rank icon. No blanket certification of unreviewed evolution/item prerequisites."
     }
   }
 }

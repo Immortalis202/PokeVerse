@@ -1118,3 +1118,85 @@ fn m4_r01_strength_legacy_spelling_preserves_identity_and_cannot_duplicate_learn
     p.moves.push("Strength".into());
     assert!(cat.validate(&p).is_err());
 }
+
+#[test]
+fn s01_standalone_and_form_learning_use_user_final_stage_costs() {
+    let cat = catalog();
+    for name in [
+        "Articuno",
+        "Rotom",
+        "Deoxys",
+        "Groudon (Primal Form)",
+        "Necrozma (Ultra Burst Form)",
+    ] {
+        let t = trainer("Champion");
+        let mut draft = sheet("pokemon");
+        draft.owner_id = t.owner_id.clone();
+        draft.trainer_id = Some(t.id.clone());
+        draft.rank = t.rank.clone();
+        draft.species_id = Some(
+            cat.find("species", "Name", name).unwrap()["AppId"]
+                .as_str()
+                .unwrap()
+                .to_owned(),
+        );
+        let mut build = rules::build(&draft, &cat);
+        build.origin = "starter".into();
+        build.allocations.clear();
+        draft.workflow = Some(build);
+        // Source-field adjudications remain required; the cost ruling must not certify them.
+        let p = rules::apply(
+            None,
+            Some(&t),
+            &request(&draft, "create", Some(&t)),
+            &cat,
+            Some(("test", "gm")),
+        )
+        .unwrap();
+        let species = cat.find("species", "Name", name).unwrap();
+        let candidates = species["Moves"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .filter(|m| m["Learned"].as_str().and_then(rules::rank).is_some())
+            .take(2)
+            .map(|m| m["Name"].as_str().unwrap().to_owned())
+            .collect::<Vec<_>>();
+        let mut p = p;
+        let mut first = request(&p, "learn", Some(&t));
+        first.move_name = candidates[0].clone();
+        p = rules::apply(Some(&p), Some(&t), &first, &cat, Some(("test", "gm"))).unwrap();
+        p = award(&p, &t, 20);
+        let mut replace = request(&p, "learn", Some(&t));
+        replace.move_name = candidates[1].clone();
+        replace.replacement = candidates[0].clone();
+        let v = rules::preview(Some(&p), Some(&t), &replace, &cat);
+        assert!(v.errors.is_empty(), "{name}: {:?}", v.errors);
+        assert!(
+            !v.approvals.iter().any(|a| a.contains("Evolution stage")),
+            "{name}: {:?}",
+            v.approvals
+        );
+        let learned_rank = species["Moves"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .find(|m| m["Name"] == candidates[1])
+            .unwrap()["Learned"]
+            .as_str()
+            .and_then(rules::rank)
+            .unwrap();
+        let expected = if learned_rank < rules::rank(&p.rank).unwrap() {
+            3
+        } else {
+            6
+        };
+        assert_eq!(v.cost, expected, "{name}");
+        let applied =
+            rules::apply(Some(&p), Some(&t), &replace, &cat, Some(("test", "gm"))).unwrap();
+        assert_eq!(
+            applied.workflow.as_ref().unwrap().training_points,
+            20 - expected
+        );
+    }
+}

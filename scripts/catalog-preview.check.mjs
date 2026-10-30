@@ -110,6 +110,7 @@ test("SQLite full records preserve the corrected catalog fingerprint", () => {
         .prepare("SELECT data FROM entries WHERE kind=? ORDER BY position")
         .all(kind)
         .map((r) => JSON.parse(r.data));
+    catalog.species_fidelity = meta.species_fidelity;
     catalog.review_sources = meta.review_sources;
     catalog.rules_coverage_hash = meta.rules_coverage_hash;
     catalog.habitat_data = {
