@@ -118,6 +118,20 @@ impl Catalog {
             ))?
             .query_row(params![kind, id], |r| r.get(0))
             .optional()?;
+        let text = if text.is_none() && kind == "moves" && key == "Name" {
+            let mut stmt = db.connection.prepare_cached(
+                "SELECT data FROM entries e WHERE kind='moves' AND EXISTS (SELECT 1 FROM json_each(e.data, '$.LegacyNames') a WHERE a.value=?1) LIMIT 2"
+            )?;
+            let matches = stmt
+                .query_map([id], |r| r.get::<_, String>(0))?
+                .collect::<std::result::Result<Vec<_>, _>>()?;
+            if matches.len() > 1 {
+                return Err(AppError::new("catalog", "Ambiguous legacy move name"));
+            }
+            matches.into_iter().next()
+        } else {
+            text
+        };
         let value = text
             .map(|s| serde_json::from_str::<Value>(&s))
             .transpose()?;
@@ -131,6 +145,11 @@ impl Catalog {
             db.cache.insert(cache_key, value.clone());
         }
         Ok(value)
+    }
+    pub fn canonical_move_name(&self, name: &str) -> String {
+        self.find("moves", "Name", name)
+            .and_then(|m| m["Name"].as_str().map(str::to_owned))
+            .unwrap_or_else(|| name.to_owned())
     }
     pub fn find(&self, kind: &str, key: &str, id: &str) -> Option<Value> {
         // A damaged installed catalog must not silently authorize a rule operation.
@@ -256,7 +275,13 @@ impl Catalog {
                 "HP, XP, attributes, skills, and inventory must be within valid numeric bounds",
             ));
         }
-        if s.moves.len() != s.moves.iter().collect::<HashSet<_>>().len() {
+        if s.moves.len()
+            != s.moves
+                .iter()
+                .map(|m| self.canonical_move_name(m))
+                .collect::<HashSet<_>>()
+                .len()
+        {
             return Err(AppError::new("validation", "Duplicate learned move"));
         }
         if !s.nature.is_empty() && self.find("natures", "Name", &s.nature).is_none() {
@@ -301,9 +326,11 @@ impl Catalog {
             }
             for m in &s.moves {
                 if s.workflow.is_none()
-                    && !species["Moves"]
-                        .as_array()
-                        .is_some_and(|a| a.iter().any(|v| v["Name"].as_str() == Some(m)))
+                    && !species["Moves"].as_array().is_some_and(|a| {
+                        a.iter().any(|v| {
+                            v["Name"].as_str() == Some(self.canonical_move_name(m).as_str())
+                        })
+                    })
                 {
                     return Err(AppError::new(
                         "validation",

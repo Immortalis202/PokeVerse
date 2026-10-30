@@ -12,6 +12,11 @@ export type Species = {
   Image: string;
   DexDescription: string;
   Moves: { Learned: string; Name: string }[];
+  LearnsetRule?: {
+    kind: "any-catalog-move";
+    rank: string;
+    user_ruling: string;
+  };
   Creation?: {
     stage: number | null;
     audit: string;
@@ -32,6 +37,7 @@ export type Species = {
   [key: string]: unknown;
 };
 export type Move = {
+  LegacyNames?: string[];
   [key: string]: unknown;
   AppId: string;
   Name: string;
@@ -93,7 +99,10 @@ export type SpeciesSummary = Pick<
   | "Ability1"
   | "Ability2"
 > & { RecommendedRank?: string; Legendary?: boolean; GoodStarter?: boolean };
-export type MoveSummary = Pick<Move, "AppId" | "Name" | "Type" | "Category">;
+export type MoveSummary = Pick<
+  Move,
+  "AppId" | "Name" | "Type" | "Category" | "LegacyNames"
+>;
 export type EntrySummary = { AppId: string; Name: string };
 export type CatalogSummary = SpeciesSummary | MoveSummary | EntrySummary;
 export type CatalogRecord = Species | Move | CatalogEntry;

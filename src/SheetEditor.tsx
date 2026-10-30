@@ -129,7 +129,16 @@ export default function SheetEditor({
   const [pending, setPending] = useState(false);
   const [extra, setExtra] = useState("");
   const [item, setItem] = useState("");
+  const [moveSearch, setMoveSearch] = useState("");
   const sheet = request.sheet;
+  const moveNames = new Map(
+    catalog.moves.map((m) => [
+      m.Name,
+      new Set([m.Name, ...(m.LegacyNames ?? [])]),
+    ]),
+  );
+  const sameMove = (stored: string, name: string) =>
+    moveNames.get(name)?.has(stored) ?? stored === name;
   const build = sheet.workflow ?? newBuild();
   const [speciesDetail, setSpeciesDetail] = useState<Species | null>(null);
   const [abilityDetail, setAbilityDetail] = useState<CatalogEntry | null>(null);
@@ -649,22 +658,45 @@ export default function SheetEditor({
                 Eligibility and capacity are checked by Rust. Higher-rank moves
                 remain visible with their requirements.
               </p>
-              {(species?.Moves ?? []).map((m) => (
-                <label className="checkbox" key={m.Name}>
-                  <input
-                    type="checkbox"
-                    checked={sheet.moves.includes(m.Name)}
-                    onChange={(e) =>
-                      edit({
-                        moves: e.target.checked
-                          ? [...sheet.moves, m.Name]
-                          : sheet.moves.filter((n) => n !== m.Name),
-                      })
-                    }
-                  />
-                  {m.Name} · {m.Learned}
-                </label>
-              ))}
+              {species?.LearnsetRule && (
+                <>
+                  <p>
+                    Mew can learn any catalog move at Ace rank or higher. Normal
+                    learning costs and capacity apply.
+                  </p>
+                  <label>
+                    Search starting moves
+                    <input
+                      value={moveSearch}
+                      onChange={(e) => setMoveSearch(e.target.value)}
+                      placeholder="Move name"
+                      type="search"
+                    />
+                  </label>
+                </>
+              )}
+              {(species?.Moves ?? [])
+                .filter(
+                  (m) =>
+                    !species?.LearnsetRule ||
+                    m.Name.toLowerCase().includes(moveSearch.toLowerCase()),
+                )
+                .map((m) => (
+                  <label className="checkbox" key={m.Name}>
+                    <input
+                      type="checkbox"
+                      checked={sheet.moves.some((n) => sameMove(n, m.Name))}
+                      onChange={(e) =>
+                        edit({
+                          moves: e.target.checked
+                            ? [...sheet.moves, m.Name]
+                            : sheet.moves.filter((n) => !sameMove(n, m.Name)),
+                        })
+                      }
+                    />
+                    {m.Name} · {m.Learned}
+                  </label>
+                ))}
             </>
           )}
           {request.kind === "learn" && (

@@ -130,10 +130,11 @@ fn stage(s: &Sheet, c: &Catalog) -> Option<usize> {
     v["Creation"]["stage"].as_u64().map(|v| v as usize)
 }
 fn move_rank(s: &Sheet, name: &str, c: &Catalog) -> Option<usize> {
+    let name = c.canonical_move_name(name);
     species(s, c)?["Moves"]
         .as_array()?
         .iter()
-        .find(|m| m["Name"].as_str() == Some(name))
+        .find(|m| m["Name"].as_str() == Some(name.as_str()))
         .and_then(|m| rank(m["Learned"].as_str()?))
 }
 
@@ -339,7 +340,9 @@ pub fn preview(
             let method = req.method.as_str();
             if s.kind != "pokemon"
                 || catalog.find("moves", "Name", name).is_none()
-                || s.moves.contains(name)
+                || s.moves
+                    .iter()
+                    .any(|m| catalog.canonical_move_name(m) == catalog.canonical_move_name(name))
             {
                 errors.push("Select an unlearned catalog move for a Pokemon".into());
             }
@@ -352,7 +355,9 @@ pub fn preview(
                     || method == "ordinary"
                         && (s.moves.len() as i32 >= capacity
                             || !req.replacement.is_empty()
-                            || b.forgotten.contains_key(name)))
+                            || b.forgotten.keys().any(|m| {
+                                catalog.canonical_move_name(m) == catalog.canonical_move_name(name)
+                            })))
             {
                 approvals.push("Evolution stage needs a source-backed decision".into());
             }
@@ -366,7 +371,9 @@ pub fn preview(
                     }
                     if s.moves.len() as i32 >= capacity
                         || !req.replacement.is_empty()
-                        || b.forgotten.contains_key(name)
+                        || b.forgotten.keys().any(|m| {
+                            catalog.canonical_move_name(m) == catalog.canonical_move_name(name)
+                        })
                     {
                         cost = st.map_or(req.amount, |st| {
                             [2, 4, 6][st - 1]
@@ -394,7 +401,11 @@ pub fn preview(
                         errors.push("Move is not an eligible pre-evolution move".into());
                     }
                     if b.forgotten
-                        .get(name)
+                        .iter()
+                        .find(|(m, _)| {
+                            catalog.canonical_move_name(m) == catalog.canonical_move_name(name)
+                        })
+                        .map(|(_, method)| method)
                         .is_some_and(|m| ["tm", "tr"].contains(&m.as_str()))
                     {
                         errors.push("Forgotten TM/TR moves require TM/TR training again".into());
@@ -957,6 +968,7 @@ pub fn preview(
     if s.moves.len()
         != s.moves
             .iter()
+            .map(|m| catalog.canonical_move_name(m))
             .collect::<std::collections::BTreeSet<_>>()
             .len()
     {

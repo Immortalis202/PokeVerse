@@ -47,12 +47,12 @@ for (const [folder, key] of [
     catalog[key].push(entry);
   }
 }
-const moves = new Set(catalog.moves.map((m) => m.Name)),
+const sourceMoves = new Set(catalog.moves.map((m) => m.Name)),
   abilities = new Set(catalog.abilities.map((a) => a.Name));
 const original = structuredClone(catalog);
 for (const s of original.species) {
   for (const m of s.Moves ?? [])
-    if (!moves.has(m.Name))
+    if (!sourceMoves.has(m.Name))
       original.warnings.push(`${s.Name}: unknown move ${m.Name}`);
   for (const a of [s.Ability1, s.Ability2])
     if (a && !abilities.has(a))
@@ -139,6 +139,13 @@ for (const s of catalog.species) {
     s.Creation.stage = null; // Temporary forms are not ordinary evolution stages.
   }
 }
+const referenceReview = JSON.parse(
+  await readFile(path.join(app, "rules/catalog-reference-review.json"), "utf8"),
+);
+await (
+  await import("./catalog-references.mjs")
+).applyReferenceReview(catalog, referenceReview, root);
+const moves = new Set(catalog.moves.map((m) => m.Name));
 for (const s of catalog.species) {
   for (const m of s.Moves ?? [])
     if (!moves.has(m.Name))
@@ -248,6 +255,8 @@ for (const kind of ["species", "moves", "abilities", "items", "natures"]) {
           ? ["AppId", "Name", "Type", "Category"]
           : ["AppId", "Name"];
     const summary = Object.fromEntries(keys.map((k) => [k, entry[k] ?? ""]));
+    if (kind === "moves" && entry.LegacyNames)
+      summary.LegacyNames = entry.LegacyNames;
     insert.run(
       kind,
       entry.AppId,

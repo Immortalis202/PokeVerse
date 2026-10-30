@@ -1036,3 +1036,85 @@ fn gm_proposals_are_scoped_stale_checked_and_keep_host_role_independent() {
     assert!(battle::transition(&stale, "gm", &action, vec![], &catalog()).is_err());
     assert!(rules::verify_sync(None, &accepted.sheets[&p.id], Some(&t), &catalog()).is_err());
 }
+
+#[test]
+fn m4_r01_mew_wildcard_enforces_rank_capacity_normal_costs_and_replay() {
+    let cat = catalog();
+    for (rank, permitted) in [("Expert", false), ("Ace", true), ("Master", true)] {
+        let t = trainer(rank);
+        let p = pokemon(&t, "Mew");
+        let mut req = request(&p, "learn", Some(&t));
+        req.move_name = "Roar Of Time".into();
+        let preview = rules::preview(Some(&p), Some(&t), &req, &cat);
+        if !permitted {
+            assert!(preview
+                .errors
+                .iter()
+                .any(|e| e.starts_with("Ordinary learning")));
+            continue;
+        }
+        assert!(preview.errors.is_empty(), "{:?}", preview.errors);
+        assert!(preview.approvals.is_empty(), "{:?}", preview.approvals);
+        assert_eq!(preview.cost, 0);
+        let mut full = p.clone();
+        let capacity = full.stats["Insight"] + 3;
+        full.moves = cat.find("species", "Name", "Mew").unwrap()["Moves"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .take(capacity as usize)
+            .map(|m| m["Name"].as_str().unwrap().to_owned())
+            .collect();
+        let mut at_capacity = request(&full, "learn", Some(&t));
+        at_capacity.move_name = "Roar Of Time".into();
+        assert!(rules::preview(Some(&full), Some(&t), &at_capacity, &cat)
+            .errors
+            .iter()
+            .any(|e| e.starts_with("At move capacity")));
+        let learned = rules::apply(Some(&p), Some(&t), &req, &cat, None).unwrap();
+        rules::verify_sync(Some(&p), &learned, Some(&t), &cat).unwrap();
+        let funded = award(&learned, &t, 20);
+        let mut replace = request(&funded, "learn", Some(&t));
+        replace.move_name = "Sacred Fire".into();
+        replace.replacement = "Roar Of Time".into();
+        let preview = rules::preview(Some(&funded), Some(&t), &replace, &cat);
+        assert!(preview.errors.is_empty(), "{:?}", preview.errors);
+        assert!(preview.approvals.is_empty());
+        let expected = if rank == "Ace" { 6 } else { 3 };
+        assert_eq!(preview.cost, expected);
+        let replaced = rules::apply(Some(&funded), Some(&t), &replace, &cat, None).unwrap();
+        assert_eq!(
+            replaced.workflow.as_ref().unwrap().training_points,
+            20 - expected
+        );
+        assert!(replaced.moves.contains(&"Sacred Fire".into()));
+        assert!(!replaced.moves.contains(&"Roar Of Time".into()));
+        rules::verify_sync(Some(&funded), &replaced, Some(&t), &cat).unwrap();
+        let mut invalid = request(&replaced, "learn", Some(&t));
+        invalid.move_name = "Any Move".into();
+        assert!(!rules::preview(Some(&replaced), Some(&t), &invalid, &cat)
+            .errors
+            .is_empty());
+    }
+}
+
+#[test]
+fn m4_r01_strength_legacy_spelling_preserves_identity_and_cannot_duplicate_learning() {
+    let cat = catalog();
+    let canonical = cat.find("moves", "Name", "Strength").unwrap();
+    assert_eq!(canonical["AppId"], "strength_:Strength ");
+    assert_eq!(cat.find("moves", "Name", "Strength ").unwrap(), canonical);
+    assert!(cat.find("moves", "Name", "strength").is_none());
+    let t = trainer("Ace");
+    let mut p = pokemon(&t, "Mew");
+    p.moves = vec!["Strength ".into()];
+    cat.validate(&p).unwrap();
+    let mut req = request(&p, "learn", Some(&t));
+    req.move_name = "Strength".into();
+    assert!(rules::preview(Some(&p), Some(&t), &req, &cat)
+        .errors
+        .iter()
+        .any(|e| e.contains("unlearned catalog move")));
+    p.moves.push("Strength".into());
+    assert!(cat.validate(&p).is_err());
+}

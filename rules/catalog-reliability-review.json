@@ -21,6 +21,12 @@
         "Lethal": true,
         "WindMove": true
       }
+    },
+    {
+      "id": "M4-R01",
+      "name": "All 35 missing move references resolved",
+      "registry": "rules/catalog-reference-review.json",
+      "status": "complete"
     }
   ],
   "baseline": {
@@ -1679,5 +1685,20 @@
       "status": "missing_asset",
       "reason": "Exact local sprite unavailable; retain named placeholder"
     }
-  ]
+  ],
+  "reference_resolution": {
+    "batch": "M4-R01",
+    "status": "complete",
+    "date": "2026-10-30",
+    "registry": "rules/catalog-reference-review.json",
+    "resolved_baseline_references": 35,
+    "remaining_missing_references": 0,
+    "decisions": [
+      "Strength name corrected; AppId strength_:Strength and its trailing space remain unchanged. Original Strength name is an explicit legacy lookup alias; no general trimming/fuzzy matching.",
+      "Gouging Fire stays 1020:gouging-fire / DexID 1020 by user confirmation. FIre Blast corrected to Fire Blast at Expert. Printed duplicate #1021 is recorded as a source discrepancy.",
+      "User ruling: Mew can learn any catalog move at Ace or higher at normal costs, is final stage and has no evolution. Final-stage replacement/relearning cost is 6 TP, or 3 below the current rank. Ordinary learning within capacity remains free.",
+      "Mew starting-move selection is searchable. A concrete catalog move must be selected; no Any Move card is created. Unsupported battle effects remain unsupported."
+    ],
+    "scope_limit": "Source learnset ranks and other species/form fields are not blanket-certified by fixing these references."
+  }
 }

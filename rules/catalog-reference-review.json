@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "date": "2026-10-30",
+  "batch": "M4-R01",
+  "entries": [
+    {
+      "id": "strength-name",
+      "kind": "moves",
+      "app_id": "strength_:Strength ",
+      "source": "Pokerole-Data/v3.0/Moves/Strength.json",
+      "sha256": "65ba2dcfe7a9aed7d37a48fdf0920e07b40bb02f6c0c2720840c540fa4c9c521",
+      "printed_page": 502,
+      "pdf_page": 369,
+      "visual_review": true,
+      "decision": "Correct Name only; preserve AppId and legacy name lookup."
+    },
+    {
+      "id": "gouging-fire-blast",
+      "kind": "species",
+      "app_id": "1020:gouging-fire",
+      "source": "Pokerole-Data/v3.0/Pokedex/Gouging Fire.json",
+      "sha256": "78baf746d2b3327f59ccddbdf7792f5922339040e7c1b0509b16b868596e3b05",
+      "printed_page": 430,
+      "pdf_page": 297,
+      "visual_review": true,
+      "decision": "Correct only FIre Blast at Expert; Gouging Fire remains DexID 1020 by user confirmation."
+    },
+    {
+      "id": "mew-any-move",
+      "kind": "species",
+      "app_id": "0151:mew",
+      "source": "Pokerole-Data/v3.0/Pokedex/Mew.json",
+      "sha256": "fc89daf73217c988e627ecd5a58ab757822edefb431326006f29c05b865a9db5",
+      "printed_page": 184,
+      "pdf_page": 51,
+      "visual_review": true,
+      "decision": "User ruling: any catalog move at Ace or higher, normal costs; Mew is final stage with no evolution. Printed stage Unknown is not silently reclassified as official."
+    }
+  ]
+}

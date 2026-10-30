@@ -137,7 +137,7 @@ test("coverage and PDF fingerprints are preserved with a complete field-level qu
     assert.equal(queue.total_entries, 2658);
     assert.equal(
       queue.issues.filter((i) => i.status === "missing_reference").length,
-      35,
+      0,
     );
     assert.equal(
       queue.issues.filter((i) => i.status === "missing_asset").length,

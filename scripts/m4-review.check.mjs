@@ -66,3 +66,79 @@ test("M4 records exact remaining references and sprites without claiming field v
       hash,
     );
 });
+
+test("M4-R01 resolves all original references with stable exact identities", () => {
+  const registry = read("rules/catalog-reference-review.json");
+  for (const correction of registry.entries) {
+    const bytes = readFileSync(`../${correction.source}`);
+    assert.equal(
+      createHash("sha256").update(bytes).digest("hex"),
+      correction.sha256,
+    );
+    assert.equal(correction.printed_page - 133, correction.pdf_page);
+  }
+  const db = new DatabaseSync("src-tauri/resources/catalog.db", {
+    readOnly: true,
+  });
+  const get = (kind, id) =>
+    JSON.parse(
+      db.prepare("select data from entries where kind=? and id=?").get(kind, id)
+        .data,
+    );
+  try {
+    const strength = get("moves", "strength_:Strength ");
+    assert.equal(strength.Name, "Strength");
+    assert.deepEqual(strength.LegacyNames, ["Strength "]);
+    assert.deepEqual(
+      JSON.parse(
+        db
+          .prepare("select summary from entries where kind='moves' and id=?")
+          .get(strength.AppId).summary,
+      ).LegacyNames,
+      ["Strength "],
+    );
+    assert.equal(
+      read("../Pokerole-Data/v3.0/Moves/Strength.json").Name,
+      "Strength ",
+    );
+    for (const ref of review.missing_references.filter(
+      (r) => r.field === "Moves:Strength",
+    ))
+      assert.ok(
+        get("species", ref.id).Moves.some((m) => m.Name === "Strength"),
+        ref.id,
+      );
+    const gouging = get("species", "1020:gouging-fire");
+    assert.equal(gouging.DexID, "1020");
+    assert.ok(
+      gouging.Moves.some(
+        (m) => m.Name === "Fire Blast" && m.Learned === "Expert",
+      ),
+    );
+    assert.ok(!gouging.Moves.some((m) => m.Name === "FIre Blast"));
+    const mew = get("species", "0151:mew");
+    const names = db
+      .prepare("select name from entries where kind='moves' order by name")
+      .all()
+      .map((r) => r.name);
+    assert.deepEqual(mew.Moves.map((m) => m.Name).sort(), names);
+    assert.ok(mew.Moves.every((m) => m.Learned === "Ace"));
+    assert.equal(mew.Creation.stage, 3);
+    assert.match(mew.Creation.review_note, /User ruling/);
+    assert.equal(mew.LearnsetRule.kind, "any-catalog-move");
+    assert.equal(
+      db
+        .prepare(
+          "select count(*) as n from entries where kind='moves' and name='Any Move'",
+        )
+        .get().n,
+      0,
+    );
+    const warnings = JSON.parse(
+      db.prepare("select value from metadata where key='warnings'").get().value,
+    );
+    assert.deepEqual(warnings, []);
+  } finally {
+    db.close();
+  }
+});

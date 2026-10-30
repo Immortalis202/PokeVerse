@@ -303,7 +303,15 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
           entry.SpecialRules?.scope ??
           evidence?.coverage ??
           "GM adjudication",
-        notes: evidence?.notes ?? null,
+        notes:
+          [
+            evidence?.notes,
+            ...(entry.ReferenceReview ?? []).map(
+              (r) => `${r.id}: ${r.decision}`,
+            ),
+          ]
+            .filter(Boolean)
+            .join(" ") || null,
       };
       if (
         kind === "moves" &&
