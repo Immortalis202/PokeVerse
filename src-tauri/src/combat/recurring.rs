@@ -514,7 +514,17 @@ pub fn end_round(c: &mut Campaign) -> Result<()> {
         .collect();
     for id in due {
         let hp = fighter(c, &id)?.hp;
-        special::indirect(c, &id, hp)?;
+        if flow(c)?.battlefield_review && fighter(c, &id)?.has_ability("Magic Guard") {
+            // MASTER p.554 explicitly exempts Perish Song from Magic Guard.
+            // Keep Wonder Guard and all other indirect-damage paths unchanged.
+            let blocked =
+                fighter(c, &id)?.has_ability("Wonder Guard") && !house::ring(c, fighter(c, &id)?);
+            if !blocked {
+                fighter_mut(c, &id)?.hp = 0;
+            }
+        } else {
+            special::indirect(c, &id, hp)?;
+        }
         state_mut(c).perish.remove(&id);
     }
     lifecycle(c)

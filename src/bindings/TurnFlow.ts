@@ -20,6 +20,7 @@ import type { TacticsState } from "./TacticsState";
 import type { TransferState } from "./TransferState";
 
 export type TurnFlow = {
+  battlefield_review: boolean;
   status_escalation: boolean;
   spite: boolean;
   will_drains: boolean;

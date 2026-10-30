@@ -710,3 +710,373 @@ fn field_round_end_events_complete_before_expiry_and_ticks_are_once() {
     assert_eq!(c.battle.as_ref().unwrap().combatants[0].hp, hp);
     assert!(!a.is_empty());
 }
+
+#[test]
+fn m3_sunny_move_at_night_retains_duration_and_natural_weather_stays_dark() {
+    let (mut c, a, _) = setup();
+    let f = c.battle.as_mut().unwrap().flow.as_mut().unwrap();
+    f.battlefield_review = true;
+    f.reviewed_rules = true;
+    f.battlefield.natural = Some(Weather::Sunny);
+    c = command(&c, "gm", FieldCommand::Night { night: true }).unwrap();
+    assert_eq!(field::weather(&c, None), None);
+    let sid = c.battle.as_ref().unwrap().combatants[0].sheet_id.clone();
+    c.sheets
+        .get_mut(&sid)
+        .unwrap()
+        .moves
+        .push("Sunny Day".into());
+    let cast = Action::AccuracyTargets {
+        combatant_id: a.clone(),
+        target_ids: vec![],
+        move_name: "Sunny Day".into(),
+        pool_modifier: 0,
+        success_modifier: 0,
+        reason: "M3 Sunny Day".into(),
+    };
+    let n = rules::dice_count(&c, &cast, &catalog()).unwrap();
+    c = battle::transition(&c, "player", &cast, vec![4; n as usize], &catalog())
+        .unwrap()
+        .0;
+    c = super::effect(&c, 4);
+    assert_eq!(field::weather(&c, None), Some(Weather::Sunny));
+    assert_eq!(
+        c.battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .battlefield
+            .weather
+            .as_ref()
+            .unwrap()
+            .rounds,
+        Some(4)
+    );
+    let saved: Campaign = serde_json::from_str(&serde_json::to_string(&c).unwrap()).unwrap();
+    assert_eq!(field::weather(&saved, None), Some(Weather::Sunny));
+    for remaining in (1..4).rev() {
+        field::expire(&mut c).unwrap();
+        assert_eq!(field::weather(&c, None), Some(Weather::Sunny));
+        assert_eq!(
+            c.battle
+                .as_ref()
+                .unwrap()
+                .flow
+                .as_ref()
+                .unwrap()
+                .battlefield
+                .weather
+                .as_ref()
+                .unwrap()
+                .rounds,
+            Some(remaining)
+        );
+    }
+    field::expire(&mut c).unwrap();
+    assert_eq!(field::weather(&c, None), None);
+    c = command(&c, "gm", FieldCommand::Night { night: false }).unwrap();
+    assert_eq!(field::weather(&c, None), Some(Weather::Sunny));
+}
+
+#[test]
+fn m3_drought_at_night_survives_night_change_and_suppression() {
+    let (mut c, _, _) = setup();
+    let f = c.battle.as_mut().unwrap().flow.as_mut().unwrap();
+    f.battlefield_review = true;
+    f.reviewed_rules = true;
+    f.battlefield.night = true;
+    f.battlefield.known_active.clear();
+    c.battle.as_mut().unwrap().combatants[0].selected_ability = "Drought".into();
+    let before = c.clone();
+    field::lifecycle(&before, &mut c, &catalog()).unwrap();
+    assert_eq!(field::weather(&c, None), Some(Weather::Sunny));
+    c = command(&c, "gm", FieldCommand::Night { night: false }).unwrap();
+    c = command(&c, "gm", FieldCommand::Night { night: true }).unwrap();
+    assert_eq!(field::weather(&c, None), Some(Weather::Sunny));
+    c.battle.as_mut().unwrap().combatants[1].selected_ability = "Air Lock".into();
+    assert_eq!(field::weather(&c, None), None);
+    assert!(c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .battlefield
+        .weather
+        .is_some());
+    c.battle.as_mut().unwrap().combatants[1].selected_ability = "Cloud Nine".into();
+    assert_eq!(field::weather(&c, None), Some(Weather::Sunny));
+    assert_eq!(
+        field::weather(&c, Some(&c.battle.as_ref().unwrap().combatants[1])),
+        None
+    );
+    c.battle.as_mut().unwrap().combatants[0].hp = 0;
+    let before = c.clone();
+    field::lifecycle(&before, &mut c, &catalog()).unwrap();
+    assert_eq!(field::weather(&c, None), None);
+}
+
+#[test]
+fn m3_sunny_natural_setup_and_environment_reject_night_atomically() {
+    let (mut c, _, _) = setup();
+    let f = c.battle.as_mut().unwrap().flow.as_mut().unwrap();
+    f.battlefield_review = true;
+    f.battlefield.night = true;
+    let setup = field::EncounterField {
+        weather: Some(Weather::Sunny),
+        night: true,
+        sunlight: true,
+        indoors: false,
+        terrain: None,
+        effects: vec![],
+    };
+    assert!(field::validate_night_setup(&setup, true).is_err());
+    assert!(field::validate_night_setup(&setup, false).is_ok());
+    let before = serde_json::to_string(&c).unwrap();
+    assert!(command(
+        &c,
+        "gm",
+        FieldCommand::Environment {
+            weather: Some(Weather::Sunny),
+            indoors: false,
+            sunlight: true
+        }
+    )
+    .is_err());
+    assert_eq!(before, serde_json::to_string(&c).unwrap());
+}
+
+#[test]
+fn m3_snow_ice_category_pools_and_live_suppression() {
+    for name in ["Tackle", "Water Gun"] {
+        let (mut c, a, t) = setup();
+        let sid = c.battle.as_ref().unwrap().combatants[0].sheet_id.clone();
+        c.sheets.get_mut(&sid).unwrap().moves.push(name.into());
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .battlefield_review = true;
+        c = condition(&c, &a, "Frozen Solid", None);
+        c = hold(&c, &a);
+        c = hold(&c, &t);
+        let action = Action::BreakIce {
+            combatant_id: a.clone(),
+            target_id: a.clone(),
+            move_name: name.into(),
+            reason: "M3 ice category".into(),
+        };
+        let n = rules::dice_count(&c, &action, &catalog()).unwrap();
+        c = battle::transition(&c, "player", &action, vec![4; n as usize], &catalog())
+            .unwrap()
+            .0;
+        let damage = Action::Damage {
+            combatant_id: a.clone(),
+            sequence: c.battle.as_ref().unwrap().flow.as_ref().unwrap().queue[0].sequence,
+            pool_modifier: 0,
+            success_modifier: 0,
+            damage_modifier: 0,
+            reason: "M3 ice".into(),
+        };
+        let normal = rules::dice_count(&c, &damage, &catalog()).unwrap();
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .battlefield
+            .natural = Some(Weather::Snow);
+        let snow = rules::dice_count(&c, &damage, &catalog()).unwrap();
+        assert_eq!(normal - snow, u32::from(name == "Tackle"));
+        c.battle.as_mut().unwrap().combatants[0].selected_ability = "Cloud Nine".into();
+        assert_eq!(rules::dice_count(&c, &damage, &catalog()).unwrap(), normal);
+        c.battle.as_mut().unwrap().combatants[0].selected_ability = "Unreviewed".into();
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .battlefield_review = false;
+        assert_eq!(
+            rules::dice_count(&c, &damage, &catalog()).unwrap(),
+            normal - 1
+        );
+    }
+}
+
+#[test]
+fn m3_snow_block_hp_uses_live_weather_without_resetting_damage_or_pokemon_hp() {
+    for (snow, progress, damage, broken) in [
+        (false, 3, 1, false),
+        (false, 4, 1, true),
+        (true, 4, 1, false),
+        (true, 6, 1, true),
+    ] {
+        let (mut c, a, t) = setup();
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .battlefield_review = true;
+        c = condition(&c, &a, "Frozen Solid", None);
+        c = hold(&c, &a);
+        c = hold(&c, &t);
+        let attack = Action::BreakIce {
+            combatant_id: a.clone(),
+            target_id: a.clone(),
+            move_name: "Tackle".into(),
+            reason: "M3 threshold".into(),
+        };
+        let n = rules::dice_count(&c, &attack, &catalog()).unwrap();
+        c = battle::transition(&c, "player", &attack, vec![4; n as usize], &catalog())
+            .unwrap()
+            .0;
+        // Change weather after the attempt was queued: damage uses live target-effective weather.
+        let f = c.battle.as_mut().unwrap().flow.as_mut().unwrap();
+        f.battlefield.natural = if snow { Some(Weather::Snow) } else { None };
+        c.battle.as_mut().unwrap().combatants[0]
+            .runtime
+            .statuses
+            .iter_mut()
+            .find(|s| s.kind == "Frozen Solid")
+            .unwrap()
+            .progress = progress;
+        let q = &c.battle.as_ref().unwrap().flow.as_ref().unwrap().queue[0];
+        let action = Action::Damage {
+            combatant_id: a.clone(),
+            sequence: q.sequence,
+            pool_modifier: 0,
+            success_modifier: 0,
+            damage_modifier: damage - 1,
+            reason: "M3 minimum one damage".into(),
+        };
+        let n = rules::dice_count(&c, &action, &catalog()).unwrap();
+        let sheets = serde_json::to_value(&c.sheets).unwrap();
+        let after = battle::transition(&c, "player", &action, vec![1; n as usize], &catalog())
+            .unwrap()
+            .0;
+        let p = &after.battle.as_ref().unwrap().combatants[0];
+        assert_eq!(p.hp, 20);
+        assert_eq!(
+            !p.runtime.statuses.iter().any(|s| s.kind == "Frozen Solid"),
+            broken
+        );
+        if !broken {
+            assert_eq!(
+                p.runtime
+                    .statuses
+                    .iter()
+                    .find(|s| s.kind == "Frozen Solid")
+                    .unwrap()
+                    .progress,
+                progress + damage
+            );
+        }
+        assert_eq!(serde_json::to_value(&after.sheets).unwrap(), sheets);
+    }
+}
+
+#[test]
+fn m3_named_nonordinary_ice_formulas_remain_atomic_gm_rulings() {
+    for name in [
+        "Sonic Boom",
+        "Dragon Rage",
+        "Seismic Toss",
+        "Night Shade",
+        "Super Fang",
+    ] {
+        let (mut c, a, t) = setup();
+        let sid = c.battle.as_ref().unwrap().combatants[0].sheet_id.clone();
+        c.sheets.get_mut(&sid).unwrap().moves.push(name.into());
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .battlefield_review = true;
+        c = condition(&c, &a, "Frozen Solid", None);
+        c = hold(&c, &a);
+        c = hold(&c, &t);
+        let action = Action::BreakIce {
+            combatant_id: a.clone(),
+            target_id: a.clone(),
+            move_name: name.into(),
+            reason: "M3 object formula ruling".into(),
+        };
+        let before = serde_json::to_value(&c).unwrap();
+        let error = battle::transition(&c, "player", &action, vec![], &catalog()).unwrap_err();
+        assert_eq!(error.code, "manual_rule", "{name}");
+        assert_eq!(serde_json::to_value(&c).unwrap(), before);
+    }
+}
+
+#[test]
+fn m3_disjoint_terrain_entry_preserves_other_side_and_overlap_requests_ruling() {
+    let (mut c, _, _) = setup();
+    let f = c.battle.as_mut().unwrap().flow.as_mut().unwrap();
+    f.battlefield_review = true;
+    f.battlefield.rules.push(field::FieldRule {
+        id: "other-side".into(),
+        kind: "Electric Terrain".into(),
+        source: "move:old".into(),
+        scope: "side:Opponents".into(),
+        rounds: Some(4),
+        parameter: 1,
+        started_round: 1,
+    });
+    f.battlefield.known_active.clear();
+    c.battle.as_mut().unwrap().combatants[0].selected_ability = "Grassy Surge".into();
+    let before = c.clone();
+    field::lifecycle(&before, &mut c, &catalog()).unwrap();
+    let f = &c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .battlefield;
+    assert!(f.events.is_empty());
+    assert_eq!(
+        f.rules
+            .iter()
+            .filter(|r| r.kind.ends_with("Terrain"))
+            .count(),
+        2
+    );
+    let p = &c.battle.as_ref().unwrap().combatants[0];
+    assert!(field::has(&c, "Grassy Terrain", p));
+    assert!(!field::has(&c, "Electric Terrain", p));
+    assert!(field::has(
+        &c,
+        "Electric Terrain",
+        &c.battle.as_ref().unwrap().combatants[1]
+    ));
+    // A battlefield-wide move overlaps the side terrain and remains a recorded GM choice.
+    let f = c.battle.as_mut().unwrap().flow.as_mut().unwrap();
+    f.battlefield.rules.retain(|r| r.kind != "Grassy Terrain");
+    f.battlefield.rules[0].scope = "all".into();
+    f.battlefield.known_active.clear();
+    let before = c.clone();
+    field::lifecycle(&before, &mut c, &catalog()).unwrap();
+    let f = &c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .battlefield;
+    assert_eq!(f.events[0].kind, "terrain-ruling");
+    assert_eq!(f.rules[0].kind, "Electric Terrain");
+}

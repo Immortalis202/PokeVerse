@@ -46,3 +46,38 @@ test("M3 review preserves source fingerprints and real evidence references", () 
       );
   }
 });
+
+test("M3 completion keeps explicit decisions and release compatibility review", () => {
+  assert.equal(review.entries.length, 16);
+  assert.equal(review.release, read("package.json").version);
+  assert.equal(review.engine, read("rules/coverage.json").engine);
+  for (const entry of review.entries) {
+    assert.ok(
+      [
+        "retained-existing",
+        "verified-existing",
+        "implemented",
+        "implemented-user-ruling",
+        "retained-gm-ruling",
+        "retained-gm-parameter",
+        "retained-reviewed-policy",
+        "implemented-with-gm-ruling",
+      ].includes(entry.status),
+      entry.id,
+    );
+    assert.ok(
+      entry.baseline_observed &&
+        entry.observed &&
+        entry.next_step.startsWith("Closed for M3"),
+    );
+  }
+  for (const id of ["M3-I04", "M3-A03", "M3-A04"])
+    assert.equal(
+      review.entries.find((e) => e.id === id).status,
+      "retained-gm-ruling",
+    );
+  assert.equal(
+    review.entries.find((e) => e.id === "M3-W01").status,
+    "implemented-user-ruling",
+  );
+});

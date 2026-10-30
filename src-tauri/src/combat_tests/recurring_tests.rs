@@ -495,14 +495,21 @@ fn recurring_chain_requires_reviewed_loyalty_atomically_and_can_cancel_before_ac
 }
 #[test]
 fn recurring_perish_indirect_immunity_and_nonstacking_are_preserved() {
-    let (c, a, t) = setup("Perish Song");
+    let (mut c, a, t) = setup("Perish Song");
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .battlefield_review = true;
     let c = pending(&c, &a, &t, "Perish Song");
     let mut c = resolve(&c, vec![]);
     pm(&mut c, &t).selected_ability = "Magic Guard".into();
     for _ in 0..4 {
         c = next(&c);
     }
-    assert_eq!(p(&c, &t).hp, 100);
+    assert_eq!(p(&c, &t).hp, 0);
     assert!(c
         .battle
         .as_ref()
@@ -674,4 +681,44 @@ fn recurring_chain_withdrawal_retains_check_and_cure_restores_benched_side() {
     pm(&mut c, &t).runtime.statuses.clear();
     recurring::lifecycle(&mut c).unwrap();
     assert_eq!(p(&c, &t).side, side);
+}
+
+#[test]
+fn m3_perish_song_bypasses_magic_guard_only_in_reviewed_encounters() {
+    for reviewed in [false, true] {
+        for ability in ["Magic Guard", "Unreviewed ability"] {
+            let (mut c, a, t) = setup("Perish Song");
+            c.battle
+                .as_mut()
+                .unwrap()
+                .flow
+                .as_mut()
+                .unwrap()
+                .battlefield_review = reviewed;
+            pm(&mut c, &t).selected_ability = ability.into();
+            let c = pending(&c, &a, &t, "Perish Song");
+            let mut c = resolve(&c, vec![]);
+            for _ in 0..4 {
+                c = next(&c);
+            }
+            assert_eq!(
+                p(&c, &t).hp,
+                if !reviewed && ability == "Magic Guard" {
+                    100
+                } else {
+                    0
+                }
+            );
+            assert!(c
+                .battle
+                .as_ref()
+                .unwrap()
+                .flow
+                .as_ref()
+                .unwrap()
+                .recurring
+                .perish
+                .is_empty());
+        }
+    }
 }

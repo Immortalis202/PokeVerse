@@ -70,6 +70,7 @@ fn environment_start_snapshots_all_weather_without_spending_actions_or_touching_
     ] {
         let mut setup = config();
         setup.weather = weather;
+        setup.night = weather != Some(Weather::Sunny);
         let (n, log) =
             battle::transition(&c, "gm", &start(&c, &ids, Some(setup)), vec![], &catalog())
                 .unwrap();
@@ -82,7 +83,8 @@ fn environment_start_snapshots_all_weather_without_spending_actions_or_touching_
             .unwrap()
             .battlefield;
         assert_eq!(f.natural, weather);
-        assert!(f.night && f.initial.is_some());
+        assert_eq!(f.night, weather != Some(Weather::Sunny));
+        assert!(f.initial.is_some());
         assert!(log.contains("GM starting battlefield"));
         assert!(n
             .battle
@@ -231,6 +233,7 @@ fn environment_entry_abilities_resolve_against_preexisting_conditions() {
     c.sheets.get_mut(&ids[0]).unwrap().ability = "Drizzle".into();
     let mut setup = config();
     setup.weather = Some(Weather::Sunny);
+    setup.night = false;
     let n = battle::transition(&c, "gm", &start(&c, &ids, Some(setup)), vec![], &catalog())
         .unwrap()
         .0;

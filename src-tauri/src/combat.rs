@@ -72,6 +72,8 @@ pub struct Status {
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct TurnFlow {
     #[serde(default)]
+    pub battlefield_review: bool,
+    #[serde(default)]
     pub status_escalation: bool,
     #[serde(default)]
     pub spite: bool,
@@ -804,7 +806,9 @@ fn ice_damage_pool(c: &Campaign, q: &QueuedAction, modifier: i32, cat: &Catalog)
     let conditional = type_ability(c, p, m["Type"].as_str().unwrap_or(""));
     let n = (rules::score(&s, m["Damage1"].as_str().unwrap_or(""))?
         + m["Power"].as_i64().unwrap_or(0) as i32
-        - if field::weather(c, Some(fighter(c, &q.target_id)?)) == Some(field::Weather::Snow) {
+        - if field::weather(c, Some(fighter(c, &q.target_id)?)) == Some(field::Weather::Snow)
+            && (!flow(c)?.battlefield_review || m["Category"] == "Physical")
+        {
             3
         } else {
             2
@@ -1118,6 +1122,7 @@ pub fn transition(
     if let Some(setup) = field::start_setup(a) {
         if ![
             ENGINE,
+            CURE_PROTECTION_ENGINE,
             RECURRING_STATUS_ENGINE,
             COMPOUND_STATUS_ENGINE,
             CHANCE_STATUS_ENGINE,
@@ -1136,6 +1141,7 @@ pub fn transition(
         }
         gm(c, actor)?;
         field::validate_setup(setup)?;
+        field::validate_night_setup(setup, c.engine == ENGINE)?;
     }
     let mut input = std::borrow::Cow::Borrowed(c);
     if matches!(a, Action::EndBattle) && recurring::enabled(c) {
@@ -3081,6 +3087,7 @@ fn transition_inner(
                 b.flow = Some(TurnFlow {
                     identity_moves: [
                         ENGINE,
+                        CURE_PROTECTION_ENGINE,
                         RECURRING_STATUS_ENGINE,
                         COMPOUND_STATUS_ENGINE,
                         CHANCE_STATUS_ENGINE,
@@ -3093,6 +3100,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     status_escalation: [
                         ENGINE,
+                        CURE_PROTECTION_ENGINE,
                         RECURRING_STATUS_ENGINE,
                         COMPOUND_STATUS_ENGINE,
                         CHANCE_STATUS_ENGINE,
@@ -3104,6 +3112,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     spite: [
                         ENGINE,
+                        CURE_PROTECTION_ENGINE,
                         RECURRING_STATUS_ENGINE,
                         COMPOUND_STATUS_ENGINE,
                         CHANCE_STATUS_ENGINE,
@@ -3114,6 +3123,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     will_drains: [
                         ENGINE,
+                        CURE_PROTECTION_ENGINE,
                         RECURRING_STATUS_ENGINE,
                         COMPOUND_STATUS_ENGINE,
                         CHANCE_STATUS_ENGINE,
@@ -3123,6 +3133,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     direct_status: [
                         ENGINE,
+                        CURE_PROTECTION_ENGINE,
                         RECURRING_STATUS_ENGINE,
                         COMPOUND_STATUS_ENGINE,
                         CHANCE_STATUS_ENGINE,
@@ -3131,23 +3142,32 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     chance_status: [
                         ENGINE,
+                        CURE_PROTECTION_ENGINE,
                         RECURRING_STATUS_ENGINE,
                         COMPOUND_STATUS_ENGINE,
                         CHANCE_STATUS_ENGINE,
                     ]
                     .contains(&c.engine.as_str()),
-                    cure_protection: c.engine == ENGINE,
+                    battlefield_review: c.engine == ENGINE,
+                    cure_protection: [ENGINE, CURE_PROTECTION_ENGINE].contains(&c.engine.as_str()),
                     recurring: Box::new(recurring::RecurringState {
-                        enabled: [ENGINE, RECURRING_STATUS_ENGINE].contains(&c.engine.as_str()),
+                        enabled: [ENGINE, CURE_PROTECTION_ENGINE, RECURRING_STATUS_ENGINE]
+                            .contains(&c.engine.as_str()),
                         ..Default::default()
                     }),
                     compound: compound::CompoundState {
-                        enabled: [ENGINE, RECURRING_STATUS_ENGINE, COMPOUND_STATUS_ENGINE]
-                            .contains(&c.engine.as_str()),
+                        enabled: [
+                            ENGINE,
+                            CURE_PROTECTION_ENGINE,
+                            RECURRING_STATUS_ENGINE,
+                            COMPOUND_STATUS_ENGINE,
+                        ]
+                        .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
                     house_rules: [
                         ENGINE,
+                        CURE_PROTECTION_ENGINE,
                         RECURRING_STATUS_ENGINE,
                         COMPOUND_STATUS_ENGINE,
                         CHANCE_STATUS_ENGINE,
@@ -3162,6 +3182,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     interaction_rules: [
                         ENGINE,
+                        CURE_PROTECTION_ENGINE,
                         RECURRING_STATUS_ENGINE,
                         COMPOUND_STATUS_ENGINE,
                         CHANCE_STATUS_ENGINE,
@@ -3179,6 +3200,7 @@ fn transition_inner(
                     standalone: standalone::StandaloneState {
                         enabled: [
                             ENGINE,
+                            CURE_PROTECTION_ENGINE,
                             RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
                             CHANCE_STATUS_ENGINE,
@@ -3199,6 +3221,7 @@ fn transition_inner(
                     information: information::InformationState {
                         enabled: [
                             ENGINE,
+                            CURE_PROTECTION_ENGINE,
                             RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
                             CHANCE_STATUS_ENGINE,
@@ -3220,6 +3243,7 @@ fn transition_inner(
                     forms: forms::FormState {
                         enabled: [
                             ENGINE,
+                            CURE_PROTECTION_ENGINE,
                             RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
                             CHANCE_STATUS_ENGINE,
@@ -3243,6 +3267,7 @@ fn transition_inner(
                         completion: items::completion::CompletionState {
                             enabled: [
                                 ENGINE,
+                                CURE_PROTECTION_ENGINE,
                                 RECURRING_STATUS_ENGINE,
                                 COMPOUND_STATUS_ENGINE,
                                 CHANCE_STATUS_ENGINE,
@@ -3260,6 +3285,7 @@ fn transition_inner(
                         },
                         enabled: [
                             ENGINE,
+                            CURE_PROTECTION_ENGINE,
                             RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
                             CHANCE_STATUS_ENGINE,
@@ -3283,6 +3309,7 @@ fn transition_inner(
                     events: events::EventState {
                         enabled: [
                             ENGINE,
+                            CURE_PROTECTION_ENGINE,
                             RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
                             CHANCE_STATUS_ENGINE,
@@ -3306,6 +3333,7 @@ fn transition_inner(
                     },
                     provenance_rules: [
                         ENGINE,
+                        CURE_PROTECTION_ENGINE,
                         RECURRING_STATUS_ENGINE,
                         COMPOUND_STATUS_ENGINE,
                         CHANCE_STATUS_ENGINE,
@@ -3329,6 +3357,7 @@ fn transition_inner(
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            CURE_PROTECTION_ENGINE,
                             RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
                             CHANCE_STATUS_ENGINE,
@@ -3355,6 +3384,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            CURE_PROTECTION_ENGINE,
                             RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
                             CHANCE_STATUS_ENGINE,
@@ -3381,6 +3411,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        CURE_PROTECTION_ENGINE,
                         RECURRING_STATUS_ENGINE,
                         COMPOUND_STATUS_ENGINE,
                         CHANCE_STATUS_ENGINE,
@@ -3407,6 +3438,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            CURE_PROTECTION_ENGINE,
                             RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
                             CHANCE_STATUS_ENGINE,
@@ -3436,6 +3468,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            CURE_PROTECTION_ENGINE,
                             RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
                             CHANCE_STATUS_ENGINE,
@@ -3466,6 +3499,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            CURE_PROTECTION_ENGINE,
                             RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
                             CHANCE_STATUS_ENGINE,
@@ -3497,6 +3531,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            CURE_PROTECTION_ENGINE,
                             RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
                             CHANCE_STATUS_ENGINE,
@@ -3529,6 +3564,7 @@ fn transition_inner(
                     special: special::SpecialState {
                         enabled: [
                             ENGINE,
+                            CURE_PROTECTION_ENGINE,
                             RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
                             CHANCE_STATUS_ENGINE,
@@ -3561,6 +3597,7 @@ fn transition_inner(
                     },
                     ability_rules: [
                         ENGINE,
+                        CURE_PROTECTION_ENGINE,
                         RECURRING_STATUS_ENGINE,
                         COMPOUND_STATUS_ENGINE,
                         CHANCE_STATUS_ENGINE,
@@ -3595,6 +3632,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            CURE_PROTECTION_ENGINE,
                             RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
                             CHANCE_STATUS_ENGINE,
@@ -3629,6 +3667,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            CURE_PROTECTION_ENGINE,
                             RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
                             CHANCE_STATUS_ENGINE,

@@ -87,6 +87,7 @@ pub fn active_copy<'a>(c: &'a Campaign, sheet: &str) -> Option<&'a InheritedAbil
 pub fn dice(c: &Campaign, command: &TransferCommand) -> Result<u32> {
     if ![
         ENGINE,
+        CURE_PROTECTION_ENGINE,
         RECURRING_STATUS_ENGINE,
         COMPOUND_STATUS_ENGINE,
         CHANCE_STATUS_ENGINE,

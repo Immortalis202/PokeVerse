@@ -112,8 +112,15 @@ pub fn validate_setup(s: &EncounterField) -> Result<()> {
     }
     Ok(())
 }
+pub fn validate_night_setup(s: &EncounterField, reviewed: bool) -> Result<()> {
+    if reviewed && s.night && s.weather == Some(Weather::Sunny) {
+        return Err(error("Sunny weather cannot be active at night"));
+    }
+    Ok(())
+}
 pub fn prepare(c: &mut Campaign, setup: &EncounterField) -> Result<()> {
     validate_setup(setup)?;
+    validate_night_setup(setup, flow(c)?.battlefield_review)?;
     if !enabled(c) {
         return Err(error("Starting conditions require battlefield rules"));
     }
@@ -390,7 +397,27 @@ pub fn weather(c: &Campaign, p: Option<&Combatant>) -> Option<Weather> {
         return None;
     }
     let f = state(c)?;
-    f.weather.as_ref().map(|w| w.weather).or(f.natural)
+    let w = f.weather.as_ref().map(|w| w.weather).or(f.natural);
+    if flow(c).is_ok_and(|f| f.battlefield_review)
+        && f.night
+        && f.weather.is_none()
+        && w == Some(Weather::Sunny)
+    {
+        None
+    } else {
+        w
+    }
+}
+fn scopes_overlap(c: &Campaign, a: &str, b: &str) -> bool {
+    a == b
+        || a == "all"
+        || b == "all"
+        || battle(c).is_ok_and(|battle| {
+            battle
+                .combatants
+                .iter()
+                .any(|p| applies(a, p) && applies(b, p))
+        })
 }
 fn applies(scope: &str, p: &Combatant) -> bool {
     scope == "all"
@@ -1086,7 +1113,11 @@ pub fn move_effect(c: &mut Campaign, q: &QueuedAction, cat: &Catalog) -> Result<
             && state(c).unwrap().rules.iter().any(|r| {
                 r.kind.ends_with("Terrain")
                     && r.kind != name
-                    && (r.scope == scope || r.scope == "all" || scope == "all")
+                    && (if flow(c).is_ok_and(|f| f.battlefield_review) {
+                        scopes_overlap(c, &r.scope, &scope)
+                    } else {
+                        r.scope == scope || r.scope == "all" || scope == "all"
+                    })
             })
         {
             return Err(error("Overlapping different terrains need a GM ruling: remove the conflicting terrain before resolution"));
@@ -1449,6 +1480,8 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
                     .filter(|r| {
                         r.kind.ends_with("Terrain")
                             && r.kind != name
+                            && (!flow(c).is_ok_and(|f| f.battlefield_review)
+                                || scopes_overlap(c, &r.scope, &scope))
                             && r.source.starts_with("ability:")
                             && active_ids.contains(r.source.trim_start_matches("ability:"))
                     })
@@ -1468,6 +1501,8 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
                         r.kind.ends_with("Terrain")
                             && r.kind != name
                             && !r.source.starts_with("ability:")
+                            && (!flow(c).is_ok_and(|f| f.battlefield_review)
+                                || scopes_overlap(c, &r.scope, &contenders[0].scope))
                     })
                 {
                     enqueue(c, &p.id, "terrain-ruling", 0, 0, 0, "Neutral");
@@ -1635,6 +1670,12 @@ pub fn command(
             indoors,
             sunlight,
         } => {
+            if flow(c)?.battlefield_review
+                && state(c).unwrap().night
+                && *weather == Some(Weather::Sunny)
+            {
+                return Err(error("Sunny weather cannot be active at night"));
+            }
             let f = state_mut(c);
             f.natural = *weather;
             f.indoors = *indoors;
@@ -1866,7 +1907,18 @@ fn will(c: &Campaign, source: &str) -> u32 {
         .unwrap_or(0)
 }
 fn apply_terrain(c: &mut Campaign, t: &TerrainSource) {
-    state_mut(c).rules.retain(|r| !r.kind.ends_with("Terrain"));
+    let remove: BTreeSet<String> = state(c)
+        .unwrap()
+        .rules
+        .iter()
+        .filter(|r| {
+            r.kind.ends_with("Terrain")
+                && (!flow(c).is_ok_and(|f| f.battlefield_review)
+                    || scopes_overlap(c, &r.scope, &t.scope))
+        })
+        .map(|r| r.id.clone())
+        .collect();
+    state_mut(c).rules.retain(|r| !remove.contains(&r.id));
     insert(c, &t.name, &t.source, &t.scope, Some(4), 1);
 }
 
@@ -2043,12 +2095,10 @@ pub fn screen_cleaner(c: &mut Campaign) {
         .push("Screen Cleaner removed active force fields on both sides".into());
 }
 pub fn seed_sower(c: &mut Campaign, p: &Combatant) -> Result<()> {
-    if state(c)
-        .unwrap()
-        .rules
-        .iter()
-        .any(|r| r.kind == "Grassy Terrain")
-    {
+    if state(c).unwrap().rules.iter().any(|r| {
+        r.kind == "Grassy Terrain"
+            && (!flow(c).is_ok_and(|f| f.battlefield_review) || applies(&r.scope, p))
+    }) {
         return Ok(());
     }
     let t = TerrainSource {
@@ -2056,12 +2106,11 @@ pub fn seed_sower(c: &mut Campaign, p: &Combatant) -> Result<()> {
         source: format!("ability:{}", p.id),
         scope: format!("side:{}", p.side),
     };
-    if state(c)
-        .unwrap()
-        .rules
-        .iter()
-        .any(|r| r.kind.ends_with("Terrain"))
-    {
+    if state(c).unwrap().rules.iter().any(|r| {
+        r.kind.ends_with("Terrain")
+            && (!flow(c).is_ok_and(|f| f.battlefield_review)
+                || scopes_overlap(c, &r.scope, &t.scope))
+    }) {
         if !state(c)
             .unwrap()
             .events

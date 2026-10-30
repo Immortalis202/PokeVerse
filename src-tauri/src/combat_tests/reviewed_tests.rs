@@ -453,6 +453,7 @@ fn provenance_new_battles_enable_rules_and_historical_sequencing_engine_stays_co
     let ended = decision(&c, "gm", Action::EndBattle);
     for (engine, expected) in [
         (ENGINE, true),
+        (CURE_PROTECTION_ENGINE, true),
         (ITEM_COMPLETION_ENGINE, true),
         (SEQUENCING_ENGINE, false),
     ] {

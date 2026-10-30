@@ -934,7 +934,7 @@
     "Magic Guard": {
       "page": 554,
       "status": "partial",
-      "scope": "Reviewed ability damage, Burn/Poison ticks, recoil, weather and supported item/hazard damage use existing protection hooks; these systems are no longer awaiting implementation. Direct move damage and Confusion remain. M3-F02 records a source/code gap: printed Magic Guard explicitly permits Perish Song damage, but the current shared indirect helper blocks it. Retain partial pending this correction and review of other named exceptions.",
+      "scope": "Existing indirect-damage protection remains. In newly started 0.35.0-core encounters, Perish Song bypasses Magic Guard as required by MASTER 554 (M3-F02); historical encounters retain their earlier behavior. Other named exceptions remain scoped review items.",
       "introduced_engine": "0.5.0-core"
     },
     "Magician": {

@@ -112,7 +112,7 @@ export default function BattlefieldControls({
           : "none"}
         . Air Lock suppresses weather globally; Cloud Nine protects its holder.{" "}
         {field.night
-          ? "Night time: Mind’s Eye grants Never Miss; Moonlight uses the arena night setting unless overridden."
+          ? "Night time: Mind’s Eye grants Never Miss; Moonlight uses the arena night setting unless overridden. Move- and ability-created Sunny weather keeps its duration at night."
           : "Day time."}
       </p>
       {field.initial && (
@@ -312,6 +312,7 @@ export default function BattlefieldControls({
               </label>
             </div>
             {[
+              "0.35.0-core",
               "0.34.0-core",
               "0.33.0-core",
               "0.32.0-core",
