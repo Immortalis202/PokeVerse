@@ -117,5 +117,12 @@ with pdfplumber.open(PDF) as doc:
         if page.page_number%25==0: print(f'Audited {page.page_number} pages: {len(corrections)} matched species',flush=True)
         page.close()
 report={'version':1,'source':PDF.name,'source_sha256':hashlib.sha256(PDF.read_bytes()).hexdigest(),'method':'Exact form/name matching; PDF vector dot counts and rank icon colors; ambiguous fields require adjudication. Evolution narrative/ability exceptions remain manual.','species':corrections,'differences':differences,'unmatched_pdf_entries':unresolved,'unmatched_catalog_species':[e['Name'] for e in entries if f'{e["DexID"]}:{e["_id"]}' not in corrections]}
+# Exact JSON form stats supersede extraction in these explicitly reviewed families.
+# Preserve extraction differences above as historical diagnostics, not runtime overrides.
+form_stats = json.loads((APP / "rules/species-fidelity-review.json").read_text(encoding="utf-8")).get("json_form_stat_review", {})
+for form in form_stats.get("entries", []):
+    fields = corrections.get(form["id"], {}).get("fields", {})
+    for field in form["stats"]:
+        fields.pop(field, None)
 out=APP/'rules/catalog-corrections.json'; out.parent.mkdir(exist_ok=True); out.write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
 print(f'{len(corrections)}/{len(entries)} species audited; {len(differences)} corrections; {len(unresolved)} unresolved PDF entries; {out}')

@@ -132,9 +132,22 @@ The user resolved all 23 fields in the historical 19-identity queue. Fourteen ef
 | Togekiss | Maximum Dexterity 5 |
 | Trubbish | Maximum Dexterity 4 |
 
-These are user decisions, not new printed certifications. In particular, the two superseded Marill manual field certifications remain in historical evidence but the effective field metadata now identifies a user ruling and keeps printed verification unverified. Creation baselines/limits and relational stat rows use the selected values.
+These are user decisions, not new printed certifications. The current printed-field queue has 17,560 unverified species fields (two more than the earlier visual checkpoint). In particular, the two superseded Marill manual field certifications remain in historical evidence but the effective field metadata now identifies a user ruling and keeps printed verification unverified. Creation baselines/limits and relational stat rows use the selected values.
 
 The regenerated comparison has 13,082 matching fields and 118 JSON differences: 109 alternate-form-assignment differences across 14 identities, plus nine explicitly resolved user deviations across seven identities. Zero unexplained JSON stat differences remain. Aegislash Shield/Blade and Calyrex solo/Ice Rider/Shadow Rider are separate identities; the known form-assignment conflicts remain open and this stat-ruling batch does not change their mappings.
+
+### Exact-form stat assignments repaired, 31 October 2026
+
+- [x] Inventory every exact JSON form in all 14 affected National Dex families: **34 identities**, including both Aegislash forms, all three Calyrex forms, all four Deoxys forms and all four Darmanitan forms.
+- [x] Remove extraction-owned HP/baseline/maximum fields for these exact identities. **109 incorrect effective values** on the 14 base entries now use their own supplied JSON. In total 176 extraction field overrides were removed, including 67 already-equal values; their previous values remain in `json_form_stat_review.entries[].removed_extraction_overrides` for provenance.
+- [x] Preserve each source file and fingerprint. The source snapshot is unchanged; JSON agreement does not certify printed stats, abilities, moves or evolution conditions.
+- [x] Prevent extraction regeneration from restoring these stat overrides, and reject any effective catalog stat that deviates from the recorded exact-form JSON vector. Creation metadata identifies the exact JSON stat source.
+- [x] Verify all 34 identities' creation stats, HP and per-attribute legal/illegal training limits. Verify catalog creation metadata and relational stat rows against source JSON for all 374 fields.
+- [x] Verify all 13 existing reviewed battle-form definitions against their exact JSON. Exercise prepared builds, cross-form event resolution, target limits and permanent-sheet preservation/restoration. The other 21 exact identities retain the existing manual-rule guard for unmapped battle transformations; this batch adds no battle mappings.
+
+The earlier form-conflict inventory is historical and all 109 diagnosed stat-assignment conflicts are now resolved. The regenerated catalog-wide comparison reports **13,191 matching fields out of 13,200**, with only the nine explicit user deviations across seven identities remaining. There are zero unexplained stat differences and zero mismatches in the 34-form repaired scope. The 19-identity user rulings remain in force. Saved library sheets are not automatically rewritten by catalog regeneration; the normal sheet/workflow review and encounter-history mechanisms remain applicable.
+
+Exact-form batch validation: **796 Rust tests passed, zero failed, one diagnostic ignored**, with localhost access. All **71 frontend tests and 47 script/catalog checks** passed, along with TypeScript, Rust formatting, relevant Prettier, Python extractor syntax and diff checks. The final cross-form resolver fixture was additionally rerun with the creation/training fixture after the full suite. Native app testing, physical-network acceptance, Clippy and native packages were not run.
 
 Stat-ruling validation: 794 Rust tests passed, zero failed, one diagnostic ignored, on the localhost-enabled rerun (the initial sandbox run blocked 31 socket tests with error 10013). All 71 frontend tests and 46 script/catalog checks passed, including exact runtime values, creation metadata, relational stat rows, retained source JSON and user-ruling provenance for all 23 fields. TypeScript, relevant Prettier and diff checks passed. No native packages, Clippy or native/physical-network acceptance were run.
 

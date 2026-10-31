@@ -16,6 +16,12 @@ const corrections = JSON.parse(
 const reviewed = JSON.parse(
   readFileSync(path.join(app, "rules/catalog-reviewed.json"), "utf8"),
 );
+const fidelity = JSON.parse(
+  readFileSync(path.join(app, "rules/species-fidelity-review.json"), "utf8"),
+);
+const battleForms = JSON.parse(
+  readFileSync(path.join(app, "rules/battle-forms.json"), "utf8"),
+);
 const db = new DatabaseSync(path.join(app, "src-tauri/resources/catalog.db"), {
   readOnly: true,
 });
@@ -159,6 +165,26 @@ for (const id of runtime.keys())
   if (!seen.has(id))
     report.identity_issues.push({ id, issue: "runtime-only identity" });
 
+report.repaired_form_stats = (
+  fidelity.json_form_stat_review?.entries ?? []
+).map((form) => {
+  const original = sourceEntries.find((s) => s.id === form.id)?.entry;
+  const effective = runtime.get(form.id);
+  return {
+    id: form.id,
+    name: form.name,
+    source: form.source,
+    fields_compared: fields.length,
+    differing_fields: fields.filter(
+      (field) =>
+        !original || !effective || original[field] !== effective[field],
+    ),
+    battle_mapping: battleForms.species[form.id]
+      ? "existing-reviewed-mapping"
+      : "manual-rule-guard-retained",
+  };
+});
+
 // Use exact National Dex identity to bound form candidates. A single shared
 // value is not evidence of form contamination: require all eleven fields.
 report.form_reconciliation = [];
@@ -224,6 +250,10 @@ console.log(
       exact_form_matches: report.form_reconciliation.filter(
         (r) => r.exact_matches.length,
       ).length,
+      repaired_forms_checked: report.repaired_form_stats.length,
+      repaired_form_mismatches: report.repaired_form_stats.filter(
+        (s) => s.differing_fields.length,
+      ).length,
       unexplained_species: report.form_reconciliation.filter(
         (r) => r.status === "unexplained-by-alternate-form-json",
       ).length,
@@ -241,6 +271,7 @@ if (
   report.identity_issues.length ||
   report.invalid_values.length ||
   report.creation_mismatches.length ||
-  report.relational_mismatches.length
+  report.relational_mismatches.length ||
+  report.repaired_form_stats.some((s) => s.differing_fields.length)
 )
   process.exitCode = 1;

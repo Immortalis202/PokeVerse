@@ -1259,6 +1259,59 @@ fn s01_metapod_printed_vitality_limit_is_four() {
 }
 
 #[test]
+fn s01_exact_form_json_creation_and_training_limits_cover_all_34_identities() {
+    let cat = catalog();
+    let registry: serde_json::Value =
+        serde_json::from_str(include_str!("../../rules/species-fidelity-review.json")).unwrap();
+    let forms = registry["json_form_stat_review"]["entries"]
+        .as_array()
+        .unwrap();
+    assert_eq!(forms.len(), 34);
+    let t = trainer("Master");
+    for form in forms {
+        let name = form["name"].as_str().unwrap();
+        let p = s01_reviewed_fixture(&t, name, &cat);
+        assert_eq!(p.species_id.as_deref(), form["id"].as_str());
+        for a in rules::ATTRS {
+            let base = form["stats"][a].as_i64().unwrap() as i32;
+            let cap = form["stats"][format!("Max{a}")].as_i64().unwrap() as i32;
+            assert_eq!(p.stats[a], base, "{name} {a} creation");
+            let mut req = request(&p, "allocate", Some(&t));
+            req.sheet
+                .workflow
+                .as_mut()
+                .unwrap()
+                .allocations
+                .insert(a.into(), cap - base);
+            let legal = rules::preview(Some(&p), Some(&t), &req, &cat);
+            assert!(legal.errors.is_empty(), "{name} {a}: {:?}", legal.errors);
+            assert_eq!(legal.sheet.stats[a], cap);
+            req.sheet
+                .workflow
+                .as_mut()
+                .unwrap()
+                .allocations
+                .insert(a.into(), cap - base + 1);
+            let invalid = rules::preview(Some(&p), Some(&t), &req, &cat);
+            assert!(
+                invalid
+                    .errors
+                    .iter()
+                    .any(|e| e.starts_with(&format!("{a} allocation"))),
+                "{name} {a}: {:?}",
+                invalid.errors
+            );
+            assert!(rules::apply(Some(&p), Some(&t), &req, &cat, Some(("test", "gm"))).is_err());
+        }
+        assert_eq!(
+            p.max_hp,
+            form["stats"]["BaseHP"].as_i64().unwrap() as i32 + p.stats["Vitality"] + 3,
+            "{name} HP"
+        );
+    }
+}
+
+#[test]
 fn s01_printed_missing_forward_links_offer_slow_evolution_and_replay() {
     let cat = catalog();
     let t = trainer("Champion");

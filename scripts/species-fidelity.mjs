@@ -27,6 +27,25 @@ export function applySpeciesFidelity(catalog, review, sourceHash) {
     );
   const byId = new Map(catalog.species.map((s) => [s.AppId, s]));
   const byName = new Map(catalog.species.map((s) => [s.Name, s]));
+  for (const form of review.json_form_stat_review?.entries ?? []) {
+    const entry = byId.get(form.id);
+    if (!entry || entry.Name !== form.name || entry.Number !== form.number)
+      throw new Error(`JSON form stat identity mismatch: ${form.id}`);
+    for (const [field, expected] of Object.entries(form.stats))
+      if (entry[field] !== expected)
+        throw new Error(
+          `JSON form stat assignment changed: ${form.id} ${field}`,
+        );
+    entry.Creation.stat_source = form.source;
+    entry.FidelityReview ??= [];
+    entry.FidelityReview.push({
+      source: "exact-form-json",
+      decision: review.json_form_stat_review.scope,
+      source_file: form.source,
+      sha256: form.sha256,
+      fields: Object.keys(form.stats),
+    });
+  }
   for (const ruling of review.user_stat_rulings ?? []) {
     const entry = byId.get(ruling.id);
     if (!entry || entry.Name !== ruling.name)
@@ -308,6 +327,9 @@ export function applySpeciesFidelity(catalog, review, sourceHash) {
       (issue) => issue.review?.status !== "retained-guidance",
     ).length,
     manual_reviews_added: review.manual_reviews.length,
+    json_form_stat_ids: (review.json_form_stat_review?.entries ?? []).map(
+      (s) => s.id,
+    ),
     move_rank_rulings: review.user_move_rank_rulings ?? [],
     source_evolution_corrections: (
       review.source_evolution_corrections ?? []

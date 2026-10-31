@@ -6,6 +6,77 @@ import { DatabaseSync } from "node:sqlite";
 const read = (p) => JSON.parse(readFileSync(p, "utf8"));
 const review = read("rules/species-fidelity-review.json");
 
+test("M4-S01 keeps all 34 exact forms in the 14 repaired families on their own JSON stats", () => {
+  const scope = review.json_form_stat_review;
+  assert.equal(scope.family_numbers.length, 14);
+  assert.equal(scope.entries.length, 34);
+  const corrections = read("rules/catalog-corrections.json");
+  const forms = read("rules/battle-forms.json");
+  const db = new DatabaseSync("src-tauri/resources/catalog.db", {
+    readOnly: true,
+  });
+  try {
+    const entries = db
+      .prepare("select data from entries where kind='species'")
+      .all()
+      .map((r) => JSON.parse(r.data));
+    assert.deepEqual(
+      entries
+        .filter((s) => scope.family_numbers.includes(s.Number))
+        .map((s) => s.AppId)
+        .sort(),
+      scope.entries.map((s) => s.id).sort(),
+    );
+    for (const form of scope.entries) {
+      const bytes = readFileSync(`../${form.source}`);
+      assert.equal(
+        createHash("sha256").update(bytes).digest("hex"),
+        form.sha256,
+      );
+      const source = JSON.parse(bytes);
+      const entry = entries.find((s) => s.AppId === form.id);
+      assert.equal(entry.Name, source.Name);
+      assert.equal(entry.Creation.stat_source, form.source);
+      for (const field of Object.keys(form.stats)) {
+        assert.equal(entry[field], source[field], `${form.id} ${field}`);
+        assert.equal(form.stats[field], source[field]);
+        assert.ok(
+          !Object.hasOwn(corrections.species[form.id]?.fields ?? {}, field),
+        );
+        assert.equal(entry.Review.fields[field].status, "unverified");
+        if (field === "BaseHP") {
+          if (forms.species[form.id])
+            assert.equal(forms.species[form.id].base_hp, source[field]);
+          continue;
+        }
+        const max = field.startsWith("Max");
+        const a = max ? field.slice(3) : field;
+        assert.equal(
+          entry.Creation[max ? "limits" : "baselines"][a],
+          source[field],
+        );
+        const row = db
+          .prepare(
+            "select baseline, species_limit from species_stats where species_id=? and attribute=?",
+          )
+          .get(form.id, a);
+        assert.equal(row[max ? "species_limit" : "baseline"], source[field]);
+        if (forms.species[form.id])
+          assert.equal(
+            forms.species[form.id][max ? "limits" : "stats"][a],
+            source[field],
+          );
+      }
+    }
+    assert.equal(scope.entries.filter((s) => s.number === 681).length, 2);
+    assert.equal(scope.entries.filter((s) => s.number === 898).length, 3);
+    assert.equal(scope.entries.filter((s) => s.number === 386).length, 4);
+    assert.equal(scope.entries.filter((s) => s.number === 555).length, 4);
+  } finally {
+    db.close();
+  }
+});
+
 test("M4-S01 applies all 23 explicit stat rulings without printed certification", () => {
   const expected = {
     Binacle: { MaxDexterity: 4 },

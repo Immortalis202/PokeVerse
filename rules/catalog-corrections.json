@@ -39520,17 +39520,6 @@
     },
     "0386:deoxys": {
       "fields": {
-        "Strength": 6,
-        "MaxStrength": 6,
-        "Dexterity": 10,
-        "MaxDexterity": 10,
-        "Vitality": 5,
-        "MaxVitality": 5,
-        "Special": 6,
-        "MaxSpecial": 6,
-        "Insight": 5,
-        "MaxInsight": 5,
-        "BaseHP": 4,
         "Ability1": "Pressure",
         "Ability2": "",
         "Moves": [
@@ -50395,17 +50384,6 @@
     },
     "0483:dialga": {
       "fields": {
-        "Strength": 8,
-        "MaxStrength": 8,
-        "Dexterity": 6,
-        "MaxDexterity": 6,
-        "Vitality": 10,
-        "MaxVitality": 10,
-        "Special": 11,
-        "MaxSpecial": 11,
-        "Insight": 10,
-        "MaxInsight": 10,
-        "BaseHP": 8,
         "Ability1": "Pressure",
         "Ability2": "Telepathy",
         "Moves": [
@@ -50530,17 +50508,6 @@
     },
     "0484:palkia": {
       "fields": {
-        "Strength": 10,
-        "MaxStrength": 10,
-        "Dexterity": 7,
-        "MaxDexterity": 7,
-        "Vitality": 7,
-        "MaxVitality": 7,
-        "Special": 11,
-        "MaxSpecial": 11,
-        "Insight": 10,
-        "MaxInsight": 10,
-        "BaseHP": 8,
         "Ability1": "Pressure",
         "Ability2": "Telepathy",
         "Moves": [
@@ -51392,17 +51359,6 @@
     },
     "0492:shaymin": {
       "fields": {
-        "Strength": 6,
-        "MaxStrength": 6,
-        "Dexterity": 7,
-        "MaxDexterity": 7,
-        "Vitality": 5,
-        "MaxVitality": 5,
-        "Special": 7,
-        "MaxSpecial": 7,
-        "Insight": 5,
-        "MaxInsight": 5,
-        "BaseHP": 6,
         "Ability1": "Serene Grace",
         "Ability2": "",
         "Moves": [
@@ -57909,17 +57865,6 @@
     },
     "0555:darmanitan": {
       "fields": {
-        "Strength": 1,
-        "MaxStrength": 3,
-        "Dexterity": 2,
-        "MaxDexterity": 4,
-        "Vitality": 3,
-        "MaxVitality": 6,
-        "Special": 3,
-        "MaxSpecial": 7,
-        "Insight": 3,
-        "MaxInsight": 6,
-        "BaseHP": 6,
         "Ability1": "Zen Mode",
         "Ability2": "",
         "Moves": [
@@ -58038,17 +57983,6 @@
     },
     "0555G:darmanitan-galarian-form": {
       "fields": {
-        "Strength": 3,
-        "MaxStrength": 7,
-        "Dexterity": 3,
-        "MaxDexterity": 6,
-        "Vitality": 2,
-        "MaxVitality": 4,
-        "Special": 1,
-        "MaxSpecial": 3,
-        "Insight": 2,
-        "MaxInsight": 4,
-        "BaseHP": 6,
         "Ability1": "Zen Mode",
         "Ability2": "",
         "Moves": [
@@ -66293,17 +66227,6 @@
     },
     "0628:braviary": {
       "fields": {
-        "Strength": 2,
-        "MaxStrength": 5,
-        "Dexterity": 2,
-        "MaxDexterity": 4,
-        "Vitality": 2,
-        "MaxVitality": 5,
-        "Special": 3,
-        "MaxSpecial": 7,
-        "Insight": 2,
-        "MaxInsight": 5,
-        "BaseHP": 6,
         "Ability1": "Keen Eye",
         "Ability2": "Sheer Force",
         "Moves": [
@@ -68431,17 +68354,6 @@
     },
     "0646:kyurem": {
       "fields": {
-        "Strength": 7,
-        "MaxStrength": 7,
-        "Dexterity": 6,
-        "MaxDexterity": 6,
-        "Vitality": 5,
-        "MaxVitality": 5,
-        "Special": 9,
-        "MaxSpecial": 9,
-        "Insight": 6,
-        "MaxInsight": 6,
-        "BaseHP": 7,
         "Ability1": "Turboblaze",
         "Ability2": "",
         "Moves": [
@@ -68562,17 +68474,6 @@
     },
     "0647:keldeo": {
       "fields": {
-        "Strength": 6,
-        "MaxStrength": 6,
-        "Dexterity": 6,
-        "MaxDexterity": 6,
-        "Vitality": 6,
-        "MaxVitality": 6,
-        "Special": 7,
-        "MaxSpecial": 7,
-        "Insight": 5,
-        "MaxInsight": 5,
-        "BaseHP": 5,
         "Ability1": "Justified",
         "Ability2": "",
         "Moves": [
@@ -71703,17 +71604,6 @@
     },
     "0681:aegislash": {
       "fields": {
-        "Strength": 4,
-        "MaxStrength": 8,
-        "Dexterity": 2,
-        "MaxDexterity": 4,
-        "Vitality": 2,
-        "MaxVitality": 4,
-        "Special": 4,
-        "MaxSpecial": 8,
-        "Insight": 2,
-        "MaxInsight": 4,
-        "BaseHP": 5,
         "Ability1": "Stance Change",
         "Ability2": "",
         "Moves": [
@@ -79201,17 +79091,6 @@
     },
     "0746:wishiwashi": {
       "fields": {
-        "Strength": 3,
-        "MaxStrength": 7,
-        "Dexterity": 1,
-        "MaxDexterity": 3,
-        "Vitality": 3,
-        "MaxVitality": 7,
-        "Special": 3,
-        "MaxSpecial": 7,
-        "Insight": 3,
-        "MaxInsight": 7,
-        "BaseHP": 8,
         "Ability1": "Schooling",
         "Ability2": "",
         "Moves": [
@@ -90581,17 +90460,6 @@
     },
     "0875:eiscue": {
       "fields": {
-        "Strength": 2,
-        "MaxStrength": 5,
-        "Dexterity": 3,
-        "MaxDexterity": 7,
-        "Vitality": 2,
-        "MaxVitality": 5,
-        "Special": 2,
-        "MaxSpecial": 4,
-        "Insight": 2,
-        "MaxInsight": 4,
-        "BaseHP": 5,
         "Ability1": "Ice Face",
         "Ability2": "",
         "Moves": [
@@ -91769,17 +91637,6 @@
     },
     "0888:zacian": {
       "fields": {
-        "Strength": 9,
-        "MaxStrength": 9,
-        "Dexterity": 8,
-        "MaxDexterity": 8,
-        "Vitality": 6,
-        "MaxVitality": 6,
-        "Special": 5,
-        "MaxSpecial": 5,
-        "Insight": 6,
-        "MaxInsight": 6,
-        "BaseHP": 5,
         "Ability1": "Intrepid Sword",
         "Ability2": "",
         "Moves": [
@@ -91866,17 +91723,6 @@
     },
     "0890:eternatus": {
       "fields": {
-        "Strength": 6,
-        "MaxStrength": 6,
-        "Dexterity": 7,
-        "MaxDexterity": 7,
-        "Vitality": 10,
-        "MaxVitality": 10,
-        "Special": 7,
-        "MaxSpecial": 7,
-        "Insight": 10,
-        "MaxInsight": 10,
-        "BaseHP": 10,
         "Ability1": "Pressure",
         "Ability2": "",
         "Moves": [
@@ -92514,17 +92360,6 @@
     },
     "0898:calyrex": {
       "fields": {
-        "Strength": 8,
-        "MaxStrength": 8,
-        "Dexterity": 4,
-        "MaxDexterity": 4,
-        "Vitality": 8,
-        "MaxVitality": 8,
-        "Special": 5,
-        "MaxSpecial": 5,
-        "Insight": 7,
-        "MaxInsight": 7,
-        "BaseHP": 6,
         "Ability1": "As One",
         "Ability2": "",
         "Moves": [
@@ -92629,17 +92464,6 @@
     },
     "0898F2:calyrex-shadow-rider-form": {
       "fields": {
-        "Strength": 5,
-        "MaxStrength": 5,
-        "Dexterity": 7,
-        "MaxDexterity": 7,
-        "Vitality": 5,
-        "MaxVitality": 5,
-        "Special": 8,
-        "MaxSpecial": 8,
-        "Insight": 6,
-        "MaxInsight": 6,
-        "BaseHP": 6,
         "Ability1": "As One",
         "Ability2": "",
         "Moves": [

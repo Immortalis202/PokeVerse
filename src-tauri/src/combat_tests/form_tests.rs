@@ -101,6 +101,95 @@ fn forms_registry_all_mega_stones_have_exact_distinct_base_and_form_records() {
         2
     );
 }
+
+#[test]
+fn s01_exact_form_builds_use_each_target_json_and_preserve_unmapped_guards() {
+    let cat = catalog();
+    let review: serde_json::Value =
+        serde_json::from_str(include_str!("../../../rules/species-fidelity-review.json")).unwrap();
+    let mut mapped = 0;
+    let mut unmapped = 0;
+    let reviewed = review["json_form_stat_review"]["entries"]
+        .as_array()
+        .unwrap();
+    for form in reviewed {
+        let id = form["id"].as_str().unwrap();
+        let name = form["name"].as_str().unwrap();
+        // Start from another exact form so using the source's stats would fail.
+        let source = reviewed
+            .iter()
+            .find(|s| s["number"] == form["number"] && s["id"] != form["id"])
+            .unwrap();
+        let species = cat
+            .find("species", "AppId", source["id"].as_str().unwrap())
+            .unwrap();
+        let (c, a, _) = setup(
+            source["name"].as_str().unwrap(),
+            species["Ability1"].as_str().unwrap(),
+        );
+        let command = act(FormCommand::Prepare {
+            combatant_id: a.clone(),
+            species_id: id.into(),
+            build: FormBuild::default(),
+        });
+        if forms::registry()["species"][id].is_null() {
+            let error = battle::transition(&c, "player", &command, vec![], &cat).unwrap_err();
+            assert_eq!(error.code, "manual_rule", "{name}");
+            unmapped += 1;
+            continue;
+        }
+        mapped += 1;
+        let mut n = decision(&c, "player", command);
+        let sheets = serde_json::to_value(&n.sheets).unwrap();
+        // Exercise the form-event resolver directly for each reviewed target;
+        // natural triggers and owner/GM checks have separate regression coverage.
+        let event = crate::combat::abilities::AbilityEvent {
+            id: "json-form-stat-fixture".into(),
+            combatant_id: a.clone(),
+            target_id: String::new(),
+            ability: p(&n, &a).selected_ability.clone(),
+            kind: "form-stat-fixture".into(),
+            move_name: String::new(),
+            choices: vec![id.into()],
+        };
+        forms::resolve(&mut n, &event, id, &cat).unwrap();
+        let live = rules::base_sheet(&n, p(&n, &a)).unwrap();
+        assert_eq!(live.species_id.as_deref(), Some(id));
+        for attribute in crate::creation::ATTRS {
+            assert_eq!(
+                live.stats[attribute],
+                form["stats"][attribute].as_i64().unwrap() as i32,
+                "{name} {attribute}"
+            );
+            let cap = form["stats"][format!("Max{attribute}")].as_i64().unwrap() as i32;
+            let mut attributes = BTreeMap::new();
+            attributes.insert(attribute.into(), cap - live.stats[attribute] + 1);
+            let invalid = act(FormCommand::Prepare {
+                combatant_id: a.clone(),
+                species_id: id.into(),
+                build: FormBuild {
+                    attributes,
+                    ..Default::default()
+                },
+            });
+            assert!(
+                battle::transition(&c, "player", &invalid, vec![], &cat).is_err(),
+                "{name} {attribute} limit"
+            );
+        }
+        assert_eq!(serde_json::to_value(&n.sheets).unwrap(), sheets);
+        forms::before_end(&mut n).unwrap();
+        assert_eq!(serde_json::to_value(&n.sheets).unwrap(), sheets);
+        assert_eq!(
+            n.sheets[&p(&n, &a).sheet_id].species_id.as_deref(),
+            source["id"].as_str()
+        );
+        assert_eq!(p(&n, &a).max_hp, p(&c, &a).max_hp);
+        assert_eq!(p(&n, &a).selected_ability, p(&c, &a).selected_ability);
+    }
+    assert_eq!(mapped, 13);
+    assert_eq!(unmapped, 21);
+}
 #[test]
 fn forms_multitype_is_owned_exact_species_reversible_and_sheet_preserving() {
     let (c, a, t) = setup("Arceus", "Multitype");

@@ -4,7 +4,7 @@
   "source_remote": "https://github.com/Pokerole-Software-Development/Pokerole-Data.git",
   "source_commit": "376358078498717863c311d7a8fe323fd4fe7375",
   "source_tracked_changes": "",
-  "catalog_hash": "f3577dbdb15beab11e1add1fdb8f92700e9633c80abf3c26ab425c8e5797275e",
+  "catalog_hash": "607dad4c8505fd0188367034a64bf5345747f3f90f7f9bf7414ca28c9ef17e4c",
   "fields": [
     "BaseHP",
     "Strength",
@@ -20,7 +20,7 @@
   ],
   "species_compared": 1200,
   "fields_compared": 13200,
-  "matching_fields": 13082,
+  "matching_fields": 13191,
   "user_stat_rulings": [
     {
       "id": "0688:binacle",
@@ -292,175 +292,6 @@
   ],
   "differences": [
     {
-      "id": "0681:aegislash",
-      "name": "Aegislash",
-      "field": "Strength",
-      "source": 2,
-      "runtime": 4,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0681F1:aegislash-blade-form"
-      ]
-    },
-    {
-      "id": "0681:aegislash",
-      "name": "Aegislash",
-      "field": "MaxStrength",
-      "source": 4,
-      "runtime": 8,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0681F1:aegislash-blade-form"
-      ]
-    },
-    {
-      "id": "0681:aegislash",
-      "name": "Aegislash",
-      "field": "Vitality",
-      "source": 4,
-      "runtime": 2,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0681F1:aegislash-blade-form"
-      ]
-    },
-    {
-      "id": "0681:aegislash",
-      "name": "Aegislash",
-      "field": "MaxVitality",
-      "source": 8,
-      "runtime": 4,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0681F1:aegislash-blade-form"
-      ]
-    },
-    {
-      "id": "0681:aegislash",
-      "name": "Aegislash",
-      "field": "Special",
-      "source": 2,
-      "runtime": 4,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0681F1:aegislash-blade-form"
-      ]
-    },
-    {
-      "id": "0681:aegislash",
-      "name": "Aegislash",
-      "field": "MaxSpecial",
-      "source": 4,
-      "runtime": 8,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0681F1:aegislash-blade-form"
-      ]
-    },
-    {
-      "id": "0681:aegislash",
-      "name": "Aegislash",
-      "field": "Insight",
-      "source": 4,
-      "runtime": 2,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0681F1:aegislash-blade-form"
-      ]
-    },
-    {
-      "id": "0681:aegislash",
-      "name": "Aegislash",
-      "field": "MaxInsight",
-      "source": 8,
-      "runtime": 4,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0681F1:aegislash-blade-form"
-      ]
-    },
-    {
-      "id": "0628:braviary",
-      "name": "Braviary",
-      "field": "Strength",
-      "source": 3,
-      "runtime": 2,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0628H:braviary-hisuian-form"
-      ]
-    },
-    {
-      "id": "0628:braviary",
-      "name": "Braviary",
-      "field": "MaxStrength",
-      "source": 7,
-      "runtime": 5,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0628H:braviary-hisuian-form"
-      ]
-    },
-    {
-      "id": "0628:braviary",
-      "name": "Braviary",
-      "field": "MaxDexterity",
-      "source": 5,
-      "runtime": 4,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0628H:braviary-hisuian-form"
-      ]
-    },
-    {
-      "id": "0628:braviary",
-      "name": "Braviary",
-      "field": "Special",
-      "source": 2,
-      "runtime": 3,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0628H:braviary-hisuian-form"
-      ]
-    },
-    {
-      "id": "0628:braviary",
-      "name": "Braviary",
-      "field": "MaxSpecial",
-      "source": 4,
-      "runtime": 7,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0628H:braviary-hisuian-form"
-      ]
-    },
-    {
       "id": "0986:brute-bonnet",
       "name": "Brute Bonnet",
       "field": "MaxStrength",
@@ -472,513 +303,6 @@
       "exact_form_matches": []
     },
     {
-      "id": "0898:calyrex",
-      "name": "Calyrex",
-      "field": "Strength",
-      "source": 5,
-      "runtime": 8,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0898F1:calyrex-ice-rider-form"
-      ]
-    },
-    {
-      "id": "0898:calyrex",
-      "name": "Calyrex",
-      "field": "MaxStrength",
-      "source": 5,
-      "runtime": 8,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0898F1:calyrex-ice-rider-form"
-      ]
-    },
-    {
-      "id": "0898:calyrex",
-      "name": "Calyrex",
-      "field": "Dexterity",
-      "source": 5,
-      "runtime": 4,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0898F1:calyrex-ice-rider-form"
-      ]
-    },
-    {
-      "id": "0898:calyrex",
-      "name": "Calyrex",
-      "field": "MaxDexterity",
-      "source": 5,
-      "runtime": 4,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0898F1:calyrex-ice-rider-form"
-      ]
-    },
-    {
-      "id": "0898:calyrex",
-      "name": "Calyrex",
-      "field": "Vitality",
-      "source": 5,
-      "runtime": 8,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0898F1:calyrex-ice-rider-form"
-      ]
-    },
-    {
-      "id": "0898:calyrex",
-      "name": "Calyrex",
-      "field": "MaxVitality",
-      "source": 5,
-      "runtime": 8,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0898F1:calyrex-ice-rider-form"
-      ]
-    },
-    {
-      "id": "0898:calyrex",
-      "name": "Calyrex",
-      "field": "Insight",
-      "source": 5,
-      "runtime": 7,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0898F1:calyrex-ice-rider-form"
-      ]
-    },
-    {
-      "id": "0898:calyrex",
-      "name": "Calyrex",
-      "field": "MaxInsight",
-      "source": 5,
-      "runtime": 7,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0898F1:calyrex-ice-rider-form"
-      ]
-    },
-    {
-      "id": "0555:darmanitan",
-      "name": "Darmanitan",
-      "field": "Strength",
-      "source": 3,
-      "runtime": 1,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0555F1:darmanitan-zen-form"
-      ]
-    },
-    {
-      "id": "0555:darmanitan",
-      "name": "Darmanitan",
-      "field": "MaxStrength",
-      "source": 7,
-      "runtime": 3,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0555F1:darmanitan-zen-form"
-      ]
-    },
-    {
-      "id": "0555:darmanitan",
-      "name": "Darmanitan",
-      "field": "Dexterity",
-      "source": 3,
-      "runtime": 2,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0555F1:darmanitan-zen-form"
-      ]
-    },
-    {
-      "id": "0555:darmanitan",
-      "name": "Darmanitan",
-      "field": "MaxDexterity",
-      "source": 6,
-      "runtime": 4,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0555F1:darmanitan-zen-form"
-      ]
-    },
-    {
-      "id": "0555:darmanitan",
-      "name": "Darmanitan",
-      "field": "Vitality",
-      "source": 2,
-      "runtime": 3,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0555F1:darmanitan-zen-form"
-      ]
-    },
-    {
-      "id": "0555:darmanitan",
-      "name": "Darmanitan",
-      "field": "MaxVitality",
-      "source": 4,
-      "runtime": 6,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0555F1:darmanitan-zen-form"
-      ]
-    },
-    {
-      "id": "0555:darmanitan",
-      "name": "Darmanitan",
-      "field": "Special",
-      "source": 1,
-      "runtime": 3,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0555F1:darmanitan-zen-form"
-      ]
-    },
-    {
-      "id": "0555:darmanitan",
-      "name": "Darmanitan",
-      "field": "MaxSpecial",
-      "source": 3,
-      "runtime": 7,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0555F1:darmanitan-zen-form"
-      ]
-    },
-    {
-      "id": "0555:darmanitan",
-      "name": "Darmanitan",
-      "field": "Insight",
-      "source": 2,
-      "runtime": 3,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0555F1:darmanitan-zen-form"
-      ]
-    },
-    {
-      "id": "0555:darmanitan",
-      "name": "Darmanitan",
-      "field": "MaxInsight",
-      "source": 4,
-      "runtime": 6,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0555F1:darmanitan-zen-form"
-      ]
-    },
-    {
-      "id": "0386:deoxys",
-      "name": "Deoxys",
-      "field": "Strength",
-      "source": 8,
-      "runtime": 6,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0386F3:deoxys-speed-form"
-      ]
-    },
-    {
-      "id": "0386:deoxys",
-      "name": "Deoxys",
-      "field": "MaxStrength",
-      "source": 8,
-      "runtime": 6,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0386F3:deoxys-speed-form"
-      ]
-    },
-    {
-      "id": "0386:deoxys",
-      "name": "Deoxys",
-      "field": "Dexterity",
-      "source": 8,
-      "runtime": 10,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0386F3:deoxys-speed-form"
-      ]
-    },
-    {
-      "id": "0386:deoxys",
-      "name": "Deoxys",
-      "field": "MaxDexterity",
-      "source": 8,
-      "runtime": 10,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0386F3:deoxys-speed-form"
-      ]
-    },
-    {
-      "id": "0386:deoxys",
-      "name": "Deoxys",
-      "field": "Vitality",
-      "source": 4,
-      "runtime": 5,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0386F3:deoxys-speed-form"
-      ]
-    },
-    {
-      "id": "0386:deoxys",
-      "name": "Deoxys",
-      "field": "MaxVitality",
-      "source": 4,
-      "runtime": 5,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0386F3:deoxys-speed-form"
-      ]
-    },
-    {
-      "id": "0386:deoxys",
-      "name": "Deoxys",
-      "field": "Special",
-      "source": 8,
-      "runtime": 6,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0386F3:deoxys-speed-form"
-      ]
-    },
-    {
-      "id": "0386:deoxys",
-      "name": "Deoxys",
-      "field": "MaxSpecial",
-      "source": 8,
-      "runtime": 6,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0386F3:deoxys-speed-form"
-      ]
-    },
-    {
-      "id": "0386:deoxys",
-      "name": "Deoxys",
-      "field": "Insight",
-      "source": 4,
-      "runtime": 5,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0386F3:deoxys-speed-form"
-      ]
-    },
-    {
-      "id": "0386:deoxys",
-      "name": "Deoxys",
-      "field": "MaxInsight",
-      "source": 4,
-      "runtime": 5,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0386F3:deoxys-speed-form"
-      ]
-    },
-    {
-      "id": "0483:dialga",
-      "name": "Dialga",
-      "field": "BaseHP",
-      "source": 6,
-      "runtime": 8,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0483F1:dialga-origin-form"
-      ]
-    },
-    {
-      "id": "0483:dialga",
-      "name": "Dialga",
-      "field": "Strength",
-      "source": 7,
-      "runtime": 8,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0483F1:dialga-origin-form"
-      ]
-    },
-    {
-      "id": "0483:dialga",
-      "name": "Dialga",
-      "field": "MaxStrength",
-      "source": 7,
-      "runtime": 8,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0483F1:dialga-origin-form"
-      ]
-    },
-    {
-      "id": "0483:dialga",
-      "name": "Dialga",
-      "field": "Dexterity",
-      "source": 5,
-      "runtime": 6,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0483F1:dialga-origin-form"
-      ]
-    },
-    {
-      "id": "0483:dialga",
-      "name": "Dialga",
-      "field": "MaxDexterity",
-      "source": 5,
-      "runtime": 6,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0483F1:dialga-origin-form"
-      ]
-    },
-    {
-      "id": "0483:dialga",
-      "name": "Dialga",
-      "field": "Vitality",
-      "source": 7,
-      "runtime": 10,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0483F1:dialga-origin-form"
-      ]
-    },
-    {
-      "id": "0483:dialga",
-      "name": "Dialga",
-      "field": "MaxVitality",
-      "source": 7,
-      "runtime": 10,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0483F1:dialga-origin-form"
-      ]
-    },
-    {
-      "id": "0483:dialga",
-      "name": "Dialga",
-      "field": "Special",
-      "source": 8,
-      "runtime": 11,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0483F1:dialga-origin-form"
-      ]
-    },
-    {
-      "id": "0483:dialga",
-      "name": "Dialga",
-      "field": "MaxSpecial",
-      "source": 8,
-      "runtime": 11,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0483F1:dialga-origin-form"
-      ]
-    },
-    {
-      "id": "0483:dialga",
-      "name": "Dialga",
-      "field": "Insight",
-      "source": 6,
-      "runtime": 10,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0483F1:dialga-origin-form"
-      ]
-    },
-    {
-      "id": "0483:dialga",
-      "name": "Dialga",
-      "field": "MaxInsight",
-      "source": 6,
-      "runtime": 10,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0483F1:dialga-origin-form"
-      ]
-    },
-    {
       "id": "0477:dusknoir",
       "name": "Dusknoir",
       "field": "MaxVitality",
@@ -999,188 +323,6 @@
       "disposition": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
       "form_status": "resolved-user-ruling",
       "exact_form_matches": []
-    },
-    {
-      "id": "0875:eiscue",
-      "name": "Eiscue",
-      "field": "Dexterity",
-      "source": 2,
-      "runtime": 3,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0875F1:eiscue-no-ice-form"
-      ]
-    },
-    {
-      "id": "0875:eiscue",
-      "name": "Eiscue",
-      "field": "MaxDexterity",
-      "source": 4,
-      "runtime": 7,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0875F1:eiscue-no-ice-form"
-      ]
-    },
-    {
-      "id": "0875:eiscue",
-      "name": "Eiscue",
-      "field": "Vitality",
-      "source": 3,
-      "runtime": 2,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0875F1:eiscue-no-ice-form"
-      ]
-    },
-    {
-      "id": "0875:eiscue",
-      "name": "Eiscue",
-      "field": "MaxVitality",
-      "source": 6,
-      "runtime": 5,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0875F1:eiscue-no-ice-form"
-      ]
-    },
-    {
-      "id": "0875:eiscue",
-      "name": "Eiscue",
-      "field": "MaxInsight",
-      "source": 5,
-      "runtime": 4,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0875F1:eiscue-no-ice-form"
-      ]
-    },
-    {
-      "id": "0890:eternatus",
-      "name": "Eternatus",
-      "field": "BaseHP",
-      "source": 7,
-      "runtime": 10,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0890F1:eternatus-eternamax-form"
-      ]
-    },
-    {
-      "id": "0890:eternatus",
-      "name": "Eternatus",
-      "field": "Strength",
-      "source": 5,
-      "runtime": 6,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0890F1:eternatus-eternamax-form"
-      ]
-    },
-    {
-      "id": "0890:eternatus",
-      "name": "Eternatus",
-      "field": "MaxStrength",
-      "source": 5,
-      "runtime": 6,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0890F1:eternatus-eternamax-form"
-      ]
-    },
-    {
-      "id": "0890:eternatus",
-      "name": "Eternatus",
-      "field": "Vitality",
-      "source": 6,
-      "runtime": 10,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0890F1:eternatus-eternamax-form"
-      ]
-    },
-    {
-      "id": "0890:eternatus",
-      "name": "Eternatus",
-      "field": "MaxVitality",
-      "source": 6,
-      "runtime": 10,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0890F1:eternatus-eternamax-form"
-      ]
-    },
-    {
-      "id": "0890:eternatus",
-      "name": "Eternatus",
-      "field": "Special",
-      "source": 8,
-      "runtime": 7,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0890F1:eternatus-eternamax-form"
-      ]
-    },
-    {
-      "id": "0890:eternatus",
-      "name": "Eternatus",
-      "field": "MaxSpecial",
-      "source": 8,
-      "runtime": 7,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0890F1:eternatus-eternamax-form"
-      ]
-    },
-    {
-      "id": "0890:eternatus",
-      "name": "Eternatus",
-      "field": "Insight",
-      "source": 6,
-      "runtime": 10,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0890F1:eternatus-eternamax-form"
-      ]
-    },
-    {
-      "id": "0890:eternatus",
-      "name": "Eternatus",
-      "field": "MaxInsight",
-      "source": 6,
-      "runtime": 10,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0890F1:eternatus-eternamax-form"
-      ]
     },
     {
       "id": "0671:florges",
@@ -1227,58 +369,6 @@
       "exact_form_matches": []
     },
     {
-      "id": "0647:keldeo",
-      "name": "Keldeo",
-      "field": "Strength",
-      "source": 5,
-      "runtime": 6,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0647F1:keldeo-resolute-form"
-      ]
-    },
-    {
-      "id": "0647:keldeo",
-      "name": "Keldeo",
-      "field": "MaxStrength",
-      "source": 5,
-      "runtime": 6,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0647F1:keldeo-resolute-form"
-      ]
-    },
-    {
-      "id": "0647:keldeo",
-      "name": "Keldeo",
-      "field": "Vitality",
-      "source": 5,
-      "runtime": 6,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0647F1:keldeo-resolute-form"
-      ]
-    },
-    {
-      "id": "0647:keldeo",
-      "name": "Keldeo",
-      "field": "MaxVitality",
-      "source": 5,
-      "runtime": 6,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0647F1:keldeo-resolute-form"
-      ]
-    },
-    {
       "id": "0402:kricketune",
       "name": "Kricketune",
       "field": "MaxDexterity",
@@ -1290,71 +380,6 @@
       "exact_form_matches": []
     },
     {
-      "id": "0646:kyurem",
-      "name": "Kyurem",
-      "field": "BaseHP",
-      "source": 6,
-      "runtime": 7,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0646F2:kyurem-white-form"
-      ]
-    },
-    {
-      "id": "0646:kyurem",
-      "name": "Kyurem",
-      "field": "Special",
-      "source": 7,
-      "runtime": 9,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0646F2:kyurem-white-form"
-      ]
-    },
-    {
-      "id": "0646:kyurem",
-      "name": "Kyurem",
-      "field": "MaxSpecial",
-      "source": 7,
-      "runtime": 9,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0646F2:kyurem-white-form"
-      ]
-    },
-    {
-      "id": "0646:kyurem",
-      "name": "Kyurem",
-      "field": "Insight",
-      "source": 5,
-      "runtime": 6,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0646F2:kyurem-white-form"
-      ]
-    },
-    {
-      "id": "0646:kyurem",
-      "name": "Kyurem",
-      "field": "MaxInsight",
-      "source": 5,
-      "runtime": 6,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0646F2:kyurem-white-form"
-      ]
-    },
-    {
       "id": "0510:liepard",
       "name": "Liepard",
       "field": "Dexterity",
@@ -1364,448 +389,6 @@
       "disposition": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
       "form_status": "resolved-user-ruling",
       "exact_form_matches": []
-    },
-    {
-      "id": "0484:palkia",
-      "name": "Palkia",
-      "field": "BaseHP",
-      "source": 5,
-      "runtime": 8,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0484F1:palkia-origin-form"
-      ]
-    },
-    {
-      "id": "0484:palkia",
-      "name": "Palkia",
-      "field": "Strength",
-      "source": 7,
-      "runtime": 10,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0484F1:palkia-origin-form"
-      ]
-    },
-    {
-      "id": "0484:palkia",
-      "name": "Palkia",
-      "field": "MaxStrength",
-      "source": 7,
-      "runtime": 10,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0484F1:palkia-origin-form"
-      ]
-    },
-    {
-      "id": "0484:palkia",
-      "name": "Palkia",
-      "field": "Dexterity",
-      "source": 6,
-      "runtime": 7,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0484F1:palkia-origin-form"
-      ]
-    },
-    {
-      "id": "0484:palkia",
-      "name": "Palkia",
-      "field": "MaxDexterity",
-      "source": 6,
-      "runtime": 7,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0484F1:palkia-origin-form"
-      ]
-    },
-    {
-      "id": "0484:palkia",
-      "name": "Palkia",
-      "field": "Vitality",
-      "source": 6,
-      "runtime": 7,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0484F1:palkia-origin-form"
-      ]
-    },
-    {
-      "id": "0484:palkia",
-      "name": "Palkia",
-      "field": "MaxVitality",
-      "source": 6,
-      "runtime": 7,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0484F1:palkia-origin-form"
-      ]
-    },
-    {
-      "id": "0484:palkia",
-      "name": "Palkia",
-      "field": "Special",
-      "source": 8,
-      "runtime": 11,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0484F1:palkia-origin-form"
-      ]
-    },
-    {
-      "id": "0484:palkia",
-      "name": "Palkia",
-      "field": "MaxSpecial",
-      "source": 8,
-      "runtime": 11,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0484F1:palkia-origin-form"
-      ]
-    },
-    {
-      "id": "0484:palkia",
-      "name": "Palkia",
-      "field": "Insight",
-      "source": 7,
-      "runtime": 10,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0484F1:palkia-origin-form"
-      ]
-    },
-    {
-      "id": "0484:palkia",
-      "name": "Palkia",
-      "field": "MaxInsight",
-      "source": 7,
-      "runtime": 10,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0484F1:palkia-origin-form"
-      ]
-    },
-    {
-      "id": "0492:shaymin",
-      "name": "Shaymin",
-      "field": "Dexterity",
-      "source": 6,
-      "runtime": 7,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0492F1:shaymin-sky-form"
-      ]
-    },
-    {
-      "id": "0492:shaymin",
-      "name": "Shaymin",
-      "field": "MaxDexterity",
-      "source": 6,
-      "runtime": 7,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0492F1:shaymin-sky-form"
-      ]
-    },
-    {
-      "id": "0492:shaymin",
-      "name": "Shaymin",
-      "field": "Vitality",
-      "source": 6,
-      "runtime": 5,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0492F1:shaymin-sky-form"
-      ]
-    },
-    {
-      "id": "0492:shaymin",
-      "name": "Shaymin",
-      "field": "MaxVitality",
-      "source": 6,
-      "runtime": 5,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0492F1:shaymin-sky-form"
-      ]
-    },
-    {
-      "id": "0492:shaymin",
-      "name": "Shaymin",
-      "field": "Special",
-      "source": 6,
-      "runtime": 7,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0492F1:shaymin-sky-form"
-      ]
-    },
-    {
-      "id": "0492:shaymin",
-      "name": "Shaymin",
-      "field": "MaxSpecial",
-      "source": 6,
-      "runtime": 7,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0492F1:shaymin-sky-form"
-      ]
-    },
-    {
-      "id": "0492:shaymin",
-      "name": "Shaymin",
-      "field": "Insight",
-      "source": 6,
-      "runtime": 5,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0492F1:shaymin-sky-form"
-      ]
-    },
-    {
-      "id": "0492:shaymin",
-      "name": "Shaymin",
-      "field": "MaxInsight",
-      "source": 6,
-      "runtime": 5,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0492F1:shaymin-sky-form"
-      ]
-    },
-    {
-      "id": "0746:wishiwashi",
-      "name": "Wishiwashi",
-      "field": "BaseHP",
-      "source": 4,
-      "runtime": 8,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0746F1:wishiwashi-swarm-form"
-      ]
-    },
-    {
-      "id": "0746:wishiwashi",
-      "name": "Wishiwashi",
-      "field": "Strength",
-      "source": 1,
-      "runtime": 3,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0746F1:wishiwashi-swarm-form"
-      ]
-    },
-    {
-      "id": "0746:wishiwashi",
-      "name": "Wishiwashi",
-      "field": "MaxStrength",
-      "source": 3,
-      "runtime": 7,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0746F1:wishiwashi-swarm-form"
-      ]
-    },
-    {
-      "id": "0746:wishiwashi",
-      "name": "Wishiwashi",
-      "field": "Dexterity",
-      "source": 2,
-      "runtime": 1,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0746F1:wishiwashi-swarm-form"
-      ]
-    },
-    {
-      "id": "0746:wishiwashi",
-      "name": "Wishiwashi",
-      "field": "MaxDexterity",
-      "source": 4,
-      "runtime": 3,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0746F1:wishiwashi-swarm-form"
-      ]
-    },
-    {
-      "id": "0746:wishiwashi",
-      "name": "Wishiwashi",
-      "field": "Vitality",
-      "source": 1,
-      "runtime": 3,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0746F1:wishiwashi-swarm-form"
-      ]
-    },
-    {
-      "id": "0746:wishiwashi",
-      "name": "Wishiwashi",
-      "field": "MaxVitality",
-      "source": 3,
-      "runtime": 7,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0746F1:wishiwashi-swarm-form"
-      ]
-    },
-    {
-      "id": "0746:wishiwashi",
-      "name": "Wishiwashi",
-      "field": "Special",
-      "source": 1,
-      "runtime": 3,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0746F1:wishiwashi-swarm-form"
-      ]
-    },
-    {
-      "id": "0746:wishiwashi",
-      "name": "Wishiwashi",
-      "field": "MaxSpecial",
-      "source": 3,
-      "runtime": 7,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0746F1:wishiwashi-swarm-form"
-      ]
-    },
-    {
-      "id": "0746:wishiwashi",
-      "name": "Wishiwashi",
-      "field": "Insight",
-      "source": 1,
-      "runtime": 3,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0746F1:wishiwashi-swarm-form"
-      ]
-    },
-    {
-      "id": "0746:wishiwashi",
-      "name": "Wishiwashi",
-      "field": "MaxInsight",
-      "source": 3,
-      "runtime": 7,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0746F1:wishiwashi-swarm-form"
-      ]
-    },
-    {
-      "id": "0888:zacian",
-      "name": "Zacian",
-      "field": "Strength",
-      "source": 7,
-      "runtime": 9,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0888F1:zacian-crown-form"
-      ]
-    },
-    {
-      "id": "0888:zacian",
-      "name": "Zacian",
-      "field": "MaxStrength",
-      "source": 7,
-      "runtime": 9,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0888F1:zacian-crown-form"
-      ]
-    },
-    {
-      "id": "0888:zacian",
-      "name": "Zacian",
-      "field": "Dexterity",
-      "source": 7,
-      "runtime": 8,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0888F1:zacian-crown-form"
-      ]
-    },
-    {
-      "id": "0888:zacian",
-      "name": "Zacian",
-      "field": "MaxDexterity",
-      "source": 7,
-      "runtime": 8,
-      "override_origin": "extracted-correction",
-      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
-      "form_status": "exact-alternate-form-stat-vector",
-      "exact_form_matches": [
-        "0888F1:zacian-crown-form"
-      ]
     }
   ],
   "identity_issues": [],
@@ -7814,68 +6397,281 @@
       "sha256": "9e09b139ef061d9872a8b4862c81ba7750478e051cc2d48811ddaeb1c1348a8c"
     }
   ],
-  "form_reconciliation": [
+  "repaired_form_stats": [
     {
-      "id": "0681:aegislash",
-      "name": "Aegislash",
-      "status": "exact-alternate-form-stat-vector",
-      "alternate_form_candidates": [
-        {
-          "id": "0681F1:aegislash-blade-form",
-          "name": "Aegislash (Blade Form)",
-          "file": "Aegislash (Blade Form).json",
-          "matching_fields": [
-            "BaseHP",
-            "Strength",
-            "MaxStrength",
-            "Dexterity",
-            "MaxDexterity",
-            "Vitality",
-            "MaxVitality",
-            "Special",
-            "MaxSpecial",
-            "Insight",
-            "MaxInsight"
-          ],
-          "differing_fields": []
-        }
-      ],
-      "exact_matches": [
-        "0681F1:aegislash-blade-form"
-      ],
-      "decision": "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value.",
-      "user_confirmation": "User confirmed Shield Strength 2 / maximum 4 and Sword (Blade) Strength 4 / maximum 8. Base JSON is Shield; Blade is a separate exact identity."
+      "id": "0386:deoxys",
+      "name": "Deoxys",
+      "source": "Pokerole-Data/v3.0/Pokedex/Deoxys.json",
+      "fields_compared": 11,
+      "differing_fields": [],
+      "battle_mapping": "manual-rule-guard-retained"
+    },
+    {
+      "id": "0386F1:deoxys-attack-form",
+      "name": "Deoxys (Attack Form)",
+      "source": "Pokerole-Data/v3.0/Pokedex/Deoxys (Attack Form).json",
+      "fields_compared": 11,
+      "differing_fields": [],
+      "battle_mapping": "manual-rule-guard-retained"
+    },
+    {
+      "id": "0386F2:deoxys-defense-form",
+      "name": "Deoxys (Defense Form)",
+      "source": "Pokerole-Data/v3.0/Pokedex/Deoxys (Defense Form).json",
+      "fields_compared": 11,
+      "differing_fields": [],
+      "battle_mapping": "manual-rule-guard-retained"
+    },
+    {
+      "id": "0386F3:deoxys-speed-form",
+      "name": "Deoxys (Speed Form)",
+      "source": "Pokerole-Data/v3.0/Pokedex/Deoxys (Speed Form).json",
+      "fields_compared": 11,
+      "differing_fields": [],
+      "battle_mapping": "manual-rule-guard-retained"
+    },
+    {
+      "id": "0483:dialga",
+      "name": "Dialga",
+      "source": "Pokerole-Data/v3.0/Pokedex/Dialga.json",
+      "fields_compared": 11,
+      "differing_fields": [],
+      "battle_mapping": "manual-rule-guard-retained"
+    },
+    {
+      "id": "0483F1:dialga-origin-form",
+      "name": "Dialga (Origin Form)",
+      "source": "Pokerole-Data/v3.0/Pokedex/Dialga (Origin Form).json",
+      "fields_compared": 11,
+      "differing_fields": [],
+      "battle_mapping": "manual-rule-guard-retained"
+    },
+    {
+      "id": "0484:palkia",
+      "name": "Palkia",
+      "source": "Pokerole-Data/v3.0/Pokedex/Palkia.json",
+      "fields_compared": 11,
+      "differing_fields": [],
+      "battle_mapping": "manual-rule-guard-retained"
+    },
+    {
+      "id": "0484F1:palkia-origin-form",
+      "name": "Palkia (Origin Form)",
+      "source": "Pokerole-Data/v3.0/Pokedex/Palkia (Origin Form).json",
+      "fields_compared": 11,
+      "differing_fields": [],
+      "battle_mapping": "manual-rule-guard-retained"
+    },
+    {
+      "id": "0492:shaymin",
+      "name": "Shaymin",
+      "source": "Pokerole-Data/v3.0/Pokedex/Shaymin.json",
+      "fields_compared": 11,
+      "differing_fields": [],
+      "battle_mapping": "manual-rule-guard-retained"
+    },
+    {
+      "id": "0492F1:shaymin-sky-form",
+      "name": "Shaymin (Sky Form)",
+      "source": "Pokerole-Data/v3.0/Pokedex/Shaymin (Sky Form).json",
+      "fields_compared": 11,
+      "differing_fields": [],
+      "battle_mapping": "manual-rule-guard-retained"
+    },
+    {
+      "id": "0555:darmanitan",
+      "name": "Darmanitan",
+      "source": "Pokerole-Data/v3.0/Pokedex/Darmanitan.json",
+      "fields_compared": 11,
+      "differing_fields": [],
+      "battle_mapping": "existing-reviewed-mapping"
+    },
+    {
+      "id": "0555F1:darmanitan-zen-form",
+      "name": "Darmanitan (Zen Form)",
+      "source": "Pokerole-Data/v3.0/Pokedex/Darmanitan (Zen Form).json",
+      "fields_compared": 11,
+      "differing_fields": [],
+      "battle_mapping": "existing-reviewed-mapping"
+    },
+    {
+      "id": "0555G:darmanitan-galarian-form",
+      "name": "Darmanitan (Galarian Form)",
+      "source": "Pokerole-Data/v3.0/Pokedex/Darmanitan (Galarian Form).json",
+      "fields_compared": 11,
+      "differing_fields": [],
+      "battle_mapping": "existing-reviewed-mapping"
+    },
+    {
+      "id": "0555GF1:darmanitan-galarian-zen-form",
+      "name": "Darmanitan (Galarian Zen Form)",
+      "source": "Pokerole-Data/v3.0/Pokedex/Darmanitan (Galarian Zen Form).json",
+      "fields_compared": 11,
+      "differing_fields": [],
+      "battle_mapping": "existing-reviewed-mapping"
     },
     {
       "id": "0628:braviary",
       "name": "Braviary",
-      "status": "exact-alternate-form-stat-vector",
-      "alternate_form_candidates": [
-        {
-          "id": "0628H:braviary-hisuian-form",
-          "name": "Braviary (Hisuian Form)",
-          "file": "Braviary (Hisuian Form).json",
-          "matching_fields": [
-            "BaseHP",
-            "Strength",
-            "MaxStrength",
-            "Dexterity",
-            "MaxDexterity",
-            "Vitality",
-            "MaxVitality",
-            "Special",
-            "MaxSpecial",
-            "Insight",
-            "MaxInsight"
-          ],
-          "differing_fields": []
-        }
-      ],
-      "exact_matches": [
-        "0628H:braviary-hisuian-form"
-      ],
-      "decision": "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value."
+      "source": "Pokerole-Data/v3.0/Pokedex/Braviary.json",
+      "fields_compared": 11,
+      "differing_fields": [],
+      "battle_mapping": "manual-rule-guard-retained"
     },
+    {
+      "id": "0628H:braviary-hisuian-form",
+      "name": "Braviary (Hisuian Form)",
+      "source": "Pokerole-Data/v3.0/Pokedex/Braviary (Hisuian Form).json",
+      "fields_compared": 11,
+      "differing_fields": [],
+      "battle_mapping": "manual-rule-guard-retained"
+    },
+    {
+      "id": "0646:kyurem",
+      "name": "Kyurem",
+      "source": "Pokerole-Data/v3.0/Pokedex/Kyurem.json",
+      "fields_compared": 11,
+      "differing_fields": [],
+      "battle_mapping": "manual-rule-guard-retained"
+    },
+    {
+      "id": "0646F1:kyurem-black-form",
+      "name": "Kyurem (Black Form)",
+      "source": "Pokerole-Data/v3.0/Pokedex/Kyurem (Black Form).json",
+      "fields_compared": 11,
+      "differing_fields": [],
+      "battle_mapping": "manual-rule-guard-retained"
+    },
+    {
+      "id": "0646F2:kyurem-white-form",
+      "name": "Kyurem (White Form)",
+      "source": "Pokerole-Data/v3.0/Pokedex/Kyurem (White Form).json",
+      "fields_compared": 11,
+      "differing_fields": [],
+      "battle_mapping": "manual-rule-guard-retained"
+    },
+    {
+      "id": "0647:keldeo",
+      "name": "Keldeo",
+      "source": "Pokerole-Data/v3.0/Pokedex/Keldeo.json",
+      "fields_compared": 11,
+      "differing_fields": [],
+      "battle_mapping": "manual-rule-guard-retained"
+    },
+    {
+      "id": "0647F1:keldeo-resolute-form",
+      "name": "Keldeo (Resolute Form)",
+      "source": "Pokerole-Data/v3.0/Pokedex/Keldeo (Resolute Form).json",
+      "fields_compared": 11,
+      "differing_fields": [],
+      "battle_mapping": "manual-rule-guard-retained"
+    },
+    {
+      "id": "0681:aegislash",
+      "name": "Aegislash",
+      "source": "Pokerole-Data/v3.0/Pokedex/Aegislash.json",
+      "fields_compared": 11,
+      "differing_fields": [],
+      "battle_mapping": "existing-reviewed-mapping"
+    },
+    {
+      "id": "0681F1:aegislash-blade-form",
+      "name": "Aegislash (Blade Form)",
+      "source": "Pokerole-Data/v3.0/Pokedex/Aegislash (Blade Form).json",
+      "fields_compared": 11,
+      "differing_fields": [],
+      "battle_mapping": "existing-reviewed-mapping"
+    },
+    {
+      "id": "0746:wishiwashi",
+      "name": "Wishiwashi",
+      "source": "Pokerole-Data/v3.0/Pokedex/Wishiwashi.json",
+      "fields_compared": 11,
+      "differing_fields": [],
+      "battle_mapping": "existing-reviewed-mapping"
+    },
+    {
+      "id": "0746F1:wishiwashi-swarm-form",
+      "name": "Wishiwashi (Swarm Form)",
+      "source": "Pokerole-Data/v3.0/Pokedex/Wishiwashi (Swarm Form).json",
+      "fields_compared": 11,
+      "differing_fields": [],
+      "battle_mapping": "existing-reviewed-mapping"
+    },
+    {
+      "id": "0875:eiscue",
+      "name": "Eiscue",
+      "source": "Pokerole-Data/v3.0/Pokedex/Eiscue.json",
+      "fields_compared": 11,
+      "differing_fields": [],
+      "battle_mapping": "existing-reviewed-mapping"
+    },
+    {
+      "id": "0875F1:eiscue-no-ice-form",
+      "name": "Eiscue (No Ice Form)",
+      "source": "Pokerole-Data/v3.0/Pokedex/Eiscue (No Ice Form).json",
+      "fields_compared": 11,
+      "differing_fields": [],
+      "battle_mapping": "existing-reviewed-mapping"
+    },
+    {
+      "id": "0888:zacian",
+      "name": "Zacian",
+      "source": "Pokerole-Data/v3.0/Pokedex/Zacian.json",
+      "fields_compared": 11,
+      "differing_fields": [],
+      "battle_mapping": "manual-rule-guard-retained"
+    },
+    {
+      "id": "0888F1:zacian-crown-form",
+      "name": "Zacian (Crown Form)",
+      "source": "Pokerole-Data/v3.0/Pokedex/Zacian (Crown Form).json",
+      "fields_compared": 11,
+      "differing_fields": [],
+      "battle_mapping": "manual-rule-guard-retained"
+    },
+    {
+      "id": "0890:eternatus",
+      "name": "Eternatus",
+      "source": "Pokerole-Data/v3.0/Pokedex/Eternatus.json",
+      "fields_compared": 11,
+      "differing_fields": [],
+      "battle_mapping": "manual-rule-guard-retained"
+    },
+    {
+      "id": "0890F1:eternatus-eternamax-form",
+      "name": "Eternatus (Eternamax Form)",
+      "source": "Pokerole-Data/v3.0/Pokedex/Eternatus (Eternamax Form).json",
+      "fields_compared": 11,
+      "differing_fields": [],
+      "battle_mapping": "manual-rule-guard-retained"
+    },
+    {
+      "id": "0898:calyrex",
+      "name": "Calyrex",
+      "source": "Pokerole-Data/v3.0/Pokedex/Calyrex.json",
+      "fields_compared": 11,
+      "differing_fields": [],
+      "battle_mapping": "existing-reviewed-mapping"
+    },
+    {
+      "id": "0898F1:calyrex-ice-rider-form",
+      "name": "Calyrex (Ice Rider Form)",
+      "source": "Pokerole-Data/v3.0/Pokedex/Calyrex (Ice Rider Form).json",
+      "fields_compared": 11,
+      "differing_fields": [],
+      "battle_mapping": "existing-reviewed-mapping"
+    },
+    {
+      "id": "0898F2:calyrex-shadow-rider-form",
+      "name": "Calyrex (Shadow Rider Form)",
+      "source": "Pokerole-Data/v3.0/Pokedex/Calyrex (Shadow Rider Form).json",
+      "fields_compared": 11,
+      "differing_fields": [],
+      "battle_mapping": "existing-reviewed-mapping"
+    }
+  ],
+  "form_reconciliation": [
     {
       "id": "0986:brute-bonnet",
       "name": "Brute Bonnet",
@@ -7885,292 +6681,12 @@
       "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification."
     },
     {
-      "id": "0898:calyrex",
-      "name": "Calyrex",
-      "status": "exact-alternate-form-stat-vector",
-      "alternate_form_candidates": [
-        {
-          "id": "0898F1:calyrex-ice-rider-form",
-          "name": "Calyrex (Ice Rider Form)",
-          "file": "Calyrex (Ice Rider Form).json",
-          "matching_fields": [
-            "BaseHP",
-            "Strength",
-            "MaxStrength",
-            "Dexterity",
-            "MaxDexterity",
-            "Vitality",
-            "MaxVitality",
-            "Special",
-            "MaxSpecial",
-            "Insight",
-            "MaxInsight"
-          ],
-          "differing_fields": []
-        },
-        {
-          "id": "0898F2:calyrex-shadow-rider-form",
-          "name": "Calyrex (Shadow Rider Form)",
-          "file": "Calyrex (Shadow Rider Form).json",
-          "matching_fields": [
-            "BaseHP"
-          ],
-          "differing_fields": [
-            "Strength",
-            "MaxStrength",
-            "Dexterity",
-            "MaxDexterity",
-            "Vitality",
-            "MaxVitality",
-            "Special",
-            "MaxSpecial",
-            "Insight",
-            "MaxInsight"
-          ]
-        }
-      ],
-      "exact_matches": [
-        "0898F1:calyrex-ice-rider-form"
-      ],
-      "decision": "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value."
-    },
-    {
-      "id": "0555:darmanitan",
-      "name": "Darmanitan",
-      "status": "exact-alternate-form-stat-vector",
-      "alternate_form_candidates": [
-        {
-          "id": "0555G:darmanitan-galarian-form",
-          "name": "Darmanitan (Galarian Form)",
-          "file": "Darmanitan (Galarian Form).json",
-          "matching_fields": [
-            "BaseHP"
-          ],
-          "differing_fields": [
-            "Strength",
-            "MaxStrength",
-            "Dexterity",
-            "MaxDexterity",
-            "Vitality",
-            "MaxVitality",
-            "Special",
-            "MaxSpecial",
-            "Insight",
-            "MaxInsight"
-          ]
-        },
-        {
-          "id": "0555GF1:darmanitan-galarian-zen-form",
-          "name": "Darmanitan (Galarian Zen Form)",
-          "file": "Darmanitan (Galarian Zen Form).json",
-          "matching_fields": [
-            "BaseHP"
-          ],
-          "differing_fields": [
-            "Strength",
-            "MaxStrength",
-            "Dexterity",
-            "MaxDexterity",
-            "Vitality",
-            "MaxVitality",
-            "Special",
-            "MaxSpecial",
-            "Insight",
-            "MaxInsight"
-          ]
-        },
-        {
-          "id": "0555F1:darmanitan-zen-form",
-          "name": "Darmanitan (Zen Form)",
-          "file": "Darmanitan (Zen Form).json",
-          "matching_fields": [
-            "BaseHP",
-            "Strength",
-            "MaxStrength",
-            "Dexterity",
-            "MaxDexterity",
-            "Vitality",
-            "MaxVitality",
-            "Special",
-            "MaxSpecial",
-            "Insight",
-            "MaxInsight"
-          ],
-          "differing_fields": []
-        }
-      ],
-      "exact_matches": [
-        "0555F1:darmanitan-zen-form"
-      ],
-      "decision": "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value."
-    },
-    {
-      "id": "0386:deoxys",
-      "name": "Deoxys",
-      "status": "exact-alternate-form-stat-vector",
-      "alternate_form_candidates": [
-        {
-          "id": "0386F1:deoxys-attack-form",
-          "name": "Deoxys (Attack Form)",
-          "file": "Deoxys (Attack Form).json",
-          "matching_fields": [
-            "BaseHP"
-          ],
-          "differing_fields": [
-            "Strength",
-            "MaxStrength",
-            "Dexterity",
-            "MaxDexterity",
-            "Vitality",
-            "MaxVitality",
-            "Special",
-            "MaxSpecial",
-            "Insight",
-            "MaxInsight"
-          ]
-        },
-        {
-          "id": "0386F2:deoxys-defense-form",
-          "name": "Deoxys (Defense Form)",
-          "file": "Deoxys (Defense Form).json",
-          "matching_fields": [
-            "BaseHP"
-          ],
-          "differing_fields": [
-            "Strength",
-            "MaxStrength",
-            "Dexterity",
-            "MaxDexterity",
-            "Vitality",
-            "MaxVitality",
-            "Special",
-            "MaxSpecial",
-            "Insight",
-            "MaxInsight"
-          ]
-        },
-        {
-          "id": "0386F3:deoxys-speed-form",
-          "name": "Deoxys (Speed Form)",
-          "file": "Deoxys (Speed Form).json",
-          "matching_fields": [
-            "BaseHP",
-            "Strength",
-            "MaxStrength",
-            "Dexterity",
-            "MaxDexterity",
-            "Vitality",
-            "MaxVitality",
-            "Special",
-            "MaxSpecial",
-            "Insight",
-            "MaxInsight"
-          ],
-          "differing_fields": []
-        }
-      ],
-      "exact_matches": [
-        "0386F3:deoxys-speed-form"
-      ],
-      "decision": "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value."
-    },
-    {
-      "id": "0483:dialga",
-      "name": "Dialga",
-      "status": "exact-alternate-form-stat-vector",
-      "alternate_form_candidates": [
-        {
-          "id": "0483F1:dialga-origin-form",
-          "name": "Dialga (Origin Form)",
-          "file": "Dialga (Origin Form).json",
-          "matching_fields": [
-            "BaseHP",
-            "Strength",
-            "MaxStrength",
-            "Dexterity",
-            "MaxDexterity",
-            "Vitality",
-            "MaxVitality",
-            "Special",
-            "MaxSpecial",
-            "Insight",
-            "MaxInsight"
-          ],
-          "differing_fields": []
-        }
-      ],
-      "exact_matches": [
-        "0483F1:dialga-origin-form"
-      ],
-      "decision": "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value."
-    },
-    {
       "id": "0477:dusknoir",
       "name": "Dusknoir",
       "status": "resolved-user-ruling",
       "alternate_form_candidates": [],
       "exact_matches": [],
       "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification."
-    },
-    {
-      "id": "0875:eiscue",
-      "name": "Eiscue",
-      "status": "exact-alternate-form-stat-vector",
-      "alternate_form_candidates": [
-        {
-          "id": "0875F1:eiscue-no-ice-form",
-          "name": "Eiscue (No Ice Form)",
-          "file": "Eiscue (No Ice Form).json",
-          "matching_fields": [
-            "BaseHP",
-            "Strength",
-            "MaxStrength",
-            "Dexterity",
-            "MaxDexterity",
-            "Vitality",
-            "MaxVitality",
-            "Special",
-            "MaxSpecial",
-            "Insight",
-            "MaxInsight"
-          ],
-          "differing_fields": []
-        }
-      ],
-      "exact_matches": [
-        "0875F1:eiscue-no-ice-form"
-      ],
-      "decision": "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value."
-    },
-    {
-      "id": "0890:eternatus",
-      "name": "Eternatus",
-      "status": "exact-alternate-form-stat-vector",
-      "alternate_form_candidates": [
-        {
-          "id": "0890F1:eternatus-eternamax-form",
-          "name": "Eternatus (Eternamax Form)",
-          "file": "Eternatus (Eternamax Form).json",
-          "matching_fields": [
-            "BaseHP",
-            "Strength",
-            "MaxStrength",
-            "Dexterity",
-            "MaxDexterity",
-            "Vitality",
-            "MaxVitality",
-            "Special",
-            "MaxSpecial",
-            "Insight",
-            "MaxInsight"
-          ],
-          "differing_fields": []
-        }
-      ],
-      "exact_matches": [
-        "0890F1:eternatus-eternamax-form"
-      ],
-      "decision": "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value."
     },
     {
       "id": "0671:florges",
@@ -8197,36 +6713,6 @@
       "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification."
     },
     {
-      "id": "0647:keldeo",
-      "name": "Keldeo",
-      "status": "exact-alternate-form-stat-vector",
-      "alternate_form_candidates": [
-        {
-          "id": "0647F1:keldeo-resolute-form",
-          "name": "Keldeo (Resolute Form)",
-          "file": "Keldeo (Resolute Form).json",
-          "matching_fields": [
-            "BaseHP",
-            "Strength",
-            "MaxStrength",
-            "Dexterity",
-            "MaxDexterity",
-            "Vitality",
-            "MaxVitality",
-            "Special",
-            "MaxSpecial",
-            "Insight",
-            "MaxInsight"
-          ],
-          "differing_fields": []
-        }
-      ],
-      "exact_matches": [
-        "0647F1:keldeo-resolute-form"
-      ],
-      "decision": "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value."
-    },
-    {
       "id": "0402:kricketune",
       "name": "Kricketune",
       "status": "resolved-user-ruling",
@@ -8235,182 +6721,12 @@
       "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification."
     },
     {
-      "id": "0646:kyurem",
-      "name": "Kyurem",
-      "status": "exact-alternate-form-stat-vector",
-      "alternate_form_candidates": [
-        {
-          "id": "0646F1:kyurem-black-form",
-          "name": "Kyurem (Black Form)",
-          "file": "Kyurem (Black Form).json",
-          "matching_fields": [
-            "BaseHP",
-            "Dexterity",
-            "MaxDexterity"
-          ],
-          "differing_fields": [
-            "Strength",
-            "MaxStrength",
-            "Vitality",
-            "MaxVitality",
-            "Special",
-            "MaxSpecial",
-            "Insight",
-            "MaxInsight"
-          ]
-        },
-        {
-          "id": "0646F2:kyurem-white-form",
-          "name": "Kyurem (White Form)",
-          "file": "Kyurem (White Form).json",
-          "matching_fields": [
-            "BaseHP",
-            "Strength",
-            "MaxStrength",
-            "Dexterity",
-            "MaxDexterity",
-            "Vitality",
-            "MaxVitality",
-            "Special",
-            "MaxSpecial",
-            "Insight",
-            "MaxInsight"
-          ],
-          "differing_fields": []
-        }
-      ],
-      "exact_matches": [
-        "0646F2:kyurem-white-form"
-      ],
-      "decision": "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value."
-    },
-    {
       "id": "0510:liepard",
       "name": "Liepard",
       "status": "resolved-user-ruling",
       "alternate_form_candidates": [],
       "exact_matches": [],
       "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification."
-    },
-    {
-      "id": "0484:palkia",
-      "name": "Palkia",
-      "status": "exact-alternate-form-stat-vector",
-      "alternate_form_candidates": [
-        {
-          "id": "0484F1:palkia-origin-form",
-          "name": "Palkia (Origin Form)",
-          "file": "Palkia (Origin Form).json",
-          "matching_fields": [
-            "BaseHP",
-            "Strength",
-            "MaxStrength",
-            "Dexterity",
-            "MaxDexterity",
-            "Vitality",
-            "MaxVitality",
-            "Special",
-            "MaxSpecial",
-            "Insight",
-            "MaxInsight"
-          ],
-          "differing_fields": []
-        }
-      ],
-      "exact_matches": [
-        "0484F1:palkia-origin-form"
-      ],
-      "decision": "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value."
-    },
-    {
-      "id": "0492:shaymin",
-      "name": "Shaymin",
-      "status": "exact-alternate-form-stat-vector",
-      "alternate_form_candidates": [
-        {
-          "id": "0492F1:shaymin-sky-form",
-          "name": "Shaymin (Sky Form)",
-          "file": "Shaymin (Sky Form).json",
-          "matching_fields": [
-            "BaseHP",
-            "Strength",
-            "MaxStrength",
-            "Dexterity",
-            "MaxDexterity",
-            "Vitality",
-            "MaxVitality",
-            "Special",
-            "MaxSpecial",
-            "Insight",
-            "MaxInsight"
-          ],
-          "differing_fields": []
-        }
-      ],
-      "exact_matches": [
-        "0492F1:shaymin-sky-form"
-      ],
-      "decision": "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value."
-    },
-    {
-      "id": "0746:wishiwashi",
-      "name": "Wishiwashi",
-      "status": "exact-alternate-form-stat-vector",
-      "alternate_form_candidates": [
-        {
-          "id": "0746F1:wishiwashi-swarm-form",
-          "name": "Wishiwashi (Swarm Form)",
-          "file": "Wishiwashi (Swarm Form).json",
-          "matching_fields": [
-            "BaseHP",
-            "Strength",
-            "MaxStrength",
-            "Dexterity",
-            "MaxDexterity",
-            "Vitality",
-            "MaxVitality",
-            "Special",
-            "MaxSpecial",
-            "Insight",
-            "MaxInsight"
-          ],
-          "differing_fields": []
-        }
-      ],
-      "exact_matches": [
-        "0746F1:wishiwashi-swarm-form"
-      ],
-      "decision": "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value."
-    },
-    {
-      "id": "0888:zacian",
-      "name": "Zacian",
-      "status": "exact-alternate-form-stat-vector",
-      "alternate_form_candidates": [
-        {
-          "id": "0888F1:zacian-crown-form",
-          "name": "Zacian (Crown Form)",
-          "file": "Zacian (Crown Form).json",
-          "matching_fields": [
-            "BaseHP",
-            "Strength",
-            "MaxStrength",
-            "Dexterity",
-            "MaxDexterity",
-            "Vitality",
-            "MaxVitality",
-            "Special",
-            "MaxSpecial",
-            "Insight",
-            "MaxInsight"
-          ],
-          "differing_fields": []
-        }
-      ],
-      "exact_matches": [
-        "0888F1:zacian-crown-form"
-      ],
-      "decision": "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value."
     }
   ]
 }
