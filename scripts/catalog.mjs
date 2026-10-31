@@ -1,12 +1,6 @@
 import { DatabaseSync } from "node:sqlite";
 import { unlink } from "node:fs/promises";
-import {
-  readdir,
-  readFile,
-  mkdir,
-  writeFile,
-  copyFile,
-} from "node:fs/promises";
+import { readdir, readFile, mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { createHash } from "node:crypto";
 const root = path.resolve(import.meta.dirname, "../..");
@@ -155,6 +149,12 @@ catalog.species_fidelity = (
   fidelityReview,
   createHash("sha256").update(JSON.stringify(original.species)).digest("hex"),
 );
+const assetReview = JSON.parse(
+  await readFile(path.join(app, "rules/species-asset-review.json"), "utf8"),
+);
+await (
+  await import("./species-assets.mjs")
+).prepareSpeciesAssets(catalog, assetReview, { app, source });
 const moves = new Set(catalog.moves.map((m) => m.Name));
 for (const s of catalog.species) {
   for (const m of s.Moves ?? [])
@@ -329,17 +329,6 @@ for (const obsolete of [
   await unlink(path.join(app, obsolete)).catch((e) => {
     if (e.code !== "ENOENT") throw e;
   });
-for (const s of catalog.species)
-  if (s.Image) {
-    try {
-      await copyFile(
-        path.join(source, "images/BoxSprites", s.Image),
-        path.join(app, "public/sprites", s.Image),
-      );
-    } catch {
-      /* UI supplies a placeholder for missing source sprites. */
-    }
-  }
 console.log(
   `Catalog 3.0: ${catalog.species.length} species, ${catalog.moves.length} moves, ${catalog.warnings.length} reference warnings. ${catalog.hash.slice(0, 12)}`,
 );

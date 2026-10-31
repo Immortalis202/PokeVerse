@@ -311,6 +311,8 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
               (r) => `${r.id}: ${r.decision}`,
             ),
             ...(entry.FidelityReview ?? []).map((r) => r.decision),
+            entry.AssetReview &&
+              `Image: ${entry.AssetReview.identity_note} Reference: ${entry.AssetReview.source_page}`,
           ]
             .filter(Boolean)
             .join(" ") || null,

@@ -77,6 +77,13 @@ export default function SpeciesStatCard({
   references: CompendiumReference[];
   onSelect: (ref: CompendiumReference) => void;
 }) {
+  const assetReview = entry.AssetReview as
+    { source_page?: string; copyright?: string } | undefined;
+  const assetSource = assetReview?.source_page?.startsWith(
+    "https://www.serebii.net/",
+  )
+    ? assetReview.source_page
+    : null;
   const creation = entry.Creation as
     | {
         baselines?: Record<string, number>;
@@ -139,6 +146,14 @@ export default function SpeciesStatCard({
           <div className="species-portrait">
             <Sprite entry={entry} trim />
           </div>
+          {assetSource && (
+            <small title={assetReview?.copyright}>
+              Image:{" "}
+              <a href={assetSource} target="_blank" rel="noreferrer">
+                Serebii.net
+              </a>
+            </small>
+          )}
           <dl className="species-measurements">
             <div>
               <dt>Height</dt>

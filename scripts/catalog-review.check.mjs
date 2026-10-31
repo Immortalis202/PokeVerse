@@ -141,7 +141,7 @@ test("coverage and PDF fingerprints are preserved with a complete field-level qu
     );
     assert.equal(
       queue.issues.filter((i) => i.status === "missing_asset").length,
-      168,
+      0,
     );
     assert.ok(
       queue.issues.some(

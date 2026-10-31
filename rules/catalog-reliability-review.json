@@ -1711,5 +1711,15 @@
     "stage_ruling_rows": 192,
     "unresolved_graph_discrepancies": 0,
     "retained_graph_guidance_discrepancies": 1
+  },
+  "asset_resolution": {
+    "batch": "M4-A01",
+    "status": "complete",
+    "date": "2026-10-31",
+    "registry": "rules/species-asset-review.json",
+    "resolved_baseline_assets": 168,
+    "remaining_missing_assets": 0,
+    "unchanged_source_data": true,
+    "scope_limit": "Exact image identities and availability only; no new species-field or battle-rule certification."
   }
 }

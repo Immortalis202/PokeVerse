@@ -23,7 +23,7 @@ npm.cmd run catalog
 npm.cmd run desktop
 ```
 
-The existing `../Pokerole-Data` directory must remain available when generating the catalog. The built application bundles its catalog and sprites and does not need that directory or the internet at runtime.
+The existing `../Pokerole-Data` directory must remain available when generating the catalog. The built application bundles its catalog and sprites and does not need that directory or the internet at runtime. Application-owned supplemental species images are tracked in `assets/species` and verified/copied during catalog generation; image sources and credits are recorded in [the M4-A01 review](docs/M4-A01-SPECIES-ASSETS-CHECKLIST.md).
 
 ```powershell
 npm.cmd run build
