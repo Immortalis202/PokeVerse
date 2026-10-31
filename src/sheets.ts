@@ -3,6 +3,11 @@ import type { Sheet } from "./bindings/Sheet";
 import type { Species } from "./catalog";
 import { attributes } from "./catalog";
 import type { CharacterBuild } from "./bindings/CharacterBuild";
+export function genderLabel(sheet: Sheet): string {
+  return sheet.gender
+    ? sheet.gender[0].toUpperCase() + sheet.gender.slice(1)
+    : "Unspecified";
+}
 export function newBuild(): CharacterBuild {
   return {
     version: 1,

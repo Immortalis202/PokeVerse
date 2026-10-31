@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import type { PokemonGender } from "./bindings/PokemonGender";
 import type { Sheet } from "./bindings/Sheet";
 import type { WorkflowRequest } from "./bindings/WorkflowRequest";
 import type { WorkflowPreview } from "./bindings/WorkflowPreview";
@@ -328,6 +329,25 @@ export default function SheetEditor({
                   onChange={(e) => edit({ name: e.target.value })}
                 />
               </label>
+              {sheet.kind === "pokemon" && (
+                <label>
+                  Gender
+                  <select
+                    value={sheet.gender ?? ""}
+                    onChange={(e) =>
+                      edit({
+                        gender: (e.target.value || undefined) as
+                          PokemonGender | undefined,
+                      })
+                    }
+                  >
+                    <option value="">Unspecified</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="genderless">Genderless</option>
+                  </select>
+                </label>
+              )}
               {creation && (
                 <>
                   {sheet.kind === "trainer" ? (

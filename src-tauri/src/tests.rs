@@ -15,6 +15,7 @@ fn catalog() -> Catalog {
 }
 fn trainer(owner: &str) -> Sheet {
     Sheet {
+        gender: None,
         medical: None,
         id: id(),
         owner_id: owner.into(),

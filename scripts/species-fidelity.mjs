@@ -41,6 +41,52 @@ export function applySpeciesFidelity(catalog, review, sourceHash) {
       pdf_page: fix.pdf_page,
     });
   }
+  if (review.user_policy.unresolved_forward_rules !== "preserve")
+    throw new Error("Unsupported unresolved-evolution policy");
+  for (const ruling of review.user_evolution_rulings ?? []) {
+    const source = byId.get(ruling.source_id),
+      target = byId.get(ruling.target_id);
+    if (!source || !target)
+      throw new Error(`Unknown ruled evolution identity: ${ruling.id}`);
+    const forward = source.Evolutions.filter((r) => r.To === target.Name);
+    const reverse = target.Evolutions.filter((r) => r.From === source.Name);
+    if (
+      forward.length !== 1 ||
+      reverse.length !== 1 ||
+      !isDeepStrictEqual(conditions(forward[0]), ruling.expected_forward) ||
+      !isDeepStrictEqual(conditions(reverse[0]), ruling.expected_reverse)
+    )
+      throw new Error(`Ruled evolution changed: ${ruling.id}`);
+    const fi = source.Evolutions.indexOf(forward[0]),
+      ri = target.Evolutions.indexOf(reverse[0]);
+    source.Evolutions[fi] = { To: target.Name, ...ruling.resolved_conditions };
+    target.Evolutions[ri] = {
+      From: source.Name,
+      ...ruling.resolved_conditions,
+    };
+    for (const entry of [source, target]) {
+      entry.FidelityReview ??= [];
+      entry.FidelityReview.push({
+        source: "user-ruling",
+        decision: ruling.decision,
+      });
+    }
+    if (ruling.source_stage !== undefined) {
+      source.Creation.stage = ruling.source_stage;
+      source.Creation.stage_ruling = {
+        source: "user-ruling",
+        date: review.date,
+        stage: ruling.source_stage,
+        decision: ruling.decision,
+      };
+      source.Creation.review_note = [
+        source.Creation.review_note,
+        ruling.decision,
+      ]
+        .filter(Boolean)
+        .join(" ");
+    }
+  }
   const formLinks = new Map(catalog.species.map((s) => [s.AppId, new Set()]));
   const hasOrdinary = new Set();
   const outgoingOrdinary = new Set();
@@ -142,5 +188,9 @@ export function applySpeciesFidelity(catalog, review, sourceHash) {
     stage_ruling_applied: applied.sort(),
     evolution_issues: [...issues.values()],
     manual_reviews_added: review.manual_reviews.length,
+    resolved_evolution_rulings: (review.user_evolution_rulings ?? []).map(
+      (r) => r.id,
+    ),
+    unresolved_forward_rules: review.user_policy.unresolved_forward_rules,
   };
 }

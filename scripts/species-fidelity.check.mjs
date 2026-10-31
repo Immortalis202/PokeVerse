@@ -131,15 +131,49 @@ test("M4-S01 repairs confirmed identity errors but retains disputed conditions",
         ].includes(e.issue),
       ),
     );
-    assert.ok(
-      audit.evolution_issues.some(
-        (e) => e.source_name === "Dipplin" && e.target_name === "Hydrapple",
-      ),
+    assert.ok(!audit.evolution_issues.some((e) => e.source_name === "Dipplin"));
+    assert.ok(!audit.evolution_issues.some((e) => e.source_name === "Aipom"));
+    assert.equal(audit.unresolved_forward_rules, "preserve");
+  } finally {
+    db.close();
+  }
+});
+
+test("M4-S01 applies only the named evolution rulings and preserves unresolved forward rules", () => {
+  const db = new DatabaseSync("src-tauri/resources/catalog.db", {
+    readOnly: true,
+  });
+  try {
+    const get = (id) =>
+      JSON.parse(
+        db
+          .prepare("select data from entries where kind='species' and id=?")
+          .get(id).data,
+      );
+    for (const ruling of review.user_evolution_rulings) {
+      const source = get(ruling.source_id),
+        target = get(ruling.target_id);
+      assert.deepEqual(
+        source.Evolutions.find((r) => r.To === target.Name),
+        { To: target.Name, ...ruling.resolved_conditions },
+      );
+      assert.deepEqual(
+        target.Evolutions.find((r) => r.From === source.Name),
+        { From: source.Name, ...ruling.resolved_conditions },
+      );
+      assert.equal(source.Review.fields.Evolutions.status, "unverified");
+      assert.ok(source.FidelityReview.some((r) => r.source === "user-ruling"));
+    }
+    assert.equal(get("1011:dipplin").Creation.stage, 2);
+    const scyther = get("0123:scyther");
+    assert.equal(
+      scyther.Evolutions.find((r) => r.To === "Kleavor").Kind,
+      "Trade",
     );
-    assert.ok(
-      audit.evolution_issues.some(
-        (e) => e.source_name === "Aipom" && e.target_name === "Ambipom",
-      ),
+    const rayquaza = get("0384:rayquaza");
+    assert.equal(
+      rayquaza.Evolutions.find((r) => r.To.includes("Mega")).Kind,
+      "Mega",
     );
   } finally {
     db.close();

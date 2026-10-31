@@ -28,7 +28,7 @@ import type { Command } from "./bindings/Command";
 import type { AppError } from "./bindings/AppError";
 import type { RoomInfo } from "./bindings/RoomInfo";
 import type { ServerMessage } from "./bindings/ServerMessage";
-import { cloneTrainer, newSheet, sheetValues } from "./sheets";
+import { cloneTrainer, genderLabel, newSheet, sheetValues } from "./sheets";
 import SheetEditor from "./SheetEditor";
 import CatalogView from "./CatalogView";
 import BattleView from "./BattleView";
@@ -616,7 +616,9 @@ export default function App() {
                             />
                           </div>
                           <h3>{p.name}</h3>
-                          <p>{species?.Name}</p>
+                          <p>
+                            {species?.Name} � {genderLabel(p)}
+                          </p>
                           <div className="type-row">
                             <span className="type">{species?.Type1}</span>
                             {species?.Type2 && (
@@ -1294,7 +1296,7 @@ export default function App() {
           <span>
             <span className="dot online" /> Your library stays with you.
           </span>
-          <span>POKEROLE 3.0 · v0.42.0</span>
+          <span>POKEROLE 3.0 · v0.43.0</span>
         </footer>
       </div>
       {editor && (

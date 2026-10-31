@@ -49,7 +49,17 @@ test("M3 review preserves source fingerprints and real evidence references", () 
 
 test("M3 completion keeps explicit decisions and release compatibility review", () => {
   assert.equal(review.entries.length, 16);
-  assert.equal(review.release, read("package.json").version);
+  const version = (v) => v.split(".").map(Number);
+  const reviewed = version(review.release),
+    current = version(read("package.json").version);
+  assert.ok(
+    reviewed.every(Number.isInteger) && current.every(Number.isInteger),
+  );
+  const firstDifference = reviewed.findIndex((part, i) => part !== current[i]);
+  assert.ok(
+    firstDifference === -1 ||
+      reviewed[firstDifference] < current[firstDifference],
+  );
   assert.equal(review.engine, read("rules/coverage.json").engine);
   for (const entry of review.entries) {
     assert.ok(

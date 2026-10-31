@@ -195,6 +195,14 @@ pub fn preview(
         .workflow
         .clone()
         .unwrap_or_else(|| build(&req.sheet, catalog));
+    if req.sheet.kind != "pokemon" && req.sheet.gender.is_some() {
+        errors.push("Gender is only available for Pokemon sheets".into());
+    }
+    if old.is_some_and(|old| old.gender != req.sheet.gender)
+        && !["describe", "review", "exception"].contains(&req.kind.as_str())
+    {
+        errors.push("Change Pokemon gender through identity editing".into());
+    }
     let old_rank = rank(&s.rank).unwrap_or(0);
     let mut resource_base = old.cloned();
     let mut preserve_moves = false;
@@ -246,6 +254,7 @@ pub fn preview(
             }
         }
         "describe" => {
+            s.gender = req.sheet.gender;
             s.name = req.sheet.name.clone();
             s.notes = req.sheet.notes.clone();
             s.squad_order = req.sheet.squad_order;
@@ -486,6 +495,29 @@ pub fn preview(
                 })
                 .cloned();
             if let Some(e) = edge {
+                let gender = match s.gender {
+                    Some(PokemonGender::Male) => "Male",
+                    Some(PokemonGender::Female) => "Female",
+                    Some(PokemonGender::Genderless) => "Genderless",
+                    None => "Unspecified",
+                };
+                // Recheck at completion too: identity remains editable after preparation.
+                if let Some(required) = e["Gender"].as_str() {
+                    if !["Male", "Female", "Genderless"].contains(&required) {
+                        approvals.push(format!("Confirm evolution condition Gender: {required}"));
+                    } else if gender != required {
+                        errors.push(format!(
+                            "Evolution requires {required} gender; current gender is {gender}"
+                        ));
+                    }
+                }
+                if let Some(allowed) = e["AllowedGenders"].as_array() {
+                    if !allowed.iter().any(|v| v.as_str() == Some(gender)) {
+                        errors.push(format!(
+                            "Evolution requires Male or Female gender; current gender is {gender}"
+                        ));
+                    }
+                }
                 if req.kind == "prepare_evolution" {
                     if !(0..=100_000).contains(&req.amount) {
                         errors.push("Proposed evolution cost must be between 0 and 100000".into());
@@ -511,6 +543,15 @@ pub fn preview(
                                 errors.push(format!("Evolution requires {key} {}", e["Value"]));
                             }
                         }
+                        "Move" => {
+                            if e["Move"]
+                                .as_str()
+                                .is_none_or(|name| catalog.find("moves", "Name", name).is_none())
+                            {
+                                errors
+                                    .push("Move evolution requires a reviewed catalog move".into());
+                            }
+                        }
                         "Stone" | "Item" => {
                             let item = e["Item"].as_str().or(e["Stone"].as_str()).unwrap_or("");
                             if s.inventory.get(item).copied().unwrap_or(0) < 1 {
@@ -522,7 +563,7 @@ pub fn preview(
                         _ => approvals
                             .push("Narrative/trade/form evolution requires GM confirmation".into()),
                     }
-                    for key in ["Region", "Gender", "Special", "Game"] {
+                    for key in ["Region", "Special", "Game"] {
                         if e.get(key).is_some() {
                             approvals
                                 .push(format!("Confirm evolution condition {key}: {}", e[key]));

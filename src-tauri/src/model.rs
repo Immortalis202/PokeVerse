@@ -76,7 +76,7 @@ pub fn core_engine(engine: &str) -> bool {
     .contains(&engine)
 }
 pub const LEGACY_ENGINE: &str = "0.1.0-manual";
-pub const PROTOCOL: u32 = 43;
+pub const PROTOCOL: u32 = 44;
 pub fn enabled() -> bool {
     true
 }
@@ -118,9 +118,22 @@ impl From<serde_json::Error> for AppError {
 }
 pub type Result<T> = std::result::Result<T, AppError>;
 
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, TS)]
+#[serde(rename_all = "snake_case")]
+#[ts(export, export_to = "../../src/bindings/")]
+pub enum PokemonGender {
+    Male,
+    Female,
+    Genderless,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, TS)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct Sheet {
+    /// None is Unspecified; omitted to preserve legacy serialization and receipts.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub gender: Option<PokemonGender>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[ts(optional)]
     pub medical: Option<crate::combat::items::completion::MedicalRecord>,

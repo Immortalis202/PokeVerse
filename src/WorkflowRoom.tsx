@@ -1,3 +1,4 @@
+import { genderLabel } from "./sheets";
 import { useEffect, useState } from "react";
 import type { Campaign } from "./bindings/Campaign";
 import type { WorkflowRequest } from "./bindings/WorkflowRequest";
@@ -103,6 +104,9 @@ export default function WorkflowRoom({
                   {preview.sheet.hp}/{preview.sheet.max_hp} · TP{" "}
                   {preview.sheet.workflow?.training_points}
                 </p>
+                {preview.sheet.kind === "pokemon" && (
+                  <p>Gender: {genderLabel(preview.sheet)}</p>
+                )}
                 <p>
                   Attributes:{" "}
                   {Object.entries(preview.sheet.stats)

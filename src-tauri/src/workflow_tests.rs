@@ -570,6 +570,7 @@ async fn offline_progression_reconnects_through_real_host_and_gm_approval() {
 }
 fn sheet(kind: &str) -> Sheet {
     Sheet {
+        gender: None,
         medical: None,
         id: id(),
         owner_id: "player".into(),
@@ -1199,4 +1200,270 @@ fn s01_standalone_and_form_learning_use_user_final_stage_costs() {
             20 - expected
         );
     }
+}
+
+fn s01_reviewed_fixture(t: &Sheet, name: &str, cat: &Catalog) -> Sheet {
+    let mut s = sheet("pokemon");
+    s.owner_id = t.owner_id.clone();
+    s.trainer_id = Some(t.id.clone());
+    s.rank = t.rank.clone();
+    s.species_id = Some(
+        cat.find("species", "Name", name).unwrap()["AppId"]
+            .as_str()
+            .unwrap()
+            .to_owned(),
+    );
+    let mut b = rules::build(&s, cat);
+    b.origin = "starter".into();
+    b.allocations.clear();
+    s.workflow = Some(b);
+    // Test fixtures explicitly adjudicate unreviewed source fields; production guards stay enabled.
+    rules::apply(
+        None,
+        Some(t),
+        &request(&s, "create", Some(t)),
+        cat,
+        Some(("test", "gm")),
+    )
+    .unwrap()
+}
+
+#[test]
+fn s01_gender_legacy_identity_and_sync_preserve_provenance() {
+    let cat = catalog();
+    let t = trainer("Standard");
+    let p = s01_reviewed_fixture(&t, "Kirlia", &cat);
+    let legacy = serde_json::to_value(&p).unwrap();
+    assert!(legacy.get("gender").is_none());
+    let restored: Sheet = serde_json::from_value(legacy).unwrap();
+    assert_eq!(restored.gender, None);
+    assert_eq!(
+        rules::fingerprint(&p).unwrap(),
+        rules::fingerprint(&restored).unwrap()
+    );
+    for gender in [
+        Some(PokemonGender::Male),
+        Some(PokemonGender::Female),
+        Some(PokemonGender::Genderless),
+        None,
+    ] {
+        let mut req = request(&p, "describe", Some(&t));
+        req.sheet.gender = gender;
+        let edited = rules::apply(Some(&p), Some(&t), &req, &cat, None).unwrap();
+        assert_eq!(edited.gender, gender);
+        rules::verify_sync(Some(&p), &edited, Some(&t), &cat).unwrap();
+        let mut tampered = edited.clone();
+        tampered.gender = if gender == Some(PokemonGender::Male) {
+            Some(PokemonGender::Female)
+        } else {
+            Some(PokemonGender::Male)
+        };
+        assert!(rules::verify_sync(Some(&p), &tampered, Some(&t), &cat).is_err());
+    }
+    let mut req = request(&t, "describe", None);
+    req.sheet.gender = Some(PokemonGender::Male);
+    assert!(rules::apply(Some(&t), None, &req, &cat, None).is_err());
+    let mut local_req = request(&p, "describe", Some(&t));
+    local_req.sheet.gender = Some(PokemonGender::Male);
+    let local = rules::apply(Some(&p), Some(&t), &local_req, &cat, None).unwrap();
+    let mut remote_req = request(&p, "describe", Some(&t));
+    remote_req.sheet.gender = Some(PokemonGender::Female);
+    let remote = rules::apply(Some(&p), Some(&t), &remote_req, &cat, None).unwrap();
+    let conflict = sync::merge(&p, &local, &remote, &BTreeMap::new()).unwrap_err();
+    assert!(conflict.conflicts.contains(&"/progression".into()));
+    for (branch, expected) in [("local", &local), ("remote", &remote)] {
+        let merged = sync::merge(
+            &p,
+            &local,
+            &remote,
+            &BTreeMap::from([("/progression".into(), branch.into())]),
+        )
+        .unwrap();
+        assert_eq!(merged.gender, expected.gender);
+        assert_eq!(merged.workflow, expected.workflow);
+        rules::verify_sync(Some(&p), &merged, Some(&t), &cat).unwrap();
+    }
+    let mut req = request(&p, "prepare_evolution", Some(&t));
+    req.sheet.gender = Some(PokemonGender::Male);
+    assert!(rules::preview(Some(&p), Some(&t), &req, &cat)
+        .errors
+        .iter()
+        .any(|e| e.contains("identity editing")));
+}
+
+#[test]
+fn s01_kirlia_branches_enforce_gender_stone_and_medium_cost() {
+    let cat = catalog();
+    let t = trainer("Standard");
+    let p = award(&s01_reviewed_fixture(&t, "Kirlia", &cat), &t, 60);
+    for (target, cost) in [("Gallade", 0), ("Gardevoir", 30)] {
+        let id = cat.find("species", "Name", target).unwrap()["AppId"]
+            .as_str()
+            .unwrap()
+            .to_owned();
+        for gender in [
+            None,
+            Some(PokemonGender::Genderless),
+            Some(PokemonGender::Female),
+            Some(PokemonGender::Male),
+        ] {
+            let mut describe = request(&p, "describe", Some(&t));
+            describe.sheet.gender = gender;
+            let mut edited = rules::apply(Some(&p), Some(&t), &describe, &cat, None).unwrap();
+            edited.inventory.insert("Dawn Stone".into(), 2);
+            let mut req = request(&edited, "prepare_evolution", Some(&t));
+            req.target_species = id.clone();
+            let preview = rules::preview(Some(&edited), Some(&t), &req, &cat);
+            let eligible = gender == Some(PokemonGender::Male)
+                || (target == "Gardevoir" && gender == Some(PokemonGender::Female));
+            assert_eq!(
+                preview.errors.is_empty(),
+                eligible,
+                "{target} {gender:?}: {:?}",
+                preview.errors
+            );
+            if !eligible {
+                continue;
+            }
+            assert!(preview.approvals.is_empty(), "{:?}", preview.approvals);
+            assert_eq!(preview.cost, cost);
+            let ready = rules::apply(Some(&edited), Some(&t), &req, &cat, None).unwrap();
+            assert_eq!(
+                ready.inventory["Dawn Stone"],
+                if target == "Gallade" { 1 } else { 2 }
+            );
+            assert_eq!(ready.workflow.as_ref().unwrap().training_points, 60 - cost);
+            rules::verify_sync(Some(&edited), &ready, Some(&t), &cat).unwrap();
+            let mut describe = request(&ready, "describe", Some(&t));
+            describe.sheet.gender = Some(PokemonGender::Genderless);
+            let changed = rules::apply(Some(&ready), Some(&t), &describe, &cat, None).unwrap();
+            let mut finish = request(&changed, "evolve", Some(&t));
+            finish.target_species = id.clone();
+            assert!(rules::apply(
+                Some(&changed),
+                Some(&t),
+                &finish,
+                &cat,
+                Some(("test", "gm"))
+            )
+            .is_err());
+        }
+    }
+    let mut male = p.clone();
+    male.gender = Some(PokemonGender::Male);
+    let mut req = request(&male, "prepare_evolution", Some(&t));
+    req.target_species = "0475:gallade".into();
+    assert!(rules::preview(Some(&male), Some(&t), &req, &cat)
+        .errors
+        .iter()
+        .any(|e| e.contains("owned Dawn Stone")));
+    req.target_species = "0282:gardevoir".into();
+    male.workflow.as_mut().unwrap().training_points = 29;
+    req = WorkflowRequest {
+        sheet: male.clone(),
+        ..req
+    };
+    assert!(rules::apply(Some(&male), Some(&t), &req, &cat, None).is_err());
+}
+
+#[test]
+fn s01_named_move_evolutions_require_known_moves_without_mastery_adjudication() {
+    let cat = catalog();
+    let t = trainer("Champion");
+    for (name, target, move_name) in [
+        ("Aipom", "Ambipom", "Double Hit"),
+        ("Girafarig", "Farigiraf", "Twin Beam"),
+        ("Dunsparce", "Dudunsparce", "Hyper Drill"),
+        ("Primeape", "Annihilape", "Rage Fist"),
+        ("Stantler", "Wyrdeer", "Psyshield Bash"),
+        ("Dipplin", "Hydrapple", "Dragon Cheer"),
+    ] {
+        let mut p = s01_reviewed_fixture(&t, name, &cat);
+        if name == "Dipplin" {
+            p.inventory.insert("Syrupy Apple".into(), 1);
+        }
+        let target_id = cat.find("species", "Name", target).unwrap()["AppId"]
+            .as_str()
+            .unwrap()
+            .to_owned();
+        let mut req = request(&p, "prepare_evolution", Some(&t));
+        req.target_species = target_id.clone();
+        let missing = rules::preview(Some(&p), Some(&t), &req, &cat);
+        assert!(
+            missing.errors.iter().any(|e| e.contains(move_name)),
+            "{name}: {:?}",
+            missing.errors
+        );
+        assert!(rules::apply(Some(&p), Some(&t), &req, &cat, None).is_err());
+        let mut learn = request(&p, "learn", Some(&t));
+        learn.move_name = move_name.into();
+        if name == "Dipplin" {
+            learn.method = "tutor".into();
+        }
+        let learned = rules::apply(Some(&p), Some(&t), &learn, &cat, Some(("test", "gm"))).unwrap();
+        let mut req = request(&learned, "prepare_evolution", Some(&t));
+        req.target_species = target_id.clone();
+        let ready = rules::preview(Some(&learned), Some(&t), &req, &cat);
+        assert!(ready.errors.is_empty(), "{name}: {:?}", ready.errors);
+        assert!(ready.approvals.is_empty(), "{name}: {:?}", ready.approvals);
+        assert_eq!(ready.cost, 0);
+        let applied = rules::apply(Some(&learned), Some(&t), &req, &cat, None).unwrap();
+        assert_eq!(
+            applied.workflow.as_ref().unwrap().evolution_ready.as_ref(),
+            Some(&target_id)
+        );
+        assert_eq!(applied.inventory, learned.inventory);
+        rules::verify_sync(Some(&learned), &applied, Some(&t), &cat).unwrap();
+        let mut finish = request(&applied, "evolve", Some(&t));
+        finish.target_species = target_id;
+        assert!(rules::preview(Some(&applied), Some(&t), &finish, &cat)
+            .approvals
+            .iter()
+            .any(|a| a.contains("evolution scene")));
+    }
+}
+
+#[test]
+fn s01_applin_requires_syrupy_apple_and_dipplin_has_second_stage_costs() {
+    let cat = catalog();
+    let t = trainer("Advanced");
+    let applin = s01_reviewed_fixture(&t, "Applin", &cat);
+    let target = cat.find("species", "Name", "Dipplin").unwrap()["AppId"]
+        .as_str()
+        .unwrap()
+        .to_owned();
+    let mut wrong = applin.clone();
+    wrong.inventory.insert("Candy Apple".into(), 1);
+    let mut req = request(&wrong, "prepare_evolution", Some(&t));
+    req.target_species = target.clone();
+    let before = serde_json::to_value(&wrong).unwrap();
+    let rejected = rules::preview(Some(&wrong), Some(&t), &req, &cat);
+    assert!(rejected.errors.iter().any(|e| e.contains("Syrupy Apple")));
+    assert!(rules::apply(Some(&wrong), Some(&t), &req, &cat, None).is_err());
+    assert_eq!(serde_json::to_value(&wrong).unwrap(), before);
+    let mut owned = applin.clone();
+    owned.inventory.insert("Syrupy Apple".into(), 2);
+    let mut req = request(&owned, "prepare_evolution", Some(&t));
+    req.target_species = target.clone();
+    let preview = rules::preview(Some(&owned), Some(&t), &req, &cat);
+    assert!(preview.errors.is_empty(), "{:?}", preview.errors);
+    assert!(preview.approvals.is_empty(), "{:?}", preview.approvals);
+    assert_eq!(preview.cost, 0);
+    let prepared = rules::apply(Some(&owned), Some(&t), &req, &cat, None).unwrap();
+    assert_eq!(prepared.inventory["Syrupy Apple"], 1);
+    assert_eq!(
+        prepared.workflow.as_ref().unwrap().evolution_ready.as_ref(),
+        Some(&target)
+    );
+    let p = s01_reviewed_fixture(&t, "Dipplin", &cat);
+    let mut first = request(&p, "learn", Some(&t));
+    first.move_name = "Withdraw".into();
+    let learned = rules::apply(Some(&p), Some(&t), &first, &cat, Some(("test", "gm"))).unwrap();
+    let funded = award(&learned, &t, 20);
+    let mut replace = request(&funded, "learn", Some(&t));
+    replace.move_name = "Reflect".into();
+    replace.replacement = "Withdraw".into();
+    let priced = rules::preview(Some(&funded), Some(&t), &replace, &cat);
+    assert!(priced.errors.is_empty(), "{:?}", priced.errors);
+    assert_eq!(priced.cost, 4);
 }

@@ -95,6 +95,7 @@ pub fn merge(
                 "moves",
                 "ability",
                 "species_id",
+                "gender",
                 "max_hp",
                 "xp",
                 "inventory",

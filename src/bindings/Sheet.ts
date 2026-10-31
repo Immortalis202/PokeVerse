@@ -2,8 +2,13 @@
 import type { CharacterBuild } from "./CharacterBuild";
 import type { HeldItem } from "./HeldItem";
 import type { MedicalRecord } from "./MedicalRecord";
+import type { PokemonGender } from "./PokemonGender";
 
 export type Sheet = {
+  /**
+   * None is Unspecified; omitted to preserve legacy serialization and receipts.
+   */
+  gender?: PokemonGender;
   medical?: MedicalRecord;
   id: string;
   owner_id: string;

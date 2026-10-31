@@ -16,7 +16,8 @@
     "alternate_forms_share_final_stage": true,
     "primal_ultra_terapagos_share_final_stage": true,
     "exclude_mega_gigantamax": true,
-    "basis": "Explicit user rulings on 30 October 2026. Standalone status uses incoming and outgoing ordinary relations. Same-species form changes are not ordinary evolution; forms of a known Final family with no outgoing ordinary evolution share final-stage costs. Mega/Gigantamax and the Egg placeholder remain outside assignment."
+    "basis": "Explicit user rulings on 30 October 2026. Standalone status uses incoming and outgoing ordinary relations. Same-species form changes are not ordinary evolution; forms of a known Final family with no outgoing ordinary evolution share final-stage costs. Mega/Gigantamax and the Egg placeholder remain outside assignment.",
+    "unresolved_forward_rules": "preserve"
   },
   "manual_reviews": [
     {
@@ -347,10 +348,192 @@
     }
   ],
   "pending_decisions": [
-    "Dipplin -> Hydrapple requirement: Syrupy Apple vs Syrupy Seed, neither supported as that forward requirement by reviewed printed pages.",
-    "Dipplin printed Final vs second-stage position in the Hydrapple line.",
-    "Aipom: whether mastering Double Hit means knowing the move or a GM mastery condition.",
-    "Whether unresolved evolution preparations require GM confirmation instead of current forward prerequisites."
+    {
+      "id": "scyther-kleavor",
+      "question": "Black Augurite only or also a GM-confirmed trade?",
+      "sources": [
+        {
+          "printed_page": 174,
+          "pdf_page": 41
+        },
+        {
+          "printed_page": 398,
+          "pdf_page": 265
+        }
+      ],
+      "status": "awaiting-user"
+    }
   ],
-  "remaining_scope": "Remaining species/form visual review and all unresolved evolution prerequisites stay open. Automated extraction is not manual certification."
+  "remaining_scope": "The answered evolution rulings are implemented. Other source discrepancies and remaining species/form visual review stay open. Keep current forward rules for unresolved conditions, as explicitly requested. Automated extraction is not manual certification.",
+  "user_evolution_rulings": [
+    {
+      "id": "aipom-evolution",
+      "source_id": "0190:aipom",
+      "target_id": "0424:ambipom",
+      "expected_forward": {
+        "Kind": "Special",
+        "Special": "Learning Double Hit"
+      },
+      "expected_reverse": {
+        "Kind": "Level",
+        "Speed": "Medium"
+      },
+      "resolved_conditions": {
+        "Kind": "Move",
+        "Move": "Double Hit"
+      },
+      "decision": "User ruling on 30 October 2026: knowing Double Hit is sufficient; no separate mastery requirement."
+    },
+    {
+      "id": "girafarig-evolution",
+      "source_id": "0203:girafarig",
+      "target_id": "0981:farigiraf",
+      "expected_forward": {
+        "Kind": "Special",
+        "Special": "Learning Twin Beam"
+      },
+      "expected_reverse": {
+        "Kind": "Special",
+        "Special": "Mastering Twin Beam"
+      },
+      "resolved_conditions": {
+        "Kind": "Move",
+        "Move": "Twin Beam"
+      },
+      "decision": "User ruling on 30 October 2026: knowing Twin Beam is sufficient; no separate mastery requirement."
+    },
+    {
+      "id": "dunsparce-evolution",
+      "source_id": "0206:dunsparce",
+      "target_id": "0982:dudunsparce",
+      "expected_forward": {
+        "Kind": "Special",
+        "Special": "Learn Hyper Drill"
+      },
+      "expected_reverse": {
+        "Kind": "Special",
+        "Special": "Learn Hyper Drill"
+      },
+      "resolved_conditions": {
+        "Kind": "Move",
+        "Move": "Hyper Drill"
+      },
+      "decision": "User ruling on 30 October 2026: knowing Hyper Drill is sufficient; no separate mastery requirement."
+    },
+    {
+      "id": "primeape-evolution",
+      "source_id": "0057:primeape",
+      "target_id": "0979:annihilape",
+      "expected_forward": {
+        "Kind": "Special",
+        "Special": "Learning Rage Fist"
+      },
+      "expected_reverse": {
+        "Kind": "Special",
+        "Special": "Learning Rage Fist"
+      },
+      "resolved_conditions": {
+        "Kind": "Move",
+        "Move": "Rage Fist"
+      },
+      "decision": "User ruling on 30 October 2026: knowing Rage Fist is sufficient; no separate mastery requirement."
+    },
+    {
+      "id": "stantler-evolution",
+      "source_id": "0234:stantler",
+      "target_id": "0899:wyrdeer",
+      "expected_forward": {
+        "Kind": "Special",
+        "Special": "Learning Psyshield Bash"
+      },
+      "expected_reverse": {
+        "Kind": "Special",
+        "Special": "Learning Psyshield Bash"
+      },
+      "resolved_conditions": {
+        "Kind": "Move",
+        "Move": "Psyshield Bash"
+      },
+      "decision": "User ruling on 30 October 2026: knowing Psyshield Bash is sufficient; no separate mastery requirement."
+    },
+    {
+      "id": "dipplin-evolution",
+      "source_id": "1011:dipplin",
+      "target_id": "1019:hydrapple",
+      "expected_forward": {
+        "Kind": "Item",
+        "Item": "Syrupy Apple"
+      },
+      "expected_reverse": {
+        "Kind": "Item",
+        "Item": "Syrupy Seed"
+      },
+      "resolved_conditions": {
+        "Kind": "Move",
+        "Move": "Dragon Cheer"
+      },
+      "decision": "Latest user ruling on 30 October 2026: Dipplin -> Hydrapple requires knowing Dragon Cheer, without an apple; Dipplin uses second-stage learning costs. Dragon Cheer retains existing TM/tutor acquisition; no ordinary learnset rank is added.",
+      "source_stage": 2
+    },
+    {
+      "id": "applin-dipplin",
+      "source_id": "0840:applin",
+      "target_id": "1011:dipplin",
+      "expected_forward": {
+        "Kind": "Item",
+        "Item": "Candy Apple"
+      },
+      "expected_reverse": {
+        "Kind": "Item",
+        "Item": "Candy Apple"
+      },
+      "resolved_conditions": {
+        "Kind": "Item",
+        "Item": "Syrupy Apple"
+      },
+      "decision": "Latest user ruling on 30 October 2026: Applin -> Dipplin requires one Syrupy Apple; preserve the other Applin branches."
+    },
+    {
+      "id": "kirlia-gallade",
+      "source_id": "0281:kirlia",
+      "target_id": "0475:gallade",
+      "expected_forward": {
+        "Kind": "Special",
+        "Item": "Dawn Stone"
+      },
+      "expected_reverse": {
+        "Kind": "Special",
+        "Item": "Dawn Stone",
+        "Gender": "Male"
+      },
+      "resolved_conditions": {
+        "Kind": "Stone",
+        "Item": "Dawn Stone",
+        "Gender": "Male"
+      },
+      "decision": "User ruling on 31 October 2026: Gallade requires Male and one owned Dawn Stone; Gardevoir requires 30 TP / Medium and Male or Female. Gender is normally editable; existing Pokemon remain Unspecified."
+    },
+    {
+      "id": "kirlia-gardevoir",
+      "source_id": "0281:kirlia",
+      "target_id": "0282:gardevoir",
+      "expected_forward": {
+        "Kind": "Special",
+        "Item": "Dawn Stone"
+      },
+      "expected_reverse": {
+        "Kind": "Special",
+        "Item": "Dawn Stone"
+      },
+      "resolved_conditions": {
+        "Kind": "Level",
+        "Speed": "Medium",
+        "AllowedGenders": [
+          "Male",
+          "Female"
+        ]
+      },
+      "decision": "User ruling on 31 October 2026: Gallade requires Male and one owned Dawn Stone; Gardevoir requires 30 TP / Medium and Male or Female. Gender is normally editable; existing Pokemon remain Unspecified."
+    }
+  ]
 }
