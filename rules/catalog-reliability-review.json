@@ -1,7 +1,7 @@
 {
   "version": 1,
   "date": "2026-10-30",
-  "status": "in-progress",
+  "status": "complete",
   "baseline_commit": "2da1635",
   "sources": {
     "POKEROLE COREBOOK 3.0 RULING.pdf": "f50014b330cc00db83906cf232ba432855f4f624684a84c3c494b47390284d74",
@@ -20,12 +20,25 @@
         "AccuracyReduction": -2,
         "Lethal": true,
         "WindMove": true
-      }
+      },
+      "status": "complete"
     },
     {
       "id": "M4-R01",
       "name": "All 35 missing move references resolved",
       "registry": "rules/catalog-reference-review.json",
+      "status": "complete"
+    },
+    {
+      "id": "M4-S01",
+      "name": "All 1,200 exact species/form JSON identities reconciled",
+      "registry": "rules/species-fidelity-review.json",
+      "status": "complete"
+    },
+    {
+      "id": "M4-A01",
+      "name": "All 168 baseline sprite gaps resolved",
+      "registry": "rules/species-asset-review.json",
       "status": "complete"
     }
   ],
@@ -1725,5 +1738,12 @@
     "remaining_missing_assets": 0,
     "unchanged_source_data": true,
     "scope_limit": "Exact image identities and availability only; no new species-field or battle-rule certification."
+  },
+  "completion": {
+    "date": "2026-10-31",
+    "scope": "Named M4 catalog reliability batches; species fidelity is JSON reconciliation with retained rulings.",
+    "closure_report": "rules/catalog-reliability-closure.json",
+    "printed_certification": "partial-optional",
+    "native_acceptance": "Not performed; M5 remains open."
   }
 }

@@ -1,6 +1,6 @@
 # M4-A01: exact species and form images
 
-Completed 31 October 2026. All **168 baseline missing assets** have exact application-owned image mappings. The generated catalog audit reports **zero missing assets**. M4-S01 JSON reconciliation is now complete; the wider M4 milestone remains open pending its final reconciliation gate.
+Completed 31 October 2026. All **168 baseline missing assets** have exact application-owned image mappings. The generated catalog audit reports **zero missing assets**. M4-S01 JSON reconciliation and the wider M4 catalog-reliability closure are now complete. Native acceptance remains M5.
 
 ## Sources and identity review
 

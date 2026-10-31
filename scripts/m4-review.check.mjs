@@ -40,8 +40,39 @@ test("M4 Bleakwind correction preserves source identity and non-accuracy clauses
   }
 });
 
-test("M4 records exact remaining references and sprites without claiming field verification", () => {
-  assert.equal(review.status, "in-progress");
+test("M4 closes named batches while preserving historical gaps and partial field certification", () => {
+  assert.equal(review.status, "complete");
+  const closure = read("rules/catalog-reliability-closure.json");
+  const s01 = read("rules/species-s01-closure.json");
+  assert.equal(closure.status, review.status);
+  assert.equal(closure.catalog_hash, s01.catalog_hash);
+  assert.equal(closure.printed_certification, "partial-optional");
+  assert.equal(closure.missing_references, 0);
+  assert.equal(closure.missing_assets, 0);
+  assert.equal(closure.compendium_species_checked, 1200);
+  assert.equal(closure.species_source_files_verified, 1200);
+  assert.equal(closure.reviewed_asset_hashes_verified, 168);
+  assert.equal(closure.retained_gm_cost_branches.length, 4);
+  const db = new DatabaseSync("src-tauri/resources/catalog.db", {
+    readOnly: true,
+  });
+  try {
+    assert.equal(
+      closure.catalog_hash,
+      JSON.parse(
+        db.prepare("select value from metadata where key='hash'").get().value,
+      ),
+    );
+    assert.equal(
+      closure.source_hash,
+      JSON.parse(
+        db.prepare("select value from metadata where key='source_hash'").get()
+          .value,
+      ),
+    );
+  } finally {
+    db.close();
+  }
   assert.equal(
     review.missing_references.length,
     review.baseline.missing_references,

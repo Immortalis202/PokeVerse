@@ -1,0 +1,98 @@
+{
+  "batch": "M4",
+  "status": "complete",
+  "date": "2026-10-31",
+  "scope": "Named catalog reliability batches C01, R01, S01 JSON reconciliation and A01 assets; final generated-catalog and automated Compendium checks.",
+  "catalog_hash": "25d8ac5c0b6fc59c96fc77f33bbbe082fdd81d8bc1fe043d515e1a9f18b4595d",
+  "source_hash": "3c7df581a48e9a88ba4a1bbe2de6be40bfca9abc4b15aa3a151f83b3d92d958f",
+  "database_sha256": "d1a9c47e1a76a3814fe8a1fbcd1cbe01ecb06abfe32d935dd276ecc051ef9b69",
+  "source_fingerprints": {
+    "POKEROLE COREBOOK 3.0 RULING.pdf": "f50014b330cc00db83906cf232ba432855f4f624684a84c3c494b47390284d74",
+    "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf": "f8a1ab8c7c059c1e32b658a6770893e58f364fd4c8d28ca87ec912154cfd6cc2"
+  },
+  "counts": {
+    "abilities": 305,
+    "items": 236,
+    "moves": 892,
+    "natures": 25,
+    "species": 1200
+  },
+  "missing_references": 0,
+  "missing_assets": 0,
+  "species_source_files_verified": 1200,
+  "reviewed_asset_hashes_verified": 168,
+  "compendium_species_checked": 1200,
+  "compendium_references_checked": 30064,
+  "outside_scope_references": [],
+  "retained_stat_deviations": 9,
+  "retained_evolution_guidance": [
+    {
+      "source_id": "0123:scyther",
+      "source_name": "Scyther",
+      "target_id": "0900:kleavor",
+      "target_name": "Kleavor",
+      "conditions": {
+        "Kind": "Trade",
+        "Item": "Black Augurite"
+      },
+      "issue": "directional-condition-conflict",
+      "reverse": [
+        {
+          "From": "Scyther",
+          "Kind": "Item",
+          "Item": "Black Augurite"
+        }
+      ],
+      "decision": "Printed generic Scyther trade/item guidance and specific Kleavor Black Augurite guidance differ. User explicitly assigns eligibility to player and GM; retain source directions visibly as guidance without an enforced trade, item ownership, consumption or TP charge."
+    }
+  ],
+  "retained_gm_cost_branches": [
+    {
+      "source_id": "0790:cosmoem",
+      "source_name": "Cosmoem",
+      "target_id": "0791:solgaleo",
+      "target_name": "Solgaleo",
+      "conditions": {
+        "Kind": "Level",
+        "Game": "Sword"
+      },
+      "decision": "Retained GM-set cost under user policy; no numeric cost assigned"
+    },
+    {
+      "source_id": "0790:cosmoem",
+      "source_name": "Cosmoem",
+      "target_id": "0792:lunala",
+      "target_name": "Lunala",
+      "conditions": {
+        "Kind": "Level",
+        "Game": "Shield"
+      },
+      "decision": "Retained GM-set cost under user policy; no numeric cost assigned"
+    },
+    {
+      "source_id": "0789:cosmog",
+      "source_name": "Cosmog",
+      "target_id": "0790:cosmoem",
+      "target_name": "Cosmoem",
+      "conditions": {
+        "Kind": "Level",
+        "Speed": "Unknown"
+      },
+      "decision": "Retained GM-set cost under user policy; no numeric cost assigned"
+    },
+    {
+      "source_id": "0808:meltan",
+      "source_name": "Meltan",
+      "target_id": "0809:melmetal",
+      "target_name": "Melmetal",
+      "conditions": {
+        "Kind": "Level",
+        "Speed": "Unknown"
+      },
+      "decision": "Retained GM-set cost under user policy; no numeric cost assigned"
+    }
+  ],
+  "printed_certification": "partial-optional",
+  "native_acceptance": "Not performed; M5 remains open.",
+  "scope_limit": "No blanket printed certification, new battle support, native UI, installer or physical-network acceptance. Saved sheets and source data are unchanged."
+}
