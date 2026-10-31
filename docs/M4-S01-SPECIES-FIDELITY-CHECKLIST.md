@@ -64,6 +64,23 @@ Generated metadata retains the Scyther discrepancy with `review.status = retaine
 
 ## Evidence and remaining work
 
+### JSON stat comparison, 31 October 2026
+
+At the user's request, further HP/baseline/limit review switches from page-by-page PDF inspection to comparison with the updated upstream JSON repository. `git pull --ff-only` confirmed Pokerole-Data was already current at `376358078498717863c311d7a8fe323fd4fe7375`, with no tracked source changes. This is a JSON consistency review; it does not extend printed-source certification or reduce the unverified printed-field count above.
+
+Run `npm run catalog` then `node scripts/species-stat-json-review.mjs` to refresh the [exact per-field report and 1,200 source-file fingerprints](../rules/species-stat-json-review.json). The report compares effective runtime values after all overrides, creation baselines/limits and database stat rows against BaseHP and all five baseline/maximum pairs in upstream JSON.
+
+- 1,200 exact species/form identities and 13,200 fields compared; 13,068 fields agree.
+- 132 differing fields across 33 identities remain pending reconciliation. Of these, 130 originate in extraction-based corrections, while Marill's Insight (JSON 2, runtime 1) and MaxInsight (JSON 4, runtime 3) originate in an existing manual review.
+- No missing/extra or mismatched identities, invalid numeric ranges, baseline-above-maximum values, creation metadata mismatches or database stat-row mismatches were found.
+- Differences are recorded without changing runtime stats or replacing existing manual evidence. JSON agreement alone does not prove printed fidelity. The Egg placeholder is included in the exact 1,200-row comparison.
+
+Affected identities: Aegislash, Binacle, Braviary, Brute Bonnet, Calyrex, Cranidos, Darmanitan, Deoxys, Dialga, Dusknoir, Eiscue, Entei, Eternatus, Flareon, Florges, Gumshoos, Hydrapple, Keldeo, Kricketune, Kyurem, Lampent, Liepard, Lillipup, Lopunny, Marill, Palkia, Shaymin, Stoutland, Swoobat, Togekiss, Trubbish, Wishiwashi and Zacian. The report records each exact application ID and both values.
+
+The earlier PDF checkpoint remains historical evidence. Next stat work should reconcile this 132-field JSON queue rather than resume sequential PDF stat review.
+
+Validation: catalog regeneration and the JSON comparison completed successfully; `npm test` passed 71 frontend tests and 45 script/catalog checks. No runtime rules were changed; Rust tests and native builds were not run for this audit-only batch.
+
 [Source snapshot, user policy and per-identity manual references](../rules/species-fidelity-review.json), [application-owned manual fields](../rules/catalog-reviewed.json), and generated catalog metadata `species_fidelity` preserve the evidence. The ordinary field queue remains in parent `outputs/rule-coverage/catalog-review.json`.
 
 - [x] Implement the answered move, apple, Kirlia and gender choices.
