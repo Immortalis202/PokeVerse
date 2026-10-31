@@ -4,7 +4,7 @@
   "source_remote": "https://github.com/Pokerole-Software-Development/Pokerole-Data.git",
   "source_commit": "376358078498717863c311d7a8fe323fd4fe7375",
   "source_tracked_changes": "",
-  "catalog_hash": "2e478bbf3b34930d6d909bd49a24f54508d6a0c4da9da5e081496ebc33d98397",
+  "catalog_hash": "f3577dbdb15beab11e1add1fdb8f92700e9633c80abf3c26ab425c8e5797275e",
   "fields": [
     "BaseHP",
     "Strength",
@@ -20,7 +20,276 @@
   ],
   "species_compared": 1200,
   "fields_compared": 13200,
-  "matching_fields": 13068,
+  "matching_fields": 13082,
+  "user_stat_rulings": [
+    {
+      "id": "0688:binacle",
+      "name": "Binacle",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "MaxDexterity": {
+          "source_json": 4,
+          "expected_runtime": 5,
+          "resolved": 4
+        }
+      }
+    },
+    {
+      "id": "0986:brute-bonnet",
+      "name": "Brute Bonnet",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "MaxStrength": {
+          "source_json": 6,
+          "expected_runtime": 7,
+          "resolved": 7
+        }
+      }
+    },
+    {
+      "id": "0408:cranidos",
+      "name": "Cranidos",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "MaxDexterity": {
+          "source_json": 4,
+          "expected_runtime": 5,
+          "resolved": 4
+        }
+      }
+    },
+    {
+      "id": "0477:dusknoir",
+      "name": "Dusknoir",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "MaxVitality": {
+          "source_json": 8,
+          "expected_runtime": 7,
+          "resolved": 7
+        },
+        "MaxInsight": {
+          "source_json": 8,
+          "expected_runtime": 7,
+          "resolved": 7
+        }
+      }
+    },
+    {
+      "id": "0244:entei",
+      "name": "Entei",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "Insight": {
+          "source_json": 5,
+          "expected_runtime": 6,
+          "resolved": 5
+        },
+        "MaxInsight": {
+          "source_json": 5,
+          "expected_runtime": 6,
+          "resolved": 5
+        }
+      }
+    },
+    {
+      "id": "0136:flareon",
+      "name": "Flareon",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "MaxSpecial": {
+          "source_json": 6,
+          "expected_runtime": 7,
+          "resolved": 6
+        }
+      }
+    },
+    {
+      "id": "0671:florges",
+      "name": "Florges",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "Insight": {
+          "source_json": 3,
+          "expected_runtime": 4,
+          "resolved": 4
+        },
+        "MaxInsight": {
+          "source_json": 7,
+          "expected_runtime": 8,
+          "resolved": 8
+        }
+      }
+    },
+    {
+      "id": "0735:gumshoos",
+      "name": "Gumshoos",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "BaseHP": {
+          "source_json": 4,
+          "expected_runtime": 5,
+          "resolved": 5
+        }
+      }
+    },
+    {
+      "id": "1019:hydrapple",
+      "name": "Hydrapple",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "Strength": {
+          "source_json": 3,
+          "expected_runtime": 2,
+          "resolved": 2
+        }
+      }
+    },
+    {
+      "id": "0402:kricketune",
+      "name": "Kricketune",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "MaxDexterity": {
+          "source_json": 5,
+          "expected_runtime": 4,
+          "resolved": 4
+        }
+      }
+    },
+    {
+      "id": "0608:lampent",
+      "name": "Lampent",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "MaxDexterity": {
+          "source_json": 4,
+          "expected_runtime": 5,
+          "resolved": 4
+        }
+      }
+    },
+    {
+      "id": "0510:liepard",
+      "name": "Liepard",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "Dexterity": {
+          "source_json": 2,
+          "expected_runtime": 3,
+          "resolved": 3
+        }
+      }
+    },
+    {
+      "id": "0506:lillipup",
+      "name": "Lillipup",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "MaxDexterity": {
+          "source_json": 4,
+          "expected_runtime": 5,
+          "resolved": 4
+        }
+      }
+    },
+    {
+      "id": "0428:lopunny",
+      "name": "Lopunny",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "MaxDexterity": {
+          "source_json": 6,
+          "expected_runtime": 7,
+          "resolved": 6
+        }
+      }
+    },
+    {
+      "id": "0183:marill",
+      "name": "Marill",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "Insight": {
+          "source_json": 2,
+          "expected_runtime": 1,
+          "resolved": 2
+        },
+        "MaxInsight": {
+          "source_json": 4,
+          "expected_runtime": 3,
+          "resolved": 4
+        }
+      }
+    },
+    {
+      "id": "0508:stoutland",
+      "name": "Stoutland",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "MaxDexterity": {
+          "source_json": 5,
+          "expected_runtime": 6,
+          "resolved": 5
+        }
+      }
+    },
+    {
+      "id": "0528:swoobat",
+      "name": "Swoobat",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "MaxDexterity": {
+          "source_json": 6,
+          "expected_runtime": 7,
+          "resolved": 6
+        }
+      }
+    },
+    {
+      "id": "0468:togekiss",
+      "name": "Togekiss",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "MaxDexterity": {
+          "source_json": 5,
+          "expected_runtime": 6,
+          "resolved": 5
+        }
+      }
+    },
+    {
+      "id": "0568:trubbish",
+      "name": "Trubbish",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "MaxDexterity": {
+          "source_json": 4,
+          "expected_runtime": 5,
+          "resolved": 4
+        }
+      }
+    }
+  ],
   "differences": [
     {
       "id": "0681:aegislash",
@@ -127,17 +396,6 @@
       ]
     },
     {
-      "id": "0688:binacle",
-      "name": "Binacle",
-      "field": "MaxDexterity",
-      "source": 4,
-      "runtime": 5,
-      "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
-      "form_status": "unexplained-by-alternate-form-json",
-      "exact_form_matches": []
-    },
-    {
       "id": "0628:braviary",
       "name": "Braviary",
       "field": "Strength",
@@ -208,9 +466,9 @@
       "field": "MaxStrength",
       "source": 6,
       "runtime": 7,
-      "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
-      "form_status": "unexplained-by-alternate-form-json",
+      "override_origin": "user-ruling",
+      "disposition": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "form_status": "resolved-user-ruling",
       "exact_form_matches": []
     },
     {
@@ -316,17 +574,6 @@
       "exact_form_matches": [
         "0898F1:calyrex-ice-rider-form"
       ]
-    },
-    {
-      "id": "0408:cranidos",
-      "name": "Cranidos",
-      "field": "MaxDexterity",
-      "source": 4,
-      "runtime": 5,
-      "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
-      "form_status": "unexplained-by-alternate-form-json",
-      "exact_form_matches": []
     },
     {
       "id": "0555:darmanitan",
@@ -737,9 +984,9 @@
       "field": "MaxVitality",
       "source": 8,
       "runtime": 7,
-      "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
-      "form_status": "unexplained-by-alternate-form-json",
+      "override_origin": "user-ruling",
+      "disposition": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "form_status": "resolved-user-ruling",
       "exact_form_matches": []
     },
     {
@@ -748,9 +995,9 @@
       "field": "MaxInsight",
       "source": 8,
       "runtime": 7,
-      "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
-      "form_status": "unexplained-by-alternate-form-json",
+      "override_origin": "user-ruling",
+      "disposition": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "form_status": "resolved-user-ruling",
       "exact_form_matches": []
     },
     {
@@ -817,28 +1064,6 @@
       "exact_form_matches": [
         "0875F1:eiscue-no-ice-form"
       ]
-    },
-    {
-      "id": "0244:entei",
-      "name": "Entei",
-      "field": "Insight",
-      "source": 5,
-      "runtime": 6,
-      "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
-      "form_status": "unexplained-by-alternate-form-json",
-      "exact_form_matches": []
-    },
-    {
-      "id": "0244:entei",
-      "name": "Entei",
-      "field": "MaxInsight",
-      "source": 5,
-      "runtime": 6,
-      "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
-      "form_status": "unexplained-by-alternate-form-json",
-      "exact_form_matches": []
     },
     {
       "id": "0890:eternatus",
@@ -958,25 +1183,14 @@
       ]
     },
     {
-      "id": "0136:flareon",
-      "name": "Flareon",
-      "field": "MaxSpecial",
-      "source": 6,
-      "runtime": 7,
-      "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
-      "form_status": "unexplained-by-alternate-form-json",
-      "exact_form_matches": []
-    },
-    {
       "id": "0671:florges",
       "name": "Florges",
       "field": "Insight",
       "source": 3,
       "runtime": 4,
-      "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
-      "form_status": "unexplained-by-alternate-form-json",
+      "override_origin": "user-ruling",
+      "disposition": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "form_status": "resolved-user-ruling",
       "exact_form_matches": []
     },
     {
@@ -985,9 +1199,9 @@
       "field": "MaxInsight",
       "source": 7,
       "runtime": 8,
-      "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
-      "form_status": "unexplained-by-alternate-form-json",
+      "override_origin": "user-ruling",
+      "disposition": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "form_status": "resolved-user-ruling",
       "exact_form_matches": []
     },
     {
@@ -996,9 +1210,9 @@
       "field": "BaseHP",
       "source": 4,
       "runtime": 5,
-      "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
-      "form_status": "unexplained-by-alternate-form-json",
+      "override_origin": "user-ruling",
+      "disposition": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "form_status": "resolved-user-ruling",
       "exact_form_matches": []
     },
     {
@@ -1007,9 +1221,9 @@
       "field": "Strength",
       "source": 3,
       "runtime": 2,
-      "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
-      "form_status": "unexplained-by-alternate-form-json",
+      "override_origin": "user-ruling",
+      "disposition": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "form_status": "resolved-user-ruling",
       "exact_form_matches": []
     },
     {
@@ -1070,9 +1284,9 @@
       "field": "MaxDexterity",
       "source": 5,
       "runtime": 4,
-      "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
-      "form_status": "unexplained-by-alternate-form-json",
+      "override_origin": "user-ruling",
+      "disposition": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "form_status": "resolved-user-ruling",
       "exact_form_matches": []
     },
     {
@@ -1141,69 +1355,14 @@
       ]
     },
     {
-      "id": "0608:lampent",
-      "name": "Lampent",
-      "field": "MaxDexterity",
-      "source": 4,
-      "runtime": 5,
-      "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
-      "form_status": "unexplained-by-alternate-form-json",
-      "exact_form_matches": []
-    },
-    {
       "id": "0510:liepard",
       "name": "Liepard",
       "field": "Dexterity",
       "source": 2,
       "runtime": 3,
-      "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
-      "form_status": "unexplained-by-alternate-form-json",
-      "exact_form_matches": []
-    },
-    {
-      "id": "0506:lillipup",
-      "name": "Lillipup",
-      "field": "MaxDexterity",
-      "source": 4,
-      "runtime": 5,
-      "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
-      "form_status": "unexplained-by-alternate-form-json",
-      "exact_form_matches": []
-    },
-    {
-      "id": "0428:lopunny",
-      "name": "Lopunny",
-      "field": "MaxDexterity",
-      "source": 6,
-      "runtime": 7,
-      "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
-      "form_status": "unexplained-by-alternate-form-json",
-      "exact_form_matches": []
-    },
-    {
-      "id": "0183:marill",
-      "name": "Marill",
-      "field": "Insight",
-      "source": 2,
-      "runtime": 1,
-      "override_origin": "manual-review",
-      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
-      "form_status": "unexplained-by-alternate-form-json",
-      "exact_form_matches": []
-    },
-    {
-      "id": "0183:marill",
-      "name": "Marill",
-      "field": "MaxInsight",
-      "source": 4,
-      "runtime": 3,
-      "override_origin": "manual-review",
-      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
-      "form_status": "unexplained-by-alternate-form-json",
+      "override_origin": "user-ruling",
+      "disposition": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "form_status": "resolved-user-ruling",
       "exact_form_matches": []
     },
     {
@@ -1452,50 +1611,6 @@
       "exact_form_matches": [
         "0492F1:shaymin-sky-form"
       ]
-    },
-    {
-      "id": "0508:stoutland",
-      "name": "Stoutland",
-      "field": "MaxDexterity",
-      "source": 5,
-      "runtime": 6,
-      "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
-      "form_status": "unexplained-by-alternate-form-json",
-      "exact_form_matches": []
-    },
-    {
-      "id": "0528:swoobat",
-      "name": "Swoobat",
-      "field": "MaxDexterity",
-      "source": 6,
-      "runtime": 7,
-      "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
-      "form_status": "unexplained-by-alternate-form-json",
-      "exact_form_matches": []
-    },
-    {
-      "id": "0468:togekiss",
-      "name": "Togekiss",
-      "field": "MaxDexterity",
-      "source": 5,
-      "runtime": 6,
-      "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
-      "form_status": "unexplained-by-alternate-form-json",
-      "exact_form_matches": []
-    },
-    {
-      "id": "0568:trubbish",
-      "name": "Trubbish",
-      "field": "MaxDexterity",
-      "source": 4,
-      "runtime": 5,
-      "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
-      "form_status": "unexplained-by-alternate-form-json",
-      "exact_form_matches": []
     },
     {
       "id": "0746:wishiwashi",
@@ -7732,14 +7847,6 @@
       "user_confirmation": "User confirmed Shield Strength 2 / maximum 4 and Sword (Blade) Strength 4 / maximum 8. Base JSON is Shield; Blade is a separate exact identity."
     },
     {
-      "id": "0688:binacle",
-      "name": "Binacle",
-      "status": "unexplained-by-alternate-form-json",
-      "alternate_form_candidates": [],
-      "exact_matches": [],
-      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
-    },
-    {
       "id": "0628:braviary",
       "name": "Braviary",
       "status": "exact-alternate-form-stat-vector",
@@ -7772,10 +7879,10 @@
     {
       "id": "0986:brute-bonnet",
       "name": "Brute Bonnet",
-      "status": "unexplained-by-alternate-form-json",
+      "status": "resolved-user-ruling",
       "alternate_form_candidates": [],
       "exact_matches": [],
-      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification."
     },
     {
       "id": "0898:calyrex",
@@ -7826,14 +7933,6 @@
         "0898F1:calyrex-ice-rider-form"
       ],
       "decision": "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value."
-    },
-    {
-      "id": "0408:cranidos",
-      "name": "Cranidos",
-      "status": "unexplained-by-alternate-form-json",
-      "alternate_form_candidates": [],
-      "exact_matches": [],
-      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
     },
     {
       "id": "0555:darmanitan",
@@ -8008,10 +8107,10 @@
     {
       "id": "0477:dusknoir",
       "name": "Dusknoir",
-      "status": "unexplained-by-alternate-form-json",
+      "status": "resolved-user-ruling",
       "alternate_form_candidates": [],
       "exact_matches": [],
-      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification."
     },
     {
       "id": "0875:eiscue",
@@ -8044,14 +8143,6 @@
       "decision": "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value."
     },
     {
-      "id": "0244:entei",
-      "name": "Entei",
-      "status": "unexplained-by-alternate-form-json",
-      "alternate_form_candidates": [],
-      "exact_matches": [],
-      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
-    },
-    {
       "id": "0890:eternatus",
       "name": "Eternatus",
       "status": "exact-alternate-form-stat-vector",
@@ -8082,36 +8173,28 @@
       "decision": "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value."
     },
     {
-      "id": "0136:flareon",
-      "name": "Flareon",
-      "status": "unexplained-by-alternate-form-json",
-      "alternate_form_candidates": [],
-      "exact_matches": [],
-      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
-    },
-    {
       "id": "0671:florges",
       "name": "Florges",
-      "status": "unexplained-by-alternate-form-json",
+      "status": "resolved-user-ruling",
       "alternate_form_candidates": [],
       "exact_matches": [],
-      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification."
     },
     {
       "id": "0735:gumshoos",
       "name": "Gumshoos",
-      "status": "unexplained-by-alternate-form-json",
+      "status": "resolved-user-ruling",
       "alternate_form_candidates": [],
       "exact_matches": [],
-      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification."
     },
     {
       "id": "1019:hydrapple",
       "name": "Hydrapple",
-      "status": "unexplained-by-alternate-form-json",
+      "status": "resolved-user-ruling",
       "alternate_form_candidates": [],
       "exact_matches": [],
-      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification."
     },
     {
       "id": "0647:keldeo",
@@ -8146,10 +8229,10 @@
     {
       "id": "0402:kricketune",
       "name": "Kricketune",
-      "status": "unexplained-by-alternate-form-json",
+      "status": "resolved-user-ruling",
       "alternate_form_candidates": [],
       "exact_matches": [],
-      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification."
     },
     {
       "id": "0646:kyurem",
@@ -8202,65 +8285,12 @@
       "decision": "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value."
     },
     {
-      "id": "0608:lampent",
-      "name": "Lampent",
-      "status": "unexplained-by-alternate-form-json",
-      "alternate_form_candidates": [],
-      "exact_matches": [],
-      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
-    },
-    {
       "id": "0510:liepard",
       "name": "Liepard",
-      "status": "unexplained-by-alternate-form-json",
+      "status": "resolved-user-ruling",
       "alternate_form_candidates": [],
       "exact_matches": [],
-      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
-    },
-    {
-      "id": "0506:lillipup",
-      "name": "Lillipup",
-      "status": "unexplained-by-alternate-form-json",
-      "alternate_form_candidates": [],
-      "exact_matches": [],
-      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
-    },
-    {
-      "id": "0428:lopunny",
-      "name": "Lopunny",
-      "status": "unexplained-by-alternate-form-json",
-      "alternate_form_candidates": [
-        {
-          "id": "0428M1:lopunny-mega-form",
-          "name": "Lopunny (Mega Form)",
-          "file": "Lopunny (Mega Form).json",
-          "matching_fields": [
-            "Dexterity",
-            "MaxDexterity",
-            "Special",
-            "MaxSpecial",
-            "Insight",
-            "MaxInsight"
-          ],
-          "differing_fields": [
-            "BaseHP",
-            "Strength",
-            "MaxStrength",
-            "Vitality",
-            "MaxVitality"
-          ]
-        }
-      ],
-      "exact_matches": [],
-      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
-    },
-    {
-      "id": "0183:marill",
-      "name": "Marill",
-      "status": "unexplained-by-alternate-form-json",
-      "alternate_form_candidates": [],
-      "exact_matches": [],
-      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification."
     },
     {
       "id": "0484:palkia",
@@ -8321,38 +8351,6 @@
         "0492F1:shaymin-sky-form"
       ],
       "decision": "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value."
-    },
-    {
-      "id": "0508:stoutland",
-      "name": "Stoutland",
-      "status": "unexplained-by-alternate-form-json",
-      "alternate_form_candidates": [],
-      "exact_matches": [],
-      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
-    },
-    {
-      "id": "0528:swoobat",
-      "name": "Swoobat",
-      "status": "unexplained-by-alternate-form-json",
-      "alternate_form_candidates": [],
-      "exact_matches": [],
-      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
-    },
-    {
-      "id": "0468:togekiss",
-      "name": "Togekiss",
-      "status": "unexplained-by-alternate-form-json",
-      "alternate_form_candidates": [],
-      "exact_matches": [],
-      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
-    },
-    {
-      "id": "0568:trubbish",
-      "name": "Trubbish",
-      "status": "unexplained-by-alternate-form-json",
-      "alternate_form_candidates": [],
-      "exact_matches": [],
-      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
     },
     {
       "id": "0746:wishiwashi",

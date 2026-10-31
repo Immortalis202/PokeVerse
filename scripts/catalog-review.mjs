@@ -220,8 +220,11 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
         Object.assign(entry, evidence.fields);
       const fieldReview = {};
       for (const field of fields) {
+        const statRuling = entry.StatRuling?.fields?.[field];
         const verified =
-          evidence?.fields && Object.hasOwn(evidence.fields, field);
+          !statRuling &&
+          evidence?.fields &&
+          Object.hasOwn(evidence.fields, field);
         fieldReview[field] = {
           status: verified ? "reviewed" : "unverified",
           source: verified
@@ -240,6 +243,11 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
                   : evidence.page))
             : null,
         };
+        if (statRuling) {
+          fieldReview[field].source = "user-ruling";
+          fieldReview[field].decision = entry.StatRuling.decision;
+          fieldReview[field].resolved = statRuling.resolved;
+        }
         if (!verified)
           issues.push({
             kind,

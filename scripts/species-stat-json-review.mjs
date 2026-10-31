@@ -48,6 +48,9 @@ const report = {
   species_compared: 0,
   fields_compared: 0,
   matching_fields: 0,
+  user_stat_rulings: [...runtime.values()]
+    .filter((s) => s.StatRuling)
+    .map((s) => s.StatRuling),
   differences: [],
   identity_issues: [],
   invalid_values: [],
@@ -93,13 +96,15 @@ for (const file of readdirSync(path.join(source, "v3.0/Pokedex"))
         source: original[field] ?? null,
         runtime: effective[field] ?? null,
         override_origin: Object.hasOwn(
-          reviewed.species[id]?.fields ?? {},
+          effective.StatRuling?.fields ?? {},
           field,
         )
-          ? "manual-review"
-          : Object.hasOwn(corrections.species[id]?.fields ?? {}, field)
-            ? "extracted-correction"
-            : "other-runtime-change",
+          ? "user-ruling"
+          : Object.hasOwn(reviewed.species[id]?.fields ?? {}, field)
+            ? "manual-review"
+            : Object.hasOwn(corrections.species[id]?.fields ?? {}, field)
+              ? "extracted-correction"
+              : "other-runtime-change",
         disposition:
           "pending reconciliation; JSON difference alone does not establish which value is correct",
       });
@@ -173,16 +178,20 @@ for (const id of new Set(report.differences.map((d) => d.id))) {
   const matches = candidates.filter((s) => s.differing_fields.length === 0);
   const status = matches.length
     ? "exact-alternate-form-stat-vector"
-    : "unexplained-by-alternate-form-json";
+    : effective.StatRuling
+      ? "resolved-user-ruling"
+      : "unexplained-by-alternate-form-json";
   report.form_reconciliation.push({
     id,
     name: original.entry.Name,
     status,
     alternate_form_candidates: candidates,
     exact_matches: matches.map((s) => s.id),
-    decision: matches.length
-      ? "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value."
-      : "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct.",
+    decision: effective.StatRuling
+      ? effective.StatRuling.decision
+      : matches.length
+        ? "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value."
+        : "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct.",
     ...(id === "0681:aegislash"
       ? {
           user_confirmation:
@@ -193,9 +202,11 @@ for (const id of new Set(report.differences.map((d) => d.id))) {
   for (const difference of report.differences.filter((d) => d.id === id)) {
     difference.form_status = status;
     difference.exact_form_matches = matches.map((s) => s.id);
-    difference.disposition = matches.length
-      ? "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity"
-      : "pending reconciliation; no alternate-form JSON vector explains the difference";
+    difference.disposition = effective.StatRuling
+      ? effective.StatRuling.decision
+      : matches.length
+        ? "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity"
+        : "pending reconciliation; no alternate-form JSON vector explains the difference";
   }
 }
 db.close();
@@ -214,7 +225,7 @@ console.log(
         (r) => r.exact_matches.length,
       ).length,
       unexplained_species: report.form_reconciliation.filter(
-        (r) => !r.exact_matches.length,
+        (r) => r.status === "unexplained-by-alternate-form-json",
       ).length,
       identity_issues: report.identity_issues.length,
       invalid_values: report.invalid_values.length,

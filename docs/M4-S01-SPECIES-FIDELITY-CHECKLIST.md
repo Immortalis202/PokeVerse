@@ -104,9 +104,41 @@ The comparison now tests every affected identity against every other JSON form w
 
 These values are valid matches for the named alternate forms; their application to the base identity remains a form-assignment conflict. User confirmation explicitly establishes Aegislash Shield Strength 2 / maximum 4 and Sword (Blade) Strength 4 / maximum 8. No runtime form assignment or stats have been changed by this audit.
 
-**23 differences across 19 identities remain unexplained by alternate-form JSON:** Binacle, Brute Bonnet, Cranidos, Dusknoir, Entei, Flareon, Florges, Gumshoos, Hydrapple, Kricketune, Lampent, Liepard, Lillipup, Lopunny, Marill, Stoutland, Swoobat, Togekiss and Trubbish. Lopunny has a Mega candidate, but its complete stat vector does not match; the other 18 have no alternate-form JSON entry with the same National Dex number. These are unresolved differences, not proven source errors.
+**Historical checkpoint: 23 differences across 19 identities were unexplained by alternate-form JSON:** Binacle, Brute Bonnet, Cranidos, Dusknoir, Entei, Flareon, Florges, Gumshoos, Hydrapple, Kricketune, Lampent, Liepard, Lillipup, Lopunny, Marill, Stoutland, Swoobat, Togekiss and Trubbish. Lopunny has a Mega candidate, but its complete stat vector does not match; the other 18 have no alternate-form JSON entry with the same National Dex number. These are unresolved differences, not proven source errors.
 
-Validation: catalog regeneration and the JSON comparison completed successfully; `npm test` passed 71 frontend tests and 45 script/catalog checks. The form-reconciliation rerun also passed these checks after setting process-local TEMP/TMP to `tmp/vitest` to avoid missing sandbox temporary transform files on the initial attempt. Prettier and diff checks passed. No runtime rules were changed; Rust tests and native builds were not run for this audit-only batch.
+### User stat decisions applied, 31 October 2026
+
+The user resolved all 23 fields in the historical 19-identity queue. Fourteen effective values changed and nine were explicitly retained. The exact previous runtime value, original JSON value and selected value are recorded in `user_stat_rulings` in the species-fidelity registry. Overrides validate the expected previous runtime values before applying the decisions; supplied JSON and historical manual reviews remain unchanged.
+
+| Identity | User-selected values |
+| --- | --- |
+| Binacle | Maximum Dexterity 4 |
+| Brute Bonnet | Maximum Strength 7 |
+| Cranidos | Maximum Dexterity 4 |
+| Dusknoir | Maximum Vitality 7; maximum Insight 7 |
+| Entei | Insight 5; maximum Insight 5 |
+| Flareon | Maximum Special 6 |
+| Florges | Insight 4; maximum Insight 8 |
+| Gumshoos | Base HP 5 |
+| Hydrapple | Strength 2 |
+| Kricketune | Maximum Dexterity 4 |
+| Lampent | Maximum Dexterity 4 |
+| Liepard | Dexterity 3 |
+| Lillipup | Maximum Dexterity 4 |
+| Lopunny | Maximum Dexterity 6 |
+| Marill | Insight 2; maximum Insight 4 |
+| Stoutland | Maximum Dexterity 5 |
+| Swoobat | Maximum Dexterity 6 |
+| Togekiss | Maximum Dexterity 5 |
+| Trubbish | Maximum Dexterity 4 |
+
+These are user decisions, not new printed certifications. In particular, the two superseded Marill manual field certifications remain in historical evidence but the effective field metadata now identifies a user ruling and keeps printed verification unverified. Creation baselines/limits and relational stat rows use the selected values.
+
+The regenerated comparison has 13,082 matching fields and 118 JSON differences: 109 alternate-form-assignment differences across 14 identities, plus nine explicitly resolved user deviations across seven identities. Zero unexplained JSON stat differences remain. Aegislash Shield/Blade and Calyrex solo/Ice Rider/Shadow Rider are separate identities; the known form-assignment conflicts remain open and this stat-ruling batch does not change their mappings.
+
+Stat-ruling validation: 794 Rust tests passed, zero failed, one diagnostic ignored, on the localhost-enabled rerun (the initial sandbox run blocked 31 socket tests with error 10013). All 71 frontend tests and 46 script/catalog checks passed, including exact runtime values, creation metadata, relational stat rows, retained source JSON and user-ruling provenance for all 23 fields. TypeScript, relevant Prettier and diff checks passed. No native packages, Clippy or native/physical-network acceptance were run.
+
+Prior audit-only validation: catalog regeneration and the JSON comparison completed successfully; `npm test` passed 71 frontend tests and 45 script/catalog checks. The form-reconciliation rerun also passed these checks after setting process-local TEMP/TMP to `tmp/vitest` to avoid missing sandbox temporary transform files on the initial attempt. Prettier and diff checks passed. No runtime rules were changed; Rust tests and native builds were not run for this audit-only batch.
 
 [Source snapshot, user policy and per-identity manual references](../rules/species-fidelity-review.json), [application-owned manual fields](../rules/catalog-reviewed.json), and generated catalog metadata `species_fidelity` preserve the evidence. The ordinary field queue remains in parent `outputs/rule-coverage/catalog-review.json`.
 

@@ -1186,5 +1186,274 @@
       ],
       "decision": "User ruling on 31 October 2026: retain Standard Protect for Mega Blastoise, despite its printed Advanced icon. Ordinary Blastoise prints Standard. This is a table ruling, not agreement with the Mega printed icon."
     }
+  ],
+  "user_stat_rulings": [
+    {
+      "id": "0688:binacle",
+      "name": "Binacle",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "MaxDexterity": {
+          "source_json": 4,
+          "expected_runtime": 5,
+          "resolved": 4
+        }
+      }
+    },
+    {
+      "id": "0986:brute-bonnet",
+      "name": "Brute Bonnet",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "MaxStrength": {
+          "source_json": 6,
+          "expected_runtime": 7,
+          "resolved": 7
+        }
+      }
+    },
+    {
+      "id": "0408:cranidos",
+      "name": "Cranidos",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "MaxDexterity": {
+          "source_json": 4,
+          "expected_runtime": 5,
+          "resolved": 4
+        }
+      }
+    },
+    {
+      "id": "0477:dusknoir",
+      "name": "Dusknoir",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "MaxVitality": {
+          "source_json": 8,
+          "expected_runtime": 7,
+          "resolved": 7
+        },
+        "MaxInsight": {
+          "source_json": 8,
+          "expected_runtime": 7,
+          "resolved": 7
+        }
+      }
+    },
+    {
+      "id": "0244:entei",
+      "name": "Entei",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "Insight": {
+          "source_json": 5,
+          "expected_runtime": 6,
+          "resolved": 5
+        },
+        "MaxInsight": {
+          "source_json": 5,
+          "expected_runtime": 6,
+          "resolved": 5
+        }
+      }
+    },
+    {
+      "id": "0136:flareon",
+      "name": "Flareon",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "MaxSpecial": {
+          "source_json": 6,
+          "expected_runtime": 7,
+          "resolved": 6
+        }
+      }
+    },
+    {
+      "id": "0671:florges",
+      "name": "Florges",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "Insight": {
+          "source_json": 3,
+          "expected_runtime": 4,
+          "resolved": 4
+        },
+        "MaxInsight": {
+          "source_json": 7,
+          "expected_runtime": 8,
+          "resolved": 8
+        }
+      }
+    },
+    {
+      "id": "0735:gumshoos",
+      "name": "Gumshoos",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "BaseHP": {
+          "source_json": 4,
+          "expected_runtime": 5,
+          "resolved": 5
+        }
+      }
+    },
+    {
+      "id": "1019:hydrapple",
+      "name": "Hydrapple",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "Strength": {
+          "source_json": 3,
+          "expected_runtime": 2,
+          "resolved": 2
+        }
+      }
+    },
+    {
+      "id": "0402:kricketune",
+      "name": "Kricketune",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "MaxDexterity": {
+          "source_json": 5,
+          "expected_runtime": 4,
+          "resolved": 4
+        }
+      }
+    },
+    {
+      "id": "0608:lampent",
+      "name": "Lampent",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "MaxDexterity": {
+          "source_json": 4,
+          "expected_runtime": 5,
+          "resolved": 4
+        }
+      }
+    },
+    {
+      "id": "0510:liepard",
+      "name": "Liepard",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "Dexterity": {
+          "source_json": 2,
+          "expected_runtime": 3,
+          "resolved": 3
+        }
+      }
+    },
+    {
+      "id": "0506:lillipup",
+      "name": "Lillipup",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "MaxDexterity": {
+          "source_json": 4,
+          "expected_runtime": 5,
+          "resolved": 4
+        }
+      }
+    },
+    {
+      "id": "0428:lopunny",
+      "name": "Lopunny",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "MaxDexterity": {
+          "source_json": 6,
+          "expected_runtime": 7,
+          "resolved": 6
+        }
+      }
+    },
+    {
+      "id": "0183:marill",
+      "name": "Marill",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "Insight": {
+          "source_json": 2,
+          "expected_runtime": 1,
+          "resolved": 2
+        },
+        "MaxInsight": {
+          "source_json": 4,
+          "expected_runtime": 3,
+          "resolved": 4
+        }
+      }
+    },
+    {
+      "id": "0508:stoutland",
+      "name": "Stoutland",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "MaxDexterity": {
+          "source_json": 5,
+          "expected_runtime": 6,
+          "resolved": 5
+        }
+      }
+    },
+    {
+      "id": "0528:swoobat",
+      "name": "Swoobat",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "MaxDexterity": {
+          "source_json": 6,
+          "expected_runtime": 7,
+          "resolved": 6
+        }
+      }
+    },
+    {
+      "id": "0468:togekiss",
+      "name": "Togekiss",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "MaxDexterity": {
+          "source_json": 5,
+          "expected_runtime": 6,
+          "resolved": 5
+        }
+      }
+    },
+    {
+      "id": "0568:trubbish",
+      "name": "Trubbish",
+      "date": "2026-10-31",
+      "decision": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "fields": {
+        "MaxDexterity": {
+          "source_json": 4,
+          "expected_runtime": 5,
+          "resolved": 4
+        }
+      }
+    }
   ]
 }

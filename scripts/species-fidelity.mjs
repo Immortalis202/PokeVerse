@@ -27,6 +27,31 @@ export function applySpeciesFidelity(catalog, review, sourceHash) {
     );
   const byId = new Map(catalog.species.map((s) => [s.AppId, s]));
   const byName = new Map(catalog.species.map((s) => [s.Name, s]));
+  for (const ruling of review.user_stat_rulings ?? []) {
+    const entry = byId.get(ruling.id);
+    if (!entry || entry.Name !== ruling.name)
+      throw new Error(`Stat ruling identity mismatch: ${ruling.id}`);
+    for (const [field, values] of Object.entries(ruling.fields)) {
+      if (entry[field] !== values.expected_runtime)
+        throw new Error(`Stat ruling input changed: ${ruling.id} ${field}`);
+      entry[field] = values.resolved;
+      if (Object.hasOwn(entry.Creation.baselines, field))
+        entry.Creation.baselines[field] = values.resolved;
+      if (
+        field.startsWith("Max") &&
+        Object.hasOwn(entry.Creation.limits, field.slice(3))
+      )
+        entry.Creation.limits[field.slice(3)] = values.resolved;
+    }
+    entry.StatRuling = ruling;
+    entry.FidelityReview ??= [];
+    entry.FidelityReview.push({
+      source: "user-ruling",
+      decision: ruling.decision,
+      date: ruling.date,
+      fields: ruling.fields,
+    });
+  }
   for (const ruling of review.user_move_rank_rulings ?? []) {
     const entry = byId.get(ruling.id);
     const moves = entry?.Moves.filter((m) => m.Name === ruling.move) ?? [];
