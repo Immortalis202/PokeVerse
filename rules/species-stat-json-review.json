@@ -29,7 +29,11 @@
       "source": 2,
       "runtime": 4,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0681F1:aegislash-blade-form"
+      ]
     },
     {
       "id": "0681:aegislash",
@@ -38,7 +42,11 @@
       "source": 4,
       "runtime": 8,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0681F1:aegislash-blade-form"
+      ]
     },
     {
       "id": "0681:aegislash",
@@ -47,7 +55,11 @@
       "source": 4,
       "runtime": 2,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0681F1:aegislash-blade-form"
+      ]
     },
     {
       "id": "0681:aegislash",
@@ -56,7 +68,11 @@
       "source": 8,
       "runtime": 4,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0681F1:aegislash-blade-form"
+      ]
     },
     {
       "id": "0681:aegislash",
@@ -65,7 +81,11 @@
       "source": 2,
       "runtime": 4,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0681F1:aegislash-blade-form"
+      ]
     },
     {
       "id": "0681:aegislash",
@@ -74,7 +94,11 @@
       "source": 4,
       "runtime": 8,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0681F1:aegislash-blade-form"
+      ]
     },
     {
       "id": "0681:aegislash",
@@ -83,7 +107,11 @@
       "source": 4,
       "runtime": 2,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0681F1:aegislash-blade-form"
+      ]
     },
     {
       "id": "0681:aegislash",
@@ -92,7 +120,11 @@
       "source": 8,
       "runtime": 4,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0681F1:aegislash-blade-form"
+      ]
     },
     {
       "id": "0688:binacle",
@@ -101,7 +133,9 @@
       "source": 4,
       "runtime": 5,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
+      "form_status": "unexplained-by-alternate-form-json",
+      "exact_form_matches": []
     },
     {
       "id": "0628:braviary",
@@ -110,7 +144,11 @@
       "source": 3,
       "runtime": 2,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0628H:braviary-hisuian-form"
+      ]
     },
     {
       "id": "0628:braviary",
@@ -119,7 +157,11 @@
       "source": 7,
       "runtime": 5,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0628H:braviary-hisuian-form"
+      ]
     },
     {
       "id": "0628:braviary",
@@ -128,7 +170,11 @@
       "source": 5,
       "runtime": 4,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0628H:braviary-hisuian-form"
+      ]
     },
     {
       "id": "0628:braviary",
@@ -137,7 +183,11 @@
       "source": 2,
       "runtime": 3,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0628H:braviary-hisuian-form"
+      ]
     },
     {
       "id": "0628:braviary",
@@ -146,7 +196,11 @@
       "source": 4,
       "runtime": 7,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0628H:braviary-hisuian-form"
+      ]
     },
     {
       "id": "0986:brute-bonnet",
@@ -155,7 +209,9 @@
       "source": 6,
       "runtime": 7,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
+      "form_status": "unexplained-by-alternate-form-json",
+      "exact_form_matches": []
     },
     {
       "id": "0898:calyrex",
@@ -164,7 +220,11 @@
       "source": 5,
       "runtime": 8,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0898F1:calyrex-ice-rider-form"
+      ]
     },
     {
       "id": "0898:calyrex",
@@ -173,7 +233,11 @@
       "source": 5,
       "runtime": 8,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0898F1:calyrex-ice-rider-form"
+      ]
     },
     {
       "id": "0898:calyrex",
@@ -182,7 +246,11 @@
       "source": 5,
       "runtime": 4,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0898F1:calyrex-ice-rider-form"
+      ]
     },
     {
       "id": "0898:calyrex",
@@ -191,7 +259,11 @@
       "source": 5,
       "runtime": 4,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0898F1:calyrex-ice-rider-form"
+      ]
     },
     {
       "id": "0898:calyrex",
@@ -200,7 +272,11 @@
       "source": 5,
       "runtime": 8,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0898F1:calyrex-ice-rider-form"
+      ]
     },
     {
       "id": "0898:calyrex",
@@ -209,7 +285,11 @@
       "source": 5,
       "runtime": 8,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0898F1:calyrex-ice-rider-form"
+      ]
     },
     {
       "id": "0898:calyrex",
@@ -218,7 +298,11 @@
       "source": 5,
       "runtime": 7,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0898F1:calyrex-ice-rider-form"
+      ]
     },
     {
       "id": "0898:calyrex",
@@ -227,7 +311,11 @@
       "source": 5,
       "runtime": 7,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0898F1:calyrex-ice-rider-form"
+      ]
     },
     {
       "id": "0408:cranidos",
@@ -236,7 +324,9 @@
       "source": 4,
       "runtime": 5,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
+      "form_status": "unexplained-by-alternate-form-json",
+      "exact_form_matches": []
     },
     {
       "id": "0555:darmanitan",
@@ -245,7 +335,11 @@
       "source": 3,
       "runtime": 1,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0555F1:darmanitan-zen-form"
+      ]
     },
     {
       "id": "0555:darmanitan",
@@ -254,7 +348,11 @@
       "source": 7,
       "runtime": 3,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0555F1:darmanitan-zen-form"
+      ]
     },
     {
       "id": "0555:darmanitan",
@@ -263,7 +361,11 @@
       "source": 3,
       "runtime": 2,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0555F1:darmanitan-zen-form"
+      ]
     },
     {
       "id": "0555:darmanitan",
@@ -272,7 +374,11 @@
       "source": 6,
       "runtime": 4,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0555F1:darmanitan-zen-form"
+      ]
     },
     {
       "id": "0555:darmanitan",
@@ -281,7 +387,11 @@
       "source": 2,
       "runtime": 3,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0555F1:darmanitan-zen-form"
+      ]
     },
     {
       "id": "0555:darmanitan",
@@ -290,7 +400,11 @@
       "source": 4,
       "runtime": 6,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0555F1:darmanitan-zen-form"
+      ]
     },
     {
       "id": "0555:darmanitan",
@@ -299,7 +413,11 @@
       "source": 1,
       "runtime": 3,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0555F1:darmanitan-zen-form"
+      ]
     },
     {
       "id": "0555:darmanitan",
@@ -308,7 +426,11 @@
       "source": 3,
       "runtime": 7,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0555F1:darmanitan-zen-form"
+      ]
     },
     {
       "id": "0555:darmanitan",
@@ -317,7 +439,11 @@
       "source": 2,
       "runtime": 3,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0555F1:darmanitan-zen-form"
+      ]
     },
     {
       "id": "0555:darmanitan",
@@ -326,7 +452,11 @@
       "source": 4,
       "runtime": 6,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0555F1:darmanitan-zen-form"
+      ]
     },
     {
       "id": "0386:deoxys",
@@ -335,7 +465,11 @@
       "source": 8,
       "runtime": 6,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0386F3:deoxys-speed-form"
+      ]
     },
     {
       "id": "0386:deoxys",
@@ -344,7 +478,11 @@
       "source": 8,
       "runtime": 6,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0386F3:deoxys-speed-form"
+      ]
     },
     {
       "id": "0386:deoxys",
@@ -353,7 +491,11 @@
       "source": 8,
       "runtime": 10,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0386F3:deoxys-speed-form"
+      ]
     },
     {
       "id": "0386:deoxys",
@@ -362,7 +504,11 @@
       "source": 8,
       "runtime": 10,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0386F3:deoxys-speed-form"
+      ]
     },
     {
       "id": "0386:deoxys",
@@ -371,7 +517,11 @@
       "source": 4,
       "runtime": 5,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0386F3:deoxys-speed-form"
+      ]
     },
     {
       "id": "0386:deoxys",
@@ -380,7 +530,11 @@
       "source": 4,
       "runtime": 5,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0386F3:deoxys-speed-form"
+      ]
     },
     {
       "id": "0386:deoxys",
@@ -389,7 +543,11 @@
       "source": 8,
       "runtime": 6,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0386F3:deoxys-speed-form"
+      ]
     },
     {
       "id": "0386:deoxys",
@@ -398,7 +556,11 @@
       "source": 8,
       "runtime": 6,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0386F3:deoxys-speed-form"
+      ]
     },
     {
       "id": "0386:deoxys",
@@ -407,7 +569,11 @@
       "source": 4,
       "runtime": 5,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0386F3:deoxys-speed-form"
+      ]
     },
     {
       "id": "0386:deoxys",
@@ -416,7 +582,11 @@
       "source": 4,
       "runtime": 5,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0386F3:deoxys-speed-form"
+      ]
     },
     {
       "id": "0483:dialga",
@@ -425,7 +595,11 @@
       "source": 6,
       "runtime": 8,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0483F1:dialga-origin-form"
+      ]
     },
     {
       "id": "0483:dialga",
@@ -434,7 +608,11 @@
       "source": 7,
       "runtime": 8,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0483F1:dialga-origin-form"
+      ]
     },
     {
       "id": "0483:dialga",
@@ -443,7 +621,11 @@
       "source": 7,
       "runtime": 8,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0483F1:dialga-origin-form"
+      ]
     },
     {
       "id": "0483:dialga",
@@ -452,7 +634,11 @@
       "source": 5,
       "runtime": 6,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0483F1:dialga-origin-form"
+      ]
     },
     {
       "id": "0483:dialga",
@@ -461,7 +647,11 @@
       "source": 5,
       "runtime": 6,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0483F1:dialga-origin-form"
+      ]
     },
     {
       "id": "0483:dialga",
@@ -470,7 +660,11 @@
       "source": 7,
       "runtime": 10,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0483F1:dialga-origin-form"
+      ]
     },
     {
       "id": "0483:dialga",
@@ -479,7 +673,11 @@
       "source": 7,
       "runtime": 10,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0483F1:dialga-origin-form"
+      ]
     },
     {
       "id": "0483:dialga",
@@ -488,7 +686,11 @@
       "source": 8,
       "runtime": 11,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0483F1:dialga-origin-form"
+      ]
     },
     {
       "id": "0483:dialga",
@@ -497,7 +699,11 @@
       "source": 8,
       "runtime": 11,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0483F1:dialga-origin-form"
+      ]
     },
     {
       "id": "0483:dialga",
@@ -506,7 +712,11 @@
       "source": 6,
       "runtime": 10,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0483F1:dialga-origin-form"
+      ]
     },
     {
       "id": "0483:dialga",
@@ -515,7 +725,11 @@
       "source": 6,
       "runtime": 10,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0483F1:dialga-origin-form"
+      ]
     },
     {
       "id": "0477:dusknoir",
@@ -524,7 +738,9 @@
       "source": 8,
       "runtime": 7,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
+      "form_status": "unexplained-by-alternate-form-json",
+      "exact_form_matches": []
     },
     {
       "id": "0477:dusknoir",
@@ -533,7 +749,9 @@
       "source": 8,
       "runtime": 7,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
+      "form_status": "unexplained-by-alternate-form-json",
+      "exact_form_matches": []
     },
     {
       "id": "0875:eiscue",
@@ -542,7 +760,11 @@
       "source": 2,
       "runtime": 3,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0875F1:eiscue-no-ice-form"
+      ]
     },
     {
       "id": "0875:eiscue",
@@ -551,7 +773,11 @@
       "source": 4,
       "runtime": 7,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0875F1:eiscue-no-ice-form"
+      ]
     },
     {
       "id": "0875:eiscue",
@@ -560,7 +786,11 @@
       "source": 3,
       "runtime": 2,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0875F1:eiscue-no-ice-form"
+      ]
     },
     {
       "id": "0875:eiscue",
@@ -569,7 +799,11 @@
       "source": 6,
       "runtime": 5,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0875F1:eiscue-no-ice-form"
+      ]
     },
     {
       "id": "0875:eiscue",
@@ -578,7 +812,11 @@
       "source": 5,
       "runtime": 4,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0875F1:eiscue-no-ice-form"
+      ]
     },
     {
       "id": "0244:entei",
@@ -587,7 +825,9 @@
       "source": 5,
       "runtime": 6,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
+      "form_status": "unexplained-by-alternate-form-json",
+      "exact_form_matches": []
     },
     {
       "id": "0244:entei",
@@ -596,7 +836,9 @@
       "source": 5,
       "runtime": 6,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
+      "form_status": "unexplained-by-alternate-form-json",
+      "exact_form_matches": []
     },
     {
       "id": "0890:eternatus",
@@ -605,7 +847,11 @@
       "source": 7,
       "runtime": 10,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0890F1:eternatus-eternamax-form"
+      ]
     },
     {
       "id": "0890:eternatus",
@@ -614,7 +860,11 @@
       "source": 5,
       "runtime": 6,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0890F1:eternatus-eternamax-form"
+      ]
     },
     {
       "id": "0890:eternatus",
@@ -623,7 +873,11 @@
       "source": 5,
       "runtime": 6,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0890F1:eternatus-eternamax-form"
+      ]
     },
     {
       "id": "0890:eternatus",
@@ -632,7 +886,11 @@
       "source": 6,
       "runtime": 10,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0890F1:eternatus-eternamax-form"
+      ]
     },
     {
       "id": "0890:eternatus",
@@ -641,7 +899,11 @@
       "source": 6,
       "runtime": 10,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0890F1:eternatus-eternamax-form"
+      ]
     },
     {
       "id": "0890:eternatus",
@@ -650,7 +912,11 @@
       "source": 8,
       "runtime": 7,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0890F1:eternatus-eternamax-form"
+      ]
     },
     {
       "id": "0890:eternatus",
@@ -659,7 +925,11 @@
       "source": 8,
       "runtime": 7,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0890F1:eternatus-eternamax-form"
+      ]
     },
     {
       "id": "0890:eternatus",
@@ -668,7 +938,11 @@
       "source": 6,
       "runtime": 10,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0890F1:eternatus-eternamax-form"
+      ]
     },
     {
       "id": "0890:eternatus",
@@ -677,7 +951,11 @@
       "source": 6,
       "runtime": 10,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0890F1:eternatus-eternamax-form"
+      ]
     },
     {
       "id": "0136:flareon",
@@ -686,7 +964,9 @@
       "source": 6,
       "runtime": 7,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
+      "form_status": "unexplained-by-alternate-form-json",
+      "exact_form_matches": []
     },
     {
       "id": "0671:florges",
@@ -695,7 +975,9 @@
       "source": 3,
       "runtime": 4,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
+      "form_status": "unexplained-by-alternate-form-json",
+      "exact_form_matches": []
     },
     {
       "id": "0671:florges",
@@ -704,7 +986,9 @@
       "source": 7,
       "runtime": 8,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
+      "form_status": "unexplained-by-alternate-form-json",
+      "exact_form_matches": []
     },
     {
       "id": "0735:gumshoos",
@@ -713,7 +997,9 @@
       "source": 4,
       "runtime": 5,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
+      "form_status": "unexplained-by-alternate-form-json",
+      "exact_form_matches": []
     },
     {
       "id": "1019:hydrapple",
@@ -722,7 +1008,9 @@
       "source": 3,
       "runtime": 2,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
+      "form_status": "unexplained-by-alternate-form-json",
+      "exact_form_matches": []
     },
     {
       "id": "0647:keldeo",
@@ -731,7 +1019,11 @@
       "source": 5,
       "runtime": 6,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0647F1:keldeo-resolute-form"
+      ]
     },
     {
       "id": "0647:keldeo",
@@ -740,7 +1032,11 @@
       "source": 5,
       "runtime": 6,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0647F1:keldeo-resolute-form"
+      ]
     },
     {
       "id": "0647:keldeo",
@@ -749,7 +1045,11 @@
       "source": 5,
       "runtime": 6,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0647F1:keldeo-resolute-form"
+      ]
     },
     {
       "id": "0647:keldeo",
@@ -758,7 +1058,11 @@
       "source": 5,
       "runtime": 6,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0647F1:keldeo-resolute-form"
+      ]
     },
     {
       "id": "0402:kricketune",
@@ -767,7 +1071,9 @@
       "source": 5,
       "runtime": 4,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
+      "form_status": "unexplained-by-alternate-form-json",
+      "exact_form_matches": []
     },
     {
       "id": "0646:kyurem",
@@ -776,7 +1082,11 @@
       "source": 6,
       "runtime": 7,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0646F2:kyurem-white-form"
+      ]
     },
     {
       "id": "0646:kyurem",
@@ -785,7 +1095,11 @@
       "source": 7,
       "runtime": 9,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0646F2:kyurem-white-form"
+      ]
     },
     {
       "id": "0646:kyurem",
@@ -794,7 +1108,11 @@
       "source": 7,
       "runtime": 9,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0646F2:kyurem-white-form"
+      ]
     },
     {
       "id": "0646:kyurem",
@@ -803,7 +1121,11 @@
       "source": 5,
       "runtime": 6,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0646F2:kyurem-white-form"
+      ]
     },
     {
       "id": "0646:kyurem",
@@ -812,7 +1134,11 @@
       "source": 5,
       "runtime": 6,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0646F2:kyurem-white-form"
+      ]
     },
     {
       "id": "0608:lampent",
@@ -821,7 +1147,9 @@
       "source": 4,
       "runtime": 5,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
+      "form_status": "unexplained-by-alternate-form-json",
+      "exact_form_matches": []
     },
     {
       "id": "0510:liepard",
@@ -830,7 +1158,9 @@
       "source": 2,
       "runtime": 3,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
+      "form_status": "unexplained-by-alternate-form-json",
+      "exact_form_matches": []
     },
     {
       "id": "0506:lillipup",
@@ -839,7 +1169,9 @@
       "source": 4,
       "runtime": 5,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
+      "form_status": "unexplained-by-alternate-form-json",
+      "exact_form_matches": []
     },
     {
       "id": "0428:lopunny",
@@ -848,7 +1180,9 @@
       "source": 6,
       "runtime": 7,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
+      "form_status": "unexplained-by-alternate-form-json",
+      "exact_form_matches": []
     },
     {
       "id": "0183:marill",
@@ -857,7 +1191,9 @@
       "source": 2,
       "runtime": 1,
       "override_origin": "manual-review",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
+      "form_status": "unexplained-by-alternate-form-json",
+      "exact_form_matches": []
     },
     {
       "id": "0183:marill",
@@ -866,7 +1202,9 @@
       "source": 4,
       "runtime": 3,
       "override_origin": "manual-review",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
+      "form_status": "unexplained-by-alternate-form-json",
+      "exact_form_matches": []
     },
     {
       "id": "0484:palkia",
@@ -875,7 +1213,11 @@
       "source": 5,
       "runtime": 8,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0484F1:palkia-origin-form"
+      ]
     },
     {
       "id": "0484:palkia",
@@ -884,7 +1226,11 @@
       "source": 7,
       "runtime": 10,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0484F1:palkia-origin-form"
+      ]
     },
     {
       "id": "0484:palkia",
@@ -893,7 +1239,11 @@
       "source": 7,
       "runtime": 10,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0484F1:palkia-origin-form"
+      ]
     },
     {
       "id": "0484:palkia",
@@ -902,7 +1252,11 @@
       "source": 6,
       "runtime": 7,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0484F1:palkia-origin-form"
+      ]
     },
     {
       "id": "0484:palkia",
@@ -911,7 +1265,11 @@
       "source": 6,
       "runtime": 7,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0484F1:palkia-origin-form"
+      ]
     },
     {
       "id": "0484:palkia",
@@ -920,7 +1278,11 @@
       "source": 6,
       "runtime": 7,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0484F1:palkia-origin-form"
+      ]
     },
     {
       "id": "0484:palkia",
@@ -929,7 +1291,11 @@
       "source": 6,
       "runtime": 7,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0484F1:palkia-origin-form"
+      ]
     },
     {
       "id": "0484:palkia",
@@ -938,7 +1304,11 @@
       "source": 8,
       "runtime": 11,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0484F1:palkia-origin-form"
+      ]
     },
     {
       "id": "0484:palkia",
@@ -947,7 +1317,11 @@
       "source": 8,
       "runtime": 11,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0484F1:palkia-origin-form"
+      ]
     },
     {
       "id": "0484:palkia",
@@ -956,7 +1330,11 @@
       "source": 7,
       "runtime": 10,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0484F1:palkia-origin-form"
+      ]
     },
     {
       "id": "0484:palkia",
@@ -965,7 +1343,11 @@
       "source": 7,
       "runtime": 10,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0484F1:palkia-origin-form"
+      ]
     },
     {
       "id": "0492:shaymin",
@@ -974,7 +1356,11 @@
       "source": 6,
       "runtime": 7,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0492F1:shaymin-sky-form"
+      ]
     },
     {
       "id": "0492:shaymin",
@@ -983,7 +1369,11 @@
       "source": 6,
       "runtime": 7,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0492F1:shaymin-sky-form"
+      ]
     },
     {
       "id": "0492:shaymin",
@@ -992,7 +1382,11 @@
       "source": 6,
       "runtime": 5,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0492F1:shaymin-sky-form"
+      ]
     },
     {
       "id": "0492:shaymin",
@@ -1001,7 +1395,11 @@
       "source": 6,
       "runtime": 5,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0492F1:shaymin-sky-form"
+      ]
     },
     {
       "id": "0492:shaymin",
@@ -1010,7 +1408,11 @@
       "source": 6,
       "runtime": 7,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0492F1:shaymin-sky-form"
+      ]
     },
     {
       "id": "0492:shaymin",
@@ -1019,7 +1421,11 @@
       "source": 6,
       "runtime": 7,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0492F1:shaymin-sky-form"
+      ]
     },
     {
       "id": "0492:shaymin",
@@ -1028,7 +1434,11 @@
       "source": 6,
       "runtime": 5,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0492F1:shaymin-sky-form"
+      ]
     },
     {
       "id": "0492:shaymin",
@@ -1037,7 +1447,11 @@
       "source": 6,
       "runtime": 5,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0492F1:shaymin-sky-form"
+      ]
     },
     {
       "id": "0508:stoutland",
@@ -1046,7 +1460,9 @@
       "source": 5,
       "runtime": 6,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
+      "form_status": "unexplained-by-alternate-form-json",
+      "exact_form_matches": []
     },
     {
       "id": "0528:swoobat",
@@ -1055,7 +1471,9 @@
       "source": 6,
       "runtime": 7,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
+      "form_status": "unexplained-by-alternate-form-json",
+      "exact_form_matches": []
     },
     {
       "id": "0468:togekiss",
@@ -1064,7 +1482,9 @@
       "source": 5,
       "runtime": 6,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
+      "form_status": "unexplained-by-alternate-form-json",
+      "exact_form_matches": []
     },
     {
       "id": "0568:trubbish",
@@ -1073,7 +1493,9 @@
       "source": 4,
       "runtime": 5,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "pending reconciliation; no alternate-form JSON vector explains the difference",
+      "form_status": "unexplained-by-alternate-form-json",
+      "exact_form_matches": []
     },
     {
       "id": "0746:wishiwashi",
@@ -1082,7 +1504,11 @@
       "source": 4,
       "runtime": 8,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0746F1:wishiwashi-swarm-form"
+      ]
     },
     {
       "id": "0746:wishiwashi",
@@ -1091,7 +1517,11 @@
       "source": 1,
       "runtime": 3,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0746F1:wishiwashi-swarm-form"
+      ]
     },
     {
       "id": "0746:wishiwashi",
@@ -1100,7 +1530,11 @@
       "source": 3,
       "runtime": 7,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0746F1:wishiwashi-swarm-form"
+      ]
     },
     {
       "id": "0746:wishiwashi",
@@ -1109,7 +1543,11 @@
       "source": 2,
       "runtime": 1,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0746F1:wishiwashi-swarm-form"
+      ]
     },
     {
       "id": "0746:wishiwashi",
@@ -1118,7 +1556,11 @@
       "source": 4,
       "runtime": 3,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0746F1:wishiwashi-swarm-form"
+      ]
     },
     {
       "id": "0746:wishiwashi",
@@ -1127,7 +1569,11 @@
       "source": 1,
       "runtime": 3,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0746F1:wishiwashi-swarm-form"
+      ]
     },
     {
       "id": "0746:wishiwashi",
@@ -1136,7 +1582,11 @@
       "source": 3,
       "runtime": 7,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0746F1:wishiwashi-swarm-form"
+      ]
     },
     {
       "id": "0746:wishiwashi",
@@ -1145,7 +1595,11 @@
       "source": 1,
       "runtime": 3,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0746F1:wishiwashi-swarm-form"
+      ]
     },
     {
       "id": "0746:wishiwashi",
@@ -1154,7 +1608,11 @@
       "source": 3,
       "runtime": 7,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0746F1:wishiwashi-swarm-form"
+      ]
     },
     {
       "id": "0746:wishiwashi",
@@ -1163,7 +1621,11 @@
       "source": 1,
       "runtime": 3,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0746F1:wishiwashi-swarm-form"
+      ]
     },
     {
       "id": "0746:wishiwashi",
@@ -1172,7 +1634,11 @@
       "source": 3,
       "runtime": 7,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0746F1:wishiwashi-swarm-form"
+      ]
     },
     {
       "id": "0888:zacian",
@@ -1181,7 +1647,11 @@
       "source": 7,
       "runtime": 9,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0888F1:zacian-crown-form"
+      ]
     },
     {
       "id": "0888:zacian",
@@ -1190,7 +1660,11 @@
       "source": 7,
       "runtime": 9,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0888F1:zacian-crown-form"
+      ]
     },
     {
       "id": "0888:zacian",
@@ -1199,7 +1673,11 @@
       "source": 7,
       "runtime": 8,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0888F1:zacian-crown-form"
+      ]
     },
     {
       "id": "0888:zacian",
@@ -1208,7 +1686,11 @@
       "source": 7,
       "runtime": 8,
       "override_origin": "extracted-correction",
-      "disposition": "pending reconciliation; JSON difference alone does not establish which value is correct"
+      "disposition": "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity",
+      "form_status": "exact-alternate-form-stat-vector",
+      "exact_form_matches": [
+        "0888F1:zacian-crown-form"
+      ]
     }
   ],
   "identity_issues": [],
@@ -7215,6 +7697,722 @@
       "id": "0718:zygarde-cell",
       "file": "Zygarde Cell.json",
       "sha256": "9e09b139ef061d9872a8b4862c81ba7750478e051cc2d48811ddaeb1c1348a8c"
+    }
+  ],
+  "form_reconciliation": [
+    {
+      "id": "0681:aegislash",
+      "name": "Aegislash",
+      "status": "exact-alternate-form-stat-vector",
+      "alternate_form_candidates": [
+        {
+          "id": "0681F1:aegislash-blade-form",
+          "name": "Aegislash (Blade Form)",
+          "file": "Aegislash (Blade Form).json",
+          "matching_fields": [
+            "BaseHP",
+            "Strength",
+            "MaxStrength",
+            "Dexterity",
+            "MaxDexterity",
+            "Vitality",
+            "MaxVitality",
+            "Special",
+            "MaxSpecial",
+            "Insight",
+            "MaxInsight"
+          ],
+          "differing_fields": []
+        }
+      ],
+      "exact_matches": [
+        "0681F1:aegislash-blade-form"
+      ],
+      "decision": "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value.",
+      "user_confirmation": "User confirmed Shield Strength 2 / maximum 4 and Sword (Blade) Strength 4 / maximum 8. Base JSON is Shield; Blade is a separate exact identity."
+    },
+    {
+      "id": "0688:binacle",
+      "name": "Binacle",
+      "status": "unexplained-by-alternate-form-json",
+      "alternate_form_candidates": [],
+      "exact_matches": [],
+      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
+    },
+    {
+      "id": "0628:braviary",
+      "name": "Braviary",
+      "status": "exact-alternate-form-stat-vector",
+      "alternate_form_candidates": [
+        {
+          "id": "0628H:braviary-hisuian-form",
+          "name": "Braviary (Hisuian Form)",
+          "file": "Braviary (Hisuian Form).json",
+          "matching_fields": [
+            "BaseHP",
+            "Strength",
+            "MaxStrength",
+            "Dexterity",
+            "MaxDexterity",
+            "Vitality",
+            "MaxVitality",
+            "Special",
+            "MaxSpecial",
+            "Insight",
+            "MaxInsight"
+          ],
+          "differing_fields": []
+        }
+      ],
+      "exact_matches": [
+        "0628H:braviary-hisuian-form"
+      ],
+      "decision": "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value."
+    },
+    {
+      "id": "0986:brute-bonnet",
+      "name": "Brute Bonnet",
+      "status": "unexplained-by-alternate-form-json",
+      "alternate_form_candidates": [],
+      "exact_matches": [],
+      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
+    },
+    {
+      "id": "0898:calyrex",
+      "name": "Calyrex",
+      "status": "exact-alternate-form-stat-vector",
+      "alternate_form_candidates": [
+        {
+          "id": "0898F1:calyrex-ice-rider-form",
+          "name": "Calyrex (Ice Rider Form)",
+          "file": "Calyrex (Ice Rider Form).json",
+          "matching_fields": [
+            "BaseHP",
+            "Strength",
+            "MaxStrength",
+            "Dexterity",
+            "MaxDexterity",
+            "Vitality",
+            "MaxVitality",
+            "Special",
+            "MaxSpecial",
+            "Insight",
+            "MaxInsight"
+          ],
+          "differing_fields": []
+        },
+        {
+          "id": "0898F2:calyrex-shadow-rider-form",
+          "name": "Calyrex (Shadow Rider Form)",
+          "file": "Calyrex (Shadow Rider Form).json",
+          "matching_fields": [
+            "BaseHP"
+          ],
+          "differing_fields": [
+            "Strength",
+            "MaxStrength",
+            "Dexterity",
+            "MaxDexterity",
+            "Vitality",
+            "MaxVitality",
+            "Special",
+            "MaxSpecial",
+            "Insight",
+            "MaxInsight"
+          ]
+        }
+      ],
+      "exact_matches": [
+        "0898F1:calyrex-ice-rider-form"
+      ],
+      "decision": "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value."
+    },
+    {
+      "id": "0408:cranidos",
+      "name": "Cranidos",
+      "status": "unexplained-by-alternate-form-json",
+      "alternate_form_candidates": [],
+      "exact_matches": [],
+      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
+    },
+    {
+      "id": "0555:darmanitan",
+      "name": "Darmanitan",
+      "status": "exact-alternate-form-stat-vector",
+      "alternate_form_candidates": [
+        {
+          "id": "0555G:darmanitan-galarian-form",
+          "name": "Darmanitan (Galarian Form)",
+          "file": "Darmanitan (Galarian Form).json",
+          "matching_fields": [
+            "BaseHP"
+          ],
+          "differing_fields": [
+            "Strength",
+            "MaxStrength",
+            "Dexterity",
+            "MaxDexterity",
+            "Vitality",
+            "MaxVitality",
+            "Special",
+            "MaxSpecial",
+            "Insight",
+            "MaxInsight"
+          ]
+        },
+        {
+          "id": "0555GF1:darmanitan-galarian-zen-form",
+          "name": "Darmanitan (Galarian Zen Form)",
+          "file": "Darmanitan (Galarian Zen Form).json",
+          "matching_fields": [
+            "BaseHP"
+          ],
+          "differing_fields": [
+            "Strength",
+            "MaxStrength",
+            "Dexterity",
+            "MaxDexterity",
+            "Vitality",
+            "MaxVitality",
+            "Special",
+            "MaxSpecial",
+            "Insight",
+            "MaxInsight"
+          ]
+        },
+        {
+          "id": "0555F1:darmanitan-zen-form",
+          "name": "Darmanitan (Zen Form)",
+          "file": "Darmanitan (Zen Form).json",
+          "matching_fields": [
+            "BaseHP",
+            "Strength",
+            "MaxStrength",
+            "Dexterity",
+            "MaxDexterity",
+            "Vitality",
+            "MaxVitality",
+            "Special",
+            "MaxSpecial",
+            "Insight",
+            "MaxInsight"
+          ],
+          "differing_fields": []
+        }
+      ],
+      "exact_matches": [
+        "0555F1:darmanitan-zen-form"
+      ],
+      "decision": "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value."
+    },
+    {
+      "id": "0386:deoxys",
+      "name": "Deoxys",
+      "status": "exact-alternate-form-stat-vector",
+      "alternate_form_candidates": [
+        {
+          "id": "0386F1:deoxys-attack-form",
+          "name": "Deoxys (Attack Form)",
+          "file": "Deoxys (Attack Form).json",
+          "matching_fields": [
+            "BaseHP"
+          ],
+          "differing_fields": [
+            "Strength",
+            "MaxStrength",
+            "Dexterity",
+            "MaxDexterity",
+            "Vitality",
+            "MaxVitality",
+            "Special",
+            "MaxSpecial",
+            "Insight",
+            "MaxInsight"
+          ]
+        },
+        {
+          "id": "0386F2:deoxys-defense-form",
+          "name": "Deoxys (Defense Form)",
+          "file": "Deoxys (Defense Form).json",
+          "matching_fields": [
+            "BaseHP"
+          ],
+          "differing_fields": [
+            "Strength",
+            "MaxStrength",
+            "Dexterity",
+            "MaxDexterity",
+            "Vitality",
+            "MaxVitality",
+            "Special",
+            "MaxSpecial",
+            "Insight",
+            "MaxInsight"
+          ]
+        },
+        {
+          "id": "0386F3:deoxys-speed-form",
+          "name": "Deoxys (Speed Form)",
+          "file": "Deoxys (Speed Form).json",
+          "matching_fields": [
+            "BaseHP",
+            "Strength",
+            "MaxStrength",
+            "Dexterity",
+            "MaxDexterity",
+            "Vitality",
+            "MaxVitality",
+            "Special",
+            "MaxSpecial",
+            "Insight",
+            "MaxInsight"
+          ],
+          "differing_fields": []
+        }
+      ],
+      "exact_matches": [
+        "0386F3:deoxys-speed-form"
+      ],
+      "decision": "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value."
+    },
+    {
+      "id": "0483:dialga",
+      "name": "Dialga",
+      "status": "exact-alternate-form-stat-vector",
+      "alternate_form_candidates": [
+        {
+          "id": "0483F1:dialga-origin-form",
+          "name": "Dialga (Origin Form)",
+          "file": "Dialga (Origin Form).json",
+          "matching_fields": [
+            "BaseHP",
+            "Strength",
+            "MaxStrength",
+            "Dexterity",
+            "MaxDexterity",
+            "Vitality",
+            "MaxVitality",
+            "Special",
+            "MaxSpecial",
+            "Insight",
+            "MaxInsight"
+          ],
+          "differing_fields": []
+        }
+      ],
+      "exact_matches": [
+        "0483F1:dialga-origin-form"
+      ],
+      "decision": "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value."
+    },
+    {
+      "id": "0477:dusknoir",
+      "name": "Dusknoir",
+      "status": "unexplained-by-alternate-form-json",
+      "alternate_form_candidates": [],
+      "exact_matches": [],
+      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
+    },
+    {
+      "id": "0875:eiscue",
+      "name": "Eiscue",
+      "status": "exact-alternate-form-stat-vector",
+      "alternate_form_candidates": [
+        {
+          "id": "0875F1:eiscue-no-ice-form",
+          "name": "Eiscue (No Ice Form)",
+          "file": "Eiscue (No Ice Form).json",
+          "matching_fields": [
+            "BaseHP",
+            "Strength",
+            "MaxStrength",
+            "Dexterity",
+            "MaxDexterity",
+            "Vitality",
+            "MaxVitality",
+            "Special",
+            "MaxSpecial",
+            "Insight",
+            "MaxInsight"
+          ],
+          "differing_fields": []
+        }
+      ],
+      "exact_matches": [
+        "0875F1:eiscue-no-ice-form"
+      ],
+      "decision": "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value."
+    },
+    {
+      "id": "0244:entei",
+      "name": "Entei",
+      "status": "unexplained-by-alternate-form-json",
+      "alternate_form_candidates": [],
+      "exact_matches": [],
+      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
+    },
+    {
+      "id": "0890:eternatus",
+      "name": "Eternatus",
+      "status": "exact-alternate-form-stat-vector",
+      "alternate_form_candidates": [
+        {
+          "id": "0890F1:eternatus-eternamax-form",
+          "name": "Eternatus (Eternamax Form)",
+          "file": "Eternatus (Eternamax Form).json",
+          "matching_fields": [
+            "BaseHP",
+            "Strength",
+            "MaxStrength",
+            "Dexterity",
+            "MaxDexterity",
+            "Vitality",
+            "MaxVitality",
+            "Special",
+            "MaxSpecial",
+            "Insight",
+            "MaxInsight"
+          ],
+          "differing_fields": []
+        }
+      ],
+      "exact_matches": [
+        "0890F1:eternatus-eternamax-form"
+      ],
+      "decision": "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value."
+    },
+    {
+      "id": "0136:flareon",
+      "name": "Flareon",
+      "status": "unexplained-by-alternate-form-json",
+      "alternate_form_candidates": [],
+      "exact_matches": [],
+      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
+    },
+    {
+      "id": "0671:florges",
+      "name": "Florges",
+      "status": "unexplained-by-alternate-form-json",
+      "alternate_form_candidates": [],
+      "exact_matches": [],
+      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
+    },
+    {
+      "id": "0735:gumshoos",
+      "name": "Gumshoos",
+      "status": "unexplained-by-alternate-form-json",
+      "alternate_form_candidates": [],
+      "exact_matches": [],
+      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
+    },
+    {
+      "id": "1019:hydrapple",
+      "name": "Hydrapple",
+      "status": "unexplained-by-alternate-form-json",
+      "alternate_form_candidates": [],
+      "exact_matches": [],
+      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
+    },
+    {
+      "id": "0647:keldeo",
+      "name": "Keldeo",
+      "status": "exact-alternate-form-stat-vector",
+      "alternate_form_candidates": [
+        {
+          "id": "0647F1:keldeo-resolute-form",
+          "name": "Keldeo (Resolute Form)",
+          "file": "Keldeo (Resolute Form).json",
+          "matching_fields": [
+            "BaseHP",
+            "Strength",
+            "MaxStrength",
+            "Dexterity",
+            "MaxDexterity",
+            "Vitality",
+            "MaxVitality",
+            "Special",
+            "MaxSpecial",
+            "Insight",
+            "MaxInsight"
+          ],
+          "differing_fields": []
+        }
+      ],
+      "exact_matches": [
+        "0647F1:keldeo-resolute-form"
+      ],
+      "decision": "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value."
+    },
+    {
+      "id": "0402:kricketune",
+      "name": "Kricketune",
+      "status": "unexplained-by-alternate-form-json",
+      "alternate_form_candidates": [],
+      "exact_matches": [],
+      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
+    },
+    {
+      "id": "0646:kyurem",
+      "name": "Kyurem",
+      "status": "exact-alternate-form-stat-vector",
+      "alternate_form_candidates": [
+        {
+          "id": "0646F1:kyurem-black-form",
+          "name": "Kyurem (Black Form)",
+          "file": "Kyurem (Black Form).json",
+          "matching_fields": [
+            "BaseHP",
+            "Dexterity",
+            "MaxDexterity"
+          ],
+          "differing_fields": [
+            "Strength",
+            "MaxStrength",
+            "Vitality",
+            "MaxVitality",
+            "Special",
+            "MaxSpecial",
+            "Insight",
+            "MaxInsight"
+          ]
+        },
+        {
+          "id": "0646F2:kyurem-white-form",
+          "name": "Kyurem (White Form)",
+          "file": "Kyurem (White Form).json",
+          "matching_fields": [
+            "BaseHP",
+            "Strength",
+            "MaxStrength",
+            "Dexterity",
+            "MaxDexterity",
+            "Vitality",
+            "MaxVitality",
+            "Special",
+            "MaxSpecial",
+            "Insight",
+            "MaxInsight"
+          ],
+          "differing_fields": []
+        }
+      ],
+      "exact_matches": [
+        "0646F2:kyurem-white-form"
+      ],
+      "decision": "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value."
+    },
+    {
+      "id": "0608:lampent",
+      "name": "Lampent",
+      "status": "unexplained-by-alternate-form-json",
+      "alternate_form_candidates": [],
+      "exact_matches": [],
+      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
+    },
+    {
+      "id": "0510:liepard",
+      "name": "Liepard",
+      "status": "unexplained-by-alternate-form-json",
+      "alternate_form_candidates": [],
+      "exact_matches": [],
+      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
+    },
+    {
+      "id": "0506:lillipup",
+      "name": "Lillipup",
+      "status": "unexplained-by-alternate-form-json",
+      "alternate_form_candidates": [],
+      "exact_matches": [],
+      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
+    },
+    {
+      "id": "0428:lopunny",
+      "name": "Lopunny",
+      "status": "unexplained-by-alternate-form-json",
+      "alternate_form_candidates": [
+        {
+          "id": "0428M1:lopunny-mega-form",
+          "name": "Lopunny (Mega Form)",
+          "file": "Lopunny (Mega Form).json",
+          "matching_fields": [
+            "Dexterity",
+            "MaxDexterity",
+            "Special",
+            "MaxSpecial",
+            "Insight",
+            "MaxInsight"
+          ],
+          "differing_fields": [
+            "BaseHP",
+            "Strength",
+            "MaxStrength",
+            "Vitality",
+            "MaxVitality"
+          ]
+        }
+      ],
+      "exact_matches": [],
+      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
+    },
+    {
+      "id": "0183:marill",
+      "name": "Marill",
+      "status": "unexplained-by-alternate-form-json",
+      "alternate_form_candidates": [],
+      "exact_matches": [],
+      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
+    },
+    {
+      "id": "0484:palkia",
+      "name": "Palkia",
+      "status": "exact-alternate-form-stat-vector",
+      "alternate_form_candidates": [
+        {
+          "id": "0484F1:palkia-origin-form",
+          "name": "Palkia (Origin Form)",
+          "file": "Palkia (Origin Form).json",
+          "matching_fields": [
+            "BaseHP",
+            "Strength",
+            "MaxStrength",
+            "Dexterity",
+            "MaxDexterity",
+            "Vitality",
+            "MaxVitality",
+            "Special",
+            "MaxSpecial",
+            "Insight",
+            "MaxInsight"
+          ],
+          "differing_fields": []
+        }
+      ],
+      "exact_matches": [
+        "0484F1:palkia-origin-form"
+      ],
+      "decision": "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value."
+    },
+    {
+      "id": "0492:shaymin",
+      "name": "Shaymin",
+      "status": "exact-alternate-form-stat-vector",
+      "alternate_form_candidates": [
+        {
+          "id": "0492F1:shaymin-sky-form",
+          "name": "Shaymin (Sky Form)",
+          "file": "Shaymin (Sky Form).json",
+          "matching_fields": [
+            "BaseHP",
+            "Strength",
+            "MaxStrength",
+            "Dexterity",
+            "MaxDexterity",
+            "Vitality",
+            "MaxVitality",
+            "Special",
+            "MaxSpecial",
+            "Insight",
+            "MaxInsight"
+          ],
+          "differing_fields": []
+        }
+      ],
+      "exact_matches": [
+        "0492F1:shaymin-sky-form"
+      ],
+      "decision": "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value."
+    },
+    {
+      "id": "0508:stoutland",
+      "name": "Stoutland",
+      "status": "unexplained-by-alternate-form-json",
+      "alternate_form_candidates": [],
+      "exact_matches": [],
+      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
+    },
+    {
+      "id": "0528:swoobat",
+      "name": "Swoobat",
+      "status": "unexplained-by-alternate-form-json",
+      "alternate_form_candidates": [],
+      "exact_matches": [],
+      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
+    },
+    {
+      "id": "0468:togekiss",
+      "name": "Togekiss",
+      "status": "unexplained-by-alternate-form-json",
+      "alternate_form_candidates": [],
+      "exact_matches": [],
+      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
+    },
+    {
+      "id": "0568:trubbish",
+      "name": "Trubbish",
+      "status": "unexplained-by-alternate-form-json",
+      "alternate_form_candidates": [],
+      "exact_matches": [],
+      "decision": "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct."
+    },
+    {
+      "id": "0746:wishiwashi",
+      "name": "Wishiwashi",
+      "status": "exact-alternate-form-stat-vector",
+      "alternate_form_candidates": [
+        {
+          "id": "0746F1:wishiwashi-swarm-form",
+          "name": "Wishiwashi (Swarm Form)",
+          "file": "Wishiwashi (Swarm Form).json",
+          "matching_fields": [
+            "BaseHP",
+            "Strength",
+            "MaxStrength",
+            "Dexterity",
+            "MaxDexterity",
+            "Vitality",
+            "MaxVitality",
+            "Special",
+            "MaxSpecial",
+            "Insight",
+            "MaxInsight"
+          ],
+          "differing_fields": []
+        }
+      ],
+      "exact_matches": [
+        "0746F1:wishiwashi-swarm-form"
+      ],
+      "decision": "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value."
+    },
+    {
+      "id": "0888:zacian",
+      "name": "Zacian",
+      "status": "exact-alternate-form-stat-vector",
+      "alternate_form_candidates": [
+        {
+          "id": "0888F1:zacian-crown-form",
+          "name": "Zacian (Crown Form)",
+          "file": "Zacian (Crown Form).json",
+          "matching_fields": [
+            "BaseHP",
+            "Strength",
+            "MaxStrength",
+            "Dexterity",
+            "MaxDexterity",
+            "Vitality",
+            "MaxVitality",
+            "Special",
+            "MaxSpecial",
+            "Insight",
+            "MaxInsight"
+          ],
+          "differing_fields": []
+        }
+      ],
+      "exact_matches": [
+        "0888F1:zacian-crown-form"
+      ],
+      "decision": "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value."
     }
   ]
 }

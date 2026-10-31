@@ -79,7 +79,34 @@ Affected identities: Aegislash, Binacle, Braviary, Brute Bonnet, Calyrex, Cranid
 
 The earlier PDF checkpoint remains historical evidence. Next stat work should reconcile this 132-field JSON queue rather than resume sequential PDF stat review.
 
-Validation: catalog regeneration and the JSON comparison completed successfully; `npm test` passed 71 frontend tests and 45 script/catalog checks. No runtime rules were changed; Rust tests and native builds were not run for this audit-only batch.
+### Exact alternate-form reconciliation
+
+The comparison now tests every affected identity against every other JSON form with the same National Dex number. A form explanation requires all eleven fields to match, not just the differing field. Exact candidate IDs/files and matching/differing fields are retained in `form_reconciliation` in the report.
+
+**109 differences across 14 identities match a complete alternate-form stat vector:**
+
+| Current identity | Exact matching JSON form |
+| --- | --- |
+| Aegislash (base/Shield) | Aegislash (Blade Form) |
+| Braviary | Braviary (Hisuian Form) |
+| Calyrex | Calyrex (Ice Rider Form) |
+| Darmanitan | Darmanitan (Zen Form) |
+| Deoxys | Deoxys (Speed Form) |
+| Dialga | Dialga (Origin Form) |
+| Eiscue | Eiscue (No Ice Form) |
+| Eternatus | Eternatus (Eternamax Form) |
+| Keldeo | Keldeo (Resolute Form) |
+| Kyurem | Kyurem (White Form) |
+| Palkia | Palkia (Origin Form) |
+| Shaymin | Shaymin (Sky Form) |
+| Wishiwashi | Wishiwashi (Swarm Form) |
+| Zacian | Zacian (Crown Form) |
+
+These values are valid matches for the named alternate forms; their application to the base identity remains a form-assignment conflict. User confirmation explicitly establishes Aegislash Shield Strength 2 / maximum 4 and Sword (Blade) Strength 4 / maximum 8. No runtime form assignment or stats have been changed by this audit.
+
+**23 differences across 19 identities remain unexplained by alternate-form JSON:** Binacle, Brute Bonnet, Cranidos, Dusknoir, Entei, Flareon, Florges, Gumshoos, Hydrapple, Kricketune, Lampent, Liepard, Lillipup, Lopunny, Marill, Stoutland, Swoobat, Togekiss and Trubbish. Lopunny has a Mega candidate, but its complete stat vector does not match; the other 18 have no alternate-form JSON entry with the same National Dex number. These are unresolved differences, not proven source errors.
+
+Validation: catalog regeneration and the JSON comparison completed successfully; `npm test` passed 71 frontend tests and 45 script/catalog checks. The form-reconciliation rerun also passed these checks after setting process-local TEMP/TMP to `tmp/vitest` to avoid missing sandbox temporary transform files on the initial attempt. Prettier and diff checks passed. No runtime rules were changed; Rust tests and native builds were not run for this audit-only batch.
 
 [Source snapshot, user policy and per-identity manual references](../rules/species-fidelity-review.json), [application-owned manual fields](../rules/catalog-reviewed.json), and generated catalog metadata `species_fidelity` preserve the evidence. The ordinary field queue remains in parent `outputs/rule-coverage/catalog-review.json`.
 

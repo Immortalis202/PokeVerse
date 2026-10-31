@@ -56,12 +56,14 @@ const report = {
   source_files: [],
 };
 const seen = new Set();
+const sourceEntries = [];
 for (const file of readdirSync(path.join(source, "v3.0/Pokedex"))
   .filter((f) => f.endsWith(".json"))
   .sort()) {
   const bytes = readFileSync(path.join(source, "v3.0/Pokedex", file));
   const original = JSON.parse(bytes);
   const id = `${original.DexID}:${original._id}`;
+  sourceEntries.push({ id, file, entry: original });
   report.source_files.push({
     id,
     file,
@@ -151,6 +153,51 @@ for (const file of readdirSync(path.join(source, "v3.0/Pokedex"))
 for (const id of runtime.keys())
   if (!seen.has(id))
     report.identity_issues.push({ id, issue: "runtime-only identity" });
+
+// Use exact National Dex identity to bound form candidates. A single shared
+// value is not evidence of form contamination: require all eleven fields.
+report.form_reconciliation = [];
+for (const id of new Set(report.differences.map((d) => d.id))) {
+  const original = sourceEntries.find((s) => s.id === id);
+  const effective = runtime.get(id);
+  const family = sourceEntries.filter(
+    (s) => s.id !== id && s.entry.Number === original.entry.Number,
+  );
+  const candidates = family.map((s) => ({
+    id: s.id,
+    name: s.entry.Name,
+    file: s.file,
+    matching_fields: fields.filter((f) => s.entry[f] === effective[f]),
+    differing_fields: fields.filter((f) => s.entry[f] !== effective[f]),
+  }));
+  const matches = candidates.filter((s) => s.differing_fields.length === 0);
+  const status = matches.length
+    ? "exact-alternate-form-stat-vector"
+    : "unexplained-by-alternate-form-json";
+  report.form_reconciliation.push({
+    id,
+    name: original.entry.Name,
+    status,
+    alternate_form_candidates: candidates,
+    exact_matches: matches.map((s) => s.id),
+    decision: matches.length
+      ? "Runtime stats match another exact form across all eleven fields; retain this as a form-assignment conflict, not an incorrect alternate-form stat value."
+      : "No exact alternate-form stat vector explains this discrepancy; retain for reconciliation without declaring either source correct.",
+    ...(id === "0681:aegislash"
+      ? {
+          user_confirmation:
+            "User confirmed Shield Strength 2 / maximum 4 and Sword (Blade) Strength 4 / maximum 8. Base JSON is Shield; Blade is a separate exact identity.",
+        }
+      : {}),
+  });
+  for (const difference of report.differences.filter((d) => d.id === id)) {
+    difference.form_status = status;
+    difference.exact_form_matches = matches.map((s) => s.id);
+    difference.disposition = matches.length
+      ? "form-assignment conflict; alternate-form stats are valid for the matched form, not certification of the current identity"
+      : "pending reconciliation; no alternate-form JSON vector explains the difference";
+  }
+}
 db.close();
 const output = path.join(app, "rules/species-stat-json-review.json");
 writeFileSync(output, `${JSON.stringify(report, null, 2)}\n`);
@@ -163,6 +210,12 @@ console.log(
       matching_fields: report.matching_fields,
       differences: report.differences.length,
       affected_species: new Set(report.differences.map((d) => d.id)).size,
+      exact_form_matches: report.form_reconciliation.filter(
+        (r) => r.exact_matches.length,
+      ).length,
+      unexplained_species: report.form_reconciliation.filter(
+        (r) => !r.exact_matches.length,
+      ).length,
       identity_issues: report.identity_issues.length,
       invalid_values: report.invalid_values.length,
       creation_mismatches: report.creation_mismatches.length,
