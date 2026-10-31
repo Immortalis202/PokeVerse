@@ -44,3 +44,49 @@ it("uses corrected baselines and limits in the reference card and keeps imperial
   expect(html).toContain("8 kg / 18 lb");
   expect(html).toContain("First");
 });
+
+it("separates user-resolved learning prices from a printed Unknown stage", () => {
+  const html = renderToStaticMarkup(
+    <SpeciesStatCard
+      entry={{
+        Name: "Mew",
+        Creation: {
+          stage: 3,
+          source_stage: {
+            manual: null,
+            extracted: null,
+            printed: { label: "Unknown" },
+          },
+          stage_resolution: { kind: "user-standalone-final" },
+        },
+      }}
+      references={[]}
+      onSelect={() => {}}
+    />,
+  );
+  expect(html).toContain("Learning-cost stage");
+  expect(html).toContain("Final");
+  expect(html).toContain("Source stage");
+  expect(html).toContain("Unknown");
+  expect(html).toContain("your standalone ruling");
+});
+
+it("shows excluded temporary stages as inapplicable and unresolved source labels as unverified", () => {
+  const html = renderToStaticMarkup(
+    <SpeciesStatCard
+      entry={{
+        Name: "Venusaur (Mega Form)",
+        Creation: {
+          stage: null,
+          source_stage: { manual: null, extracted: null },
+          stage_resolution: { kind: "excluded-temporary-form" },
+        },
+      }}
+      references={[]}
+      onSelect={() => {}}
+    />,
+  );
+  expect(html).toContain("Not applicable");
+  expect(html).toContain("Unresolved (unverified)");
+  expect(html).toContain("No ordinary learning-cost stage");
+});

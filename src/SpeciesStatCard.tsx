@@ -89,6 +89,12 @@ export default function SpeciesStatCard({
         baselines?: Record<string, number>;
         limits?: Record<string, number>;
         stage?: number | null;
+        source_stage?: {
+          manual?: number | null;
+          extracted?: number | null;
+          printed?: { label: string };
+        };
+        stage_resolution?: { kind: string };
       }
     | undefined;
   const abilities = references.filter((r) => r.kind === "abilities");
@@ -102,16 +108,35 @@ export default function SpeciesStatCard({
     ),
   ];
   const stage = creation?.stage;
-  const stageLabel =
-    stage === 1
+  const stageLabel = creation?.stage_resolution?.kind.startsWith("excluded-")
+    ? "Not applicable"
+    : stage === 1
       ? "First"
       : stage === 2
         ? "Second"
         : stage === 3
-          ? "Third"
+          ? "Final"
           : typeof stage === "number"
             ? String(stage)
             : "Unreviewed";
+  const sourceStage = creation?.source_stage;
+  const sourceValue = sourceStage?.manual ?? sourceStage?.extracted;
+  const sourceStageLabel =
+    sourceStage?.printed?.label ??
+    (sourceValue == null
+      ? "Unresolved"
+      : ["", "First", "Second", "Final"][sourceValue]);
+  const resolution = creation?.stage_resolution?.kind;
+  const stageNote =
+    resolution === "ordinary-evolution-graph"
+      ? "Pricing follows the evolution graph."
+      : resolution === "linked-form-inheritance"
+        ? "Pricing follows the linked form family."
+        : resolution === "user-standalone-final"
+          ? "Final-stage pricing follows your standalone ruling."
+          : resolution?.startsWith("excluded-")
+            ? "No ordinary learning-cost stage."
+            : null;
   function link(ref: CompendiumReference) {
     return ref.id ? (
       <button className="reference-link" onClick={() => onSelect(ref)}>
@@ -222,14 +247,26 @@ export default function SpeciesStatCard({
           <div className="species-sheet-evolution">
             <dl>
               <div>
-                <dt>Evolution stage</dt>
+                <dt>Learning-cost stage</dt>
                 <dd>{stageLabel}</dd>
               </div>
+              {sourceStage && (
+                <div>
+                  <dt>Source stage</dt>
+                  <dd>
+                    {sourceStageLabel}
+                    {sourceStage.printed || sourceStage.manual != null
+                      ? ""
+                      : " (unverified)"}
+                  </dd>
+                </div>
+              )}
               <div>
                 <dt>Evolution time</dt>
                 <dd>{speeds.length ? speeds.join(" / ") : "—"}</dd>
               </div>
             </dl>
+            {stageNote && <p>{stageNote}</p>}
             <div className="species-evolution-strip">
               {evolutions.length ? (
                 evolutions.map((ref, i) => (

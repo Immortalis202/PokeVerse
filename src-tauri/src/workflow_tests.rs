@@ -1229,6 +1229,112 @@ fn s01_reviewed_fixture(t: &Sheet, name: &str, cat: &Catalog) -> Sheet {
 }
 
 #[test]
+fn s01_learning_stage_prices_cover_every_priced_catalog_identity() {
+    let cat = catalog();
+    let report: serde_json::Value =
+        serde_json::from_str(include_str!("../../rules/species-stage-review.json")).unwrap();
+    let mut checked = 0;
+    let mut discounted = 0;
+    for entry in report["species"].as_array().unwrap() {
+        if entry["effective_stage"].is_null() {
+            continue;
+        }
+        let name = entry["name"].as_str().unwrap();
+        let species = cat.find("species", "Name", name).unwrap();
+        let moves = species["Moves"].as_array().unwrap();
+        let (move_name, learned_rank) = moves
+            .iter()
+            .find_map(|m| Some((m["Name"].as_str()?, rules::rank(m["Learned"].as_str()?)?)))
+            .unwrap_or_else(|| panic!("No ranked move for {name}"));
+        let ranks = if learned_rank < 7 {
+            vec![learned_rank, learned_rank + 1]
+        } else {
+            vec![learned_rank]
+        };
+        for rank in ranks {
+            let t = trainer(rules::RANKS[rank]);
+            let mut p = award(&s01_reviewed_fixture(&t, name, &cat), &t, 1000);
+            let mut req = request(&p, "learn", Some(&t));
+            req.move_name = move_name.into();
+            let free = rules::preview(Some(&p), Some(&t), &req, &cat);
+            assert!(free.errors.is_empty(), "{name}: {:?}", free.errors);
+            assert_eq!(free.cost, 0, "{name} free slot");
+            // A stored forgotten ordinary move forces normal stage pricing.
+            p.workflow
+                .as_mut()
+                .unwrap()
+                .forgotten
+                .insert(move_name.into(), "ordinary".into());
+            req = request(&p, "learn", Some(&t));
+            req.move_name = move_name.into();
+            let preview = rules::preview(Some(&p), Some(&t), &req, &cat);
+            assert!(preview.errors.is_empty(), "{name}: {:?}", preview.errors);
+            assert!(
+                !preview
+                    .approvals
+                    .iter()
+                    .any(|a| a.contains("Evolution stage")),
+                "{name}"
+            );
+            let price = if rank > learned_rank {
+                entry["pricing"]["ordinary_below_rank"].as_i64().unwrap()
+            } else {
+                entry["pricing"]["ordinary_same_rank"].as_i64().unwrap()
+            };
+            assert_eq!(preview.cost as i64, price, "{name} rank {rank}");
+            if rank > learned_rank {
+                discounted += 1;
+            }
+        }
+        checked += 1;
+    }
+    assert_eq!(checked, 1151);
+    // Six Primal/Origin/Eternamax cards only offer Champion-rank moves;
+    // there is no higher character rank at which to apply a discount.
+    assert_eq!(discounted, 1145);
+}
+
+#[test]
+fn s01_stage_specific_overrank_and_ancestor_prices_use_the_resolved_stage() {
+    let cat = catalog();
+    for (name, higher, stage) in [
+        ("Bulbasaur", "Solar Beam", 1usize),
+        ("Vibrava", "Boomburst", 2),
+        ("Flygon", "Boomburst", 3),
+    ] {
+        let species = cat.find("species", "Name", name).unwrap();
+        let m = species["Moves"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .find(|m| m["Name"] == higher)
+            .unwrap();
+        let learned = rules::rank(m["Learned"].as_str().unwrap()).unwrap();
+        assert!(learned > 0);
+        let t = trainer(rules::RANKS[learned - 1]);
+        let mut p = award(&s01_reviewed_fixture(&t, name, &cat), &t, 1000);
+        p.workflow.as_mut().unwrap().happiness = 4;
+        p.workflow.as_mut().unwrap().loyalty = 4;
+        let mut req = request(&p, "learn", Some(&t));
+        req.move_name = higher.into();
+        req.method = "overrank".into();
+        let preview = rules::preview(Some(&p), Some(&t), &req, &cat);
+        assert!(preview.errors.is_empty(), "{name}: {:?}", preview.errors);
+        assert_eq!(preview.cost, [5, 15, 20][stage - 1]);
+    }
+    let t = trainer("Champion");
+    for (name, cost) in [("Vibrava", 5), ("Flygon", 10)] {
+        let p = award(&s01_reviewed_fixture(&t, name, &cat), &t, 1000);
+        let mut req = request(&p, "learn", Some(&t));
+        req.move_name = "Sand Attack".into();
+        req.method = "pre_evolution".into();
+        let preview = rules::preview(Some(&p), Some(&t), &req, &cat);
+        assert!(preview.errors.is_empty(), "{name}: {:?}", preview.errors);
+        assert_eq!(preview.cost, cost);
+    }
+}
+
+#[test]
 fn s01_evolution_audit_all_ordinary_branches_preserve_costs_and_guidance() {
     let cat = catalog();
     let audit: serde_json::Value = serde_json::from_str(include_str!(

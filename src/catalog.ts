@@ -25,6 +25,19 @@ export type Species = {
     unresolved_fields?: string[];
     baselines: Record<string, number>;
     limits: Record<string, number>;
+    source_stage?: {
+      manual: number | null;
+      extracted: number | null;
+      printed?: { label: string };
+      notes: string[];
+    };
+    stage_resolution?: {
+      kind: string;
+      previous_stage: number | null;
+      incoming?: string[];
+      outgoing?: string[];
+      inherited_from?: string[];
+    };
   };
   Evolutions: {
     To?: string;

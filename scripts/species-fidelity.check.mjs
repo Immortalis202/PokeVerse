@@ -3,8 +3,119 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { DatabaseSync } from "node:sqlite";
+import {
+  resolveLearningStages,
+  temporaryStageForm,
+} from "./species-stages.mjs";
 const read = (p) => JSON.parse(readFileSync(p, "utf8"));
 const review = read("rules/species-fidelity-review.json");
+
+test("M4-S01 stage audit covers all identities without certifying extracted source labels", () => {
+  const report = read("rules/species-stage-review.json");
+  const corrections = read("rules/catalog-corrections.json"),
+    manual = read("rules/catalog-reviewed.json");
+  const db = new DatabaseSync("src-tauri/resources/catalog.db", {
+    readOnly: true,
+  });
+  try {
+    assert.equal(
+      report.catalog_hash,
+      JSON.parse(
+        db.prepare("select value from metadata where key='hash'").get().value,
+      ),
+    );
+    assert.equal(report.species.length, 1200);
+    assert.deepEqual(report.issues, []);
+    assert.deepEqual(report.summary, {
+      final: 673,
+      first: 359,
+      second: 119,
+      excluded: 49,
+    });
+    for (const row of report.species) {
+      const entry = JSON.parse(
+        db
+          .prepare("select data from entries where kind='species' and id=?")
+          .get(row.id).data,
+      );
+      assert.equal(entry.Creation.stage, row.expected_stage);
+      assert.equal(entry.Creation.inferred_stage, row.expected_stage);
+      assert.equal(
+        entry.Creation.source_stage.manual,
+        manual.species[row.id]?.stage ?? null,
+      );
+      assert.equal(
+        entry.Creation.source_stage.extracted,
+        corrections.species[row.id]?.stage ?? null,
+      );
+      assert.deepEqual(
+        entry.Creation.source_stage.notes,
+        corrections.species[row.id]?.evolution_source_lines ?? [],
+      );
+      if (entry.DexID === "0000" || temporaryStageForm(entry)) {
+        assert.equal(row.pricing, null);
+        continue;
+      }
+      assert.ok([1, 2, 3].includes(row.effective_stage));
+      assert.equal(
+        row.pricing.ordinary_same_rank,
+        [2, 4, 6][row.effective_stage - 1],
+      );
+      assert.equal(
+        row.pricing.ordinary_below_rank,
+        [1, 2, 3][row.effective_stage - 1],
+      );
+      assert.equal(
+        row.pricing.overrank_per_rank,
+        [5, 15, 20][row.effective_stage - 1],
+      );
+    }
+    const stage = (name) => report.species.find((s) => s.name === name);
+    assert.equal(stage("Vibrava").effective_stage, 2);
+    assert.equal(stage("Meganium").effective_stage, 3);
+    assert.equal(stage("Yanmega").effective_stage, 3);
+    assert.equal(stage("Greninja (Battle Bond Form)").effective_stage, 3);
+    assert.equal(stage("Palafin (Hero Form)").effective_stage, 3);
+    assert.equal(stage("Linoone").effective_stage, 3);
+    assert.equal(stage("Linoone (Galarian Form)").effective_stage, 2);
+    assert.equal(stage("Mew").source_stage.printed.label, "Unknown");
+    assert.equal(stage("Mew").effective_stage, 3);
+    assert.ok(
+      stage("Mew").source_stage.notes.some((s) => s.includes("Unknown")),
+    );
+  } finally {
+    db.close();
+  }
+});
+
+test("M4-S01 does not guess a final stage for a linked ambiguous intermediate family", () => {
+  const s = (id, number, evolutions = []) => ({
+    AppId: id,
+    DexID: String(number),
+    Number: number,
+    Name: id,
+    Evolutions: evolutions,
+    Creation: { stage: null },
+  });
+  const species = [
+    s("first", 1, [
+      { To: "middle", Kind: "Level" },
+      { To: "variant", Kind: "Form" },
+    ]),
+    s("middle", 2, [
+      { To: "final", Kind: "Level" },
+      { To: "variant", Kind: "Form" },
+    ]),
+    s("final", 3),
+    s("variant", 4),
+  ];
+  const result = resolveLearningStages(species);
+  assert.deepEqual(
+    species.map((s) => s.Creation.stage),
+    [1, 2, 3, null],
+  );
+  assert.deepEqual(result.unresolved, ["variant"]);
+});
 
 test("M4-S01 evolution audit inventories every JSON identity and separates all form changes", () => {
   const report = read("rules/species-evolution-json-review.json");

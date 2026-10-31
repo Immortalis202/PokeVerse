@@ -46,6 +46,12 @@ export async function applyReferenceReview(catalog, review, root) {
         if (!existing.has(m.Name))
           entry.Moves.push({ Name: m.Name, Learned: "Ace" });
       entry.Creation.stage = 3;
+      entry.Creation.source_stage.printed = {
+        label: "Unknown",
+        printed_page: correction.printed_page,
+        pdf_page: correction.pdf_page,
+        evidence: "retained M4-R01 exact-card visual review",
+      };
       entry.Creation.review_note =
         "User ruling (30 October 2026): Mew has no evolution and is final stage. MASTER 184 prints Unknown. Any catalog move is learnable at Ace with normal final-stage costs; unsupported battle effects remain unsupported.";
       entry.Creation.unresolved_moves = entry.Creation.unresolved_moves.filter(

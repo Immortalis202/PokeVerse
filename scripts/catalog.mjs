@@ -83,6 +83,16 @@ for (const s of catalog.species) {
   s.Creation = {
     stage: review?.stage ?? audit?.stage ?? null,
     inferred_stage: before.length && after.length ? 2 : after.length ? 1 : 3,
+    source_stage: {
+      manual: review?.stage ?? null,
+      extracted: audit?.stage ?? null,
+      source: "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      pdf_page: review?.pdf_page ?? audit?.pdf_page ?? null,
+      status: review?.stage != null ? "manual-review" : "unverified-extraction",
+      // These page-level notes are retained verbatim, never treated as an
+      // exact identity's certified printed Unknown/First/Second/Final label.
+      notes: audit?.evolution_source_lines ?? [],
+    },
     baselines: Object.fromEntries(
       ["Strength", "Dexterity", "Vitality", "Special", "Insight"].map((k) => [
         k,
@@ -124,7 +134,7 @@ for (const s of catalog.species) {
       if (e.To && e.Kind === "Level") e.Speed = review.evolution_speed;
   }
   if (
-    /mega|gigantamax/i.test(s.Name) ||
+    /\(Mega\b|Gigantamax/i.test(s.Name) ||
     ((s.Evolutions ?? []).length &&
       !before.length &&
       !after.length &&

@@ -1,4 +1,5 @@
 import { isDeepStrictEqual } from "node:util";
+import { resolveLearningStages } from "./species-stages.mjs";
 
 const baseNumber = (e) => e.DexID.match(/^\d+/)?.[0];
 const excluded = (e) =>
@@ -321,6 +322,7 @@ export function applySpeciesFidelity(catalog, review, sourceHash) {
       applied.push(id);
     }
   }
+  const learningStageReview = resolveLearningStages(catalog.species);
   for (const retained of review.retained_evolution_discrepancies ?? []) {
     const issue = issues.get(`${retained.source_id}->${retained.target_id}`);
     if (
@@ -352,6 +354,7 @@ export function applySpeciesFidelity(catalog, review, sourceHash) {
     status: "in-progress",
     species_total: catalog.species.length,
     stage_ruling_applied: applied.sort(),
+    learning_stage_review: learningStageReview,
     evolution_issues: [...issues.values()],
     unresolved_evolution_issues: [...issues.values()].filter(
       (issue) => issue.review?.status !== "retained-guidance",

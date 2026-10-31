@@ -35,6 +35,28 @@ Determine standalone status from both incoming and outgoing ordinary relations. 
 
 The policy changes stage assignment on 192 rows in the current snapshot. Record `Creation.stage_ruling` as a user decision and retain printed Unknown/other source notes. It does not mark unknown stats, abilities, moves or evolution conditions reviewed, waive source adjudication, or add battle support.
 
+### Full learning-stage and price audit, 31 October 2026
+
+The stage audit now resolves **all 1,200 exact identities** against the audited ordinary graph and existing user stage-cost policy. [Exact per-identity stages, retained source metadata and price schedules](../rules/species-stage-review.json) records 359 First, 119 Second and 673 Final pricing stages. All 48 Mega identities and the Egg placeholder have no ordinary learning-cost stage. There are no Gigantamax identities in this source snapshot; the same exclusion is implemented for them.
+
+The batch resolves 173 previously missing pricing stages and corrects Vibrava from First to Second. Of these fixes, 172 are recorded in the graph resolver's change queue (171 missing values and Vibrava); the two additional name-matching repairs are Meganium and Yanmega, which the old broad `mega` substring check incorrectly excluded. Battle Bond Greninja and Hero Palafin now inherit Final pricing from their explicit base-form links. Ordinary and Galarian Linoone retain different graph roles (Final and Second respectively); unlinked regional species are not given invented evolution/form links.
+
+`Creation.stage` and `inferred_stage` now describe the effective learning-cost stage. `Creation.stage_resolution` records graph, explicit-form inheritance, standalone user policy or exclusion. Original manual/extracted stage candidates and page-level source notes are retained separately in `Creation.source_stage`. An unresolved extraction is **not** a certified printed Unknown label. Mew's exact, previously reviewed printed Unknown is explicitly retained beside its user-selected Final pricing. The reference card displays learning-cost and source stages separately. No new printed species-field certifications are added, and catalog regeneration does not rewrite saved sheets or historical TP balances.
+
+Pricing follows the existing reviewed fixtures:
+
+| Pricing stage | Charged ordinary move at same rank | Charged ordinary move below rank | Over-ranking per rank gap | Eligible ancestral recall |
+| --- | --- | --- | --- | --- |
+| First | 2 TP | 1 TP | 5 TP | 10 TP if an ancestral move is eligible |
+| Second | 4 TP | 2 TP | 15 TP | 5 TP |
+| Final | 6 TP | 3 TP | 20 TP | 10 TP |
+
+An eligible new ordinary move is still free when a move slot is available; the table applies to replacement, full capacity or relearning a forgotten move. Move eligibility/capacity, required bonds, learning methods, tutor adjudication and TM/TR rules are unchanged. Six Primal/Origin/Eternamax cards have only Champion-rank moves, so no higher character rank exists for a below-rank discount on those cards.
+
+Refresh in this order: `npm run catalog`, `node scripts/species-evolution-json-review.mjs`, `node scripts/species-stat-json-review.mjs`, then `node scripts/species-stage-review.mjs`. The new stage report is separate from visual source certification and does not close the other S01 review queues.
+
+Stage-audit validation: **802 Rust tests passed, zero failed, one diagnostic ignored**, using localhost access. Focused pricing checks covered same-rank and free-slot learning for all 1,151 priced identities, below-rank learning for the 1,145 identities where it is possible, and stage-specific over-ranking/ancestral recall. **74 frontend tests and 50 script/catalog checks passed**, including Unknown/source-price separation and the ambiguous-family guard, plus TypeScript, Rust formatting, relevant Prettier and diff checks. No native builds, Clippy, native UI or physical-network acceptance were run.
+
 ## Confirmed evolution and gender rulings
 
 - [x] Knowing Double Hit (Aipom), Twin Beam (Girafarig), Hyper Drill (Dunsparce), Rage Fist (Primeape), or Psyshield Bash (Stantler) satisfies the named move prerequisite without separate mastery adjudication.
