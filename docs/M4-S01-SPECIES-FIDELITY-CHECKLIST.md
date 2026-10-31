@@ -230,3 +230,7 @@ Prior special-eligibility guidance batch: **792 Rust tests passed, 1 diagnostic 
 31 October graph/source batch: **793 Rust tests passed, 1 diagnostic ignored; 71 frontend tests and 41 script/catalog checks passed; TypeScript, Rust formatting and diff checks passed.** No native package, Clippy, native UI or physical-network acceptance was run.
 
 31 October Kanto pages 137–139 batch: **794 Rust tests passed, 1 diagnostic ignored; 71 frontend tests and 42 script/catalog checks passed; TypeScript, Rust formatting, relevant Prettier checks and diff checks passed.** No native package, Clippy, native UI or physical-network acceptance was run.
+
+### Exact JSON learnset audit, 31 October 2026
+
+Compared all 1,200 identities / 25,438 source move entries: 1,156 arrays agree and 44 remain in reconciliation. Preserved all existing overrides and explicit rulings. No differing complete array matches another same-number form. Five relational duplicate-name/rank discrepancies remain open. See [per-species findings](M4-S01-MOVE-JSON-FINDINGS.md) and [full report](../rules/species-move-json-review.json). This is JSON comparison, not printed certification. Ordinary ability slots remain the next unchecked area.
