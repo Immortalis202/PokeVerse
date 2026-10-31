@@ -1,7 +1,7 @@
 {
   "batch": "M4-S01",
   "scope": "Full exact-identity evolution JSON comparison, recorded rulings, ordinary graph and form-change separation; no new printed-source certification",
-  "catalog_hash": "0e11f958a9513f59e03d306c9bf90d25aebb80c7338e52412e6e40bdaf96ddd6",
+  "catalog_hash": "cb5c69c54b06c12e18b09d643eca4b1f5e971fe6a0a7c3a25f47b717c9c1fce9",
   "species": [
     {
       "id": "0460M1:abomasnow-mega-form",
@@ -9816,6 +9816,72 @@
       ]
     },
     {
+      "id": "0438:bonsly",
+      "name": "Bonsly",
+      "original": [
+        {
+          "To": "Sudowoodo",
+          "Kind": "Level",
+          "Move": "Mimic"
+        }
+      ],
+      "runtime": [
+        {
+          "To": "Sudowoodo",
+          "Kind": "Level",
+          "Move": "Mimic",
+          "TPCost": 0
+        }
+      ],
+      "evidence": [
+        {
+          "source": "user-ruling",
+          "decision": "User ruling: use 0 TP for the seven missing-speed move/item branches; retain GM-set costs for the remaining four. Preserve gender/known-move checks, special guidance, no item consumption and GM completion. Not printed-source certification.",
+          "date": "2026-10-31",
+          "tp_cost": 0
+        }
+      ]
+    },
+    {
+      "id": "0113:chansey",
+      "name": "Chansey",
+      "original": [
+        {
+          "From": "Happiny",
+          "Kind": "Level",
+          "Item": "Oval Stone"
+        },
+        {
+          "To": "Blissey",
+          "Kind": "Stat",
+          "Stat": "Happiness",
+          "Value": 5
+        }
+      ],
+      "runtime": [
+        {
+          "From": "Happiny",
+          "Kind": "Level",
+          "Item": "Oval Stone",
+          "TPCost": 0
+        },
+        {
+          "To": "Blissey",
+          "Kind": "Stat",
+          "Stat": "Happiness",
+          "Value": 5
+        }
+      ],
+      "evidence": [
+        {
+          "source": "user-ruling",
+          "decision": "User ruling: use 0 TP for the seven missing-speed move/item branches; retain GM-set costs for the remaining four. Preserve gender/known-move checks, special guidance, no item consumption and GM completion. Not printed-source certification.",
+          "date": "2026-10-31",
+          "tp_cost": 0
+        }
+      ]
+    },
+    {
       "id": "1011:dipplin",
       "name": "Dipplin",
       "original": [
@@ -10088,6 +10154,87 @@
       ]
     },
     {
+      "id": "0207:gligar",
+      "name": "Gligar",
+      "original": [
+        {
+          "To": "Gliscor",
+          "Kind": "Level",
+          "Item": "Razor Fang"
+        }
+      ],
+      "runtime": [
+        {
+          "To": "Gliscor",
+          "Kind": "Level",
+          "Item": "Razor Fang",
+          "TPCost": 0
+        }
+      ],
+      "evidence": [
+        {
+          "source": "user-ruling",
+          "decision": "User ruling: use 0 TP for the seven missing-speed move/item branches; retain GM-set costs for the remaining four. Preserve gender/known-move checks, special guidance, no item consumption and GM completion. Not printed-source certification.",
+          "date": "2026-10-31",
+          "tp_cost": 0
+        }
+      ]
+    },
+    {
+      "id": "0472:gliscor",
+      "name": "Gliscor",
+      "original": [
+        {
+          "From": "Gligar",
+          "Kind": "Level",
+          "Item": "Razor Fang"
+        }
+      ],
+      "runtime": [
+        {
+          "From": "Gligar",
+          "Kind": "Level",
+          "Item": "Razor Fang",
+          "TPCost": 0
+        }
+      ],
+      "evidence": [
+        {
+          "source": "user-ruling",
+          "decision": "User ruling: use 0 TP for the seven missing-speed move/item branches; retain GM-set costs for the remaining four. Preserve gender/known-move checks, special guidance, no item consumption and GM completion. Not printed-source certification.",
+          "date": "2026-10-31",
+          "tp_cost": 0
+        }
+      ]
+    },
+    {
+      "id": "0440:happiny",
+      "name": "Happiny",
+      "original": [
+        {
+          "To": "Chansey",
+          "Kind": "Level",
+          "Item": "Oval Stone"
+        }
+      ],
+      "runtime": [
+        {
+          "To": "Chansey",
+          "Kind": "Level",
+          "Item": "Oval Stone",
+          "TPCost": 0
+        }
+      ],
+      "evidence": [
+        {
+          "source": "user-ruling",
+          "decision": "User ruling: use 0 TP for the seven missing-speed move/item branches; retain GM-set costs for the remaining four. Preserve gender/known-move checks, special guidance, no item consumption and GM completion. Not printed-source certification.",
+          "date": "2026-10-31",
+          "tp_cost": 0
+        }
+      ]
+    },
+    {
       "id": "1019:hydrapple",
       "name": "Hydrapple",
       "original": [
@@ -10211,6 +10358,145 @@
       ]
     },
     {
+      "id": "0439:mime-jr",
+      "name": "Mime Jr",
+      "original": [
+        {
+          "To": "Mr. Mime",
+          "Kind": "Level",
+          "Move": "Mimic"
+        },
+        {
+          "To": "Mr. Mime (Galarian Form)",
+          "Kind": "Level",
+          "Move": "Mimic",
+          "Region": "Galar"
+        }
+      ],
+      "runtime": [
+        {
+          "To": "Mr. Mime",
+          "Kind": "Level",
+          "Move": "Mimic",
+          "TPCost": 0
+        },
+        {
+          "To": "Mr. Mime (Galarian Form)",
+          "Kind": "Level",
+          "Move": "Mimic",
+          "Region": "Galar",
+          "TPCost": 0
+        }
+      ],
+      "evidence": [
+        {
+          "source": "user-ruling",
+          "decision": "User ruling: use 0 TP for the seven missing-speed move/item branches; retain GM-set costs for the remaining four. Preserve gender/known-move checks, special guidance, no item consumption and GM completion. Not printed-source certification.",
+          "date": "2026-10-31",
+          "tp_cost": 0
+        },
+        {
+          "source": "user-ruling",
+          "decision": "User ruling: use 0 TP for the seven missing-speed move/item branches; retain GM-set costs for the remaining four. Preserve gender/known-move checks, special guidance, no item consumption and GM completion. Not printed-source certification.",
+          "date": "2026-10-31",
+          "tp_cost": 0
+        }
+      ]
+    },
+    {
+      "id": "0122G:mr-mime-galarian-form",
+      "name": "Mr. Mime (Galarian Form)",
+      "original": [
+        {
+          "From": "Mime Jr",
+          "Kind": "Level",
+          "Move": "Mimic",
+          "Region": "Galar"
+        },
+        {
+          "To": "Mr. Rime",
+          "Kind": "Level",
+          "Speed": "Medium"
+        }
+      ],
+      "runtime": [
+        {
+          "From": "Mime Jr",
+          "Kind": "Level",
+          "Move": "Mimic",
+          "Region": "Galar",
+          "TPCost": 0
+        },
+        {
+          "To": "Mr. Rime",
+          "Kind": "Level",
+          "Speed": "Medium"
+        }
+      ],
+      "evidence": [
+        {
+          "source": "user-ruling",
+          "decision": "User ruling: use 0 TP for the seven missing-speed move/item branches; retain GM-set costs for the remaining four. Preserve gender/known-move checks, special guidance, no item consumption and GM completion. Not printed-source certification.",
+          "date": "2026-10-31",
+          "tp_cost": 0
+        }
+      ]
+    },
+    {
+      "id": "0122:mr-mime",
+      "name": "Mr. Mime",
+      "original": [
+        {
+          "From": "Mime Jr",
+          "Kind": "Level",
+          "Move": "Mimic"
+        }
+      ],
+      "runtime": [
+        {
+          "From": "Mime Jr",
+          "Kind": "Level",
+          "Move": "Mimic",
+          "TPCost": 0
+        }
+      ],
+      "evidence": [
+        {
+          "source": "user-ruling",
+          "decision": "User ruling: use 0 TP for the seven missing-speed move/item branches; retain GM-set costs for the remaining four. Preserve gender/known-move checks, special guidance, no item consumption and GM completion. Not printed-source certification.",
+          "date": "2026-10-31",
+          "tp_cost": 0
+        }
+      ]
+    },
+    {
+      "id": "0804:naganadel",
+      "name": "Naganadel",
+      "original": [
+        {
+          "From": "Poipole",
+          "Kind": "Level",
+          "Move": "Dragon Pulse"
+        }
+      ],
+      "runtime": [
+        {
+          "From": "Poipole",
+          "Kind": "Level",
+          "Move": "Dragon Pulse",
+          "TPCost": 0
+        }
+      ],
+      "evidence": [
+        {
+          "source": "user-ruling",
+          "decision": "User ruling: use 0 TP for the seven missing-speed move/item branches; retain GM-set costs for the remaining four. Preserve gender/known-move checks, special guidance, no item consumption and GM completion. Not printed-source certification.",
+          "date": "2026-10-31",
+          "tp_cost": 0
+        }
+      ]
+    },
+    {
       "id": "0923:pawmot",
       "name": "Pawmot",
       "original": [
@@ -10233,6 +10519,33 @@
           "decision": "Printed #921 -> #922 -> #923 line and reciprocal Pawmo -> Pawmot relation; remove self-reference only, preserve unreviewed speed.",
           "printed_page": 405,
           "pdf_page": 272
+        }
+      ]
+    },
+    {
+      "id": "0803:poipole",
+      "name": "Poipole",
+      "original": [
+        {
+          "To": "Naganadel",
+          "Kind": "Level",
+          "Move": "Dragon Pulse"
+        }
+      ],
+      "runtime": [
+        {
+          "To": "Naganadel",
+          "Kind": "Level",
+          "Move": "Dragon Pulse",
+          "TPCost": 0
+        }
+      ],
+      "evidence": [
+        {
+          "source": "user-ruling",
+          "decision": "User ruling: use 0 TP for the seven missing-speed move/item branches; retain GM-set costs for the remaining four. Preserve gender/known-move checks, special guidance, no item consumption and GM completion. Not printed-source certification.",
+          "date": "2026-10-31",
+          "tp_cost": 0
         }
       ]
     },
@@ -10414,6 +10727,35 @@
       ]
     },
     {
+      "id": "0215H:sneasel-hisuian-form",
+      "name": "Sneasel (Hisuian Form)",
+      "original": [
+        {
+          "To": "Sneasler",
+          "Kind": "Level",
+          "Item": "Razor Claw",
+          "Special": "Sunlight"
+        }
+      ],
+      "runtime": [
+        {
+          "To": "Sneasler",
+          "Kind": "Level",
+          "Item": "Razor Claw",
+          "Special": "Sunlight",
+          "TPCost": 0
+        }
+      ],
+      "evidence": [
+        {
+          "source": "user-ruling",
+          "decision": "User ruling: use 0 TP for the seven missing-speed move/item branches; retain GM-set costs for the remaining four. Preserve gender/known-move checks, special guidance, no item consumption and GM completion. Not printed-source certification.",
+          "date": "2026-10-31",
+          "tp_cost": 0
+        }
+      ]
+    },
+    {
       "id": "0215:sneasel",
       "name": "Sneasel",
       "original": [
@@ -10440,6 +10782,35 @@
       ]
     },
     {
+      "id": "0903:sneasler",
+      "name": "Sneasler",
+      "original": [
+        {
+          "From": "Sneasel (Hisuian Form)",
+          "Kind": "Level",
+          "Item": "Razor Claw",
+          "Special": "Sunlight"
+        }
+      ],
+      "runtime": [
+        {
+          "From": "Sneasel (Hisuian Form)",
+          "Kind": "Level",
+          "Item": "Razor Claw",
+          "Special": "Sunlight",
+          "TPCost": 0
+        }
+      ],
+      "evidence": [
+        {
+          "source": "user-ruling",
+          "decision": "User ruling: use 0 TP for the seven missing-speed move/item branches; retain GM-set costs for the remaining four. Preserve gender/known-move checks, special guidance, no item consumption and GM completion. Not printed-source certification.",
+          "date": "2026-10-31",
+          "tp_cost": 0
+        }
+      ]
+    },
+    {
       "id": "0234:stantler",
       "name": "Stantler",
       "original": [
@@ -10460,6 +10831,33 @@
         {
           "source": "user-ruling",
           "decision": "User ruling on 30 October 2026: knowing Psyshield Bash is sufficient; no separate mastery requirement."
+        }
+      ]
+    },
+    {
+      "id": "0185:sudowoodo",
+      "name": "Sudowoodo",
+      "original": [
+        {
+          "From": "Bonsly",
+          "Kind": "Level",
+          "Move": "Mimic"
+        }
+      ],
+      "runtime": [
+        {
+          "From": "Bonsly",
+          "Kind": "Level",
+          "Move": "Mimic",
+          "TPCost": 0
+        }
+      ],
+      "evidence": [
+        {
+          "source": "user-ruling",
+          "decision": "User ruling: use 0 TP for the seven missing-speed move/item branches; retain GM-set costs for the remaining four. Preserve gender/known-move checks, special guidance, no item consumption and GM completion. Not printed-source certification.",
+          "date": "2026-10-31",
+          "tp_cost": 0
         }
       ]
     },
@@ -11047,9 +11445,10 @@
       "target_name": "Sudowoodo",
       "conditions": {
         "Kind": "Level",
-        "Move": "Mimic"
+        "Move": "Mimic",
+        "TPCost": 0
       },
-      "tp_cost": null,
+      "tp_cost": 0,
       "enforced": {
         "Move": "Mimic"
       },
@@ -13256,9 +13655,10 @@
       "target_name": "Gliscor",
       "conditions": {
         "Kind": "Level",
-        "Item": "Razor Fang"
+        "Item": "Razor Fang",
+        "TPCost": 0
       },
-      "tp_cost": null,
+      "tp_cost": 0,
       "enforced": {},
       "guidance": {
         "Item": "Razor Fang"
@@ -13660,9 +14060,10 @@
       "target_name": "Chansey",
       "conditions": {
         "Kind": "Level",
-        "Item": "Oval Stone"
+        "Item": "Oval Stone",
+        "TPCost": 0
       },
-      "tp_cost": null,
+      "tp_cost": 0,
       "enforced": {},
       "guidance": {
         "Item": "Oval Stone"
@@ -14838,9 +15239,10 @@
       "target_name": "Mr. Mime",
       "conditions": {
         "Kind": "Level",
-        "Move": "Mimic"
+        "Move": "Mimic",
+        "TPCost": 0
       },
-      "tp_cost": null,
+      "tp_cost": 0,
       "enforced": {
         "Move": "Mimic"
       },
@@ -14856,9 +15258,10 @@
       "conditions": {
         "Kind": "Level",
         "Move": "Mimic",
-        "Region": "Galar"
+        "Region": "Galar",
+        "TPCost": 0
       },
-      "tp_cost": null,
+      "tp_cost": 0,
       "enforced": {
         "Move": "Mimic"
       },
@@ -15741,9 +16144,10 @@
       "target_name": "Naganadel",
       "conditions": {
         "Kind": "Level",
-        "Move": "Dragon Pulse"
+        "Move": "Dragon Pulse",
+        "TPCost": 0
       },
-      "tp_cost": null,
+      "tp_cost": 0,
       "enforced": {
         "Move": "Dragon Pulse"
       },
@@ -17143,9 +17547,10 @@
       "conditions": {
         "Kind": "Level",
         "Item": "Razor Claw",
-        "Special": "Sunlight"
+        "Special": "Sunlight",
+        "TPCost": 0
       },
-      "tp_cost": null,
+      "tp_cost": 0,
       "enforced": {},
       "guidance": {
         "Item": "Razor Claw",
@@ -19974,17 +20379,6 @@
   ],
   "pending_cost_decisions": [
     {
-      "source_id": "0438:bonsly",
-      "source_name": "Bonsly",
-      "target_id": "0185:sudowoodo",
-      "target_name": "Sudowoodo",
-      "conditions": {
-        "Kind": "Level",
-        "Move": "Mimic"
-      },
-      "decision": "GM-set cost pending explicit ruling"
-    },
-    {
       "source_id": "0790:cosmoem",
       "source_name": "Cosmoem",
       "target_id": "0791:solgaleo",
@@ -20018,28 +20412,6 @@
       "decision": "GM-set cost pending explicit ruling"
     },
     {
-      "source_id": "0207:gligar",
-      "source_name": "Gligar",
-      "target_id": "0472:gliscor",
-      "target_name": "Gliscor",
-      "conditions": {
-        "Kind": "Level",
-        "Item": "Razor Fang"
-      },
-      "decision": "GM-set cost pending explicit ruling"
-    },
-    {
-      "source_id": "0440:happiny",
-      "source_name": "Happiny",
-      "target_id": "0113:chansey",
-      "target_name": "Chansey",
-      "conditions": {
-        "Kind": "Level",
-        "Item": "Oval Stone"
-      },
-      "decision": "GM-set cost pending explicit ruling"
-    },
-    {
       "source_id": "0808:meltan",
       "source_name": "Meltan",
       "target_id": "0809:melmetal",
@@ -20047,52 +20419,6 @@
       "conditions": {
         "Kind": "Level",
         "Speed": "Unknown"
-      },
-      "decision": "GM-set cost pending explicit ruling"
-    },
-    {
-      "source_id": "0439:mime-jr",
-      "source_name": "Mime Jr",
-      "target_id": "0122:mr-mime",
-      "target_name": "Mr. Mime",
-      "conditions": {
-        "Kind": "Level",
-        "Move": "Mimic"
-      },
-      "decision": "GM-set cost pending explicit ruling"
-    },
-    {
-      "source_id": "0439:mime-jr",
-      "source_name": "Mime Jr",
-      "target_id": "0122G:mr-mime-galarian-form",
-      "target_name": "Mr. Mime (Galarian Form)",
-      "conditions": {
-        "Kind": "Level",
-        "Move": "Mimic",
-        "Region": "Galar"
-      },
-      "decision": "GM-set cost pending explicit ruling"
-    },
-    {
-      "source_id": "0803:poipole",
-      "source_name": "Poipole",
-      "target_id": "0804:naganadel",
-      "target_name": "Naganadel",
-      "conditions": {
-        "Kind": "Level",
-        "Move": "Dragon Pulse"
-      },
-      "decision": "GM-set cost pending explicit ruling"
-    },
-    {
-      "source_id": "0215H:sneasel-hisuian-form",
-      "source_name": "Sneasel (Hisuian Form)",
-      "target_id": "0903:sneasler",
-      "target_name": "Sneasler",
-      "conditions": {
-        "Kind": "Level",
-        "Item": "Razor Claw",
-        "Special": "Sunlight"
       },
       "decision": "GM-set cost pending explicit ruling"
     }

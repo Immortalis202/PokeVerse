@@ -514,6 +514,7 @@ pub fn preview(
                         let label = match key.as_str() {
                             "Kind" => "Evolution method",
                             "AllowedGenders" => "Allowed genders",
+                            "TPCost" => "Training Point cost",
                             other => other,
                         };
                         let text = match value {
@@ -566,6 +567,7 @@ pub fn preview(
                         errors.push("An evolution is already prepared".into());
                     }
                     match e["Kind"].as_str().unwrap_or("") {
+                        "Level" if e["TPCost"].as_i64() == Some(0) => cost = 0,
                         "Level" => match e["Speed"].as_str() {
                             Some("Fast") => cost = 10,
                             Some("Medium") => cost = 30,
@@ -585,7 +587,10 @@ pub fn preview(
                         // catalog conditions visible without consuming inventory or gating preparation.
                         _ => {}
                     }
-                    if cost == 0 && e["Kind"].as_str() == Some("Level") {
+                    if cost == 0
+                        && e["Kind"].as_str() == Some("Level")
+                        && e["TPCost"].as_i64() != Some(0)
+                    {
                         cost = req.amount.max(0);
                     }
                     b.evolution_ready = Some(req.target_species.clone());

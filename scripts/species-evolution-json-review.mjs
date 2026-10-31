@@ -57,6 +57,12 @@ for (const fix of [
     else entry.Evolutions[index] = relation;
   }
 }
+for (const ruling of review.user_evolution_cost_rulings ?? []) {
+  const source = expected.get(ruling.source_id),
+    target = expected.get(ruling.target_id);
+  source.Evolutions.find((r) => r.To === target.Name).TPCost = ruling.tp_cost;
+  target.Evolutions.find((r) => r.From === source.Name).TPCost = ruling.tp_cost;
+}
 for (const fix of review.user_evolution_exclusions ?? []) {
   const source = expected.get(fix.source_id),
     target = expected.get(fix.target_id);
@@ -217,7 +223,10 @@ for (const source of sources) {
     graph.set(source.id, [...(graph.get(source.id) ?? []), other.AppId]);
     let cost = 0;
     if (relation.Kind === "Level") {
-      cost = { Fast: 10, Medium: 30, Slow: 50 }[relation.Speed] ?? null;
+      cost =
+        relation.TPCost === 0
+          ? 0
+          : ({ Fast: 10, Medium: 30, Slow: 50 }[relation.Speed] ?? null);
       if (cost === null)
         report.pending_cost_decisions.push({
           ...branch,
@@ -252,7 +261,14 @@ for (const source of sources) {
       guidance: Object.fromEntries(
         Object.entries(conditions(relation)).filter(
           ([k]) =>
-            !["Kind", "Speed", "Gender", "AllowedGenders", "Move"].includes(k),
+            ![
+              "Kind",
+              "Speed",
+              "TPCost",
+              "Gender",
+              "AllowedGenders",
+              "Move",
+            ].includes(k),
         ),
       ),
       items_consumed: false,

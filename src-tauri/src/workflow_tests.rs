@@ -1290,6 +1290,69 @@ fn s01_evolution_audit_all_ordinary_branches_preserve_costs_and_guidance() {
 }
 
 #[test]
+fn s01_evolution_zero_cost_rulings_ignore_proposed_cost_and_preserve_completion_rules() {
+    let cat = catalog();
+    let t = trainer("Champion");
+    for (source, target, required_move) in [
+        ("Bonsly", "Sudowoodo", Some("Mimic")),
+        ("Gligar", "Gliscor", None),
+        ("Happiny", "Chansey", None),
+        ("Mime Jr", "Mr. Mime", Some("Mimic")),
+        ("Mime Jr", "Mr. Mime (Galarian Form)", Some("Mimic")),
+        ("Poipole", "Naganadel", Some("Dragon Pulse")),
+        ("Sneasel (Hisuian Form)", "Sneasler", None),
+    ] {
+        let mut p = s01_reviewed_fixture(&t, source, &cat);
+        let id = cat.find("species", "Name", target).unwrap()["AppId"]
+            .as_str()
+            .unwrap()
+            .to_owned();
+        if let Some(m) = required_move {
+            let mut missing = request(&p, "prepare_evolution", Some(&t));
+            missing.target_species = id.clone();
+            assert!(rules::preview(Some(&p), Some(&t), &missing, &cat)
+                .errors
+                .iter()
+                .any(|e| e.contains(m)));
+            let mut learn = request(&p, "learn", Some(&t));
+            learn.move_name = m.into();
+            learn.method = "tutor".into();
+            p = rules::apply(Some(&p), Some(&t), &learn, &cat, Some(("test", "gm"))).unwrap();
+        }
+        // No funds or owned evolution items are required by this explicit ruling.
+        assert_eq!(p.workflow.as_ref().unwrap().training_points, 0);
+        p.inventory.insert("Retained stock".into(), 5);
+        let mut prepare = request(&p, "prepare_evolution", Some(&t));
+        prepare.target_species = id.clone();
+        prepare.amount = 99;
+        let preview = rules::preview(Some(&p), Some(&t), &prepare, &cat);
+        assert!(preview.errors.is_empty(), "{source}: {:?}", preview.errors);
+        assert!(
+            preview.approvals.is_empty(),
+            "{source}: {:?}",
+            preview.approvals
+        );
+        assert_eq!(preview.cost, 0);
+        let ready = rules::apply(Some(&p), Some(&t), &prepare, &cat, None).unwrap();
+        assert_eq!(ready.workflow.as_ref().unwrap().training_points, 0);
+        assert_eq!(ready.inventory, p.inventory);
+        let mut finish = request(&ready, "evolve", Some(&t));
+        finish.target_species = id.clone();
+        let preview = rules::preview(Some(&ready), Some(&t), &finish, &cat);
+        assert!(preview
+            .approvals
+            .iter()
+            .any(|a| a.contains("evolution scene")));
+        assert!(rules::apply(Some(&ready), Some(&t), &finish, &cat, None).is_err());
+        let evolved =
+            rules::apply(Some(&ready), Some(&t), &finish, &cat, Some(("test", "gm"))).unwrap();
+        assert_eq!(evolved.species_id.as_deref(), Some(id.as_str()));
+        assert_eq!(evolved.inventory, p.inventory);
+        assert_eq!(evolved.workflow.as_ref().unwrap().training_points, 0);
+    }
+}
+
+#[test]
 fn s01_evolution_audit_rejects_all_form_links_during_preparation_and_completion() {
     let cat = catalog();
     let audit: serde_json::Value = serde_json::from_str(include_str!(

@@ -178,6 +178,31 @@ export function applySpeciesFidelity(catalog, review, sourceHash) {
         .join(" ");
     }
   }
+  for (const ruling of review.user_evolution_cost_rulings ?? []) {
+    const source = byId.get(ruling.source_id),
+      target = byId.get(ruling.target_id);
+    if (!source || !target || ruling.tp_cost !== 0)
+      throw new Error(`Unsupported evolution cost ruling: ${ruling.id}`);
+    for (const [entry, key, name] of [
+      [source, "To", target.Name],
+      [target, "From", source.Name],
+    ]) {
+      const matches = entry.Evolutions.filter((r) => r[key] === name);
+      if (
+        matches.length !== 1 ||
+        !isDeepStrictEqual(conditions(matches[0]), ruling.expected_conditions)
+      )
+        throw new Error(`Evolution cost input changed: ${ruling.id}`);
+      matches[0].TPCost = ruling.tp_cost;
+      entry.FidelityReview ??= [];
+      entry.FidelityReview.push({
+        source: "user-ruling",
+        decision: ruling.decision,
+        date: ruling.date,
+        tp_cost: ruling.tp_cost,
+      });
+    }
+  }
   for (const exclusion of review.user_evolution_exclusions ?? []) {
     const source = byId.get(exclusion.source_id),
       target = byId.get(exclusion.target_id);
@@ -345,6 +370,9 @@ export function applySpeciesFidelity(catalog, review, sourceHash) {
     json_evolution_normalizations: (
       review.json_evolution_normalizations ?? []
     ).map((r) => r.id),
+    evolution_cost_rulings: (review.user_evolution_cost_rulings ?? []).map(
+      (r) => r.id,
+    ),
     unresolved_forward_rules: review.user_policy.unresolved_forward_rules,
     excluded_evolution_rulings: (review.user_evolution_exclusions ?? []).map(
       (r) => r.id,

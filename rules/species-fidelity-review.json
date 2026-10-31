@@ -2428,5 +2428,93 @@
       },
       "basis": "Exact supplied JSON names this gender in Special on both directions. Normalize to structured Gender so the existing user policy enforces gender at preparation and completion; preserve Slow 50 TP. No printed certification."
     }
+  ],
+  "user_evolution_cost_rulings": [
+    {
+      "id": "0438:bonsly->0185:sudowoodo",
+      "source_id": "0438:bonsly",
+      "target_id": "0185:sudowoodo",
+      "expected_conditions": {
+        "Kind": "Level",
+        "Move": "Mimic"
+      },
+      "tp_cost": 0,
+      "date": "2026-10-31",
+      "decision": "User ruling: use 0 TP for the seven missing-speed move/item branches; retain GM-set costs for the remaining four. Preserve gender/known-move checks, special guidance, no item consumption and GM completion. Not printed-source certification."
+    },
+    {
+      "id": "0207:gligar->0472:gliscor",
+      "source_id": "0207:gligar",
+      "target_id": "0472:gliscor",
+      "expected_conditions": {
+        "Kind": "Level",
+        "Item": "Razor Fang"
+      },
+      "tp_cost": 0,
+      "date": "2026-10-31",
+      "decision": "User ruling: use 0 TP for the seven missing-speed move/item branches; retain GM-set costs for the remaining four. Preserve gender/known-move checks, special guidance, no item consumption and GM completion. Not printed-source certification."
+    },
+    {
+      "id": "0440:happiny->0113:chansey",
+      "source_id": "0440:happiny",
+      "target_id": "0113:chansey",
+      "expected_conditions": {
+        "Kind": "Level",
+        "Item": "Oval Stone"
+      },
+      "tp_cost": 0,
+      "date": "2026-10-31",
+      "decision": "User ruling: use 0 TP for the seven missing-speed move/item branches; retain GM-set costs for the remaining four. Preserve gender/known-move checks, special guidance, no item consumption and GM completion. Not printed-source certification."
+    },
+    {
+      "id": "0439:mime-jr->0122:mr-mime",
+      "source_id": "0439:mime-jr",
+      "target_id": "0122:mr-mime",
+      "expected_conditions": {
+        "Kind": "Level",
+        "Move": "Mimic"
+      },
+      "tp_cost": 0,
+      "date": "2026-10-31",
+      "decision": "User ruling: use 0 TP for the seven missing-speed move/item branches; retain GM-set costs for the remaining four. Preserve gender/known-move checks, special guidance, no item consumption and GM completion. Not printed-source certification."
+    },
+    {
+      "id": "0439:mime-jr->0122G:mr-mime-galarian-form",
+      "source_id": "0439:mime-jr",
+      "target_id": "0122G:mr-mime-galarian-form",
+      "expected_conditions": {
+        "Kind": "Level",
+        "Move": "Mimic",
+        "Region": "Galar"
+      },
+      "tp_cost": 0,
+      "date": "2026-10-31",
+      "decision": "User ruling: use 0 TP for the seven missing-speed move/item branches; retain GM-set costs for the remaining four. Preserve gender/known-move checks, special guidance, no item consumption and GM completion. Not printed-source certification."
+    },
+    {
+      "id": "0803:poipole->0804:naganadel",
+      "source_id": "0803:poipole",
+      "target_id": "0804:naganadel",
+      "expected_conditions": {
+        "Kind": "Level",
+        "Move": "Dragon Pulse"
+      },
+      "tp_cost": 0,
+      "date": "2026-10-31",
+      "decision": "User ruling: use 0 TP for the seven missing-speed move/item branches; retain GM-set costs for the remaining four. Preserve gender/known-move checks, special guidance, no item consumption and GM completion. Not printed-source certification."
+    },
+    {
+      "id": "0215H:sneasel-hisuian-form->0903:sneasler",
+      "source_id": "0215H:sneasel-hisuian-form",
+      "target_id": "0903:sneasler",
+      "expected_conditions": {
+        "Kind": "Level",
+        "Item": "Razor Claw",
+        "Special": "Sunlight"
+      },
+      "tp_cost": 0,
+      "date": "2026-10-31",
+      "decision": "User ruling: use 0 TP for the seven missing-speed move/item branches; retain GM-set costs for the remaining four. Preserve gender/known-move checks, special guidance, no item consumption and GM completion. Not printed-source certification."
+    }
   ]
 }

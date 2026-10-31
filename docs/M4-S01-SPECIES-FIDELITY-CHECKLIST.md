@@ -173,7 +173,7 @@ Prior audit-only validation: catalog regeneration and the JSON comparison comple
 
 Run `npm run catalog`, `node scripts/species-evolution-json-review.mjs` and `node scripts/species-stat-json-review.mjs` to refresh the [full evolution JSON report](../rules/species-evolution-json-review.json) and the stat report after catalog changes. The report inventories exact source paths/hashes, all ordinary/form branches, costs, prerequisites, retained guidance and unresolved cost decisions. Source files remain unchanged. This JSON audit does not certify remaining printed evolution arrays or close all of S01.
 
-**11 Level branches still have no usable JSON evolution speed.** Existing behavior is retained: the user proposes TP cost, and a GM approves the missing-speed cost. No cost was guessed in this batch.
+**Historical audit checkpoint: 11 Level branches had no usable JSON evolution speed.** The original audit retained GM-set cost for all 11; the subsequent user ruling below resolves seven of them.
 
 | Source | Target | Additional JSON guidance/prerequisite |
 | --- | --- | --- |
@@ -188,6 +188,16 @@ Run `npm run catalog`, `node scripts/species-evolution-json-review.mjs` and `nod
 | Mime Jr | Mr. Mime (Galarian Form) | Knowing Mimic; Galar |
 | Poipole | Naganadel | Knowing Dragon Pulse |
 | Sneasel (Hisuian Form) | Sneasler | Razor Claw; Sunlight |
+
+### User cost ruling applied, 31 October 2026
+
+The user selected **0 TP for missing-speed move/item branches, GM-set for the rest**. This resolves seven exact branches: Bonsly -> Sudowoodo; Gligar -> Gliscor; Happiny -> Chansey; Mime Jr -> ordinary and Galarian Mr. Mime; Poipole -> Naganadel; Hisuian Sneasel -> Sneasler.
+
+The application records `TPCost: 0` in both directions, retaining original Kind, unknown/missing Speed, move, item and region/narrative fields. The registry guards original conditions and records the user decision separately from printed/source certification. Explicit zero overrides a proposed amount rather than falling back to it. Required known moves remain enforced, special items remain guidance without consumption, and completing evolution still requires GM confirmation.
+
+**Four branches remain GM-set:** Cosmog -> Cosmoem, Cosmoem -> Solgaleo, Cosmoem -> Lunala and Meltan -> Melmetal. Existing known Fast/Medium/Slow costs are unchanged. The updated audit still accounts for all 1,200 identities and 522 ordinary branches, with zero unexpected differences, prerequisite issues or unreviewed graph issues; 43 identity arrays now carry recorded changes, and only four cost decisions remain open.
+
+Cost-ruling validation: **800 Rust tests passed, zero failed, one diagnostic ignored**, with localhost access. The four focused evolution tests also passed, including all seven zero-cost preparations/completions, zero TP despite a nonzero proposed amount, required moves, GM completion and preserved inventory. **72 frontend tests and 48 script/catalog checks passed**, along with TypeScript, Rust formatting, relevant Prettier and diff checks. No native builds, Clippy or native/physical-network acceptance were run.
 
 Evolution-audit validation: **799 Rust tests passed, zero failed, one diagnostic ignored**, using localhost access. The focused three-test sweep passed beforehand, covering all 522 ordinary preparations and 112 form exclusions at both preparation/completion, plus both Basculin gender branches. **72 frontend tests and 48 script/catalog checks passed**, along with TypeScript, Rust formatting, relevant Prettier and diff checks. No native packages, Clippy, native UI or physical-network acceptance were run.
 

@@ -21,7 +21,19 @@ test("M4-S01 evolution audit inventories every JSON identity and separates all f
     assert.equal(report.species.length, 1200);
     assert.equal(report.ordinary_branches.length, 522);
     assert.equal(report.form_change_branches.length, 112);
-    assert.equal(report.pending_cost_decisions.length, 11);
+    assert.equal(report.pending_cost_decisions.length, 4);
+    assert.deepEqual(
+      report.pending_cost_decisions
+        .map((b) => `${b.source_name} -> ${b.target_name}`)
+        .sort(),
+      [
+        "Cosmoem -> Lunala",
+        "Cosmoem -> Solgaleo",
+        "Cosmog -> Cosmoem",
+        "Meltan -> Melmetal",
+      ].sort(),
+    );
+    assert.equal(review.user_evolution_cost_rulings.length, 7);
     for (const key of [
       "unexpected_runtime_differences",
       "structural_issues",
@@ -82,6 +94,19 @@ test("M4-S01 evolution audit inventories every JSON identity and separates all f
           (r) => r.source === "supplied-json-normalization",
         ),
       );
+    }
+    for (const ruling of review.user_evolution_cost_rulings) {
+      const s = entries.get(ruling.source_id),
+        t = entries.get(ruling.target_id);
+      assert.deepEqual(
+        s.Evolutions.find((r) => r.To === t.Name),
+        { To: t.Name, ...ruling.expected_conditions, TPCost: 0 },
+      );
+      assert.deepEqual(
+        t.Evolutions.find((r) => r.From === s.Name),
+        { From: s.Name, ...ruling.expected_conditions, TPCost: 0 },
+      );
+      assert.equal(s.Review.fields.Evolutions.status, "unverified");
     }
   } finally {
     db.close();
