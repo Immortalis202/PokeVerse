@@ -1229,6 +1229,61 @@ fn s01_reviewed_fixture(t: &Sheet, name: &str, cat: &Catalog) -> Sheet {
 }
 
 #[test]
+fn s01_printed_missing_forward_links_offer_slow_evolution_and_replay() {
+    let cat = catalog();
+    let t = trainer("Champion");
+    for (name, target) in [("Type: Null", "Silvally"), ("Duraludon", "Archaludon")] {
+        let initial = s01_reviewed_fixture(&t, name, &cat);
+        let mut req = request(&initial, "prepare_evolution", Some(&t));
+        req.target_species = cat.find("species", "Name", target).unwrap()["AppId"]
+            .as_str()
+            .unwrap()
+            .to_owned();
+        assert!(rules::apply(Some(&initial), Some(&t), &req, &cat, None).is_err());
+        let funded = award(&initial, &t, 50);
+        let req = WorkflowRequest {
+            sheet: funded.clone(),
+            expected_revision: funded.revision,
+            ..req
+        };
+        let preview = rules::preview(Some(&funded), Some(&t), &req, &cat);
+        assert!(preview.errors.is_empty(), "{name}: {:?}", preview.errors);
+        assert!(
+            preview.approvals.is_empty(),
+            "{name}: {:?}",
+            preview.approvals
+        );
+        assert_eq!(preview.cost, 50);
+        let ready = rules::apply(Some(&funded), Some(&t), &req, &cat, None).unwrap();
+        assert_eq!(ready.workflow.as_ref().unwrap().training_points, 0);
+        rules::verify_sync(Some(&funded), &ready, Some(&t), &cat).unwrap();
+        let mut finish = request(&ready, "evolve", Some(&t));
+        finish.target_species = req.target_species.clone();
+        assert!(rules::apply(Some(&ready), Some(&t), &finish, &cat, None).is_err());
+        let evolved =
+            rules::apply(Some(&ready), Some(&t), &finish, &cat, Some(("test", "gm"))).unwrap();
+        assert_eq!(evolved.species_id.as_ref(), Some(&req.target_species));
+        assert_eq!(evolved.id, initial.id);
+        assert_eq!(evolved.moves, initial.moves);
+    }
+    let ursaring = s01_reviewed_fixture(&t, "Ursaring", &cat);
+    let mut req = request(&ursaring, "prepare_evolution", Some(&t));
+    req.target_species = "0901F1:ursaluna-kitakami-form".into();
+    assert!(rules::preview(Some(&ursaring), Some(&t), &req, &cat)
+        .errors
+        .iter()
+        .any(|e| e.contains("direct evolution")));
+    let sneasel = s01_reviewed_fixture(&t, "Sneasel", &cat);
+    let mut req = request(&sneasel, "prepare_evolution", Some(&t));
+    req.target_species = "0461:weavile".into();
+    let preview = rules::preview(Some(&sneasel), Some(&t), &req, &cat);
+    assert!(preview.errors.is_empty(), "{:?}", preview.errors);
+    assert!(preview.approvals.is_empty(), "{:?}", preview.approvals);
+    assert_eq!(preview.cost, 0);
+    assert_eq!(preview.sheet.inventory, sneasel.inventory);
+}
+
+#[test]
 fn s01_special_evolution_guidance_preserves_resources_and_gm_completion() {
     let cat = catalog();
     let t = trainer("Champion");

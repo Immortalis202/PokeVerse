@@ -6,6 +6,61 @@ import { DatabaseSync } from "node:sqlite";
 const read = (p) => JSON.parse(readFileSync(p, "utf8"));
 const review = read("rules/species-fidelity-review.json");
 
+test("M4-S01 targeted printed evolution corrections preserve identities and partial review", () => {
+  const db = new DatabaseSync("src-tauri/resources/catalog.db", {
+    readOnly: true,
+  });
+  try {
+    const get = (id) =>
+      JSON.parse(
+        db
+          .prepare("select data from entries where kind='species' and id=?")
+          .get(id).data,
+      );
+    for (const fix of review.source_evolution_corrections) {
+      const source = get(fix.source_id),
+        target = get(fix.target_id);
+      assert.deepEqual(
+        source.Evolutions.find((r) => r.To === target.Name),
+        { To: target.Name, ...fix.resolved_conditions },
+      );
+      assert.deepEqual(
+        target.Evolutions.find((r) => r.From === source.Name),
+        { From: source.Name, ...fix.resolved_conditions },
+      );
+      for (const entry of [source, target]) {
+        assert.equal(entry.Review.fields.Evolutions.status, "unverified");
+        assert.ok(
+          entry.FidelityReview.some(
+            (r) => r.source === "printed source" && r.decision === fix.basis,
+          ),
+        );
+      }
+      for (const ref of fix.references)
+        assert.equal(ref.pdf_page + 133, ref.printed_page);
+    }
+    assert.deepEqual(
+      get("0744:rockruff").Evolutions.map((r) => r.Special),
+      ["Day", "Dusk", "Night"],
+    );
+    assert.equal(get("0772:type-null").Creation.stage, 1);
+    assert.equal(get("0884:duraludon").Creation.stage, 1);
+    const standalone = get("0901F1:ursaluna-kitakami-form");
+    assert.equal(standalone.Creation.stage, 3);
+    assert.deepEqual(standalone.Evolutions, []);
+    assert.ok(
+      standalone.FidelityReview.some(
+        (r) => r.source === "user-ruling" && r.decision.includes("standalone"),
+      ),
+    );
+    const ursaring = get("0217:ursaring");
+    assert.ok(!ursaring.Evolutions.some((r) => r.To === standalone.Name));
+    assert.ok(ursaring.Evolutions.some((r) => r.To === "Ursaluna"));
+  } finally {
+    db.close();
+  }
+});
+
 test("M4-S01 preserves exact source identities and bounds manual certification", () => {
   const db = new DatabaseSync("src-tauri/resources/catalog.db", {
     readOnly: true,
@@ -123,6 +178,10 @@ test("M4-S01 repairs confirmed identity errors but retains disputed conditions",
         .get().value,
     );
     assert.equal(audit.species_total, 1200);
+    assert.equal(audit.unresolved_evolution_issues, 0);
+    assert.equal(audit.evolution_issues.length, 1);
+    assert.equal(audit.evolution_issues[0].source_name, "Scyther");
+    assert.equal(audit.evolution_issues[0].review.status, "retained-guidance");
     assert.ok(
       audit.evolution_issues.every((e) =>
         [

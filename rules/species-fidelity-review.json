@@ -345,6 +345,106 @@
         "Moves"
       ],
       "evolution_review": "partial; temporary-form prerequisites not certified"
+    },
+    {
+      "id": "0772:type-null",
+      "name": "Type: Null",
+      "source": "Pokerole-Data/v3.0/Pokedex/Type Null.json",
+      "sha256": "7903ce2acd12fbf8159803bc2a82f0df9aeaffcb0524e58cf529a09d06f0ffcd",
+      "pdf_page": 229,
+      "printed_page": 362,
+      "fields": [
+        "BaseHP",
+        "Strength",
+        "MaxStrength",
+        "Dexterity",
+        "MaxDexterity",
+        "Vitality",
+        "MaxVitality",
+        "Special",
+        "MaxSpecial",
+        "Insight",
+        "MaxInsight",
+        "Ability1",
+        "Ability2",
+        "Moves"
+      ],
+      "evolution_review": "targeted links recorded separately; whole array not certified"
+    },
+    {
+      "id": "0773:silvally",
+      "name": "Silvally",
+      "source": "Pokerole-Data/v3.0/Pokedex/Silvally.json",
+      "sha256": "ac7cef3b44983a200f8b9a9df864535af047db0204e727c674f8afc189301014",
+      "pdf_page": 230,
+      "printed_page": 363,
+      "fields": [
+        "BaseHP",
+        "Strength",
+        "MaxStrength",
+        "Dexterity",
+        "MaxDexterity",
+        "Vitality",
+        "MaxVitality",
+        "Special",
+        "MaxSpecial",
+        "Insight",
+        "MaxInsight",
+        "Ability1",
+        "Ability2",
+        "Moves"
+      ],
+      "evolution_review": "targeted links recorded separately; whole array not certified"
+    },
+    {
+      "id": "0884:duraludon",
+      "name": "Duraludon",
+      "source": "Pokerole-Data/v3.0/Pokedex/Duraludon.json",
+      "sha256": "ea3b25467e4e3c2ed02aa7afe3f3fd3a19d745a28caf36117661f3674e3d2060",
+      "pdf_page": 259,
+      "printed_page": 392,
+      "fields": [
+        "BaseHP",
+        "Strength",
+        "MaxStrength",
+        "Dexterity",
+        "MaxDexterity",
+        "Vitality",
+        "MaxVitality",
+        "Special",
+        "MaxSpecial",
+        "Insight",
+        "MaxInsight",
+        "Ability1",
+        "Ability2",
+        "Moves"
+      ],
+      "evolution_review": "targeted links recorded separately; whole array not certified"
+    },
+    {
+      "id": "1018:archaludon",
+      "name": "Archaludon",
+      "source": "Pokerole-Data/v3.0/Pokedex/Archaludon.json",
+      "sha256": "5c94c4435e61ece5c6522108ae17f9d7d160bc8d1682fb6a96fdccf0b28e7b12",
+      "pdf_page": 297,
+      "printed_page": 430,
+      "fields": [
+        "BaseHP",
+        "Strength",
+        "MaxStrength",
+        "Dexterity",
+        "MaxDexterity",
+        "Vitality",
+        "MaxVitality",
+        "Special",
+        "MaxSpecial",
+        "Insight",
+        "MaxInsight",
+        "Ability1",
+        "Ability2",
+        "Moves"
+      ],
+      "evolution_review": "targeted links recorded separately; whole array not certified"
     }
   ],
   "clear_corrections": [
@@ -538,6 +638,226 @@
         ]
       },
       "decision": "User ruling on 31 October 2026: Gallade requires Male and one owned Dawn Stone; Gardevoir requires 30 TP / Medium and Male or Female. Gender is normally editable; existing Pokemon remain Unspecified."
+    },
+    {
+      "id": "sneasel-item-evolution",
+      "source_id": "0215:sneasel",
+      "target_id": "0461:weavile",
+      "expected_forward": {
+        "Kind": "Level",
+        "Item": "Razor Claw",
+        "Special": "Moonlight"
+      },
+      "expected_reverse": {
+        "Kind": "Level",
+        "Item": "Razor Claw"
+      },
+      "resolved_conditions": {
+        "Kind": "Item",
+        "Item": "Razor Claw",
+        "Special": "Night"
+      },
+      "decision": "User ruling on 31 October 2026: Sneasel -> Weavile is an item evolution at 0 TP, with Razor Claw at night retained as unenforced guidance (MASTER 202 / PDF 69). No missing-speed GM cost or inventory consumption."
+    }
+  ],
+  "source_evolution_corrections": [
+    {
+      "id": "type-null-link",
+      "source_id": "0772:type-null",
+      "target_id": "0773:silvally",
+      "expected_forward": null,
+      "expected_reverse": {
+        "Kind": "Level",
+        "Speed": "Slow"
+      },
+      "resolved_conditions": {
+        "Kind": "Level",
+        "Speed": "Slow"
+      },
+      "references": [
+        {
+          "pdf_page": 229,
+          "printed_page": 362
+        },
+        {
+          "pdf_page": 230,
+          "printed_page": 363
+        }
+      ],
+      "basis": "Printed Type: Null First / Slow and #772 -> #773 diagrams on both cards support the missing forward link; preserve matching reverse Slow."
+    },
+    {
+      "id": "duraludon-link",
+      "source_id": "0884:duraludon",
+      "target_id": "1018:archaludon",
+      "expected_forward": null,
+      "expected_reverse": {
+        "Kind": "Level",
+        "Speed": "Slow"
+      },
+      "resolved_conditions": {
+        "Kind": "Level",
+        "Speed": "Slow"
+      },
+      "references": [
+        {
+          "pdf_page": 259,
+          "printed_page": 392
+        },
+        {
+          "pdf_page": 297,
+          "printed_page": 430
+        }
+      ],
+      "basis": "Printed Duraludon First / Slow and #884 -> #1018 diagrams on both cards support the missing forward link; preserve matching reverse Slow."
+    },
+    {
+      "id": "goomy-link",
+      "source_id": "0704:goomy",
+      "target_id": "0705H:sliggoo-hisuian-form",
+      "expected_forward": {
+        "Kind": "Level",
+        "Speed": "Medium",
+        "Region": "Hisui"
+      },
+      "expected_reverse": {
+        "Kind": "Level",
+        "Region": "Hisui"
+      },
+      "resolved_conditions": {
+        "Kind": "Level",
+        "Speed": "Medium",
+        "Region": "Hisui"
+      },
+      "references": [
+        {
+          "pdf_page": 209,
+          "printed_page": 342
+        }
+      ],
+      "basis": "Printed Goomy Medium plus Hisuian line support restoring omitted reverse speed; retain existing Hisui guidance."
+    },
+    {
+      "id": "rockruff-link",
+      "source_id": "0744:rockruff",
+      "target_id": "0745F2:lycanroc-dusk-form",
+      "expected_forward": {
+        "Kind": "Level",
+        "Speed": "Slow",
+        "Special": "Dawn"
+      },
+      "expected_reverse": {
+        "Kind": "Level",
+        "Speed": "Slow",
+        "Special": "Dusk"
+      },
+      "resolved_conditions": {
+        "Kind": "Level",
+        "Speed": "Slow",
+        "Special": "Dusk"
+      },
+      "references": [
+        {
+          "pdf_page": 222,
+          "printed_page": 355
+        }
+      ],
+      "basis": "Printed Dusk form explicitly says evolves at dusk / training during dusk. Replace forward Dawn typo with Dusk; preserve Slow cost and other forms."
+    },
+    {
+      "id": "mantyke-guidance",
+      "source_id": "0458:mantyke",
+      "target_id": "0226:mantine",
+      "expected_forward": {
+        "Kind": "Special",
+        "Special": "Bit by Remoraid"
+      },
+      "expected_reverse": {
+        "Kind": "Special",
+        "Special": "Hit by Remoraid"
+      },
+      "resolved_conditions": {
+        "Kind": "Special",
+        "Special": "Bit by Remoraid"
+      },
+      "references": [
+        {
+          "pdf_page": 139,
+          "printed_page": 272
+        },
+        {
+          "pdf_page": 72,
+          "printed_page": 205
+        }
+      ],
+      "basis": "Printed Mantyke explicitly says getting bit by Remoraid, not hit. Correct reverse guidance."
+    },
+    {
+      "id": "slowpoke-galarian-form-guidance",
+      "source_id": "0079G:slowpoke-galarian-form",
+      "target_id": "0199G:slowking-galarian-form",
+      "expected_forward": {
+        "Kind": "Trade",
+        "Item": "King's Rock"
+      },
+      "expected_reverse": {
+        "Kind": "Special",
+        "Special": "Wear Shellder as a Hat"
+      },
+      "resolved_conditions": {
+        "Kind": "Special",
+        "Special": "Wear Shellder as a Hat"
+      },
+      "references": [
+        {
+          "pdf_page": 27,
+          "printed_page": 160
+        },
+        {
+          "pdf_page": 64,
+          "printed_page": 197
+        }
+      ],
+      "basis": "Printed Galarian Slowking says wear Shellder as a hat; King's Rock belongs to ordinary Slowking, not this regional branch. Preserve the existing reverse narrative guidance and other regional branch."
+    }
+  ],
+  "user_evolution_exclusions": [
+    {
+      "id": "kitakami-standalone",
+      "source_id": "0217:ursaring",
+      "target_id": "0901F1:ursaluna-kitakami-form",
+      "expected_reverse": {
+        "From": "Ursaring",
+        "Kind": "Item",
+        "Item": "Peat Moss",
+        "Special": "Moon Ritual"
+      },
+      "decision": "User ruling on 31 October 2026: Bloodmoon/Kitakami Ursaluna is a standalone Pokemon in the Ursaluna family, not an evolution from Ursaring. Keep final-stage learning costs and its exact catalog identity."
+    }
+  ],
+  "retained_evolution_discrepancies": [
+    {
+      "source_id": "0123:scyther",
+      "target_id": "0900:kleavor",
+      "expected_forward": {
+        "Kind": "Trade",
+        "Item": "Black Augurite"
+      },
+      "expected_reverse": {
+        "Kind": "Item",
+        "Item": "Black Augurite"
+      },
+      "references": [
+        {
+          "pdf_page": 41,
+          "printed_page": 174
+        },
+        {
+          "pdf_page": 265,
+          "printed_page": 398
+        }
+      ],
+      "decision": "Printed generic Scyther trade/item guidance and specific Kleavor Black Augurite guidance differ. User explicitly assigns eligibility to player and GM; retain source directions visibly as guidance without an enforced trade, item ownership, consumption or TP charge."
     }
   ]
 }

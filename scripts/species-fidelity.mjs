@@ -43,6 +43,35 @@ export function applySpeciesFidelity(catalog, review, sourceHash) {
   }
   if (review.user_policy.unresolved_forward_rules !== "preserve")
     throw new Error("Unsupported unresolved-evolution policy");
+  for (const fix of review.source_evolution_corrections ?? []) {
+    const source = byId.get(fix.source_id),
+      target = byId.get(fix.target_id);
+    if (!source || !target)
+      throw new Error(`Unknown source evolution identity: ${fix.id}`);
+    for (const [entry, key, name, expected] of [
+      [source, "To", target.Name, fix.expected_forward],
+      [target, "From", source.Name, fix.expected_reverse],
+    ]) {
+      const matches = entry.Evolutions.filter((r) => r[key] === name);
+      if (
+        expected === null
+          ? matches.length !== 0
+          : matches.length !== 1 ||
+            !isDeepStrictEqual(conditions(matches[0]), expected)
+      )
+        throw new Error(`Printed evolution source changed: ${fix.id} ${key}`);
+      const corrected = { [key]: name, ...fix.resolved_conditions };
+      if (matches.length)
+        entry.Evolutions[entry.Evolutions.indexOf(matches[0])] = corrected;
+      else entry.Evolutions.push(corrected);
+      entry.FidelityReview ??= [];
+      entry.FidelityReview.push({
+        source: "printed source",
+        decision: fix.basis,
+        references: fix.references,
+      });
+    }
+  }
   for (const ruling of review.user_evolution_rulings ?? []) {
     const source = byId.get(ruling.source_id),
       target = byId.get(ruling.target_id);
@@ -85,6 +114,30 @@ export function applySpeciesFidelity(catalog, review, sourceHash) {
       ]
         .filter(Boolean)
         .join(" ");
+    }
+  }
+  for (const exclusion of review.user_evolution_exclusions ?? []) {
+    const source = byId.get(exclusion.source_id),
+      target = byId.get(exclusion.target_id);
+    if (
+      !source ||
+      !target ||
+      source.Evolutions.some((r) => r.To === target.Name)
+    )
+      throw new Error(`Excluded evolution source changed: ${exclusion.id}`);
+    const reverse = target.Evolutions.filter((r) => r.From === source.Name);
+    if (
+      reverse.length !== 1 ||
+      !isDeepStrictEqual(reverse[0], exclusion.expected_reverse)
+    )
+      throw new Error(`Excluded reverse evolution changed: ${exclusion.id}`);
+    target.Evolutions = target.Evolutions.filter((r) => r !== reverse[0]);
+    for (const entry of [source, target]) {
+      entry.FidelityReview ??= [];
+      entry.FidelityReview.push({
+        source: "user-ruling",
+        decision: exclusion.decision,
+      });
     }
   }
   const formLinks = new Map(catalog.species.map((s) => [s.AppId, new Set()]));
@@ -181,6 +234,30 @@ export function applySpeciesFidelity(catalog, review, sourceHash) {
       applied.push(id);
     }
   }
+  for (const retained of review.retained_evolution_discrepancies ?? []) {
+    const issue = issues.get(`${retained.source_id}->${retained.target_id}`);
+    if (
+      !issue ||
+      issue.forward.length !== 1 ||
+      issue.reverse.length !== 1 ||
+      !isDeepStrictEqual(
+        conditions(issue.forward[0]),
+        retained.expected_forward,
+      ) ||
+      !isDeepStrictEqual(
+        conditions(issue.reverse[0]),
+        retained.expected_reverse,
+      )
+    )
+      throw new Error(
+        `Retained evolution discrepancy changed: ${retained.source_id}`,
+      );
+    issue.review = {
+      status: "retained-guidance",
+      decision: retained.decision,
+      references: retained.references,
+    };
+  }
   return {
     special_evolution_requirements:
       review.user_policy.special_evolution_requirements,
@@ -189,10 +266,19 @@ export function applySpeciesFidelity(catalog, review, sourceHash) {
     species_total: catalog.species.length,
     stage_ruling_applied: applied.sort(),
     evolution_issues: [...issues.values()],
+    unresolved_evolution_issues: [...issues.values()].filter(
+      (issue) => issue.review?.status !== "retained-guidance",
+    ).length,
     manual_reviews_added: review.manual_reviews.length,
+    source_evolution_corrections: (
+      review.source_evolution_corrections ?? []
+    ).map((r) => r.id),
     resolved_evolution_rulings: (review.user_evolution_rulings ?? []).map(
       (r) => r.id,
     ),
     unresolved_forward_rules: review.user_policy.unresolved_forward_rules,
+    excluded_evolution_rulings: (review.user_evolution_exclusions ?? []).map(
+      (r) => r.id,
+    ),
   };
 }

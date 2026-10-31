@@ -1786,6 +1786,577 @@
         "Hydro Cannon"
       ],
       "review": "M4-S01 visual review of complete MASTER 136 / PDF 3: exact identity, base HP, five baseline/limit dot rows, both ordinary ability slots and every move-rank icon. No blanket certification of unreviewed evolution/item prerequisites."
+    },
+    "0772:type-null": {
+      "pdf_page": 229,
+      "stage": 1,
+      "fields": {
+        "BaseHP": 6,
+        "Strength": 3,
+        "MaxStrength": 6,
+        "Dexterity": 2,
+        "MaxDexterity": 4,
+        "Vitality": 3,
+        "MaxVitality": 6,
+        "Special": 3,
+        "MaxSpecial": 6,
+        "Insight": 3,
+        "MaxInsight": 6,
+        "Ability1": "Battle Armor",
+        "Ability2": "",
+        "Moves": [
+          {
+            "Learned": "Starter",
+            "Name": "Tackle"
+          },
+          {
+            "Learned": "Starter",
+            "Name": "Rage"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Pursuit"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Imprison"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Aerial Ace"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Crush Claw"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Scary Face"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Double Hit"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Metal Sound"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Take Down"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Air Slash"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Tri Attack"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Iron Head"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "X-Scissor"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Razor Wind"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Punishment"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Double-Edge"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Heal Block"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Magic Coat"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Dragon Claw"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Last Resort"
+          }
+        ]
+      },
+      "moves_reviewed": [
+        "Tackle",
+        "Rage",
+        "Pursuit",
+        "Imprison",
+        "Aerial Ace",
+        "Crush Claw",
+        "Scary Face",
+        "Double Hit",
+        "Metal Sound",
+        "Take Down",
+        "Air Slash",
+        "Tri Attack",
+        "Iron Head",
+        "X-Scissor",
+        "Razor Wind",
+        "Punishment",
+        "Double-Edge",
+        "Heal Block",
+        "Magic Coat",
+        "Dragon Claw",
+        "Last Resort"
+      ],
+      "review": "M4-S01 visual review of exact card on MASTER 362 / PDF 229: base HP, five baseline/limit dot rows, both ordinary ability slots and complete learnset/rank icons match supplied values. Evolution links reviewed separately; no blanket evolution-array certification."
+    },
+    "0773:silvally": {
+      "pdf_page": 230,
+      "stage": 3,
+      "fields": {
+        "BaseHP": 6,
+        "Strength": 3,
+        "MaxStrength": 6,
+        "Dexterity": 3,
+        "MaxDexterity": 6,
+        "Vitality": 3,
+        "MaxVitality": 6,
+        "Special": 3,
+        "MaxSpecial": 6,
+        "Insight": 3,
+        "MaxInsight": 6,
+        "Ability1": "RKS System",
+        "Ability2": "",
+        "Moves": [
+          {
+            "Learned": "Starter",
+            "Name": "Tackle"
+          },
+          {
+            "Learned": "Starter",
+            "Name": "Rage"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Pursuit"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Imprison"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Aerial Ace"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Crush Claw"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Bite"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Scary Face"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Double Hit"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Metal Sound"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Take Down"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Fire Fang"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Ice Fang"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Thunder Fang"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Poison Fang"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Crunch"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Air Slash"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Tri Attack"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Iron Head"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "X-Scissor"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Razor Wind"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Punishment"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Double-Edge"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Heal Block"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Multi-Attack"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Parting Shot"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Last Resort"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Swords Dance"
+          }
+        ]
+      },
+      "moves_reviewed": [
+        "Tackle",
+        "Rage",
+        "Pursuit",
+        "Imprison",
+        "Aerial Ace",
+        "Crush Claw",
+        "Bite",
+        "Scary Face",
+        "Double Hit",
+        "Metal Sound",
+        "Take Down",
+        "Fire Fang",
+        "Ice Fang",
+        "Thunder Fang",
+        "Poison Fang",
+        "Crunch",
+        "Air Slash",
+        "Tri Attack",
+        "Iron Head",
+        "X-Scissor",
+        "Razor Wind",
+        "Punishment",
+        "Double-Edge",
+        "Heal Block",
+        "Multi-Attack",
+        "Parting Shot",
+        "Last Resort",
+        "Swords Dance"
+      ],
+      "review": "M4-S01 visual review of exact card on MASTER 363 / PDF 230: base HP, five baseline/limit dot rows, both ordinary ability slots and complete learnset/rank icons match supplied values. Evolution links reviewed separately; no blanket evolution-array certification."
+    },
+    "0884:duraludon": {
+      "pdf_page": 259,
+      "stage": 1,
+      "fields": {
+        "BaseHP": 5,
+        "Strength": 3,
+        "MaxStrength": 6,
+        "Dexterity": 2,
+        "MaxDexterity": 5,
+        "Vitality": 3,
+        "MaxVitality": 6,
+        "Special": 3,
+        "MaxSpecial": 7,
+        "Insight": 2,
+        "MaxInsight": 4,
+        "Ability1": "Light Metal",
+        "Ability2": "Heavy Metal",
+        "Moves": [
+          {
+            "Learned": "Starter",
+            "Name": "Metal Claw"
+          },
+          {
+            "Learned": "Starter",
+            "Name": "Leer"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Rock Smash"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Hone Claws"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Iron Head"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Protect"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Metal Sound"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Breaking Swipe"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Dragon Tail"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Iron Defense"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Laser Focus"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Dragon Claw"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Flash Cannon"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Reflect"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Swords Dance"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Night Slash"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Thunderbolt"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Metal Burst"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Hyper Beam"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Draco Meteor"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Steel Beam"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Body Press"
+          }
+        ]
+      },
+      "moves_reviewed": [
+        "Metal Claw",
+        "Leer",
+        "Rock Smash",
+        "Hone Claws",
+        "Iron Head",
+        "Protect",
+        "Metal Sound",
+        "Breaking Swipe",
+        "Dragon Tail",
+        "Iron Defense",
+        "Laser Focus",
+        "Dragon Claw",
+        "Flash Cannon",
+        "Reflect",
+        "Swords Dance",
+        "Night Slash",
+        "Thunderbolt",
+        "Metal Burst",
+        "Hyper Beam",
+        "Draco Meteor",
+        "Steel Beam",
+        "Body Press"
+      ],
+      "review": "M4-S01 visual review of exact card on MASTER 392 / PDF 259: base HP, five baseline/limit dot rows, both ordinary ability slots and complete learnset/rank icons match supplied values. Evolution links reviewed separately; no blanket evolution-array certification."
+    },
+    "1018:archaludon": {
+      "pdf_page": 297,
+      "stage": 3,
+      "fields": {
+        "BaseHP": 6,
+        "Strength": 3,
+        "MaxStrength": 6,
+        "Dexterity": 2,
+        "MaxDexterity": 5,
+        "Vitality": 3,
+        "MaxVitality": 7,
+        "Special": 3,
+        "MaxSpecial": 7,
+        "Insight": 2,
+        "MaxInsight": 4,
+        "Ability1": "Stamina",
+        "Ability2": "Sturdy",
+        "Moves": [
+          {
+            "Learned": "Starter",
+            "Name": "Metal Claw"
+          },
+          {
+            "Learned": "Starter",
+            "Name": "Leer"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Rock Smash"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Hone Claws"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Iron Head"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Protect"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Metal Sound"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Breaking Swipe"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Dragon Tail"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Iron Defense"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Focus Energy"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Dragon Claw"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Flash Cannon"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Reflect"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Swords Dance"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Light Screen"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Thunderbolt"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Night Slash"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Electro Shot"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Metal Burst"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Hyper Beam"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Draco Meteor"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Steel Beam"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Solar Beam"
+          }
+        ]
+      },
+      "moves_reviewed": [
+        "Metal Claw",
+        "Leer",
+        "Rock Smash",
+        "Hone Claws",
+        "Iron Head",
+        "Protect",
+        "Metal Sound",
+        "Breaking Swipe",
+        "Dragon Tail",
+        "Iron Defense",
+        "Focus Energy",
+        "Dragon Claw",
+        "Flash Cannon",
+        "Reflect",
+        "Swords Dance",
+        "Light Screen",
+        "Thunderbolt",
+        "Night Slash",
+        "Electro Shot",
+        "Metal Burst",
+        "Hyper Beam",
+        "Draco Meteor",
+        "Steel Beam",
+        "Solar Beam"
+      ],
+      "review": "M4-S01 visual review of exact card on MASTER 430 / PDF 297: base HP, five baseline/limit dot rows, both ordinary ability slots and complete learnset/rank icons match supplied values. Evolution links reviewed separately; no blanket evolution-array certification."
     }
   }
 }
