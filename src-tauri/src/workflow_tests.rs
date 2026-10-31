@@ -1244,7 +1244,8 @@ fn s01_learning_stage_prices_cover_every_priced_catalog_identity() {
         let moves = species["Moves"].as_array().unwrap();
         let (move_name, learned_rank) = moves
             .iter()
-            .find_map(|m| Some((m["Name"].as_str()?, rules::rank(m["Learned"].as_str()?)?)))
+            .filter_map(|m| Some((m["Name"].as_str()?, rules::rank(m["Learned"].as_str()?)?)))
+            .min_by_key(|(_, rank)| *rank)
             .unwrap_or_else(|| panic!("No ranked move for {name}"));
         let ranks = if learned_rank < 7 {
             vec![learned_rank, learned_rank + 1]
@@ -1289,9 +1290,9 @@ fn s01_learning_stage_prices_cover_every_priced_catalog_identity() {
         checked += 1;
     }
     assert_eq!(checked, 1151);
-    // Six Primal/Origin/Eternamax cards only offer Champion-rank moves;
+    // Ten exact JSON cards only offer Champion-rank moves;
     // there is no higher character rank at which to apply a discount.
-    assert_eq!(discounted, 1145);
+    assert_eq!(discounted, 1141);
 }
 
 #[test]

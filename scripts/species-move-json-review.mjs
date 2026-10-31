@@ -73,7 +73,31 @@ for (const s of sources) {
   seen.add(s.id);
   report.species_compared++;
   report.move_entries_compared += s.entry.Moves.length;
-  const expected = structuredClone(s.entry.Moves);
+  let expected = structuredClone(
+    manual.species[s.id]?.fields?.Moves ?? s.entry.Moves,
+  );
+  const references = JSON.parse(
+    readFileSync(path.join(app, "rules/catalog-reference-review.json")),
+  ).entries.filter((r) => r.kind === "species" && r.app_id === s.id);
+  for (const reference of references) {
+    if (reference.id === "gouging-fire-blast") {
+      const move = expected.find((m) => m.Name === "FIre Blast");
+      if (!move || move.Learned !== "Expert")
+        throw new Error("Gouging Fire source changed");
+      move.Name = "Fire Blast";
+    } else if (reference.id === "mew-any-move") {
+      const wildcard = expected.filter((m) => m.Name === "Any Move");
+      if (wildcard.length !== 1 || wildcard[0].Learned !== "Ace")
+        throw new Error("Mew source changed");
+      expected = expected.filter((m) => m.Name !== "Any Move");
+      const names = new Set(expected.map((m) => m.Name));
+      for (const row of db
+        .prepare("select name from entries where kind='moves'")
+        .all())
+        if (!names.has(row.name))
+          expected.push({ Name: row.name, Learned: "Ace" });
+    } else throw new Error(`Unhandled reference: ${reference.id}`);
+  }
   const rulings = report.user_move_rank_rulings.filter((r) => r.id === s.id);
   for (const r of rulings) {
     const moves = expected.filter((m) => m.Name === r.move);
@@ -124,6 +148,7 @@ for (const s of sources) {
     source_matches: sourceMatches,
     matches_after_rulings: matches,
     rulings,
+    references,
   };
   report.entries.push(entry);
   if (!matches)

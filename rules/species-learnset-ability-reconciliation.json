@@ -1,0 +1,8382 @@
+{
+  "batch": "M4-S01",
+  "scope": "Exact JSON reconciliation only; no new printed certifications. Preserve manual reviews, M4-R01 references and explicit user rulings.",
+  "entries": [
+    {
+      "id": "0493:arceus",
+      "name": "Arceus",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Seismic Toss",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Cosmic Power",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Natural Gift",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Punishment",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Gravity",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Earth Power",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Hyper Voice",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Extreme Speed",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Refresh",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Future Sight",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Recover",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Hyper Beam",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Perish Song",
+          "Learned": "Advanced"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Judgment"
+        },
+        {
+          "Name": "Sunsteel Strike",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Infestation",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Zap Cannon",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Draco Meteor",
+          "Learned": "Advanced"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Light Of Ruin"
+        },
+        {
+          "Name": "Inferno",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Hurricane",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Phantom Force",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Frenzy Plant",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Detect",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Sheer Cold",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Sludge Bomb",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Ancient Power",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Origin Pulse",
+          "Learned": "Advanced"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Champion",
+          "Name": "Seismic Toss"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Cosmic Power"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Natural Gift"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Punishment"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Gravity"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Earth Power"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Hyper Voice"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Extreme Speed"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Refresh"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Future Sight"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Recover"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Hyper Beam"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Perish Song"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Judgment"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Sunsteel Strike"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Infestation"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Zap Cannon"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Draco Meteor"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Light Of Ruin"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Inferno"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Hurricane"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Phantom Force"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Frenzy Plant"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Detect"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Sheer Cold"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Sludge Bomb"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Ancient Power"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Origin Pulse"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0482:azelf",
+      "name": "Azelf",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Confusion",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Rest",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Swift",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Detect",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Psybeam",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Natural Gift",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Imprison",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Extrasensory",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Swords Dance",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Psychic",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Uproar",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Flail",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Nasty Plot",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Zen Headbutt",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Tri Attack",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Mystical Power",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Last Resort",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Taunt",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Giga Impact",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Hyper Beam",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Hidden Power",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Future Sight",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Skill Swap",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Explosion",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Power Shift",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Knock Off",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Drain Punch",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Expanding Force",
+          "Learned": "Standard"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Master",
+          "Name": "Confusion"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Rest"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Swift"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Detect"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Psybeam"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Natural Gift"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Imprison"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Extrasensory"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Swords Dance"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Psychic"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Uproar"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Flail"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Nasty Plot"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Zen Headbutt"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Tri Attack"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Mystical Power"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Last Resort"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Taunt"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Giga Impact"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Hyper Beam"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Hidden Power"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Future Sight"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Skill Swap"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Explosion"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Power Shift"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Knock Off"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Drain Punch"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Expanding Force"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0898F2:calyrex-shadow-rider-form",
+      "name": "Calyrex (Shadow Rider Form)",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Astral Barrage",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Double Kick",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Hex",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Nasty Plot",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Confuse Ray",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Haze",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Shadow Ball",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Take Down",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Thrash",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Agility",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Double-Edge",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Mega Drain",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Confusion",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Growth",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Life Dew",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Giga Drain",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Psyshock",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Helping Hand",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Aromatherapy",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Energy Ball",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Psychic",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Leech Seed",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Heal Pulse",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Solar Beam",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Future Sight",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Expanding Force",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Phantom Force",
+          "Learned": "Standard"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Master",
+          "Name": "Astral Barrage"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Double Kick"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Hex"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Nasty Plot"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Confuse Ray"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Haze"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Shadow Ball"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Take Down"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Thrash"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Agility"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Double-Edge"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Mega Drain"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Confusion"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Growth"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Life Dew"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Giga Drain"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Psyshock"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Helping Hand"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Aromatherapy"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Energy Ball"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Psychic"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Leech Seed"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Heal Pulse"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Solar Beam"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Future Sight"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Expanding Force"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Phantom Force"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0898:calyrex",
+      "name": "Calyrex",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Learned": "Ace",
+          "Name": "Pound"
+        },
+        {
+          "Name": "Mega Drain",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Confusion",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Growth",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Life Dew",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Giga Drain",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Psyshock",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Helping Hand",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Aromatherapy",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Energy Ball",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Psychic",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Leech Seed",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Heal Pulse",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Solar Beam",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Future Sight",
+          "Learned": "Standard"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Solar Blade"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Light Screen"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Reflect"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Safeguard"
+        },
+        {
+          "Name": "Expanding Force",
+          "Learned": "Standard"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Ace",
+          "Name": "Pound"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Mega Drain"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Confusion"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Growth"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Life Dew"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Giga Drain"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Psyshock"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Helping Hand"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Aromatherapy"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Energy Ball"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Psychic"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Leech Seed"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Heal Pulse"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Solar Beam"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Future Sight"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Solar Blade"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Light Screen"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Reflect"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Safeguard"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Expanding Force"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0980:clodsire",
+      "name": "Clodsire",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Tackle",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Tail Whip",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Mud Sport",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Mud Shot",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Slam",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Mud Bomb",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Amnesia",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Poison Tail",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Toxic Spikes",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Spikes",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Yawn",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Poison Jab",
+          "Learned": "Advanced"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Sandstorm"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Sludge Wave"
+        },
+        {
+          "Name": "Toxic",
+          "Learned": "Advanced"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Stone Edge"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Megahorn"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Earthquake"
+        },
+        {
+          "Name": "Heavy Slam",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Recover",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Counter",
+          "Learned": "Ace"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Starter",
+          "Name": "Tackle"
+        },
+        {
+          "Learned": "Starter",
+          "Name": "Tail Whip"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Mud Sport"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Mud Shot"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Slam"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Mud Bomb"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Amnesia"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Poison Tail"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Toxic Spikes"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Spikes"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Yawn"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Poison Jab"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Sandstorm"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Sludge Wave"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Toxic"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Stone Edge"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Megahorn"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Earthquake"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Heavy Slam"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Recover"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Counter"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0845:cramorant",
+      "name": "Cramorant",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Belch",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Peck",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Stockpile",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Swallow",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Spit Up",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Water Gun",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Fury Attack",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Pluck",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Feather Dance",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Roost",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Dive",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Drill Peck",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Amnesia",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Scald",
+          "Learned": "Advanced"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Agility"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Thrash"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Hydro Pump"
+        },
+        {
+          "Name": "Hurricane",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Aqua Ring",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Surf",
+          "Learned": "Ace"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Starter",
+          "Name": "Belch"
+        },
+        {
+          "Learned": "Starter",
+          "Name": "Peck"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Stockpile"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Swallow"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Spit Up"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Water Gun"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Fury Attack"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Pluck"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Feather Dance"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Roost"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Dive"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Drill Peck"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Amnesia"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Scald"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Agility"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Thrash"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Hydro Pump"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Hurricane"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Aqua Ring"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Surf"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0488:cresselia",
+      "name": "Cresselia",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Confusion",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Double Team",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Mist",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Aurora Beam",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Psybeam",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Psycho Shift",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Slash",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Psycho Cut",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Moonlight",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Safeguard",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Calm Mind",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Rest",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Sleep Talk",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Attract",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Captivate",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Reflect",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Light Screen",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Psychic",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Magic Coat",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Future Sight",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Moonblast",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Shadow Ball",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Lunar Dance",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Lunar Blessing",
+          "Learned": "Ace"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Champion",
+          "Name": "Confusion"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Double Team"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Mist"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Aurora Beam"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Psybeam"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Psycho Shift"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Slash"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Psycho Cut"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Moonlight"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Safeguard"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Calm Mind"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Rest"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Sleep Talk"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Attract"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Captivate"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Reflect"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Light Screen"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Psychic"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Magic Coat"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Future Sight"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Moonblast"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Shadow Ball"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Lunar Dance"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Lunar Blessing"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0702:dedenne",
+      "name": "Dedenne",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Nuzzle",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Tail Whip",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Tackle",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Thunder Shock",
+          "Learned": "Rookie"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Charge"
+        },
+        {
+          "Name": "Charm",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Parabolic Charge",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Volt Switch",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Charge Beam",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Entrainment",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Iron Tail",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Eerie Impulse",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Rest",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Snore",
+          "Learned": "Advanced"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Discharge"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Magnet Rise"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Play Rough"
+        },
+        {
+          "Name": "Thunder",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Recycle",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Super Fang",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Rising Voltage",
+          "Learned": "Ace"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Starter",
+          "Name": "Nuzzle"
+        },
+        {
+          "Learned": "Starter",
+          "Name": "Tail Whip"
+        },
+        {
+          "Learned": "Starter",
+          "Name": "Tackle"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Thunder Shock"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Charge"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Charm"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Parabolic Charge"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Volt Switch"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Charge Beam"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Entrainment"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Iron Tail"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Eerie Impulse"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Rest"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Snore"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Discharge"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Magnet Rise"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Play Rough"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Thunder"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Recycle"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Super Fang"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Rising Voltage"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0483:dialga",
+      "name": "Dialga",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Dragon Breath",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Scary Face",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Metal Claw",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Ancient Power",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Slash",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Power Gem",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Flash Cannon",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Dragon Claw",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Metal Burst",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Aura Sphere",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Earth Power",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Iron Tail",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Safeguard",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Protect",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Trick Room",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Hidden Power",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Heavy Slam",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Psych Up",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Dragon Pulse",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Iron Defense",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Echoed Voice",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Magnet Rise",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Draco Meteor",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Hyper Beam",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Steel Beam",
+          "Learned": "Advanced"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Roar Of Time"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Champion",
+          "Name": "Dragon Breath"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Scary Face"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Metal Claw"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Ancient Power"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Slash"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Power Gem"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Flash Cannon"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Dragon Claw"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Metal Burst"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Aura Sphere"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Earth Power"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Iron Tail"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Safeguard"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Protect"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Trick Room"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Hidden Power"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Heavy Slam"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Psych Up"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Dragon Pulse"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Iron Defense"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Echoed Voice"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Magnet Rise"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Draco Meteor"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Hyper Beam"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Steel Beam"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Roar Of Time"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0956:espathra",
+      "name": "Espathra",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Peck",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Growl",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Confusion",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Baby-Doll Eyes",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Disarming Voice",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Quick Attack",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Psybeam",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Pluck",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Drill Peck",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Feather Dance",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Swift",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Hypnosis",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Agility",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Lumina Crash",
+          "Learned": "Advanced"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Light Screen"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Reflect"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Uproar"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Roost"
+        },
+        {
+          "Name": "Psychic",
+          "Learned": "Ace"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Last Resort"
+        },
+        {
+          "Name": "Energy Ball",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Shadow Ball",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Psychic Terrain",
+          "Learned": "Ace"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Starter",
+          "Name": "Peck"
+        },
+        {
+          "Learned": "Starter",
+          "Name": "Growl"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Confusion"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Baby-Doll Eyes"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Disarming Voice"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Quick Attack"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Psybeam"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Pluck"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Drill Peck"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Feather Dance"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Swift"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Hypnosis"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Agility"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Lumina Crash"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Light Screen"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Reflect"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Uproar"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Roost"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Psychic"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Last Resort"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Energy Ball"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Shadow Ball"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Psychic Terrain"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0890:eternatus",
+      "name": "Eternatus",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Poison Tail",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Confuse Ray",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Dragon Tail",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Agility",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Toxic",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Venoshock",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Dragon Dance",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Cross Poison",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Dragon Pulse",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Flamethrower",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Dynamax Cannon",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Cosmic Power",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Recover",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Hyper Beam",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Eternabeam",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Light Screen",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Reflect",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Protect",
+          "Learned": "Advanced"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Master",
+          "Name": "Poison Tail"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Confuse Ray"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Dragon Tail"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Agility"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Toxic"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Venoshock"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Dragon Dance"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Cross Poison"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Dragon Pulse"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Flamethrower"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Dynamax Cannon"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Cosmic Power"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Recover"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Hyper Beam"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Eternabeam"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Light Screen"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Reflect"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Protect"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0596:galvantula",
+      "name": "Galvantula",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Absorb",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "String Shot",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Fury Cutter",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Spider Web",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Sticky Web",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Infestation",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Electroweb",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Bug Bite",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Thunder Wave",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Electro Ball",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Agility",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Double Team",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Volt Switch",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Signal Beam",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Sucker Punch",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Slash",
+          "Learned": "Advanced"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Discharge"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Screech"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Cross Poison"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Bug Buzz"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Gastro Acid"
+        },
+        {
+          "Name": "Thunder",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Bounce",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Magnet Rise",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Giga Drain",
+          "Learned": "Ace"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Starter",
+          "Name": "Absorb"
+        },
+        {
+          "Learned": "Starter",
+          "Name": "String Shot"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Fury Cutter"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Spider Web"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Sticky Web"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Infestation"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Electroweb"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Bug Bite"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Thunder Wave"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Electro Ball"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Agility"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Double Team"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Volt Switch"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Signal Beam"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Sucker Punch"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Slash"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Discharge"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Screech"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Cross Poison"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Bug Buzz"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Gastro Acid"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Thunder"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Bounce"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Magnet Rise"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Giga Drain"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0569:garbodor",
+      "name": "Garbodor",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Pound",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Poison Gas",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Recycle",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Acid Spray",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Corrosive Gas",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Infestation",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Amnesia",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Clear Smog",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Toxic Spikes",
+          "Learned": "Advanced"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Sludge"
+        },
+        {
+          "Name": "Stockpile",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Swallow",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Take Down",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Sludge Bomb",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Toxic",
+          "Learned": "Advanced"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Belch"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Giga Impact"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Pain Split"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Gunk Shot"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Explosion"
+        },
+        {
+          "Name": "Spikes",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Drain Punch",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Stomping Tantrum",
+          "Learned": "Ace"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Starter",
+          "Name": "Pound"
+        },
+        {
+          "Learned": "Starter",
+          "Name": "Poison Gas"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Recycle"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Acid Spray"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Corrosive Gas"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Infestation"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Amnesia"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Clear Smog"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Toxic Spikes"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Sludge"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Stockpile"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Swallow"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Take Down"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Sludge Bomb"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Toxic"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Belch"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Giga Impact"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Pain Split"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Gunk Shot"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Explosion"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Spikes"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Drain Punch"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Stomping Tantrum"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0487:giratina",
+      "name": "Giratina",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Dragon Breath",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Scary Face",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Ominous Wind",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Ancient Power",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Slash",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Shadow Sneak",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Shadow Claw",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Dragon Claw",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Destiny Bond",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Aura Sphere",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Earth Power",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Pain Split",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Icy Wind",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Protect",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Trick Room",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Hidden Power",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Spite",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Psych Up",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Dragon Pulse",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Shadow Ball",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Dark Pulse",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Gravity",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Draco Meteor",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Hyper Beam",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Hex",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Shadow Force",
+          "Learned": "Advanced"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Champion",
+          "Name": "Dragon Breath"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Scary Face"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Ominous Wind"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Ancient Power"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Slash"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Shadow Sneak"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Shadow Claw"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Dragon Claw"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Destiny Bond"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Aura Sphere"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Earth Power"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Pain Split"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Icy Wind"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Protect"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Trick Room"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Hidden Power"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Spite"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Psych Up"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Dragon Pulse"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Shadow Ball"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Dark Pulse"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Gravity"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Draco Meteor"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Hyper Beam"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Hex"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Shadow Force"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0141:kabutops",
+      "name": "Kabutops",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Slash",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Harden",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Absorb",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Leer",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Sand Attack",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Feint",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Endure",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Mud Shot",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Mega Drain",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Aqua Jet",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Ancient Power",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Metal Sound",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Night Slash",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Protect",
+          "Learned": "Advanced"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Leech Life"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Brine"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Wring Out"
+        },
+        {
+          "Name": "Metal Sound",
+          "Learned": "Advanced"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Liquidation"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Stone Edge"
+        },
+        {
+          "Name": "Flip Turn",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Meteor Beam",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Iron Defense",
+          "Learned": "Ace"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Starter",
+          "Name": "Slash"
+        },
+        {
+          "Learned": "Starter",
+          "Name": "Harden"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Absorb"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Leer"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Sand Attack"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Feint"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Endure"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Mud Shot"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Mega Drain"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Aqua Jet"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Ancient Power"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Metal Sound"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Night Slash"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Protect"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Leech Life"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Brine"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Wring Out"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Metal Sound"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Liquidation"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Stone Edge"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Flip Turn"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Meteor Beam"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Iron Defense"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0646:kyurem",
+      "name": "Kyurem",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Dragon Rage",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Dragon Breath",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Noble Roar",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Ancient Power",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Freeze Dry",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Slash",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Endeavor",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Icy Wind",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Dragon Pulse",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Ice Beam",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Hail",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Hyper Voice",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Blizzard",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Imprison",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Aurora Veil",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Scary Face",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Mist",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Haze",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Recover",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Substitute",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Sheer Cold",
+          "Learned": "Standard"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Power Split"
+        },
+        {
+          "Name": "Outrage",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Glaciate",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Draco Meteor",
+          "Learned": "Standard"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Master",
+          "Name": "Dragon Rage"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Dragon Breath"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Noble Roar"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Ancient Power"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Freeze Dry"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Slash"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Endeavor"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Icy Wind"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Dragon Pulse"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Ice Beam"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Hail"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Hyper Voice"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Blizzard"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Imprison"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Aurora Veil"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Scary Face"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Mist"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Haze"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Recover"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Substitute"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Sheer Cold"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Power Split"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Outrage"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Glaciate"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Draco Meteor"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0481:mesprit",
+      "name": "Mesprit",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Confusion",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Rest",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Swift",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Protect",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Psybeam",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Natural Gift",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Imprison",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Extrasensory",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Charm",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Psychic",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Flatter",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Reflect",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Freezing Glare",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Light Screen",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Tri Attack",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Mystical Power",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Role Play",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Lucky Chant",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Helping Hand",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Psych Up",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Hidden Power",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Future Sight",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Copycat",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Healing Wish",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Encore",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Knock Off",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Recover",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Expanding Force",
+          "Learned": "Standard"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Master",
+          "Name": "Confusion"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Rest"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Swift"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Protect"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Psybeam"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Natural Gift"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Imprison"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Extrasensory"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Charm"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Psychic"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Flatter"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Reflect"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Freezing Glare"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Light Screen"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Tri Attack"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Mystical Power"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Role Play"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Lucky Chant"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Helping Hand"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Psych Up"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Hidden Power"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Future Sight"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Copycat"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Healing Wish"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Encore"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Knock Off"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Recover"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Expanding Force"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0312:minun",
+      "name": "Minun",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Nuzzle",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Growl",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Thunder Wave",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Play Nice",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Quick Attack",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Helping Hand",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Spark",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Encore",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Switcheroo",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Swift",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Electro Ball",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Copycat",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Charm",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Fake Tears",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Discharge",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Charge",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Agility",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Baton Pass",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Nasty Plot",
+          "Learned": "Advanced"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Entrainment"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Trump Card"
+        },
+        {
+          "Name": "Thunder",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Light Screen",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Mimic",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Wish",
+          "Learned": "Ace"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Starter",
+          "Name": "Nuzzle"
+        },
+        {
+          "Learned": "Starter",
+          "Name": "Growl"
+        },
+        {
+          "Learned": "Starter",
+          "Name": "Thunder Wave"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Play Nice"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Quick Attack"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Helping Hand"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Spark"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Encore"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Switcheroo"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Swift"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Electro Ball"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Copycat"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Charm"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Fake Tears"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Discharge"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Charge"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Agility"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Baton Pass"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Nasty Plot"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Entrainment"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Trump Card"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Thunder"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Light Screen"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Mimic"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Wish"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0122:mr-mime",
+      "name": "Mr. Mime",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Confusion",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Barrier",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Quick Guard",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Baton Pass",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Wide Guard",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Protect",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Copycat",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Magical Leaf",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Encore",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Trick",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Role Play",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Hypnosis",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Recycle",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Psybeam",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Power Swap",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Light Screen",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Mirror Coat",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Guard Swap",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Mimic",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Safeguard",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Reflect",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Teeter Dance",
+          "Learned": "Advanced"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Sucker Punch"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Substitute"
+        },
+        {
+          "Name": "Psychic",
+          "Learned": "Ace"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Dazzling Gleam"
+        },
+        {
+          "Name": "Expanding Force",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Psychic Terrain",
+          "Learned": "Ace"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Starter",
+          "Name": "Confusion"
+        },
+        {
+          "Learned": "Starter",
+          "Name": "Barrier"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Quick Guard"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Baton Pass"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Wide Guard"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Protect"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Copycat"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Magical Leaf"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Encore"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Trick"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Role Play"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Hypnosis"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Recycle"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Psybeam"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Power Swap"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Light Screen"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Mirror Coat"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Guard Swap"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Mimic"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Safeguard"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Reflect"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Teeter Dance"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Sucker Punch"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Substitute"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Psychic"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Dazzling Gleam"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Expanding Force"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Psychic Terrain"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0030:nidorina",
+      "name": "Nidorina",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Poison Sting",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Growl",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Scratch",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Tail Whip",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Fury Swipes",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Toxic Spikes",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Double Kick",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Bite",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Helping Hand",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Toxic",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Flatter",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Crunch",
+          "Learned": "Advanced"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Earth Power"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Captivate"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Lovely Kiss"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Poison Fang"
+        },
+        {
+          "Name": "Moonlight",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Charm",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Water Pulse",
+          "Learned": "Ace"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Starter",
+          "Name": "Poison Sting"
+        },
+        {
+          "Learned": "Starter",
+          "Name": "Growl"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Scratch"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Tail Whip"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Fury Swipes"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Toxic Spikes"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Double Kick"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Bite"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Helping Hand"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Toxic"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Flatter"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Crunch"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Earth Power"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Captivate"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Lovely Kiss"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Poison Fang"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Moonlight"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Charm"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Water Pulse"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0043:oddish",
+      "name": "Oddish",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Absorb",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Growth",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Sweet Scent",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Acid",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Poison Powder",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Stun Spore",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Sleep Powder",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Mega Drain",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Lucky Chant",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Natural Gift",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Moonlight",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Giga Drain",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Toxic",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Moonblast",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Petal Dance",
+          "Learned": "Advanced"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Grassy Glide"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Grassy Terrain"
+        },
+        {
+          "Name": "Charm",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Gastro Acid",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Endure",
+          "Learned": "Ace"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Starter",
+          "Name": "Absorb"
+        },
+        {
+          "Learned": "Starter",
+          "Name": "Growth"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Sweet Scent"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Acid"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Poison Powder"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Stun Spore"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Sleep Powder"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Mega Drain"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Lucky Chant"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Natural Gift"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Moonlight"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Giga Drain"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Toxic"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Moonblast"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Petal Dance"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Grassy Glide"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Grassy Terrain"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Charm"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Gastro Acid"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Endure"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0765:oranguru",
+      "name": "Oranguru",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Confusion",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Taunt",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "After You",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Feint Attack",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Calm Mind",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Stored Power",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Quash",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Nasty Plot",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Zen Headbutt",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Trick Room",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Light Screen",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Reflect",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Psychic",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Psych Up",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Psych Up",
+          "Learned": "Advanced"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Wonder Room"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Psychic Terrain"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Spite"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Instruct"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Foul Play"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Future Sight"
+        },
+        {
+          "Name": "Expanding Force",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Hyper Beam",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Imprison",
+          "Learned": "Ace"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Starter",
+          "Name": "Confusion"
+        },
+        {
+          "Learned": "Starter",
+          "Name": "Taunt"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "After You"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Feint Attack"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Calm Mind"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Stored Power"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Quash"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Nasty Plot"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Zen Headbutt"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Trick Room"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Light Screen"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Reflect"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Psychic"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Psych Up"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Psych Up"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Wonder Room"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Psychic Terrain"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Spite"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Instruct"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Foul Play"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Future Sight"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Expanding Force"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Hyper Beam"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Imprison"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0904:overqwil",
+      "name": "Overqwil",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Tackle",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Poison Sting",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Harden",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Supersonic",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Fell Stinger",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Bite",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Spikes",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Toxic Spikes",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Barb Barrage",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Pin Missile",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Stockpile",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Spit Up",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Minimize",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Smart Strike",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Reversal",
+          "Learned": "Advanced"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Aqua Tail"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Poison Tail"
+        },
+        {
+          "Name": "Toxic",
+          "Learned": "Standard"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Acupressure"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Poison Jab"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Crunch"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Destiny Bond"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Liquidation"
+        },
+        {
+          "Name": "Self Destruct",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Agility",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Swords Dance",
+          "Learned": "Ace"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Starter",
+          "Name": "Tackle"
+        },
+        {
+          "Learned": "Starter",
+          "Name": "Poison Sting"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Harden"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Supersonic"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Fell Stinger"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Bite"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Spikes"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Toxic Spikes"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Barb Barrage"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Pin Missile"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Stockpile"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Spit Up"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Minimize"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Smart Strike"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Reversal"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Aqua Tail"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Poison Tail"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Toxic"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Acupressure"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Poison Jab"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Crunch"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Destiny Bond"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Liquidation"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Self Destruct"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Agility"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Swords Dance"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0417:pachirisu",
+      "name": "Pachirisu",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Bide",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Growl",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Quick Attack",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Baby-Doll Eyes",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Spark",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Bite",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Endure",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Charm",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Swift",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Thunder Wave",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Sweet Kiss",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Nuzzle",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Super Fang",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Electro Ball",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Hyper Fang",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Crunch",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Discharge",
+          "Learned": "Advanced"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Last Resort"
+        },
+        {
+          "Name": "Thunder",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Follow Me",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Seed Bomb",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Fake Tears",
+          "Learned": "Ace"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Starter",
+          "Name": "Bide"
+        },
+        {
+          "Learned": "Starter",
+          "Name": "Growl"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Quick Attack"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Baby-Doll Eyes"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Spark"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Bite"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Endure"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Charm"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Swift"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Thunder Wave"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Sweet Kiss"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Nuzzle"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Super Fang"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Electro Ball"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Hyper Fang"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Crunch"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Discharge"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Last Resort"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Thunder"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Follow Me"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Seed Bomb"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Fake Tears"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0484:palkia",
+      "name": "Palkia",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Dragon Breath",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Scary Face",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Water Pulse",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Ancient Power",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Slash",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Power Gem",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Aqua Tail",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Dragon Claw",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Aqua Ring",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Aura Sphere",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Earth Power",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Double Team",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Substitute",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Protect",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Trick Room",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Hidden Power",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Hydro Pump",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Psych Up",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Dragon Pulse",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Surf",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Hyper Voice",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Gravity",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Draco Meteor",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Hyper Beam",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Liquidation",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Spacial Rend",
+          "Learned": "Advanced"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Champion",
+          "Name": "Dragon Breath"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Scary Face"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Water Pulse"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Ancient Power"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Slash"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Power Gem"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Aqua Tail"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Dragon Claw"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Aqua Ring"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Aura Sphere"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Earth Power"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Double Team"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Substitute"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Protect"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Trick Room"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Hidden Power"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Hydro Pump"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Psych Up"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Dragon Pulse"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Surf"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Hyper Voice"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Gravity"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Draco Meteor"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Hyper Beam"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Liquidation"
+        },
+        {
+          "Learned": "Champion",
+          "Name": "Spacial Rend"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0504:patrat",
+      "name": "Patrat",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Tackle",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Leer",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Bite",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Sand Attack",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Bide",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Detect",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Crunch",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Hypnosis",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Super Fang",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "After You",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Work Up",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Focus Energy",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Mean Look",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Hyper Fang",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Nasty Plot",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Baton Pass",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Slam",
+          "Learned": "Advanced"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Dig"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Double-Edge"
+        },
+        {
+          "Name": "Screech",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Seed Bomb",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Aqua Tail",
+          "Learned": "Ace"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Starter",
+          "Name": "Tackle"
+        },
+        {
+          "Learned": "Starter",
+          "Name": "Leer"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Bite"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Sand Attack"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Bide"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Detect"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Crunch"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Hypnosis"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Super Fang"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "After You"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Work Up"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Focus Energy"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Mean Look"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Hyper Fang"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Nasty Plot"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Baton Pass"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Slam"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Dig"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Double-Edge"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Screech"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Seed Bomb"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Aqua Tail"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0279:pelipper",
+      "name": "Pelipper",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Water Gun",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Growl",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Water Sport",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Wing Attack",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Supersonic",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Soak",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Mist",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Water Pulse",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Quick Attack",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Roost",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Protect",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Brine",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Pursuit",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Air Cutter",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Stockpile",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Swallow",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Spit Up",
+          "Learned": "Advanced"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Fling"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Aerial Ace"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Tailwind"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Air Slash"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Hurricane"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Hydro Pump"
+        },
+        {
+          "Name": "Wide Guard",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Gunk Shot",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Shock Wave",
+          "Learned": "Ace"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Starter",
+          "Name": "Water Gun"
+        },
+        {
+          "Learned": "Starter",
+          "Name": "Growl"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Water Sport"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Wing Attack"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Supersonic"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Soak"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Mist"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Water Pulse"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Quick Attack"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Roost"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Protect"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Brine"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Pursuit"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Air Cutter"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Stockpile"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Swallow"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Spit Up"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Fling"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Aerial Ace"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Tailwind"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Air Slash"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Hurricane"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Hydro Pump"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Wide Guard"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Gunk Shot"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Shock Wave"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0311:plusle",
+      "name": "Plusle",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Nuzzle",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Growl",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Thunder Wave",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Play Nice",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Quick Attack",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Helping Hand",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Spark",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Encore",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Skill Swap",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Swift",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Electro Ball",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Copycat",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Charm",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Fake Tears",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Discharge",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Charge",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Agility",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Baton Pass",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Nasty Plot",
+          "Learned": "Advanced"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Entrainment"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Last Resort"
+        },
+        {
+          "Name": "Thunder",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Reflect",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Mimic",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Wish",
+          "Learned": "Ace"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Starter",
+          "Name": "Nuzzle"
+        },
+        {
+          "Learned": "Starter",
+          "Name": "Growl"
+        },
+        {
+          "Learned": "Starter",
+          "Name": "Thunder Wave"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Play Nice"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Quick Attack"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Helping Hand"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Spark"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Encore"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Skill Swap"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Swift"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Electro Ball"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Copycat"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Charm"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Fake Tears"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Discharge"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Charge"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Agility"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Baton Pass"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Nasty Plot"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Entrainment"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Last Resort"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Thunder"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Reflect"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Mimic"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Wish"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0895:regidrago",
+      "name": "Regidrago",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Twister",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Vice Grip",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Bite",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Ancient Power",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Dragon Breath",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Focus Energy",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Crunch",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Dragon Claw",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Hammer Arm",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Dragon Dance",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Thrash",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Laser Focus",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Dragon Energy",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Hyper Beam",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Explosion",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Rest",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Protect",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Sleep Talk",
+          "Learned": "Standard"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Master",
+          "Name": "Twister"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Vice Grip"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Bite"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Ancient Power"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Dragon Breath"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Focus Energy"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Crunch"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Dragon Claw"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Hammer Arm"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Dragon Dance"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Thrash"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Laser Focus"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Dragon Energy"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Hyper Beam"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Explosion"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Rest"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Protect"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Sleep Talk"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0894:regieleki",
+      "name": "Regieleki",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Thunder Shock",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Rapid Spin",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Electroweb",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Ancient Power",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Shock Wave",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Thunder Wave",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Extreme Speed",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Thunder Cage",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Thunderbolt",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Magnet Rise",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Lock-On",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Zap Cannon",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Hyper Beam",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Explosion",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Rising Voltage",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Protect",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Electric Terrain",
+          "Learned": "Standard"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Master",
+          "Name": "Thunder Shock"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Rapid Spin"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Electroweb"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Ancient Power"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Shock Wave"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Thunder Wave"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Extreme Speed"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Thunder Cage"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Thunderbolt"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Magnet Rise"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Lock-On"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Zap Cannon"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Hyper Beam"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Explosion"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Rising Voltage"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Protect"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Electric Terrain"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0643:reshiram",
+      "name": "Reshiram",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Dragon Rage",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Dragon Breath",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Noble Roar",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Ancient Power",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Fire Fang",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Slash",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Crunch",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Extrasensory",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Dragon Pulse",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Flamethrower",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Fusion Flare",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Hyper Voice",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Fire Blast",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Imprison",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Reflect",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Scorching Sands",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Lucky Chant",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Wish",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Roost",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Fire Pledge",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Overheat",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Topsy-Turvy",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Outrage",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Blue Flare",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Draco Meteor",
+          "Learned": "Standard"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Master",
+          "Name": "Dragon Rage"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Dragon Breath"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Noble Roar"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Ancient Power"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Fire Fang"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Slash"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Crunch"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Extrasensory"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Dragon Pulse"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Flamethrower"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Fusion Flare"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Hyper Voice"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Fire Blast"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Imprison"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Reflect"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Scorching Sands"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Lucky Chant"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Wish"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Roost"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Fire Pledge"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Overheat"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Topsy-Turvy"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Outrage"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Blue Flare"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Draco Meteor"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0579:reuniclus",
+      "name": "Reuniclus",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Endeavor",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Confusion",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Psywave",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Protect",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Dizzy Punch",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Telekinesis",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Recover",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Psybeam",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Charm",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Psyshock",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Light Screen",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Reflect",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Rollout",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Snatch",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Hidden Power",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Ally Switch",
+          "Learned": "Advanced"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Pain Split"
+        },
+        {
+          "Name": "Psychic",
+          "Learned": "Ace"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Skill Swap"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Heal Block"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Hammer Arm"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Wonder Room"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Future Sight"
+        },
+        {
+          "Name": "Substitute",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Psychic Terrain",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Expanding Force",
+          "Learned": "Ace"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Starter",
+          "Name": "Endeavor"
+        },
+        {
+          "Learned": "Starter",
+          "Name": "Confusion"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Psywave"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Protect"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Dizzy Punch"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Telekinesis"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Recover"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Psybeam"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Charm"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Psyshock"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Light Screen"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Reflect"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Rollout"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Snatch"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Hidden Power"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Ally Switch"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Pain Split"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Psychic"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Skill Swap"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Heal Block"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Hammer Arm"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Wonder Room"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Future Sight"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Substitute"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Psychic Terrain"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Expanding Force"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0407:roserade",
+      "name": "Roserade",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Absorb",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Growth",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Poison Sting",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Stun Spore",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Mega Drain",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Leech Seed",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Magical Leaf",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Grass Whistle",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Sweet Scent",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Toxic Spikes",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Weather Ball",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Venom Drench",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Grassy Terrain",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Ingrain",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Petal Blizzard",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Toxic",
+          "Learned": "Advanced"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Aromatherapy"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Poison Jab"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Giga Drain"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Synthesis"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Petal Dance"
+        },
+        {
+          "Name": "Leaf Storm",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Sludge Bomb",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Life Dew",
+          "Learned": "Ace"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Starter",
+          "Name": "Absorb"
+        },
+        {
+          "Learned": "Starter",
+          "Name": "Growth"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Poison Sting"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Stun Spore"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Mega Drain"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Leech Seed"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Magical Leaf"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Grass Whistle"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Sweet Scent"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Toxic Spikes"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Weather Ball"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Venom Drench"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Grassy Terrain"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Ingrain"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Petal Blizzard"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Toxic"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Aromatherapy"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Poison Jab"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Giga Drain"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Synthesis"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Petal Dance"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Leaf Storm"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Sludge Bomb"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Life Dew"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0791:solgaleo",
+      "name": "Solgaleo",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Sunsteel Strike",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Teleport",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Cosmic Power",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Metal Claw",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Noble Roar",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Iron Head",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Metal Sound",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Zen Headbutt",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Flash Cannon",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Morning Sun",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Wake-Up Slap",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Crunch",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Metal Burst",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Sunny Day",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Solar Beam",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Wild Charge",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Flame Charge",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Light Screen",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Iron Defense",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Outrage",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Flare Blitz",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Wide Guard",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Giga Impact",
+          "Learned": "Standard"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Master",
+          "Name": "Sunsteel Strike"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Teleport"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Cosmic Power"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Metal Claw"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Noble Roar"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Iron Head"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Metal Sound"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Zen Headbutt"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Flash Cannon"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Morning Sun"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Wake-Up Slap"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Crunch"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Metal Burst"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Sunny Day"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Solar Beam"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Wild Charge"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Flame Charge"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Light Screen"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Iron Defense"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Outrage"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Flare Blitz"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Wide Guard"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Giga Impact"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0700:sylveon",
+      "name": "Sylveon",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Helping Hand",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Tackle",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Tail Whip",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Sand Attack",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Fairy Wind",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Quick Attack",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Draining Kiss",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Disarming Voice",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Baby-Doll Eyes",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Captivate",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Misty Terrain",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Light Screen",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Skill Swap",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Psych Up",
+          "Learned": "Advanced"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Last Resort"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Moonblast"
+        },
+        {
+          "Name": "Wish",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Hyper Voice",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Misty Explosion",
+          "Learned": "Ace"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Starter",
+          "Name": "Helping Hand"
+        },
+        {
+          "Learned": "Starter",
+          "Name": "Tackle"
+        },
+        {
+          "Learned": "Starter",
+          "Name": "Tail Whip"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Sand Attack"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Fairy Wind"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Quick Attack"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Draining Kiss"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Disarming Voice"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Baby-Doll Eyes"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Captivate"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Misty Terrain"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Light Screen"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Skill Swap"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Psych Up"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Last Resort"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Moonblast"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Wish"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Hyper Voice"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Misty Explosion"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0480:uxie",
+      "name": "Uxie",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Confusion",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Rest",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Swift",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Endure",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Psybeam",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Natural Gift",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Imprison",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Extrasensory",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Amnesia",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Psychic",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Yawn",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Flail",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Calm Mind",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Hypnosis",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Tri Attack",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Mystical Power",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Magic Room",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Wonder Room",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Trick Room",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Psych Up",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Hidden Power",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Future Sight",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Memento",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Foul Play",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Encore",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "U-Turn",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Sleep Talk",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Expanding Force",
+          "Learned": "Standard"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Master",
+          "Name": "Confusion"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Rest"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Swift"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Endure"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Psybeam"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Natural Gift"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Imprison"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Extrasensory"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Amnesia"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Psychic"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Yawn"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Flail"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Calm Mind"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Hypnosis"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Tri Attack"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Mystical Power"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Magic Room"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Wonder Room"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Trick Room"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Psych Up"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Hidden Power"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Future Sight"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Memento"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Foul Play"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Encore"
+        },
+        {
+          "Learned": "Master",
+          "Name": "U-Turn"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Sleep Talk"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Expanding Force"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0194P:wooper-paldean-form",
+      "name": "Wooper (Paldean Form)",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Tackle",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Tail Whip",
+          "Learned": "Starter"
+        },
+        {
+          "Name": "Mud Sport",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Mud Shot",
+          "Learned": "Rookie"
+        },
+        {
+          "Name": "Slam",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Mud Bomb",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Amnesia",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Poison Tail",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Toxic Spikes",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Spikes",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Yawn",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Poison Jab",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Sandstorm",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Sludge Wave",
+          "Learned": "Advanced"
+        },
+        {
+          "Name": "Toxic",
+          "Learned": "Standard"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Earthquake"
+        },
+        {
+          "Name": "Sludge Bomb",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Curse",
+          "Learned": "Ace"
+        },
+        {
+          "Name": "Double Kick",
+          "Learned": "Ace"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Starter",
+          "Name": "Tackle"
+        },
+        {
+          "Learned": "Starter",
+          "Name": "Tail Whip"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Mud Sport"
+        },
+        {
+          "Learned": "Rookie",
+          "Name": "Mud Shot"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Slam"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Mud Bomb"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Amnesia"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Poison Tail"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Toxic Spikes"
+        },
+        {
+          "Learned": "Standard",
+          "Name": "Spikes"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Yawn"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Poison Jab"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Sandstorm"
+        },
+        {
+          "Learned": "Advanced",
+          "Name": "Sludge Wave"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Toxic"
+        },
+        {
+          "Learned": "Expert",
+          "Name": "Earthquake"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Sludge Bomb"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Curse"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Double Kick"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0716:xerneas",
+      "name": "Xerneas",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Take Down",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Gravity",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Light Screen",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Aurora Beam",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Nature Power",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Night Slash",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Aromatherapy",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Psych Up",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Horn Leech",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Misty Terrain",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Ingrain",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Geomancy",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Moonblast",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Heal Pulse",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Megahorn",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Close Combat",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Outrage",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Giga Impact",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Psyshock",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Thunder",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Reflect",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Endeavor",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Terrain Pulse",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Misty Explosion",
+          "Learned": "Standard"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Master",
+          "Name": "Take Down"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Gravity"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Light Screen"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Aurora Beam"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Nature Power"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Night Slash"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Aromatherapy"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Psych Up"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Horn Leech"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Misty Terrain"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Ingrain"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Geomancy"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Moonblast"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Heal Pulse"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Megahorn"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Close Combat"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Outrage"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Giga Impact"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Psyshock"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Thunder"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Reflect"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Endeavor"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Terrain Pulse"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Misty Explosion"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0717:yveltal",
+      "name": "Yveltal",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Gust",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Double Team",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Razor Wind",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Taunt",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Snarl",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Disable",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Sucker Punch",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Tailwind",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Roost",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Air Slash",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Dark Pulse",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Psychic",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Oblivion Wing",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Phantom Force",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Foul Play",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Dragon Rush",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Hurricane",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Focus Blast",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Sky Attack",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Heat Wave",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Hyper Beam",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Defog",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Rain Dance",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Lash Out",
+          "Learned": "Standard"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Master",
+          "Name": "Gust"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Double Team"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Razor Wind"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Taunt"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Snarl"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Disable"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Sucker Punch"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Tailwind"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Roost"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Air Slash"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Dark Pulse"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Psychic"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Oblivion Wing"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Phantom Force"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Foul Play"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Dragon Rush"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Hurricane"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Focus Blast"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Sky Attack"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Heat Wave"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Hyper Beam"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Defog"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Rain Dance"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Lash Out"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0888:zacian",
+      "name": "Zacian",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Sacred Sword",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Quick Guard",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Metal Claw",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Howl",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Quick Attack",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Bite",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Slash",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Swords Dance",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Iron Head",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Laser Focus",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Crunch",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Moonblast",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Close Combat",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Giga Impact",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Air Slash",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Psycho Cut",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Solar Blade",
+          "Learned": "Standard"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Ace",
+          "Name": "Sacred Sword"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Quick Guard"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Metal Claw"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Howl"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Quick Attack"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Bite"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Slash"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Swords Dance"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Iron Head"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Laser Focus"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Crunch"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Moonblast"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Close Combat"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Giga Impact"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Air Slash"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Psycho Cut"
+        },
+        {
+          "Learned": "Ace",
+          "Name": "Solar Blade"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0644:zekrom",
+      "name": "Zekrom",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Dragon Rage",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Dragon Breath",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Noble Roar",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Ancient Power",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Thunder Fang",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Slash",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Crunch",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Zen Headbutt",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Dragon Pulse",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Thunderbolt",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Fusion Bolt",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Hyper Voice",
+          "Learned": "Standard"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Thunder"
+        },
+        {
+          "Name": "Imprison",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Light Screen",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Magnet Rise",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Lucky Chant",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Wish",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Roost",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Electric Terrain",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Rising Voltage",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Topsy-Turvy",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Outrage",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Bolt Strike",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Draco Meteor",
+          "Learned": "Standard"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Master",
+          "Name": "Dragon Rage"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Dragon Breath"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Noble Roar"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Ancient Power"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Thunder Fang"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Slash"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Crunch"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Zen Headbutt"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Dragon Pulse"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Thunderbolt"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Fusion Bolt"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Hyper Voice"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Thunder"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Imprison"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Light Screen"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Magnet Rise"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Lucky Chant"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Wish"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Roost"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Electric Terrain"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Rising Voltage"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Topsy-Turvy"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Outrage"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Bolt Strike"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Draco Meteor"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0718F3:zygarde-100",
+      "name": "Zygarde 100%",
+      "field": "Moves",
+      "previous_extracted": [
+        {
+          "Name": "Thousand Arrows",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Thousand Waves",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Core Enforcer",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Glare",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Bind",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Bulldoze",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Dragon Breath",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Bite",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Haze",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Dig",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Safeguard",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Crunch",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Dragon Pulse",
+          "Learned": "Standard"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Land's Wrath"
+        },
+        {
+          "Name": "Sandstorm",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Coil",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Camouflage",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Dragon Dance",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Stomping Tantrum",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Earthquake",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Extreme Speed",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Outrage",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Secret Power",
+          "Learned": "Standard"
+        },
+        {
+          "Name": "Hidden Power",
+          "Learned": "Standard"
+        }
+      ],
+      "resolved": [
+        {
+          "Learned": "Master",
+          "Name": "Thousand Arrows"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Thousand Waves"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Core Enforcer"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Glare"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Bind"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Bulldoze"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Dragon Breath"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Bite"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Haze"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Dig"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Safeguard"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Crunch"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Dragon Pulse"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Land's Wrath"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Sandstorm"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Coil"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Camouflage"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Dragon Dance"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Stomping Tantrum"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Earthquake"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Extreme Speed"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Outrage"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Secret Power"
+        },
+        {
+          "Learned": "Master",
+          "Name": "Hidden Power"
+        }
+      ],
+      "basis": "Exact species/form JSON supersedes unverified rank-icon extraction; manual/reference/user rulings still apply afterward."
+    },
+    {
+      "id": "0628:braviary",
+      "name": "Braviary",
+      "field": "Ability2",
+      "source": "Defiant",
+      "runtime": "Sheer Force",
+      "previous_extracted": "Sheer Force",
+      "resolved": "Defiant",
+      "basis": "Exact ordinary ability slot JSON supersedes unverified PDF form/column extraction."
+    },
+    {
+      "id": "0898:calyrex",
+      "name": "Calyrex",
+      "field": "Ability1",
+      "source": "Unnerve",
+      "runtime": "As One",
+      "previous_extracted": "As One",
+      "resolved": "Unnerve",
+      "basis": "Exact ordinary ability slot JSON supersedes unverified PDF form/column extraction."
+    },
+    {
+      "id": "0898:calyrex",
+      "name": "Calyrex",
+      "field": "Ability2",
+      "source": "As One",
+      "runtime": "",
+      "previous_extracted": "",
+      "resolved": "As One",
+      "basis": "Exact ordinary ability slot JSON supersedes unverified PDF form/column extraction."
+    },
+    {
+      "id": "0555G:darmanitan-galarian-form",
+      "name": "Darmanitan (Galarian Form)",
+      "field": "Ability1",
+      "source": "Gorilla Tactics",
+      "runtime": "Zen Mode",
+      "previous_extracted": "Zen Mode",
+      "resolved": "Gorilla Tactics",
+      "basis": "Exact ordinary ability slot JSON supersedes unverified PDF form/column extraction."
+    },
+    {
+      "id": "0555G:darmanitan-galarian-form",
+      "name": "Darmanitan (Galarian Form)",
+      "field": "Ability2",
+      "source": "Zen Mode",
+      "runtime": "",
+      "previous_extracted": "",
+      "resolved": "Zen Mode",
+      "basis": "Exact ordinary ability slot JSON supersedes unverified PDF form/column extraction."
+    },
+    {
+      "id": "0555:darmanitan",
+      "name": "Darmanitan",
+      "field": "Ability1",
+      "source": "Sheer Force",
+      "runtime": "Zen Mode",
+      "previous_extracted": "Zen Mode",
+      "resolved": "Sheer Force",
+      "basis": "Exact ordinary ability slot JSON supersedes unverified PDF form/column extraction."
+    },
+    {
+      "id": "0555:darmanitan",
+      "name": "Darmanitan",
+      "field": "Ability2",
+      "source": "Zen Mode",
+      "runtime": "",
+      "previous_extracted": "",
+      "resolved": "Zen Mode",
+      "basis": "Exact ordinary ability slot JSON supersedes unverified PDF form/column extraction."
+    },
+    {
+      "id": "0905:enamorus",
+      "name": "Enamorus",
+      "field": "Ability1",
+      "source": "Healer",
+      "runtime": "Cute Charm",
+      "previous_extracted": "Cute Charm",
+      "resolved": "Healer",
+      "basis": "Exact ordinary ability slot JSON supersedes unverified PDF form/column extraction."
+    },
+    {
+      "id": "0646:kyurem",
+      "name": "Kyurem",
+      "field": "Ability1",
+      "source": "Pressure",
+      "runtime": "Turboblaze",
+      "previous_extracted": "Turboblaze",
+      "resolved": "Pressure",
+      "basis": "Exact ordinary ability slot JSON supersedes unverified PDF form/column extraction."
+    },
+    {
+      "id": "0492:shaymin",
+      "name": "Shaymin",
+      "field": "Ability1",
+      "source": "Natural Cure",
+      "runtime": "Serene Grace",
+      "previous_extracted": "Serene Grace",
+      "resolved": "Natural Cure",
+      "basis": "Exact ordinary ability slot JSON supersedes unverified PDF form/column extraction."
+    }
+  ]
+}

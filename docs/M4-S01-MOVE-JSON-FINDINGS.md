@@ -1,5 +1,11 @@
 # M4-S01 exact JSON learnset comparison
 
+**Reconciled 31 October 2026.** All 1,200 learnsets now agree with their exact JSON after retained manual/reference/user decisions. Restored 42 unverified extracted arrays to exact JSON. The other two historical differences are Mew's any-move ruling and Gouging Fire's reviewed spelling correction; both are explicitly accounted for. Mega Blastoise retains Standard Protect. The relational table now retains distinct name/rank pairs, resolving all five database discrepancies without inventing a single rank for ambiguous duplicate source names. Source duplicates remain visible in full arrays.
+
+Ordinary ability audit: all 2,400 slots across 1,200 identities reconcile. Removed 10 unverified extracted slot overrides across Braviary, Calyrex, ordinary/Galarian Darmanitan, Enamorus, Kyurem and Shaymin. Exact same-number forms remain distinct. Hidden/event slots and printed-page certification are outside this audit. See `rules/species-ability-json-review.json` and `rules/species-learnset-ability-reconciliation.json`.
+
+The table below preserves the historical pre-reconciliation findings; its pending statements are superseded by this resolution.
+
 Compared 1200 exact species/forms and 25438 source move entries. 1156 arrays agree after registered rank rulings; 44 differ. No discrepant complete learnset matches another same-number form. This does not rule out partial form contamination or certify printed pages.
 
 Existing values and all user rulings remain unchanged, including Mega Blastoise Protect and Mew. Differences are a reconciliation queue, not automatic corrections. Ordinary abilities remain unchecked.

@@ -124,5 +124,8 @@ for form in form_stats.get("entries", []):
     fields = corrections.get(form["id"], {}).get("fields", {})
     for field in form["stats"]:
         fields.pop(field, None)
+# Preserve exact-JSON learnset and ordinary-slot reconciliation on regeneration.
+for fix in json.loads((APP / "rules/species-learnset-ability-reconciliation.json").read_text(encoding="utf-8"))["entries"]:
+    corrections.get(fix["id"], {}).get("fields", {}).pop(fix["field"], None)
 out=APP/'rules/catalog-corrections.json'; out.parent.mkdir(exist_ok=True); out.write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
 print(f'{len(corrections)}/{len(entries)} species audited; {len(differences)} corrections; {len(unresolved)} unresolved PDF entries; {out}')

@@ -214,7 +214,7 @@ db.exec(`
  CREATE TABLE species_stats(species_id TEXT NOT NULL, attribute TEXT NOT NULL,
    baseline INTEGER NOT NULL, species_limit INTEGER NOT NULL, PRIMARY KEY(species_id,attribute));
  CREATE TABLE learnsets(species_id TEXT NOT NULL, move_name TEXT NOT NULL, rank TEXT NOT NULL,
-   PRIMARY KEY(species_id,move_name));
+   PRIMARY KEY(species_id,move_name,rank));
  CREATE INDEX learnset_move ON learnsets(move_name);
  CREATE TABLE species_abilities(species_id TEXT NOT NULL, ability_name TEXT NOT NULL, slot TEXT NOT NULL,
    PRIMARY KEY(species_id,slot));

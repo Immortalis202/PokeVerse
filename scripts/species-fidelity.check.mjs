@@ -10,6 +10,69 @@ import {
 const read = (p) => JSON.parse(readFileSync(p, "utf8"));
 const review = read("rules/species-fidelity-review.json");
 
+test("M4-S01 reconciles every learnset and ordinary slot while preserving reference rulings", () => {
+  const db = new DatabaseSync("src-tauri/resources/catalog.db", {
+    readOnly: true,
+  });
+  try {
+    const hash = JSON.parse(
+      db.prepare("select value from metadata where key='hash'").get().value,
+    );
+    const moves = read("rules/species-move-json-review.json");
+    const abilities = read("rules/species-ability-json-review.json");
+    for (const report of [moves, abilities]) {
+      assert.equal(report.catalog_hash, hash);
+      assert.equal(report.species_compared, 1200);
+      assert.deepEqual(report.differences, []);
+      assert.deepEqual(report.identity_issues, []);
+      assert.deepEqual(report.relational_mismatches, []);
+    }
+    assert.equal(moves.matching_arrays, 1200);
+    assert.equal(abilities.slots_compared, 2400);
+    const species = (id) =>
+      JSON.parse(
+        db
+          .prepare("select data from entries where kind='species' and id=?")
+          .get(id).data,
+      );
+    assert.equal(
+      species("0009M1:blastoise-mega-form").Moves.find(
+        (m) => m.Name === "Protect",
+      ).Learned,
+      "Standard",
+    );
+    const mew = species("0151:mew");
+    assert.equal(mew.LearnsetRule.kind, "any-catalog-move");
+    const available = new Set(mew.Moves.map((m) => m.Name));
+    for (const row of db
+      .prepare("select name from entries where kind='moves'")
+      .all())
+      assert.ok(available.has(row.name));
+    assert.ok(
+      species("1020:gouging-fire").Moves.some((m) => m.Name === "Fire Blast"),
+    );
+    const corrections = read("rules/catalog-corrections.json");
+    const source = new Map();
+    for (const fix of read("rules/species-learnset-ability-reconciliation.json")
+      .entries) {
+      assert.ok(!Object.hasOwn(corrections.species[fix.id].fields, fix.field));
+      const effective = species(fix.id);
+      assert.deepEqual(effective[fix.field], fix.resolved);
+      source.set(fix.id, effective);
+    }
+    assert.equal(source.size, 47);
+    assert.ok(
+      db
+        .prepare(
+          "select count(*) as n from learnsets where species_id='0140:kabuto' and move_name in (select move_name from learnsets where species_id='0140:kabuto' group by move_name having count(*) > 1)",
+        )
+        .get().n > 1,
+    );
+  } finally {
+    db.close();
+  }
+});
+
 test("M4-S01 stage audit covers all identities without certifying extracted source labels", () => {
   const report = read("rules/species-stage-review.json");
   const corrections = read("rules/catalog-corrections.json"),
