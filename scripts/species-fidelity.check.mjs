@@ -530,7 +530,26 @@ test("M4-S01 preserves exact source identities and bounds manual certification",
     readOnly: true,
   });
   try {
-    assert.equal(review.status, "in-progress");
+    assert.equal(review.status, "complete");
+    const closure = read("rules/species-s01-closure.json");
+    assert.equal(closure.status, review.status);
+    assert.equal(closure.printed_certification, "partial-optional");
+    assert.deepEqual(closure.unresolved_json_issues, []);
+    assert.equal(
+      closure.catalog_hash,
+      JSON.parse(
+        db.prepare("select value from metadata where key='hash'").get().value,
+      ),
+    );
+    assert.equal(closure.retained_stat_deviations.length, 9);
+    assert.equal(closure.retained_gm_cost_branches.length, 4);
+    const metadata = JSON.parse(
+      db
+        .prepare("select value from metadata where key='species_fidelity'")
+        .get().value,
+    );
+    assert.equal(metadata.status, closure.status);
+    assert.deepEqual(metadata.completion, review.completion);
     for (const source of Object.values(review.sources))
       assert.equal(
         createHash("sha256")

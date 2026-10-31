@@ -1,7 +1,7 @@
 {
   "batch": "M4-S01",
   "scope": "Full exact-identity evolution JSON comparison, recorded rulings, ordinary graph and form-change separation; no new printed-source certification",
-  "catalog_hash": "d2895508de57b930c848ebb80c30c9543c0d8a2847de1d8237c3294a2e24ba27",
+  "catalog_hash": "25d8ac5c0b6fc59c96fc77f33bbbe082fdd81d8bc1fe043d515e1a9f18b4595d",
   "species": [
     {
       "id": "0460M1:abomasnow-mega-form",
@@ -20387,7 +20387,7 @@
         "Kind": "Level",
         "Game": "Sword"
       },
-      "decision": "GM-set cost pending explicit ruling"
+      "decision": "Retained GM-set cost under user policy; no numeric cost assigned"
     },
     {
       "source_id": "0790:cosmoem",
@@ -20398,7 +20398,7 @@
         "Kind": "Level",
         "Game": "Shield"
       },
-      "decision": "GM-set cost pending explicit ruling"
+      "decision": "Retained GM-set cost under user policy; no numeric cost assigned"
     },
     {
       "source_id": "0789:cosmog",
@@ -20409,7 +20409,7 @@
         "Kind": "Level",
         "Speed": "Unknown"
       },
-      "decision": "GM-set cost pending explicit ruling"
+      "decision": "Retained GM-set cost under user policy; no numeric cost assigned"
     },
     {
       "source_id": "0808:meltan",
@@ -20420,8 +20420,9 @@
         "Kind": "Level",
         "Speed": "Unknown"
       },
-      "decision": "GM-set cost pending explicit ruling"
+      "decision": "Retained GM-set cost under user policy; no numeric cost assigned"
     }
   ],
+  "cost_decision_status": "Legacy pending_cost_decisions lists retained GM-set costs under user policy, not unresolved JSON mismatches.",
   "prerequisite_issues": []
 }

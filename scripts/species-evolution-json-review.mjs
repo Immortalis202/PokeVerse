@@ -104,6 +104,8 @@ const report = {
   ordinary_branches: [],
   form_change_branches: [],
   pending_cost_decisions: [],
+  cost_decision_status:
+    "Legacy pending_cost_decisions lists retained GM-set costs under user policy, not unresolved JSON mismatches.",
   prerequisite_issues: [],
 };
 const graph = new Map();
@@ -230,7 +232,8 @@ for (const source of sources) {
       if (cost === null)
         report.pending_cost_decisions.push({
           ...branch,
-          decision: "GM-set cost pending explicit ruling",
+          decision:
+            "Retained GM-set cost under user policy; no numeric cost assigned",
         });
     }
     if (relation.Move && !moves.has(relation.Move))

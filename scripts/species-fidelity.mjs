@@ -351,7 +351,8 @@ export function applySpeciesFidelity(catalog, review, sourceHash) {
     special_evolution_requirements:
       review.user_policy.special_evolution_requirements,
     batch: "M4-S01",
-    status: "in-progress",
+    status: review.status,
+    completion: review.completion,
     species_total: catalog.species.length,
     stage_ruling_applied: applied.sort(),
     learning_stage_review: learningStageReview,

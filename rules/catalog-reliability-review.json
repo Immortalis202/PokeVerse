@@ -1702,15 +1702,19 @@
     "scope_limit": "Source learnset ranks and other species/form fields are not blanket-certified by fixing these references."
   },
   "species_fidelity_progress": {
-    "status": "in-progress",
+    "status": "complete",
     "registry": "rules/species-fidelity-review.json",
     "checklist": "docs/M4-S01-SPECIES-FIDELITY-CHECKLIST.md",
     "new_manual_identities": 28,
     "new_field_certifications": 379,
-    "remaining_unverified_species_fields": 17558,
+    "remaining_unverified_species_fields": 17560,
     "stage_ruling_rows": 192,
     "unresolved_graph_discrepancies": 0,
-    "retained_graph_guidance_discrepancies": 1
+    "retained_graph_guidance_discrepancies": 1,
+    "scope": "Exact JSON reconciliation with retained user/manual decisions; printed certification remains partial and optional.",
+    "unverified_field_count_basis": "Printed/manual certification queue; not unresolved JSON differences.",
+    "closure_report": "rules/species-s01-closure.json",
+    "retained_gm_cost_branches": 4
   },
   "asset_resolution": {
     "batch": "M4-A01",

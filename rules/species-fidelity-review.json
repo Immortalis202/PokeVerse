@@ -1,7 +1,7 @@
 {
   "version": 1,
   "batch": "M4-S01",
-  "status": "in-progress",
+  "status": "complete",
   "date": "2026-10-30",
   "source_species_hash": "429ea64828842a3d141bacdbe90447429232dd7095225d44b6f2426d3ee35ee4",
   "species_total": 1200,
@@ -2516,5 +2516,18 @@
       "date": "2026-10-31",
       "decision": "User ruling: use 0 TP for the seven missing-speed move/item branches; retain GM-set costs for the remaining four. Preserve gender/known-move checks, special guidance, no item consumption and GM completion. Not printed-source certification."
     }
-  ]
+  ],
+  "completion": {
+    "date": "2026-10-31",
+    "scope": "Exact species/form JSON reconciliation plus retained manual evidence and explicit user rulings.",
+    "printed_certification": "partial-optional",
+    "closure_report": "rules/species-s01-closure.json",
+    "retained_gm_costs": [
+      "0789:cosmog->0790:cosmoem",
+      "0790:cosmoem->0791:solgaleo",
+      "0790:cosmoem->0792:lunala",
+      "0808:meltan->0809:melmetal"
+    ],
+    "scope_limit": "No blanket printed-page certification, hidden/event ability review, new battle support or saved-sheet migration."
+  }
 }

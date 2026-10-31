@@ -1,6 +1,38 @@
 # M4-S01: species creation and evolution fidelity
 
-Started 30 October 2026 after M4-R01 (`4d37d09`). **In progress: not a completed review of all 1,200 species/forms.** Full source certification must not be inferred from extraction or graph checks.
+Started 30 October 2026 after M4-R01 (`4d37d09`). **Complete for the user-defined JSON reconciliation scope, 31 October 2026.** All 1,200 exact species/forms are accounted for. PDF certification is partial, optional follow-up work and does not block this scope. No blanket printed-source certification is claimed.
+
+## Current closure and retained decisions
+
+[Machine-readable closure and exact exceptions](../rules/species-s01-closure.json) reconciles all five generated reports against the same current catalog hash. There are **zero unexplained JSON issues**.
+
+| Area | Current result |
+| --- | --- |
+| HP, baselines and limits | 13,200 fields checked; 13,191 match JSON, nine differences across seven identities are explicit user rulings. All creation metadata and database stat rows agree. |
+| Evolution arrays | All 1,200 checked; 522 ordinary branches and 112 form-change links classified. Zero unexpected runtime, structural, prerequisite or ordinary-cycle issues. |
+| Learning stages | All 1,200 resolved: 359 First, 119 Second, 673 Final, 49 Mega/Egg exclusions. |
+| Move names and ranks | All 1,200 arrays reconcile after manual/reference/user decisions; 25,438 source entries checked. Duplicate name/rank pairs survive database generation. |
+| Ordinary ability slots | All 2,400 Ability1/Ability2 slots reconcile against exact JSON plus retained manual evidence. |
+
+Retained stat deviations are Brute Bonnet MaxStrength; Dusknoir MaxVitality/MaxInsight; Florges Insight/MaxInsight; Gumshoos BaseHP; Hydrapple Strength; Kricketune MaxDexterity; and Liepard Dexterity. These are resolved user choices, not an open correction queue.
+
+Scyther → Kleavor retains the reviewed Trade/Item guidance discrepancy. Four costs remain deliberately **GM-set**: Cosmog → Cosmoem, Cosmoem → Solgaleo, Cosmoem → Lunala and Meltan → Melmetal. The user's existing ruling keeps them under adjudication; S01 does not invent numeric costs or require another decision to close JSON reconciliation. Known moves/gender stay enforced, other special eligibility remains guidance, items are not consumed, and completion requires GM confirmation.
+
+Mew's any-catalog-move Ace access, Gouging Fire's reviewed spelling correction, Mega Blastoise's Standard Protect, stage-cost policy and all recorded stat/evolution rulings remain in force. Source JSON and saved sheets remain unchanged.
+
+- [x] Reconcile exact identities, stats, evolution arrays, pricing stages, learnsets and ordinary slots against JSON plus explicit decisions.
+- [x] Classify every remaining deviation as a recorded ruling, reference repair, retained guidance or GM-set cost.
+- [x] Keep optional printed certification separate from JSON completion; preserve unverified field metadata.
+
+Optional PDF work may continue exact-identity page/field certification, including evolution narratives, at the user's request. The **17,560 unverified printed/manual species-field records** are a provenance queue, not unresolved JSON errors or a remaining S01 closure gate. Hidden/event abilities, new battle support and native acceptance are outside this scope.
+
+Refresh: `npm run catalog`, then `node scripts/species-evolution-json-review.mjs`, `node scripts/species-stat-json-review.mjs`, `node scripts/species-stage-review.mjs`, `node scripts/species-move-json-review.mjs`, `node scripts/species-ability-json-review.mjs`, and finally `node scripts/species-s01-closure.mjs`.
+
+Closure validation: all five JSON reports were regenerated against the current catalog and the closure assertions passed. All 74 frontend tests, 51 script/catalog checks and 16 focused Rust S01 tests passed. TypeScript, relevant Prettier, Rust formatting and diff checks passed. The prior full Rust run (802 passed, one ignored) belongs to the preceding implementation batch; this closure did not rerun the full suite. No native packages or native/physical-network acceptance were run.
+
+## Historical checkpoints
+
+The sections below preserve previous findings and validation in chronological context. Their pending counts and next-step statements are superseded by the current closure above.
 
 ## Verified work
 
@@ -179,9 +211,9 @@ Prior audit-only validation: catalog regeneration and the JSON comparison comple
 
 - [x] Implement the answered move, apple, Kirlia and gender choices.
 - [x] Review and dispose of the nine diagnosed graph discrepancies, retaining the documented Scyther guidance conflict.
-- [ ] Continue exact-identity visual review of the remaining species/forms, recording each reviewed field and its page.
-- [ ] Review evolution branches, items, gender, region and move/narrative prerequisites before certifying their arrays.
-- [ ] Reconcile all source and runtime evidence before marking M4-S01 complete.
+- Optional PDF follow-up: continue exact-identity visual review, recording each reviewed field and its page.
+- Optional PDF follow-up: review evolution branches and narratives before claiming printed certification of their arrays.
+- [x] Reconcile JSON and runtime evidence; current closure above supersedes the historical pending queues.
 
 ## Validation of this checkpoint
 

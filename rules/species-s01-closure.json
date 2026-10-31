@@ -1,0 +1,198 @@
+{
+  "batch": "M4-S01",
+  "status": "complete",
+  "date": "2026-10-31",
+  "scope": "Exact species/form JSON reconciliation plus retained manual evidence and explicit user rulings.",
+  "catalog_hash": "25d8ac5c0b6fc59c96fc77f33bbbe082fdd81d8bc1fe043d515e1a9f18b4595d",
+  "identities": 1200,
+  "stat_fields": 13200,
+  "matching_stat_fields": 13191,
+  "retained_stat_deviations": [
+    {
+      "id": "0986:brute-bonnet",
+      "name": "Brute Bonnet",
+      "field": "MaxStrength",
+      "source": 6,
+      "runtime": 7,
+      "override_origin": "user-ruling",
+      "disposition": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "form_status": "resolved-user-ruling",
+      "exact_form_matches": []
+    },
+    {
+      "id": "0477:dusknoir",
+      "name": "Dusknoir",
+      "field": "MaxVitality",
+      "source": 8,
+      "runtime": 7,
+      "override_origin": "user-ruling",
+      "disposition": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "form_status": "resolved-user-ruling",
+      "exact_form_matches": []
+    },
+    {
+      "id": "0477:dusknoir",
+      "name": "Dusknoir",
+      "field": "MaxInsight",
+      "source": 8,
+      "runtime": 7,
+      "override_origin": "user-ruling",
+      "disposition": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "form_status": "resolved-user-ruling",
+      "exact_form_matches": []
+    },
+    {
+      "id": "0671:florges",
+      "name": "Florges",
+      "field": "Insight",
+      "source": 3,
+      "runtime": 4,
+      "override_origin": "user-ruling",
+      "disposition": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "form_status": "resolved-user-ruling",
+      "exact_form_matches": []
+    },
+    {
+      "id": "0671:florges",
+      "name": "Florges",
+      "field": "MaxInsight",
+      "source": 7,
+      "runtime": 8,
+      "override_origin": "user-ruling",
+      "disposition": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "form_status": "resolved-user-ruling",
+      "exact_form_matches": []
+    },
+    {
+      "id": "0735:gumshoos",
+      "name": "Gumshoos",
+      "field": "BaseHP",
+      "source": 4,
+      "runtime": 5,
+      "override_origin": "user-ruling",
+      "disposition": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "form_status": "resolved-user-ruling",
+      "exact_form_matches": []
+    },
+    {
+      "id": "1019:hydrapple",
+      "name": "Hydrapple",
+      "field": "Strength",
+      "source": 3,
+      "runtime": 2,
+      "override_origin": "user-ruling",
+      "disposition": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "form_status": "resolved-user-ruling",
+      "exact_form_matches": []
+    },
+    {
+      "id": "0402:kricketune",
+      "name": "Kricketune",
+      "field": "MaxDexterity",
+      "source": 5,
+      "runtime": 4,
+      "override_origin": "user-ruling",
+      "disposition": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "form_status": "resolved-user-ruling",
+      "exact_form_matches": []
+    },
+    {
+      "id": "0510:liepard",
+      "name": "Liepard",
+      "field": "Dexterity",
+      "source": 2,
+      "runtime": 3,
+      "override_origin": "user-ruling",
+      "disposition": "Explicit user stat ruling on 31 October 2026 after JSON/form reconciliation; retain supplied JSON and earlier review history. This is a user decision, not printed-source certification.",
+      "form_status": "resolved-user-ruling",
+      "exact_form_matches": []
+    }
+  ],
+  "ordinary_evolution_branches": 522,
+  "form_change_branches": 112,
+  "retained_evolution_guidance": [
+    {
+      "source_id": "0123:scyther",
+      "source_name": "Scyther",
+      "target_id": "0900:kleavor",
+      "target_name": "Kleavor",
+      "conditions": {
+        "Kind": "Trade",
+        "Item": "Black Augurite"
+      },
+      "issue": "directional-condition-conflict",
+      "reverse": [
+        {
+          "From": "Scyther",
+          "Kind": "Item",
+          "Item": "Black Augurite"
+        }
+      ],
+      "decision": "Printed generic Scyther trade/item guidance and specific Kleavor Black Augurite guidance differ. User explicitly assigns eligibility to player and GM; retain source directions visibly as guidance without an enforced trade, item ownership, consumption or TP charge."
+    }
+  ],
+  "retained_gm_cost_branches": [
+    {
+      "source_id": "0790:cosmoem",
+      "source_name": "Cosmoem",
+      "target_id": "0791:solgaleo",
+      "target_name": "Solgaleo",
+      "conditions": {
+        "Kind": "Level",
+        "Game": "Sword"
+      },
+      "decision": "Retained GM-set cost under user policy; no numeric cost assigned"
+    },
+    {
+      "source_id": "0790:cosmoem",
+      "source_name": "Cosmoem",
+      "target_id": "0792:lunala",
+      "target_name": "Lunala",
+      "conditions": {
+        "Kind": "Level",
+        "Game": "Shield"
+      },
+      "decision": "Retained GM-set cost under user policy; no numeric cost assigned"
+    },
+    {
+      "source_id": "0789:cosmog",
+      "source_name": "Cosmog",
+      "target_id": "0790:cosmoem",
+      "target_name": "Cosmoem",
+      "conditions": {
+        "Kind": "Level",
+        "Speed": "Unknown"
+      },
+      "decision": "Retained GM-set cost under user policy; no numeric cost assigned"
+    },
+    {
+      "source_id": "0808:meltan",
+      "source_name": "Meltan",
+      "target_id": "0809:melmetal",
+      "target_name": "Melmetal",
+      "conditions": {
+        "Kind": "Level",
+        "Speed": "Unknown"
+      },
+      "decision": "Retained GM-set cost under user policy; no numeric cost assigned"
+    }
+  ],
+  "learning_stage_summary": {
+    "excluded": 49,
+    "final": 673,
+    "first": 359,
+    "second": 119
+  },
+  "matching_learnsets": 1200,
+  "ordinary_ability_slots": 2400,
+  "unresolved_json_issues": [],
+  "printed_certification": "partial-optional",
+  "scope_limit": "No blanket printed-page certification, hidden/event ability review, new battle support or saved-sheet migration.",
+  "reports": [
+    "species-stat-json-review.json",
+    "species-evolution-json-review.json",
+    "species-stage-review.json",
+    "species-move-json-review.json",
+    "species-ability-json-review.json"
+  ]
+}
