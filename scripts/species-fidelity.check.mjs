@@ -6,6 +6,54 @@ import { DatabaseSync } from "node:sqlite";
 const read = (p) => JSON.parse(readFileSync(p, "utf8"));
 const review = read("rules/species-fidelity-review.json");
 
+test("M4-S01 Kanto continuation repairs Metapod's limit and preserves the explicit Mega Protect ruling", () => {
+  const db = new DatabaseSync("src-tauri/resources/catalog.db", {
+    readOnly: true,
+  });
+  try {
+    const get = (name) =>
+      JSON.parse(
+        db
+          .prepare("select data from entries where kind='species' and name=?")
+          .get(name).data,
+      );
+    assert.equal(get("Metapod").MaxVitality, 4);
+    assert.equal(
+      read("../Pokerole-Data/v3.0/Pokedex/Metapod.json").MaxVitality,
+      4,
+    );
+    const mega = get("Blastoise (Mega Form)");
+    assert.equal(
+      mega.Moves.find((m) => m.Name === "Protect").Learned,
+      "Standard",
+    );
+    assert.ok(
+      mega.FidelityReview.some(
+        (r) =>
+          r.source === "user-ruling" && r.decision.includes("printed Advanced"),
+      ),
+    );
+    assert.equal(
+      get("Blastoise").Moves.find((m) => m.Name === "Protect").Learned,
+      "Standard",
+    );
+    assert.equal(mega.Creation.stage, null);
+    assert.equal(mega.Review.fields.Evolutions.status, "unverified");
+    for (const name of [
+      "Caterpie",
+      "Metapod",
+      "Butterfree",
+      "Weedle",
+      "Kakuna",
+      "Pidgey",
+      "Pidgeotto",
+    ])
+      assert.equal(get(name).Review.fields.Evolutions.status, "reviewed");
+  } finally {
+    db.close();
+  }
+});
+
 test("M4-S01 targeted printed evolution corrections preserve identities and partial review", () => {
   const db = new DatabaseSync("src-tauri/resources/catalog.db", {
     readOnly: true,

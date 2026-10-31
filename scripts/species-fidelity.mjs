@@ -27,6 +27,19 @@ export function applySpeciesFidelity(catalog, review, sourceHash) {
     );
   const byId = new Map(catalog.species.map((s) => [s.AppId, s]));
   const byName = new Map(catalog.species.map((s) => [s.Name, s]));
+  for (const ruling of review.user_move_rank_rulings ?? []) {
+    const entry = byId.get(ruling.id);
+    const moves = entry?.Moves.filter((m) => m.Name === ruling.move) ?? [];
+    if (moves.length !== 1 || moves[0].Learned !== ruling.expected_rank)
+      throw new Error(`Ruled move rank changed: ${ruling.id} ${ruling.move}`);
+    moves[0].Learned = ruling.resolved_rank;
+    entry.FidelityReview ??= [];
+    entry.FidelityReview.push({
+      source: "user-ruling",
+      decision: ruling.decision,
+      references: ruling.references,
+    });
+  }
   for (const fix of review.clear_corrections) {
     const s = byId.get(fix.id);
     const matches = s?.Evolutions?.filter((r) => r.From === fix.from) ?? [];
@@ -270,6 +283,7 @@ export function applySpeciesFidelity(catalog, review, sourceHash) {
       (issue) => issue.review?.status !== "retained-guidance",
     ).length,
     manual_reviews_added: review.manual_reviews.length,
+    move_rank_rulings: review.user_move_rank_rulings ?? [],
     source_evolution_corrections: (
       review.source_evolution_corrections ?? []
     ).map((r) => r.id),

@@ -42,10 +42,41 @@
         "Insight": 1,
         "MaxInsight": 3,
         "Ability1": "Shield Dust",
-        "Ability2": "Run Away"
+        "Ability2": "Run Away",
+        "Moves": [
+          {
+            "Learned": "Starter",
+            "Name": "Tackle"
+          },
+          {
+            "Learned": "Starter",
+            "Name": "String Shot"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Bug Bite"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Electroweb"
+          }
+        ],
+        "Evolutions": [
+          {
+            "To": "Metapod",
+            "Kind": "Level",
+            "Speed": "Fast"
+          }
+        ]
       },
       "evolution_speed": "Fast",
-      "review": "Visual PDF review: first stage, Fast evolution."
+      "review": "M4-S01 exact-card visual review MASTER 137 / PDF 4: base HP, all baseline/limit dots, ordinary ability slots and complete move ranks. Ordinary Level links and speeds verified against the complete printed line and its First/Second card(s).",
+      "moves_reviewed": [
+        "Tackle",
+        "String Shot",
+        "Bug Bite",
+        "Electroweb"
+      ]
     },
     "0011:metapod": {
       "pdf_page": 4,
@@ -57,16 +88,57 @@
         "Dexterity": 1,
         "MaxDexterity": 3,
         "Vitality": 2,
-        "MaxVitality": 5,
+        "MaxVitality": 4,
         "Special": 1,
         "MaxSpecial": 3,
         "Insight": 1,
         "MaxInsight": 3,
         "Ability1": "Shed Skin",
-        "Ability2": ""
+        "Ability2": "",
+        "Moves": [
+          {
+            "Learned": "Starter",
+            "Name": "Harden"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "String Shot"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Bug Bite"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Iron Defense"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Electroweb"
+          }
+        ],
+        "Evolutions": [
+          {
+            "From": "Caterpie",
+            "Kind": "Level",
+            "Speed": "Fast"
+          },
+          {
+            "To": "Butterfree",
+            "Kind": "Level",
+            "Speed": "Fast"
+          }
+        ]
       },
       "evolution_speed": "Fast",
-      "review": "Visual PDF review: second stage, Fast evolution."
+      "review": "M4-S01 exact-card visual review MASTER 137 / PDF 4: base HP, all baseline/limit dots, ordinary ability slots and complete move ranks. Ordinary Level links and speeds verified against the complete printed line and its First/Second card(s). Correct earlier manual MaxVitality 5 to printed/source 4; no supplied JSON change.",
+      "moves_reviewed": [
+        "Harden",
+        "String Shot",
+        "Bug Bite",
+        "Iron Defense",
+        "Electroweb"
+      ]
     },
     "0183:marill": {
       "pdf_page": 59,
@@ -2357,6 +2429,1218 @@
         "Solar Beam"
       ],
       "review": "M4-S01 visual review of exact card on MASTER 430 / PDF 297: base HP, five baseline/limit dot rows, both ordinary ability slots and complete learnset/rank icons match supplied values. Evolution links reviewed separately; no blanket evolution-array certification."
+    },
+    "0009M1:blastoise-mega-form": {
+      "pdf_page": 4,
+      "fields": {
+        "BaseHP": 6,
+        "Strength": 3,
+        "MaxStrength": 6,
+        "Dexterity": 2,
+        "MaxDexterity": 5,
+        "Vitality": 3,
+        "MaxVitality": 7,
+        "Special": 3,
+        "MaxSpecial": 7,
+        "Insight": 3,
+        "MaxInsight": 6,
+        "Ability1": "Mega Launcher",
+        "Ability2": "",
+        "Moves": [
+          {
+            "Learned": "Starter",
+            "Name": "Tackle"
+          },
+          {
+            "Learned": "Starter",
+            "Name": "Tail Whip"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Water Gun"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Withdraw"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Rapid Spin"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Bite"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Bubble"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Protect"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Water Pulse"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Rain Dance"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Aqua Tail"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Flip Turn"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Shell Smash"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Iron Defense"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Aura Sphere"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Flash Cannon"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Muddy Water"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Life Dew"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Hydro Pump"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Skull Bash"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Water Spout"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Zap Cannon"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Outrage"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Hydro Cannon"
+          }
+        ]
+      },
+      "review": "M4-S01 exact-card visual review MASTER 137 / PDF 4: base HP, baseline/limit dots, ability slots and complete move ranks. Printed Protect icon is Advanced; user explicitly keeps Standard on 31 October 2026. All other reviewed values match the supplied data. Temporary evolution prerequisites are not certified.",
+      "moves_reviewed": [
+        "Tackle",
+        "Tail Whip",
+        "Water Gun",
+        "Withdraw",
+        "Rapid Spin",
+        "Bite",
+        "Bubble",
+        "Protect",
+        "Water Pulse",
+        "Rain Dance",
+        "Aqua Tail",
+        "Flip Turn",
+        "Shell Smash",
+        "Iron Defense",
+        "Aura Sphere",
+        "Flash Cannon",
+        "Muddy Water",
+        "Life Dew",
+        "Hydro Pump",
+        "Skull Bash",
+        "Water Spout",
+        "Zap Cannon",
+        "Outrage",
+        "Hydro Cannon"
+      ]
+    },
+    "0012:butterfree": {
+      "pdf_page": 4,
+      "fields": {
+        "BaseHP": 5,
+        "Strength": 2,
+        "MaxStrength": 4,
+        "Dexterity": 2,
+        "MaxDexterity": 5,
+        "Vitality": 2,
+        "MaxVitality": 4,
+        "Special": 2,
+        "MaxSpecial": 5,
+        "Insight": 2,
+        "MaxInsight": 5,
+        "Ability1": "Compound Eyes",
+        "Ability2": "Tinted Lens",
+        "Moves": [
+          {
+            "Learned": "Starter",
+            "Name": "Tackle"
+          },
+          {
+            "Learned": "Starter",
+            "Name": "String Shot"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Harden"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Gust"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Bug Bite"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Supersonic"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Confusion"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Poison Powder"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Stun Spore"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Sleep Powder"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Psybeam"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Whirlwind"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Captivate"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Air Slash"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Safeguard"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Signal Beam"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Tailwind"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Rage Powder"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Quiver Dance"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Bug Buzz"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Electroweb"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Reflect"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Twister"
+          }
+        ],
+        "Evolutions": [
+          {
+            "From": "Metapod",
+            "Kind": "Level",
+            "Speed": "Fast"
+          }
+        ]
+      },
+      "review": "M4-S01 exact-card visual review MASTER 137 / PDF 4: base HP, all baseline/limit dots, ordinary ability slots and complete move ranks. Ordinary Level links and speeds verified against the complete printed line and its First/Second card(s).",
+      "stage": 3,
+      "moves_reviewed": [
+        "Tackle",
+        "String Shot",
+        "Harden",
+        "Gust",
+        "Bug Bite",
+        "Supersonic",
+        "Confusion",
+        "Poison Powder",
+        "Stun Spore",
+        "Sleep Powder",
+        "Psybeam",
+        "Whirlwind",
+        "Captivate",
+        "Air Slash",
+        "Safeguard",
+        "Signal Beam",
+        "Tailwind",
+        "Rage Powder",
+        "Quiver Dance",
+        "Bug Buzz",
+        "Electroweb",
+        "Reflect",
+        "Twister"
+      ]
+    },
+    "0013:weedle": {
+      "pdf_page": 5,
+      "fields": {
+        "BaseHP": 3,
+        "Strength": 1,
+        "MaxStrength": 3,
+        "Dexterity": 2,
+        "MaxDexterity": 4,
+        "Vitality": 1,
+        "MaxVitality": 3,
+        "Special": 1,
+        "MaxSpecial": 3,
+        "Insight": 1,
+        "MaxInsight": 3,
+        "Ability1": "Shield Dust",
+        "Ability2": "Run Away",
+        "Moves": [
+          {
+            "Learned": "Starter",
+            "Name": "Poison Sting"
+          },
+          {
+            "Learned": "Starter",
+            "Name": "String Shot"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Bug Bite"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Electroweb"
+          }
+        ],
+        "Evolutions": [
+          {
+            "To": "Kakuna",
+            "Kind": "Level",
+            "Speed": "Fast"
+          }
+        ]
+      },
+      "review": "M4-S01 exact-card visual review MASTER 138 / PDF 5: base HP, all baseline/limit dots, ordinary ability slots and complete move ranks. Ordinary Level links and speeds verified against the complete printed line and its First/Second card(s).",
+      "stage": 1,
+      "moves_reviewed": [
+        "Poison Sting",
+        "String Shot",
+        "Bug Bite",
+        "Electroweb"
+      ]
+    },
+    "0014:kakuna": {
+      "pdf_page": 5,
+      "fields": {
+        "BaseHP": 4,
+        "Strength": 1,
+        "MaxStrength": 3,
+        "Dexterity": 1,
+        "MaxDexterity": 3,
+        "Vitality": 2,
+        "MaxVitality": 4,
+        "Special": 1,
+        "MaxSpecial": 3,
+        "Insight": 1,
+        "MaxInsight": 3,
+        "Ability1": "Shed Skin",
+        "Ability2": "",
+        "Moves": [
+          {
+            "Learned": "Starter",
+            "Name": "Harden"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "String Shot"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Bug Bite"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Iron Defense"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Electroweb"
+          }
+        ],
+        "Evolutions": [
+          {
+            "From": "Weedle",
+            "Kind": "Level",
+            "Speed": "Fast"
+          },
+          {
+            "To": "Beedrill",
+            "Kind": "Level",
+            "Speed": "Fast"
+          }
+        ]
+      },
+      "review": "M4-S01 exact-card visual review MASTER 138 / PDF 5: base HP, all baseline/limit dots, ordinary ability slots and complete move ranks. Ordinary Level links and speeds verified against the complete printed line and its First/Second card(s).",
+      "stage": 2,
+      "moves_reviewed": [
+        "Harden",
+        "String Shot",
+        "Bug Bite",
+        "Iron Defense",
+        "Electroweb"
+      ]
+    },
+    "0015:beedrill": {
+      "pdf_page": 5,
+      "fields": {
+        "BaseHP": 5,
+        "Strength": 2,
+        "MaxStrength": 5,
+        "Dexterity": 2,
+        "MaxDexterity": 5,
+        "Vitality": 2,
+        "MaxVitality": 4,
+        "Special": 2,
+        "MaxSpecial": 4,
+        "Insight": 2,
+        "MaxInsight": 5,
+        "Ability1": "Swarm",
+        "Ability2": "Sniper",
+        "Moves": [
+          {
+            "Learned": "Starter",
+            "Name": "Poison Sting"
+          },
+          {
+            "Learned": "Starter",
+            "Name": "Focus Energy"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Rage"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Twineedle"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Infestation"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Fury Attack"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Fury Cutter"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Pursuit"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Venoshock"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Ominous Wind"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Assurance"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Pin Missile"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Poison Jab"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Toxic Spikes"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Drill Run"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Agility"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Swords Dance"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Throat Chop"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Fell Stinger"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Endeavor"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Tailwind"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Brick Break"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Outrage"
+          }
+        ]
+      },
+      "review": "M4-S01 exact-card visual review MASTER 138 / PDF 5: base HP, all baseline/limit dots, ordinary ability slots and complete move ranks.",
+      "stage": 3,
+      "moves_reviewed": [
+        "Poison Sting",
+        "Focus Energy",
+        "Rage",
+        "Twineedle",
+        "Infestation",
+        "Fury Attack",
+        "Fury Cutter",
+        "Pursuit",
+        "Venoshock",
+        "Ominous Wind",
+        "Assurance",
+        "Pin Missile",
+        "Poison Jab",
+        "Toxic Spikes",
+        "Drill Run",
+        "Agility",
+        "Swords Dance",
+        "Throat Chop",
+        "Fell Stinger",
+        "Endeavor",
+        "Tailwind",
+        "Brick Break",
+        "Outrage"
+      ]
+    },
+    "0015M1:beedrill-mega-form": {
+      "pdf_page": 5,
+      "fields": {
+        "BaseHP": 6,
+        "Strength": 4,
+        "MaxStrength": 8,
+        "Dexterity": 4,
+        "MaxDexterity": 8,
+        "Vitality": 1,
+        "MaxVitality": 3,
+        "Special": 1,
+        "MaxSpecial": 2,
+        "Insight": 2,
+        "MaxInsight": 5,
+        "Ability1": "Adaptability",
+        "Ability2": "",
+        "Moves": [
+          {
+            "Learned": "Starter",
+            "Name": "Poison Sting"
+          },
+          {
+            "Learned": "Starter",
+            "Name": "Focus Energy"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Rage"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Twineedle"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Infestation"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Fury Attack"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Fury Cutter"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Pursuit"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Venoshock"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Ominous Wind"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Assurance"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Pin Missile"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Poison Jab"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Toxic Spikes"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Drill Run"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Agility"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Swords Dance"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Throat Chop"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Fell Stinger"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Endeavor"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Tailwind"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Brick Break"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Outrage"
+          }
+        ]
+      },
+      "review": "M4-S01 exact-card visual review MASTER 138 / PDF 5: base HP, all baseline/limit dots, ordinary ability slots and complete move ranks.",
+      "moves_reviewed": [
+        "Poison Sting",
+        "Focus Energy",
+        "Rage",
+        "Twineedle",
+        "Infestation",
+        "Fury Attack",
+        "Fury Cutter",
+        "Pursuit",
+        "Venoshock",
+        "Ominous Wind",
+        "Assurance",
+        "Pin Missile",
+        "Poison Jab",
+        "Toxic Spikes",
+        "Drill Run",
+        "Agility",
+        "Swords Dance",
+        "Throat Chop",
+        "Fell Stinger",
+        "Endeavor",
+        "Tailwind",
+        "Brick Break",
+        "Outrage"
+      ]
+    },
+    "0016:pidgey": {
+      "pdf_page": 6,
+      "fields": {
+        "BaseHP": 3,
+        "Strength": 2,
+        "MaxStrength": 4,
+        "Dexterity": 2,
+        "MaxDexterity": 4,
+        "Vitality": 1,
+        "MaxVitality": 3,
+        "Special": 1,
+        "MaxSpecial": 3,
+        "Insight": 1,
+        "MaxInsight": 3,
+        "Ability1": "Keen Eye",
+        "Ability2": "Tangled Feet",
+        "Moves": [
+          {
+            "Learned": "Starter",
+            "Name": "Tackle"
+          },
+          {
+            "Learned": "Starter",
+            "Name": "Sand Attack"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Gust"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Quick Attack"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Whirlwind"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Twister"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Feather Dance"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Agility"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Wing Attack"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Mirror Move"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Tailwind"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Aerial Ace"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Steel Wing"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Uproar"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Air Slash"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Roost"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Hurricane"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Brave Bird"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Feint Attack"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Fly"
+          }
+        ],
+        "Evolutions": [
+          {
+            "To": "Pidgeotto",
+            "Kind": "Level",
+            "Speed": "Medium"
+          }
+        ]
+      },
+      "review": "M4-S01 exact-card visual review MASTER 139 / PDF 6: base HP, all baseline/limit dots, ordinary ability slots and complete move ranks. Ordinary Level links and speeds verified against the complete printed line and its First/Second card(s).",
+      "stage": 1,
+      "moves_reviewed": [
+        "Tackle",
+        "Sand Attack",
+        "Gust",
+        "Quick Attack",
+        "Whirlwind",
+        "Twister",
+        "Feather Dance",
+        "Agility",
+        "Wing Attack",
+        "Mirror Move",
+        "Tailwind",
+        "Aerial Ace",
+        "Steel Wing",
+        "Uproar",
+        "Air Slash",
+        "Roost",
+        "Hurricane",
+        "Brave Bird",
+        "Feint Attack",
+        "Fly"
+      ]
+    },
+    "0017:pidgeotto": {
+      "pdf_page": 6,
+      "fields": {
+        "BaseHP": 4,
+        "Strength": 2,
+        "MaxStrength": 4,
+        "Dexterity": 2,
+        "MaxDexterity": 5,
+        "Vitality": 2,
+        "MaxVitality": 4,
+        "Special": 2,
+        "MaxSpecial": 4,
+        "Insight": 2,
+        "MaxInsight": 4,
+        "Ability1": "Keen Eye",
+        "Ability2": "Tangled Feet",
+        "Moves": [
+          {
+            "Learned": "Starter",
+            "Name": "Tackle"
+          },
+          {
+            "Learned": "Starter",
+            "Name": "Sand Attack"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Gust"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Quick Attack"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Whirlwind"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Twister"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Feather Dance"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Agility"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Wing Attack"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Mirror Move"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Tailwind"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Aerial Ace"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Steel Wing"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Uproar"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Air Slash"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Roost"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Hurricane"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Brave Bird"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Feint Attack"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Fly"
+          }
+        ],
+        "Evolutions": [
+          {
+            "From": "Pidgey",
+            "Kind": "Level",
+            "Speed": "Medium"
+          },
+          {
+            "To": "Pidgeot",
+            "Kind": "Level",
+            "Speed": "Medium"
+          }
+        ]
+      },
+      "review": "M4-S01 exact-card visual review MASTER 139 / PDF 6: base HP, all baseline/limit dots, ordinary ability slots and complete move ranks. Ordinary Level links and speeds verified against the complete printed line and its First/Second card(s).",
+      "stage": 2,
+      "moves_reviewed": [
+        "Tackle",
+        "Sand Attack",
+        "Gust",
+        "Quick Attack",
+        "Whirlwind",
+        "Twister",
+        "Feather Dance",
+        "Agility",
+        "Wing Attack",
+        "Mirror Move",
+        "Tailwind",
+        "Aerial Ace",
+        "Steel Wing",
+        "Uproar",
+        "Air Slash",
+        "Roost",
+        "Hurricane",
+        "Brave Bird",
+        "Feint Attack",
+        "Fly"
+      ]
+    },
+    "0018:pidgeot": {
+      "pdf_page": 6,
+      "fields": {
+        "BaseHP": 5,
+        "Strength": 2,
+        "MaxStrength": 5,
+        "Dexterity": 3,
+        "MaxDexterity": 6,
+        "Vitality": 2,
+        "MaxVitality": 5,
+        "Special": 2,
+        "MaxSpecial": 5,
+        "Insight": 2,
+        "MaxInsight": 5,
+        "Ability1": "Keen Eye",
+        "Ability2": "Big Pecks",
+        "Moves": [
+          {
+            "Learned": "Starter",
+            "Name": "Tackle"
+          },
+          {
+            "Learned": "Starter",
+            "Name": "Sand Attack"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Gust"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Quick Attack"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Whirlwind"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Twister"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Feather Dance"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Agility"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Wing Attack"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Mirror Move"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Tailwind"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Aerial Ace"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Defog"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Steel Wing"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Uproar"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Heat Wave"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Air Slash"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Roost"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Hurricane"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Brave Bird"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Reflect"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Sky Attack"
+          }
+        ]
+      },
+      "review": "M4-S01 exact-card visual review MASTER 139 / PDF 6: base HP, all baseline/limit dots, ordinary ability slots and complete move ranks.",
+      "stage": 3,
+      "moves_reviewed": [
+        "Tackle",
+        "Sand Attack",
+        "Gust",
+        "Quick Attack",
+        "Whirlwind",
+        "Twister",
+        "Feather Dance",
+        "Agility",
+        "Wing Attack",
+        "Mirror Move",
+        "Tailwind",
+        "Aerial Ace",
+        "Defog",
+        "Steel Wing",
+        "Uproar",
+        "Heat Wave",
+        "Air Slash",
+        "Roost",
+        "Hurricane",
+        "Brave Bird",
+        "Reflect",
+        "Sky Attack"
+      ]
+    },
+    "0018M1:pidgeot-mega-form": {
+      "pdf_page": 6,
+      "fields": {
+        "BaseHP": 6,
+        "Strength": 2,
+        "MaxStrength": 5,
+        "Dexterity": 3,
+        "MaxDexterity": 7,
+        "Vitality": 2,
+        "MaxVitality": 5,
+        "Special": 3,
+        "MaxSpecial": 7,
+        "Insight": 2,
+        "MaxInsight": 5,
+        "Ability1": "No Guard",
+        "Ability2": "",
+        "Moves": [
+          {
+            "Learned": "Starter",
+            "Name": "Tackle"
+          },
+          {
+            "Learned": "Starter",
+            "Name": "Sand Attack"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Gust"
+          },
+          {
+            "Learned": "Rookie",
+            "Name": "Quick Attack"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Whirlwind"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Twister"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Feather Dance"
+          },
+          {
+            "Learned": "Standard",
+            "Name": "Agility"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Wing Attack"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Mirror Move"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Tailwind"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Aerial Ace"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Defog"
+          },
+          {
+            "Learned": "Advanced",
+            "Name": "Steel Wing"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Uproar"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Heat Wave"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Air Slash"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Roost"
+          },
+          {
+            "Learned": "Expert",
+            "Name": "Hurricane"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Brave Bird"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Reflect"
+          },
+          {
+            "Learned": "Ace",
+            "Name": "Sky Attack"
+          }
+        ]
+      },
+      "review": "M4-S01 exact-card visual review MASTER 139 / PDF 6: base HP, all baseline/limit dots, ordinary ability slots and complete move ranks.",
+      "moves_reviewed": [
+        "Tackle",
+        "Sand Attack",
+        "Gust",
+        "Quick Attack",
+        "Whirlwind",
+        "Twister",
+        "Feather Dance",
+        "Agility",
+        "Wing Attack",
+        "Mirror Move",
+        "Tailwind",
+        "Aerial Ace",
+        "Defog",
+        "Steel Wing",
+        "Uproar",
+        "Heat Wave",
+        "Air Slash",
+        "Roost",
+        "Hurricane",
+        "Brave Bird",
+        "Reflect",
+        "Sky Attack"
+      ]
     }
   }
 }

@@ -1229,6 +1229,36 @@ fn s01_reviewed_fixture(t: &Sheet, name: &str, cat: &Catalog) -> Sheet {
 }
 
 #[test]
+fn s01_metapod_printed_vitality_limit_is_four() {
+    let cat = catalog();
+    let t = trainer("Expert");
+    let p = s01_reviewed_fixture(&t, "Metapod", &cat);
+    let mut req = request(&p, "allocate", Some(&t));
+    req.sheet
+        .workflow
+        .as_mut()
+        .unwrap()
+        .allocations
+        .insert("Vitality".into(), 3);
+    let over = rules::preview(Some(&p), Some(&t), &req, &cat);
+    assert!(
+        over.errors.iter().any(|e| e.contains("Vitality")),
+        "{:?}",
+        over.errors
+    );
+    assert!(rules::apply(Some(&p), Some(&t), &req, &cat, None).is_err());
+    req.sheet
+        .workflow
+        .as_mut()
+        .unwrap()
+        .allocations
+        .insert("Vitality".into(), 2);
+    let legal = rules::preview(Some(&p), Some(&t), &req, &cat);
+    assert!(legal.errors.is_empty(), "{:?}", legal.errors);
+    assert_eq!(legal.sheet.stats["Vitality"], 4);
+}
+
+#[test]
 fn s01_printed_missing_forward_links_offer_slow_evolution_and_replay() {
     let cat = catalog();
     let t = trainer("Champion");

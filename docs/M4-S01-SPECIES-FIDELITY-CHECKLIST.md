@@ -12,7 +12,16 @@ Started 30 October 2026 after M4-R01 (`4d37d09`). **In progress: not a completed
 - [x] Correct Pawmot's erroneous self-pre-evolution to Pawmo using the printed #921 → #922 → #923 diagram (MASTER 405 / PDF 272). Preserve the unreviewed speed; do not silently certify the whole evolution record.
 - [x] Retain already delivered M4-R01 references and Mew's user rulings when adding manual species fields. Species review fields are applied once, before subsequent targeted corrections.
 
-The initial 12 identities added 174 field certifications. A further four exact cards were visually reviewed on 31 October: Type: Null (MASTER 362 / PDF 229), Silvally (363 / 230), Duraludon (392 / 259), and Archaludon (430 / 297). Base HP, all five baseline/limit pairs, ordinary ability slots and every move-rank icon match the supplied values, adding 56 certifications. The S01 registry now records **16 identities / 230 field certifications**; combined with earlier reviews, 22 identities have some manual evidence. **17,707 species-field records remain unverified.** Whole evolution arrays for the four new identities remain unverified; the specific repairs below carry separate evidence.
+The initial 12 identities added 174 field certifications. Four later cards were visually reviewed on 31 October: Type: Null (MASTER 362 / PDF 229), Silvally (363 / 230), Duraludon (392 / 259), and Archaludon (430 / 297), adding 56 certifications. Their whole evolution arrays remain unverified; the specific repairs below carry separate evidence.
+
+The page-by-page review then continued through MASTER 137–139 / PDF 4–6: Mega Blastoise, Caterpie, Metapod, Butterfree, Weedle, Kakuna, Beedrill, Mega Beedrill, Pidgey, Pidgeotto, Pidgeot and Mega Pidgeot. Base HP, all five baseline/limit pairs, ordinary ability slots and every move-rank icon were inspected. This adds **149 previously unverified fields**, including complete ordinary evolution arrays for Caterpie, Metapod, Butterfree, Weedle, Kakuna, Pidgey and Pidgeotto. Fast speeds for both insect lines and Medium speeds for the Pidgey line were checked on the relevant First/Second cards. Mega prerequisites remain unverified.
+
+Two findings need explicit provenance:
+
+- Metapod's earlier application-owned manual review incorrectly set MaxVitality to 5. The enlarged printed dot row and unchanged supplied file both show **4**. Correct the manual override to 4; retain Vitality baseline 2. The regression checks that an Expert Metapod can train to 4 and cannot train to 5 (Champion's ordinary +2 cap bonus remains separate).
+- Mega Blastoise prints an Advanced Protect icon; ordinary Blastoise prints Standard. The user explicitly chose **Standard** for Mega Blastoise. Record this as a retained move-rank discrepancy and user ruling, not agreement with the printed Mega icon. Other inspected values on these three pages match the supplied data.
+
+The S01 registry now records **28 identities / 379 new field certifications**; combined with earlier reviews, 32 identities have some manual evidence. **17,558 species-field records remain unverified.** The contiguous first six MASTER PDF pages have been visually inspected, but temporary-form prerequisites and all uninspected remaining pages are not blanket-certified.
 
 ## User stage-cost policy
 
@@ -70,3 +79,5 @@ Prior gender checkpoint, release 0.43.0 / protocol 44: **791 Rust tests passed, 
 Prior special-eligibility guidance batch: **792 Rust tests passed, 1 diagnostic ignored; 71 frontend tests and 40 script/catalog checks passed; TypeScript passed.** Final move-forgetting and readable-guidance adjustments passed the focused six-test M4-S01 suite. Formatting and diff checks passed. No native packages or native/physical-network acceptance were run.
 
 31 October graph/source batch: **793 Rust tests passed, 1 diagnostic ignored; 71 frontend tests and 41 script/catalog checks passed; TypeScript, Rust formatting and diff checks passed.** No native package, Clippy, native UI or physical-network acceptance was run.
+
+31 October Kanto pages 137–139 batch: **794 Rust tests passed, 1 diagnostic ignored; 71 frontend tests and 42 script/catalog checks passed; TypeScript, Rust formatting, relevant Prettier checks and diff checks passed.** No native package, Clippy, native UI or physical-network acceptance was run.

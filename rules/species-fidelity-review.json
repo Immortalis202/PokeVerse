@@ -445,6 +445,313 @@
         "Moves"
       ],
       "evolution_review": "targeted links recorded separately; whole array not certified"
+    },
+    {
+      "id": "0009M1:blastoise-mega-form",
+      "name": "Blastoise (Mega Form)",
+      "source": "Pokerole-Data/v3.0/Pokedex/Blastoise (Mega Form).json",
+      "sha256": "d301a54d909f81b21cdf1b48e504879edea29297a59f6f48a46fb78d031e331f",
+      "pdf_page": 4,
+      "printed_page": 137,
+      "fields": [
+        "BaseHP",
+        "Strength",
+        "MaxStrength",
+        "Dexterity",
+        "MaxDexterity",
+        "Vitality",
+        "MaxVitality",
+        "Special",
+        "MaxSpecial",
+        "Insight",
+        "MaxInsight",
+        "Ability1",
+        "Ability2",
+        "Moves"
+      ],
+      "evolution_review": "temporary prerequisites not certified"
+    },
+    {
+      "id": "0010:caterpie",
+      "name": "Caterpie",
+      "source": "Pokerole-Data/v3.0/Pokedex/Caterpie.json",
+      "sha256": "1be97e68138a0d770ac08aa701ab7460311f9a6413b456d3fe72469dac1c65e8",
+      "pdf_page": 4,
+      "printed_page": 137,
+      "fields": [
+        "BaseHP",
+        "Strength",
+        "MaxStrength",
+        "Dexterity",
+        "MaxDexterity",
+        "Vitality",
+        "MaxVitality",
+        "Special",
+        "MaxSpecial",
+        "Insight",
+        "MaxInsight",
+        "Ability1",
+        "Ability2",
+        "Moves",
+        "Evolutions"
+      ],
+      "evolution_review": "ordinary arrays reviewed"
+    },
+    {
+      "id": "0011:metapod",
+      "name": "Metapod",
+      "source": "Pokerole-Data/v3.0/Pokedex/Metapod.json",
+      "sha256": "0419298177a0bf3a7e385e8d0bbae019dc28f18bd0f141ef3e4a93fd83355eee",
+      "pdf_page": 4,
+      "printed_page": 137,
+      "fields": [
+        "BaseHP",
+        "Strength",
+        "MaxStrength",
+        "Dexterity",
+        "MaxDexterity",
+        "Vitality",
+        "MaxVitality",
+        "Special",
+        "MaxSpecial",
+        "Insight",
+        "MaxInsight",
+        "Ability1",
+        "Ability2",
+        "Moves",
+        "Evolutions"
+      ],
+      "evolution_review": "ordinary arrays reviewed"
+    },
+    {
+      "id": "0012:butterfree",
+      "name": "Butterfree",
+      "source": "Pokerole-Data/v3.0/Pokedex/Butterfree.json",
+      "sha256": "e9ee07bed365362be184406957a41540d05907de27fd2887e86956deda036fdd",
+      "pdf_page": 4,
+      "printed_page": 137,
+      "fields": [
+        "BaseHP",
+        "Strength",
+        "MaxStrength",
+        "Dexterity",
+        "MaxDexterity",
+        "Vitality",
+        "MaxVitality",
+        "Special",
+        "MaxSpecial",
+        "Insight",
+        "MaxInsight",
+        "Ability1",
+        "Ability2",
+        "Moves",
+        "Evolutions"
+      ],
+      "evolution_review": "ordinary arrays reviewed"
+    },
+    {
+      "id": "0013:weedle",
+      "name": "Weedle",
+      "source": "Pokerole-Data/v3.0/Pokedex/Weedle.json",
+      "sha256": "0407f7cc8f5c5e0f97013ac6dd6a6de56e2109843926581cd4b7fdceb057f475",
+      "pdf_page": 5,
+      "printed_page": 138,
+      "fields": [
+        "BaseHP",
+        "Strength",
+        "MaxStrength",
+        "Dexterity",
+        "MaxDexterity",
+        "Vitality",
+        "MaxVitality",
+        "Special",
+        "MaxSpecial",
+        "Insight",
+        "MaxInsight",
+        "Ability1",
+        "Ability2",
+        "Moves",
+        "Evolutions"
+      ],
+      "evolution_review": "ordinary arrays reviewed"
+    },
+    {
+      "id": "0014:kakuna",
+      "name": "Kakuna",
+      "source": "Pokerole-Data/v3.0/Pokedex/Kakuna.json",
+      "sha256": "09464713af2ccb703de71da4744c6cfec1ca016feb046babe5f366b81bd43c65",
+      "pdf_page": 5,
+      "printed_page": 138,
+      "fields": [
+        "BaseHP",
+        "Strength",
+        "MaxStrength",
+        "Dexterity",
+        "MaxDexterity",
+        "Vitality",
+        "MaxVitality",
+        "Special",
+        "MaxSpecial",
+        "Insight",
+        "MaxInsight",
+        "Ability1",
+        "Ability2",
+        "Moves",
+        "Evolutions"
+      ],
+      "evolution_review": "ordinary arrays reviewed"
+    },
+    {
+      "id": "0015:beedrill",
+      "name": "Beedrill",
+      "source": "Pokerole-Data/v3.0/Pokedex/Beedrill.json",
+      "sha256": "79083021bd15bb216d42f43f0389244530c4725e6640ff1506fd4fa3871d0cf6",
+      "pdf_page": 5,
+      "printed_page": 138,
+      "fields": [
+        "BaseHP",
+        "Strength",
+        "MaxStrength",
+        "Dexterity",
+        "MaxDexterity",
+        "Vitality",
+        "MaxVitality",
+        "Special",
+        "MaxSpecial",
+        "Insight",
+        "MaxInsight",
+        "Ability1",
+        "Ability2",
+        "Moves"
+      ],
+      "evolution_review": "temporary prerequisites not certified"
+    },
+    {
+      "id": "0015M1:beedrill-mega-form",
+      "name": "Beedrill (Mega Form)",
+      "source": "Pokerole-Data/v3.0/Pokedex/Beedrill (Mega Form).json",
+      "sha256": "22231b1c80e3ce55f1cc83ebc980f5821433025b7f7c41b93de75b7c584433c2",
+      "pdf_page": 5,
+      "printed_page": 138,
+      "fields": [
+        "BaseHP",
+        "Strength",
+        "MaxStrength",
+        "Dexterity",
+        "MaxDexterity",
+        "Vitality",
+        "MaxVitality",
+        "Special",
+        "MaxSpecial",
+        "Insight",
+        "MaxInsight",
+        "Ability1",
+        "Ability2",
+        "Moves"
+      ],
+      "evolution_review": "temporary prerequisites not certified"
+    },
+    {
+      "id": "0016:pidgey",
+      "name": "Pidgey",
+      "source": "Pokerole-Data/v3.0/Pokedex/Pidgey.json",
+      "sha256": "ed491b51bdfd9a9ab69ba017bab270165c06fa2c56f72526d4d24f84f4475898",
+      "pdf_page": 6,
+      "printed_page": 139,
+      "fields": [
+        "BaseHP",
+        "Strength",
+        "MaxStrength",
+        "Dexterity",
+        "MaxDexterity",
+        "Vitality",
+        "MaxVitality",
+        "Special",
+        "MaxSpecial",
+        "Insight",
+        "MaxInsight",
+        "Ability1",
+        "Ability2",
+        "Moves",
+        "Evolutions"
+      ],
+      "evolution_review": "ordinary arrays reviewed"
+    },
+    {
+      "id": "0017:pidgeotto",
+      "name": "Pidgeotto",
+      "source": "Pokerole-Data/v3.0/Pokedex/Pidgeotto.json",
+      "sha256": "2c698c9fec34006a9ce53101b8d8e848bb10102f4ae3ed393a8fccabb3f7d00d",
+      "pdf_page": 6,
+      "printed_page": 139,
+      "fields": [
+        "BaseHP",
+        "Strength",
+        "MaxStrength",
+        "Dexterity",
+        "MaxDexterity",
+        "Vitality",
+        "MaxVitality",
+        "Special",
+        "MaxSpecial",
+        "Insight",
+        "MaxInsight",
+        "Ability1",
+        "Ability2",
+        "Moves",
+        "Evolutions"
+      ],
+      "evolution_review": "ordinary arrays reviewed"
+    },
+    {
+      "id": "0018:pidgeot",
+      "name": "Pidgeot",
+      "source": "Pokerole-Data/v3.0/Pokedex/Pidgeot.json",
+      "sha256": "63c868607db247321d348c4725e5222d62e6835025ab16df2cc4a82156b0807f",
+      "pdf_page": 6,
+      "printed_page": 139,
+      "fields": [
+        "BaseHP",
+        "Strength",
+        "MaxStrength",
+        "Dexterity",
+        "MaxDexterity",
+        "Vitality",
+        "MaxVitality",
+        "Special",
+        "MaxSpecial",
+        "Insight",
+        "MaxInsight",
+        "Ability1",
+        "Ability2",
+        "Moves"
+      ],
+      "evolution_review": "temporary prerequisites not certified"
+    },
+    {
+      "id": "0018M1:pidgeot-mega-form",
+      "name": "Pidgeot (Mega Form)",
+      "source": "Pokerole-Data/v3.0/Pokedex/Pidgeot (Mega Form).json",
+      "sha256": "e471d15871099e12b2d01e1cf701088d01950f6763cc0f0efac20c9ae16dc691",
+      "pdf_page": 6,
+      "printed_page": 139,
+      "fields": [
+        "BaseHP",
+        "Strength",
+        "MaxStrength",
+        "Dexterity",
+        "MaxDexterity",
+        "Vitality",
+        "MaxVitality",
+        "Special",
+        "MaxSpecial",
+        "Insight",
+        "MaxInsight",
+        "Ability1",
+        "Ability2",
+        "Moves"
+      ],
+      "evolution_review": "temporary prerequisites not certified"
     }
   ],
   "clear_corrections": [
@@ -858,6 +1165,26 @@
         }
       ],
       "decision": "Printed generic Scyther trade/item guidance and specific Kleavor Black Augurite guidance differ. User explicitly assigns eligibility to player and GM; retain source directions visibly as guidance without an enforced trade, item ownership, consumption or TP charge."
+    }
+  ],
+  "user_move_rank_rulings": [
+    {
+      "id": "0009M1:blastoise-mega-form",
+      "move": "Protect",
+      "expected_rank": "Standard",
+      "printed_rank": "Advanced",
+      "resolved_rank": "Standard",
+      "references": [
+        {
+          "pdf_page": 4,
+          "printed_page": 137
+        },
+        {
+          "pdf_page": 3,
+          "printed_page": 136
+        }
+      ],
+      "decision": "User ruling on 31 October 2026: retain Standard Protect for Mega Blastoise, despite its printed Advanced icon. Ordinary Blastoise prints Standard. This is a table ruling, not agreement with the Mega printed icon."
     }
   ]
 }

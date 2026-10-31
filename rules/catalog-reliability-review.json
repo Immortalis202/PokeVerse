@@ -1705,9 +1705,9 @@
     "status": "in-progress",
     "registry": "rules/species-fidelity-review.json",
     "checklist": "docs/M4-S01-SPECIES-FIDELITY-CHECKLIST.md",
-    "new_manual_identities": 16,
-    "new_field_certifications": 230,
-    "remaining_unverified_species_fields": 17707,
+    "new_manual_identities": 28,
+    "new_field_certifications": 379,
+    "remaining_unverified_species_fields": 17558,
     "stage_ruling_rows": 192,
     "unresolved_graph_discrepancies": 0,
     "retained_graph_guidance_discrepancies": 1
