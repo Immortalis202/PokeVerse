@@ -1229,6 +1229,54 @@ fn s01_reviewed_fixture(t: &Sheet, name: &str, cat: &Catalog) -> Sheet {
 }
 
 #[test]
+fn s01_special_evolution_guidance_preserves_resources_and_gm_completion() {
+    let cat = catalog();
+    let t = trainer("Champion");
+    for (name, target, guidance) in [
+        ("Scyther", "Kleavor", "Black Augurite"),
+        ("Eevee", "Vaporeon", "Water Stone"),
+        ("Eevee", "Espeon", "Sunlight"),
+        ("Eevee", "Sylveon", "Loyalty"),
+        ("Golbat", "Crobat", "Happiness"),
+    ] {
+        let mut p = s01_reviewed_fixture(&t, name, &cat);
+        p.workflow.as_mut().unwrap().happiness = 0;
+        p.workflow.as_mut().unwrap().loyalty = 0;
+        for quantity in [0, 2] {
+            p.inventory.insert(guidance.into(), quantity);
+            let mut req = request(&p, "prepare_evolution", Some(&t));
+            req.target_species = cat.find("species", "Name", target).unwrap()["AppId"]
+                .as_str()
+                .unwrap()
+                .to_owned();
+            let preview = rules::preview(Some(&p), Some(&t), &req, &cat);
+            assert!(preview.errors.is_empty(), "{target}: {:?}", preview.errors);
+            assert!(
+                preview.approvals.is_empty(),
+                "{target}: {:?}",
+                preview.approvals
+            );
+            assert!(preview.warnings.iter().any(|w| w.contains(guidance)));
+            assert_eq!(preview.cost, 0);
+            let ready = rules::apply(Some(&p), Some(&t), &req, &cat, None).unwrap();
+            assert_eq!(ready.inventory, p.inventory);
+            assert_eq!(
+                ready.workflow.as_ref().unwrap().training_points,
+                p.workflow.as_ref().unwrap().training_points
+            );
+            rules::verify_sync(Some(&p), &ready, Some(&t), &cat).unwrap();
+            let mut finish = request(&ready, "evolve", Some(&t));
+            finish.target_species = req.target_species.clone();
+            assert!(rules::apply(Some(&ready), Some(&t), &finish, &cat, None).is_err());
+            let evolved =
+                rules::apply(Some(&ready), Some(&t), &finish, &cat, Some(("test", "gm"))).unwrap();
+            assert_eq!(evolved.species_id.as_ref(), Some(&req.target_species));
+            assert_eq!(evolved.inventory, p.inventory);
+        }
+    }
+}
+
+#[test]
 fn s01_gender_legacy_identity_and_sync_preserve_provenance() {
     let cat = catalog();
     let t = trainer("Standard");
@@ -1292,7 +1340,7 @@ fn s01_gender_legacy_identity_and_sync_preserve_provenance() {
 }
 
 #[test]
-fn s01_kirlia_branches_enforce_gender_stone_and_medium_cost() {
+fn s01_kirlia_branches_enforce_gender_and_medium_cost_with_item_guidance() {
     let cat = catalog();
     let t = trainer("Standard");
     let p = award(&s01_reviewed_fixture(&t, "Kirlia", &cat), &t, 60);
@@ -1328,10 +1376,7 @@ fn s01_kirlia_branches_enforce_gender_stone_and_medium_cost() {
             assert!(preview.approvals.is_empty(), "{:?}", preview.approvals);
             assert_eq!(preview.cost, cost);
             let ready = rules::apply(Some(&edited), Some(&t), &req, &cat, None).unwrap();
-            assert_eq!(
-                ready.inventory["Dawn Stone"],
-                if target == "Gallade" { 1 } else { 2 }
-            );
+            assert_eq!(ready.inventory["Dawn Stone"], 2);
             assert_eq!(ready.workflow.as_ref().unwrap().training_points, 60 - cost);
             rules::verify_sync(Some(&edited), &ready, Some(&t), &cat).unwrap();
             let mut describe = request(&ready, "describe", Some(&t));
@@ -1353,10 +1398,17 @@ fn s01_kirlia_branches_enforce_gender_stone_and_medium_cost() {
     male.gender = Some(PokemonGender::Male);
     let mut req = request(&male, "prepare_evolution", Some(&t));
     req.target_species = "0475:gallade".into();
-    assert!(rules::preview(Some(&male), Some(&t), &req, &cat)
-        .errors
+    let without_stone = rules::preview(Some(&male), Some(&t), &req, &cat);
+    assert!(
+        without_stone.errors.is_empty(),
+        "{:?}",
+        without_stone.errors
+    );
+    assert!(without_stone.approvals.is_empty());
+    assert!(without_stone
+        .warnings
         .iter()
-        .any(|e| e.contains("owned Dawn Stone")));
+        .any(|w| w.contains("Dawn Stone")));
     req.target_species = "0282:gardevoir".into();
     male.workflow.as_mut().unwrap().training_points = 29;
     req = WorkflowRequest {
@@ -1415,16 +1467,31 @@ fn s01_named_move_evolutions_require_known_moves_without_mastery_adjudication() 
         assert_eq!(applied.inventory, learned.inventory);
         rules::verify_sync(Some(&learned), &applied, Some(&t), &cat).unwrap();
         let mut finish = request(&applied, "evolve", Some(&t));
-        finish.target_species = target_id;
+        finish.target_species = target_id.clone();
         assert!(rules::preview(Some(&applied), Some(&t), &finish, &cat)
             .approvals
             .iter()
             .any(|a| a.contains("evolution scene")));
+        let mut forget = request(&applied, "forget", Some(&t));
+        forget.move_name = move_name.into();
+        let forgotten = rules::apply(Some(&applied), Some(&t), &forget, &cat, None).unwrap();
+        let mut finish = request(&forgotten, "evolve", Some(&t));
+        finish.target_species = target_id;
+        let rejected = rules::preview(Some(&forgotten), Some(&t), &finish, &cat);
+        assert!(rejected.errors.iter().any(|e| e.contains(move_name)));
+        assert!(rules::apply(
+            Some(&forgotten),
+            Some(&t),
+            &finish,
+            &cat,
+            Some(("test", "gm"))
+        )
+        .is_err());
     }
 }
 
 #[test]
-fn s01_applin_requires_syrupy_apple_and_dipplin_has_second_stage_costs() {
+fn s01_applin_item_guidance_preserves_inventory_and_dipplin_second_stage_costs() {
     let cat = catalog();
     let t = trainer("Advanced");
     let applin = s01_reviewed_fixture(&t, "Applin", &cat);
@@ -1437,9 +1504,11 @@ fn s01_applin_requires_syrupy_apple_and_dipplin_has_second_stage_costs() {
     let mut req = request(&wrong, "prepare_evolution", Some(&t));
     req.target_species = target.clone();
     let before = serde_json::to_value(&wrong).unwrap();
-    let rejected = rules::preview(Some(&wrong), Some(&t), &req, &cat);
-    assert!(rejected.errors.iter().any(|e| e.contains("Syrupy Apple")));
-    assert!(rules::apply(Some(&wrong), Some(&t), &req, &cat, None).is_err());
+    let preview = rules::preview(Some(&wrong), Some(&t), &req, &cat);
+    assert!(preview.errors.is_empty(), "{:?}", preview.errors);
+    assert!(preview.warnings.iter().any(|e| e.contains("Syrupy Apple")));
+    let prepared = rules::apply(Some(&wrong), Some(&t), &req, &cat, None).unwrap();
+    assert_eq!(prepared.inventory, wrong.inventory);
     assert_eq!(serde_json::to_value(&wrong).unwrap(), before);
     let mut owned = applin.clone();
     owned.inventory.insert("Syrupy Apple".into(), 2);
@@ -1450,7 +1519,7 @@ fn s01_applin_requires_syrupy_apple_and_dipplin_has_second_stage_costs() {
     assert!(preview.approvals.is_empty(), "{:?}", preview.approvals);
     assert_eq!(preview.cost, 0);
     let prepared = rules::apply(Some(&owned), Some(&t), &req, &cat, None).unwrap();
-    assert_eq!(prepared.inventory["Syrupy Apple"], 1);
+    assert_eq!(prepared.inventory["Syrupy Apple"], 2);
     assert_eq!(
         prepared.workflow.as_ref().unwrap().evolution_ready.as_ref(),
         Some(&target)

@@ -495,6 +495,31 @@ pub fn preview(
                 })
                 .cloned();
             if let Some(e) = edge {
+                let guidance = e
+                    .as_object()
+                    .unwrap()
+                    .iter()
+                    .filter(|(key, _)| !["To", "From"].contains(&key.as_str()))
+                    .map(|(key, value)| {
+                        let label = match key.as_str() {
+                            "Kind" => "Evolution method",
+                            "AllowedGenders" => "Allowed genders",
+                            other => other,
+                        };
+                        let text = match value {
+                            serde_json::Value::String(text) => text.clone(),
+                            serde_json::Value::Array(values) => values
+                                .iter()
+                                .filter_map(|v| v.as_str())
+                                .collect::<Vec<_>>()
+                                .join(", "),
+                            other => other.to_string(),
+                        };
+                        format!("{label}: {text}")
+                    })
+                    .collect::<Vec<_>>()
+                    .join("; ");
+                warnings.push(format!("Evolution guidance for player and GM: {guidance}. Gender and known moves are checked; other special conditions are not enforced and items are not consumed."));
                 let gender = match s.gender {
                     Some(PokemonGender::Male) => "Male",
                     Some(PokemonGender::Female) => "Female",
@@ -518,6 +543,11 @@ pub fn preview(
                         ));
                     }
                 }
+                if let Some(m) = e["Move"].as_str() {
+                    if !s.moves.iter().any(|n| n == m) {
+                        errors.push(format!("Evolution requires learned move {m}"));
+                    }
+                }
                 if req.kind == "prepare_evolution" {
                     if !(0..=100_000).contains(&req.amount) {
                         errors.push("Proposed evolution cost must be between 0 and 100000".into());
@@ -532,17 +562,6 @@ pub fn preview(
                             Some("Slow") => cost = 50,
                             _ => approvals.push("Missing evolution speed: GM must set cost".into()),
                         },
-                        "Stat" => {
-                            let key = e["Stat"].as_str().unwrap_or("");
-                            let value = match key {
-                                "Happiness" => b.happiness,
-                                "Loyalty" => b.loyalty,
-                                _ => *s.stats.get(key).unwrap_or(&0),
-                            };
-                            if e["Value"].as_i64().is_none_or(|v| i64::from(value) < v) {
-                                errors.push(format!("Evolution requires {key} {}", e["Value"]));
-                            }
-                        }
                         "Move" => {
                             if e["Move"]
                                 .as_str()
@@ -552,27 +571,9 @@ pub fn preview(
                                     .push("Move evolution requires a reviewed catalog move".into());
                             }
                         }
-                        "Stone" | "Item" => {
-                            let item = e["Item"].as_str().or(e["Stone"].as_str()).unwrap_or("");
-                            if s.inventory.get(item).copied().unwrap_or(0) < 1 {
-                                errors.push(format!("Evolution requires an owned {item}"));
-                            } else {
-                                *s.inventory.get_mut(item).unwrap() -= 1;
-                            }
-                        }
-                        _ => approvals
-                            .push("Narrative/trade/form evolution requires GM confirmation".into()),
-                    }
-                    for key in ["Region", "Special", "Game"] {
-                        if e.get(key).is_some() {
-                            approvals
-                                .push(format!("Confirm evolution condition {key}: {}", e[key]));
-                        }
-                    }
-                    if let Some(m) = e["Move"].as_str() {
-                        if !s.moves.iter().any(|n| n == m) {
-                            errors.push(format!("Evolution requires learned move {m}"));
-                        }
+                        // Special eligibility is decided by the player and GM. Keep the
+                        // catalog conditions visible without consuming inventory or gating preparation.
+                        _ => {}
                     }
                     if cost == 0 && e["Kind"].as_str() == Some("Level") {
                         cost = req.amount.max(0);

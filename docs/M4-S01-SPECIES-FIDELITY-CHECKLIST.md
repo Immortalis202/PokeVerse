@@ -8,8 +8,8 @@ Started 30 October 2026 after M4-R01 (`4d37d09`). **In progress: not a completed
 - [x] Preserve a fingerprint of the complete supplied species snapshot. Source JSON is unchanged.
 - [x] Visually review complete MASTER 134-136 / PDF 1-3. Record BaseHP, five baseline/limit dot rows, both ordinary ability slots and every move-rank icon for 12 identities: Bulbasaur, Ivysaur, Venusaur, Mega Venusaur, Charmander, Charmeleon, Charizard, Mega Charizard Y, Mega Charizard X, Squirtle, Wartortle and Blastoise. These fields agree with the supplied values. Mega forms remain distinct identities.
 - [x] Verify ordinary level links and Medium evolution time for Bulbasaur, Ivysaur, Charmander, Charmeleon, Squirtle and Wartortle. Do not certify whole evolution arrays containing temporary-form prerequisites from a species picture alone.
-- [x] Correct Floette's pre-evolution spelling to exact `FlabÃƒÂ©bÃƒÂ©` (MASTER 333 / PDF 200), preserving its ID and existing conditions.
-- [x] Correct Pawmot's erroneous self-pre-evolution to Pawmo using the printed #921 Ã¢â€ â€™ #922 Ã¢â€ â€™ #923 diagram (MASTER 405 / PDF 272). Preserve the unreviewed speed; do not silently certify the whole evolution record.
+- [x] Correct Floette's pre-evolution spelling to exact `Flabébé` (MASTER 333 / PDF 200), preserving its ID and existing conditions.
+- [x] Correct Pawmot's erroneous self-pre-evolution to Pawmo using the printed #921 → #922 → #923 diagram (MASTER 405 / PDF 272). Preserve the unreviewed speed; do not silently certify the whole evolution record.
 - [x] Retain already delivered M4-R01 references and Mew's user rulings when adding manual species fields. Species review fields are applied once, before subsequent targeted corrections.
 
 The 12 new field reviews add 174 field certifications (14 fields per identity plus six ordinary Evolution arrays). Combined with the six previously reviewed identities, the registry now contains 18 identities with some manual evidence. **17,763 species-field records remain unverified.** Six newly reviewed identities have all 15 tracked fields reviewed; the others remain partial. None of this certifies uninspected remaining pages.
@@ -18,7 +18,7 @@ The 12 new field reviews add 174 field certifications (14 fields per identity pl
 
 User decisions, 30 October 2026:
 
-1. Standalone PokÃƒÂ©mon use final-stage learning costs, including entries printed as Unknown.
+1. Standalone Pokémon use final-stage learning costs, including entries printed as Unknown.
 2. Alternate non-Mega/Gigantamax forms share their base final-stage costs.
 3. Primal Groudon/Kyogre, Ultra Necrozma and Terapagos battle forms also share those costs.
 
@@ -29,31 +29,27 @@ The policy changes stage assignment on 192 rows in the current snapshot. Record 
 ## Confirmed evolution and gender rulings
 
 - [x] Knowing Double Hit (Aipom), Twin Beam (Girafarig), Hyper Drill (Dunsparce), Rage Fist (Primeape), or Psyshield Bash (Stantler) satisfies the named move prerequisite without separate mastery adjudication.
-- [x] Applin â†’ Dipplin consumes one owned Syrupy Apple. Dipplin â†’ Hydrapple requires knowing Dragon Cheer, without consuming an apple. Dragon Cheer remains available through the existing TM/tutor path; no ordinary learnset rank is added. Dipplin uses second-stage learning costs (4 TP before any below-rank discount).
-- [x] Kirlia â†’ Gallade requires Male and consumes one owned Dawn Stone. Kirlia â†’ Gardevoir uses Medium evolution (30 TP), for Male or Female, without a stone. These are user rulings resolving ambiguous printed/source data, not new printed certifications (MASTER 221 / PDF 88 and MASTER 276 / PDF 143).
-- [x] PokÃ©mon sheets expose Male, Female, Genderless and Unspecified in normal identity editing. Existing sheets default to Unspecified; trainers have no PokÃ©mon gender field. Concrete gender prerequisites are enforced at preparation and completion, including after a normal identity edit. Evolution scene confirmation remains unchanged.
+- [x] Applin → Dipplin lists Syrupy Apple as guidance. Dipplin → Hydrapple requires knowing Dragon Cheer, without consuming an apple. Dragon Cheer remains available through the existing TM/tutor path; no ordinary learnset rank is added. Dipplin uses second-stage learning costs (4 TP before any below-rank discount).
+- [x] Kirlia → Gallade enforces Male and lists Dawn Stone as guidance. Kirlia → Gardevoir uses Medium evolution (30 TP), for Male or Female, without a stone. These are user rulings resolving ambiguous printed/source data, not new printed certifications (MASTER 221 / PDF 88 and MASTER 276 / PDF 143).
+- [x] Pokémon sheets expose Male, Female, Genderless and Unspecified in normal identity editing. Existing sheets default to Unspecified; trainers have no Pokémon gender field. Concrete gender and known-move prerequisites are enforced at preparation and completion, including after a normal identity edit. Evolution scene confirmation remains unchanged.
 
-The latest Applin/Dipplin ruling supersedes the earlier Syrupy Apple answer for Dipplin â†’ Hydrapple. Application-owned overrides validate both original directions before replacing them. Supplied source files remain unchanged. Schema compatibility uses release 0.43.0 / protocol 44; omitted Unspecified preserves legacy serialized sheets and progression fingerprints.
+The latest Applin/Dipplin ruling supersedes the earlier Syrupy Apple answer for Dipplin → Hydrapple. Application-owned overrides validate both original directions before replacing them. A later general ruling supersedes item ownership/consumption: gender and known moves stay enforced, while items, stones, trades, Happiness/Loyalty, region and narrative conditions are guidance for the player and GM. Items are never consumed by evolution. Normal level TP costs and GM confirmation of completion remain enforced. Supplied source files remain unchanged. Schema compatibility uses release 0.43.0 / protocol 44; omitted Unspecified preserves legacy serialized sheets and progression fingerprints.
 
 ## Evolution discrepancies requiring further review
 
 The complete bidirectional pass retains **9** discrepancies after the two confirmed identity repairs:
 
-| Source Ã¢â€ â€™ target | Conflicting or incomplete evidence | Current disposition |
+| Source → target | Conflicting or incomplete evidence | Current disposition |
 | --- | --- | --- |
-| Aipom Ã¢â€ â€™ Ambipom | Mastering/learning Double Hit versus Medium level evolution | Asked user how mastery is satisfied; pending |
-| Dipplin Ã¢â€ â€™ Hydrapple | Syrupy Apple versus Syrupy Seed; printed Dipplin Final versus later branch | Asked user for prerequisite and stage-cost choice; pending |
-| Girafarig Ã¢â€ â€™ Farigiraf | Learning versus mastering Twin Beam | Further source review/ruling required |
-| Kirlia Ã¢â€ â€™ Gallade | Reverse relation adds Male | Further source review/ruling required |
-| Goomy Ã¢â€ â€™ Hisuian Sliggoo | Medium speed absent in reverse relation | Further source review required |
-| Scyther Ã¢â€ â€™ Kleavor | Trade versus Item, both Black Augurite | Further source review/ruling required |
-| Rockruff Ã¢â€ â€™ Dusk Lycanroc | Dawn versus Dusk | Further source review required |
-| Mantyke Ã¢â€ â€™ Mantine | Bit versus hit by Remoraid | Further source review/ruling required |
-| Galarian Slowpoke Ã¢â€ â€™ Galarian Slowking | King's Rock trade versus Shellder hat | Further source review/ruling required |
-| Sneasel Ã¢â€ â€™ Weavile | Moonlight condition absent in reverse relation | Further source review/ruling required |
-| Duraludon Ã¢â€ â€™ Archaludon | Reverse relation exists without forward relation | Further source review required |
-| Type: Null Ã¢â€ â€™ Silvally | Reverse relation exists without forward relation | Further source review required |
-| Ursaring Ã¢â€ â€™ Kitakami Ursaluna | Reverse relation exists without matching forward branch | Further source review/ruling required |
+| Goomy → Hisuian Sliggoo | Medium speed absent in reverse relation | Further source review required |
+| Scyther → Kleavor | Trade versus Item, both Black Augurite | User chose manual eligibility; both source records retained as guidance (MASTER 174 / PDF 41 and MASTER 398 / PDF 265) |
+| Rockruff → Dusk Lycanroc | Dawn versus Dusk | Further source review required |
+| Mantyke → Mantine | Bit versus hit by Remoraid | Further source review/ruling required |
+| Galarian Slowpoke → Galarian Slowking | King's Rock trade versus Shellder hat | Further source review/ruling required |
+| Sneasel → Weavile | Moonlight condition absent in reverse relation | Further source review/ruling required |
+| Duraludon → Archaludon | Reverse relation exists without forward relation | Further source review required |
+| Type: Null → Silvally | Reverse relation exists without forward relation | Further source review required |
+| Ursaring → Kitakami Ursaluna | Reverse relation exists without matching forward branch | Further source review/ruling required |
 
 User explicitly chose to keep current forward rules for unresolved preparations. No blanket GM gate is added. Existing unresolved source conditions are retained. The diagnostic report does not claim these are all printed-source errors or all possible semantic issues.
 
@@ -69,4 +65,6 @@ User explicitly chose to keep current forward rules for unresolved preparations.
 
 ## Validation of this checkpoint
 
-Release 0.43.0 / protocol 44: **791 Rust tests passed, 1 diagnostic ignored**; that diagnostic was separately rerun and passed for all 892 source cards. The final gender/progression reconciliation adjustment passed its focused regression afterward. **71 frontend tests, 40 script/catalog checks, TypeScript, Rust formatting and diff checks passed.** No native packages, Clippy, native UI or physical-network acceptance are included.
+Prior gender checkpoint, release 0.43.0 / protocol 44: **791 Rust tests passed, 1 diagnostic ignored**; that diagnostic was separately rerun and passed for all 892 source cards. The final gender/progression reconciliation adjustment passed its focused regression afterward. **71 frontend tests, 40 script/catalog checks, TypeScript, Rust formatting and diff checks passed.** No native packages, Clippy, native UI or physical-network acceptance are included.
+
+Latest special-eligibility guidance batch: **792 Rust tests passed, 1 diagnostic ignored; 71 frontend tests and 40 script/catalog checks passed; TypeScript passed.** Final move-forgetting and readable-guidance adjustments passed the focused six-test M4-S01 suite. Formatting and diff checks passed. No native packages or native/physical-network acceptance were run.

@@ -134,6 +134,22 @@ test("M4-S01 repairs confirmed identity errors but retains disputed conditions",
     assert.ok(!audit.evolution_issues.some((e) => e.source_name === "Dipplin"));
     assert.ok(!audit.evolution_issues.some((e) => e.source_name === "Aipom"));
     assert.equal(audit.unresolved_forward_rules, "preserve");
+    assert.deepEqual(
+      audit.special_evolution_requirements,
+      review.user_policy.special_evolution_requirements,
+    );
+    assert.deepEqual(audit.special_evolution_requirements.enforced, [
+      "gender",
+      "known-move",
+    ]);
+    assert.equal(
+      audit.special_evolution_requirements.consume_evolution_items,
+      false,
+    );
+    assert.equal(
+      audit.special_evolution_requirements.completion_requires_gm,
+      true,
+    );
   } finally {
     db.close();
   }

@@ -182,6 +182,8 @@ export function applySpeciesFidelity(catalog, review, sourceHash) {
     }
   }
   return {
+    special_evolution_requirements:
+      review.user_policy.special_evolution_requirements,
     batch: "M4-S01",
     status: "in-progress",
     species_total: catalog.species.length,

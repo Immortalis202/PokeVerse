@@ -17,7 +17,27 @@
     "primal_ultra_terapagos_share_final_stage": true,
     "exclude_mega_gigantamax": true,
     "basis": "Explicit user rulings on 30 October 2026. Standalone status uses incoming and outgoing ordinary relations. Same-species form changes are not ordinary evolution; forms of a known Final family with no outgoing ordinary evolution share final-stage costs. Mega/Gigantamax and the Egg placeholder remain outside assignment.",
-    "unresolved_forward_rules": "preserve"
+    "unresolved_forward_rules": "preserve",
+    "special_evolution_requirements": {
+      "enforced": [
+        "gender",
+        "known-move"
+      ],
+      "guidance": [
+        "items",
+        "stones",
+        "trade",
+        "Happiness",
+        "Loyalty",
+        "region",
+        "narrative",
+        "game"
+      ],
+      "consume_evolution_items": false,
+      "completion_requires_gm": true,
+      "level_tp_costs": "unchanged",
+      "decision": "User ruling on 31 October 2026 supersedes automatic item ownership and consumption: player and GM judge special evolution eligibility. Keep gender and known-move checks; all other special conditions are guidance."
+    }
   },
   "manual_reviews": [
     {
@@ -347,23 +367,7 @@
       "basis": "Printed #921 -> #922 -> #923 line and reciprocal Pawmo -> Pawmot relation; remove self-reference only, preserve unreviewed speed."
     }
   ],
-  "pending_decisions": [
-    {
-      "id": "scyther-kleavor",
-      "question": "Black Augurite only or also a GM-confirmed trade?",
-      "sources": [
-        {
-          "printed_page": 174,
-          "pdf_page": 41
-        },
-        {
-          "printed_page": 398,
-          "pdf_page": 265
-        }
-      ],
-      "status": "awaiting-user"
-    }
-  ],
+  "pending_decisions": [],
   "remaining_scope": "The answered evolution rulings are implemented. Other source discrepancies and remaining species/form visual review stay open. Keep current forward rules for unresolved conditions, as explicitly requested. Automated extraction is not manual certification.",
   "user_evolution_rulings": [
     {

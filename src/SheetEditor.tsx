@@ -829,7 +829,9 @@ export default function SheetEditor({
               </label>
               <p>
                 Prepared target: {build.evolution_ready ?? "none"}. Completion
-                requires GM confirmation of the scene.
+                requires GM confirmation of the scene. Gender and known moves
+                are checked. Other special requirements are guidance for you and
+                the GM; evolution does not consume inventory items.
               </p>
               {number(
                 "Proposed cost for missing narrative metadata",
