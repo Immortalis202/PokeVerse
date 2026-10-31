@@ -100,7 +100,10 @@ export function applySpeciesFidelity(catalog, review, sourceHash) {
   }
   if (review.user_policy.unresolved_forward_rules !== "preserve")
     throw new Error("Unsupported unresolved-evolution policy");
-  for (const fix of review.source_evolution_corrections ?? []) {
+  for (const fix of [
+    ...(review.source_evolution_corrections ?? []),
+    ...(review.json_evolution_normalizations ?? []),
+  ]) {
     const source = byId.get(fix.source_id),
       target = byId.get(fix.target_id);
     if (!source || !target)
@@ -123,7 +126,9 @@ export function applySpeciesFidelity(catalog, review, sourceHash) {
       else entry.Evolutions.push(corrected);
       entry.FidelityReview ??= [];
       entry.FidelityReview.push({
-        source: "printed source",
+        source: (review.json_evolution_normalizations ?? []).includes(fix)
+          ? "supplied-json-normalization"
+          : "printed source",
         decision: fix.basis,
         references: fix.references,
       });
@@ -337,6 +342,9 @@ export function applySpeciesFidelity(catalog, review, sourceHash) {
     resolved_evolution_rulings: (review.user_evolution_rulings ?? []).map(
       (r) => r.id,
     ),
+    json_evolution_normalizations: (
+      review.json_evolution_normalizations ?? []
+    ).map((r) => r.id),
     unresolved_forward_rules: review.user_policy.unresolved_forward_rules,
     excluded_evolution_rulings: (review.user_evolution_exclusions ?? []).map(
       (r) => r.id,

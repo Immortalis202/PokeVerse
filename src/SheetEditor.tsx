@@ -4,7 +4,7 @@ import type { Sheet } from "./bindings/Sheet";
 import type { WorkflowRequest } from "./bindings/WorkflowRequest";
 import type { WorkflowPreview } from "./bindings/WorkflowPreview";
 import type { Catalog, Species, CatalogEntry } from "./catalog";
-import { attributes, ranks } from "./catalog";
+import { attributes, ranks, isOrdinaryEvolution } from "./catalog";
 import { api, errorOf } from "./api";
 import { newBuild } from "./sheets";
 const steps = [
@@ -818,6 +818,16 @@ export default function SheetEditor({
                   <option value="">Select evolution</option>
                   {(species?.Evolutions ?? [])
                     .filter((e) => e.To)
+                    .filter((e) => {
+                      const target = catalog.species.find(
+                        (s) => s.Name === e.To,
+                      );
+                      return (
+                        !!species &&
+                        !!target &&
+                        isOrdinaryEvolution(species, target, e)
+                      );
+                    })
                     .map((e) => catalog.species.find((s) => s.Name === e.To))
                     .filter((s): s is NonNullable<typeof s> => !!s)
                     .map((s) => (

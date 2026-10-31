@@ -163,6 +163,34 @@ Prior audit-only validation: catalog regeneration and the JSON comparison comple
 
 ## Validation of this checkpoint
 
+### Full evolution JSON audit, 31 October 2026
+
+- [x] Compare evolution arrays for all 1,200 exact identities against supplied JSON plus individually recorded manual reviews, source repairs, exclusions and user rulings. All 30 changed identity arrays are accounted for; there are zero unexpected runtime differences.
+- [x] Scan all 522 ordinary forward branches, reverse-only relations, duplicate/self/missing references, reciprocal conditions and ordinary cycles. No unreviewed structural issue or ordinary cycle remains. The Scyther/Kleavor Trade/Item guidance discrepancy remains explicitly retained.
+- [x] Separate all 112 form-change links from ordinary evolution, including same-National-Dex Special/Stone links. Normal progression now rejects these at preparation and completion (including an old prepared target), and the direct-evolution selector omits them. Reviewed battle forms and GM form rulings remain the form-change path.
+- [x] Normalize Hisuian Basculin's two `Special: Female/Male` JSON conditions into structured Gender in both directions, without new printed certification. Both branches retain Slow / 50 TP. Preparation and completion enforce gender, including after identity editing.
+- [x] Exercise preparation for all 522 ordinary branches using their exact cost policy and prerequisite metadata. Gender and known moves are enforced; item/stone/trade/region/game/bond/narrative eligibility stays guidance, no items are consumed, and ordinary completion still requires GM confirmation.
+
+Run `npm run catalog`, `node scripts/species-evolution-json-review.mjs` and `node scripts/species-stat-json-review.mjs` to refresh the [full evolution JSON report](../rules/species-evolution-json-review.json) and the stat report after catalog changes. The report inventories exact source paths/hashes, all ordinary/form branches, costs, prerequisites, retained guidance and unresolved cost decisions. Source files remain unchanged. This JSON audit does not certify remaining printed evolution arrays or close all of S01.
+
+**11 Level branches still have no usable JSON evolution speed.** Existing behavior is retained: the user proposes TP cost, and a GM approves the missing-speed cost. No cost was guessed in this batch.
+
+| Source | Target | Additional JSON guidance/prerequisite |
+| --- | --- | --- |
+| Bonsly | Sudowoodo | Knowing Mimic |
+| Cosmoem | Solgaleo | Game: Sword |
+| Cosmoem | Lunala | Game: Shield |
+| Cosmog | Cosmoem | Speed: Unknown |
+| Gligar | Gliscor | Razor Fang |
+| Happiny | Chansey | Oval Stone |
+| Meltan | Melmetal | Speed: Unknown |
+| Mime Jr | Mr. Mime | Knowing Mimic |
+| Mime Jr | Mr. Mime (Galarian Form) | Knowing Mimic; Galar |
+| Poipole | Naganadel | Knowing Dragon Pulse |
+| Sneasel (Hisuian Form) | Sneasler | Razor Claw; Sunlight |
+
+Evolution-audit validation: **799 Rust tests passed, zero failed, one diagnostic ignored**, using localhost access. The focused three-test sweep passed beforehand, covering all 522 ordinary preparations and 112 form exclusions at both preparation/completion, plus both Basculin gender branches. **72 frontend tests and 48 script/catalog checks passed**, along with TypeScript, Rust formatting, relevant Prettier and diff checks. No native packages, Clippy, native UI or physical-network acceptance were run.
+
 Prior gender checkpoint, release 0.43.0 / protocol 44: **791 Rust tests passed, 1 diagnostic ignored**; that diagnostic was separately rerun and passed for all 892 source cards. The final gender/progression reconciliation adjustment passed its focused regression afterward. **71 frontend tests, 40 script/catalog checks, TypeScript, Rust formatting and diff checks passed.** No native packages, Clippy, native UI or physical-network acceptance are included.
 
 Prior special-eligibility guidance batch: **792 Rust tests passed, 1 diagnostic ignored; 71 frontend tests and 40 script/catalog checks passed; TypeScript passed.** Final move-forgetting and readable-guidance adjustments passed the focused six-test M4-S01 suite. Formatting and diff checks passed. No native packages or native/physical-network acceptance were run.

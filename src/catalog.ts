@@ -36,6 +36,18 @@ export type Species = {
   }[];
   [key: string]: unknown;
 };
+
+export function isOrdinaryEvolution(
+  source: Pick<Species, "DexID">,
+  target: Pick<Species, "DexID">,
+  relation: Pick<Species["Evolutions"][number], "Kind">,
+): boolean {
+  const from = source.DexID.match(/^\d+/)?.[0];
+  const to = target.DexID.match(/^\d+/)?.[0];
+  return (
+    !!from && !!to && from !== to && !["Mega", "Form"].includes(relation.Kind)
+  );
+}
 export type Move = {
   LegacyNames?: string[];
   [key: string]: unknown;

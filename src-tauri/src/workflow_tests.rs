@@ -1229,6 +1229,158 @@ fn s01_reviewed_fixture(t: &Sheet, name: &str, cat: &Catalog) -> Sheet {
 }
 
 #[test]
+fn s01_evolution_audit_all_ordinary_branches_preserve_costs_and_guidance() {
+    let cat = catalog();
+    let audit: serde_json::Value = serde_json::from_str(include_str!(
+        "../../rules/species-evolution-json-review.json"
+    ))
+    .unwrap();
+    let t = trainer("Champion");
+    for branch in audit["ordinary_branches"].as_array().unwrap() {
+        let name = branch["source_name"].as_str().unwrap();
+        let target = branch["target_id"].as_str().unwrap();
+        let mut p = s01_reviewed_fixture(&t, name, &cat);
+        if let Some(gender) = branch["enforced"]["Gender"]
+            .as_str()
+            .or_else(|| branch["enforced"]["AllowedGenders"][0].as_str())
+        {
+            let mut edit = request(&p, "describe", Some(&t));
+            edit.sheet.gender = Some(if gender == "Male" {
+                PokemonGender::Male
+            } else {
+                PokemonGender::Female
+            });
+            p = rules::apply(Some(&p), Some(&t), &edit, &cat, None).unwrap();
+        }
+        if let Some(m) = branch["enforced"]["Move"].as_str() {
+            let mut learn = request(&p, "learn", Some(&t));
+            learn.method = "tutor".into();
+            learn.move_name = m.into();
+            p = rules::apply(Some(&p), Some(&t), &learn, &cat, Some(("test", "gm"))).unwrap();
+        }
+        p = award(&p, &t, 1000);
+        let mut req = request(&p, "prepare_evolution", Some(&t));
+        req.target_species = target.into();
+        req.amount = 17;
+        let preview = rules::preview(Some(&p), Some(&t), &req, &cat);
+        assert!(
+            preview.errors.is_empty(),
+            "{name} -> {target}: {:?}",
+            preview.errors
+        );
+        assert_eq!(
+            preview.cost,
+            branch["tp_cost"].as_i64().unwrap_or(17) as i32,
+            "{name} -> {target}"
+        );
+        assert_eq!(
+            preview
+                .approvals
+                .iter()
+                .any(|a| a.contains("Missing evolution speed")),
+            branch["tp_cost"].is_null()
+        );
+        let ready = rules::apply(Some(&p), Some(&t), &req, &cat, Some(("test", "gm"))).unwrap();
+        assert_eq!(ready.inventory, p.inventory);
+        assert_eq!(
+            ready.workflow.as_ref().unwrap().training_points,
+            p.workflow.as_ref().unwrap().training_points - preview.cost
+        );
+    }
+}
+
+#[test]
+fn s01_evolution_audit_rejects_all_form_links_during_preparation_and_completion() {
+    let cat = catalog();
+    let audit: serde_json::Value = serde_json::from_str(include_str!(
+        "../../rules/species-evolution-json-review.json"
+    ))
+    .unwrap();
+    let t = trainer("Champion");
+    for branch in audit["form_change_branches"].as_array().unwrap() {
+        let name = branch["source_name"].as_str().unwrap();
+        let target = branch["target_id"].as_str().unwrap();
+        let mut p = s01_reviewed_fixture(&t, name, &cat);
+        for operation in ["prepare_evolution", "evolve"] {
+            // A previously saved/forged preparation must not bypass the guard.
+            p.workflow.as_mut().unwrap().evolution_ready = if operation == "evolve" {
+                Some(target.into())
+            } else {
+                None
+            };
+            let mut req = request(&p, operation, Some(&t));
+            req.target_species = target.into();
+            let preview = rules::preview(Some(&p), Some(&t), &req, &cat);
+            assert!(
+                preview
+                    .errors
+                    .iter()
+                    .any(|e| e.contains("Form changes are not ordinary evolution")),
+                "{name} {operation}: {:?}",
+                preview.errors
+            );
+            assert!(rules::apply(Some(&p), Some(&t), &req, &cat, Some(("test", "gm"))).is_err());
+        }
+    }
+}
+
+#[test]
+fn s01_evolution_audit_basculin_gender_is_checked_at_preparation_and_completion() {
+    let cat = catalog();
+    let t = trainer("Champion");
+    for (target, required) in [
+        ("Basculegion (Female Form)", PokemonGender::Female),
+        ("Basculegion (Male Form)", PokemonGender::Male),
+    ] {
+        let p = award(
+            &s01_reviewed_fixture(&t, "Basculin (Hisuian Form)", &cat),
+            &t,
+            50,
+        );
+        let id = cat.find("species", "Name", target).unwrap()["AppId"]
+            .as_str()
+            .unwrap()
+            .to_owned();
+        for gender in [
+            None,
+            Some(PokemonGender::Genderless),
+            Some(PokemonGender::Male),
+            Some(PokemonGender::Female),
+        ] {
+            let mut edit = request(&p, "describe", Some(&t));
+            edit.sheet.gender = gender;
+            let edited = rules::apply(Some(&p), Some(&t), &edit, &cat, None).unwrap();
+            let mut prepare = request(&edited, "prepare_evolution", Some(&t));
+            prepare.target_species = id.clone();
+            let preview = rules::preview(Some(&edited), Some(&t), &prepare, &cat);
+            assert_eq!(preview.errors.is_empty(), gender == Some(required));
+            assert_eq!(preview.cost, 50);
+            if gender != Some(required) {
+                continue;
+            }
+            let ready = rules::apply(Some(&edited), Some(&t), &prepare, &cat, None).unwrap();
+            let mut edit = request(&ready, "describe", Some(&t));
+            edit.sheet.gender = Some(PokemonGender::Genderless);
+            let changed = rules::apply(Some(&ready), Some(&t), &edit, &cat, None).unwrap();
+            let mut finish = request(&changed, "evolve", Some(&t));
+            finish.target_species = id.clone();
+            assert!(rules::preview(Some(&changed), Some(&t), &finish, &cat)
+                .errors
+                .iter()
+                .any(|e| e.contains("gender")));
+            assert!(rules::apply(
+                Some(&changed),
+                Some(&t),
+                &finish,
+                &cat,
+                Some(("test", "gm"))
+            )
+            .is_err());
+        }
+    }
+}
+
+#[test]
 fn s01_metapod_printed_vitality_limit_is_four() {
     let cat = catalog();
     let t = trainer("Expert");

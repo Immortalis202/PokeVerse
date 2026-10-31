@@ -2384,5 +2384,49 @@
         }
       }
     ]
-  }
+  },
+  "json_evolution_normalizations": [
+    {
+      "id": "basculin-hisui-female",
+      "source_id": "0550H:basculin-hisuian-form",
+      "target_id": "0902F1:basculegion-female-form",
+      "expected_forward": {
+        "Kind": "Level",
+        "Speed": "Slow",
+        "Special": "Female"
+      },
+      "expected_reverse": {
+        "Kind": "Level",
+        "Speed": "Slow",
+        "Special": "Female"
+      },
+      "resolved_conditions": {
+        "Kind": "Level",
+        "Speed": "Slow",
+        "Gender": "Female"
+      },
+      "basis": "Exact supplied JSON names this gender in Special on both directions. Normalize to structured Gender so the existing user policy enforces gender at preparation and completion; preserve Slow 50 TP. No printed certification."
+    },
+    {
+      "id": "basculin-hisui-male",
+      "source_id": "0550H:basculin-hisuian-form",
+      "target_id": "0902F2:basculegion-male-form",
+      "expected_forward": {
+        "Kind": "Level",
+        "Speed": "Slow",
+        "Special": "Male"
+      },
+      "expected_reverse": {
+        "Kind": "Level",
+        "Speed": "Slow",
+        "Special": "Male"
+      },
+      "resolved_conditions": {
+        "Kind": "Level",
+        "Speed": "Slow",
+        "Gender": "Male"
+      },
+      "basis": "Exact supplied JSON names this gender in Special on both directions. Normalize to structured Gender so the existing user policy enforces gender at preparation and completion; preserve Slow 50 TP. No printed certification."
+    }
+  ]
 }

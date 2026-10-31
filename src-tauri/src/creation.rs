@@ -495,6 +495,16 @@ pub fn preview(
                 })
                 .cloned();
             if let Some(e) = edge {
+                let target = catalog
+                    .find("species", "AppId", &req.target_species)
+                    .unwrap();
+                if ["Mega", "Form"].contains(&e["Kind"].as_str().unwrap_or(""))
+                    || current_species
+                        .as_ref()
+                        .is_some_and(|source| source["Number"] == target["Number"])
+                {
+                    errors.push("Form changes are not ordinary evolution; use the reviewed form workflow or a GM form ruling".into());
+                }
                 let guidance = e
                     .as_object()
                     .unwrap()

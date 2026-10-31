@@ -6,6 +6,88 @@ import { DatabaseSync } from "node:sqlite";
 const read = (p) => JSON.parse(readFileSync(p, "utf8"));
 const review = read("rules/species-fidelity-review.json");
 
+test("M4-S01 evolution audit inventories every JSON identity and separates all form changes", () => {
+  const report = read("rules/species-evolution-json-review.json");
+  const db = new DatabaseSync("src-tauri/resources/catalog.db", {
+    readOnly: true,
+  });
+  try {
+    assert.equal(
+      report.catalog_hash,
+      JSON.parse(
+        db.prepare("select value from metadata where key='hash'").get().value,
+      ),
+    );
+    assert.equal(report.species.length, 1200);
+    assert.equal(report.ordinary_branches.length, 522);
+    assert.equal(report.form_change_branches.length, 112);
+    assert.equal(report.pending_cost_decisions.length, 11);
+    for (const key of [
+      "unexpected_runtime_differences",
+      "structural_issues",
+      "ordinary_cycles",
+      "prerequisite_issues",
+    ])
+      assert.deepEqual(report[key], []);
+    assert.equal(report.retained_guidance_discrepancies.length, 1);
+    const entries = new Map(
+      db
+        .prepare("select id,data from entries where kind='species'")
+        .all()
+        .map((r) => [r.id, JSON.parse(r.data)]),
+    );
+    for (const s of report.species) {
+      assert.equal(
+        createHash("sha256")
+          .update(readFileSync(`../${s.source}`))
+          .digest("hex"),
+        s.sha256,
+      );
+      assert.equal(
+        entries.get(s.id).Evolutions.length,
+        s.runtime_relation_count,
+      );
+    }
+    for (const branch of [
+      ...report.ordinary_branches,
+      ...report.form_change_branches,
+    ]) {
+      const s = entries.get(branch.source_id),
+        t = entries.get(branch.target_id);
+      const relation = s.Evolutions.find((r) => r.To === t.Name);
+      assert.deepEqual(
+        Object.fromEntries(
+          Object.entries(relation).filter(([k]) => k !== "To"),
+        ),
+        branch.conditions,
+      );
+      const ordinary =
+        !["Mega", "Form"].includes(relation.Kind) && s.Number !== t.Number;
+      assert.equal(ordinary, Object.hasOwn(branch, "tp_cost"));
+    }
+    for (const fix of review.json_evolution_normalizations) {
+      const s = entries.get(fix.source_id),
+        t = entries.get(fix.target_id);
+      assert.deepEqual(
+        s.Evolutions.find((r) => r.To === t.Name),
+        { To: t.Name, ...fix.resolved_conditions },
+      );
+      assert.deepEqual(
+        t.Evolutions.find((r) => r.From === s.Name),
+        { From: s.Name, ...fix.resolved_conditions },
+      );
+      assert.equal(s.Review.fields.Evolutions.status, "unverified");
+      assert.ok(
+        s.FidelityReview.some(
+          (r) => r.source === "supplied-json-normalization",
+        ),
+      );
+    }
+  } finally {
+    db.close();
+  }
+});
+
 test("M4-S01 keeps all 34 exact forms in the 14 repaired families on their own JSON stats", () => {
   const scope = review.json_form_stat_review;
   assert.equal(scope.family_numbers.length, 14);
