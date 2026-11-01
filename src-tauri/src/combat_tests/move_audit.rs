@@ -35,6 +35,7 @@ fn move_effect_route_inventory() {
             f.recurring.enabled = true;
             f.cure_protection = true;
             f.battlefield_review = true;
+            f.damaging_stats.enabled = true;
             f.identity_moves = true;
             f.house_rules = true;
             f.interaction_rules = true;

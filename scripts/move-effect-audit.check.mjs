@@ -8,6 +8,46 @@ const read = (p) => JSON.parse(readFileSync(p, "utf8"));
 const audit = read("rules/move-effect-audit.json");
 const byName = new Map(audit.moves.map((m) => [m.name, m]));
 
+test("MOVE-A01 damaging attribute definitions retain exact source and executable scope", () => {
+  const registry = read("rules/damaging-stat-moves.json");
+  assert.equal(Object.keys(registry.moves).length, 66);
+  assert.equal(
+    createHash("sha256")
+      .update(
+        readFileSync("rules/damaging-stat-moves.json", "utf8").replace(
+          /\r\n/g,
+          "\n",
+        ),
+      )
+      .digest("hex"),
+    read("rules/coverage.json").damaging_stats_registry_hash,
+  );
+  for (const [name, entry] of Object.entries(registry.moves)) {
+    const card = byName.get(name);
+    assert.equal(entry.sha256, card.sha256, name);
+    assert.equal(entry.effect, card.effect, name);
+    assert.equal(card.route, "executable-scope", name);
+    assert.ok(
+      card.declared_scopes.some(
+        (s) => s.registry === "rules/damaging-stat-moves.json",
+      ),
+    );
+    assert.ok([0, 1, 2, 3, 4, 5].includes(entry.dice));
+    assert.ok(
+      entry.keys.every((k) =>
+        [
+          "Strength",
+          "Dexterity",
+          "Special",
+          "Defense",
+          "SpecialDefense",
+        ].includes(k),
+      ),
+    );
+    assert.ok([-2, -1, 1, 2].includes(entry.amount));
+  }
+});
+
 test("move audit covers every supplied card once and preserves exact source evidence", () => {
   assert.equal(byName.size, 892);
   assert.equal(audit.moves.length, 892);

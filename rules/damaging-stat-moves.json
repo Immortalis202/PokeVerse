@@ -1,0 +1,602 @@
+{
+  "version": 1,
+  "engine": "0.36.0-core",
+  "date": "2026-11-01",
+  "scope": "MOVE-A01: unconditional attribute changes and single Chance pools on damaging moves. Other card clauses are not certified.",
+  "moves": {
+    "Acid": {
+      "source": "Pokerole-Data/v3.0/Moves/Acid.json",
+      "sha256": "ac6ccf7d46e6423e2bf6769d4cf3a68dc5f7e59336a09088d486930c154f4151",
+      "effect": "Target All Foes in Range. Roll 1 Chance die to Reduce by 1 the Sp. Defense of those affected.",
+      "dice": 1,
+      "user": false,
+      "keys": ["SpecialDefense"],
+      "amount": -1
+    },
+    "Acid Spray": {
+      "source": "Pokerole-Data/v3.0/Moves/Acid Spray.json",
+      "sha256": "c40edcab2979efc9d7555a976aea3fba4cf677fd8a43f537065bccc5c848eed8",
+      "effect": "Single Target. Projectile Move. Reduce the Target's Sp. Defense by 2.",
+      "dice": 0,
+      "user": false,
+      "keys": ["SpecialDefense"],
+      "amount": -2
+    },
+    "Ancient Power": {
+      "source": "Pokerole-Data/v3.0/Moves/Ancient Power.json",
+      "sha256": "a29bd8a9e3c1c8f825f8dc58aedad0472e33eb0715f4577370f2b1f16f9f27f2",
+      "effect": "Single Target. Roll 1 Chance Die to Increase by 1 the User's Strength, Dexterity, Special, Defense and Sp. Defense.",
+      "dice": 1,
+      "user": true,
+      "keys": ["Strength", "Dexterity", "Special", "Defense", "SpecialDefense"],
+      "amount": 1
+    },
+    "Apple Acid": {
+      "source": "Pokerole-Data/v3.0/Moves/Apple Acid.json",
+      "sha256": "56e4caf68f3e907c521bdffeea7169866e2f3e6e2aee081b18f1dd20d69d7043",
+      "effect": "Single Target. Reduce the Foe's Sp. Defense by 1.",
+      "dice": 0,
+      "user": false,
+      "keys": ["SpecialDefense"],
+      "amount": -1
+    },
+    "Aqua Step": {
+      "source": "Pokerole-Data/v3.0/Moves/Aqua Step.json",
+      "sha256": "6c7310d068d93b0e747e72b0b5903de5d82c527250df0ab56940254cd605ba25",
+      "effect": "Single Target. Increase the User's Dexterity by 1.",
+      "dice": 0,
+      "user": true,
+      "keys": ["Dexterity"],
+      "amount": 1
+    },
+    "Armor Cannon": {
+      "source": "Pokerole-Data/v3.0/Moves/Armor Cannon.json",
+      "sha256": "1b3c953d2d1c826040d5ddc90d1c3062ac82aeb04229972c5b31b88531d93a10",
+      "effect": "Single Target. Reduce by 1 the User's Defense and Sp. Defense.",
+      "dice": 0,
+      "user": true,
+      "keys": ["Defense", "SpecialDefense"],
+      "amount": -1
+    },
+    "Aurora Beam": {
+      "source": "Pokerole-Data/v3.0/Moves/Aurora Beam.json",
+      "sha256": "e8f6a806968e1bfa73e4c7a586b06116b0c3dfabe44b80ac54e46fb33be4f8f7",
+      "effect": "Single Target. Roll 1 Chance Die to Reduce target's Strength by 1.",
+      "dice": 1,
+      "user": false,
+      "keys": ["Strength"],
+      "amount": -1
+    },
+    "Breaking Swipe": {
+      "source": "Pokerole-Data/v3.0/Moves/Breaking Swipe.json",
+      "sha256": "6ad87208c4582cede056e8a2c271714212f27ae4b15cb97b1d85e401a8c6734d",
+      "effect": "All Foes in Range. Reduce by 1 the Strength of those affected.",
+      "dice": 0,
+      "user": false,
+      "keys": ["Strength"],
+      "amount": -1
+    },
+    "Bubble": {
+      "source": "Pokerole-Data/v3.0/Moves/Bubble.json",
+      "sha256": "cc5afa91d5bc154c450776d726ca422e4c6df63e9a38bb42e7b2ce1737e00fef",
+      "effect": "Target All Foes in Range. Roll 1 Chance Die to Reduce by 1 the Dexterity of those affected.",
+      "dice": 1,
+      "user": false,
+      "keys": ["Dexterity"],
+      "amount": -1
+    },
+    "Bubble Beam": {
+      "source": "Pokerole-Data/v3.0/Moves/Bubble Beam.json",
+      "sha256": "e26cece93a300e95e92ed68334958510e9df638050f1ab4928af0890cecb7727",
+      "effect": "Single Target. Roll 1 Chance Die to Reduce the Target's Dexterity by 1.",
+      "dice": 1,
+      "user": false,
+      "keys": ["Dexterity"],
+      "amount": -1
+    },
+    "Bug Buzz": {
+      "source": "Pokerole-Data/v3.0/Moves/Bug Buzz.json",
+      "sha256": "8bad2e18f57ab05c34b41ce7872216594dad68f4a85e99b545231db24a6057ca",
+      "effect": "Target All Foes in Range. Sound Move. Roll 1 Chance Die to Reduce by 1 the Sp. Defense of those affected.",
+      "dice": 1,
+      "user": false,
+      "keys": ["SpecialDefense"],
+      "amount": -1
+    },
+    "Bulldoze": {
+      "source": "Pokerole-Data/v3.0/Moves/Bulldoze.json",
+      "sha256": "3179c04dc134f280b73af2e093de84ffc9886631e993b2f4bbba5eaac509354b",
+      "effect": "Area Move. Reduce by 1 the Dexterity of those affected.",
+      "dice": 0,
+      "user": false,
+      "keys": ["Dexterity"],
+      "amount": -1
+    },
+    "Charge Beam": {
+      "source": "Pokerole-Data/v3.0/Moves/Charge Beam.json",
+      "sha256": "099c80f4f4206651954dfc13859629f7e6bb31ca9b8201417409c18e2ceee64e",
+      "effect": "Single Target. Low Accuracy 1. Roll 5 Chance Dice to Increase User's Special by 1.",
+      "dice": 5,
+      "user": true,
+      "keys": ["Special"],
+      "amount": 1
+    },
+    "Chilling Water": {
+      "source": "Pokerole-Data/v3.0/Moves/Chilling Water.json",
+      "sha256": "83caf5ca5bca7f2a8dffde18c014d9a7e76c2f6a1ee794bcf382c07c4305c5d1",
+      "effect": "Single Target. Reduce the Target's Strength by 1.",
+      "dice": 0,
+      "user": false,
+      "keys": ["Strength"],
+      "amount": -1
+    },
+    "Clanging Scales": {
+      "source": "Pokerole-Data/v3.0/Moves/Clanging Scales.json",
+      "sha256": "15281058bb8324060b3593dc35cfe41b77791156ae91b99e86a2b816e58773a8",
+      "effect": "Target all Foes in Range. Sound Move. Reduce User's Defense by 1.",
+      "dice": 0,
+      "user": true,
+      "keys": ["Defense"],
+      "amount": -1
+    },
+    "Close Combat": {
+      "source": "Pokerole-Data/v3.0/Moves/Close Combat.json",
+      "sha256": "2cc43087c77d3d256c2c516c8a6a6203d9167990e2d8eb0c8241d42382e91872",
+      "effect": "Single Target. Reduce by 1 the User's Defense and Sp. Defense.",
+      "dice": 0,
+      "user": true,
+      "keys": ["Defense", "SpecialDefense"],
+      "amount": -1
+    },
+    "Constrict": {
+      "source": "Pokerole-Data/v3.0/Moves/Constrict.json",
+      "sha256": "63dd1bae5240f4c4da0e851660a1bf32929400cf19ab22145956e4ebbaf1c26a",
+      "effect": "Single Target. This Move deals Typeless damage. Roll 1 chance die to reduce the Target's Dexterity by 1.",
+      "dice": 1,
+      "user": false,
+      "keys": ["Dexterity"],
+      "amount": -1
+    },
+    "Crunch": {
+      "source": "Pokerole-Data/v3.0/Moves/Crunch.json",
+      "sha256": "a6ff4158dc4f6235ad5f46d21e508c767ec2a92b5ff305ed393dcd162f3601d2",
+      "effect": "Single Target. Bite Move. Lethal. Roll 1 Chance Die to Reduce the foe's Defense by 1.",
+      "dice": 1,
+      "user": false,
+      "keys": ["Defense"],
+      "amount": -1
+    },
+    "Crush Claw": {
+      "source": "Pokerole-Data/v3.0/Moves/Crush Claw.json",
+      "sha256": "641b9cb42971b09feea958f76380300018bda899adb76518402b76cd16297b88",
+      "effect": "Single Target. Roll 5 Chance Dice to Reduce the Target's Defense by 2.",
+      "dice": 5,
+      "user": false,
+      "keys": ["Defense"],
+      "amount": -2
+    },
+    "Diamond Storm": {
+      "source": "Pokerole-Data/v3.0/Moves/Diamond Storm.json",
+      "sha256": "06118a4a2e7db951d9e4e3faa06ab6db77b065a62c442c30d71b251633c0d8a0",
+      "effect": "All foes in range. Ranged. Roll 5 chance dice to increase the user's defense by 2.",
+      "dice": 5,
+      "user": true,
+      "keys": ["Defense"],
+      "amount": 2
+    },
+    "Draco Meteor": {
+      "source": "Pokerole-Data/v3.0/Moves/Draco Meteor.json",
+      "sha256": "47fa2e73249be41541d9da4e34befdf4037f88402b33d82d1fba562a90728f1b",
+      "effect": "Single Target. Low Accuracy 1. lethal. Reduce User's Special by 2.",
+      "dice": 0,
+      "user": true,
+      "keys": ["Special"],
+      "amount": -2
+    },
+    "Dragon Ascent": {
+      "source": "Pokerole-Data/v3.0/Moves/Dragon Ascent.json",
+      "sha256": "233afece8bf02552121f0bf0f552e5d4bfa2c564ef42c9e00b079ef2c3ef95a2",
+      "effect": "Single Target. Lethal. Unique. Reduce by 1 the User's Defense and Sp. Defense.",
+      "dice": 0,
+      "user": true,
+      "keys": ["Defense", "SpecialDefense"],
+      "amount": -1
+    },
+    "Drum Beating": {
+      "source": "Pokerole-Data/v3.0/Moves/Drum Beating.json",
+      "sha256": "35fddf202cdcdb90eec81fc2f030cdd7d68b48f4b1d86cc8dc0fce1d6c30779c",
+      "effect": "Single Target. Reduce the Target's Dexterity by 1.",
+      "dice": 0,
+      "user": false,
+      "keys": ["Dexterity"],
+      "amount": -1
+    },
+    "Earth Power": {
+      "source": "Pokerole-Data/v3.0/Moves/Earth Power.json",
+      "sha256": "bd6054bcf37600c39fa42c69df17eae1594c43f47fed152a89781f2d1f57160b",
+      "effect": "Single Target. Roll 1 Chance Die to Reduce the Target's Sp. Defense by 1.",
+      "dice": 1,
+      "user": false,
+      "keys": ["SpecialDefense"],
+      "amount": -1
+    },
+    "Electroweb": {
+      "source": "Pokerole-Data/v3.0/Moves/Electroweb.json",
+      "sha256": "2919bb279b10a6acf45a95ec1b6573f613ab3476eb19f36890d28f144e821f6a",
+      "effect": "Target All foes in Range. Reduce by 1 the Dexterity of those affected.",
+      "dice": 0,
+      "user": false,
+      "keys": ["Dexterity"],
+      "amount": -1
+    },
+    "Energy Ball": {
+      "source": "Pokerole-Data/v3.0/Moves/Energy Ball.json",
+      "sha256": "4868cdaa151cae7b75ff20368653420bcbdaeb3a14216058a67305540c5e3eaa",
+      "effect": "Single Target. Projectile Move. Roll 1 Chance Die to Reduce the Target's Sp. Defense by 1.",
+      "dice": 1,
+      "user": false,
+      "keys": ["SpecialDefense"],
+      "amount": -1
+    },
+    "Esper Wing": {
+      "source": "Pokerole-Data/v3.0/Moves/Esper Wing.json",
+      "sha256": "79cd438e38e1168773ab39fc72c64006a15bb5acce9e12e2a89c65fa38e58899",
+      "effect": "Single Target. High Critical. Increase the User's Dexterity by 1.",
+      "dice": 0,
+      "user": true,
+      "keys": ["Dexterity"],
+      "amount": 1
+    },
+    "Fiery Dance": {
+      "source": "Pokerole-Data/v3.0/Moves/Fiery Dance.json",
+      "sha256": "014c5a1e220da9eb72788938e7bbc1772ad867aca745677aaa48634cc44badd1",
+      "effect": "Single Target. Roll 5 Chance Dice to Increase User's Special by 1.",
+      "dice": 5,
+      "user": true,
+      "keys": ["Special"],
+      "amount": 1
+    },
+    "Fire Lash": {
+      "source": "Pokerole-Data/v3.0/Moves/Fire Lash.json",
+      "sha256": "945087ecc13a0c41b94dacbef14f08ba34ccf64e0af306827845972a41506e4f",
+      "effect": "Single Target. Reduce Foe's Defense by 1.",
+      "dice": 0,
+      "user": false,
+      "keys": ["Defense"],
+      "amount": -1
+    },
+    "Flame Charge": {
+      "source": "Pokerole-Data/v3.0/Moves/Flame Charge.json",
+      "sha256": "18265096a9a0bd96197f08012f95afdbc3dcf407bab4e3c3399c9342230c4dfb",
+      "effect": "Single Target. Increase the User's Dexterity by 1.",
+      "dice": 0,
+      "user": true,
+      "keys": ["Dexterity"],
+      "amount": 1
+    },
+    "Flash Cannon": {
+      "source": "Pokerole-Data/v3.0/Moves/Flash Cannon.json",
+      "sha256": "7f045db5390bcff694194b32a6d5eaccd548eeea33d0f375c8be64de6576c665",
+      "effect": "Single Target. Roll 1 Chance Die to Reduce the Target's Sp. Defense by 1.",
+      "dice": 1,
+      "user": false,
+      "keys": ["SpecialDefense"],
+      "amount": -1
+    },
+    "Fleur Cannon": {
+      "source": "Pokerole-Data/v3.0/Moves/Fleur Cannon.json",
+      "sha256": "fb2f25d28ad8152f8f12076bac305ba78594aac9214cba4a218783e11bc8159b",
+      "effect": "Single Target. Low Accuracy 1. Lethal. Unique. Reduce User's Special by 2.",
+      "dice": 0,
+      "user": true,
+      "keys": ["Special"],
+      "amount": -2
+    },
+    "Focus Blast": {
+      "source": "Pokerole-Data/v3.0/Moves/Focus Blast.json",
+      "sha256": "bf695e304ff64fb545268834948c6e1f7bbca9b3154a8f866ab87bd167d89a33",
+      "effect": "Single Target. Low Accuracy 2. Projectile Move. Roll 1 Chance die to Reduce the foe's Sp. Defense by 1.",
+      "dice": 1,
+      "user": false,
+      "keys": ["SpecialDefense"],
+      "amount": -1
+    },
+    "Grav Apple": {
+      "source": "Pokerole-Data/v3.0/Moves/Grav Apple.json",
+      "sha256": "2b08f88f2ec184fbf7b5368a04b2d62adfb06e581bf51c750439c4dd204cfb71",
+      "effect": "Single Target. Ranged. Reduce the Target's Defense by 1.",
+      "dice": 0,
+      "user": false,
+      "keys": ["Defense"],
+      "amount": -1
+    },
+    "Hammer Arm": {
+      "source": "Pokerole-Data/v3.0/Moves/Hammer Arm.json",
+      "sha256": "da8bbd8bf942382b034ac215645411ac0b6e1d66b7f8a0ee0460ae254612e9d7",
+      "effect": "Single Target. Fist Move. Low Accuracy 1. Reduce User's Dexterity by 1.",
+      "dice": 0,
+      "user": true,
+      "keys": ["Dexterity"],
+      "amount": -1
+    },
+    "Headlong Rush": {
+      "source": "Pokerole-Data/v3.0/Moves/Headlong Rush.json",
+      "sha256": "dc92ec22eb694d45250b4889959d00c69778b77708a74b847e7d2178436c50bc",
+      "effect": "Single Target. Reduce by 1 the User's Defense and Sp. Defense.",
+      "dice": 0,
+      "user": true,
+      "keys": ["Defense", "SpecialDefense"],
+      "amount": -1
+    },
+    "Ice Hammer": {
+      "source": "Pokerole-Data/v3.0/Moves/Ice Hammer.json",
+      "sha256": "67195551b0ac924f277e023c7376ea236b7bb532e5832ec051f7d8da69545c31",
+      "effect": "Single Target. Fist Move. Low Accuracy 1. Reduce User's Dexterity by 1.",
+      "dice": 0,
+      "user": true,
+      "keys": ["Dexterity"],
+      "amount": -1
+    },
+    "Icy Wind": {
+      "source": "Pokerole-Data/v3.0/Moves/Icy Wind.json",
+      "sha256": "afde3a1f1de8f226df45cfe10a266fa3c01c281f76a862204cde9e46f4993cb3",
+      "effect": "Target All Foes in Range. Wind Move. Reduce by 1 the Dexterity of those affected.",
+      "dice": 0,
+      "user": false,
+      "keys": ["Dexterity"],
+      "amount": -1
+    },
+    "Iron Tail": {
+      "source": "Pokerole-Data/v3.0/Moves/Iron Tail.json",
+      "sha256": "69b672e79f8411f7226f53d49c836fd4506510aed8359efec2534307e977aeec",
+      "effect": "Single Target. Low Accuracy 3. Roll 3 Chance Dice to Reduce the Target's Defense by 1.",
+      "dice": 3,
+      "user": false,
+      "keys": ["Defense"],
+      "amount": -1
+    },
+    "Ominous Wind": {
+      "source": "Pokerole-Data/v3.0/Moves/Ominous Wind.json",
+      "sha256": "76b9eeb18ab79f6da386b5c1b9faf005ab213a2e8d3d228bb080d5607b04d003",
+      "effect": "Single Target. Wind Move. Roll 1 Chance Die to Increase by 1 the User's Strength, Dexterity, Special, Defense and Sp. Defense.",
+      "dice": 1,
+      "user": true,
+      "keys": ["Strength", "Dexterity", "Special", "Defense", "SpecialDefense"],
+      "amount": 1
+    },
+    "Overheat": {
+      "source": "Pokerole-Data/v3.0/Moves/Overheat.json",
+      "sha256": "c623a9aa9cec62dca07131440d03a8232d117ccc2c14be398e3bfabbb3ffe4d6",
+      "effect": "Single Target. Low Accuracy 1. Lethal. Reduce User's Special by 2.",
+      "dice": 0,
+      "user": true,
+      "keys": ["Special"],
+      "amount": -2
+    },
+    "Play Rough": {
+      "source": "Pokerole-Data/v3.0/Moves/Play Rough.json",
+      "sha256": "ae97e9914dd25344ba73622d562b50d0baf78616c70cd5fe1c46d697b1c66c1b",
+      "effect": "Single Target. Low Accuracy 1. Roll 1 Chance Dice to Reduce Target's Strength by 1.",
+      "dice": 1,
+      "user": false,
+      "keys": ["Strength"],
+      "amount": -1
+    },
+    "Pounce": {
+      "source": "Pokerole-Data/v3.0/Moves/Pounce.json",
+      "sha256": "6a87c3ee8431db9aee0be049f8d8ec4aade89d57bb14f04f1d303252e1dcf63e",
+      "effect": "Single Target. Reduce the Target's Dexterity by 1.",
+      "dice": 0,
+      "user": false,
+      "keys": ["Dexterity"],
+      "amount": -1
+    },
+    "Power-Up Punch": {
+      "source": "Pokerole-Data/v3.0/Moves/Power-Up Punch.json",
+      "sha256": "067b42f10e34a9ac34bd89f02f634b4e96e17402fbcd35348ba132ce613ee291",
+      "effect": "Single Target. Fist Move. Increase User's Strength by 1.",
+      "dice": 0,
+      "user": true,
+      "keys": ["Strength"],
+      "amount": 1
+    },
+    "Psychic": {
+      "source": "Pokerole-Data/v3.0/Moves/Psychic.json",
+      "sha256": "100f60721b60a2de2df4a0295bb2b3851ba7ed38e28dbbed6e42e350f258e4c1",
+      "effect": "Single Target. Roll 1 Chance Die to Reduce the Target's Sp. Defense by 1.",
+      "dice": 1,
+      "user": false,
+      "keys": ["SpecialDefense"],
+      "amount": -1
+    },
+    "Psycho Boost": {
+      "source": "Pokerole-Data/v3.0/Moves/Psycho Boost.json",
+      "sha256": "673037adf519af0d5d9204162c007ecd440228498a82830e0900e29b8165161e",
+      "effect": "Single Target. Low Accuracy 1. Lethal. Unique. Reduce User's Special by 2.",
+      "dice": 0,
+      "user": true,
+      "keys": ["Special"],
+      "amount": -2
+    },
+    "Psyshield Bash": {
+      "source": "Pokerole-Data/v3.0/Moves/Psyshield Bash.json",
+      "sha256": "49dbd30a8e45cd4ced72c24d58fd9f68556e8e7731c4f3df3e8ca99f50fe63e3",
+      "effect": "Single Target. Roll 3 Chance Dice to Increase by 1 the User's Defense and Sp. Defense.",
+      "dice": 3,
+      "user": true,
+      "keys": ["Defense", "SpecialDefense"],
+      "amount": 1
+    },
+    "Razor Shell": {
+      "source": "Pokerole-Data/v3.0/Moves/Razor Shell.json",
+      "sha256": "45c5e6b1cc35fe1a6286e8827e0e891e05c5bf1582f3f135009fac5744de986f",
+      "effect": "Single Target. Cutter Move. Roll 1 Chance Die to Reduce the Target's Defense by 1.",
+      "dice": 1,
+      "user": false,
+      "keys": ["Defense"],
+      "amount": -1
+    },
+    "Rock Smash": {
+      "source": "Pokerole-Data/v3.0/Moves/Rock Smash.json",
+      "sha256": "bde1ebe40de293d5c7a0d54559ecafb0bac444d8808a066e6585178aaa8b9a2b",
+      "effect": "Single Target. Roll 5 Chance Dice to Reduce the Target's Defense by 1.",
+      "dice": 5,
+      "user": false,
+      "keys": ["Defense"],
+      "amount": -1
+    },
+    "Rock Tomb": {
+      "source": "Pokerole-Data/v3.0/Moves/Rock Tomb.json",
+      "sha256": "6d9eb6d976456048f2ec5a1ec6a083fe08c7c9dbce83725c6855c732b648a79f",
+      "effect": "Single Target. Low Accuracy 1. Ranged. Reduce the Target's Dexterity by 1.",
+      "dice": 0,
+      "user": false,
+      "keys": ["Dexterity"],
+      "amount": -1
+    },
+    "Seed Flare": {
+      "source": "Pokerole-Data/v3.0/Moves/Seed Flare.json",
+      "sha256": "71efafbff2cd4f30ea97ad8125853802702e95d26cbdbc07c9b19440525eef5e",
+      "effect": "Single Target. Lethal. Unique. Roll 4 Chance Dice to Reduce the Target's Sp. Defense by 2.",
+      "dice": 4,
+      "user": false,
+      "keys": ["SpecialDefense"],
+      "amount": -2
+    },
+    "Shadow Ball": {
+      "source": "Pokerole-Data/v3.0/Moves/Shadow Ball.json",
+      "sha256": "51b50b4612209c9c9c870c235e672fd4f733132467e144a44de2c24c3ec67c64",
+      "effect": "Single Target. Projectile Move. Roll 1 Chance Die to Reduce the Target's Sp. Defense by 1.",
+      "dice": 1,
+      "user": false,
+      "keys": ["SpecialDefense"],
+      "amount": -1
+    },
+    "Shadow Bone": {
+      "source": "Pokerole-Data/v3.0/Moves/Shadow Bone.json",
+      "sha256": "e4567dae9c6bc3658e8ae23db3e167e6d89bde114e00d2c21eb2e5f26c17a24f",
+      "effect": "Single Target. Roll 2 Chance Dice to Reduce the Foe's Defense by 1.",
+      "dice": 2,
+      "user": false,
+      "keys": ["Defense"],
+      "amount": -1
+    },
+    "Silver Wind": {
+      "source": "Pokerole-Data/v3.0/Moves/Silver Wind.json",
+      "sha256": "89e62eca382bf807c03956a5e7acc6fdfc34fdb3820f8562991264446669443d",
+      "effect": "Single Target. Roll 1 Chance Die to Increase by 1 the User's Strength, Dexterity, Special, Defense, and Sp. Defense.",
+      "dice": 1,
+      "user": true,
+      "keys": ["Strength", "Dexterity", "Special", "Defense", "SpecialDefense"],
+      "amount": 1
+    },
+    "Skitter Smack": {
+      "source": "Pokerole-Data/v3.0/Moves/Skitter Smack.json",
+      "sha256": "6643418d327dac8c886ec0579c87fc5e6df3029adbf26ab71e14033387599754",
+      "effect": "Single Target. Reduce the Target's Special by 1.",
+      "dice": 0,
+      "user": false,
+      "keys": ["Special"],
+      "amount": -1
+    },
+    "Snarl": {
+      "source": "Pokerole-Data/v3.0/Moves/Snarl.json",
+      "sha256": "d170e2d7ed7100114a1774cdaede90545b0a500b6842c43a79470d82a44d0d76",
+      "effect": "Target all foes in Range. Sound Move. Reduce by 1 the Special of those affected",
+      "dice": 0,
+      "user": false,
+      "keys": ["Special"],
+      "amount": -1
+    },
+    "Spin Out": {
+      "source": "Pokerole-Data/v3.0/Moves/Spin Out.json",
+      "sha256": "1cc149d5b99086c7f9510d9b16dd14bbb54fc84a679b04b6f932127b9d2af580",
+      "effect": "Single Target. Lethal. Reduce the User's Dexterity by 2.",
+      "dice": 0,
+      "user": true,
+      "keys": ["Dexterity"],
+      "amount": -2
+    },
+    "Spirit Break": {
+      "source": "Pokerole-Data/v3.0/Moves/Spirit Break.json",
+      "sha256": "c8e2f2106a7fef7dbd844c6101a6f91a52ed09a21e171e632fc0622baa94189b",
+      "effect": "Single Target. Reduce the Target's Special by 1.",
+      "dice": 0,
+      "user": false,
+      "keys": ["Special"],
+      "amount": -1
+    },
+    "Steel Wing": {
+      "source": "Pokerole-Data/v3.0/Moves/Steel Wing.json",
+      "sha256": "9ee4a02bfd2ec833eee98677b4ee53f1d67d9c2a51a212e13e9938d1708d7927",
+      "effect": "Single Target. Low Accuracy 1. Roll 1 Chance Die to Increase the User's Defense by 1.",
+      "dice": 1,
+      "user": true,
+      "keys": ["Defense"],
+      "amount": 1
+    },
+    "Struggle Bug": {
+      "source": "Pokerole-Data/v3.0/Moves/Struggle Bug.json",
+      "sha256": "becec00cec1ac7a80a53d10ca204f628325e3509836862477552181074ae8dd7",
+      "effect": "Target All Foes in Range. Reduce by 1 the Special of those affected.",
+      "dice": 0,
+      "user": false,
+      "keys": ["Special"],
+      "amount": -1
+    },
+    "Superpower": {
+      "source": "Pokerole-Data/v3.0/Moves/Superpower.json",
+      "sha256": "854a7f75be31701f29fd6d80ce06f48e437475be02d9b55012cd28c36572c72a",
+      "effect": "Single Target. Lethal. Reduce by 1 the User's Strength and Defense.",
+      "dice": 0,
+      "user": true,
+      "keys": ["Strength", "Defense"],
+      "amount": -1
+    },
+    "Thunderous Kick": {
+      "source": "Pokerole-Data/v3.0/Moves/Thunderous Kick.json",
+      "sha256": "cba5491196c3d2e458ee3691a07a78aa039141c6219681b871b432c39048f493",
+      "effect": "Single Target. Reduce Target's Defense by 1.",
+      "dice": 0,
+      "user": false,
+      "keys": ["Defense"],
+      "amount": -1
+    },
+    "Torch Song": {
+      "source": "Pokerole-Data/v3.0/Moves/Torch Song.json",
+      "sha256": "c202067c30b817ef0a2e45b7da1cc60a2a3505f3cdb2441c94c09137e3cd384d",
+      "effect": "Single Target. Sound Move. Increase the User's Special by 1.",
+      "dice": 0,
+      "user": true,
+      "keys": ["Special"],
+      "amount": 1
+    },
+    "Trailblaze": {
+      "source": "Pokerole-Data/v3.0/Moves/Trailblaze.json",
+      "sha256": "c3296d193ea9cf172d4e0ed55f6bd96b83daa5e84d59b290b07389e412d927b7",
+      "effect": "Single Target. Increase the User's Dexterity by 1.",
+      "dice": 0,
+      "user": true,
+      "keys": ["Dexterity"],
+      "amount": 1
+    },
+    "Trop Kick": {
+      "source": "Pokerole-Data/v3.0/Moves/Trop Kick.json",
+      "sha256": "b89b610eca17a5af1cd7eb36eedc4e0ce788b45adf1009d7a5d417c89c9fdf57",
+      "effect": "Single Target. Reduce Target's Strength by 1.",
+      "dice": 0,
+      "user": false,
+      "keys": ["Strength"],
+      "amount": -1
+    },
+    "V-Create": {
+      "source": "Pokerole-Data/v3.0/Moves/V-Create.json",
+      "sha256": "f5453672276634699cf48899280c3b94b05757ffedf447bcbb15ca1e294037fc",
+      "effect": "Single Target. Unique. Reduce by 1 the User's Dexterity, Defense and Sp. Defense.",
+      "dice": 0,
+      "user": true,
+      "keys": ["Dexterity", "Defense", "SpecialDefense"],
+      "amount": -1
+    }
+  }
+}

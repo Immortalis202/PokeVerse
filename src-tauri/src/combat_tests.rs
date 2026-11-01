@@ -1229,3 +1229,6 @@ mod recurring_tests;
 
 #[path = "combat_tests/cure_protection_tests.rs"]
 mod cure_protection_tests;
+
+#[path = "combat_tests/damaging_stats_tests.rs"]
+mod damaging_stats_tests;

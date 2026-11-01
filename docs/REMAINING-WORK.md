@@ -1,6 +1,6 @@
 # PokeVerse - remaining work
 
-Snapshot: **31 October 2026**, application **0.43.0**, engine **0.35.0-core**, protocol **44**, user database schema **4**.
+Snapshot: **1 November 2026**, application **0.44.0**, engine **0.36.0-core**, protocol **45**, user database schema **4**.
 
 This is the current project backlog. Implemented foundations are summarized first; unfinished features, explicit GM rulings, verification gaps and excluded scope are distinguished below. Counts come from the checked-in registries and should be refreshed after catalog changes.
 
@@ -12,7 +12,9 @@ The registry records 242 automated, 60 partial and 3 manual abilities. Sections 
 
 ## Current priority
 
-Private friend-group use: public release/signing/distribution polish is not planned, by user decision on 23 October 2026. M1–M4 of the move-effect/catalog queue are complete within their recorded scopes. **Next is M5: native multiplayer acceptance**, covering native UI, separate-machine LAN/private-VPN behavior, reconnect/recovery and packaged-app data preservation. Automated tests do not substitute for those outcomes. Existing [group rules](battle-group-rules.md), [GM choices](GM-CHOICE-ROADMAP.md) and unsupported-effect boundaries remain in force; Sappy Seed remains excluded. Packaging runs only when explicitly requested.
+Private friend-group use: public release/signing/distribution polish is not planned, by user decision on 23 October 2026. M1–M4 of the move-effect/catalog queue are complete within their recorded scopes. **M5 remains native multiplayer acceptance**, covering native UI, separate-machine LAN/private-VPN behavior, reconnect/recovery and packaged-app data preservation. Automated tests do not substitute for those outcomes. Existing [group rules](battle-group-rules.md), [GM choices](GM-CHOICE-ROADMAP.md) and unsupported-effect boundaries remain in force; Sappy Seed remains excluded. Packaging runs only when explicitly requested.
+
+The user requested continued move completion on 1 November. Follow-up MOVE-A01 implements 66 damaging attribute clauses (38 guaranteed, 28 Chance-based); see [the updated move audit](MOVE-EFFECT-AUDIT.md#remaining-move-implementation). The remaining 317 fallback routes and unsupported clauses on existing routes still require review and implementation in separate batches. Native acceptance is still open.
 
 ## Move-effect milestone queue (updated 31 October 2026)
 

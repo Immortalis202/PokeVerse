@@ -60,7 +60,12 @@ test("M3 completion keeps explicit decisions and release compatibility review", 
     firstDifference === -1 ||
       reviewed[firstDifference] < current[firstDifference],
   );
-  assert.equal(review.engine, read("rules/coverage.json").engine);
+  // This is the M3 delivery snapshot; later move batches keep that engine valid.
+  assert.ok(
+    readFileSync("src-tauri/src/model.rs", "utf8").includes(
+      `= "${review.engine}";`,
+    ),
+  );
   for (const entry of review.entries) {
     assert.ok(
       [

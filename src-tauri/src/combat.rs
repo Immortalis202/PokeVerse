@@ -8,6 +8,7 @@ pub(crate) mod ability_changes;
 pub(crate) mod chance_status;
 pub(crate) mod compound;
 pub(crate) mod cure_protection;
+pub(crate) mod damaging_stats;
 pub(crate) mod decoys;
 pub(crate) mod direct_status;
 pub(crate) mod events;
@@ -73,6 +74,8 @@ pub struct Status {
 pub struct TurnFlow {
     #[serde(default)]
     pub battlefield_review: bool,
+    #[serde(default)]
+    pub damaging_stats: Box<damaging_stats::StatMoveState>,
     #[serde(default)]
     pub status_escalation: bool,
     #[serde(default)]
@@ -380,6 +383,10 @@ fn finish(c: &mut Campaign) {
         return;
     }
     let completed = flow_mut(c).queue.remove(0);
+    flow_mut(c)
+        .damaging_stats
+        .completed
+        .retain(|s| *s != completed.sequence);
     sequencing::completed(c, &completed);
     if sequencing::waiting(c) {
         return;
@@ -1122,6 +1129,7 @@ pub fn transition(
     if let Some(setup) = field::start_setup(a) {
         if ![
             ENGINE,
+            BATTLEFIELD_REVIEW_ENGINE,
             CURE_PROTECTION_ENGINE,
             RECURRING_STATUS_ENGINE,
             COMPOUND_STATUS_ENGINE,
@@ -1141,7 +1149,10 @@ pub fn transition(
         }
         gm(c, actor)?;
         field::validate_setup(setup)?;
-        field::validate_night_setup(setup, c.engine == ENGINE)?;
+        field::validate_night_setup(
+            setup,
+            [ENGINE, BATTLEFIELD_REVIEW_ENGINE].contains(&c.engine.as_str()),
+        )?;
     }
     let mut input = std::borrow::Cow::Borrowed(c);
     if matches!(a, Action::EndBattle) && recurring::enabled(c) {
@@ -3087,6 +3098,7 @@ fn transition_inner(
                 b.flow = Some(TurnFlow {
                     identity_moves: [
                         ENGINE,
+                        BATTLEFIELD_REVIEW_ENGINE,
                         CURE_PROTECTION_ENGINE,
                         RECURRING_STATUS_ENGINE,
                         COMPOUND_STATUS_ENGINE,
@@ -3100,6 +3112,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     status_escalation: [
                         ENGINE,
+                        BATTLEFIELD_REVIEW_ENGINE,
                         CURE_PROTECTION_ENGINE,
                         RECURRING_STATUS_ENGINE,
                         COMPOUND_STATUS_ENGINE,
@@ -3112,6 +3125,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     spite: [
                         ENGINE,
+                        BATTLEFIELD_REVIEW_ENGINE,
                         CURE_PROTECTION_ENGINE,
                         RECURRING_STATUS_ENGINE,
                         COMPOUND_STATUS_ENGINE,
@@ -3123,6 +3137,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     will_drains: [
                         ENGINE,
+                        BATTLEFIELD_REVIEW_ENGINE,
                         CURE_PROTECTION_ENGINE,
                         RECURRING_STATUS_ENGINE,
                         COMPOUND_STATUS_ENGINE,
@@ -3133,6 +3148,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     direct_status: [
                         ENGINE,
+                        BATTLEFIELD_REVIEW_ENGINE,
                         CURE_PROTECTION_ENGINE,
                         RECURRING_STATUS_ENGINE,
                         COMPOUND_STATUS_ENGINE,
@@ -3142,22 +3158,35 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     chance_status: [
                         ENGINE,
+                        BATTLEFIELD_REVIEW_ENGINE,
                         CURE_PROTECTION_ENGINE,
                         RECURRING_STATUS_ENGINE,
                         COMPOUND_STATUS_ENGINE,
                         CHANCE_STATUS_ENGINE,
                     ]
                     .contains(&c.engine.as_str()),
-                    battlefield_review: c.engine == ENGINE,
-                    cure_protection: [ENGINE, CURE_PROTECTION_ENGINE].contains(&c.engine.as_str()),
+                    battlefield_review: [ENGINE, BATTLEFIELD_REVIEW_ENGINE]
+                        .contains(&c.engine.as_str()),
+                    damaging_stats: Box::new(damaging_stats::StatMoveState {
+                        enabled: c.engine == ENGINE,
+                        ..Default::default()
+                    }),
+                    cure_protection: [ENGINE, BATTLEFIELD_REVIEW_ENGINE, CURE_PROTECTION_ENGINE]
+                        .contains(&c.engine.as_str()),
                     recurring: Box::new(recurring::RecurringState {
-                        enabled: [ENGINE, CURE_PROTECTION_ENGINE, RECURRING_STATUS_ENGINE]
-                            .contains(&c.engine.as_str()),
+                        enabled: [
+                            ENGINE,
+                            BATTLEFIELD_REVIEW_ENGINE,
+                            CURE_PROTECTION_ENGINE,
+                            RECURRING_STATUS_ENGINE,
+                        ]
+                        .contains(&c.engine.as_str()),
                         ..Default::default()
                     }),
                     compound: compound::CompoundState {
                         enabled: [
                             ENGINE,
+                            BATTLEFIELD_REVIEW_ENGINE,
                             CURE_PROTECTION_ENGINE,
                             RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
@@ -3167,6 +3196,7 @@ fn transition_inner(
                     },
                     house_rules: [
                         ENGINE,
+                        BATTLEFIELD_REVIEW_ENGINE,
                         CURE_PROTECTION_ENGINE,
                         RECURRING_STATUS_ENGINE,
                         COMPOUND_STATUS_ENGINE,
@@ -3182,6 +3212,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     interaction_rules: [
                         ENGINE,
+                        BATTLEFIELD_REVIEW_ENGINE,
                         CURE_PROTECTION_ENGINE,
                         RECURRING_STATUS_ENGINE,
                         COMPOUND_STATUS_ENGINE,
@@ -3200,6 +3231,7 @@ fn transition_inner(
                     standalone: standalone::StandaloneState {
                         enabled: [
                             ENGINE,
+                            BATTLEFIELD_REVIEW_ENGINE,
                             CURE_PROTECTION_ENGINE,
                             RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
@@ -3221,6 +3253,7 @@ fn transition_inner(
                     information: information::InformationState {
                         enabled: [
                             ENGINE,
+                            BATTLEFIELD_REVIEW_ENGINE,
                             CURE_PROTECTION_ENGINE,
                             RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
@@ -3243,6 +3276,7 @@ fn transition_inner(
                     forms: forms::FormState {
                         enabled: [
                             ENGINE,
+                            BATTLEFIELD_REVIEW_ENGINE,
                             CURE_PROTECTION_ENGINE,
                             RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
@@ -3267,6 +3301,7 @@ fn transition_inner(
                         completion: items::completion::CompletionState {
                             enabled: [
                                 ENGINE,
+                                BATTLEFIELD_REVIEW_ENGINE,
                                 CURE_PROTECTION_ENGINE,
                                 RECURRING_STATUS_ENGINE,
                                 COMPOUND_STATUS_ENGINE,
@@ -3285,6 +3320,7 @@ fn transition_inner(
                         },
                         enabled: [
                             ENGINE,
+                            BATTLEFIELD_REVIEW_ENGINE,
                             CURE_PROTECTION_ENGINE,
                             RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
@@ -3309,6 +3345,7 @@ fn transition_inner(
                     events: events::EventState {
                         enabled: [
                             ENGINE,
+                            BATTLEFIELD_REVIEW_ENGINE,
                             CURE_PROTECTION_ENGINE,
                             RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
@@ -3333,6 +3370,7 @@ fn transition_inner(
                     },
                     provenance_rules: [
                         ENGINE,
+                        BATTLEFIELD_REVIEW_ENGINE,
                         CURE_PROTECTION_ENGINE,
                         RECURRING_STATUS_ENGINE,
                         COMPOUND_STATUS_ENGINE,
@@ -3357,6 +3395,7 @@ fn transition_inner(
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            BATTLEFIELD_REVIEW_ENGINE,
                             CURE_PROTECTION_ENGINE,
                             RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
@@ -3384,6 +3423,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            BATTLEFIELD_REVIEW_ENGINE,
                             CURE_PROTECTION_ENGINE,
                             RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
@@ -3411,6 +3451,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        BATTLEFIELD_REVIEW_ENGINE,
                         CURE_PROTECTION_ENGINE,
                         RECURRING_STATUS_ENGINE,
                         COMPOUND_STATUS_ENGINE,
@@ -3438,6 +3479,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            BATTLEFIELD_REVIEW_ENGINE,
                             CURE_PROTECTION_ENGINE,
                             RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
@@ -3468,6 +3510,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            BATTLEFIELD_REVIEW_ENGINE,
                             CURE_PROTECTION_ENGINE,
                             RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
@@ -3499,6 +3542,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            BATTLEFIELD_REVIEW_ENGINE,
                             CURE_PROTECTION_ENGINE,
                             RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
@@ -3531,6 +3575,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            BATTLEFIELD_REVIEW_ENGINE,
                             CURE_PROTECTION_ENGINE,
                             RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
@@ -3564,6 +3609,7 @@ fn transition_inner(
                     special: special::SpecialState {
                         enabled: [
                             ENGINE,
+                            BATTLEFIELD_REVIEW_ENGINE,
                             CURE_PROTECTION_ENGINE,
                             RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
@@ -3597,6 +3643,7 @@ fn transition_inner(
                     },
                     ability_rules: [
                         ENGINE,
+                        BATTLEFIELD_REVIEW_ENGINE,
                         CURE_PROTECTION_ENGINE,
                         RECURRING_STATUS_ENGINE,
                         COMPOUND_STATUS_ENGINE,
@@ -3632,6 +3679,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            BATTLEFIELD_REVIEW_ENGINE,
                             CURE_PROTECTION_ENGINE,
                             RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
@@ -3667,6 +3715,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            BATTLEFIELD_REVIEW_ENGINE,
                             CURE_PROTECTION_ENGINE,
                             RECURRING_STATUS_ENGINE,
                             COMPOUND_STATUS_ENGINE,
@@ -4240,6 +4289,9 @@ fn base_effect_dice(c: &Campaign, q: &QueuedAction, _cat: &Catalog) -> Result<u3
     if let Some(n) = chance_status::effect_dice(c, q, _cat)? {
         return Ok(n);
     }
+    if let Some(n) = damaging_stats::effect_dice(c, q)? {
+        return Ok(n);
+    }
     if let Some(n) = interactions::effect_dice(c, q)? {
         return Ok(n);
     }
@@ -4368,6 +4420,9 @@ fn effects_inner_base(
         return Ok(());
     }
     if compound::effect(c, q, dice, cat)? {
+        return Ok(());
+    }
+    if damaging_stats::effect(c, q, dice, cat)? {
         return Ok(());
     }
     if chance_status::effect(c, q, dice, cat)? {

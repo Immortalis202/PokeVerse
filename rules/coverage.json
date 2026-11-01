@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.35.0-core",
-  "release": "0.43.0",
-  "protocol": 44,
+  "engine": "0.36.0-core",
+  "release": "0.44.0",
+  "protocol": 45,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -154,7 +154,9 @@
       "id": "weather-terrain-typing",
       "status": "partial",
       "source": "RULING 88-98",
-      "fixtures": ["field_moves_record_scope_expire_and_cannot_be_evaded"],
+      "fixtures": [
+        "field_moves_record_scope_expire_and_cannot_be_evaded"
+      ],
       "scope": "Typed weather, terrain, force fields, rooms and temporary typing use the shared battlefield service. Unreviewed field moves and narrative effects retain GM adjudication."
     },
     {
@@ -633,6 +635,20 @@
         "cure_protection_toxic_spikes_cast_reuses_persistent_entry_chance_and_immunities"
       ],
       "scope": "M2-E four reviewed battle clauses: side-wide Safeguard, per-target Sparkling Aria cure/damage, one-round Uproar Sleep cure, Toxic Spikes move installation through the existing hazard system. Current encounter gate only."
+    },
+    {
+      "id": "damaging-stat-moves",
+      "status": "automated",
+      "source": "rules/damaging-stat-moves.json: exact supplied JSON prose and SHA256",
+      "fixtures": [
+        "damaging_stats_all_66_exact_pools_and_recipients_through_public_commands",
+        "damaging_stats_immunities_contrary_simple_and_nonstacking",
+        "damaging_stats_chance_modifiers_items_and_sheer_force",
+        "damaging_stats_decoys_sound_shields_and_historical_fallback",
+        "damaging_stats_user_pool_consumed_once_and_survives_serialization",
+        "damaging_stats_area_targets_get_independent_pools_and_user_gets_one_pool"
+      ],
+      "scope": "66 damaging move attribute clauses; guaranteed or single Chance pool. User changes once per cast; target changes per recipient. Saved gates default false. Other card clauses are separate."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -646,5 +662,6 @@
   "chance_status_registry_hash": "5ae47eb49bf1522e6acbe655830e4bd88dda437dea1cff533b90e94634e390df",
   "compound_status_registry_hash": "a199335706695fd174364f6caf647724f629ebd19c6c32f446bc941f0193f956",
   "recurring_status_registry_hash": "a9c2856aaae67f89c61378e869603640b8fe356a8c66f443f734dda5c6592fa5",
-  "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb"
+  "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
+  "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492"
 }

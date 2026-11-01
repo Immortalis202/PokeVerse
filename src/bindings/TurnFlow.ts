@@ -16,11 +16,13 @@ import type { SequencingState } from "./SequencingState";
 import type { SpecialState } from "./SpecialState";
 import type { StandaloneState } from "./StandaloneState";
 import type { StatChannels } from "./StatChannels";
+import type { StatMoveState } from "./StatMoveState";
 import type { TacticsState } from "./TacticsState";
 import type { TransferState } from "./TransferState";
 
 export type TurnFlow = {
   battlefield_review: boolean;
+  damaging_stats: StatMoveState;
   status_escalation: boolean;
   spite: boolean;
   will_drains: boolean;

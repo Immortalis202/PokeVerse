@@ -1,6 +1,6 @@
 # Move-effect audit: milestone 1
 
-Snapshot refreshed: 29 October 2026, app **0.41.0**, engine **0.34.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
+Snapshot refreshed: 1 November 2026, app **0.44.0**, engine **0.36.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
 
 ## Deliverables and limits
 
@@ -18,13 +18,13 @@ The diagnostic deliberately bypasses accuracy, damage, targeting expansion, acti
 
 | Effect-route result | Cards | Meaning |
 | --- | ---: | --- |
-| executable-scope | 458 | At least one probe resolves; only recorded scopes are asserted. |
+| executable-scope | 524 | At least one probe resolves; only recorded scopes are asserted. |
 | input-required | 12 | Existing handler requests a selection, resource, weather or other legitimate prerequisite. |
-| manual-effect-route | 383 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
+| manual-effect-route | 317 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
 | gm-choice | 1 | Hold Hands: narrative battle-ending decision remains with the storyteller. |
 | excluded | 38 | Supplied Max/Z cards and the user-excluded Sappy Seed. |
 
-These totals sum to 892. **383 manual-effect-route results are not 383 new mechanics or an instruction to implement every card.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
+These totals sum to 892. **317 manual-effect-route results remain after MOVE-A01. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
 
 | Focused status result | Cards |
 | --- | ---: |
@@ -36,7 +36,7 @@ The M2 implementation queue is complete at its reviewed battle scope: **0 queued
 
 ## Milestone 2: implementation queue
 
-Complete one coherent sub-batch, run relevant regressions, update this inventory and commit before proceeding. M2-A through M2-E are delivered. The next milestone is M3 battlefield/ice edge-case review.
+Complete one coherent sub-batch, run relevant regressions, update this inventory and commit before proceeding. M2-A through M2-E are delivered. M3 battlefield/ice review and M4 catalog reliability are also delivered. The move-completion follow-up continues below; roadmap M5 remains native acceptance.
 
 ### M2-A. Direct status application (22 cards) — completed in 0.37.0
 
@@ -157,7 +157,7 @@ TypeScript, 65 frontend tests, all 27 script/catalog checks, Rust formatting and
 
 Eight new Rust test groups cover all 47 cards with triggering and non-triggering dice, exact pool counts, permissions and invalid dice rejection, modifiers and zero pools, native/item Flinch merging including Teravolt/Wonder Skin bypass, metadata-empty Sheer Force, type/condition immunity, sound/decoy behavior, shields, once-per-round Flinch, weather, independent area-target rolls, recoil separation, rollback and historical fallback. The 892-card two-profile diagnostic was refreshed (1,784 effect-phase scenarios, not full battle simulations). All 721 Rust tests passed: 607 runtime regressions including localhost multiplayer checks, plus 114 binding exports run serially to avoid Windows file locks. After the final scoped native/item Flinch adjustment, all eight Chance-status groups and all 136 item regressions passed again. TypeScript, 65 frontend tests, all 28 script/catalog checks, Rust formatting and diff checks passed. No Clippy, app packages, native UI or physical-network acceptance was run.
 
-Remaining source-metadata correction: **Bleakwind Storm, MASTER 469 / PDF 336**, has `AccuracyReduction: +2` in supplied JSON but printed/JSON prose says Low Accuracy 2. This Chance-effect batch preserves existing accuracy behavior; an application-owned correction and accuracy regression remain required.
+Resolved by M4-C01 (30 October 2026): **Bleakwind Storm, MASTER 469 / PDF 336**, has `AccuracyReduction: +2` in supplied JSON but printed/JSON prose says Low Accuracy 2. This Chance-effect batch preserves existing accuracy behavior; the application-owned correction and accuracy regression are delivered (see rules/catalog-reliability-review.json).
 
 ## M2-C verification (29 October 2026)
 
@@ -171,7 +171,33 @@ See [recurring battle effects and retained choices](battle-recurring-status.md).
 
 ## M2-E verification (29 October 2026)
 
-All 774 Rust tests passed (652 runtime and 122 serial binding exports), including 12 new cure/protection test groups. The groups cover four-round expiry, every structured condition, retained existing conditions, hostile Infiltrator/sound bypass, field cleanup, mixed-area Burn cure versus damage, one-round Sleep cure and later inflictions, Soundproof/Comatose, hazard entry Chance dice, Ground immunity, recast non-stacking, permissions, serialization, rollback and historical gates. TypeScript, 71 frontend tests, 31 script/catalog checks, Rust formatting and diff checks passed. All 892 effect routes were refreshed in both profiles, with the four M2-E baseline routes asserted executable. No Clippy, app packaging, native UI or physical-network acceptance was run. The M2 queue is complete at its reviewed scope; M3 is next.
+All 774 Rust tests passed (652 runtime and 122 serial binding exports), including 12 new cure/protection test groups. The groups cover four-round expiry, every structured condition, retained existing conditions, hostile Infiltrator/sound bypass, field cleanup, mixed-area Burn cure versus damage, one-round Sleep cure and later inflictions, Soundproof/Comatose, hazard entry Chance dice, Ground immunity, recast non-stacking, permissions, serialization, rollback and historical gates. TypeScript, 71 frontend tests, 31 script/catalog checks, Rust formatting and diff checks passed. All 892 effect routes were refreshed in both profiles, with the four M2-E baseline routes asserted executable. No Clippy, app packaging, native UI or physical-network acceptance was run. The M2 queue is complete at its reviewed scope; M3 was subsequently delivered.
 
 
 M3 reconciliation note (29 October 2026): [M3-F02](M3-BATTLEFIELD-ICE-CHECKLIST.md#m3-f02) identifies a source mismatch in the delivered Perish Song interaction: printed Magic Guard explicitly permits its damage, while the current shared helper and regression block it. This baseline mismatch is corrected in reviewed 0.35.0-core encounters by M3 (30 October 2026); historical encounters retain the old expectation.
+
+
+## Remaining move implementation
+
+MOVE-A01 delivers **66 damaging attribute clauses** in [the exact-name source registry](../rules/damaging-stat-moves.json) and `combat/damaging_stats.rs`. Definitions follow supplied JSON prose with exact SHA256 provenance; upstream source files are unchanged. This is a JSON-backed implementation review, not a new PDF visual review.
+
+Guaranteed changes (38):
+
+Acid Spray, Apple Acid, Aqua Step, Armor Cannon, Breaking Swipe, Bulldoze, Chilling Water, Clanging Scales, Close Combat, Draco Meteor, Dragon Ascent, Drum Beating, Electroweb, Esper Wing, Fire Lash, Flame Charge, Fleur Cannon, Grav Apple, Hammer Arm, Headlong Rush, Ice Hammer, Icy Wind, Overheat, Pounce, Power-Up Punch, Psycho Boost, Rock Tomb, Skitter Smack, Snarl, Spin Out, Spirit Break, Struggle Bug, Superpower, Thunderous Kick, Torch Song, Trailblaze, Trop Kick, V-Create.
+
+Chance changes (28):
+
+Acid, Ancient Power, Aurora Beam, Bubble, Bubble Beam, Bug Buzz, Charge Beam, Constrict, Crunch, Crush Claw, Diamond Storm, Earth Power, Energy Ball, Fiery Dance, Flash Cannon, Focus Blast, Iron Tail, Ominous Wind, Play Rough, Psychic, Psyshield Bash, Razor Shell, Rock Smash, Seed Flare, Shadow Ball, Shadow Bone, Silver Wind, Steel Wing.
+
+A six triggers the single printed Chance pool. Serene Grace, Wonder Skin, Loaded Dice, Sheer Force, Shield Dust on hostile target chances, Clear Amulet, Clear Body, Mirror Armor, Contrary/Simple and the existing separate non-stacking move channels are reused. Shields, decoys, sound bypass and damage/type immunity are retained. Target changes resolve independently; user changes and pools occur once per cast across area recipients. Once-per-cast state survives save/reconnect and rollback and is removed when the cast completes.
+
+New 0.36.0-core encounters enable the boxed `damaging_stats` state. Missing saved state defaults disabled; 0.35.0-core remains accepted with its previous M3 behavior. Protocol 45 carries the new state. App version is 0.44.0.
+
+**The whole move catalog is not complete.** The 317 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
+
+
+### MOVE-A01 verification (1 November 2026)
+
+All **810 Rust tests passed**, including the explicitly enabled diagnostic (892 cards / 1,784 effect-phase probes) and localhost multiplayer regressions. After the final rollback assertion and registry label update, all six damaging-stat regression groups plus their binding export passed again. The area regression verifies independent target Chance pools and one user pool per cast. The new state is boxed to avoid growing ordinary transition stack frames; the full 3v3 networking regression passes with the default test stack.
+
+**74 frontend tests, 52 script/catalog checks, TypeScript, Rust formatting and diff checks passed.** The catalog was rebuilt and the existing five species comparison reports and two closure records refreshed against its new compatibility hash. No Clippy, native UI, app packages or physical LAN/VPN acceptance was run. This completes MOVE-A01; the 317 remaining fallback routes are not claimed complete.

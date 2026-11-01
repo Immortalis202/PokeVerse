@@ -1,5 +1,5 @@
 {
-  "engine": "0.35.0-core",
+  "engine": "0.36.0-core",
   "moves": [
     {
       "catalog_attributes": {},
@@ -104,14 +104,24 @@
       "name": "Acid Spray",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -122,14 +132,24 @@
       "name": "Acid",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -486,14 +506,24 @@
       "name": "Ancient Power",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -504,14 +534,24 @@
       "name": "Apple Acid",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -595,14 +635,24 @@
       "name": "Aqua Step",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -676,14 +726,24 @@
       "name": "Armor Cannon",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -935,14 +995,24 @@
       "name": "Aurora Beam",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -2177,14 +2247,24 @@
       "name": "Breaking Swipe",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -2293,14 +2373,24 @@
       "name": "Bubble Beam",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -2311,14 +2401,24 @@
       "name": "Bubble",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -2351,14 +2451,24 @@
       "name": "Bug Buzz",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -2397,14 +2507,24 @@
       "name": "Bulldoze",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -2690,14 +2810,24 @@
       "name": "Charge Beam",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -2787,14 +2917,24 @@
       "name": "Chilling Water",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -2944,14 +3084,24 @@
       "name": "Clanging Scales",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -3020,14 +3170,24 @@
       "name": "Close Combat",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -3301,14 +3461,24 @@
       "name": "Constrict",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -3753,14 +3923,24 @@
       "name": "Crunch",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -3771,14 +3951,24 @@
       "name": "Crush Claw",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -4169,14 +4359,24 @@
       "name": "Diamond Storm",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -4649,14 +4849,24 @@
       "name": "Draco Meteor",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -4670,14 +4880,24 @@
       "name": "Dragon Ascent",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -5133,14 +5353,24 @@
       "name": "Drum Beating",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -5267,14 +5497,24 @@
       "name": "Earth Power",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -5557,14 +5797,24 @@
       "name": "Electroweb",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -5709,14 +5959,24 @@
       "name": "Energy Ball",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -5792,14 +6052,24 @@
       "name": "Esper Wing",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -6260,14 +6530,24 @@
       "name": "Fiery Dance",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -6426,14 +6706,24 @@
       "name": "Fire Lash",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -6648,14 +6938,24 @@
       "name": "Flame Charge",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -6758,14 +7058,24 @@
       "name": "Flash Cannon",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -6829,14 +7139,24 @@
       "name": "Fleur Cannon",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -7048,14 +7368,24 @@
       "name": "Focus Blast",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -8111,14 +8441,24 @@
       "name": "Grav Apple",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -8419,14 +8759,24 @@
       "name": "Hammer Arm",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -8605,14 +8955,24 @@
       "name": "Headlong Rush",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -9625,14 +9985,24 @@
       "name": "Ice Hammer",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -9786,14 +10156,24 @@
       "name": "Icy Wind",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -10078,14 +10458,24 @@
       "name": "Iron Tail",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -13220,14 +13610,24 @@
       "name": "Ominous Wind",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -13333,14 +13733,24 @@
       "name": "Overheat",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -13731,14 +14141,24 @@
       "name": "Play Rough",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -14040,14 +14460,24 @@
       "name": "Pounce",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -14267,14 +14697,24 @@
       "name": "Power-Up Punch",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -14551,14 +14991,24 @@
       "name": "Psychic",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -14573,14 +15023,24 @@
       "name": "Psycho Boost",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -14637,14 +15097,24 @@
       "name": "Psyshield Bash",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -15142,14 +15612,24 @@
       "name": "Razor Shell",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -15744,14 +16224,24 @@
       "name": "Rock Smash",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -15788,14 +16278,24 @@
       "name": "Rock Tomb",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -16567,14 +17067,24 @@
       "name": "Seed Flare",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -16640,14 +17150,24 @@
       "name": "Shadow Ball",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -16658,14 +17178,24 @@
       "name": "Shadow Bone",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -17109,14 +17639,24 @@
       "name": "Silver Wind",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -17274,14 +17814,24 @@
       "name": "Skitter Smack",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -17774,14 +18324,24 @@
       "name": "Snarl",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -18333,14 +18893,24 @@
       "name": "Spin Out",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -18351,14 +18921,24 @@
       "name": "Spirit Break",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -18744,14 +19324,24 @@
       "name": "Steel Wing",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -19117,14 +19707,24 @@
       "name": "Struggle Bug",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -19419,14 +20019,24 @@
       "name": "Superpower",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -20630,14 +21240,24 @@
       "name": "Thunderous Kick",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -20724,14 +21344,24 @@
       "name": "Torch Song",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -20852,14 +21482,24 @@
       "name": "Trailblaze",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -21124,14 +21764,24 @@
       "name": "Trop Kick",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -21378,14 +22028,24 @@
       "name": "V-Create",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -22544,7 +23204,7 @@
       }
     }
   ],
-  "release": "0.43.0",
+  "release": "0.44.0",
   "scenario": "baseline and synthetic Burn2/Poison/Paralysis/Sleep profiles; effect phase only; wounded participants; no abilities, shields or decoys; all chance dice six; no GM selections/history; current gates enabled",
   "warning": "A resolved route is not proof that every card clause is implemented. Errors may be legitimate input requirements."
 }
