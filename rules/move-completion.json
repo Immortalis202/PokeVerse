@@ -195,6 +195,353 @@
           "extra_tick_types": ["Steel", "Water"]
         }
       }
+    },
+    "MOVE-A06": {
+      "engine": "0.41.0-core",
+      "kind": "ordinary",
+      "scope": "68 ordinary Physical/Special attacks: existing accuracy, reaction, damage, targeting and printed attribute machinery is retained; no additional native effect exists. Complete the attack after damage while preserving optional item effects. Lethal wounds and narrative clauses remain excluded.",
+      "moves": {
+        "Accelerock": {
+          "source": "Pokerole-Data/v3.0/Moves/Accelerock.json",
+          "sha256": "60c61f281cb966f5dee42e59d809519fb4a300955b230f69b81035d74e897029",
+          "effect": "Single Target. Reaction 1."
+        },
+        "Aerial Ace": {
+          "source": "Pokerole-Data/v3.0/Moves/Aerial Ace.json",
+          "sha256": "fc3c3c0f1b6e92bd9183192a8b278082696ae60af4dba98bd3431bbd352d78f1",
+          "effect": "Single Target. Cutter Move. Never Miss."
+        },
+        "Aeroblast": {
+          "source": "Pokerole-Data/v3.0/Moves/Aeroblast.json",
+          "sha256": "2a012e8a653d5be90e82d4ccee4998e7d86577d9b5d0e6a1a6a3b0f0e1a736f3",
+          "effect": "Single Target. Wind Move. Lethal. High Critical. Unique."
+        },
+        "Aqua Cutter": {
+          "source": "Pokerole-Data/v3.0/Moves/Aqua Cutter.json",
+          "sha256": "9eceffc8bd62bbac4bab482d47d9d2e811a459c96afbd989793f784fef1ea64b",
+          "effect": "Single Target. Ranged. High Critical. Cutter Move."
+        },
+        "Aqua Jet": {
+          "source": "Pokerole-Data/v3.0/Moves/Aqua Jet.json",
+          "sha256": "31ca356e1ad110dc6b93017fb5453d5aa0238d8569ed34784e23936fde9d2317",
+          "effect": "Single Target. Reaction 1."
+        },
+        "Astral Barrage": {
+          "source": "Pokerole-Data/v3.0/Moves/Astral Barrage.json",
+          "sha256": "b70e1e90757dfc63d00abc6822baf9aeae1f2a68bd5f4a53d37545285193c643",
+          "effect": "Target All Foes in Range. Lethal. Unique."
+        },
+        "Attack Order": {
+          "source": "Pokerole-Data/v3.0/Moves/Attack Order.json",
+          "sha256": "1175c1ba0011533af1d001b248e6f9469debb0f8253aee37d859b93f795e6887",
+          "effect": "Single Target. Ranged. High Critical."
+        },
+        "Aura Sphere": {
+          "source": "Pokerole-Data/v3.0/Moves/Aura Sphere.json",
+          "sha256": "c28b5bbd29bf19fd57b487063954aaf63d86f853db8a721375a6385ce4e98f3c",
+          "effect": "Single Target. Never Miss. Projectile Move."
+        },
+        "Body Press": {
+          "source": "Pokerole-Data/v3.0/Moves/Body Press.json",
+          "sha256": "cd45b935ee68560fc3e14ef17189b38247b5ae4e704393f62dfbbf57a731546b",
+          "effect": "Single Target. "
+        },
+        "Boomburst": {
+          "source": "Pokerole-Data/v3.0/Moves/Boomburst.json",
+          "sha256": "b41424189aefc54ff4ef678e38b650220c48406789f68841ecc598bf7313a5d7",
+          "effect": "Area Move. Sound Move."
+        },
+        "Branch Poke": {
+          "source": "Pokerole-Data/v3.0/Moves/Branch Poke.json",
+          "sha256": "4ad5af1dd4fb25dde1b248ec4a846c278bed927869d74e0e344d2b28beeb862c",
+          "effect": "Single Target. "
+        },
+        "Brutal Swing": {
+          "source": "Pokerole-Data/v3.0/Moves/Brutal Swing.json",
+          "sha256": "42ac20b57016de66cc3cb16af5e476f44c3998f3bb141de470b5e6fef5c1bf68",
+          "effect": "Target All foes in Range. Lethal."
+        },
+        "Bullet Punch": {
+          "source": "Pokerole-Data/v3.0/Moves/Bullet Punch.json",
+          "sha256": "f86b6b0e6ef9b260bd53c70dbcb54034571adaefd04b4188d2b0bb9375f389cd",
+          "effect": "Single Target. Reaction 1. Fist Move."
+        },
+        "Crabhammer": {
+          "source": "Pokerole-Data/v3.0/Moves/Crabhammer.json",
+          "sha256": "93841fbd5da4974ea587b05d69c36e0c3ec52f698ceb4ad683f4a4833fbb6c11",
+          "effect": "Single Target. Low Accuracy 1. High Critical"
+        },
+        "Cross Chop": {
+          "source": "Pokerole-Data/v3.0/Moves/Cross Chop.json",
+          "sha256": "04abe7bc3ccc9922447a8865b7a5088f88505407e9f5af84499ed14c6b84e504",
+          "effect": "Single Target. Low Accuracy 2. High Critical."
+        },
+        "Dazzling Gleam": {
+          "source": "Pokerole-Data/v3.0/Moves/Dazzling Gleam.json",
+          "sha256": "8544c4229756fc87cbade706979ac3163bdb5dffe5bcb390d0c653c5770382de",
+          "effect": "Target All foes in Range."
+        },
+        "Disarming Voice": {
+          "source": "Pokerole-Data/v3.0/Moves/Disarming Voice.json",
+          "sha256": "3166c8674f4cd04cca00018bfd14e135dad53bca5f84d65b8f2fd94e20b420d5",
+          "effect": "Target All Foes in Range. Sound Move. Never Miss."
+        },
+        "Drill Peck": {
+          "source": "Pokerole-Data/v3.0/Moves/Drill Peck.json",
+          "sha256": "626980d3db10dfa802f2281a79fbf7f09c521dd5c861baa5b9582b8c16b62d34",
+          "effect": "Single Target. Lethal."
+        },
+        "Drill Run": {
+          "source": "Pokerole-Data/v3.0/Moves/Drill Run.json",
+          "sha256": "768145fcd2c0afd85fc72329e63da972fd884355d24102e1198c7c12aa6230bd",
+          "effect": "Single Target. Lethal. High Critical."
+        },
+        "Egg Bomb": {
+          "source": "Pokerole-Data/v3.0/Moves/Egg Bomb.json",
+          "sha256": "b622bf9a63442c339840787b69163e72a93e437efa6be311a83ed618652d969d",
+          "effect": "Single Target. Low Accuracy 2. Ranged. Projectile Move."
+        },
+        "Fairy Wind": {
+          "source": "Pokerole-Data/v3.0/Moves/Fairy Wind.json",
+          "sha256": "3b118cb87b99de3ab72b58c7809f0afe7dca3d981f2e489adf38b7dac166f9d3",
+          "effect": "Single Target. Wind Move."
+        },
+        "False Surrender": {
+          "source": "Pokerole-Data/v3.0/Moves/False Surrender.json",
+          "sha256": "9dab023ffa5a1d9c2185a7cd9971dcd40170ad290c6761fda215214d23a8e2c2",
+          "effect": "Single Target. Never Miss."
+        },
+        "Feint Attack": {
+          "source": "Pokerole-Data/v3.0/Moves/Feint Attack.json",
+          "sha256": "66d5866e155e4fc20cd4448de3f2ded06d4a14b0a1642647cd61b0040758ee60",
+          "effect": "Single Target. Never Miss."
+        },
+        "Glacial Lance": {
+          "source": "Pokerole-Data/v3.0/Moves/Glacial Lance.json",
+          "sha256": "2b07a71da44cfc7a4101c94f03ddf5e347673596a1197b7f36460ba6967e45fc",
+          "effect": "Target All Foes in Range. Lethal. Unique."
+        },
+        "High Horsepower": {
+          "source": "Pokerole-Data/v3.0/Moves/High Horsepower.json",
+          "sha256": "c3b8b8a02ef21a62e78417e0e98f535f68d31713a83fbcd2f91b8201b399f4f8",
+          "effect": "Single Target. Low Accuracy 1."
+        },
+        "Horn Attack": {
+          "source": "Pokerole-Data/v3.0/Moves/Horn Attack.json",
+          "sha256": "d8803dd7b9a92858951fdc9d86597e57101ed37e1d0c044b1fc6524034a7cce2",
+          "effect": "Single Target. "
+        },
+        "Hydro Pump": {
+          "source": "Pokerole-Data/v3.0/Moves/Hydro Pump.json",
+          "sha256": "0df434344780c15e849a2a8ffee9c94c54fd73ada80f029cd4d19f283ecfa1eb",
+          "effect": "Single Target. Low Accuracy 2"
+        },
+        "Hyper Voice": {
+          "source": "Pokerole-Data/v3.0/Moves/Hyper Voice.json",
+          "sha256": "9c31bfd249d98d65ceb1b9cac3b8b3f3e59c6cd0580b339480f33b067ff7d2e3",
+          "effect": "Target All Foes in Range. Sound Move."
+        },
+        "Ice Shard": {
+          "source": "Pokerole-Data/v3.0/Moves/Ice Shard.json",
+          "sha256": "c76eb636bb727a54fea881471cebee93aacf1b8cf680826b93009012d327d793",
+          "effect": "Single Target. Reaction 1. Ranged."
+        },
+        "Jet Punch": {
+          "source": "Pokerole-Data/v3.0/Moves/Jet Punch.json",
+          "sha256": "6a70208a596e391b8ed2425bd1220b9378664f70f1de1cdefec667fec5f6c769",
+          "effect": "Single Target. Reaction 1. Fist Move."
+        },
+        "Karate Chop": {
+          "source": "Pokerole-Data/v3.0/Moves/Karate Chop.json",
+          "sha256": "52b3e7a7909b05782e07ead29cd9d5da804678e2318c365cb4ffbb2764b154cb",
+          "effect": "Single Target. High Critical."
+        },
+        "Kowtow Cleave": {
+          "source": "Pokerole-Data/v3.0/Moves/Kowtow Cleave.json",
+          "sha256": "c2f42465f9be6d4c54ba02517b5579d32117957f629f1fb6e2e251bbb53e3811",
+          "effect": "Single Target. Lethal. Cutter Move. Never Miss."
+        },
+        "Land's Wrath": {
+          "source": "Pokerole-Data/v3.0/Moves/Land's Wrath.json",
+          "sha256": "8cc412da97837eaf21a73f84ac72be97d453a94213e5c3ca2a00b844427b85f8",
+          "effect": "Target All Foes in Range. Ranged. Lethal. Unique."
+        },
+        "Leaf Blade": {
+          "source": "Pokerole-Data/v3.0/Moves/Leaf Blade.json",
+          "sha256": "d73dd713ceff1597f8d157cf10f1333fde830494dc719585b9fa5fe48fc7b2b2",
+          "effect": "Single Target. High Critical. Lethal. Cutter Move."
+        },
+        "Leafage": {
+          "source": "Pokerole-Data/v3.0/Moves/Leafage.json",
+          "sha256": "e64bb1e2a7c99dd744b14d91a9d59638e1a971447182105d1e42a7d86d36dfe2",
+          "effect": "Single Target. Ranged."
+        },
+        "Mach Punch": {
+          "source": "Pokerole-Data/v3.0/Moves/Mach Punch.json",
+          "sha256": "7e6b3c209db5cf3ebe44c6dc2a4ad3abb78d1c0b0b63641f9df8ae21ca785605",
+          "effect": "Single Target. Reaction 1. Fist Move."
+        },
+        "Magical Leaf": {
+          "source": "Pokerole-Data/v3.0/Moves/Magical Leaf.json",
+          "sha256": "3c83d481528d45f7b87b47c43f10c724b90eeb9909e92979a73f8039c939423e",
+          "effect": "Single Target. Never Miss."
+        },
+        "Magnet Bomb": {
+          "source": "Pokerole-Data/v3.0/Moves/Magnet Bomb.json",
+          "sha256": "9ac45a73c8a48c5b5d0de4bc7ac6787fc8f8b4473c76b50b333b55648d1ffc42",
+          "effect": "Single Target. Ranged. Never Miss. Projectile Move."
+        },
+        "Mega Kick": {
+          "source": "Pokerole-Data/v3.0/Moves/Mega Kick.json",
+          "sha256": "1711d96e7e5d46241ea2a954ed1aab138d8679fdf594e8c53e7342632a235576",
+          "effect": "Single Target. Low Accuracy 2."
+        },
+        "Mega Punch": {
+          "source": "Pokerole-Data/v3.0/Moves/Mega Punch.json",
+          "sha256": "fa1addb9012a0c297ebb62849759dc1c036634b7b55066b7cf14e18b4f92a3ae",
+          "effect": "Single Target. Low Accuracy 1. Fist Move."
+        },
+        "Megahorn": {
+          "source": "Pokerole-Data/v3.0/Moves/Megahorn.json",
+          "sha256": "48e8416a48777a4639a320087423223edd61b2e3870e4855558573ad9850bb95",
+          "effect": "Single Target. Low Accuracy 2. Lethal."
+        },
+        "Night Slash": {
+          "source": "Pokerole-Data/v3.0/Moves/Night Slash.json",
+          "sha256": "7b3b1f7d95272bb898fe1398ad07b4409e46ea8c54e7e60b131c6405a3db4830",
+          "effect": "Single Target. Lethal. High Critical. Cutter Move."
+        },
+        "Oblivion Wing": {
+          "source": "Pokerole-Data/v3.0/Moves/Oblivion Wing.json",
+          "sha256": "ff17fc3219128d80c5b7679e538a10d777d433e85c5f4fb5efa7258daf630a48",
+          "effect": "Single Target. Lethal. High Critical. Unique."
+        },
+        "Overdrive": {
+          "source": "Pokerole-Data/v3.0/Moves/Overdrive.json",
+          "sha256": "18b606b559af4f849e5c0e191e8c24ea076d8cfb5cdbd8753416776e65667c3a",
+          "effect": "Target All Foes in Range. Sound Move."
+        },
+        "Peck": {
+          "source": "Pokerole-Data/v3.0/Moves/Peck.json",
+          "sha256": "04fe840ad39752481be32b8f00e7e50ab028ab800251cece50f4e6324265dc63",
+          "effect": "Single Target. "
+        },
+        "Petal Blizzard": {
+          "source": "Pokerole-Data/v3.0/Moves/Petal Blizzard.json",
+          "sha256": "a9a029c03405f6d32e7089bdfddb62e34124056d721ed0072c3fd1ee2b91d26a",
+          "effect": "Area Move. Ranged. Wind Move."
+        },
+        "Pound": {
+          "source": "Pokerole-Data/v3.0/Moves/Pound.json",
+          "sha256": "021ccb01e04657d1acbeaac3857283519573e24c5c35b546459abafe4d1150fe",
+          "effect": "Single Target. "
+        },
+        "Power Gem": {
+          "source": "Pokerole-Data/v3.0/Moves/Power Gem.json",
+          "sha256": "4254d7112b857fd1f10218a385ba065d3328792262895260d8e32f2dc4c42d1e",
+          "effect": "Single Target. "
+        },
+        "Power Whip": {
+          "source": "Pokerole-Data/v3.0/Moves/Power Whip.json",
+          "sha256": "de20c37a418e2a62317b88dbbd391029ba37fc9758be3819f2acdcd1d1b639e6",
+          "effect": "Single Target. Low Accuracy 2."
+        },
+        "Psycho Cut": {
+          "source": "Pokerole-Data/v3.0/Moves/Psycho Cut.json",
+          "sha256": "0d09ad950d2cdce43ac40e0d397fc41e735601cc05a0e9ae1ee636a4c07968b2",
+          "effect": "Single Target. Ranged. High Critical. Cutter Move."
+        },
+        "Razor Leaf": {
+          "source": "Pokerole-Data/v3.0/Moves/Razor Leaf.json",
+          "sha256": "fa836290872bbdab4ded03656e31d3d3a1fd4d6e711b05832e800381066416e8",
+          "effect": "Target All Foes in Range. Cutter Move. Ranged. High Critical."
+        },
+        "Rock Throw": {
+          "source": "Pokerole-Data/v3.0/Moves/Rock Throw.json",
+          "sha256": "de046fcff03087295fad0028921701235fbcbfb1595fd4e29fb124529dee97b1",
+          "effect": "Single Target. Low Accuracy 1. Ranged."
+        },
+        "Scratch": {
+          "source": "Pokerole-Data/v3.0/Moves/Scratch.json",
+          "sha256": "8755051dfec9669bcc589b25732a31238ae6cd94bc42224bc036155909658553",
+          "effect": "Single Target. "
+        },
+        "Seed Bomb": {
+          "source": "Pokerole-Data/v3.0/Moves/Seed Bomb.json",
+          "sha256": "40dd1b37a31b81c9c29a80058de2d0887d53efb20d0c8705baf368e23902cf5e",
+          "effect": "Single Target. Ranged. Projectile Move."
+        },
+        "Shadow Claw": {
+          "source": "Pokerole-Data/v3.0/Moves/Shadow Claw.json",
+          "sha256": "fb2bb488bcd9b88b6a1e0b06391be7184078c70756a14b4cdfb113bd132b8dd3",
+          "effect": "Single Target. Lethal. High Critical."
+        },
+        "Shadow Punch": {
+          "source": "Pokerole-Data/v3.0/Moves/Shadow Punch.json",
+          "sha256": "6efb5b64099bae887d896b88ecb67354b6e426e24e3db3e54e0bb1329041f106",
+          "effect": "Single Target. Never Miss. Fist Move."
+        },
+        "Shadow Sneak": {
+          "source": "Pokerole-Data/v3.0/Moves/Shadow Sneak.json",
+          "sha256": "95342e917a57f4b0395881dd44acb3838bd517deb194f134318c7550ead728a6",
+          "effect": "Single Target. Reaction 1."
+        },
+        "Shock Wave": {
+          "source": "Pokerole-Data/v3.0/Moves/Shock Wave.json",
+          "sha256": "5114af8e5d7c4befea7444aad7a73bde3b8ba9dbf319d2f7a953095fff0c84ba",
+          "effect": "Single Target. Never Miss."
+        },
+        "Slam": {
+          "source": "Pokerole-Data/v3.0/Moves/Slam.json",
+          "sha256": "9fe248720ed617d45fcc2feddc74f66a0a4efac2134dc0d7aa4b31cc238e4ed0",
+          "effect": "Single Target. Low Accuracy 1."
+        },
+        "Smart Strike": {
+          "source": "Pokerole-Data/v3.0/Moves/Smart Strike.json",
+          "sha256": "a962d6cbbf697f4de7075eea25345fbf1d34f67ac06118e00bf0d4ed197c2799",
+          "effect": "Single Target. Never Miss. Lethal."
+        },
+        "Stone Edge": {
+          "source": "Pokerole-Data/v3.0/Moves/Stone Edge.json",
+          "sha256": "afc46868c46d7d042fa390a31eb37e6ca874c8521a4edf20ae9dc65a8eb5594a",
+          "effect": "Single Target. Low Accuracy 2. Ranged. Lethal. High Critical. Cutter Move."
+        },
+        "Vacuum Wave": {
+          "source": "Pokerole-Data/v3.0/Moves/Vacuum Wave.json",
+          "sha256": "ba912593f53a374e2c66233f3f9436561be4caa676de050a0a94e26571922922",
+          "effect": "Single Target. Reaction 1."
+        },
+        "Vice Grip": {
+          "source": "Pokerole-Data/v3.0/Moves/Vice Grip.json",
+          "sha256": "ed2663965b6b5073f5bbb9d90a0304164e0dc81470843abc4a73652131b02428",
+          "effect": "Single Target. Lethal."
+        },
+        "Vine Whip": {
+          "source": "Pokerole-Data/v3.0/Moves/Vine Whip.json",
+          "sha256": "8ef5f70e98fc17967bbb1d36ae7988793eed178ad63cba1dbe3d9f56a1bdc5ec",
+          "effect": "Single Target. "
+        },
+        "Vital Throw": {
+          "source": "Pokerole-Data/v3.0/Moves/Vital Throw.json",
+          "sha256": "0d41688820d62686a988058316398cee5d50ad9629af4d867bd3c3b8eb17ed62",
+          "effect": "Single Target. Late Reaction 1. Never Miss."
+        },
+        "Water Gun": {
+          "source": "Pokerole-Data/v3.0/Moves/Water Gun.json",
+          "sha256": "c4082d897e40d20c0455b23b0d33690711a0283f2f0aae6fa8e10ebf992d507a",
+          "effect": "Single Target. "
+        },
+        "Wing Attack": {
+          "source": "Pokerole-Data/v3.0/Moves/Wing Attack.json",
+          "sha256": "62e5ff22a8311fbccbbc61102d23c982e344cc6799c0749d6931f94a96c60e80",
+          "effect": "Single Target. "
+        },
+        "X-Scissor": {
+          "source": "Pokerole-Data/v3.0/Moves/X-Scissor.json",
+          "sha256": "6b7e1bf7ce1bfc4ebcb422ad81f33d0b9a410955b9ea126c74b3e2372007e266",
+          "effect": "Single Target. Cutter Move."
+        }
+      }
     }
   },
   "printed_review": {

@@ -105,6 +105,7 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
         return Ok(false);
     };
     match kind {
+        "ordinary" => {}
         "trap" => {
             if !immune_target(c, q, cat)? {
                 install(c, q, &q.actor_id, &q.target_id)?;
@@ -273,4 +274,8 @@ pub fn cleanse(c: &mut Campaign, id: &str) {
                 .iter()
                 .any(|(name, source)| e.name == *name && e.target == *source && e.source == id)
     });
+}
+
+pub fn ordinary(c: &Campaign, name: &str) -> bool {
+    definition(c, name).is_some_and(|(kind, _)| kind == "ordinary")
 }

@@ -705,3 +705,74 @@ fn completion_a05_salt_cure_uses_live_types_and_retains_earlier_encounter_typing
         "manual_rule"
     );
 }
+#[test]
+fn completion_a06_all_68_ordinary_attacks_finish_after_damage_without_sheet_mutation() {
+    let registry: serde_json::Value =
+        serde_json::from_str(include_str!("../../../rules/move-completion.json")).unwrap();
+    let moves = registry["blocks"]["MOVE-A06"]["moves"].as_object().unwrap();
+    assert_eq!(moves.len(), 68);
+    for name in moves.keys() {
+        let (c, a, t) = setup(name);
+        let sheets = serde_json::to_value(&c.sheets).unwrap();
+        let c = pending(&c, &a, &t, name);
+        assert!(
+            c.battle
+                .as_ref()
+                .unwrap()
+                .flow
+                .as_ref()
+                .unwrap()
+                .queue
+                .is_empty(),
+            "{name}"
+        );
+        assert_eq!(p(&c, &a).actions, 1, "{name}");
+        assert_eq!(serde_json::to_value(&c.sheets).unwrap(), sheets, "{name}");
+    }
+}
+#[test]
+fn completion_a06_retains_historical_manual_route_and_optional_item_chance() {
+    let (mut c, a, t) = setup("Pound");
+    c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
+        Box::new(completion::initial(ONGOING_EXCEPTIONS_ENGINE));
+    let old = pending(&c, &a, &t, "Pound");
+    assert!(!old
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .queue
+        .is_empty());
+    let (mut c, a, t) = setup("Pound");
+    let sid = p(&c, &a).sheet_id.clone();
+    let mut s = c.sheets[&sid].clone();
+    s.inventory.insert("Razor Fang".into(), 1);
+    c.sheets.insert(
+        sid,
+        crate::combat::items::equip(&s, "Razor Fang", "ordinary-item", &catalog()).unwrap(),
+    );
+    let f = c.battle.as_mut().unwrap().flow.as_mut().unwrap();
+    f.items.enabled = true;
+    f.items.completion.enabled = true;
+    crate::combat::items::initialize(&mut c, &catalog()).unwrap();
+    crate::combat::items::completion::initialize(&mut c, &catalog());
+    let c = pending(&c, &a, &t, "Pound");
+    assert_eq!(rules::dice_count(&c, &cmd(&c), &catalog()).unwrap(), 1);
+    let c = resolve(&c);
+    assert!(p(&c, &t)
+        .runtime
+        .statuses
+        .iter()
+        .any(|s| s.kind == "Flinch"));
+    assert!(c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .queue
+        .is_empty());
+}

@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.40.0-core",
-  "release": "0.48.0",
-  "protocol": 49,
+  "engine": "0.41.0-core",
+  "release": "0.49.0",
+  "protocol": 50,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -701,6 +701,16 @@
         "completion_a05_salt_cure_uses_live_types_and_retains_earlier_encounter_typing"
       ],
       "scope": "Magma Storm: four-round Blocking and 3 Fire-type damage dice at round end. Salt Cure: four-round 2 typeless dice, super-effective initial damage against Steel/Water and 1 extra ongoing damage against either type. Existing first-source priority and type/protection precedence are retained."
+    },
+    {
+      "id": "move-completion-a06",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A06",
+      "fixtures": [
+        "completion_a06_all_68_ordinary_attacks_finish_after_damage_without_sheet_mutation",
+        "completion_a06_retains_historical_manual_route_and_optional_item_chance"
+      ],
+      "scope": "68 ordinary Physical/Special attacks: existing accuracy, reaction, damage, targeting and printed attribute machinery is retained; no additional native effect exists. Complete the attack after damage while preserving optional item effects. Lethal wounds and narrative clauses remain excluded."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -717,5 +727,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "f888a40078f781ed59da07169027cd682c3ca17b6853ec2e7f61a44472d01dcf"
+  "move_completion_registry_hash": "23aa21bfb357eb9e9f2eb24531bec3c469feb58a6225220d17f0a2da931e4ac3"
 }
