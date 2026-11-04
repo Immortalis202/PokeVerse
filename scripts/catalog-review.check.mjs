@@ -153,6 +153,7 @@ test("coverage and PDF fingerprints are preserved with a complete field-level qu
     );
     const tests =
       readFileSync("src-tauri/src/combat_tests.rs", "utf8") +
+      readFileSync("src-tauri/src/combat_tests/entry_hazard_tests.rs", "utf8") +
       readFileSync(
         "src-tauri/src/combat_tests/damaging_stats_tests.rs",
         "utf8",

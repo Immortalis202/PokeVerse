@@ -36,6 +36,7 @@ fn move_effect_route_inventory() {
             f.cure_protection = true;
             f.battlefield_review = true;
             f.damaging_stats.enabled = true;
+            f.entry_hazards = true;
             f.identity_moves = true;
             f.house_rules = true;
             f.interaction_rules = true;

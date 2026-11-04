@@ -804,6 +804,19 @@ fn apply_stat(
     n: i32,
     reflected: bool,
 ) -> Result<()> {
+    apply_stat_context(c, source, id, key, n, reflected, false)
+}
+
+#[allow(clippy::too_many_arguments)]
+fn apply_stat_context(
+    c: &mut Campaign,
+    source: &str,
+    id: &str,
+    key: &str,
+    n: i32,
+    reflected: bool,
+    hazard: bool,
+) -> Result<()> {
     if tactics::baton_blocked(c, source, id, key, n) {
         return Err(error("Baton Pass prevents this user from raising its own attributes until the recipient faints or the encounter ends"));
     }
@@ -825,8 +838,9 @@ fn apply_stat(
         ));
     }
     let p = fighter(c, id)?.clone();
-    let hostile = source != id && fighter(c, source)?.side != p.side;
-    let bypass = interactions::enabled(c) && hostile && reviewed::extreme(c, fighter(c, source)?);
+    let hostile = source != id && (hazard || fighter(c, source)?.side != p.side);
+    let bypass =
+        !hazard && interactions::enabled(c) && hostile && reviewed::extreme(c, fighter(c, source)?);
     if source != id && n < 0 && items::completion::has(c, id, "Clear Amulet") && !bypass {
         return Ok(());
     }
@@ -838,7 +852,10 @@ fn apply_stat(
         ));
     }
     if n < 0 && hostile && !ring && p.has_ability("Mirror Armor") && !reflected {
-        return apply_stat(c, id, source, key, n, true);
+        if hazard && !fighter(c, source).is_ok_and(|p| p.hp > 0) {
+            return Err(AppError::new("manual_rule", "Mirror Armor entry-hazard reflection has no conscious active source; the GM must record the redirected field/stat outcome"));
+        }
+        return apply_stat_context(c, id, source, key, n, true, hazard);
     }
     if source != id
         && !ring
@@ -1679,4 +1696,9 @@ pub(super) fn ability_drop(c: &mut Campaign, id: &str, key: &str, n: i32) -> Res
         },
     );
     Ok(())
+}
+
+/// A persistent hazard retains its caster identity, but not a live attack's bypass.
+pub fn hazard_stat(c: &mut Campaign, source: &str, id: &str, key: &str, n: i32) -> Result<()> {
+    apply_stat_context(c, source, id, key, n, false, true)
 }

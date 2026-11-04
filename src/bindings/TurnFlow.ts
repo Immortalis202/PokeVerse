@@ -22,6 +22,7 @@ import type { TransferState } from "./TransferState";
 
 export type TurnFlow = {
   battlefield_review: boolean;
+  entry_hazards: boolean;
   damaging_stats: StatMoveState;
   status_escalation: boolean;
   spite: boolean;

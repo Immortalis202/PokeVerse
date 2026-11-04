@@ -419,7 +419,7 @@ fn scopes_overlap(c: &Campaign, a: &str, b: &str) -> bool {
                 .any(|p| applies(a, p) && applies(b, p))
         })
 }
-fn applies(scope: &str, p: &Combatant) -> bool {
+pub(super) fn applies(scope: &str, p: &Combatant) -> bool {
     scope == "all"
         || scope == format!("side:{}", p.side)
         || scope == format!("combatant:{}", p.id)
@@ -1000,7 +1000,7 @@ fn heal(c: &mut Campaign, id: &str, n: i32, limited: bool) -> Result<()> {
     }
     Ok(())
 }
-fn hurt(c: &mut Campaign, id: &str, n: i32, t: &str, cat: &Catalog) -> Result<()> {
+pub(super) fn hurt(c: &mut Campaign, id: &str, n: i32, t: &str, cat: &Catalog) -> Result<()> {
     let p = fighter(c, id)?;
     if p.hp == 0
         || (p.has_ability("Magic Guard") && !items::completion::ring(c, p, true))
@@ -1148,8 +1148,10 @@ pub fn move_effect(c: &mut Campaign, q: &QueuedAction, cat: &Catalog) -> Result<
         "Burn Up" => type_rule(c, &q.actor_id, "remove", &["Fire".into()])?,
         "Defog" => {
             let safeguard = cure_protection::enabled(c);
+            let hazards = entry_hazards::enabled(c);
             state_mut(c).rules.retain(|r| {
-                !((safeguard && r.kind == "Safeguard")
+                !((hazards && entry_hazards::NAMES.contains(&r.kind.as_str()))
+                    || (safeguard && r.kind == "Safeguard")
                     || r.kind.ends_with("Terrain")
                     || [
                         "Reflect",
@@ -1373,6 +1375,7 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
         let ts = live_types(c, p, cat).unwrap_or_default();
         state_mut(c).species_types.insert(p.id.clone(), ts);
     }
+    entry_hazards::lifecycle(before, c, cat)?;
     let active_ids: BTreeSet<String> = battle(c)?
         .combatants
         .iter()
@@ -2158,6 +2161,10 @@ pub fn toxic_debris(c: &mut Campaign, p: &Combatant, a: &Combatant) {
 
 pub fn clear_ability_hazards(c: &mut Campaign) {
     if reviewed::enabled(c) {
-        state_mut(c).rules.retain(|r| r.kind != "Toxic Spikes");
+        let hazards = entry_hazards::enabled(c);
+        state_mut(c).rules.retain(|r| {
+            r.kind != "Toxic Spikes"
+                && !(hazards && entry_hazards::NAMES.contains(&r.kind.as_str()))
+        });
     }
 }

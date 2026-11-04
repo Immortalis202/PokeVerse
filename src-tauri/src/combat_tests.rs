@@ -1232,3 +1232,6 @@ mod cure_protection_tests;
 
 #[path = "combat_tests/damaging_stats_tests.rs"]
 mod damaging_stats_tests;
+
+#[path = "combat_tests/entry_hazard_tests.rs"]
+mod entry_hazard_tests;

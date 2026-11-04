@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.36.0-core",
-  "release": "0.44.0",
-  "protocol": 45,
+  "engine": "0.37.0-core",
+  "release": "0.45.0",
+  "protocol": 46,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -649,6 +649,22 @@
         "damaging_stats_area_targets_get_independent_pools_and_user_gets_one_pool"
       ],
       "scope": "66 damaging move attribute clauses; guaranteed or single Chance pool. User changes once per cast; target changes per recipient. Saved gates default false. Other card clauses are separate."
+    },
+    {
+      "id": "entry-hazard-moves",
+      "status": "automated",
+      "source": "rules/entry-hazard-moves.json: exact JSON prose and SHA256",
+      "fixtures": [
+        "entry_hazards_all_three_cast_scope_permissions_fixed_entry_and_nonstacking",
+        "entry_hazards_boots_ground_immunities_and_gravity_use_live_entry_state",
+        "entry_hazards_rock_uses_fixed_typed_damage_and_indirect_protection",
+        "entry_hazards_web_stat_protections_reflection_and_caster_departure",
+        "entry_hazards_cleanup_defog_tidy_up_and_mortal_spin_preserve_stat_history",
+        "entry_hazards_field_reflection_preserves_scope_without_another_action",
+        "entry_hazards_real_switch_serialization_rollback_and_permissions",
+        "entry_hazards_missing_saved_flag_and_historical_routes_stay_disabled"
+      ],
+      "scope": "MOVE-A02: Spikes, Stealth Rock and Sticky Web; persistent scoped non-stacking placement, entry-only fixed typed/typeless damage or sourced Dexterity reduction, protections and cleanup. Saved flags default false; absent-source Mirror Armor reflection is explicit atomic GM adjudication."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -663,5 +679,6 @@
   "compound_status_registry_hash": "a199335706695fd174364f6caf647724f629ebd19c6c32f446bc941f0193f956",
   "recurring_status_registry_hash": "a9c2856aaae67f89c61378e869603640b8fe356a8c66f443f734dda5c6592fa5",
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
-  "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492"
+  "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
+  "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3"
 }

@@ -36,6 +36,22 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
   const coverageRegistry = JSON.parse(
     await readFile(path.join(app, "rules/coverage.json"), "utf8"),
   );
+  const hazardText = (
+    await readFile(path.join(app, "rules/entry-hazard-moves.json"), "utf8")
+  ).replace(/\r\n/g, "\n");
+  if (
+    coverageRegistry.entry_hazards_registry_hash !==
+    createHash("sha256").update(hazardText).digest("hex")
+  )
+    throw new Error("Entry hazard registry fingerprint mismatch");
+  for (const entry of Object.values(JSON.parse(hazardText).moves)) {
+    const bytes = await readFile(path.join(root, entry.source));
+    if (
+      createHash("sha256").update(bytes).digest("hex") !== entry.sha256 ||
+      JSON.parse(bytes).Effect !== entry.effect
+    )
+      throw new Error("Entry hazard source fingerprint mismatch");
+  }
   const damagingStatsText = (
     await readFile(path.join(app, "rules/damaging-stat-moves.json"), "utf8")
   ).replace(/\r\n/g, "\n");

@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "batch": "MOVE-A02",
+  "date": "2026-11-04",
+  "engine": "0.37.0-core",
+  "moves": {
+    "Spikes": {
+      "source": "Pokerole-Data/v3.0/Moves/Spikes.json",
+      "sha256": "fd9f718efceb8e7a8569a2fa3d0d746f91f9108af7505713f3c21b59982ce3f4",
+      "effect": "Target Foe's Side of the Field. Entry Hazard. Pokemon entering the battle Receive 1 Typeless Damage. This effect does not stack. Pokemon with immunity to Ground-Type Moves are not affected."
+    },
+    "Stealth Rock": {
+      "source": "Pokerole-Data/v3.0/Moves/Stealth Rock.json",
+      "sha256": "63586c01da69e8d62581baece18b296b75d493e839c00b4b9271784e9fd0739c",
+      "effect": "Target Foe's Side of the Field. Entry Hazard. Pokemon entering the battle Receive 1 Rock-Type Damage. This effect does not stack."
+    },
+    "Sticky Web": {
+      "source": "Pokerole-Data/v3.0/Moves/Sticky Web.json",
+      "sha256": "2b86b394bd9ac03379315bcdaf27530644fd9e6894b8c9c701b3ce552375059e",
+      "effect": "Target's Foe's Side of the Field. Entry Hazard. Reduce by 1 the Dexterity of Foes that enter the battlefield. Pokemon with Immunity to Ground are not affected."
+    }
+  },
+  "decisions": {
+    "scope": "Persistent opposing-side field rules, no immediate hit and no layers. Fixed 1 typeless/Rock damage, or Dexterity -1 on actual entry.",
+    "protections": "Heavy-Duty Boots blocks all three. Ground immunity blocks Spikes and Sticky Web. Damage uses existing indirect damage/type rules. Sticky Web uses sourced stat protection and non-stacking move channels.",
+    "reflection": "Magic Bounce/Coat uses the existing field redirector. Mirror Armor stat reflection on entry uses the retained caster when conscious and active; absent/fainted source remains explicit atomic GM adjudication.",
+    "history": "New encounter gate only; saved missing flags default false. No source JSON changes."
+  }
+}

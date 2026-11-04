@@ -22,6 +22,7 @@ const compoundStatus = await read("rules/compound-status-moves.json");
 const deliveredCompound = new Set(Object.keys(compoundStatus.moves));
 const probes = await read("rules/move-effect-probes.json");
 const damagingStats = await read("rules/damaging-stat-moves.json");
+const entryHazards = await read("rules/entry-hazard-moves.json");
 const interaction = await read("rules/battle-interactions.json");
 const special = await read("rules/special-moves.json");
 const tactics = await read("rules/tactics-reviewed.json");
@@ -220,6 +221,12 @@ const nonProducers = new Set([
 ]);
 const registryEvidence = (name) =>
   [
+    entryHazards.moves[name] && {
+      registry: "rules/entry-hazard-moves.json",
+      status: "automated",
+      scope:
+        "MOVE-A02: persistent non-stacking entry placement, fixed damage or Dexterity reduction, live protections and cleanup; Mirror Armor without an active caster requires a GM ruling",
+    },
     damagingStats.moves[name] && {
       registry: "rules/damaging-stat-moves.json",
       status: "automated",
@@ -446,11 +453,11 @@ const counts = (values) =>
   );
 const output = {
   version: 1,
-  date: "2026-11-01",
+  date: "2026-11-04",
   release: version,
   engine: probes.engine,
   scope:
-    "892-card effect-route inventory; focused semantic review of status infliction, cure and protection clauses. M2-A through M2-E battle status clauses and MOVE-A01 damaging attribute clauses delivered; see scoped registries and retained choices.",
+    "892-card effect-route inventory; focused semantic review of status infliction, cure and protection clauses. M2-A through M2-E battle status clauses and MOVE-A01 damaging attribute clauses plus MOVE-A02 entry hazards delivered; see scoped registries and retained choices.",
   limits: [
     "An executable route is not full card coverage.",
     "Probes bypass accuracy, damage, timing and public command permissions; no native or network acceptance is implied.",

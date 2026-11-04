@@ -901,6 +901,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
     let ended = decision(&c, "gm", Action::EndBattle);
     for engine in [
         ENGINE,
+        DAMAGING_STATS_ENGINE,
         BATTLEFIELD_REVIEW_ENGINE,
         CURE_PROTECTION_ENGINE,
         RECURRING_STATUS_ENGINE,
@@ -933,15 +934,20 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             },
         );
         let flow = n.battle.as_ref().unwrap().flow.as_ref().unwrap();
-        assert_eq!(flow.damaging_stats.enabled, engine == ENGINE);
+        assert_eq!(flow.entry_hazards, engine == ENGINE);
+        assert_eq!(
+            flow.damaging_stats.enabled,
+            [ENGINE, DAMAGING_STATS_ENGINE].contains(&engine)
+        );
         assert_eq!(
             flow.battlefield_review,
-            [ENGINE, BATTLEFIELD_REVIEW_ENGINE].contains(&engine)
+            [ENGINE, DAMAGING_STATS_ENGINE, BATTLEFIELD_REVIEW_ENGINE].contains(&engine)
         );
         assert_eq!(
             flow.direct_status,
             [
                 ENGINE,
+                DAMAGING_STATS_ENGINE,
                 BATTLEFIELD_REVIEW_ENGINE,
                 CURE_PROTECTION_ENGINE,
                 RECURRING_STATUS_ENGINE,
@@ -955,6 +961,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.chance_status,
             [
                 ENGINE,
+                DAMAGING_STATS_ENGINE,
                 BATTLEFIELD_REVIEW_ENGINE,
                 CURE_PROTECTION_ENGINE,
                 RECURRING_STATUS_ENGINE,
@@ -967,6 +974,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.compound.enabled,
             [
                 ENGINE,
+                DAMAGING_STATS_ENGINE,
                 BATTLEFIELD_REVIEW_ENGINE,
                 CURE_PROTECTION_ENGINE,
                 RECURRING_STATUS_ENGINE,
@@ -978,6 +986,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.recurring.enabled,
             [
                 ENGINE,
+                DAMAGING_STATS_ENGINE,
                 BATTLEFIELD_REVIEW_ENGINE,
                 CURE_PROTECTION_ENGINE,
                 RECURRING_STATUS_ENGINE
@@ -986,16 +995,23 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
         );
         assert_eq!(
             flow.battlefield_review,
-            [ENGINE, BATTLEFIELD_REVIEW_ENGINE].contains(&engine)
+            [ENGINE, DAMAGING_STATS_ENGINE, BATTLEFIELD_REVIEW_ENGINE].contains(&engine)
         );
         assert_eq!(
             flow.cure_protection,
-            [ENGINE, BATTLEFIELD_REVIEW_ENGINE, CURE_PROTECTION_ENGINE].contains(&engine)
+            [
+                ENGINE,
+                DAMAGING_STATS_ENGINE,
+                BATTLEFIELD_REVIEW_ENGINE,
+                CURE_PROTECTION_ENGINE
+            ]
+            .contains(&engine)
         );
         assert_eq!(
             flow.spite,
             [
                 ENGINE,
+                DAMAGING_STATS_ENGINE,
                 BATTLEFIELD_REVIEW_ENGINE,
                 CURE_PROTECTION_ENGINE,
                 RECURRING_STATUS_ENGINE,
@@ -1011,6 +1027,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.will_drains,
             [
                 ENGINE,
+                DAMAGING_STATS_ENGINE,
                 BATTLEFIELD_REVIEW_ENGINE,
                 CURE_PROTECTION_ENGINE,
                 RECURRING_STATUS_ENGINE,
@@ -1025,6 +1042,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.status_escalation,
             [
                 ENGINE,
+                DAMAGING_STATS_ENGINE,
                 BATTLEFIELD_REVIEW_ENGINE,
                 CURE_PROTECTION_ENGINE,
                 RECURRING_STATUS_ENGINE,
@@ -1041,6 +1059,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.identity_moves,
             [
                 ENGINE,
+                DAMAGING_STATS_ENGINE,
                 BATTLEFIELD_REVIEW_ENGINE,
                 CURE_PROTECTION_ENGINE,
                 RECURRING_STATUS_ENGINE,
@@ -1058,6 +1077,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.interaction_rules,
             [
                 ENGINE,
+                DAMAGING_STATS_ENGINE,
                 BATTLEFIELD_REVIEW_ENGINE,
                 CURE_PROTECTION_ENGINE,
                 RECURRING_STATUS_ENGINE,
@@ -1079,6 +1099,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.items.completion.enabled,
             [
                 ENGINE,
+                DAMAGING_STATS_ENGINE,
                 BATTLEFIELD_REVIEW_ENGINE,
                 CURE_PROTECTION_ENGINE,
                 RECURRING_STATUS_ENGINE,
@@ -1099,6 +1120,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.house_rules,
             [
                 ENGINE,
+                DAMAGING_STATS_ENGINE,
                 BATTLEFIELD_REVIEW_ENGINE,
                 CURE_PROTECTION_ENGINE,
                 RECURRING_STATUS_ENGINE,
@@ -1118,6 +1140,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.forms.enabled,
             [
                 ENGINE,
+                DAMAGING_STATS_ENGINE,
                 BATTLEFIELD_REVIEW_ENGINE,
                 CURE_PROTECTION_ENGINE,
                 RECURRING_STATUS_ENGINE,
@@ -1142,6 +1165,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.information.enabled,
             [
                 ENGINE,
+                DAMAGING_STATS_ENGINE,
                 BATTLEFIELD_REVIEW_ENGINE,
                 CURE_PROTECTION_ENGINE,
                 RECURRING_STATUS_ENGINE,
@@ -1165,6 +1189,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.standalone.enabled,
             [
                 ENGINE,
+                DAMAGING_STATS_ENGINE,
                 BATTLEFIELD_REVIEW_ENGINE,
                 CURE_PROTECTION_ENGINE,
                 RECURRING_STATUS_ENGINE,

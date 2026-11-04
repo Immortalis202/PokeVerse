@@ -1,6 +1,6 @@
 # Move-effect audit: milestone 1
 
-Snapshot refreshed: 1 November 2026, app **0.44.0**, engine **0.36.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
+Snapshot refreshed: 4 November 2026, app **0.45.0**, engine **0.37.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
 
 ## Deliverables and limits
 
@@ -18,13 +18,13 @@ The diagnostic deliberately bypasses accuracy, damage, targeting expansion, acti
 
 | Effect-route result | Cards | Meaning |
 | --- | ---: | --- |
-| executable-scope | 524 | At least one probe resolves; only recorded scopes are asserted. |
+| executable-scope | 527 | At least one probe resolves; only recorded scopes are asserted. |
 | input-required | 12 | Existing handler requests a selection, resource, weather or other legitimate prerequisite. |
-| manual-effect-route | 317 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
+| manual-effect-route | 314 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
 | gm-choice | 1 | Hold Hands: narrative battle-ending decision remains with the storyteller. |
 | excluded | 38 | Supplied Max/Z cards and the user-excluded Sappy Seed. |
 
-These totals sum to 892. **317 manual-effect-route results remain after MOVE-A01. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
+These totals sum to 892. **314 manual-effect-route results remain after MOVE-A02. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
 
 | Focused status result | Cards |
 | --- | ---: |
@@ -193,7 +193,7 @@ A six triggers the single printed Chance pool. Serene Grace, Wonder Skin, Loaded
 
 New 0.36.0-core encounters enable the boxed `damaging_stats` state. Missing saved state defaults disabled; 0.35.0-core remains accepted with its previous M3 behavior. Protocol 45 carries the new state. App version is 0.44.0.
 
-**The whole move catalog is not complete.** The 317 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
+**The whole move catalog is not complete.** The 314 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
 
 
 ### MOVE-A01 verification (1 November 2026)
@@ -201,3 +201,23 @@ New 0.36.0-core encounters enable the boxed `damaging_stats` state. Missing save
 All **810 Rust tests passed**, including the explicitly enabled diagnostic (892 cards / 1,784 effect-phase probes) and localhost multiplayer regressions. After the final rollback assertion and registry label update, all six damaging-stat regression groups plus their binding export passed again. The area regression verifies independent target Chance pools and one user pool per cast. The new state is boxed to avoid growing ordinary transition stack frames; the full 3v3 networking regression passes with the default test stack.
 
 **74 frontend tests, 52 script/catalog checks, TypeScript, Rust formatting and diff checks passed.** The catalog was rebuilt and the existing five species comparison reports and two closure records refreshed against its new compatibility hash. No Clippy, native UI, app packages or physical LAN/VPN acceptance was run. This completes MOVE-A01; the 317 remaining fallback routes are not claimed complete.
+
+
+### MOVE-A02: entry hazards (4 November 2026)
+
+Spikes, Stealth Rock and Sticky Web are delivered through [exact source records and decisions](../rules/entry-hazard-moves.json) and `combat/entry_hazards.rs`. This review uses supplied JSON prose and SHA256, without altering upstream files or claiming a new PDF visual review.
+
+All three install persistent opposing-side rules without hitting current occupants. Recasting or overlapping scopes do not add layers or multiply entry effects. For overlapping scopes of the same hazard, the first installed applicable rule supplies caster provenance. Spikes deals 1 typeless damage, Stealth Rock deals 1 Rock-type damage under the existing additive type/indirect-damage rules, and Sticky Web applies Dexterity -1 through the existing separate non-stacking move channels. Effects apply only to a genuine Pokemon entry, once even when entry/lifecycle processing runs multiple times or a Pokemon has multiple abilities. They survive the caster's departure and save/reconnect.
+
+Heavy-Duty Boots prevents all three; Ground immunity prevents Spikes and Sticky Web. Live type, Levitate, Earth Eater, Air Balloon, Gravity, indirect-damage immunity, stat protections, Clear Amulet, Contrary/Simple and stat-reaction abilities retain their reviewed rules. Persistent hazards do not inherit their caster's live attack ability bypass. Magic Bounce/Coat retains the existing side reflection. Sticky Web with Mirror Armor redirects the stat effect to its recorded conscious active caster; if that caster has left or fainted, the absent-source redirected outcome remains explicit GM adjudication and rejects the command atomically.
+
+Defog and Tidy Up remove all three hazards across the battlefield; Mortal Spin removes them from its user's side through its existing cleanup. Cleanup removes future entry effects and does not undo an already-applied stat reduction. Fainted Pokemon do not take additional entry damage or revive. Trainer entrants are excluded.
+
+New 0.37.0-core encounters enable `TurnFlow.entry_hazards`; saved missing state defaults false. The prior 0.36.0-core engine retains MOVE-A01 and its historical missing-hazard routes. App 0.45.0 uses protocol 46. The refreshed inventory has 527 executable scopes and 314 manual-effect routes; a resolved route still does not certify every clause on other cards.
+
+
+#### MOVE-A02 verification
+
+All **818 Rust tests passed**, including localhost multiplayer regressions and the explicitly enabled 892-card / 1,784-scenario route diagnostic. After the final distinction between a fresh deployment and recovery in an occupied slot, all **eight entry-hazard regression groups** and the diagnostic passed again. These groups cover casts, permissions and invalid dice; recasts and overlapping scopes; repeat lifecycle calls; genuine switches and re-entry; fixed and typed damage; Boots, Ground and indirect-damage immunity; live Gravity; sourced stat protections and reactions; caster departure; reflection and the atomic absent-source GM boundary; Defog/Tidy Up/Mortal Spin; save roundtrips, rollback and missing historical flags.
+
+**74 frontend tests, 53 script/catalog checks, TypeScript, Rust formatting and diff checks passed.** The final regenerated audit also passed all ten move-audit checks. The catalog and five existing species comparison reports plus both closure records were refreshed for the new rules fingerprint. No Clippy, native UI, app packaging or physical LAN/VPN acceptance was run. MOVE-A02 is complete at this documented scope; 314 other fallback routes remain.

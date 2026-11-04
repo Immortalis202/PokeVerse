@@ -8,6 +8,39 @@ const read = (p) => JSON.parse(readFileSync(p, "utf8"));
 const audit = read("rules/move-effect-audit.json");
 const byName = new Map(audit.moves.map((m) => [m.name, m]));
 
+test("MOVE-A02 preserves exact hazard sources and current executable routes", () => {
+  const registry = read("rules/entry-hazard-moves.json");
+  assert.deepEqual(Object.keys(registry.moves).sort(), [
+    "Spikes",
+    "Stealth Rock",
+    "Sticky Web",
+  ]);
+  assert.equal(
+    createHash("sha256")
+      .update(
+        readFileSync("rules/entry-hazard-moves.json", "utf8").replace(
+          /\r\n/g,
+          "\n",
+        ),
+      )
+      .digest("hex"),
+    read("rules/coverage.json").entry_hazards_registry_hash,
+  );
+  for (const [name, entry] of Object.entries(registry.moves)) {
+    const m = byName.get(name);
+    assert.equal(entry.sha256, m.sha256);
+    assert.equal(entry.effect, m.effect);
+    assert.equal(m.route, "executable-scope");
+    assert.ok(
+      m.declared_scopes.some(
+        (s) => s.registry === "rules/entry-hazard-moves.json",
+      ),
+    );
+    for (const profile of Object.values(m.probe))
+      assert.equal(profile.result, "route_resolved");
+  }
+});
+
 test("MOVE-A01 damaging attribute definitions retain exact source and executable scope", () => {
   const registry = read("rules/damaging-stat-moves.json");
   assert.equal(Object.keys(registry.moves).length, 66);
