@@ -17,6 +17,29 @@ pub struct Definition {
     amount: i32,
 }
 pub fn definition(c: &Campaign, name: &str) -> Option<&'static Definition> {
+    if completion::definition(c, name).is_some_and(|(kind, _)| kind == "stat") {
+        static BLOCKS: std::sync::LazyLock<BTreeMap<String, Definition>> =
+            std::sync::LazyLock::new(|| {
+                let data: serde_json::Value =
+                    serde_json::from_str(include_str!("../../../rules/move-completion.json"))
+                        .unwrap();
+                data["blocks"]
+                    .as_object()
+                    .unwrap()
+                    .values()
+                    .filter(|b| b["kind"] == "stat")
+                    .flat_map(|b| {
+                        b["moves"]
+                            .as_object()
+                            .unwrap()
+                            .iter()
+                            .map(|(n, d)| (n.clone(), serde_json::from_value(d.clone()).unwrap()))
+                    })
+                    .collect()
+            });
+        return BLOCKS.get(name);
+    }
+
     if !flow(c).is_ok_and(|f| f.damaging_stats.enabled) {
         return None;
     }

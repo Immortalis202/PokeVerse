@@ -776,3 +776,97 @@ fn completion_a06_retains_historical_manual_route_and_optional_item_chance() {
         .queue
         .is_empty());
 }
+#[test]
+fn completion_a07_ten_stat_attacks_use_exact_pools_recipients_and_six_only_success() {
+    let registry: serde_json::Value =
+        serde_json::from_str(include_str!("../../../rules/move-completion.json")).unwrap();
+    let moves = registry["blocks"]["MOVE-A07"]["moves"].as_object().unwrap();
+    assert_eq!(moves.len(), 10);
+    for (name, d) in moves {
+        let (c, a, t) = setup(name);
+        let c = pending(&c, &a, &t, name);
+        let n = rules::dice_count(&c, &cmd(&c), &catalog()).unwrap();
+        assert_eq!(n, d["dice"].as_u64().unwrap() as u32, "{name}");
+        assert!(
+            battle::transition(&c, "intruder", &cmd(&c), vec![6; n as usize], &catalog()).is_err()
+        );
+        assert!(
+            battle::transition(&c, "gm", &cmd(&c), vec![6; n as usize + 1], &catalog()).is_err()
+        );
+        for face in [5, 6] {
+            let after = roll(&c, "gm", &cmd(&c), face);
+            let recipient = if d["user"] == true { &a } else { &t };
+            let other = if d["user"] == true { &t } else { &a };
+            for key in d["keys"].as_array().unwrap() {
+                let key = key.as_str().unwrap();
+                assert_eq!(
+                    p(&after, recipient)
+                        .runtime
+                        .modifiers
+                        .get(key)
+                        .copied()
+                        .unwrap_or(0),
+                    if n == 0 || face == 6 {
+                        d["amount"].as_i64().unwrap() as i32
+                    } else {
+                        0
+                    },
+                    "{name}"
+                );
+                assert_eq!(
+                    p(&after, other)
+                        .runtime
+                        .modifiers
+                        .get(key)
+                        .copied()
+                        .unwrap_or(0),
+                    0,
+                    "{name}"
+                );
+            }
+            assert_eq!(p(&after, &t).hp, p(&c, &t).hp);
+            assert_eq!(
+                serde_json::to_value(&after.sheets).unwrap(),
+                serde_json::to_value(&c.sheets).unwrap()
+            );
+        }
+    }
+}
+#[test]
+fn completion_a07_stat_protections_chance_modifiers_and_historical_adoption() {
+    for (name, ability, expected) in [
+        ("Lumina Crash", "Clear Body", 0),
+        ("Lumina Crash", "Contrary", 2),
+        ("Lumina Crash", "Simple", -3),
+        ("Liquidation", "Shield Dust", 0),
+    ] {
+        let (mut c, a, t) = setup(name);
+        pm(&mut c, &t).selected_ability = ability.into();
+        let c = resolve(&pending(&c, &a, &t, name));
+        let key = if name == "Liquidation" {
+            "Defense"
+        } else {
+            "SpecialDefense"
+        };
+        assert_eq!(
+            special::modifier(&c, p(&c, &t), key).unwrap_or(0),
+            expected,
+            "{ability}"
+        );
+    }
+    let (mut c, a, t) = setup("Moonblast");
+    pm(&mut c, &a).selected_ability = "Serene Grace".into();
+    let c = pending(&c, &a, &t, "Moonblast");
+    assert_eq!(rules::dice_count(&c, &cmd(&c), &catalog()).unwrap(), 5);
+    let (mut c, a, t) = setup("Moonblast");
+    c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
+        Box::new(completion::initial(ORDINARY_ATTACKS_ENGINE));
+    assert!(crate::combat::damaging_stats::definition(&c, "Moonblast").is_none());
+    let c = pending(&c, &a, &t, "Moonblast");
+    assert_eq!(
+        battle::transition(&c, "gm", &cmd(&c), vec![], &catalog())
+            .unwrap_err()
+            .code,
+        "manual_rule"
+    );
+}

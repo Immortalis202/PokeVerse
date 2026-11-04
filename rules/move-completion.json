@@ -542,6 +542,103 @@
           "effect": "Single Target. Cutter Move."
         }
       }
+    },
+    "MOVE-A07": {
+      "engine": "0.42.0-core",
+      "kind": "stat",
+      "scope": "Ten unconditional damaging stat clauses. Uses existing exact Chance pools, six-only success, ability/item modifiers, target protection, reflection, source-owned self changes and nonstacking stat channels.",
+      "moves": {
+        "Leaf Storm": {
+          "source": "Pokerole-Data/v3.0/Moves/Leaf Storm.json",
+          "sha256": "2ffc65ba04f5df873f3ff5f15e4de84947e067b2e52b73de3e21187f86b8156f",
+          "effect": "Single Target. Low Accuracy 1. Reduce the User's Special by 2.",
+          "dice": 0,
+          "user": true,
+          "keys": ["Special"],
+          "amount": -2
+        },
+        "Liquidation": {
+          "source": "Pokerole-Data/v3.0/Moves/Liquidation.json",
+          "sha256": "a343d31f82dd7b7037105b63972da36298105204fb3e9cdacc36a086c9a5065b",
+          "effect": "Single Target. Lethal. Roll 2 Chance Dice to Reduce the Target's Defense by 1.",
+          "dice": 2,
+          "user": false,
+          "keys": ["Defense"],
+          "amount": -1
+        },
+        "Low Sweep": {
+          "source": "Pokerole-Data/v3.0/Moves/Low Sweep.json",
+          "sha256": "edd0715123fb071d70b7644ea2081fd045e9a4386a1b173d302f1394bcebf424",
+          "effect": "Single Target. Reduce the Target's Dexterity by 2.",
+          "dice": 0,
+          "user": false,
+          "keys": ["Dexterity"],
+          "amount": -2
+        },
+        "Lumina Crash": {
+          "source": "Pokerole-Data/v3.0/Moves/Lumina Crash.json",
+          "sha256": "8f319e704003191efb65bb8b53839fc2bd6d7ab2e93bcf3c27948810ab623592",
+          "effect": "Single Target. Reduce the Foe's Sp. Defense by 2.",
+          "dice": 0,
+          "user": false,
+          "keys": ["SpecialDefense"],
+          "amount": -2
+        },
+        "Lunge": {
+          "source": "Pokerole-Data/v3.0/Moves/Lunge.json",
+          "sha256": "de4e93724a4aca1acc35648da8aba31409474981b99908682318974ea1090ce4",
+          "effect": "Single Target. Reduce Target's Strength by 1.",
+          "dice": 0,
+          "user": false,
+          "keys": ["Strength"],
+          "amount": -1
+        },
+        "Metal Claw": {
+          "source": "Pokerole-Data/v3.0/Moves/Metal Claw.json",
+          "sha256": "137f2db7cb0ea88c584fdf8acc78b986776ef795edecf895b17c7afbab870bd0",
+          "effect": "Single Target. Low Accuracy 1. Roll 1 Chance Die to Increase the User's Strength by 1.",
+          "dice": 1,
+          "user": true,
+          "keys": ["Strength"],
+          "amount": 1
+        },
+        "Meteor Mash": {
+          "source": "Pokerole-Data/v3.0/Moves/Meteor Mash.json",
+          "sha256": "46c69192454f74b15a15968b3005d9315cfc3fe200657e71b28df447ba30fe55",
+          "effect": "Single Target. Low Accuracy 1. Fist Move. Roll 2 Chance Dice to increase the User's Strength by 1.",
+          "dice": 2,
+          "user": true,
+          "keys": ["Strength"],
+          "amount": 1
+        },
+        "Moonblast": {
+          "source": "Pokerole-Data/v3.0/Moves/Moonblast.json",
+          "sha256": "424c94fa5c801344c08c58dc42854d18fb37d7ff35aef334fc22f0e901084831",
+          "effect": "Single Target. Roll 3 Chance Dice to Reduce Target's Special by 1.",
+          "dice": 3,
+          "user": false,
+          "keys": ["Special"],
+          "amount": -1
+        },
+        "Mud Shot": {
+          "source": "Pokerole-Data/v3.0/Moves/Mud Shot.json",
+          "sha256": "312b3f35af3c971677b40971f99bb34ddcf49ed1571464329aa7bba31b00f32a",
+          "effect": "Single Target. Reduce the Target's Dexterity by 1.",
+          "dice": 0,
+          "user": false,
+          "keys": ["Dexterity"],
+          "amount": -1
+        },
+        "Mystical Fire": {
+          "source": "Pokerole-Data/v3.0/Moves/Mystical Fire.json",
+          "sha256": "fa77e79bb791c583daef511b8783b754da696513a11a13e561f5fd8702197bbc",
+          "effect": "Single Target. Reduce Target's Special by 1.",
+          "dice": 0,
+          "user": false,
+          "keys": ["Special"],
+          "amount": -1
+        }
+      }
     }
   },
   "printed_review": {

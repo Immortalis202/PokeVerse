@@ -4,7 +4,7 @@
   "source_remote": "https://github.com/Pokerole-Software-Development/Pokerole-Data.git",
   "source_commit": "376358078498717863c311d7a8fe323fd4fe7375",
   "source_tracked_changes": "",
-  "catalog_hash": "483c5d7d308e67d8600a707cc42dfc5bb42ba0b6342ccda2a4a1856494835846",
+  "catalog_hash": "8130e38153c8781a655b2ba5e19260ab70a39dd7fcc1329ba1d3cdd2405fb517",
   "fields": [
     "BaseHP",
     "Strength",

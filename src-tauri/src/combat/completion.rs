@@ -39,6 +39,9 @@ pub fn definition(c: &Campaign, name: &str) -> Option<(&'static str, &'static se
         })
 }
 pub fn effect_dice(c: &Campaign, q: &QueuedAction) -> Result<Option<u32>> {
+    if definition(c, &q.move_name).is_some_and(|(kind, _)| kind == "stat") {
+        return damaging_stats::effect_dice(c, q);
+    }
     Ok(definition(c, &q.move_name).map(|_| 0))
 }
 fn immune_target(c: &Campaign, q: &QueuedAction, cat: &Catalog) -> Result<bool> {
@@ -106,6 +109,9 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
     };
     match kind {
         "ordinary" => {}
+        "stat" => {
+            return damaging_stats::effect(c, q, _dice, cat);
+        }
         "trap" => {
             if !immune_target(c, q, cat)? {
                 install(c, q, &q.actor_id, &q.target_id)?;

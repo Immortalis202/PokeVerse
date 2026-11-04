@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.41.0-core",
-  "release": "0.49.0",
-  "protocol": 50,
+  "engine": "0.42.0-core",
+  "release": "0.50.0",
+  "protocol": 51,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -711,6 +711,16 @@
         "completion_a06_retains_historical_manual_route_and_optional_item_chance"
       ],
       "scope": "68 ordinary Physical/Special attacks: existing accuracy, reaction, damage, targeting and printed attribute machinery is retained; no additional native effect exists. Complete the attack after damage while preserving optional item effects. Lethal wounds and narrative clauses remain excluded."
+    },
+    {
+      "id": "move-completion-a07",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A07",
+      "fixtures": [
+        "completion_a07_ten_stat_attacks_use_exact_pools_recipients_and_six_only_success",
+        "completion_a07_stat_protections_chance_modifiers_and_historical_adoption"
+      ],
+      "scope": "Ten unconditional damaging stat clauses. Uses existing exact Chance pools, six-only success, ability/item modifiers, target protection, reflection, source-owned self changes and nonstacking stat channels."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -727,5 +737,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "23aa21bfb357eb9e9f2eb24531bec3c469feb58a6225220d17f0a2da931e4ac3"
+  "move_completion_registry_hash": "b4f48691a35f9e7abbf4d35a79dfc2f70aef6cc4bd269f96aa5dae30a9ed0a7d"
 }
