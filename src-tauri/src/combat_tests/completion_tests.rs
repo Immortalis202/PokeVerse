@@ -50,7 +50,15 @@ pub(super) fn cmd(c: &Campaign) -> Action {
     }
 }
 pub(super) fn pending(c: &Campaign, a: &str, t: &str, name: &str) -> Campaign {
-    let mut c = hit(c, a, t, name);
+    let action = Action::Accuracy {
+        combatant_id: a.into(),
+        target_id: Some(t.into()),
+        move_name: name.into(),
+        pool_modifier: 0,
+        success_modifier: 0,
+        reason: "Owner move accuracy".into(),
+    };
+    let mut c = roll(c, &p(c, a).owner_id, &action, 6);
     if c.battle.as_ref().unwrap().flow.as_ref().unwrap().window {
         c = pass(&c);
     }
@@ -328,4 +336,266 @@ fn completion_a03_area_recipients_reflection_and_historical_adoption() {
         .completion
         .blocks
         .is_empty());
+}
+
+fn ongoing(c: &Campaign, t: &str) -> (usize, crate::combat::special::TimedEffect) {
+    c.battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .special
+        .effects
+        .iter()
+        .enumerate()
+        .find(|(_, e)| e.target == t && e.name.starts_with("ongoing:"))
+        .map(|(i, e)| (i, e.clone()))
+        .unwrap()
+}
+fn tick_action(c: &Campaign, t: &str) -> Action {
+    Action::SpecialMove {
+        command: crate::combat::special::SpecialCommand::Tick {
+            index: ongoing(c, t).0 as u32,
+        },
+        reason: "Resolve due ongoing damage".into(),
+    }
+}
+fn round_end(c: &Campaign) -> Campaign {
+    let mut c = c.clone();
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .order
+        .clear();
+    decision(&c, "gm", Action::NextRound)
+}
+#[test]
+fn completion_a04_all_ten_moves_tick_once_per_round_and_expire_after_four_ticks() {
+    for name in [
+        "Bind",
+        "Clamp",
+        "Fire Spin",
+        "Infestation",
+        "Sand Tomb",
+        "Thunder Cage",
+        "Whirlpool",
+        "Wrap",
+        "Ceaseless Edge",
+        "Stone Axe",
+    ] {
+        let (c, a, t) = setup(name);
+        let c = pending(&c, &a, &t, name);
+        let hp = p(&c, &t).hp;
+        let mut c = resolve(&c);
+        assert_eq!(ongoing(&c, &t).1.rounds, Some(4));
+        assert_eq!(
+            completion::blocked(&c, &t),
+            !["Ceaseless Edge", "Stone Axe"].contains(&name)
+        );
+        assert_eq!(completion::blocked(&c, &a), name == "Clamp");
+        assert!(
+            rules::dice_count(&c, &tick_action(&c, &t), &catalog()).is_err(),
+            "no early ticks"
+        );
+        for i in 0..4 {
+            let round = c.battle.as_ref().unwrap().round;
+            c = round_end(&c);
+            assert_eq!(
+                c.battle.as_ref().unwrap().round,
+                round,
+                "end phase must wait for damage"
+            );
+            let action = tick_action(&c, &t);
+            assert_eq!(rules::dice_count(&c, &action, &catalog()).unwrap(), 2);
+            assert!(battle::transition(&c, "intruder", &action, vec![6, 1], &catalog()).is_err());
+            assert!(battle::transition(&c, "gm", &action, vec![6], &catalog()).is_err());
+            c = battle::transition(&c, "gm", &action, vec![6, 1], &catalog())
+                .unwrap()
+                .0;
+            assert_eq!(
+                p(&c, &t).hp,
+                hp - i - 1,
+                "{name}: two raw damage dice, no defense subtraction"
+            );
+            assert!(
+                battle::transition(&c, "gm", &action, vec![6, 6], &catalog()).is_err(),
+                "no second tick"
+            );
+            c = round_end(&c);
+            assert_eq!(c.battle.as_ref().unwrap().round, round + 1);
+        }
+        assert!(!c
+            .battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .special
+            .effects
+            .iter()
+            .any(|e| e.target == t && e.name.starts_with("ongoing:")));
+        assert!(!completion::blocked(&c, &t));
+        assert!(!completion::blocked(&c, &a));
+    }
+}
+#[test]
+fn completion_a04_first_source_priority_cleanup_and_unrelated_scene_block() {
+    let (c, a, t) = setup("Wrap");
+    let mut c = resolve(&pending(&c, &a, &t, "Wrap"));
+    turn(&mut c, &a, "Fire Spin");
+    c = resolve(&pending(&c, &a, &t, "Fire Spin"));
+    assert_eq!(ongoing(&c, &t).1.name, "ongoing:Wrap");
+    assert_eq!(
+        c.battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .special
+            .effects
+            .iter()
+            .filter(|e| e.name.starts_with("ongoing:"))
+            .count(),
+        1
+    );
+    turn(&mut c, &a, "Mean Look");
+    c = resolve(&pending(&c, &a, &t, "Mean Look"));
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .compound
+        .enabled = true;
+    turn(&mut c, &t, "Mortal Spin");
+    c = resolve(&pending(&c, &t, &a, "Mortal Spin"));
+    let effects = &c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .special
+        .effects;
+    assert!(!effects.iter().any(|e| e.target == t
+        && (e.name.starts_with("ongoing:")
+            || ["move-block:Wrap", "move-block:Fire Spin"].contains(&e.name.as_str()))));
+    assert!(
+        completion::blocked(&c, &t),
+        "Mean Look is not an ongoing-damage effect"
+    );
+    let (c, a, t) = setup("Clamp");
+    let mut c = resolve(&pending(&c, &a, &t, "Clamp"));
+    completion::cleanse(&mut c, &t);
+    assert!(!completion::blocked(&c, &a));
+    assert!(!completion::blocked(&c, &t));
+}
+#[test]
+fn completion_a04_damage_immunity_is_live_and_caster_can_leave_without_cancelling_ticks() {
+    for ability in ["Magic Guard", "Wonder Guard", ""] {
+        let (c, a, t) = setup("Bind");
+        let mut c = resolve(&pending(&c, &a, &t, "Bind"));
+        pm(&mut c, &t).selected_ability = ability.into();
+        pm(&mut c, &a).deployed = false;
+        let before = c.clone();
+        special::lifecycle(&before, &mut c, &catalog()).unwrap();
+        let c: Campaign = serde_json::from_value(serde_json::to_value(&c).unwrap()).unwrap();
+        let c = round_end(&c);
+        let hp = p(&c, &t).hp;
+        let before = serde_json::to_value(&c.battle).unwrap();
+        let action = tick_action(&c, &t);
+        let done = battle::transition(&c, "player", &action, vec![6, 6], &catalog())
+            .unwrap()
+            .0;
+        assert_eq!(
+            p(&done, &t).hp,
+            hp - if ability.is_empty() { 2 } else { 0 },
+            "{ability}"
+        );
+        let restored = decision(
+            &done,
+            "gm",
+            Action::RollbackBattle {
+                event_sequence: done.battle_undo.last().unwrap().event_sequence,
+                reason: "Undo ongoing tick".into(),
+            },
+        );
+        assert_eq!(serde_json::to_value(&restored.battle).unwrap(), before);
+    }
+    let (mut c, a, t) = setup("Bind");
+    pm(&mut c, &t).selected_ability = "Run Away".into();
+    let c = resolve(&pending(&c, &a, &t, "Bind"));
+    assert!(!completion::blocked(&c, &t));
+    assert!(ongoing(&c, &t).1.name.ends_with("Bind"));
+}
+#[test]
+fn completion_a04_sheer_force_recognizes_metadata_empty_ongoing_and_old_blocks_stay_old() {
+    let (mut c, a, t) = setup("Ceaseless Edge");
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .provenance_rules = true;
+    pm(&mut c, &a).selected_ability = "Sheer Force".into();
+    c = crate::combat::provenance::choose_sheer_force(
+        &c,
+        "player",
+        &a,
+        true,
+        "Trade effects for damage",
+        &[],
+    )
+    .unwrap()
+    .0;
+    let c = hit(&c, &a, &t, "Ceaseless Edge");
+    assert!(q(&c).sheer_force);
+    let c = pass(&c);
+    let c = roll(&c, "gm", &damage_command(&c), 1);
+    assert!(c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .queue
+        .is_empty());
+    assert!(!c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .special
+        .effects
+        .iter()
+        .any(|e| e.name.starts_with("ongoing:")));
+    assert_eq!(
+        completion::initial(BASIC_BLOCK_ENGINE)
+            .blocks
+            .into_iter()
+            .collect::<Vec<_>>(),
+        vec!["MOVE-A03"]
+    );
+    let (mut c, a, t) = setup("Bind");
+    c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
+        Box::new(completion::initial(BASIC_BLOCK_ENGINE));
+    let c = pending(&c, &a, &t, "Bind");
+    assert_eq!(
+        battle::transition(&c, "gm", &cmd(&c), vec![], &catalog())
+            .unwrap_err()
+            .code,
+        "manual_rule"
+    );
 }

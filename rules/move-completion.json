@@ -49,6 +49,123 @@
           "both": false
         }
       }
+    },
+    "MOVE-A04": {
+      "engine": "0.39.0-core",
+      "kind": "ongoing",
+      "scope": "Ten standard four-round ongoing moves: 2 typeless dice at round end, defenses ignored, first ongoing source only. Blocking is separate; Clamp blocks both participants. Source-defined evasion difficulty remains GM discretion. Cleanse removes the matching ongoing trap, not independent scene blocks.",
+      "moves": {
+        "Bind": {
+          "source": "Pokerole-Data/v3.0/Moves/Bind.json",
+          "sha256": "faf879c59a757423f006f4c6244bc2911c8a1627c14c097b8e4ed0d5fdd7976e",
+          "effect": "Single Target. Low Accuracy 1. Blocks. Ongoing Damage. Duration 4 Rounds. Increase the Target's difficultty to Evade at Storyteller's discretion.",
+          "rounds": 4,
+          "dice": 2,
+          "damage_type": "Neutral",
+          "block": true,
+          "both": false,
+          "evasion_gm": true
+        },
+        "Ceaseless Edge": {
+          "source": "Pokerole-Data/v3.0/Moves/Ceaseless Edge.json",
+          "sha256": "39e9ea62e9d3e4280b102c5e60f8c3b9f3dde31cb7a2bfea69ec544f677cd8e4",
+          "effect": "Single Target. Low Accuracy 2. High Critical. Cutter Move. Ongoing Damage with Duration of 4 Rounds.",
+          "rounds": 4,
+          "dice": 2,
+          "damage_type": "Neutral",
+          "block": false,
+          "both": false,
+          "evasion_gm": false
+        },
+        "Clamp": {
+          "source": "Pokerole-Data/v3.0/Moves/Clamp.json",
+          "sha256": "ecc7f0f330988f471fffedb820f0bca838f1d4d70354c9128517de301be5820d",
+          "effect": "Single Target. Low Accuracy 2. Block both User and Target. Ongoing Damage. Increase the Target's difficulty to Evade at Storyteller's discretion. Duration 4 Rounds.",
+          "rounds": 4,
+          "dice": 2,
+          "damage_type": "Neutral",
+          "block": true,
+          "both": true,
+          "evasion_gm": true
+        },
+        "Fire Spin": {
+          "source": "Pokerole-Data/v3.0/Moves/Fire Spin.json",
+          "sha256": "f6ff1ef42c5033f07c099adfe4cc78e16d7745f19368c4aed268dce752d44836",
+          "effect": "Single Target. Low Accuracy 2. Blocks. Ongoing Damage. Duration 4 Rounds. Increase the Target's difficulty to Evade at Storyteller's discretion.",
+          "rounds": 4,
+          "dice": 2,
+          "damage_type": "Neutral",
+          "block": true,
+          "both": false,
+          "evasion_gm": true
+        },
+        "Infestation": {
+          "source": "Pokerole-Data/v3.0/Moves/Infestation.json",
+          "sha256": "8af5cd22726c69267c1b103e879f7b99e37f83fca5fa5602ffe8a0c88d910144",
+          "effect": "Single Target. Blocks. Ongoing Damage. Duration 4 Rounds. Increase the Target's difficulty to Evade at Storyteller's discretion.",
+          "rounds": 4,
+          "dice": 2,
+          "damage_type": "Neutral",
+          "block": true,
+          "both": false,
+          "evasion_gm": true
+        },
+        "Sand Tomb": {
+          "source": "Pokerole-Data/v3.0/Moves/Sand Tomb.json",
+          "sha256": "8b4b608c1f488efc5eac458b7237bca4bbb4aea20bb7506c22ba81bc8d0408a7",
+          "effect": "Single Target. Low Accuracy 2. Ranged. Blocks. Ongoing Damage. Duration 4 Rounds. Increase the Target's difficulty to Evade at Storyteller's discretion.",
+          "rounds": 4,
+          "dice": 2,
+          "damage_type": "Neutral",
+          "block": true,
+          "both": false,
+          "evasion_gm": true
+        },
+        "Stone Axe": {
+          "source": "Pokerole-Data/v3.0/Moves/Stone Axe.json",
+          "sha256": "5ea5fe3c1125cbb8c4a635d584201e80432dd9ce2f641b9e95e857343552fee3",
+          "effect": "Single Target. Low Accuracy 2. High Critical. Cutter Move. Ongoing Damage. Duration 4 Rounds.",
+          "rounds": 4,
+          "dice": 2,
+          "damage_type": "Neutral",
+          "block": false,
+          "both": false,
+          "evasion_gm": false
+        },
+        "Thunder Cage": {
+          "source": "Pokerole-Data/v3.0/Moves/Thunder Cage.json",
+          "sha256": "798b980b80b35782ff942107d63d4e0afe756417e8d781811d07cb2153b3c7b8",
+          "effect": "Single Target. Blocks. Ongoing Damage. Duration 4 Rounds. Increase the Target's difficulty to Evade at Storyteller's discretion.",
+          "rounds": 4,
+          "dice": 2,
+          "damage_type": "Neutral",
+          "block": true,
+          "both": false,
+          "evasion_gm": true
+        },
+        "Whirlpool": {
+          "source": "Pokerole-Data/v3.0/Moves/Whirlpool.json",
+          "sha256": "63c7ccbda742604ea2253e64e5cd8b80e277ce1ec0c45aa810395bd72ff41e53",
+          "effect": "Single Target. Low Accuracy 2. Blocks. Ongoing Damage. Increase the Target's difficulty to Evade at Storyteller's discretion. Duration 4 Rounds. If a Target is out of range due to using the Move \"Dive\", this Move hits anyways.",
+          "rounds": 4,
+          "dice": 2,
+          "damage_type": "Neutral",
+          "block": true,
+          "both": false,
+          "evasion_gm": true
+        },
+        "Wrap": {
+          "source": "Pokerole-Data/v3.0/Moves/Wrap.json",
+          "sha256": "574c8f90c6579062ef75f3b8b19c21a922c3a35e789ebb9ff30a510ff1e03dd4",
+          "effect": "Single Target. Low Accuracy 1. Blocks. Ongoing Damage. Duration 4 Rounds. Increase the Target's difficulty to Evade at Storyteller's discretion.",
+          "rounds": 4,
+          "dice": 2,
+          "damage_type": "Neutral",
+          "block": true,
+          "both": false,
+          "evasion_gm": true
+        }
+      }
     }
   },
   "printed_review": {

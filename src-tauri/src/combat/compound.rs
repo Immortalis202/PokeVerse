@@ -467,6 +467,7 @@ pub fn poisoned(c: &mut Campaign, id: &str) -> Result<()> {
     Ok(())
 }
 fn cleanse(c: &mut Campaign, id: &str) -> Result<()> {
+    completion::cleanse(c, id);
     let side = fighter(c, id)?.side.clone();
     let affects = |scope: &str| {
         scope == "all"

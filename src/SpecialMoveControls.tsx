@@ -6,6 +6,7 @@ import type { SpecialCommand } from "./bindings/SpecialCommand";
 import { api, errorOf } from "./api";
 import RecurringMoveControls from "./RecurringMoveControls";
 import CompoundMoveControls from "./CompoundMoveControls";
+import MoveCompletionControls from "./MoveCompletionControls";
 
 export default function SpecialMoveControls({
   campaign,
@@ -85,6 +86,12 @@ export default function SpecialMoveControls({
   return (
     <section className="panel" aria-label="Special move automation">
       <h3>Special moves</h3>
+      <MoveCompletionControls
+        campaign={campaign}
+        playerId={playerId}
+        execute={execute}
+        disabled={disabled}
+      />
       <RecurringMoveControls
         campaign={campaign}
         playerId={playerId}

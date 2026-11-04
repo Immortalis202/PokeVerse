@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.38.0-core",
-  "release": "0.46.0",
-  "protocol": 47,
+  "engine": "0.39.0-core",
+  "release": "0.47.0",
+  "protocol": 48,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -678,6 +678,18 @@
         "completion_a03_area_recipients_reflection_and_historical_adoption"
       ],
       "scope": "Scene-long target blocking; Jaw Lock blocks both participants until either leaves or faints; normal/forced Switcher effects are prevented. Target exit ends its block; ordinary source departure does not end a whole-scene effect. Run Away remains immune."
+    },
+    {
+      "id": "move-completion-a04",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A04",
+      "fixtures": [
+        "completion_a04_all_ten_moves_tick_once_per_round_and_expire_after_four_ticks",
+        "completion_a04_first_source_priority_cleanup_and_unrelated_scene_block",
+        "completion_a04_damage_immunity_is_live_and_caster_can_leave_without_cancelling_ticks",
+        "completion_a04_sheer_force_recognizes_metadata_empty_ongoing_and_old_blocks_stay_old"
+      ],
+      "scope": "Ten standard four-round ongoing moves: 2 typeless dice at round end, defenses ignored, first ongoing source only. Blocking is separate; Clamp blocks both participants. Source-defined evasion difficulty remains GM discretion. Cleanse removes the matching ongoing trap, not independent scene blocks."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -694,5 +706,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "f6955ce6ab2a946998c6b9a6fc219847633883be928b230548766c0233281ccb"
+  "move_completion_registry_hash": "abeb44446a8b5a6c256810938b376873843a858f5ab5001868ca73b87850e470"
 }

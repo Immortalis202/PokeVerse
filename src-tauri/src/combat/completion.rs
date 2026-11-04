@@ -81,14 +81,21 @@ fn install(c: &mut Campaign, q: &QueuedAction, source: &str, target: &str) -> Re
         return Ok(());
     }
     let started = battle(c)?.round;
+    let (_, d) = definition(c, &q.move_name).unwrap();
+    let rounds = d["rounds"].as_u64().map(|n| n as u32);
+    let paired = d["both"] == true;
     flow_mut(c).special.effects.push(special::TimedEffect {
         name,
         source: source.into(),
         target: target.into(),
-        rounds: None,
+        rounds,
         amount: 0,
         started,
-        slot: String::new(),
+        slot: if paired {
+            "trap-pair".into()
+        } else {
+            String::new()
+        },
     });
     Ok(())
 }
@@ -105,12 +112,38 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
                 }
             }
         }
+        "ongoing" => {
+            if !immune_target(c, q, cat)? {
+                if d["block"] == true {
+                    install(c, q, &q.actor_id, &q.target_id)?;
+                    if d["both"] == true {
+                        install(c, q, &q.target_id, &q.actor_id)?;
+                    }
+                }
+                if !flow(c)?
+                    .special
+                    .effects
+                    .iter()
+                    .any(|e| e.target == q.target_id && e.name.starts_with("ongoing:"))
+                {
+                    flow_mut(c).special.effects.push(special::TimedEffect {
+                        name: format!("ongoing:{}", q.move_name),
+                        source: q.actor_id.clone(),
+                        target: q.target_id.clone(),
+                        rounds: Some(d["rounds"].as_u64().unwrap() as u32),
+                        amount: d["dice"].as_i64().unwrap() as i32,
+                        started: 0,
+                        slot: String::new(),
+                    });
+                }
+            }
+        }
         _ => return Ok(false),
     }
     Ok(true)
 }
 pub fn blocked(c: &Campaign, id: &str) -> bool {
-    if !flow(c).is_ok_and(|f| f.completion.blocks.contains("MOVE-A03")) {
+    if !flow(c).is_ok_and(|f| !f.completion.blocks.is_empty()) {
         return false;
     }
     let Ok(p) = special::registered(c, id) else {
@@ -125,7 +158,75 @@ pub fn blocked(c: &Campaign, id: &str) -> bool {
     flow(c).unwrap().special.effects.iter().any(|e| {
         e.target == id
             && e.name.starts_with("move-block:")
-            && (e.name != "move-block:Jaw Lock"
+            && ((e.name != "move-block:Jaw Lock" && e.slot != "trap-pair")
                 || special::registered(c, &e.source).is_ok_and(|p| p.deployed && p.hp > 0))
     })
+}
+
+pub fn tick_dice(c: &Campaign, e: &special::TimedEffect) -> Option<u32> {
+    let name = e.name.strip_prefix("ongoing:")?;
+    let (kind, d) = definition(c, name)?;
+    (kind == "ongoing").then(|| d["dice"].as_u64().unwrap() as u32)
+}
+pub fn tick(
+    c: &mut Campaign,
+    e: &special::TimedEffect,
+    dice: &[u8],
+    cat: &Catalog,
+) -> Result<bool> {
+    if tick_dice(c, e).is_none() {
+        return Ok(false);
+    }
+    let name = e.name.strip_prefix("ongoing:").unwrap();
+    let (_, d) = definition(c, name).unwrap();
+    let before = fighter(c, &e.target)?.hp;
+    field::hurt(
+        c,
+        &e.target,
+        rules::successes(dice),
+        d["damage_type"].as_str().unwrap(),
+        cat,
+    )?;
+    let lost = before - fighter(c, &e.target)?.hp;
+    ability_changes::record_sourced(c, &e.source, &e.target, lost, name);
+    Ok(true)
+}
+pub fn cleanse(c: &mut Campaign, id: &str) {
+    let paired: Vec<_> = flow(c)
+        .unwrap()
+        .special
+        .effects
+        .iter()
+        .filter(|e| e.target == id && e.slot == "trap-pair")
+        .filter(|e| {
+            e.name
+                .strip_prefix("move-block:")
+                .and_then(|n| definition(c, n))
+                .is_some_and(|(k, _)| k == "ongoing")
+        })
+        .map(|e| (e.name.clone(), e.source.clone()))
+        .collect();
+    let names: BTreeSet<_> = flow(c)
+        .unwrap()
+        .special
+        .effects
+        .iter()
+        .filter(|e| e.target == id)
+        .filter_map(|e| {
+            e.name
+                .strip_prefix("move-block:")
+                .filter(|n| definition(c, n).is_some_and(|(k, _)| k == "ongoing"))
+                .map(str::to_string)
+        })
+        .collect();
+    flow_mut(c).special.effects.retain(|e| {
+        !(e.target == id
+            && (e.name.starts_with("ongoing:")
+                || e.name
+                    .strip_prefix("move-block:")
+                    .is_some_and(|n| names.contains(n))))
+            && !paired
+                .iter()
+                .any(|(name, source)| e.name == *name && e.target == *source && e.source == id)
+    });
 }

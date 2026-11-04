@@ -1135,6 +1135,7 @@ pub fn transition(
     if let Some(setup) = field::start_setup(a) {
         if ![
             ENGINE,
+            BASIC_BLOCK_ENGINE,
             ENTRY_HAZARDS_ENGINE,
             DAMAGING_STATS_ENGINE,
             BATTLEFIELD_REVIEW_ENGINE,
@@ -1161,6 +1162,7 @@ pub fn transition(
             setup,
             [
                 ENGINE,
+                BASIC_BLOCK_ENGINE,
                 ENTRY_HAZARDS_ENGINE,
                 DAMAGING_STATS_ENGINE,
                 BATTLEFIELD_REVIEW_ENGINE,
@@ -3113,6 +3115,7 @@ fn transition_inner(
                 b.flow = Some(TurnFlow {
                     identity_moves: [
                         ENGINE,
+                        BASIC_BLOCK_ENGINE,
                         ENTRY_HAZARDS_ENGINE,
                         DAMAGING_STATS_ENGINE,
                         BATTLEFIELD_REVIEW_ENGINE,
@@ -3129,6 +3132,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     status_escalation: [
                         ENGINE,
+                        BASIC_BLOCK_ENGINE,
                         ENTRY_HAZARDS_ENGINE,
                         DAMAGING_STATS_ENGINE,
                         BATTLEFIELD_REVIEW_ENGINE,
@@ -3144,6 +3148,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     spite: [
                         ENGINE,
+                        BASIC_BLOCK_ENGINE,
                         ENTRY_HAZARDS_ENGINE,
                         DAMAGING_STATS_ENGINE,
                         BATTLEFIELD_REVIEW_ENGINE,
@@ -3158,6 +3163,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     will_drains: [
                         ENGINE,
+                        BASIC_BLOCK_ENGINE,
                         ENTRY_HAZARDS_ENGINE,
                         DAMAGING_STATS_ENGINE,
                         BATTLEFIELD_REVIEW_ENGINE,
@@ -3171,6 +3177,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     direct_status: [
                         ENGINE,
+                        BASIC_BLOCK_ENGINE,
                         ENTRY_HAZARDS_ENGINE,
                         DAMAGING_STATS_ENGINE,
                         BATTLEFIELD_REVIEW_ENGINE,
@@ -3183,6 +3190,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     chance_status: [
                         ENGINE,
+                        BASIC_BLOCK_ENGINE,
                         ENTRY_HAZARDS_ENGINE,
                         DAMAGING_STATS_ENGINE,
                         BATTLEFIELD_REVIEW_ENGINE,
@@ -3194,20 +3202,28 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     battlefield_review: [
                         ENGINE,
+                        BASIC_BLOCK_ENGINE,
                         ENTRY_HAZARDS_ENGINE,
                         DAMAGING_STATS_ENGINE,
                         BATTLEFIELD_REVIEW_ENGINE,
                     ]
                     .contains(&c.engine.as_str()),
-                    entry_hazards: [ENGINE, ENTRY_HAZARDS_ENGINE].contains(&c.engine.as_str()),
+                    entry_hazards: [ENGINE, BASIC_BLOCK_ENGINE, ENTRY_HAZARDS_ENGINE]
+                        .contains(&c.engine.as_str()),
                     completion: Box::new(completion::initial(&c.engine)),
                     damaging_stats: Box::new(damaging_stats::StatMoveState {
-                        enabled: [ENGINE, ENTRY_HAZARDS_ENGINE, DAMAGING_STATS_ENGINE]
-                            .contains(&c.engine.as_str()),
+                        enabled: [
+                            ENGINE,
+                            BASIC_BLOCK_ENGINE,
+                            ENTRY_HAZARDS_ENGINE,
+                            DAMAGING_STATS_ENGINE,
+                        ]
+                        .contains(&c.engine.as_str()),
                         ..Default::default()
                     }),
                     cure_protection: [
                         ENGINE,
+                        BASIC_BLOCK_ENGINE,
                         ENTRY_HAZARDS_ENGINE,
                         DAMAGING_STATS_ENGINE,
                         BATTLEFIELD_REVIEW_ENGINE,
@@ -3217,6 +3233,7 @@ fn transition_inner(
                     recurring: Box::new(recurring::RecurringState {
                         enabled: [
                             ENGINE,
+                            BASIC_BLOCK_ENGINE,
                             ENTRY_HAZARDS_ENGINE,
                             DAMAGING_STATS_ENGINE,
                             BATTLEFIELD_REVIEW_ENGINE,
@@ -3229,6 +3246,7 @@ fn transition_inner(
                     compound: compound::CompoundState {
                         enabled: [
                             ENGINE,
+                            BASIC_BLOCK_ENGINE,
                             ENTRY_HAZARDS_ENGINE,
                             DAMAGING_STATS_ENGINE,
                             BATTLEFIELD_REVIEW_ENGINE,
@@ -3241,6 +3259,7 @@ fn transition_inner(
                     },
                     house_rules: [
                         ENGINE,
+                        BASIC_BLOCK_ENGINE,
                         ENTRY_HAZARDS_ENGINE,
                         DAMAGING_STATS_ENGINE,
                         BATTLEFIELD_REVIEW_ENGINE,
@@ -3259,6 +3278,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     interaction_rules: [
                         ENGINE,
+                        BASIC_BLOCK_ENGINE,
                         ENTRY_HAZARDS_ENGINE,
                         DAMAGING_STATS_ENGINE,
                         BATTLEFIELD_REVIEW_ENGINE,
@@ -3280,6 +3300,7 @@ fn transition_inner(
                     standalone: standalone::StandaloneState {
                         enabled: [
                             ENGINE,
+                            BASIC_BLOCK_ENGINE,
                             ENTRY_HAZARDS_ENGINE,
                             DAMAGING_STATS_ENGINE,
                             BATTLEFIELD_REVIEW_ENGINE,
@@ -3304,6 +3325,7 @@ fn transition_inner(
                     information: information::InformationState {
                         enabled: [
                             ENGINE,
+                            BASIC_BLOCK_ENGINE,
                             ENTRY_HAZARDS_ENGINE,
                             DAMAGING_STATS_ENGINE,
                             BATTLEFIELD_REVIEW_ENGINE,
@@ -3329,6 +3351,7 @@ fn transition_inner(
                     forms: forms::FormState {
                         enabled: [
                             ENGINE,
+                            BASIC_BLOCK_ENGINE,
                             ENTRY_HAZARDS_ENGINE,
                             DAMAGING_STATS_ENGINE,
                             BATTLEFIELD_REVIEW_ENGINE,
@@ -3356,6 +3379,7 @@ fn transition_inner(
                         completion: items::completion::CompletionState {
                             enabled: [
                                 ENGINE,
+                                BASIC_BLOCK_ENGINE,
                                 ENTRY_HAZARDS_ENGINE,
                                 DAMAGING_STATS_ENGINE,
                                 BATTLEFIELD_REVIEW_ENGINE,
@@ -3377,6 +3401,7 @@ fn transition_inner(
                         },
                         enabled: [
                             ENGINE,
+                            BASIC_BLOCK_ENGINE,
                             ENTRY_HAZARDS_ENGINE,
                             DAMAGING_STATS_ENGINE,
                             BATTLEFIELD_REVIEW_ENGINE,
@@ -3404,6 +3429,7 @@ fn transition_inner(
                     events: events::EventState {
                         enabled: [
                             ENGINE,
+                            BASIC_BLOCK_ENGINE,
                             ENTRY_HAZARDS_ENGINE,
                             DAMAGING_STATS_ENGINE,
                             BATTLEFIELD_REVIEW_ENGINE,
@@ -3431,6 +3457,7 @@ fn transition_inner(
                     },
                     provenance_rules: [
                         ENGINE,
+                        BASIC_BLOCK_ENGINE,
                         ENTRY_HAZARDS_ENGINE,
                         DAMAGING_STATS_ENGINE,
                         BATTLEFIELD_REVIEW_ENGINE,
@@ -3458,6 +3485,7 @@ fn transition_inner(
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            BASIC_BLOCK_ENGINE,
                             ENTRY_HAZARDS_ENGINE,
                             DAMAGING_STATS_ENGINE,
                             BATTLEFIELD_REVIEW_ENGINE,
@@ -3488,6 +3516,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            BASIC_BLOCK_ENGINE,
                             ENTRY_HAZARDS_ENGINE,
                             DAMAGING_STATS_ENGINE,
                             BATTLEFIELD_REVIEW_ENGINE,
@@ -3518,6 +3547,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        BASIC_BLOCK_ENGINE,
                         ENTRY_HAZARDS_ENGINE,
                         DAMAGING_STATS_ENGINE,
                         BATTLEFIELD_REVIEW_ENGINE,
@@ -3548,6 +3578,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            BASIC_BLOCK_ENGINE,
                             ENTRY_HAZARDS_ENGINE,
                             DAMAGING_STATS_ENGINE,
                             BATTLEFIELD_REVIEW_ENGINE,
@@ -3581,6 +3612,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            BASIC_BLOCK_ENGINE,
                             ENTRY_HAZARDS_ENGINE,
                             DAMAGING_STATS_ENGINE,
                             BATTLEFIELD_REVIEW_ENGINE,
@@ -3615,6 +3647,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            BASIC_BLOCK_ENGINE,
                             ENTRY_HAZARDS_ENGINE,
                             DAMAGING_STATS_ENGINE,
                             BATTLEFIELD_REVIEW_ENGINE,
@@ -3650,6 +3683,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            BASIC_BLOCK_ENGINE,
                             ENTRY_HAZARDS_ENGINE,
                             DAMAGING_STATS_ENGINE,
                             BATTLEFIELD_REVIEW_ENGINE,
@@ -3686,6 +3720,7 @@ fn transition_inner(
                     special: Box::new(special::SpecialState {
                         enabled: [
                             ENGINE,
+                            BASIC_BLOCK_ENGINE,
                             ENTRY_HAZARDS_ENGINE,
                             DAMAGING_STATS_ENGINE,
                             BATTLEFIELD_REVIEW_ENGINE,
@@ -3722,6 +3757,7 @@ fn transition_inner(
                     }),
                     ability_rules: [
                         ENGINE,
+                        BASIC_BLOCK_ENGINE,
                         ENTRY_HAZARDS_ENGINE,
                         DAMAGING_STATS_ENGINE,
                         BATTLEFIELD_REVIEW_ENGINE,
@@ -3760,6 +3796,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            BASIC_BLOCK_ENGINE,
                             ENTRY_HAZARDS_ENGINE,
                             DAMAGING_STATS_ENGINE,
                             BATTLEFIELD_REVIEW_ENGINE,
@@ -3798,6 +3835,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            BASIC_BLOCK_ENGINE,
                             ENTRY_HAZARDS_ENGINE,
                             DAMAGING_STATS_ENGINE,
                             BATTLEFIELD_REVIEW_ENGINE,

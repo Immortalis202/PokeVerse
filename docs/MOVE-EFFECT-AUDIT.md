@@ -1,6 +1,6 @@
 # Move-effect audit: milestone 1
 
-Snapshot refreshed: 4 November 2026, app **0.46.0**, engine **0.38.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
+Snapshot refreshed: 4 November 2026, app **0.47.0**, engine **0.39.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
 
 ## Deliverables and limits
 
@@ -18,13 +18,13 @@ The diagnostic deliberately bypasses accuracy, damage, targeting expansion, acti
 
 | Effect-route result | Cards | Meaning |
 | --- | ---: | --- |
-| executable-scope | 534 | At least one probe resolves; only recorded scopes are asserted. |
+| executable-scope | 544 | At least one probe resolves; only recorded scopes are asserted. |
 | input-required | 12 | Existing handler requests a selection, resource, weather or other legitimate prerequisite. |
-| manual-effect-route | 307 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
+| manual-effect-route | 297 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
 | gm-choice | 1 | Hold Hands: narrative battle-ending decision remains with the storyteller. |
 | excluded | 38 | Supplied Max/Z cards and the user-excluded Sappy Seed. |
 
-These totals sum to 892. **307 manual-effect-route results remain after MOVE-A03. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
+These totals sum to 892. **297 manual-effect-route results remain after MOVE-A04. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
 
 | Focused status result | Cards |
 | --- | ---: |
@@ -193,7 +193,7 @@ A six triggers the single printed Chance pool. Serene Grace, Wonder Skin, Loaded
 
 New 0.36.0-core encounters enable the boxed `damaging_stats` state. Missing saved state defaults disabled; 0.35.0-core remains accepted with its previous M3 behavior. Protocol 45 carries the new state. App version is 0.44.0.
 
-**The whole move catalog is not complete.** The 307 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
+**The whole move catalog is not complete.** The 297 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
 
 
 ### MOVE-A01 verification (1 November 2026)
@@ -235,3 +235,15 @@ New 0.38.0-core encounters adopt MOVE-A03; prior 0.37.0-core retains MOVE-A02. S
 
 
 MOVE-A03 verification: all **824 Rust tests passed**, including the diagnostic and localhost/3v3 regressions with the boxed special-effect state. **74 frontend tests, 54 script/catalog checks, TypeScript, Rust formatting and diff checks passed.** After resolving the generated-name collision with item completion, both move-state and TurnFlow binding exports passed and TypeScript was checked again. Inventory: **534 executable scopes, 307 manual-effect routes**. No Clippy, app packages, native UI or physical-network acceptance was run.
+
+
+### MOVE-A04: standard ongoing damage (4 November 2026)
+
+Bind, Clamp, Fire Spin, Infestation, Sand Tomb, Thunder Cage, Whirlpool, Wrap, Ceaseless Edge and Stone Axe now install the source-defined four-round effect. RULING 80 supplies two typeless damage dice at round end, ignoring defenses; the first active ongoing source takes priority and later sources do not stack or wait in a hidden queue. Leech Seed is its own named damage/drain effect, not a source of the Ongoing Damage icon.
+
+Each round's roll is host-generated, source-owner/GM controlled, end-phase only and once per round. Both the ongoing clock and any separate Blocking clock expire after four ticks. Casts do not replay attack damage; ongoing rolls do not gain Chance-die modifiers or drain HP. Indirect-damage immunity remains live. The timed ongoing effect survives caster departure; Clamp's maintained paired grip releases on either participant's departure/fainting. Mortal Spin clears ongoing traps and their paired counterpart while retaining unrelated scene-long blocks. Source-defined increases to Evasion difficulty remain an explicit storyteller choice through existing GM roll modifiers.
+
+The move-effect controls now show readable Blocking/ongoing records and offer a due damage roll only to the source owner or GM, including a retired caster. Save/reconnect and rollback retain the pending roll clock. Old MOVE-A03 encounters do not adopt this block. App 0.47.0, engine 0.39.0-core, protocol 48. Magma Storm and Salt Cure's nonstandard damage clauses are the next separate block.
+
+
+MOVE-A04 verification: all nine MOVE-A03/A04 regression groups passed, plus the legacy Leech Seed, Mortal Spin cleanup, engine-adoption and two field round-clock regressions. All 125 binding exports passed serially. The 892-card / 1,784-scenario diagnostic was regenerated. **76 frontend tests, 54 script/catalog checks, TypeScript, Rust formatting and diff checks passed.** Inventory: **544 executable scopes, 297 manual-effect routes**. No packages, Clippy, native UI or physical-network acceptance was run.

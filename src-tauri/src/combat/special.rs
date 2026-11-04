@@ -277,10 +277,12 @@ pub fn dice(c: &Campaign, cmd: &SpecialCommand, cat: &Catalog) -> Result<u32> {
                 .effects
                 .get(*index as usize)
                 .ok_or_else(|| error("Effect changed"))?;
-            if e.started >= battle(c)?.round || !["Leech Seed"].contains(&e.name.as_str()) {
+            if e.started >= battle(c)?.round
+                || (e.name != "Leech Seed" && completion::tick_dice(c, e).is_none())
+            {
                 return Err(error("No pending ongoing roll"));
             }
-            2
+            completion::tick_dice(c, e).unwrap_or(2)
         }
         _ => 0,
     })
@@ -518,19 +520,21 @@ pub fn command(
         SpecialCommand::Tick { index } => {
             let e = state(c).effects[*index as usize].clone();
             own_registered(c, actor, &e.source)?;
-            let n = rules::successes(faces);
-            let before = fighter(c, &e.target)?.hp;
-            indirect(c, &e.target, n)?;
-            let dealt = before - fighter(c, &e.target)?.hp;
-            ability_changes::record_sourced(c, &e.source, &e.target, dealt, &e.name);
-            let ooze = fighter(c, &e.target)?.has_ability("Liquid Ooze");
-            if ooze {
-                let hp = fighter(c, &e.source)?.hp;
-                indirect(c, &e.source, dealt)?;
-                let lost = hp - fighter(c, &e.source)?.hp;
-                ability_changes::record_sourced(c, &e.target, &e.source, lost, "Liquid Ooze");
-            } else {
-                heal(c, &e.source, dealt, false)?;
+            if !completion::tick(c, &e, faces, cat)? {
+                let n = rules::successes(faces);
+                let before = fighter(c, &e.target)?.hp;
+                indirect(c, &e.target, n)?;
+                let dealt = before - fighter(c, &e.target)?.hp;
+                ability_changes::record_sourced(c, &e.source, &e.target, dealt, &e.name);
+                let ooze = fighter(c, &e.target)?.has_ability("Liquid Ooze");
+                if ooze {
+                    let hp = fighter(c, &e.source)?.hp;
+                    indirect(c, &e.source, dealt)?;
+                    let lost = hp - fighter(c, &e.source)?.hp;
+                    ability_changes::record_sourced(c, &e.target, &e.source, lost, "Liquid Ooze");
+                } else {
+                    heal(c, &e.source, dealt, false)?;
+                }
             }
             let round = battle(c)?.round;
             state_mut(c).effects[*index as usize].started = round;
@@ -902,7 +906,8 @@ pub fn lifecycle(_before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<
     }
     state_mut(c).effects.retain(|e| {
         (active.contains(&e.target) || ["Wish", "Shadow Force"].contains(&e.name.as_str()))
-            && (e.name != "move-block:Jaw Lock" || active.contains(&e.source))
+            && ((e.name != "move-block:Jaw Lock" && e.slot != "trap-pair")
+                || active.contains(&e.source))
     });
     let ids: Vec<_> = state(c)
         .rampages
@@ -3086,7 +3091,7 @@ pub fn allies(c: &Campaign, id: &str) -> Result<Vec<String>> {
 pub fn ticks_pending(c: &Campaign) -> bool {
     enabled(c)
         && state(c).effects.iter().any(|e| {
-            e.name == "Leech Seed"
+            (e.name == "Leech Seed" || completion::tick_dice(c, e).is_some())
                 && e.started < battle(c).unwrap().round
                 && registered(c, &e.target).is_ok_and(|p| p.hp > 0)
         })
