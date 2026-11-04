@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.43.0-core",
-  "release": "0.51.0",
-  "protocol": 52,
+  "engine": "0.44.0-core",
+  "release": "0.52.0",
+  "protocol": 53,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -732,6 +732,17 @@
         "completion_a08_battlefield_grass_effects_include_both_sides_and_retain_historical_gate"
       ],
       "scope": "Eight Support stat cards: exact printed recipients, typing/weather predicates, non-Ghost Curse, battlefield Grass recipients and Coaching excluding the user. Meditate follows its prose Special/Sp. Defense rather than the inconsistent structured Strength field. Existing stat-protection and nonstacking channels remain."
+    },
+    {
+      "id": "move-completion-a09",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A09",
+      "fixtures": [
+        "completion_a09_all_ten_damage_rules_finish_without_manual_effects",
+        "completion_a09_special_attacks_resist_with_physical_defense_without_category_change",
+        "completion_a09_weather_ball_preserves_all_weather_types_and_two_bonus_dice"
+      ],
+      "scope": "Ten attacks with defense/critical/weather rules: ignores defenses, Special damage resisted with Defense without changing category, existing AlwaysCrit and Weather Ball type/+2 weather dice. Ordinary completion retains held-item effects; historical adoption stays unchanged."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -748,5 +759,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "d5ea8ba33a882eb547cb7c02f739b7692a234f0f8a2b21bf9bf0de1d539fc499"
+  "move_completion_registry_hash": "917d3e0dc0aa53d2e5023e5902e78e788b6452d94241a32d49dcadbd875b1d2c"
 }

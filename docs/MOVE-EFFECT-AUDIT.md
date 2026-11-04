@@ -1,6 +1,6 @@
 # Move-effect audit: milestone 1
 
-Snapshot refreshed: 4 November 2026, app **0.51.0**, engine **0.43.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
+Snapshot refreshed: 4 November 2026, app **0.52.0**, engine **0.44.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
 
 ## Deliverables and limits
 
@@ -18,13 +18,13 @@ The diagnostic deliberately bypasses accuracy, damage, targeting expansion, acti
 
 | Effect-route result | Cards | Meaning |
 | --- | ---: | --- |
-| executable-scope | 632 | At least one probe resolves; only recorded scopes are asserted. |
+| executable-scope | 642 | At least one probe resolves; only recorded scopes are asserted. |
 | input-required | 12 | Existing handler requests a selection, resource, weather or other legitimate prerequisite. |
-| manual-effect-route | 209 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
+| manual-effect-route | 199 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
 | gm-choice | 1 | Hold Hands: narrative battle-ending decision remains with the storyteller. |
 | excluded | 38 | Supplied Max/Z cards and the user-excluded Sappy Seed. |
 
-These totals sum to 892. **209 manual-effect-route results remain after MOVE-A08. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
+These totals sum to 892. **199 manual-effect-route results remain after MOVE-A09. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
 
 | Focused status result | Cards |
 | --- | ---: |
@@ -193,7 +193,7 @@ A six triggers the single printed Chance pool. Serene Grace, Wonder Skin, Loaded
 
 New 0.36.0-core encounters enable the boxed `damaging_stats` state. Missing saved state defaults disabled; 0.35.0-core remains accepted with its previous M3 behavior. Protocol 45 carries the new state. App version is 0.44.0.
 
-**The whole move catalog is not complete.** The 209 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
+**The whole move catalog is not complete.** The 199 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
 
 
 ### MOVE-A01 verification (1 November 2026)
@@ -281,3 +281,10 @@ Meditate's exact source prose says Special and Sp. Defense; its structured StatC
 
 
 MOVE-A08 validation: public self/ally/battlefield commands cover every card, type exclusions, sunny Growth, Ghost-user rejection, Coaching target legality and multiple selected recipients; permanent sheets remain unchanged. All completion/stat regressions, adjacent status/field clocks, historical gates, binding exports, the 892-card route inventory, frontend/script tests, TypeScript, formatting and diff checks are refreshed.
+
+
+### MOVE-A09: defense, critical and weather attacks (4 November 2026)
+
+Darkest Lariat and Sacred Sword ignore defenses. Psyshock, Psystrike and Secret Sword use Defense throughout damage calculation and target-defense ordering while retaining Special category and the printed attacking attribute. Frost Breath, Storm Throw, Wicked Blow and Flower Trick retain the existing AlwaysCrit machinery. Weather Ball retains the existing six-weather type mapping and two bonus dice. All ten finish after damage while retaining optional item effects; earlier encounter gates preserve prior routes and defense calculations. App 0.52.0, engine 0.44.0-core, protocol 53.
+
+Validation exercises all ten through accuracy and damage, guarantees criticals at one net success, compares different physical/special defenses and historical states, and checks all ordinary weather mappings and exactly two additional Weather Ball dice. Completion/stat regressions, adjacent status/field checks, engine gates, binding exports, route inventory, frontend/script tests, TypeScript and formatting are refreshed.

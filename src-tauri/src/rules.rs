@@ -224,6 +224,7 @@ pub fn accuracy(
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
     if [
         ENGINE,
+        SUPPORT_STAT_MOVES_ENGINE,
         REMAINING_STAT_ATTACKS_ENGINE,
         ORDINARY_ATTACKS_ENGINE,
         ONGOING_EXCEPTIONS_ENGINE,
@@ -380,14 +381,18 @@ pub fn damage_pool(
         }
         return Ok(pool);
     }
-    let defense_source = match m["Category"].as_str() {
-        Some("Physical") => "Vitality",
-        Some("Special") => "Insight",
-        _ => {
-            return Err(AppError::new(
-                "manual_rule",
-                "This move has no ordinary damage pool",
-            ))
+    let defense_source = if crate::combat::completion::physical_defense(c, &m) {
+        "Vitality"
+    } else {
+        match m["Category"].as_str() {
+            Some("Physical") => "Vitality",
+            Some("Special") => "Insight",
+            _ => {
+                return Err(AppError::new(
+                    "manual_rule",
+                    "This move has no ordinary damage pool",
+                ))
+            }
         }
     };
     let attribute_source = m["Damage1"].as_str().unwrap_or_default();

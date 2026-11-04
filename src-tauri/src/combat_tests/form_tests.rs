@@ -901,6 +901,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
     let ended = decision(&c, "gm", Action::EndBattle);
     for engine in [
         ENGINE,
+        SUPPORT_STAT_MOVES_ENGINE,
         REMAINING_STAT_ATTACKS_ENGINE,
         ORDINARY_ATTACKS_ENGINE,
         ONGOING_EXCEPTIONS_ENGINE,
@@ -944,6 +945,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.entry_hazards,
             [
                 ENGINE,
+                SUPPORT_STAT_MOVES_ENGINE,
                 REMAINING_STAT_ATTACKS_ENGINE,
                 ORDINARY_ATTACKS_ENGINE,
                 ONGOING_EXCEPTIONS_ENGINE,
@@ -954,17 +956,27 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             .contains(&engine)
         );
         assert_eq!(
-            flow.completion.blocks.contains("MOVE-A08"),
+            flow.completion.blocks.contains("MOVE-A09"),
             engine == ENGINE
         );
         assert_eq!(
+            flow.completion.blocks.contains("MOVE-A08"),
+            [ENGINE, SUPPORT_STAT_MOVES_ENGINE].contains(&engine)
+        );
+        assert_eq!(
             flow.completion.blocks.contains("MOVE-A07"),
-            [ENGINE, REMAINING_STAT_ATTACKS_ENGINE].contains(&engine)
+            [
+                ENGINE,
+                SUPPORT_STAT_MOVES_ENGINE,
+                REMAINING_STAT_ATTACKS_ENGINE
+            ]
+            .contains(&engine)
         );
         assert_eq!(
             flow.completion.blocks.contains("MOVE-A06"),
             [
                 ENGINE,
+                SUPPORT_STAT_MOVES_ENGINE,
                 REMAINING_STAT_ATTACKS_ENGINE,
                 ORDINARY_ATTACKS_ENGINE
             ]
@@ -974,6 +986,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A05"),
             [
                 ENGINE,
+                SUPPORT_STAT_MOVES_ENGINE,
                 REMAINING_STAT_ATTACKS_ENGINE,
                 ORDINARY_ATTACKS_ENGINE,
                 ONGOING_EXCEPTIONS_ENGINE
@@ -984,6 +997,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A04"),
             [
                 ENGINE,
+                SUPPORT_STAT_MOVES_ENGINE,
                 REMAINING_STAT_ATTACKS_ENGINE,
                 ORDINARY_ATTACKS_ENGINE,
                 ONGOING_EXCEPTIONS_ENGINE,
@@ -995,6 +1009,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A03"),
             [
                 ENGINE,
+                SUPPORT_STAT_MOVES_ENGINE,
                 REMAINING_STAT_ATTACKS_ENGINE,
                 ORDINARY_ATTACKS_ENGINE,
                 ONGOING_EXCEPTIONS_ENGINE,
@@ -1007,6 +1022,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.damaging_stats.enabled,
             [
                 ENGINE,
+                SUPPORT_STAT_MOVES_ENGINE,
                 REMAINING_STAT_ATTACKS_ENGINE,
                 ORDINARY_ATTACKS_ENGINE,
                 ONGOING_EXCEPTIONS_ENGINE,
@@ -1021,6 +1037,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.battlefield_review,
             [
                 ENGINE,
+                SUPPORT_STAT_MOVES_ENGINE,
                 REMAINING_STAT_ATTACKS_ENGINE,
                 ORDINARY_ATTACKS_ENGINE,
                 ONGOING_EXCEPTIONS_ENGINE,
@@ -1036,6 +1053,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.direct_status,
             [
                 ENGINE,
+                SUPPORT_STAT_MOVES_ENGINE,
                 REMAINING_STAT_ATTACKS_ENGINE,
                 ORDINARY_ATTACKS_ENGINE,
                 ONGOING_EXCEPTIONS_ENGINE,
@@ -1056,6 +1074,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.chance_status,
             [
                 ENGINE,
+                SUPPORT_STAT_MOVES_ENGINE,
                 REMAINING_STAT_ATTACKS_ENGINE,
                 ORDINARY_ATTACKS_ENGINE,
                 ONGOING_EXCEPTIONS_ENGINE,
@@ -1075,6 +1094,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.compound.enabled,
             [
                 ENGINE,
+                SUPPORT_STAT_MOVES_ENGINE,
                 REMAINING_STAT_ATTACKS_ENGINE,
                 ORDINARY_ATTACKS_ENGINE,
                 ONGOING_EXCEPTIONS_ENGINE,
@@ -1093,6 +1113,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.recurring.enabled,
             [
                 ENGINE,
+                SUPPORT_STAT_MOVES_ENGINE,
                 REMAINING_STAT_ATTACKS_ENGINE,
                 ORDINARY_ATTACKS_ENGINE,
                 ONGOING_EXCEPTIONS_ENGINE,
@@ -1110,6 +1131,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.battlefield_review,
             [
                 ENGINE,
+                SUPPORT_STAT_MOVES_ENGINE,
                 REMAINING_STAT_ATTACKS_ENGINE,
                 ORDINARY_ATTACKS_ENGINE,
                 ONGOING_EXCEPTIONS_ENGINE,
@@ -1125,6 +1147,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.cure_protection,
             [
                 ENGINE,
+                SUPPORT_STAT_MOVES_ENGINE,
                 REMAINING_STAT_ATTACKS_ENGINE,
                 ORDINARY_ATTACKS_ENGINE,
                 ONGOING_EXCEPTIONS_ENGINE,
@@ -1141,6 +1164,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.spite,
             [
                 ENGINE,
+                SUPPORT_STAT_MOVES_ENGINE,
                 REMAINING_STAT_ATTACKS_ENGINE,
                 ORDINARY_ATTACKS_ENGINE,
                 ONGOING_EXCEPTIONS_ENGINE,
@@ -1163,6 +1187,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.will_drains,
             [
                 ENGINE,
+                SUPPORT_STAT_MOVES_ENGINE,
                 REMAINING_STAT_ATTACKS_ENGINE,
                 ORDINARY_ATTACKS_ENGINE,
                 ONGOING_EXCEPTIONS_ENGINE,
@@ -1184,6 +1209,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.status_escalation,
             [
                 ENGINE,
+                SUPPORT_STAT_MOVES_ENGINE,
                 REMAINING_STAT_ATTACKS_ENGINE,
                 ORDINARY_ATTACKS_ENGINE,
                 ONGOING_EXCEPTIONS_ENGINE,
@@ -1207,6 +1233,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.identity_moves,
             [
                 ENGINE,
+                SUPPORT_STAT_MOVES_ENGINE,
                 REMAINING_STAT_ATTACKS_ENGINE,
                 ORDINARY_ATTACKS_ENGINE,
                 ONGOING_EXCEPTIONS_ENGINE,
@@ -1231,6 +1258,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.interaction_rules,
             [
                 ENGINE,
+                SUPPORT_STAT_MOVES_ENGINE,
                 REMAINING_STAT_ATTACKS_ENGINE,
                 ORDINARY_ATTACKS_ENGINE,
                 ONGOING_EXCEPTIONS_ENGINE,
@@ -1259,6 +1287,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.items.completion.enabled,
             [
                 ENGINE,
+                SUPPORT_STAT_MOVES_ENGINE,
                 REMAINING_STAT_ATTACKS_ENGINE,
                 ORDINARY_ATTACKS_ENGINE,
                 ONGOING_EXCEPTIONS_ENGINE,
@@ -1286,6 +1315,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.house_rules,
             [
                 ENGINE,
+                SUPPORT_STAT_MOVES_ENGINE,
                 REMAINING_STAT_ATTACKS_ENGINE,
                 ORDINARY_ATTACKS_ENGINE,
                 ONGOING_EXCEPTIONS_ENGINE,
@@ -1312,6 +1342,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.forms.enabled,
             [
                 ENGINE,
+                SUPPORT_STAT_MOVES_ENGINE,
                 REMAINING_STAT_ATTACKS_ENGINE,
                 ORDINARY_ATTACKS_ENGINE,
                 ONGOING_EXCEPTIONS_ENGINE,
@@ -1343,6 +1374,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.information.enabled,
             [
                 ENGINE,
+                SUPPORT_STAT_MOVES_ENGINE,
                 REMAINING_STAT_ATTACKS_ENGINE,
                 ORDINARY_ATTACKS_ENGINE,
                 ONGOING_EXCEPTIONS_ENGINE,
@@ -1373,6 +1405,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.standalone.enabled,
             [
                 ENGINE,
+                SUPPORT_STAT_MOVES_ENGINE,
                 REMAINING_STAT_ATTACKS_ENGINE,
                 ORDINARY_ATTACKS_ENGINE,
                 ONGOING_EXCEPTIONS_ENGINE,

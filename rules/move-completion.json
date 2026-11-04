@@ -727,6 +727,83 @@
           "exclude_self": true
         }
       }
+    },
+    "MOVE-A09": {
+      "engine": "0.44.0-core",
+      "kind": "damage-rules",
+      "scope": "Ten attacks with defense/critical/weather rules: ignores defenses, Special damage resisted with Defense without changing category, existing AlwaysCrit and Weather Ball type/+2 weather dice. Ordinary completion retains held-item effects; historical adoption stays unchanged.",
+      "moves": {
+        "Darkest Lariat": {
+          "source": "Pokerole-Data/v3.0/Moves/Darkest Lariat.json",
+          "sha256": "9fedaebc2648dba93a727d983541b50727986bb74d73a854e3b356392f088cd9",
+          "effect": "Single Target. Ignore Defenses.",
+          "ignore_defense": true,
+          "physical_defense": false
+        },
+        "Sacred Sword": {
+          "source": "Pokerole-Data/v3.0/Moves/Sacred Sword.json",
+          "sha256": "7155c4af0fea81f9d1cac7ef2caef7fc4a92f056a7a822857f5f093234f4f417",
+          "effect": "Single Target. Cutter Move. Ignore Defenses.",
+          "ignore_defense": true,
+          "physical_defense": false
+        },
+        "Psyshock": {
+          "source": "Pokerole-Data/v3.0/Moves/Psyshock.json",
+          "sha256": "e42feaaed393f67927d2c7c0cc6117a3ab3f7bcfd28e5523b636f0d7599fcda4",
+          "effect": "Single Target. This Move is resisted with the Target's Defense instead of its Sp. Defense.",
+          "ignore_defense": false,
+          "physical_defense": true
+        },
+        "Psystrike": {
+          "source": "Pokerole-Data/v3.0/Moves/Psystrike.json",
+          "sha256": "487b708e319e68ed5bec448871fd5443a73eae5ef536da68b144ed820f61c8d6",
+          "effect": "Single Target. Lethal. Unique. This Move is resisted with the Foe's Defense instead of its Sp. Defense.",
+          "ignore_defense": false,
+          "physical_defense": true
+        },
+        "Secret Sword": {
+          "source": "Pokerole-Data/v3.0/Moves/Secret Sword.json",
+          "sha256": "44a7dfdf2ea41cfc5b5fe035c12c13e0ef62eb4c7238774802d75510a6f0e39d",
+          "effect": "Single Target. Cutter Move. Apply the Target's Defense instead of its Sp. Defense to resist the Damage from this Move.",
+          "ignore_defense": false,
+          "physical_defense": true
+        },
+        "Frost Breath": {
+          "source": "Pokerole-Data/v3.0/Moves/Frost Breath.json",
+          "sha256": "e5745f3f794564df50bd908a8a88da35f27a7508538b17c1da1b35a96a3e03cc",
+          "effect": "Single Target. Low Accuracy 1. This Move is always considered to be a Critical hit and gets the proper Bonus for it.",
+          "ignore_defense": false,
+          "physical_defense": false
+        },
+        "Storm Throw": {
+          "source": "Pokerole-Data/v3.0/Moves/Storm Throw.json",
+          "sha256": "bef82c784b2a8a8fd20c59aa31ab5c9056a4ab58305a09ece13ff2f3331f493d",
+          "effect": "Single Target. This Move is always considered to be a Critical Hit and gets the proper Bonus for it.",
+          "ignore_defense": false,
+          "physical_defense": false
+        },
+        "Wicked Blow": {
+          "source": "Pokerole-Data/v3.0/Moves/Wicked Blow.json",
+          "sha256": "5556080a5679f751860643246cb2d0293bfa7ced08fee7ae79012be694b982f6",
+          "effect": "Single Target. Lethal. Fist Move. If the Accuracy Roll is successful, this Move becomes a Critical Hit.",
+          "ignore_defense": false,
+          "physical_defense": false
+        },
+        "Flower Trick": {
+          "source": "Pokerole-Data/v3.0/Moves/Flower Trick.json",
+          "sha256": "ec70c4daaa340ce5e273e18d6e15f9ab1d4ce7cb0ed2a7bf34dd8b3d1fa1b26f",
+          "effect": "Single Target. Never Miss. This Move is always considered to be a Critical Hit and gets the proper Bonus for it.",
+          "ignore_defense": false,
+          "physical_defense": false
+        },
+        "Weather Ball": {
+          "source": "Pokerole-Data/v3.0/Moves/Weather Ball.json",
+          "sha256": "b2c490331767c95dee743a1ca3fa7f35a229daf373d9318123c3195a69f8deb7",
+          "effect": "Single Target. Projectile Move. *If there is a weather condition on the field, add 2 Extra Dice to the Damage Pool. This Move's type will change according to the Weather. Sun/Fire, Rain/Water, Hail or Snow/Ice, Sand/Rock, Wind/Flying.",
+          "ignore_defense": false,
+          "physical_defense": false
+        }
+      }
     }
   },
   "printed_review": {

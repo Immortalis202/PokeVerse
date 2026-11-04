@@ -1,7 +1,7 @@
 {
   "batch": "M4-S01",
   "scope": "Exact JSON ordinary Ability1 and Ability2 only; no hidden/event slots, battle automation or printed certification.",
-  "catalog_hash": "6f80b89175f4f19e8915977ab8895952cd48db937564b9a5063af36857be0bdb",
+  "catalog_hash": "188a8f1ac314516b2d6098c5c01c0d5755e8b2ec5dc4c5f6726b37740e23356e",
   "species_compared": 1200,
   "slots_compared": 2400,
   "differences": [],

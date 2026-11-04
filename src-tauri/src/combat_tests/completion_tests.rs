@@ -989,3 +989,150 @@ fn completion_a08_battlefield_grass_effects_include_both_sides_and_retain_histor
     assert!(!completion::excludes_self(&c, "Coaching"));
     assert_eq!(stat(&c, &a, "Special"), 0);
 }
+fn queued_damage_pool(c: &Campaign) -> rules::DamagePool {
+    let mut temp = c.clone();
+    let q = q(c);
+    pm(&mut temp, &q.actor_id).pending_damage = Some(PendingDamage {
+        sequence: q.sequence,
+        target_id: q.target_id.clone(),
+        move_name: q.move_name.clone(),
+        critical: q.critical,
+    });
+    rules::damage_pool(&temp, &q.actor_id, q.sequence, 0, &catalog()).unwrap()
+}
+fn ordinary_accuracy(c: &Campaign, a: &str, t: &str, name: &str) -> Campaign {
+    let m = catalog().find("moves", "Name", name).unwrap();
+    let action = Action::Accuracy {
+        combatant_id: a.into(),
+        target_id: Some(t.into()),
+        move_name: name.into(),
+        pool_modifier: 0,
+        success_modifier: 1 - m["Attributes"]["AccuracyReduction"].as_i64().unwrap_or(0) as i32,
+        reason: "Exactly one success after printed difficulty".into(),
+    };
+    let mut c = roll(c, "gm", &action, 1);
+    if c.battle.as_ref().unwrap().flow.as_ref().unwrap().window {
+        c = pass(&c);
+    }
+    c
+}
+#[test]
+fn completion_a09_all_ten_damage_rules_finish_without_manual_effects() {
+    for name in [
+        "Darkest Lariat",
+        "Sacred Sword",
+        "Psyshock",
+        "Psystrike",
+        "Secret Sword",
+        "Frost Breath",
+        "Storm Throw",
+        "Wicked Blow",
+        "Flower Trick",
+        "Weather Ball",
+    ] {
+        let (c, a, t) = setup(name);
+        let c = ordinary_accuracy(&c, &a, &t, name);
+        assert_eq!(q(&c).successes, 1, "{name}");
+        let expected =
+            ["Frost Breath", "Storm Throw", "Wicked Blow", "Flower Trick"].contains(&name);
+        assert_eq!(q(&c).critical, expected, "{name}");
+        let pool = queued_damage_pool(&c);
+        assert_eq!(pool.critical > 0, expected, "{name}");
+        if ["Darkest Lariat", "Sacred Sword"].contains(&name) {
+            assert_eq!(pool.defense, 0, "{name}");
+        }
+        let after = roll(&c, "gm", &damage_command(&c), 4);
+        assert!(
+            after
+                .battle
+                .as_ref()
+                .unwrap()
+                .flow
+                .as_ref()
+                .unwrap()
+                .queue
+                .is_empty(),
+            "{name}"
+        );
+        assert_eq!(p(&after, &a).actions, 1);
+    }
+}
+#[test]
+fn completion_a09_special_attacks_resist_with_physical_defense_without_category_change() {
+    for name in ["Psyshock", "Psystrike", "Secret Sword"] {
+        let (mut c, a, t) = setup(name);
+        let sid = p(&c, &t).sheet_id.clone();
+        c.sheets
+            .get_mut(&sid)
+            .unwrap()
+            .stats
+            .insert("Vitality".into(), 5);
+        c.sheets
+            .get_mut(&sid)
+            .unwrap()
+            .stats
+            .insert("Insight".into(), 1);
+        let queued = ordinary_accuracy(&c, &a, &t, name);
+        assert_eq!(q(&queued).defense_key, "Defense");
+        let pool = queued_damage_pool(&queued);
+        let target = rules::effective_sheet(&queued, p(&queued, &t)).unwrap();
+        assert_eq!(
+            pool.defense,
+            crate::creation::profile_stats(&target)["Defense"]
+        );
+        assert_eq!(
+            catalog().find("moves", "Name", name).unwrap()["Category"],
+            "Special"
+        );
+        c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
+            Box::new(completion::initial(SUPPORT_STAT_MOVES_ENGINE));
+        let old = ordinary_accuracy(&c, &a, &t, name);
+        assert_eq!(q(&old).defense_key, "SpecialDefense");
+        let oldpool = queued_damage_pool(&old);
+        assert_eq!(
+            oldpool.defense,
+            crate::creation::profile_stats(&target)["SpecialDefense"]
+        );
+    }
+}
+#[test]
+fn completion_a09_weather_ball_preserves_all_weather_types_and_two_bonus_dice() {
+    use crate::combat::field::{self, Weather};
+    for (w, expected) in [
+        (Weather::Sunny, "Fire"),
+        (Weather::Rain, "Water"),
+        (Weather::Snow, "Ice"),
+        (Weather::Hail, "Ice"),
+        (Weather::Sandstorm, "Rock"),
+        (Weather::StrongWinds, "Flying"),
+    ] {
+        let (mut c, a, t) = setup("Weather Ball");
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .battlefield
+            .natural = Some(w);
+        let m = catalog().find("moves", "Name", "Weather Ball").unwrap();
+        let resolved = field::move_data(&c, p(&c, &a), &m);
+        assert_eq!(resolved["Type"], expected);
+        let mut control = resolved.clone();
+        control["Name"] = "Weather control".into();
+        assert_eq!(
+            field::bonus(&c, p(&c, &a), &resolved) - field::bonus(&c, p(&c, &a), &control),
+            2
+        );
+        let c = pending(&c, &a, &t, "Weather Ball");
+        assert!(c
+            .battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .queue
+            .is_empty());
+    }
+}

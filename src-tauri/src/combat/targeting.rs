@@ -27,6 +27,7 @@ pub struct FieldEffect {
 pub(super) fn require_targeting(c: &Campaign) -> Result<()> {
     if ![
         ENGINE,
+        SUPPORT_STAT_MOVES_ENGINE,
         REMAINING_STAT_ATTACKS_ENGINE,
         ORDINARY_ATTACKS_ENGINE,
         ONGOING_EXCEPTIONS_ENGINE,
@@ -271,7 +272,7 @@ pub(super) fn plan(
         return Err(error("User and allies targeting must include the user"));
     }
     // Highest defense first; stable IDs resolve equal defenses consistently.
-    let defense_key = if m["Category"] == "Physical" {
+    let defense_key = if m["Category"] == "Physical" || completion::physical_defense(c, &m) {
         "Defense"
     } else {
         "SpecialDefense"

@@ -1135,6 +1135,7 @@ pub fn transition(
     if let Some(setup) = field::start_setup(a) {
         if ![
             ENGINE,
+            SUPPORT_STAT_MOVES_ENGINE,
             REMAINING_STAT_ATTACKS_ENGINE,
             ORDINARY_ATTACKS_ENGINE,
             ONGOING_EXCEPTIONS_ENGINE,
@@ -1166,6 +1167,7 @@ pub fn transition(
             setup,
             [
                 ENGINE,
+                SUPPORT_STAT_MOVES_ENGINE,
                 REMAINING_STAT_ATTACKS_ENGINE,
                 ORDINARY_ATTACKS_ENGINE,
                 ONGOING_EXCEPTIONS_ENGINE,
@@ -2012,7 +2014,7 @@ fn transition_inner(
                 q.field_scope = field_scope;
                 q.defense_key = if tactics::enabled(c) && m["Category"] == "Support" {
                     "Support"
-                } else if m["Category"] == "Physical" {
+                } else if m["Category"] == "Physical" || completion::physical_defense(c, &m) {
                     "Defense"
                 } else {
                     "SpecialDefense"
@@ -3123,6 +3125,7 @@ fn transition_inner(
                 b.flow = Some(TurnFlow {
                     identity_moves: [
                         ENGINE,
+                        SUPPORT_STAT_MOVES_ENGINE,
                         REMAINING_STAT_ATTACKS_ENGINE,
                         ORDINARY_ATTACKS_ENGINE,
                         ONGOING_EXCEPTIONS_ENGINE,
@@ -3144,6 +3147,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     status_escalation: [
                         ENGINE,
+                        SUPPORT_STAT_MOVES_ENGINE,
                         REMAINING_STAT_ATTACKS_ENGINE,
                         ORDINARY_ATTACKS_ENGINE,
                         ONGOING_EXCEPTIONS_ENGINE,
@@ -3164,6 +3168,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     spite: [
                         ENGINE,
+                        SUPPORT_STAT_MOVES_ENGINE,
                         REMAINING_STAT_ATTACKS_ENGINE,
                         ORDINARY_ATTACKS_ENGINE,
                         ONGOING_EXCEPTIONS_ENGINE,
@@ -3183,6 +3188,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     will_drains: [
                         ENGINE,
+                        SUPPORT_STAT_MOVES_ENGINE,
                         REMAINING_STAT_ATTACKS_ENGINE,
                         ORDINARY_ATTACKS_ENGINE,
                         ONGOING_EXCEPTIONS_ENGINE,
@@ -3201,6 +3207,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     direct_status: [
                         ENGINE,
+                        SUPPORT_STAT_MOVES_ENGINE,
                         REMAINING_STAT_ATTACKS_ENGINE,
                         ORDINARY_ATTACKS_ENGINE,
                         ONGOING_EXCEPTIONS_ENGINE,
@@ -3218,6 +3225,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     chance_status: [
                         ENGINE,
+                        SUPPORT_STAT_MOVES_ENGINE,
                         REMAINING_STAT_ATTACKS_ENGINE,
                         ORDINARY_ATTACKS_ENGINE,
                         ONGOING_EXCEPTIONS_ENGINE,
@@ -3234,6 +3242,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     battlefield_review: [
                         ENGINE,
+                        SUPPORT_STAT_MOVES_ENGINE,
                         REMAINING_STAT_ATTACKS_ENGINE,
                         ORDINARY_ATTACKS_ENGINE,
                         ONGOING_EXCEPTIONS_ENGINE,
@@ -3246,6 +3255,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     entry_hazards: [
                         ENGINE,
+                        SUPPORT_STAT_MOVES_ENGINE,
                         REMAINING_STAT_ATTACKS_ENGINE,
                         ORDINARY_ATTACKS_ENGINE,
                         ONGOING_EXCEPTIONS_ENGINE,
@@ -3258,6 +3268,7 @@ fn transition_inner(
                     damaging_stats: Box::new(damaging_stats::StatMoveState {
                         enabled: [
                             ENGINE,
+                            SUPPORT_STAT_MOVES_ENGINE,
                             REMAINING_STAT_ATTACKS_ENGINE,
                             ORDINARY_ATTACKS_ENGINE,
                             ONGOING_EXCEPTIONS_ENGINE,
@@ -3271,6 +3282,7 @@ fn transition_inner(
                     }),
                     cure_protection: [
                         ENGINE,
+                        SUPPORT_STAT_MOVES_ENGINE,
                         REMAINING_STAT_ATTACKS_ENGINE,
                         ORDINARY_ATTACKS_ENGINE,
                         ONGOING_EXCEPTIONS_ENGINE,
@@ -3285,6 +3297,7 @@ fn transition_inner(
                     recurring: Box::new(recurring::RecurringState {
                         enabled: [
                             ENGINE,
+                            SUPPORT_STAT_MOVES_ENGINE,
                             REMAINING_STAT_ATTACKS_ENGINE,
                             ORDINARY_ATTACKS_ENGINE,
                             ONGOING_EXCEPTIONS_ENGINE,
@@ -3302,6 +3315,7 @@ fn transition_inner(
                     compound: compound::CompoundState {
                         enabled: [
                             ENGINE,
+                            SUPPORT_STAT_MOVES_ENGINE,
                             REMAINING_STAT_ATTACKS_ENGINE,
                             ORDINARY_ATTACKS_ENGINE,
                             ONGOING_EXCEPTIONS_ENGINE,
@@ -3319,6 +3333,7 @@ fn transition_inner(
                     },
                     house_rules: [
                         ENGINE,
+                        SUPPORT_STAT_MOVES_ENGINE,
                         REMAINING_STAT_ATTACKS_ENGINE,
                         ORDINARY_ATTACKS_ENGINE,
                         ONGOING_EXCEPTIONS_ENGINE,
@@ -3342,6 +3357,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     interaction_rules: [
                         ENGINE,
+                        SUPPORT_STAT_MOVES_ENGINE,
                         REMAINING_STAT_ATTACKS_ENGINE,
                         ORDINARY_ATTACKS_ENGINE,
                         ONGOING_EXCEPTIONS_ENGINE,
@@ -3368,6 +3384,7 @@ fn transition_inner(
                     standalone: standalone::StandaloneState {
                         enabled: [
                             ENGINE,
+                            SUPPORT_STAT_MOVES_ENGINE,
                             REMAINING_STAT_ATTACKS_ENGINE,
                             ORDINARY_ATTACKS_ENGINE,
                             ONGOING_EXCEPTIONS_ENGINE,
@@ -3397,6 +3414,7 @@ fn transition_inner(
                     information: information::InformationState {
                         enabled: [
                             ENGINE,
+                            SUPPORT_STAT_MOVES_ENGINE,
                             REMAINING_STAT_ATTACKS_ENGINE,
                             ORDINARY_ATTACKS_ENGINE,
                             ONGOING_EXCEPTIONS_ENGINE,
@@ -3427,6 +3445,7 @@ fn transition_inner(
                     forms: forms::FormState {
                         enabled: [
                             ENGINE,
+                            SUPPORT_STAT_MOVES_ENGINE,
                             REMAINING_STAT_ATTACKS_ENGINE,
                             ORDINARY_ATTACKS_ENGINE,
                             ONGOING_EXCEPTIONS_ENGINE,
@@ -3459,6 +3478,7 @@ fn transition_inner(
                         completion: items::completion::CompletionState {
                             enabled: [
                                 ENGINE,
+                                SUPPORT_STAT_MOVES_ENGINE,
                                 REMAINING_STAT_ATTACKS_ENGINE,
                                 ORDINARY_ATTACKS_ENGINE,
                                 ONGOING_EXCEPTIONS_ENGINE,
@@ -3485,6 +3505,7 @@ fn transition_inner(
                         },
                         enabled: [
                             ENGINE,
+                            SUPPORT_STAT_MOVES_ENGINE,
                             REMAINING_STAT_ATTACKS_ENGINE,
                             ORDINARY_ATTACKS_ENGINE,
                             ONGOING_EXCEPTIONS_ENGINE,
@@ -3517,6 +3538,7 @@ fn transition_inner(
                     events: events::EventState {
                         enabled: [
                             ENGINE,
+                            SUPPORT_STAT_MOVES_ENGINE,
                             REMAINING_STAT_ATTACKS_ENGINE,
                             ORDINARY_ATTACKS_ENGINE,
                             ONGOING_EXCEPTIONS_ENGINE,
@@ -3549,6 +3571,7 @@ fn transition_inner(
                     },
                     provenance_rules: [
                         ENGINE,
+                        SUPPORT_STAT_MOVES_ENGINE,
                         REMAINING_STAT_ATTACKS_ENGINE,
                         ORDINARY_ATTACKS_ENGINE,
                         ONGOING_EXCEPTIONS_ENGINE,
@@ -3581,6 +3604,7 @@ fn transition_inner(
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            SUPPORT_STAT_MOVES_ENGINE,
                             REMAINING_STAT_ATTACKS_ENGINE,
                             ORDINARY_ATTACKS_ENGINE,
                             ONGOING_EXCEPTIONS_ENGINE,
@@ -3616,6 +3640,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            SUPPORT_STAT_MOVES_ENGINE,
                             REMAINING_STAT_ATTACKS_ENGINE,
                             ORDINARY_ATTACKS_ENGINE,
                             ONGOING_EXCEPTIONS_ENGINE,
@@ -3651,6 +3676,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        SUPPORT_STAT_MOVES_ENGINE,
                         REMAINING_STAT_ATTACKS_ENGINE,
                         ORDINARY_ATTACKS_ENGINE,
                         ONGOING_EXCEPTIONS_ENGINE,
@@ -3686,6 +3712,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            SUPPORT_STAT_MOVES_ENGINE,
                             REMAINING_STAT_ATTACKS_ENGINE,
                             ORDINARY_ATTACKS_ENGINE,
                             ONGOING_EXCEPTIONS_ENGINE,
@@ -3724,6 +3751,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            SUPPORT_STAT_MOVES_ENGINE,
                             REMAINING_STAT_ATTACKS_ENGINE,
                             ORDINARY_ATTACKS_ENGINE,
                             ONGOING_EXCEPTIONS_ENGINE,
@@ -3763,6 +3791,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            SUPPORT_STAT_MOVES_ENGINE,
                             REMAINING_STAT_ATTACKS_ENGINE,
                             ORDINARY_ATTACKS_ENGINE,
                             ONGOING_EXCEPTIONS_ENGINE,
@@ -3803,6 +3832,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            SUPPORT_STAT_MOVES_ENGINE,
                             REMAINING_STAT_ATTACKS_ENGINE,
                             ORDINARY_ATTACKS_ENGINE,
                             ONGOING_EXCEPTIONS_ENGINE,
@@ -3844,6 +3874,7 @@ fn transition_inner(
                     special: Box::new(special::SpecialState {
                         enabled: [
                             ENGINE,
+                            SUPPORT_STAT_MOVES_ENGINE,
                             REMAINING_STAT_ATTACKS_ENGINE,
                             ORDINARY_ATTACKS_ENGINE,
                             ONGOING_EXCEPTIONS_ENGINE,
@@ -3885,6 +3916,7 @@ fn transition_inner(
                     }),
                     ability_rules: [
                         ENGINE,
+                        SUPPORT_STAT_MOVES_ENGINE,
                         REMAINING_STAT_ATTACKS_ENGINE,
                         ORDINARY_ATTACKS_ENGINE,
                         ONGOING_EXCEPTIONS_ENGINE,
@@ -3928,6 +3960,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            SUPPORT_STAT_MOVES_ENGINE,
                             REMAINING_STAT_ATTACKS_ENGINE,
                             ORDINARY_ATTACKS_ENGINE,
                             ONGOING_EXCEPTIONS_ENGINE,
@@ -3971,6 +4004,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            SUPPORT_STAT_MOVES_ENGINE,
                             REMAINING_STAT_ATTACKS_ENGINE,
                             ORDINARY_ATTACKS_ENGINE,
                             ONGOING_EXCEPTIONS_ENGINE,

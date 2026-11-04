@@ -458,7 +458,7 @@ pub fn react(
             damage_context: None,
             defense_key: if m["Category"] == "Support" {
                 "Support"
-            } else if m["Category"] == "Physical" {
+            } else if m["Category"] == "Physical" || completion::physical_defense(&before, &m) {
                 "Defense"
             } else {
                 "SpecialDefense"

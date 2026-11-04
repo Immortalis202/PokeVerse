@@ -1964,6 +1964,7 @@ pub fn move_data(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> serde_js
             m["Type"] = serde_json::json!(t);
         }
     }
+    completion::move_data(c, &mut m);
     extra::move_data(c, p, &mut m);
     special::move_data(c, p, &mut m);
     compound::move_data(c, p, &mut m);

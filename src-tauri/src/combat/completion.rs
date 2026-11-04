@@ -108,7 +108,7 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
         return Ok(false);
     };
     match kind {
-        "ordinary" => {}
+        "ordinary" | "damage-rules" => {}
         "support-stat" => {
             support_stat(c, q, d, cat)?;
         }
@@ -286,7 +286,7 @@ pub fn cleanse(c: &mut Campaign, id: &str) {
 }
 
 pub fn ordinary(c: &Campaign, name: &str) -> bool {
-    definition(c, name).is_some_and(|(kind, _)| kind == "ordinary")
+    definition(c, name).is_some_and(|(kind, _)| ["ordinary", "damage-rules"].contains(&kind))
 }
 
 pub fn excludes_self(c: &Campaign, name: &str) -> bool {
@@ -344,4 +344,16 @@ fn support_stat(
         }
     }
     Ok(())
+}
+
+pub fn physical_defense(c: &Campaign, m: &serde_json::Value) -> bool {
+    definition(c, m["Name"].as_str().unwrap_or(""))
+        .is_some_and(|(_, d)| d["physical_defense"] == true)
+}
+pub fn move_data(c: &Campaign, m: &mut serde_json::Value) {
+    if definition(c, m["Name"].as_str().unwrap_or(""))
+        .is_some_and(|(_, d)| d["ignore_defense"] == true)
+    {
+        m["Attributes"]["IgnoreDefenses"] = true.into();
+    }
 }
