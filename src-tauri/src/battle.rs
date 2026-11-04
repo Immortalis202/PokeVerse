@@ -10,6 +10,7 @@ pub fn transition(
 ) -> Result<(Campaign, String)> {
     if [
         ENGINE,
+        REMAINING_STAT_ATTACKS_ENGINE,
         ORDINARY_ATTACKS_ENGINE,
         ONGOING_EXCEPTIONS_ENGINE,
         ONGOING_MOVES_ENGINE,
@@ -406,6 +407,7 @@ pub fn transition(
             }
             if ![
                 ENGINE,
+                REMAINING_STAT_ATTACKS_ENGINE,
                 ORDINARY_ATTACKS_ENGINE,
                 ONGOING_EXCEPTIONS_ENGINE,
                 ONGOING_MOVES_ENGINE,

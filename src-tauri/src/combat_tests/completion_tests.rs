@@ -870,3 +870,122 @@ fn completion_a07_stat_protections_chance_modifiers_and_historical_adoption() {
         "manual_rule"
     );
 }
+fn support_cast(c: &Campaign, a: &str, targets: Vec<String>, name: &str) -> Campaign {
+    let action = super::targeting_tests::attack(a, targets, name);
+    let mut c = roll(c, &p(c, a).owner_id, &action, 6);
+    while c.battle.as_ref().unwrap().flow.as_ref().unwrap().window {
+        c = pass(&c);
+    }
+    while !c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .queue
+        .is_empty()
+    {
+        c = resolve(&c);
+    }
+    c
+}
+fn stat(c: &Campaign, id: &str, key: &str) -> i32 {
+    special::modifier(c, p(c, id), key).unwrap_or(0)
+}
+#[test]
+fn completion_a08_self_buffs_follow_prose_and_non_ghost_condition() {
+    for (name, changes) in [
+        (
+            "Meditate",
+            vec![("Special", 1), ("SpecialDefense", 1), ("Strength", 0)],
+        ),
+        ("Growth", vec![("Strength", 1), ("Special", 1)]),
+        (
+            "Curse (Non-Ghost)",
+            vec![("Strength", 1), ("Defense", 1), ("Dexterity", -1)],
+        ),
+    ] {
+        let (c, a, _) = setup(name);
+        let after = support_cast(&c, &a, vec![a.clone()], name);
+        for (key, n) in changes {
+            assert_eq!(stat(&after, &a, key), n, "{name}: {key}");
+        }
+        assert_eq!(
+            serde_json::to_value(&c.sheets).unwrap(),
+            serde_json::to_value(&after.sheets).unwrap()
+        );
+    }
+    let (mut c, a, _) = setup("Growth");
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .battlefield
+        .natural = Some(crate::combat::field::Weather::Sunny);
+    let c = support_cast(&c, &a, vec![a.clone()], "Growth");
+    assert_eq!(stat(&c, &a, "Strength"), 2);
+    assert_eq!(stat(&c, &a, "Special"), 2);
+    let (mut c, a, _) = setup("Curse (Non-Ghost)");
+    set_species(&mut c, &a, "Gengar");
+    let c = support_cast(&c, &a, vec![a.clone()], "Curse (Non-Ghost)");
+    assert_eq!(stat(&c, &a, "Strength"), 0);
+}
+#[test]
+fn completion_a08_type_restricted_allies_and_coaching_exclude_the_user() {
+    for (name, key) in [
+        ("Gear Up", "Strength"),
+        ("Magnetic Flux", "Defense"),
+        ("Coaching", "Strength"),
+    ] {
+        let (mut c, a, t) = setup(name);
+        let side = p(&c, &a).side.clone();
+        pm(&mut c, &t).side = side;
+        set_species(&mut c, &t, "Mawile");
+        let targets = if name == "Magnetic Flux" {
+            vec![a.clone(), t.clone()]
+        } else {
+            vec![t.clone()]
+        };
+        let after = support_cast(&c, &a, targets, name);
+        assert_eq!(stat(&after, &t, key), 1, "{name}");
+        assert_eq!(stat(&after, &a, key), 0, "{name}");
+        if name == "Gear Up" {
+            set_species(&mut c, &t, "Eevee");
+            let after = support_cast(&c, &a, vec![t.clone()], name);
+            assert_eq!(stat(&after, &t, key), 0);
+        }
+        if name == "Coaching" {
+            let action = super::targeting_tests::attack(&a, vec![a.clone()], name);
+            assert!(rules::dice_count(&c, &action, &catalog()).is_err());
+        }
+    }
+}
+#[test]
+fn completion_a08_battlefield_grass_effects_include_both_sides_and_retain_historical_gate() {
+    for (name, keys) in [
+        ("Flower Shield", vec!["Defense"]),
+        ("Rototiller", vec!["Strength", "Special"]),
+    ] {
+        let (mut c, a, t) = setup(name);
+        set_species(&mut c, &a, "Bulbasaur");
+        set_species(&mut c, &t, "Oddish");
+        let after = support_cast(&c, &a, vec![], name);
+        for key in keys {
+            assert_eq!(stat(&after, &a, key), 1);
+            assert_eq!(stat(&after, &t, key), 1);
+        }
+        set_species(&mut c, &t, "Eevee");
+        let after = support_cast(&c, &a, vec![], name);
+        assert_eq!(stat(&after, &t, "Defense"), 0);
+        assert_eq!(stat(&after, &t, "Strength"), 0);
+    }
+    let (mut c, a, _) = setup("Meditate");
+    c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
+        Box::new(completion::initial(REMAINING_STAT_ATTACKS_ENGINE));
+    assert!(completion::definition(&c, "Meditate").is_none());
+    assert!(!completion::excludes_self(&c, "Coaching"));
+    assert_eq!(stat(&c, &a, "Special"), 0);
+}

@@ -27,6 +27,7 @@ pub struct FieldEffect {
 pub(super) fn require_targeting(c: &Campaign) -> Result<()> {
     if ![
         ENGINE,
+        REMAINING_STAT_ATTACKS_ENGINE,
         ORDINARY_ATTACKS_ENGINE,
         ONGOING_EXCEPTIONS_ENGINE,
         ONGOING_MOVES_ENGINE,
@@ -180,6 +181,7 @@ pub(super) fn plan(
         return Ok((requested.to_vec(), None));
     }
     let pattern = m["Target"].as_str().unwrap_or("");
+    let exclude_self = completion::excludes_self(c, m["Name"].as_str().unwrap_or(""));
     let advanced = !["Self", "Foe", "Ally"].contains(&pattern);
     if advanced {
         require_targeting(c)?;
@@ -233,7 +235,7 @@ pub(super) fn plan(
         }
         ids = expected;
     }
-    if pattern == "All Allies" && ids.is_empty() {
+    if pattern == "All Allies" && ids.is_empty() && !exclude_self {
         ids.push(id.into());
     }
     if ids.is_empty() {
@@ -260,12 +262,12 @@ pub(super) fn plan(
             "Foe" if key != id => {} // The manual permits targeting an ally with a Foe move.
             "Ally" if key != id && t.side == p.side => {}
             "All Foes" | "Random Foe" if t.side != p.side && key != id => {}
-            "All Allies" if t.side == p.side => {}
+            "All Allies" if t.side == p.side && (!exclude_self || key != id) => {}
             "Area" if key != id => {}
             _ => return Err(error("Target does not match the move's target pattern")),
         }
     }
-    if pattern == "All Allies" && !ids.iter().any(|v| v == id) {
+    if pattern == "All Allies" && !exclude_self && !ids.iter().any(|v| v == id) {
         return Err(error("User and allies targeting must include the user"));
     }
     // Highest defense first; stable IDs resolve equal defenses consistently.

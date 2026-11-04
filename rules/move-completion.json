@@ -639,6 +639,94 @@
           "amount": -1
         }
       }
+    },
+    "MOVE-A08": {
+      "engine": "0.43.0-core",
+      "kind": "support-stat",
+      "scope": "Eight Support stat cards: exact printed recipients, typing/weather predicates, non-Ghost Curse, battlefield Grass recipients and Coaching excluding the user. Meditate follows its prose Special/Sp. Defense rather than the inconsistent structured Strength field. Existing stat-protection and nonstacking channels remain.",
+      "moves": {
+        "Meditate": {
+          "source": "Pokerole-Data/v3.0/Moves/Meditate.json",
+          "sha256": "09f71b5c926d74e1b1c4185e94b908bc37be5b5c148bf12d5bcefd2b7a129357",
+          "effect": "Target Self. Increase by 1 the User's Special and Sp. Defense.",
+          "changes": {
+            "Special": 1,
+            "SpecialDefense": 1
+          }
+        },
+        "Growth": {
+          "source": "Pokerole-Data/v3.0/Moves/Growth.json",
+          "sha256": "d1bdb9c209cfc86a367ce974c21fe9898e5ff09e2b229fc888a287eb88068ccf",
+          "effect": "Target Self. Increase by 1 the User's Strength and Special. If the Sunny Weather is active, increase by 2 Instead.",
+          "changes": {
+            "Strength": 1,
+            "Special": 1
+          },
+          "sunny_amount": 2
+        },
+        "Gear Up": {
+          "source": "Pokerole-Data/v3.0/Moves/Gear Up.json",
+          "sha256": "e631457ed650aa719b0f22df12be73bc45c315dedd250dc3cd08faccfa4c0cb9",
+          "effect": "Target One Ally. Increase by 1 the Strength and Spcial of one Steel-Type of Electric-Type Ally.",
+          "changes": {
+            "Strength": 1,
+            "Special": 1
+          },
+          "types": ["Steel", "Electric"]
+        },
+        "Magnetic Flux": {
+          "source": "Pokerole-Data/v3.0/Moves/Magnetic Flux.json",
+          "sha256": "1e2778254aeb489e5ee18de3ecbcdc2bb35f19b731885ff7d0ff7045fcca9780",
+          "effect": "Target User and Allies in range. Increase by 1 the Defense and Sp. Defense of Electric-Type or Steel-Type Targets.",
+          "changes": {
+            "Defense": 1,
+            "SpecialDefense": 1
+          },
+          "types": ["Steel", "Electric"]
+        },
+        "Flower Shield": {
+          "source": "Pokerole-Data/v3.0/Moves/Flower Shield.json",
+          "sha256": "7d7a174378209eb6afbc75883a581a8adb0a6751ba2ea32bdf81776814640f1a",
+          "effect": "Target battlefield. Increase by 1 the Defense of all Grass-Type Pokemon.",
+          "changes": {
+            "Defense": 1
+          },
+          "types": ["Grass"],
+          "field": true
+        },
+        "Rototiller": {
+          "source": "Pokerole-Data/v3.0/Moves/Rototiller.json",
+          "sha256": "bab7b78dbb0cb59d5a6462822286f22709d0b6b6f1e791c88486a232de736953",
+          "effect": "Target Battlefield. Increase by 1 the Strength and Special of all Grass-Type Pokemon.",
+          "changes": {
+            "Strength": 1,
+            "Special": 1
+          },
+          "types": ["Grass"],
+          "field": true
+        },
+        "Curse (Non-Ghost)": {
+          "source": "Pokerole-Data/v3.0/Moves/Curse (Non-Ghost).json",
+          "sha256": "7244f752c67483e7a329b06d194cf357c8dd3dbf139de3e08ef8990f7ef3684b",
+          "effect": "Target Self. Increase by 1 the User's Strength and Defense. Reduce by 1 the User's Dexterity. This effect only works if the User is not Ghost-Type.",
+          "changes": {
+            "Strength": 1,
+            "Defense": 1,
+            "Dexterity": -1
+          },
+          "exclude_user_type": "Ghost"
+        },
+        "Coaching": {
+          "source": "Pokerole-Data/v3.0/Moves/Coaching.json",
+          "sha256": "a0cbdf6b40137040268ed346fb2602df201cfe3dccaf83a2f94b056b053190b2",
+          "effect": "Target All Allies in Range. Increase by 1 the Strength and Defense of all Allies targeted. The User cannot target itself.",
+          "changes": {
+            "Strength": 1,
+            "Defense": 1
+          },
+          "exclude_self": true
+        }
+      }
     }
   },
   "printed_review": {

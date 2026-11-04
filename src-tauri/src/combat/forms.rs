@@ -1129,6 +1129,7 @@ pub fn transition(
     if let FormCommand::RestoreCore { sheet_id } = command {
         if ![
             ENGINE,
+            REMAINING_STAT_ATTACKS_ENGINE,
             ORDINARY_ATTACKS_ENGINE,
             ONGOING_EXCEPTIONS_ENGINE,
             ONGOING_MOVES_ENGINE,

@@ -109,6 +109,9 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
     };
     match kind {
         "ordinary" => {}
+        "support-stat" => {
+            support_stat(c, q, d, cat)?;
+        }
         "stat" => {
             return damaging_stats::effect(c, q, _dice, cat);
         }
@@ -284,4 +287,61 @@ pub fn cleanse(c: &mut Campaign, id: &str) {
 
 pub fn ordinary(c: &Campaign, name: &str) -> bool {
     definition(c, name).is_some_and(|(kind, _)| kind == "ordinary")
+}
+
+pub fn excludes_self(c: &Campaign, name: &str) -> bool {
+    definition(c, name).is_some_and(|(_, d)| d["exclude_self"] == true)
+}
+fn support_stat(
+    c: &mut Campaign,
+    q: &QueuedAction,
+    d: &serde_json::Value,
+    cat: &Catalog,
+) -> Result<()> {
+    let source = reviewed::source(c, q)?;
+    if d["exclude_user_type"].as_str().is_some_and(|t| {
+        field::types(c, &source, cat).is_ok_and(|types| types.iter().any(|v| v == t))
+    }) {
+        return Ok(());
+    }
+    let targets: Vec<String> = if d["field"] == true {
+        battle(c)?
+            .combatants
+            .iter()
+            .filter(|p| p.deployed && p.hp > 0 && p.available_round <= battle(c).unwrap().round)
+            .map(|p| p.id.clone())
+            .collect()
+    } else {
+        vec![q.target_id.clone()]
+    };
+    for target in targets {
+        let p = fighter(c, &target)?;
+        if d["exclude_self"] == true && (p.id == q.actor_id || p.side != source.side) {
+            continue;
+        }
+        if let Some(types) = d["types"].as_array() {
+            let actual = field::types(c, p, cat)?;
+            if !types.iter().any(|t| actual.iter().any(|v| t == v.as_str())) {
+                continue;
+            }
+        }
+        let mut recipient = q.clone();
+        recipient.target_id = target.clone();
+        if immune_target(c, &recipient, cat)? {
+            continue;
+        }
+        for (key, amount) in d["changes"].as_object().unwrap() {
+            let mut n = amount.as_i64().unwrap() as i32;
+            if let Some(sunny) = d["sunny_amount"].as_i64() {
+                if matches!(
+                    field::weather(c, Some(&source)),
+                    Some(field::Weather::Sunny | field::Weather::Desolate)
+                ) {
+                    n = sunny as i32;
+                }
+            }
+            extra::change_stat(c, &q.actor_id, &target, key, n)?;
+        }
+    }
+    Ok(())
 }

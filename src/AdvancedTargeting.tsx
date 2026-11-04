@@ -53,6 +53,7 @@ export default function AdvancedTargeting({
       "0.9.0-core",
       "0.10.0-core",
       "0.11.0-core",
+      "0.43.0-core",
       "0.42.0-core",
       "0.41.0-core",
       "0.40.0-core",
@@ -94,6 +95,8 @@ export default function AdvancedTargeting({
   );
   const p = active.find((p) => p.id === actor);
   const sheet = p && battleSheet(campaign, p.id);
+  const coaching =
+    move === "Coaching" && !!b.flow?.completion.blocks.includes("MOVE-A08");
   const automatic = m?.Target === "Area" || m?.Target?.includes("Battlefield");
   const toggle = (id: string) =>
     setTargets((v) =>
@@ -199,7 +202,9 @@ export default function AdvancedTargeting({
           Target pattern: {m.Target}.{" "}
           {automatic
             ? "Targets are determined by field scope or the GM-confirmed range."
-            : "Select the affected Pokémon below; user-and-allies moves must include the user."}
+            : coaching
+              ? "Select allies; Coaching cannot target its user."
+              : "Select the affected Pokémon below; user-and-allies moves must include the user."}
         </p>
       )}
       <fieldset disabled={disabled || !actor}>
@@ -211,7 +216,10 @@ export default function AdvancedTargeting({
                 type="checkbox"
                 checked={targets.includes(t.id)}
                 onChange={() => toggle(t.id)}
-                disabled={automatic && !gm}
+                disabled={
+                  (automatic && !gm) ||
+                  (coaching && (t.id === actor || t.side !== p?.side))
+                }
               />
               {t.name} · {t.side}
             </label>
