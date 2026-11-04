@@ -6,6 +6,7 @@ use ts_rs::TS;
 pub(crate) mod abilities;
 pub(crate) mod ability_changes;
 pub(crate) mod chance_status;
+pub(crate) mod completion;
 pub(crate) mod compound;
 pub(crate) mod cure_protection;
 pub(crate) mod damaging_stats;
@@ -78,6 +79,8 @@ pub struct TurnFlow {
     #[serde(default)]
     pub entry_hazards: bool,
     #[serde(default)]
+    pub completion: Box<completion::MoveCompletionState>,
+    #[serde(default)]
     pub damaging_stats: Box<damaging_stats::StatMoveState>,
     #[serde(default)]
     pub status_escalation: bool,
@@ -126,7 +129,7 @@ pub struct TurnFlow {
     #[serde(default)]
     pub decoys: decoys::DecoyState,
     #[serde(default)]
-    pub special: special::SpecialState,
+    pub special: Box<special::SpecialState>,
     #[serde(default)]
     pub tactics: tactics::TacticsState,
     #[serde(default)]
@@ -1132,6 +1135,7 @@ pub fn transition(
     if let Some(setup) = field::start_setup(a) {
         if ![
             ENGINE,
+            ENTRY_HAZARDS_ENGINE,
             DAMAGING_STATS_ENGINE,
             BATTLEFIELD_REVIEW_ENGINE,
             CURE_PROTECTION_ENGINE,
@@ -1155,7 +1159,13 @@ pub fn transition(
         field::validate_setup(setup)?;
         field::validate_night_setup(
             setup,
-            [ENGINE, DAMAGING_STATS_ENGINE, BATTLEFIELD_REVIEW_ENGINE].contains(&c.engine.as_str()),
+            [
+                ENGINE,
+                ENTRY_HAZARDS_ENGINE,
+                DAMAGING_STATS_ENGINE,
+                BATTLEFIELD_REVIEW_ENGINE,
+            ]
+            .contains(&c.engine.as_str()),
         )?;
     }
     let mut input = std::borrow::Cow::Borrowed(c);
@@ -1470,14 +1480,15 @@ fn transition_inner(
     {
         if let Ok(p) = fighter(c, outgoing_id) {
             if !*gm_override
-                && (if extra::enabled(c) {
-                    extra::blocked(c, p, cat) || special::blocked(c, &p.id)
-                } else {
-                    field::has(c, "mud", p) && field::grounded(c, p, cat)
-                })
+                && (completion::blocked(c, outgoing_id)
+                    || if extra::enabled(c) {
+                        extra::blocked(c, p, cat) || special::blocked(c, &p.id)
+                    } else {
+                        field::has(c, "mud", p) && field::grounded(c, p, cat)
+                    })
             {
                 return Err(error(
-                    "Muddy terrain blocks grounded Pokemon from switching",
+                    "This participant is blocked from switching; the GM may record an explicit exception",
                 ));
             }
         }
@@ -3102,6 +3113,7 @@ fn transition_inner(
                 b.flow = Some(TurnFlow {
                     identity_moves: [
                         ENGINE,
+                        ENTRY_HAZARDS_ENGINE,
                         DAMAGING_STATS_ENGINE,
                         BATTLEFIELD_REVIEW_ENGINE,
                         CURE_PROTECTION_ENGINE,
@@ -3117,6 +3129,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     status_escalation: [
                         ENGINE,
+                        ENTRY_HAZARDS_ENGINE,
                         DAMAGING_STATS_ENGINE,
                         BATTLEFIELD_REVIEW_ENGINE,
                         CURE_PROTECTION_ENGINE,
@@ -3131,6 +3144,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     spite: [
                         ENGINE,
+                        ENTRY_HAZARDS_ENGINE,
                         DAMAGING_STATS_ENGINE,
                         BATTLEFIELD_REVIEW_ENGINE,
                         CURE_PROTECTION_ENGINE,
@@ -3144,6 +3158,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     will_drains: [
                         ENGINE,
+                        ENTRY_HAZARDS_ENGINE,
                         DAMAGING_STATS_ENGINE,
                         BATTLEFIELD_REVIEW_ENGINE,
                         CURE_PROTECTION_ENGINE,
@@ -3156,6 +3171,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     direct_status: [
                         ENGINE,
+                        ENTRY_HAZARDS_ENGINE,
                         DAMAGING_STATS_ENGINE,
                         BATTLEFIELD_REVIEW_ENGINE,
                         CURE_PROTECTION_ENGINE,
@@ -3167,6 +3183,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     chance_status: [
                         ENGINE,
+                        ENTRY_HAZARDS_ENGINE,
                         DAMAGING_STATS_ENGINE,
                         BATTLEFIELD_REVIEW_ENGINE,
                         CURE_PROTECTION_ENGINE,
@@ -3175,15 +3192,23 @@ fn transition_inner(
                         CHANCE_STATUS_ENGINE,
                     ]
                     .contains(&c.engine.as_str()),
-                    battlefield_review: [ENGINE, DAMAGING_STATS_ENGINE, BATTLEFIELD_REVIEW_ENGINE]
-                        .contains(&c.engine.as_str()),
-                    entry_hazards: c.engine == ENGINE,
+                    battlefield_review: [
+                        ENGINE,
+                        ENTRY_HAZARDS_ENGINE,
+                        DAMAGING_STATS_ENGINE,
+                        BATTLEFIELD_REVIEW_ENGINE,
+                    ]
+                    .contains(&c.engine.as_str()),
+                    entry_hazards: [ENGINE, ENTRY_HAZARDS_ENGINE].contains(&c.engine.as_str()),
+                    completion: Box::new(completion::initial(&c.engine)),
                     damaging_stats: Box::new(damaging_stats::StatMoveState {
-                        enabled: [ENGINE, DAMAGING_STATS_ENGINE].contains(&c.engine.as_str()),
+                        enabled: [ENGINE, ENTRY_HAZARDS_ENGINE, DAMAGING_STATS_ENGINE]
+                            .contains(&c.engine.as_str()),
                         ..Default::default()
                     }),
                     cure_protection: [
                         ENGINE,
+                        ENTRY_HAZARDS_ENGINE,
                         DAMAGING_STATS_ENGINE,
                         BATTLEFIELD_REVIEW_ENGINE,
                         CURE_PROTECTION_ENGINE,
@@ -3192,6 +3217,7 @@ fn transition_inner(
                     recurring: Box::new(recurring::RecurringState {
                         enabled: [
                             ENGINE,
+                            ENTRY_HAZARDS_ENGINE,
                             DAMAGING_STATS_ENGINE,
                             BATTLEFIELD_REVIEW_ENGINE,
                             CURE_PROTECTION_ENGINE,
@@ -3203,6 +3229,7 @@ fn transition_inner(
                     compound: compound::CompoundState {
                         enabled: [
                             ENGINE,
+                            ENTRY_HAZARDS_ENGINE,
                             DAMAGING_STATS_ENGINE,
                             BATTLEFIELD_REVIEW_ENGINE,
                             CURE_PROTECTION_ENGINE,
@@ -3214,6 +3241,7 @@ fn transition_inner(
                     },
                     house_rules: [
                         ENGINE,
+                        ENTRY_HAZARDS_ENGINE,
                         DAMAGING_STATS_ENGINE,
                         BATTLEFIELD_REVIEW_ENGINE,
                         CURE_PROTECTION_ENGINE,
@@ -3231,6 +3259,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     interaction_rules: [
                         ENGINE,
+                        ENTRY_HAZARDS_ENGINE,
                         DAMAGING_STATS_ENGINE,
                         BATTLEFIELD_REVIEW_ENGINE,
                         CURE_PROTECTION_ENGINE,
@@ -3251,6 +3280,7 @@ fn transition_inner(
                     standalone: standalone::StandaloneState {
                         enabled: [
                             ENGINE,
+                            ENTRY_HAZARDS_ENGINE,
                             DAMAGING_STATS_ENGINE,
                             BATTLEFIELD_REVIEW_ENGINE,
                             CURE_PROTECTION_ENGINE,
@@ -3274,6 +3304,7 @@ fn transition_inner(
                     information: information::InformationState {
                         enabled: [
                             ENGINE,
+                            ENTRY_HAZARDS_ENGINE,
                             DAMAGING_STATS_ENGINE,
                             BATTLEFIELD_REVIEW_ENGINE,
                             CURE_PROTECTION_ENGINE,
@@ -3298,6 +3329,7 @@ fn transition_inner(
                     forms: forms::FormState {
                         enabled: [
                             ENGINE,
+                            ENTRY_HAZARDS_ENGINE,
                             DAMAGING_STATS_ENGINE,
                             BATTLEFIELD_REVIEW_ENGINE,
                             CURE_PROTECTION_ENGINE,
@@ -3324,6 +3356,7 @@ fn transition_inner(
                         completion: items::completion::CompletionState {
                             enabled: [
                                 ENGINE,
+                                ENTRY_HAZARDS_ENGINE,
                                 DAMAGING_STATS_ENGINE,
                                 BATTLEFIELD_REVIEW_ENGINE,
                                 CURE_PROTECTION_ENGINE,
@@ -3344,6 +3377,7 @@ fn transition_inner(
                         },
                         enabled: [
                             ENGINE,
+                            ENTRY_HAZARDS_ENGINE,
                             DAMAGING_STATS_ENGINE,
                             BATTLEFIELD_REVIEW_ENGINE,
                             CURE_PROTECTION_ENGINE,
@@ -3370,6 +3404,7 @@ fn transition_inner(
                     events: events::EventState {
                         enabled: [
                             ENGINE,
+                            ENTRY_HAZARDS_ENGINE,
                             DAMAGING_STATS_ENGINE,
                             BATTLEFIELD_REVIEW_ENGINE,
                             CURE_PROTECTION_ENGINE,
@@ -3396,6 +3431,7 @@ fn transition_inner(
                     },
                     provenance_rules: [
                         ENGINE,
+                        ENTRY_HAZARDS_ENGINE,
                         DAMAGING_STATS_ENGINE,
                         BATTLEFIELD_REVIEW_ENGINE,
                         CURE_PROTECTION_ENGINE,
@@ -3422,6 +3458,7 @@ fn transition_inner(
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            ENTRY_HAZARDS_ENGINE,
                             DAMAGING_STATS_ENGINE,
                             BATTLEFIELD_REVIEW_ENGINE,
                             CURE_PROTECTION_ENGINE,
@@ -3451,6 +3488,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            ENTRY_HAZARDS_ENGINE,
                             DAMAGING_STATS_ENGINE,
                             BATTLEFIELD_REVIEW_ENGINE,
                             CURE_PROTECTION_ENGINE,
@@ -3480,6 +3518,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        ENTRY_HAZARDS_ENGINE,
                         DAMAGING_STATS_ENGINE,
                         BATTLEFIELD_REVIEW_ENGINE,
                         CURE_PROTECTION_ENGINE,
@@ -3509,6 +3548,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            ENTRY_HAZARDS_ENGINE,
                             DAMAGING_STATS_ENGINE,
                             BATTLEFIELD_REVIEW_ENGINE,
                             CURE_PROTECTION_ENGINE,
@@ -3541,6 +3581,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            ENTRY_HAZARDS_ENGINE,
                             DAMAGING_STATS_ENGINE,
                             BATTLEFIELD_REVIEW_ENGINE,
                             CURE_PROTECTION_ENGINE,
@@ -3574,6 +3615,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            ENTRY_HAZARDS_ENGINE,
                             DAMAGING_STATS_ENGINE,
                             BATTLEFIELD_REVIEW_ENGINE,
                             CURE_PROTECTION_ENGINE,
@@ -3608,6 +3650,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            ENTRY_HAZARDS_ENGINE,
                             DAMAGING_STATS_ENGINE,
                             BATTLEFIELD_REVIEW_ENGINE,
                             CURE_PROTECTION_ENGINE,
@@ -3640,9 +3683,10 @@ fn transition_inner(
                         .contains(&c.engine.as_str()),
                         ..Default::default()
                     },
-                    special: special::SpecialState {
+                    special: Box::new(special::SpecialState {
                         enabled: [
                             ENGINE,
+                            ENTRY_HAZARDS_ENGINE,
                             DAMAGING_STATS_ENGINE,
                             BATTLEFIELD_REVIEW_ENGINE,
                             CURE_PROTECTION_ENGINE,
@@ -3675,9 +3719,10 @@ fn transition_inner(
                         ]
                         .contains(&c.engine.as_str()),
                         ..Default::default()
-                    },
+                    }),
                     ability_rules: [
                         ENGINE,
+                        ENTRY_HAZARDS_ENGINE,
                         DAMAGING_STATS_ENGINE,
                         BATTLEFIELD_REVIEW_ENGINE,
                         CURE_PROTECTION_ENGINE,
@@ -3715,6 +3760,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            ENTRY_HAZARDS_ENGINE,
                             DAMAGING_STATS_ENGINE,
                             BATTLEFIELD_REVIEW_ENGINE,
                             CURE_PROTECTION_ENGINE,
@@ -3752,6 +3798,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            ENTRY_HAZARDS_ENGINE,
                             DAMAGING_STATS_ENGINE,
                             BATTLEFIELD_REVIEW_ENGINE,
                             CURE_PROTECTION_ENGINE,
@@ -4315,6 +4362,9 @@ fn base_effect_dice(c: &Campaign, q: &QueuedAction, _cat: &Catalog) -> Result<u3
     if provenance::enabled(c) && q.sheer_force && !provenance::retained_attributes(q, _cat)? {
         return Ok(0);
     }
+    if let Some(n) = completion::effect_dice(c, q)? {
+        return Ok(n);
+    }
     if entry_hazards::handles(c, &q.move_name) {
         return Ok(0);
     }
@@ -4452,6 +4502,9 @@ fn effects_inner_base(
         return Ok(());
     }
     if tactics::move_effect(c, q, cat)? {
+        return Ok(());
+    }
+    if completion::effect(c, q, dice, cat)? {
         return Ok(());
     }
     if entry_hazards::effect(c, q)? {

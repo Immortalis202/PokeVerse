@@ -23,6 +23,7 @@ const deliveredCompound = new Set(Object.keys(compoundStatus.moves));
 const probes = await read("rules/move-effect-probes.json");
 const damagingStats = await read("rules/damaging-stat-moves.json");
 const entryHazards = await read("rules/entry-hazard-moves.json");
+const completion = await read("rules/move-completion.json");
 const interaction = await read("rules/battle-interactions.json");
 const special = await read("rules/special-moves.json");
 const tactics = await read("rules/tactics-reviewed.json");
@@ -221,6 +222,13 @@ const nonProducers = new Set([
 ]);
 const registryEvidence = (name) =>
   [
+    ...Object.entries(completion.blocks)
+      .filter(([, b]) => b.moves[name])
+      .map(([id, b]) => ({
+        registry: "rules/move-completion.json",
+        status: "automated",
+        scope: `${id}: ${b.scope}`,
+      })),
     entryHazards.moves[name] && {
       registry: "rules/entry-hazard-moves.json",
       status: "automated",

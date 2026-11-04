@@ -8,6 +8,51 @@ const read = (p) => JSON.parse(readFileSync(p, "utf8"));
 const audit = read("rules/move-effect-audit.json");
 const byName = new Map(audit.moves.map((m) => [m.name, m]));
 
+test("completion blocks retain exact source identities, printed decisions and executable routes", () => {
+  const r = read("rules/move-completion.json");
+  assert.equal(
+    createHash("sha256")
+      .update(
+        readFileSync("rules/move-completion.json", "utf8").replace(
+          /\r\n/g,
+          "\n",
+        ),
+      )
+      .digest("hex"),
+    read("rules/coverage.json").move_completion_registry_hash,
+  );
+  const names = new Set();
+  for (const [id, b] of Object.entries(r.blocks))
+    for (const [name, d] of Object.entries(b.moves)) {
+      assert.ok(!names.has(name), name);
+      names.add(name);
+      const m = byName.get(name);
+      assert.equal(d.sha256, m.sha256);
+      assert.equal(d.effect, m.effect);
+      assert.equal(m.route, "executable-scope", name);
+      assert.ok(
+        m.declared_scopes.some(
+          (s) =>
+            s.registry === "rules/move-completion.json" &&
+            s.scope.startsWith(id),
+        ),
+      );
+    }
+  for (const source of Object.values(r.printed_review))
+    assert.equal(
+      createHash("sha256")
+        .update(readFileSync(`../${source.source}`))
+        .digest("hex"),
+      source.sha256,
+    );
+  assert.equal(r.printed_review.snap_trap.visual_review, true);
+  assert.equal(
+    read("rules/battle-reviewed.json").moves["snap-trap:Snap Trap"].fields
+      .Attributes.OngoingDamage,
+    undefined,
+  );
+});
+
 test("MOVE-A02 preserves exact hazard sources and current executable routes", () => {
   const registry = read("rules/entry-hazard-moves.json");
   assert.deepEqual(Object.keys(registry.moves).sort(), [

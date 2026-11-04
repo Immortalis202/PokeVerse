@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.37.0-core",
-  "release": "0.45.0",
-  "protocol": 46,
+  "engine": "0.38.0-core",
+  "release": "0.46.0",
+  "protocol": 47,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -665,6 +665,19 @@
         "entry_hazards_missing_saved_flag_and_historical_routes_stay_disabled"
       ],
       "scope": "MOVE-A02: Spikes, Stealth Rock and Sticky Web; persistent scoped non-stacking placement, entry-only fixed typed/typeless damage or sourced Dexterity reduction, protections and cleanup. Saved flags default false; absent-source Mirror Armor reflection is explicit atomic GM adjudication."
+    },
+    {
+      "id": "move-completion-a03",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A03",
+      "fixtures": [
+        "completion_a03_all_seven_traps_use_public_effect_commands_and_reject_bad_authority",
+        "completion_a03_switch_and_forced_switch_are_blocked_with_explicit_gm_override",
+        "completion_a03_run_away_shields_decoys_and_type_immunity",
+        "completion_a03_source_departure_jaw_pair_release_save_and_rollback",
+        "completion_a03_area_recipients_reflection_and_historical_adoption"
+      ],
+      "scope": "Scene-long target blocking; Jaw Lock blocks both participants until either leaves or faints; normal/forced Switcher effects are prevented. Target exit ends its block; ordinary source departure does not end a whole-scene effect. Run Away remains immune."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -680,5 +693,6 @@
   "recurring_status_registry_hash": "a9c2856aaae67f89c61378e869603640b8fe356a8c66f443f734dda5c6592fa5",
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
-  "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3"
+  "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
+  "move_completion_registry_hash": "f6955ce6ab2a946998c6b9a6fc219847633883be928b230548766c0233281ccb"
 }

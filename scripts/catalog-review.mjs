@@ -36,6 +36,24 @@ export async function auditCatalog(catalog, { root, app, reviewed }) {
   const coverageRegistry = JSON.parse(
     await readFile(path.join(app, "rules/coverage.json"), "utf8"),
   );
+  const completionText = (
+    await readFile(path.join(app, "rules/move-completion.json"), "utf8")
+  ).replace(/\r\n/g, "\n");
+  if (
+    coverageRegistry.move_completion_registry_hash !==
+    createHash("sha256").update(completionText).digest("hex")
+  )
+    throw new Error("Move completion registry fingerprint mismatch");
+  for (const block of Object.values(JSON.parse(completionText).blocks)) {
+    for (const entry of Object.values(block.moves)) {
+      const bytes = await readFile(path.join(root, entry.source));
+      if (
+        createHash("sha256").update(bytes).digest("hex") !== entry.sha256 ||
+        JSON.parse(bytes).Effect !== entry.effect
+      )
+        throw new Error("Move completion source fingerprint mismatch");
+    }
+  }
   const hazardText = (
     await readFile(path.join(app, "rules/entry-hazard-moves.json"), "utf8")
   ).replace(/\r\n/g, "\n");

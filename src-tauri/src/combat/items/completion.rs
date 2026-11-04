@@ -425,7 +425,10 @@ pub fn hit(c: &mut Campaign, q: &QueuedAction, m: &serde_json::Value, cat: &Cata
             {
                 continue;
             }
-            if !forced && (extra::blocked(c, fighter(c, &out)?, cat) || special::blocked(c, &out)) {
+            if super::super::completion::blocked(c, &out)
+                || (!forced
+                    && (extra::blocked(c, fighter(c, &out)?, cat) || special::blocked(c, &out)))
+            {
                 continue;
             }
             state_mut(c).used.insert(key);

@@ -1235,3 +1235,6 @@ mod damaging_stats_tests;
 
 #[path = "combat_tests/entry_hazard_tests.rs"]
 mod entry_hazard_tests;
+
+#[path = "combat_tests/completion_tests.rs"]
+mod completion_tests;

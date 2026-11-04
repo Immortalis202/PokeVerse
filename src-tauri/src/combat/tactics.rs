@@ -1065,6 +1065,13 @@ pub fn move_effect(c: &mut Campaign, q: &QueuedAction, cat: &Catalog) -> Result<
     if forms::blocks_recall(c, out) {
         return Err(error("Commander blocks recall for the scene"));
     }
+    if completion::blocked(c, out) {
+        record(
+            c,
+            "Blocking prevents the Switcher effect, including forced switching".into(),
+        );
+        return Ok(true);
+    }
     if !forced && (extra::blocked(c, &p, cat) || special::blocked(c, out)) {
         return Err(error(
             "This participant is blocked from switching; record a GM exception",
@@ -1140,6 +1147,11 @@ fn resolve_switch(
     if ruling == "waive" {
         state_mut(c).switches.retain(|v| v.id != id);
         return Ok(());
+    }
+    if completion::blocked(c, &out.id) {
+        return Err(error(
+            "Blocking prevents this pending Switcher effect; the GM may waive the request",
+        ));
     }
     let entry = if ruling == "replace" {
         let key = into.ok_or_else(|| error("Choose a conscious registered reserve"))?;

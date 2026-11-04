@@ -37,6 +37,7 @@ fn move_effect_route_inventory() {
             f.battlefield_review = true;
             f.damaging_stats.enabled = true;
             f.entry_hazards = true;
+            f.completion = Box::new(crate::combat::completion::initial(ENGINE));
             f.identity_moves = true;
             f.house_rules = true;
             f.interaction_rules = true;

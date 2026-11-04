@@ -1,6 +1,6 @@
 # Move-effect audit: milestone 1
 
-Snapshot refreshed: 4 November 2026, app **0.45.0**, engine **0.37.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
+Snapshot refreshed: 4 November 2026, app **0.46.0**, engine **0.38.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
 
 ## Deliverables and limits
 
@@ -18,13 +18,13 @@ The diagnostic deliberately bypasses accuracy, damage, targeting expansion, acti
 
 | Effect-route result | Cards | Meaning |
 | --- | ---: | --- |
-| executable-scope | 527 | At least one probe resolves; only recorded scopes are asserted. |
+| executable-scope | 534 | At least one probe resolves; only recorded scopes are asserted. |
 | input-required | 12 | Existing handler requests a selection, resource, weather or other legitimate prerequisite. |
-| manual-effect-route | 314 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
+| manual-effect-route | 307 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
 | gm-choice | 1 | Hold Hands: narrative battle-ending decision remains with the storyteller. |
 | excluded | 38 | Supplied Max/Z cards and the user-excluded Sappy Seed. |
 
-These totals sum to 892. **314 manual-effect-route results remain after MOVE-A02. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
+These totals sum to 892. **307 manual-effect-route results remain after MOVE-A03. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
 
 | Focused status result | Cards |
 | --- | ---: |
@@ -193,7 +193,7 @@ A six triggers the single printed Chance pool. Serene Grace, Wonder Skin, Loaded
 
 New 0.36.0-core encounters enable the boxed `damaging_stats` state. Missing saved state defaults disabled; 0.35.0-core remains accepted with its previous M3 behavior. Protocol 45 carries the new state. App version is 0.44.0.
 
-**The whole move catalog is not complete.** The 314 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
+**The whole move catalog is not complete.** The 307 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
 
 
 ### MOVE-A01 verification (1 November 2026)
@@ -221,3 +221,17 @@ New 0.37.0-core encounters enable `TurnFlow.entry_hazards`; saved missing state 
 All **818 Rust tests passed**, including localhost multiplayer regressions and the explicitly enabled 892-card / 1,784-scenario route diagnostic. After the final distinction between a fresh deployment and recovery in an occupied slot, all **eight entry-hazard regression groups** and the diagnostic passed again. These groups cover casts, permissions and invalid dice; recasts and overlapping scopes; repeat lifecycle calls; genuine switches and re-entry; fixed and typed damage; Boots, Ground and indirect-damage immunity; live Gravity; sourced stat protections and reactions; caster departure; reflection and the atomic absent-source GM boundary; Defog/Tidy Up/Mortal Spin; save roundtrips, rollback and missing historical flags.
 
 **74 frontend tests, 53 script/catalog checks, TypeScript, Rust formatting and diff checks passed.** The final regenerated audit also passed all ten move-audit checks. The catalog and five existing species comparison reports plus both closure records were refreshed for the new rules fingerprint. No Clippy, native UI, app packaging or physical LAN/VPN acceptance was run. MOVE-A02 is complete at this documented scope; 314 other fallback routes remain.
+
+
+### MOVE-A03: basic Blocking (4 November 2026)
+
+Anchor Shot, Block, Jaw Lock, Mean Look, Snap Trap, Spirit Shackle and Thousand Waves use the exact source records in [move-completion.json](../rules/move-completion.json). RULING 76 explicitly prevents escape, recall, switching and Switcher effects, including forced replacement. Run Away is immune. Physical damage immunity, shields, decoys and source reflection reuse the ordinary pipeline; Support moves do not gain an invented blanket Ghost-type escape exemption.
+
+Ordinary scene-long target blocks survive source departure; target departure/fainting ends the target's effect through the existing lifecycle. Jaw Lock records both participants and releases the pair when either departs or faints, following its printed description and the necessary absence of a maintained grip. Each target of Thousand Waves resolves independently. The GM retains an explicit switch override; pending Switcher requests are revalidated.
+
+Snap Trap: supplied JSON `OngoingDamage: true` conflicts with MASTER printed 479 / PDF 346. The full printed card was rendered and visually checked: prose and icons show Blocking plus scene duration, with no ongoing damage. An application-owned Attributes correction removes that unsupported flag; upstream JSON is unchanged.
+
+New 0.38.0-core encounters adopt MOVE-A03; prior 0.37.0-core retains MOVE-A02. Serialized missing completion state adopts no blocks. App 0.46.0 / protocol 47. Further block work is tracked in [the completion ledger](MOVE-COMPLETION-BLOCKS.md).
+
+
+MOVE-A03 verification: all **824 Rust tests passed**, including the diagnostic and localhost/3v3 regressions with the boxed special-effect state. **74 frontend tests, 54 script/catalog checks, TypeScript, Rust formatting and diff checks passed.** After resolving the generated-name collision with item completion, both move-state and TurnFlow binding exports passed and TypeScript was checked again. Inventory: **534 executable scopes, 307 manual-effect routes**. No Clippy, app packages, native UI or physical-network acceptance was run.

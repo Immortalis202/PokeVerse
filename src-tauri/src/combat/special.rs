@@ -901,7 +901,8 @@ pub fn lifecycle(_before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<
         }
     }
     state_mut(c).effects.retain(|e| {
-        active.contains(&e.target) || ["Wish", "Shadow Force"].contains(&e.name.as_str())
+        (active.contains(&e.target) || ["Wish", "Shadow Force"].contains(&e.name.as_str()))
+            && (e.name != "move-block:Jaw Lock" || active.contains(&e.source))
     });
     let ids: Vec<_> = state(c)
         .rampages
@@ -2842,6 +2843,9 @@ pub fn after_reaction(c: &mut Campaign, id: &str, kind: &str, cat: &Catalog) -> 
     Ok(())
 }
 pub fn blocked(c: &Campaign, id: &str) -> bool {
+    if completion::blocked(c, id) {
+        return true;
+    }
     enabled(c)
         && state(c)
             .effects

@@ -10,6 +10,7 @@ import type { FieldEffect } from "./FieldEffect";
 import type { FormState } from "./FormState";
 import type { InformationState } from "./InformationState";
 import type { ItemState } from "./ItemState";
+import type { MoveCompletionState } from "./MoveCompletionState";
 import type { QueuedAction } from "./QueuedAction";
 import type { RecurringState } from "./RecurringState";
 import type { SequencingState } from "./SequencingState";
@@ -23,6 +24,7 @@ import type { TransferState } from "./TransferState";
 export type TurnFlow = {
   battlefield_review: boolean;
   entry_hazards: boolean;
+  completion: MoveCompletionState;
   damaging_stats: StatMoveState;
   status_escalation: boolean;
   spite: boolean;

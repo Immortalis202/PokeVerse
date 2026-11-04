@@ -1211,6 +1211,19 @@
       },
       "coverage": "Existing Area damage and three Chance dice to Freeze; accuracy reduces rolled successes by 2.",
       "notes": "M4-C01: visually inspected complete MASTER printed 469 / PDF 336 on 30 October 2026. Low Accuracy 2 prose and downward accuracy-2 icon agree. Correct supplied AccuracyReduction +2 to -2; preserve Lethal and WindMove. Source JSON remains unchanged."
+    },
+    "snap-trap:Snap Trap": {
+      "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "page": 479,
+      "pdf_page": 346,
+      "fields": {
+        "Attributes": {
+          "BlockDamagePool": 0,
+          "Duration": "wholeScene"
+        }
+      },
+      "coverage": "Scene Blocking, no ongoing damage",
+      "notes": "MOVE-A03: visually checked printed prose/icons; supplied OngoingDamage=true contradicts the printed card. Upstream unchanged."
     }
   },
   "abilities": {
@@ -2233,7 +2246,7 @@
       "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
       "page": 540,
       "fields": {
-        "Effect": "The Pokemon permanently has the “Sleep” Status Ailment but it is immune to its effects. This Pokemon can't be inflicted other Status Ailment or Condition. Moves and Abilities affecting Asleep Pokemon still have an effect on it."
+        "Effect": "The Pokemon permanently has the \u201cSleep\u201d Status Ailment but it is immune to its effects. This Pokemon can't be inflicted other Status Ailment or Condition. Moves and Abilities affecting Asleep Pokemon still have an effect on it."
       },
       "coverage": "Record permanent Sleep while allowing actions; other supported ailments are prevented and ordinary wake-up controls are rejected.",
       "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."
@@ -2674,7 +2687,7 @@
       "source": "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
       "page": 558,
       "fields": {
-        "Effect": "This Pokemon won't recieve damage from Hail or Sandstorm weather. This Pokémon is immune to the added effects of Powder Moves."
+        "Effect": "This Pokemon won't recieve damage from Hail or Sandstorm weather. This Pok\u00e9mon is immune to the added effects of Powder Moves."
       },
       "coverage": "Prevent supported powder effects and Sandstorm/Hail exposure damage; other weather mechanics retain their normal effects.",
       "notes": "Reviewed Pokerole definition. Scope and unsupported dependencies are recorded separately in ability-coverage.json; no video-game mechanics substituted."

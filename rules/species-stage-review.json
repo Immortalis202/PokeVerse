@@ -1,7 +1,7 @@
 {
   "batch": "M4-S01",
   "scope": "All exact identities' learning-cost stages and price schedules; JSON graph and user policies, no new printed certification",
-  "catalog_hash": "829712c27643509da85ed2dc77afbb7223d386283ff48f75cd1e28f3efe51518",
+  "catalog_hash": "5a149fefb983aa4b6847220ba82cc6e0dcc4b4ca4a81d02ce8a943e063988165",
   "species": [
     {
       "id": "0460M1:abomasnow-mega-form",

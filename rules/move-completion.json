@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "blocks": {
+    "MOVE-A03": {
+      "engine": "0.38.0-core",
+      "kind": "trap",
+      "scope": "Scene-long target blocking; Jaw Lock blocks both participants until either leaves or faints; normal/forced Switcher effects are prevented. Target exit ends its block; ordinary source departure does not end a whole-scene effect. Run Away remains immune.",
+      "moves": {
+        "Anchor Shot": {
+          "source": "Pokerole-Data/v3.0/Moves/Anchor Shot.json",
+          "sha256": "24305b13d6a87f5456274cd2b4d0cdcf24b81ddb2e2bfbfbdd62635cf0cb4fd6",
+          "effect": "Single Target. Ranged. Blocks. Whole Scene Duration.",
+          "both": false
+        },
+        "Block": {
+          "source": "Pokerole-Data/v3.0/Moves/Block.json",
+          "sha256": "85fa83aa509c3ced924458fb18a780340998bb0c5e45d0f45f6ecd53767edc36",
+          "effect": "Single Target. Blocks. Whole Scene Duration.",
+          "both": false
+        },
+        "Jaw Lock": {
+          "source": "Pokerole-Data/v3.0/Moves/Jaw Lock.json",
+          "sha256": "391967d46ed47f2d3b096e4393139a55deeeb3cfc6ed7b47899f2ee92182df96",
+          "effect": "Single Target. Bite Move. Blocks both User and Target. Whole Scene Duration.",
+          "both": true
+        },
+        "Mean Look": {
+          "source": "Pokerole-Data/v3.0/Moves/Mean Look.json",
+          "sha256": "6ae501b2cefce505fdf67ed31af1bf4ed980d768d4356b51cd8932a0b2395061",
+          "effect": "Single Target. Blocks. Whole Scene Duration.",
+          "both": false
+        },
+        "Snap Trap": {
+          "source": "Pokerole-Data/v3.0/Moves/Snap Trap.json",
+          "sha256": "38bd2dd3b729fd680cd07adff440a567c698ff410db6189a29950c7be41e9ea1",
+          "effect": "Single Target. Blocks. Whole Scene Duration.",
+          "both": false
+        },
+        "Spirit Shackle": {
+          "source": "Pokerole-Data/v3.0/Moves/Spirit Shackle.json",
+          "sha256": "4ea91fb97de3810bf7dd7bd00180a23f7dc4a76023c1e7536375588e66c3f8bd",
+          "effect": "Single Target. Blocks. Whole Scene Duration.",
+          "both": false
+        },
+        "Thousand Waves": {
+          "source": "Pokerole-Data/v3.0/Moves/Thousand Waves.json",
+          "sha256": "e0c595aa3768452788aa5cc5f5c0d93e694eded1364b877e3fbadd91109f9b6b",
+          "effect": "Target All Foes in Range. Ranged. Unique. Blocks. Whole Scene Duration.",
+          "both": false
+        }
+      }
+    }
+  },
+  "printed_review": {
+    "ruling": {
+      "source": "Pokerole-Data/POKEROLE COREBOOK 3.0 RULING.pdf",
+      "sha256": "f50014b330cc00db83906cf232ba432855f4f624684a84c3c494b47390284d74",
+      "pages": [76, 80],
+      "review": "Extracted definitions: Blocking prevents escape/recall/switching and Switcher effects; ongoing damage is 2 typeless dice, first source only."
+    },
+    "snap_trap": {
+      "source": "Pokerole-Data/POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "sha256": "f8a1ab8c7c059c1e32b658a6770893e58f364fd4c8d28ca87ec912154cfd6cc2",
+      "printed": 479,
+      "pdf": 346,
+      "visual_review": true,
+      "decision": "Printed prose and icons show scene Blocking only. Remove unsupported OngoingDamage metadata in the application correction layer."
+    }
+  }
+}
