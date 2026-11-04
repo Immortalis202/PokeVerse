@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.39.0-core",
-  "release": "0.47.0",
-  "protocol": 48,
+  "engine": "0.40.0-core",
+  "release": "0.48.0",
+  "protocol": 49,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -690,6 +690,17 @@
         "completion_a04_sheer_force_recognizes_metadata_empty_ongoing_and_old_blocks_stay_old"
       ],
       "scope": "Ten standard four-round ongoing moves: 2 typeless dice at round end, defenses ignored, first ongoing source only. Blocking is separate; Clamp blocks both participants. Source-defined evasion difficulty remains GM discretion. Cleanse removes the matching ongoing trap, not independent scene blocks."
+    },
+    {
+      "id": "move-completion-a05",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A05",
+      "fixtures": [
+        "completion_a05_magma_storm_has_three_typed_dice_and_live_fire_immunity",
+        "completion_a05_salt_cure_overrides_initial_typing_and_adds_one_flat_ongoing_damage",
+        "completion_a05_salt_cure_uses_live_types_and_retains_earlier_encounter_typing"
+      ],
+      "scope": "Magma Storm: four-round Blocking and 3 Fire-type damage dice at round end. Salt Cure: four-round 2 typeless dice, super-effective initial damage against Steel/Water and 1 extra ongoing damage against either type. Existing first-source priority and type/protection precedence are retained."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -706,5 +717,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "abeb44446a8b5a6c256810938b376873843a858f5ab5001868ca73b87850e470"
+  "move_completion_registry_hash": "f888a40078f781ed59da07169027cd682c3ca17b6853ec2e7f61a44472d01dcf"
 }

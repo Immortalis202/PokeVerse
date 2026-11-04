@@ -166,6 +166,35 @@
           "evasion_gm": true
         }
       }
+    },
+    "MOVE-A05": {
+      "engine": "0.40.0-core",
+      "kind": "ongoing",
+      "scope": "Magma Storm: four-round Blocking and 3 Fire-type damage dice at round end. Salt Cure: four-round 2 typeless dice, super-effective initial damage against Steel/Water and 1 extra ongoing damage against either type. Existing first-source priority and type/protection precedence are retained.",
+      "moves": {
+        "Magma Storm": {
+          "source": "Pokerole-Data/v3.0/Moves/Magma Storm.json",
+          "sha256": "2ebb5b151c3f909ec0ffa970ed5ac32dcedec0b1c5fdb921690bcc5be3a8bf50",
+          "effect": "Single Target. Low Accuracy 2. Lethal. Blocks. Roll 3 Fire-Type Damage Dice ignoring defenses at the end of each Round. Duration 4 Rounds.",
+          "rounds": 4,
+          "dice": 3,
+          "damage_type": "Fire",
+          "block": true,
+          "both": false
+        },
+        "Salt Cure": {
+          "source": "Pokerole-Data/v3.0/Moves/Salt Cure.json",
+          "sha256": "ac428bceaac23b189a7d48a2746e30d7f6018ba280cb26470e0427476436d8e9",
+          "effect": "Single Target. Ranged. Ongoing Damage. Duration 4 Rounds. Steel-Type and Water-Type Pokemon receive Super-Effective Damage from this Move and 1 Extra Damage from the Ongoing Damage.",
+          "rounds": 4,
+          "dice": 2,
+          "damage_type": "Neutral",
+          "block": false,
+          "both": false,
+          "super_effective_types": ["Steel", "Water"],
+          "extra_tick_types": ["Steel", "Water"]
+        }
+      }
     }
   },
   "printed_review": {

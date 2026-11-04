@@ -60,6 +60,7 @@ fn immune_target(c: &Campaign, q: &QueuedAction, cat: &Catalog) -> Result<bool> 
     if m["Category"] != "Support" {
         let (n, immune) =
             rules::type_matchup(c, &source, target, m["Type"].as_str().unwrap_or(""), cat)?;
+        let n = effectiveness(c, &m, target, cat, n)?;
         return Ok(immune
             || abilities::damage_immune_from(c, &source, target, &m)
             || extra::source_immune(c, &source, target, n));
@@ -180,16 +181,59 @@ pub fn tick(
     let name = e.name.strip_prefix("ongoing:").unwrap();
     let (_, d) = definition(c, name).unwrap();
     let before = fighter(c, &e.target)?.hp;
-    field::hurt(
-        c,
-        &e.target,
-        rules::successes(dice),
-        d["damage_type"].as_str().unwrap(),
-        cat,
-    )?;
+    let damage_type = d["damage_type"].as_str().unwrap();
+    let target = fighter(c, &e.target)?;
+    let immune = damage_type != "Neutral"
+        && abilities::damage_immune(
+            c,
+            target,
+            &serde_json::json!({"Type":damage_type,"Category":"Special"}),
+        );
+    let extra = i32::from(matches_types(c, target, cat, &d["extra_tick_types"])?);
+    if !immune {
+        field::hurt(
+            c,
+            &e.target,
+            rules::successes(dice) + extra,
+            damage_type,
+            cat,
+        )?;
+    }
     let lost = before - fighter(c, &e.target)?.hp;
     ability_changes::record_sourced(c, &e.source, &e.target, lost, name);
     Ok(true)
+}
+
+fn matches_types(
+    c: &Campaign,
+    target: &Combatant,
+    cat: &Catalog,
+    list: &serde_json::Value,
+) -> Result<bool> {
+    let Some(list) = list.as_array() else {
+        return Ok(false);
+    };
+    Ok(field::types(c, target, cat)?
+        .iter()
+        .any(|t| list.iter().any(|v| v.as_str() == Some(t))))
+}
+pub fn effectiveness(
+    c: &Campaign,
+    m: &serde_json::Value,
+    target: &Combatant,
+    cat: &Catalog,
+    base: i32,
+) -> Result<i32> {
+    let Some((_, d)) = definition(c, m["Name"].as_str().unwrap_or("")) else {
+        return Ok(base);
+    };
+    Ok(
+        if matches_types(c, target, cat, &d["super_effective_types"])? {
+            1
+        } else {
+            base
+        },
+    )
 }
 pub fn cleanse(c: &mut Campaign, id: &str) {
     let paired: Vec<_> = flow(c)

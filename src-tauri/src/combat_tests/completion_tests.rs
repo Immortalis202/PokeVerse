@@ -599,3 +599,109 @@ fn completion_a04_sheer_force_recognizes_metadata_empty_ongoing_and_old_blocks_s
         "manual_rule"
     );
 }
+
+fn set_species(c: &mut Campaign, t: &str, name: &str) {
+    let sid = p(c, t).sheet_id.clone();
+    c.sheets.get_mut(&sid).unwrap().species_id = Some(
+        catalog().find("species", "Name", name).unwrap()["AppId"]
+            .as_str()
+            .unwrap()
+            .into(),
+    );
+}
+#[test]
+fn completion_a05_magma_storm_has_three_typed_dice_and_live_fire_immunity() {
+    for ability in ["", "Flash Fire", "Magic Guard"] {
+        let (c, a, t) = setup("Magma Storm");
+        let mut c = resolve(&pending(&c, &a, &t, "Magma Storm"));
+        assert!(completion::blocked(&c, &t));
+        assert_eq!(ongoing(&c, &t).1.rounds, Some(4));
+        pm(&mut c, &t).selected_ability = ability.into();
+        let c = round_end(&c);
+        let hp = p(&c, &t).hp;
+        let action = tick_action(&c, &t);
+        assert_eq!(rules::dice_count(&c, &action, &catalog()).unwrap(), 3);
+        let c = battle::transition(&c, "gm", &action, vec![6, 6, 1], &catalog())
+            .unwrap()
+            .0;
+        assert_eq!(
+            p(&c, &t).hp,
+            hp - if ability.is_empty() { 2 } else { 0 },
+            "{ability}"
+        );
+    }
+}
+#[test]
+fn completion_a05_salt_cure_overrides_initial_typing_and_adds_one_flat_ongoing_damage() {
+    for (species, adjustment, extra) in [
+        ("Mawile", 1, 1),
+        ("Mudkip", 1, 1),
+        ("Empoleon", 1, 1),
+        ("Eevee", 0, 0),
+        ("Charizard", 2, 0),
+    ] {
+        let (mut c, a, t) = setup("Salt Cure");
+        set_species(&mut c, &t, species);
+        let c = hit(&c, &a, &t, "Salt Cure");
+        let c = pass(&c);
+        let c = roll(&c, "gm", &damage_command(&c), 6);
+        assert_eq!(
+            q(&c).damage,
+            q(&c).raw_damage_successes as i32 + adjustment,
+            "{species}"
+        );
+        let c = resolve(&c);
+        assert!(!completion::blocked(&c, &t));
+        let c = round_end(&c);
+        let hp = p(&c, &t).hp;
+        let action = tick_action(&c, &t);
+        assert_eq!(rules::dice_count(&c, &action, &catalog()).unwrap(), 2);
+        let c = battle::transition(&c, "gm", &action, vec![1, 1], &catalog())
+            .unwrap()
+            .0;
+        assert_eq!(
+            p(&c, &t).hp,
+            hp - extra,
+            "{species}: fixed extra damage is not another die and both types do not stack"
+        );
+    }
+}
+#[test]
+fn completion_a05_salt_cure_uses_live_types_and_retains_earlier_encounter_typing() {
+    let (mut c, a, t) = setup("Salt Cure");
+    set_species(&mut c, &t, "Mudkip");
+    let c = resolve(&pending(&c, &a, &t, "Salt Cure"));
+    let c = round_end(&c);
+    let c = decision(
+        &c,
+        "gm",
+        Action::Battlefield {
+            command: crate::combat::field::FieldCommand::Typing {
+                combatant_id: t.clone(),
+                mode: "replace".into(),
+                types: vec!["Normal".into()],
+            },
+            reason: "Change live typing before ongoing damage".into(),
+        },
+    );
+    let hp = p(&c, &t).hp;
+    let action = tick_action(&c, &t);
+    let c = battle::transition(&c, "gm", &action, vec![1, 1], &catalog())
+        .unwrap()
+        .0;
+    assert_eq!(p(&c, &t).hp, hp);
+    let (mut c, a, t) = setup("Salt Cure");
+    set_species(&mut c, &t, "Mawile");
+    c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
+        Box::new(completion::initial(ONGOING_MOVES_ENGINE));
+    let c = hit(&c, &a, &t, "Salt Cure");
+    let c = pass(&c);
+    let c = roll(&c, "gm", &damage_command(&c), 6);
+    assert_eq!(q(&c).damage, (q(&c).raw_damage_successes as i32 - 1).max(0));
+    assert_eq!(
+        battle::transition(&c, "gm", &cmd(&c), vec![], &catalog())
+            .unwrap_err()
+            .code,
+        "manual_rule"
+    );
+}

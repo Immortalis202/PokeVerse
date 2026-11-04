@@ -10,7 +10,8 @@ The live source of remaining route work is `rules/move-effect-audit.json`. Its f
 | MOVE-A02 | Spikes, Stealth Rock, Sticky Web | Committed 4642278 |
 | MOVE-A03 | Seven scene Blocking moves; shared saved block adoption | Complete |
 | MOVE-A04 | Ten standard four-round trapping/ongoing moves and first-source priority | Complete |
-| MOVE-A05 | Magma Storm and Salt Cure damage exceptions | Next |
+| MOVE-A05 | Magma Storm and Salt Cure damage exceptions | Complete |
+| MOVE-A06 | Ordinary attacks whose printed attributes already run in accuracy/damage | Next |
 | Later blocks | Ordinary attacks with existing attributes; remaining stat changes, resets and swaps; type/damage conversions; field changes; conditional damage; timing/action restrictions; items; copy/selection effects | Open |
 
 New block adoption is persisted in `TurnFlow.completion.blocks`. Every release records its engine in `rules/move-completion.json`; historical saves adopt no additional blocks automatically. The shared special-effect state is boxed while preserving its JSON shape to keep transition stack usage bounded.

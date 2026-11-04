@@ -224,6 +224,7 @@ pub fn accuracy(
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
     if [
         ENGINE,
+        ONGOING_MOVES_ENGINE,
         BASIC_BLOCK_ENGINE,
         ENTRY_HAZARDS_ENGINE,
         DAMAGING_STATS_ENGINE,
@@ -499,6 +500,8 @@ pub fn damage_pool(
         0
     };
     let (mut effectiveness, mut immune) = type_matchup(c, attacker, target, move_type, catalog)?;
+    effectiveness =
+        crate::combat::completion::effectiveness(c, &m, target, catalog, effectiveness)?;
     if crate::combat::forms::tera_shell(c, target, &m) {
         effectiveness = -1;
         immune = false;

@@ -1,8 +1,8 @@
 {
   "version": 1,
   "date": "2026-11-04",
-  "release": "0.47.0",
-  "engine": "0.39.0-core",
+  "release": "0.48.0",
+  "engine": "0.40.0-core",
   "scope": "892-card effect-route inventory; focused semantic review of status infliction, cure and protection clauses. M2-A through M2-E battle status clauses and MOVE-A01 damaging attribute clauses plus MOVE-A02 entry hazards delivered; see scoped registries and retained choices.",
   "limits": [
     "An executable route is not full card coverage.",
@@ -19,10 +19,10 @@
   "counts": {
     "routes": {
       "excluded": 38,
-      "executable-scope": 544,
+      "executable-scope": 546,
       "gm-choice": 1,
       "input-required": 12,
-      "manual-effect-route": 297
+      "manual-effect-route": 295
     },
     "status_clauses": {
       "excluded": 6,
@@ -21811,24 +21811,41 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [
         "Optional lethal wounds are excluded; ordinary damage remains separate"
       ],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A05: Magma Storm: four-round Blocking and 3 Fire-type damage dice at round end. Salt Cure: four-round 2 typeless dice, super-effective initial damage against Steel/Water and 1 extra ongoing damage against either type. Existing first-source priority and type/protection precedence are retained.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -31388,22 +31405,39 @@
       },
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A05: Magma Storm: four-round Blocking and 3 Fire-type damage dice at round end. Salt Cure: four-round 2 typeless dice, super-effective initial damage against Steel/Water and 1 extra ongoing damage against either type. Existing first-source priority and type/protection precedence are retained.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
