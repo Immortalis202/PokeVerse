@@ -1136,3 +1136,245 @@ fn completion_a09_weather_ball_preserves_all_weather_types_and_two_bonus_dice() 
             .is_empty());
     }
 }
+#[test]
+fn completion_a10_all_eleven_losses_use_exact_chance_and_remove_successes_not_dice() {
+    let r: serde_json::Value =
+        serde_json::from_str(include_str!("../../../rules/move-completion.json")).unwrap();
+    for (name, d) in r["blocks"]["MOVE-A10"]["moves"].as_object().unwrap() {
+        let (c, a, t) = setup(name);
+        let c = pending(&c, &a, &t, name);
+        let n = rules::dice_count(&c, &cmd(&c), &catalog()).unwrap();
+        assert_eq!(n, d["dice"].as_u64().unwrap() as u32, "{name}");
+        for face in [5, 6] {
+            let after = roll(&c, "gm", &cmd(&c), face);
+            let loss = completion::accuracy_loss(&after, &t);
+            assert_eq!(
+                loss,
+                if n == 0 || face == 6 {
+                    d["amount"].as_i64().unwrap() as i32
+                } else {
+                    0
+                },
+                "{name}"
+            );
+            assert_eq!(p(&after, &t).hp, p(&c, &t).hp);
+            let mut affected = after.clone();
+            turn(&mut affected, &t, "Tackle");
+            let mut control = affected.clone();
+            control
+                .battle
+                .as_mut()
+                .unwrap()
+                .flow
+                .as_mut()
+                .unwrap()
+                .special
+                .effects
+                .retain(|e| !e.name.starts_with("accuracy-loss:"));
+            let action = super::targeting_tests::attack(&t, vec![a.clone()], "Tackle");
+            assert_eq!(
+                rules::dice_count(&affected, &action, &catalog()).unwrap(),
+                rules::dice_count(&control, &action, &catalog()).unwrap(),
+                "{name}: pool dice unchanged"
+            );
+            let outcome = ordinary_accuracy(&affected, &t, &a, "Tackle");
+            assert_eq!(
+                outcome
+                    .battle
+                    .as_ref()
+                    .unwrap()
+                    .flow
+                    .as_ref()
+                    .unwrap()
+                    .queue
+                    .is_empty(),
+                loss > 0,
+                "{name}: exactly one success"
+            );
+        }
+    }
+}
+#[test]
+fn completion_a10_losses_do_not_stack_and_keen_eye_protection_remains_live() {
+    let (c, a, t) = setup("Sand Attack");
+    let mut c = resolve(&pending(&c, &a, &t, "Sand Attack"));
+    turn(&mut c, &a, "Mud Slap");
+    let mut c = resolve(&pending(&c, &a, &t, "Mud Slap"));
+    assert_eq!(completion::accuracy_loss(&c, &t), 1);
+    turn(&mut c, &a, "Spacial Rend");
+    let mut c = resolve(&pending(&c, &a, &t, "Spacial Rend"));
+    assert_eq!(completion::accuracy_loss(&c, &t), 5);
+    pm(&mut c, &t).selected_ability = "Keen Eye".into();
+    turn(&mut c, &t, "Tackle");
+    let after = ordinary_accuracy(&c, &t, &a, "Tackle");
+    assert!(!after
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .queue
+        .is_empty());
+    let saved: Campaign = serde_json::from_value(serde_json::to_value(&c).unwrap()).unwrap();
+    assert_eq!(completion::accuracy_loss(&saved, &t), 5);
+    pm(&mut c, &t).selected_ability.clear();
+    pm(&mut c, &t).deployed = false;
+    special::lifecycle(&saved, &mut c, &catalog()).unwrap();
+    assert_eq!(completion::accuracy_loss(&c, &t), 0);
+}
+#[test]
+fn completion_a10_reflection_shield_dust_chance_modifiers_and_historical_gate() {
+    let (mut c, a, t) = setup("Mud Slap");
+    pm(&mut c, &t).selected_ability = "Mirror Armor".into();
+    let c = resolve(&pending(&c, &a, &t, "Mud Slap"));
+    assert_eq!(completion::accuracy_loss(&c, &a), 1);
+    assert_eq!(completion::accuracy_loss(&c, &t), 0);
+    let (mut c, a, t) = setup("Leaf Tornado");
+    pm(&mut c, &t).selected_ability = "Shield Dust".into();
+    let c = resolve(&pending(&c, &a, &t, "Leaf Tornado"));
+    assert_eq!(completion::accuracy_loss(&c, &t), 0);
+    let (mut c, a, t) = setup("Leaf Tornado");
+    pm(&mut c, &a).selected_ability = "Serene Grace".into();
+    pm(&mut c, &t).selected_ability = "Wonder Skin".into();
+    let c = pending(&c, &a, &t, "Leaf Tornado");
+    assert_eq!(rules::dice_count(&c, &cmd(&c), &catalog()).unwrap(), 5);
+    let (mut c, a, t) = setup("Sand Attack");
+    c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
+        Box::new(completion::initial(DAMAGE_RULE_ATTACKS_ENGINE));
+    let c = pending(&c, &a, &t, "Sand Attack");
+    assert_eq!(
+        battle::transition(&c, "gm", &cmd(&c), vec![], &catalog())
+            .unwrap_err()
+            .code,
+        "manual_rule"
+    );
+}
+#[test]
+fn completion_a10_clear_amulet_sheer_force_and_independent_area_chance() {
+    let (mut c, a, t) = setup("Mud Slap");
+    let sid = p(&c, &t).sheet_id.clone();
+    let mut s = c.sheets[&sid].clone();
+    s.inventory.insert("Clear Amulet".into(), 1);
+    c.sheets.insert(
+        sid,
+        crate::combat::items::equip(&s, "Clear Amulet", "accuracy-amulet", &catalog()).unwrap(),
+    );
+    let f = c.battle.as_mut().unwrap().flow.as_mut().unwrap();
+    f.items.enabled = true;
+    f.items.completion.enabled = true;
+    crate::combat::items::initialize(&mut c, &catalog()).unwrap();
+    crate::combat::items::completion::initialize(&mut c, &catalog());
+    let c = resolve(&pending(&c, &a, &t, "Mud Slap"));
+    assert_eq!(completion::accuracy_loss(&c, &t), 0);
+    let (mut c, a, t) = setup("Spacial Rend");
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .provenance_rules = true;
+    pm(&mut c, &a).selected_ability = "Sheer Force".into();
+    let c = decision(
+        &c,
+        "gm",
+        Action::ChooseSheerForce {
+            combatant_id: a.clone(),
+            ignore_added_effects: true,
+            reason: "Retain damage instead of accuracy loss".into(),
+        },
+    );
+    let c = pending(&c, &a, &t, "Spacial Rend");
+    assert!(c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .queue
+        .is_empty());
+    assert_eq!(completion::accuracy_loss(&c, &t), 0);
+    let (mut c, a, t) = setup("Muddy Water");
+    let b = c.battle.as_mut().unwrap();
+    let mut third = b.combatants[1].clone();
+    third.id = id();
+    let other = third.id.clone();
+    b.combatants.push(third);
+    b.flow.as_mut().unwrap().tactics.enabled = true;
+    let action = super::targeting_tests::attack(&a, vec![t.clone(), other.clone()], "Muddy Water");
+    let mut c = roll(&c, "gm", &action, 6);
+    c = pass(&pass(&c));
+    let first = q(&c).target_id;
+    for face in [5, 6] {
+        c = roll(&c, "gm", &damage_command(&c), 1);
+        c = roll(&c, "gm", &cmd(&c), face);
+    }
+    assert_eq!(completion::accuracy_loss(&c, &first), 0);
+    assert_eq!(
+        completion::accuracy_loss(&c, if first == t { &other } else { &t }),
+        1
+    );
+}
+#[test]
+fn completion_a10_tactics_reaction_uses_success_loss_and_live_keen_eye() {
+    for keen in [false, true] {
+        let (mut c, a, t) = setup("Sand Attack");
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .tactics
+            .enabled = true;
+        let mut c = resolve(&pending(&c, &a, &t, "Sand Attack"));
+        turn(&mut c, &a, "Tackle");
+        let sid = p(&c, &t).sheet_id.clone();
+        c.sheets
+            .get_mut(&sid)
+            .unwrap()
+            .moves
+            .push("Quick Attack".into());
+        if keen {
+            pm(&mut c, &t).selected_ability = "Keen Eye".into();
+        }
+        let incoming = Action::Accuracy {
+            combatant_id: a.clone(),
+            target_id: Some(t.clone()),
+            move_name: "Tackle".into(),
+            pool_modifier: 0,
+            success_modifier: 1,
+            reason: "Incoming move with one success".into(),
+        };
+        let c = roll(&c, "gm", &incoming, 1);
+        let reaction = Action::Tactics {
+            command: crate::combat::tactics::TacticsCommand::Reaction {
+                combatant_id: t.clone(),
+                move_name: "Quick Attack".into(),
+                target_ids: vec![a.clone()],
+            },
+            reason: "One-success move reaction".into(),
+        };
+        let n = rules::dice_count(&c, &reaction, &catalog()).unwrap();
+        let mut faces = vec![1; n as usize];
+        faces[0] = 6;
+        let after = battle::transition(&c, "gm", &reaction, faces, &catalog())
+            .unwrap()
+            .0;
+        assert_eq!(
+            after
+                .battle
+                .as_ref()
+                .unwrap()
+                .flow
+                .as_ref()
+                .unwrap()
+                .queue
+                .iter()
+                .any(|q| q.actor_id == t),
+            keen
+        );
+    }
+}

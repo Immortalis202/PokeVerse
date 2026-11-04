@@ -1,6 +1,6 @@
 # Move-effect audit: milestone 1
 
-Snapshot refreshed: 4 November 2026, app **0.52.0**, engine **0.44.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
+Snapshot refreshed: 4 November 2026, app **0.53.0**, engine **0.45.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
 
 ## Deliverables and limits
 
@@ -18,13 +18,13 @@ The diagnostic deliberately bypasses accuracy, damage, targeting expansion, acti
 
 | Effect-route result | Cards | Meaning |
 | --- | ---: | --- |
-| executable-scope | 642 | At least one probe resolves; only recorded scopes are asserted. |
+| executable-scope | 653 | At least one probe resolves; only recorded scopes are asserted. |
 | input-required | 12 | Existing handler requests a selection, resource, weather or other legitimate prerequisite. |
-| manual-effect-route | 199 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
+| manual-effect-route | 188 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
 | gm-choice | 1 | Hold Hands: narrative battle-ending decision remains with the storyteller. |
 | excluded | 38 | Supplied Max/Z cards and the user-excluded Sappy Seed. |
 
-These totals sum to 892. **199 manual-effect-route results remain after MOVE-A09. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
+These totals sum to 892. **188 manual-effect-route results remain after MOVE-A10. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
 
 | Focused status result | Cards |
 | --- | ---: |
@@ -193,7 +193,7 @@ A six triggers the single printed Chance pool. Serene Grace, Wonder Skin, Loaded
 
 New 0.36.0-core encounters enable the boxed `damaging_stats` state. Missing saved state defaults disabled; 0.35.0-core remains accepted with its previous M3 behavior. Protocol 45 carries the new state. App version is 0.44.0.
 
-**The whole move catalog is not complete.** The 199 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
+**The whole move catalog is not complete.** The 188 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
 
 
 ### MOVE-A01 verification (1 November 2026)
@@ -288,3 +288,12 @@ MOVE-A08 validation: public self/ally/battlefield commands cover every card, typ
 Darkest Lariat and Sacred Sword ignore defenses. Psyshock, Psystrike and Secret Sword use Defense throughout damage calculation and target-defense ordering while retaining Special category and the printed attacking attribute. Frost Breath, Storm Throw, Wicked Blow and Flower Trick retain the existing AlwaysCrit machinery. Weather Ball retains the existing six-weather type mapping and two bonus dice. All ten finish after damage while retaining optional item effects; earlier encounter gates preserve prior routes and defense calculations. App 0.52.0, engine 0.44.0-core, protocol 53.
 
 Validation exercises all ten through accuracy and damage, guarantees criticals at one net success, compares different physical/special defenses and historical states, and checks all ordinary weather mappings and exactly two additional Weather Ball dice. Completion/stat regressions, adjacent status/field checks, engine gates, binding exports, route inventory, frontend/script tests, TypeScript and formatting are refreshed.
+
+
+### MOVE-A10: Accuracy-success reductions (4 November 2026)
+
+Flash, Kinesis, Sand Attack, Smokescreen, Mud Slap, Spacial Rend, Leaf Tornado, Mud Bomb, Muddy Water, Night Daze and Octazooka remove Accuracy successes without reducing pool dice. The strongest scene-local reduction applies; repeated or different losses do not add together. Spacial Rend removes five. The five Chance cards retain their exact pools, six-only success, Serene Grace/Loaded Dice/Wonder Skin and Shield Dust. Keen Eye remains a live success-removal immunity; Clear Amulet blocks incoming reductions and Mirror Armor reflects them. Shields, decoys, type/added-effect immunity and Sheer Force remain in the effect pipeline.
+
+Saved effects use the shared lifecycle and show readable move/penalty labels. Normal Accuracy, move reactions and tactics reactions use the penalty; action difficulty and printed low-accuracy penalties remain distinct. Narrative tracking/obscuring clauses remain with the GM. App 0.53.0, engine 0.45.0-core, protocol 54.
+
+Validation covers all eleven public command paths, exact pools and six-only success, unchanged dice counts with fewer successes, strongest-only behavior, live Keen Eye, save/departure cleanup, Mirror Armor, Clear Amulet, Sheer Force and independent Muddy Water target pools. Completion/stat regressions, adjacent status/field checks, gates, exports, route inventory, frontend/script tests, TypeScript and formatting are refreshed.

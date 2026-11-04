@@ -804,6 +804,90 @@
           "physical_defense": false
         }
       }
+    },
+    "MOVE-A10": {
+      "engine": "0.45.0-core",
+      "kind": "accuracy",
+      "scope": "Eleven Accuracy-success reductions, including five exact Chance pools and Spacial Rend minus five. Reduces successes, not pool dice. Strongest loss applies without stacking; scene-local lifecycle, Keen Eye, Clear Amulet, Mirror Armor, decoys, shields and Shield Dust retained. Narrative effects remain GM-managed.",
+      "moves": {
+        "Flash": {
+          "source": "Pokerole-Data/v3.0/Moves/Flash.json",
+          "sha256": "cf66e9dda0a12869e27b98edfe310b159e9c3d7cbf224eadcfb33852ef2b1884",
+          "effect": "Single Target. Reduce 1 success to all the Accuracy Rolls of the Target.",
+          "dice": 0,
+          "amount": 1
+        },
+        "Kinesis": {
+          "source": "Pokerole-Data/v3.0/Moves/Kinesis.json",
+          "sha256": "664fb52ab94fc0351625f8f535071253fcf4ac1fc56de82945d57e067fedd2d8",
+          "effect": "Single Target. Reduce 1 success to all the Accuracy Rolls of the Target.",
+          "dice": 0,
+          "amount": 1
+        },
+        "Sand Attack": {
+          "source": "Pokerole-Data/v3.0/Moves/Sand Attack.json",
+          "sha256": "09eb589604bdf2f29718ee778388d9478bd4ec61225153df886f3a9b78733e8d",
+          "effect": "Single Target. Reduce by 1 success to all the Accuracy Rolls of the Target.",
+          "dice": 0,
+          "amount": 1
+        },
+        "Smokescreen": {
+          "source": "Pokerole-Data/v3.0/Moves/Smokescreen.json",
+          "sha256": "a423ce847ee2fc08fe1430a84124dd1310047785e87596f3240402c5c0e90aa2",
+          "effect": "Single Target. Reduce 1 success to all the Accuracy Rolls of the Target.",
+          "dice": 0,
+          "amount": 1
+        },
+        "Mud Slap": {
+          "source": "Pokerole-Data/v3.0/Moves/Mud Slap.json",
+          "sha256": "cdb230d91b07131faf4805db6cf1a2bb7513b1c785fcc708d231c7c1b394e8c8",
+          "effect": "Single Target. Reduce 1 success to all the Accuracy Rolls of the Target.",
+          "dice": 0,
+          "amount": 1
+        },
+        "Spacial Rend": {
+          "source": "Pokerole-Data/v3.0/Moves/Spacial Rend.json",
+          "sha256": "0412b4018e54c403a77921761e89ee54c9d78ccc7697dc80039040b40c22eadf",
+          "effect": "Single Target. High Critical. Lethal. Unique. If successful, reduce 5 Success from all Accuracy rolls of the Target. Whole scene duration.",
+          "dice": 0,
+          "amount": 5
+        },
+        "Leaf Tornado": {
+          "source": "Pokerole-Data/v3.0/Moves/Leaf Tornado.json",
+          "sha256": "22590ecc30822705a75409bb6dc05294408f47783029f2873359855f97211baf",
+          "effect": "Single Target. Low Accuracy 1. Roll 5 Chance Dice to Reduce 1 Success from all Accuracy Rolls of the foe.",
+          "dice": 5,
+          "amount": 1
+        },
+        "Mud Bomb": {
+          "source": "Pokerole-Data/v3.0/Moves/Mud Bomb.json",
+          "sha256": "2cbe9cf1f84e6b62a14a7016757a0572fff1750a7d9373e78af1fc526956bebe",
+          "effect": "Single Target. Low Accuracy 2. Projectile Move. Roll 3 Chance Die to Reduce 1 success to all Accuracy rolls of the Target.",
+          "dice": 3,
+          "amount": 1
+        },
+        "Muddy Water": {
+          "source": "Pokerole-Data/v3.0/Moves/Muddy Water.json",
+          "sha256": "b1c4b5273a95826ba500fb2a2ec38195de4ce0a56ba14066ad2470265b3cbfa2",
+          "effect": "Target All Foes in Range. Low Accuracy 2. Roll 3 Chance Dice to Reduce 1 success to all the Accuracy Rolls of those affected.",
+          "dice": 3,
+          "amount": 1
+        },
+        "Night Daze": {
+          "source": "Pokerole-Data/v3.0/Moves/Night Daze.json",
+          "sha256": "080f7dc56c78b423461b4bf464318c7198f09a679e30a609a1233f3ed17f1d43",
+          "effect": "Single Target. Roll 4 Chance Dice to Reduce 1 Success from all Accuracy rolls of the foe. Outside of battle, obscuring effects last for a whole scene.",
+          "dice": 4,
+          "amount": 1
+        },
+        "Octazooka": {
+          "source": "Pokerole-Data/v3.0/Moves/Octazooka.json",
+          "sha256": "6d9964934934fc820b3824991df5ca6fa4ce108c33dc3b91110d4309347a78a2",
+          "effect": "Single Target. Low Accuracy 2. Projectile Move. Roll 5 Chance Dice to Reduce 1 success to all Accuracy Rolls of the foe.",
+          "dice": 5,
+          "amount": 1
+        }
+      }
     }
   },
   "printed_review": {

@@ -42,6 +42,20 @@ pub fn effect_dice(c: &Campaign, q: &QueuedAction) -> Result<Option<u32>> {
     if definition(c, &q.move_name).is_some_and(|(kind, _)| kind == "stat") {
         return damaging_stats::effect_dice(c, q);
     }
+    if let Some(("accuracy", d)) = definition(c, &q.move_name) {
+        let n = d["dice"].as_u64().unwrap() as u32;
+        if n == 0 || q.ice || (provenance::enabled(c) && q.sheer_force) {
+            return Ok(Some(0));
+        }
+        let source = reviewed::source(c, q)?;
+        let target = fighter(c, &q.target_id)?;
+        let bypass = source.side != target.side && reviewed::extreme(c, &source);
+        return Ok(Some(
+            (n + items::completion::loaded(c, &q.actor_id)
+                + 2 * u32::from(source.has_ability("Serene Grace")))
+            .saturating_sub(2 * u32::from(!bypass && target.has_ability("Wonder Skin"))),
+        ));
+    }
     Ok(definition(c, &q.move_name).map(|_| 0))
 }
 fn immune_target(c: &Campaign, q: &QueuedAction, cat: &Catalog) -> Result<bool> {
@@ -114,6 +128,9 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
         }
         "stat" => {
             return damaging_stats::effect(c, q, _dice, cat);
+        }
+        "accuracy" => {
+            accuracy_effect(c, q, d, _dice, cat)?;
         }
         "trap" => {
             if !immune_target(c, q, cat)? {
@@ -355,5 +372,78 @@ pub fn move_data(c: &Campaign, m: &mut serde_json::Value) {
         .is_some_and(|(_, d)| d["ignore_defense"] == true)
     {
         m["Attributes"]["IgnoreDefenses"] = true.into();
+    }
+}
+
+pub fn accuracy_loss(c: &Campaign, id: &str) -> i32 {
+    flow(c).map_or(0, |f| {
+        f.special
+            .effects
+            .iter()
+            .filter(|e| e.target == id && e.name.starts_with("accuracy-loss:"))
+            .map(|e| e.amount)
+            .max()
+            .unwrap_or(0)
+    })
+}
+fn accuracy_effect(
+    c: &mut Campaign,
+    q: &QueuedAction,
+    d: &serde_json::Value,
+    dice: &[u8],
+    cat: &Catalog,
+) -> Result<()> {
+    if immune_target(c, q, cat)? || (provenance::enabled(c) && q.sheer_force) {
+        return Ok(());
+    }
+    let source = reviewed::source(c, q)?;
+    let target = fighter(c, &q.target_id)?.clone();
+    let chance = d["dice"].as_u64().unwrap() > 0;
+    let hostile = source.side != target.side;
+    let bypass = hostile && reviewed::extreme(c, &source);
+    if chance && (!dice.contains(&6) || (hostile && target.has_ability("Shield Dust") && !bypass)) {
+        return Ok(());
+    }
+    let mut recipient = q.target_id.clone();
+    let mut caster = q.actor_id.clone();
+    if hostile && target.has_ability("Mirror Armor") && !house::ring(c, &target) {
+        if bypass {
+            return Err(AppError::new(
+                "manual_rule",
+                "Conflicting unique Mirror Armor and Teravolt/Turboblaze require a GM ruling",
+            ));
+        }
+        recipient = q.actor_id.clone();
+        caster = q.target_id.clone();
+    }
+    if recipient != caster && items::completion::has(c, &recipient, "Clear Amulet") && !bypass {
+        return Ok(());
+    }
+    let name = format!("accuracy-loss:{}", q.move_name);
+    let amount = d["amount"].as_i64().unwrap() as i32;
+    let started = battle(c)?.round;
+    flow_mut(c)
+        .special
+        .effects
+        .retain(|e| e.name != name || e.target != recipient);
+    flow_mut(c).special.effects.push(special::TimedEffect {
+        name,
+        source: caster,
+        target: recipient,
+        rounds: None,
+        amount,
+        started,
+        slot: "accuracy-success".into(),
+    });
+    Ok(())
+}
+
+pub fn applied_accuracy_loss(c: &Campaign, id: &str) -> i32 {
+    if reviewed::enabled(c)
+        && fighter(c, id).is_ok_and(|p| reviewed::effective_subject(c, p).has_ability("Keen Eye"))
+    {
+        0
+    } else {
+        accuracy_loss(c, id)
     }
 }

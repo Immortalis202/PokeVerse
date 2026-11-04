@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.44.0-core",
-  "release": "0.52.0",
-  "protocol": 53,
+  "engine": "0.45.0-core",
+  "release": "0.53.0",
+  "protocol": 54,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -743,6 +743,19 @@
         "completion_a09_weather_ball_preserves_all_weather_types_and_two_bonus_dice"
       ],
       "scope": "Ten attacks with defense/critical/weather rules: ignores defenses, Special damage resisted with Defense without changing category, existing AlwaysCrit and Weather Ball type/+2 weather dice. Ordinary completion retains held-item effects; historical adoption stays unchanged."
+    },
+    {
+      "id": "move-completion-a10",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A10",
+      "fixtures": [
+        "completion_a10_all_eleven_losses_use_exact_chance_and_remove_successes_not_dice",
+        "completion_a10_losses_do_not_stack_and_keen_eye_protection_remains_live",
+        "completion_a10_reflection_shield_dust_chance_modifiers_and_historical_gate",
+        "completion_a10_clear_amulet_sheer_force_and_independent_area_chance",
+        "completion_a10_tactics_reaction_uses_success_loss_and_live_keen_eye"
+      ],
+      "scope": "Eleven Accuracy-success reductions, including five exact Chance pools and Spacial Rend minus five. Reduces successes, not pool dice. Strongest loss applies without stacking; scene-local lifecycle, Keen Eye, Clear Amulet, Mirror Armor, decoys, shields and Shield Dust retained. Narrative effects remain GM-managed."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -759,5 +772,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "917d3e0dc0aa53d2e5023e5902e78e788b6452d94241a32d49dcadbd875b1d2c"
+  "move_completion_registry_hash": "5776ae3a87cf3cab57b34690e4f1ba74b949f95d2a3ef016dcbedc79196ad051"
 }

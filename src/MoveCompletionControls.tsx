@@ -19,18 +19,21 @@ export default function MoveCompletionControls({
     .map((effect, index) => ({ effect, index }))
     .filter(
       ({ effect: e }) =>
-        e.name.startsWith("move-block:") || e.name.startsWith("ongoing:"),
+        e.name.startsWith("move-block:") ||
+        e.name.startsWith("ongoing:") ||
+        e.name.startsWith("accuracy-loss:"),
     );
   if (!entries.length) return null;
   const owned = (id: string) =>
     campaign.gm_id === playerId ||
     b.combatants.find((p) => p.id === id)?.owner_id === playerId;
   return (
-    <section aria-label="Blocking and ongoing effects">
-      <h4>Blocking and ongoing effects</h4>
+    <section aria-label="Move effects">
+      <h4>Move effects</h4>
       {entries.map(({ effect: e, index }) => {
         const ongoing = e.name.startsWith("ongoing:"),
-          move = e.name.replace(/^(move-block:|ongoing:)/, "");
+          accuracy = e.name.startsWith("accuracy-loss:"),
+          move = e.name.replace(/^(move-block:|ongoing:|accuracy-loss:)/, "");
         const target = b.combatants.find((p) => p.id === e.target);
         const due =
           ongoing &&
@@ -42,7 +45,11 @@ export default function MoveCompletionControls({
         return (
           <div key={index} className="notice">
             {target?.name ?? "Registered participant"}:{" "}
-            {ongoing ? `${move} ongoing damage` : `blocked by ${move}`}{" "}
+            {accuracy
+              ? `${move}: remove ${e.amount} Accuracy successes`
+              : ongoing
+                ? `${move} ongoing damage`
+                : `blocked by ${move}`}{" "}
             {e.rounds == null ? "(scene)" : `(${e.rounds} rounds remaining)`}
             {due && owned(e.source) && (
               <button

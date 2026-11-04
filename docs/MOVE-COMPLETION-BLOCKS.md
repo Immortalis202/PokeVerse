@@ -15,7 +15,8 @@ The live source of remaining route work is `rules/move-effect-audit.json`. Its f
 | MOVE-A07 | Ten remaining unconditional damaging stat changes | Complete |
 | MOVE-A08 | Eight Support stat cards and source-defined type/weather predicates | Complete |
 | MOVE-A09 | Ten defense/critical/weather attack completion routes | Complete |
-| MOVE-A10 | Eleven Accuracy-success penalties | Next |
+| MOVE-A10 | Eleven Accuracy-success penalties | Complete |
+| MOVE-A11 | Four explicit three-stack stat cards | Next |
 | Later blocks | Ordinary attacks with existing attributes; remaining stat changes, resets and swaps; type/damage conversions; field changes; conditional damage; timing/action restrictions; items; copy/selection effects | Open |
 
 New block adoption is persisted in `TurnFlow.completion.blocks`. Every release records its engine in `rules/move-completion.json`; historical saves adopt no additional blocks automatically. The shared special-effect state is boxed while preserving its JSON shape to keep transition stack usage bounded.

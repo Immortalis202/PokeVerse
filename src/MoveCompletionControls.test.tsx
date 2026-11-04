@@ -20,6 +20,14 @@ function view(who: string, ended = true, done = false) {
           enabled: true,
           effects: [
             {
+              name: "accuracy-loss:Mud Slap",
+              source: "a",
+              target: "t",
+              rounds: null,
+              started: 0,
+              amount: 1,
+            },
+            {
               name: "move-block:Mean Look",
               source: "a",
               target: "t",
@@ -54,6 +62,8 @@ it("shows readable scene blocks and ongoing clocks without exposing internal lab
   expect(html).toContain("4 rounds remaining");
   expect(html).not.toContain("move-block:");
   expect(html).not.toContain("ongoing:");
+  expect(html).not.toContain("accuracy-loss:");
+  expect(html).toContain("Mud Slap: remove 1 Accuracy successes");
 });
 it("permits only the source owner or GM to roll due damage, including a retired caster", () => {
   expect(view("owner")).toContain("Roll ongoing damage");

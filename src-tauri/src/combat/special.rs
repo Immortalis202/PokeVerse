@@ -2859,7 +2859,7 @@ pub fn blocked(c: &Campaign, id: &str) -> bool {
         && registered(c, id).is_ok_and(|p| !p.has_ability("Run Away"))
 }
 pub fn low_accuracy(c: &Campaign, id: &str) -> i32 {
-    if enabled(c)
+    let lunar = if enabled(c)
         && state(c)
             .effects
             .iter()
@@ -2868,7 +2868,8 @@ pub fn low_accuracy(c: &Campaign, id: &str) -> i32 {
         1
     } else {
         0
-    }
+    };
+    lunar.max(completion::applied_accuracy_loss(c, id))
 }
 pub fn clear_modifiers(c: &mut Campaign, id: &str) {
     if stat_channels::enabled(c) {
