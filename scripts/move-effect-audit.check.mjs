@@ -29,6 +29,14 @@ test("completion blocks retain exact source identities, printed decisions and ex
       const m = byName.get(name);
       assert.equal(d.sha256, m.sha256);
       assert.equal(d.effect, m.effect);
+      if (d.reference_review) {
+        const reference = read(
+          "rules/catalog-reference-review.json",
+        ).entries.find((e) => e.id === d.reference_review);
+        assert.equal(reference.sha256, d.sha256);
+        assert.equal(reference.source, d.source);
+        assert.deepEqual(d.runtime_names, ["Strength"]);
+      }
       for (const related of d.related_sources ?? []) {
         assert.equal(related.sha256, byName.get(related.name).sha256);
         assert.equal(related.effect, byName.get(related.name).effect);

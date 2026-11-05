@@ -224,6 +224,7 @@ pub fn accuracy(
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
     if [
         ENGINE,
+        RANGE_IMMUNITY_MOVES_ENGINE,
         BYPASS_ATTACKS_ENGINE,
         MOVE_HISTORY_ENGINE,
         MOVE_RESTRICTIONS_ENGINE,

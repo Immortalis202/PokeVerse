@@ -45,6 +45,13 @@ pub fn definition(c: &Campaign, name: &str) -> Option<(&'static str, &'static se
         .find_map(|(_, b)| {
             b["moves"]
                 .get(name)
+                .or_else(|| {
+                    b["moves"].as_object()?.values().find(|d| {
+                        d["runtime_names"]
+                            .as_array()
+                            .is_some_and(|names| names.iter().any(|v| v == name))
+                    })
+                })
                 .map(|d| (b["kind"].as_str().unwrap(), d))
         })
 }
@@ -303,6 +310,11 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
                 });
             }
         }
+        "complete-existing" => {
+            if d["mode"] == "item" && !items::resolved_effects(c, q) {
+                return Err(error("This item move needs its committed accuracy/item context before effect resolution"));
+            }
+        }
         "trap" => {
             if !immune_target(c, q, cat)? {
                 install(c, q, &q.actor_id, &q.target_id)?;
@@ -484,6 +496,13 @@ pub fn ordinary(c: &Campaign, name: &str) -> bool {
         .contains(&kind)
             || (kind == "bypass-attack" && d["changes"].as_object().is_some_and(|v| v.is_empty()))
             || (kind == "reach-attack" && d["grounding"] != true)
+            || (kind == "complete-existing"
+                && (d["mode"] == "ordinary"
+                    || flow(c).is_ok_and(|f| {
+                        f.queue
+                            .first()
+                            .is_some_and(|q| q.move_name == name && items::resolved_effects(c, q))
+                    })))
     })
 }
 

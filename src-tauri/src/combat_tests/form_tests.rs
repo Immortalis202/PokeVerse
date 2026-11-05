@@ -901,6 +901,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
     let ended = decision(&c, "gm", Action::EndBattle);
     for engine in [
         ENGINE,
+        RANGE_IMMUNITY_MOVES_ENGINE,
         BYPASS_ATTACKS_ENGINE,
         MOVE_HISTORY_ENGINE,
         MOVE_RESTRICTIONS_ENGINE,
@@ -954,6 +955,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.entry_hazards,
             [
                 ENGINE,
+                RANGE_IMMUNITY_MOVES_ENGINE,
                 BYPASS_ATTACKS_ENGINE,
                 MOVE_HISTORY_ENGINE,
                 MOVE_RESTRICTIONS_ENGINE,
@@ -974,21 +976,32 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             .contains(&engine)
         );
         assert_eq!(
-            flow.completion.blocks.contains("MOVE-A18"),
+            flow.completion.blocks.contains("MOVE-A19"),
             engine == ENGINE
         );
         assert_eq!(
+            flow.completion.blocks.contains("MOVE-A18"),
+            [ENGINE, RANGE_IMMUNITY_MOVES_ENGINE].contains(&engine)
+        );
+        assert_eq!(
             flow.completion.blocks.contains("MOVE-A17"),
-            [ENGINE, BYPASS_ATTACKS_ENGINE].contains(&engine)
+            [ENGINE, RANGE_IMMUNITY_MOVES_ENGINE, BYPASS_ATTACKS_ENGINE].contains(&engine)
         );
         assert_eq!(
             flow.completion.blocks.contains("MOVE-A16"),
-            [ENGINE, BYPASS_ATTACKS_ENGINE, MOVE_HISTORY_ENGINE].contains(&engine)
+            [
+                ENGINE,
+                RANGE_IMMUNITY_MOVES_ENGINE,
+                BYPASS_ATTACKS_ENGINE,
+                MOVE_HISTORY_ENGINE
+            ]
+            .contains(&engine)
         );
         assert_eq!(
             flow.completion.blocks.contains("MOVE-A15"),
             [
                 ENGINE,
+                RANGE_IMMUNITY_MOVES_ENGINE,
                 BYPASS_ATTACKS_ENGINE,
                 MOVE_HISTORY_ENGINE,
                 MOVE_RESTRICTIONS_ENGINE
@@ -999,6 +1012,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A14"),
             [
                 ENGINE,
+                RANGE_IMMUNITY_MOVES_ENGINE,
                 BYPASS_ATTACKS_ENGINE,
                 MOVE_HISTORY_ENGINE,
                 MOVE_RESTRICTIONS_ENGINE,
@@ -1010,6 +1024,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A13"),
             [
                 ENGINE,
+                RANGE_IMMUNITY_MOVES_ENGINE,
                 BYPASS_ATTACKS_ENGINE,
                 MOVE_HISTORY_ENGINE,
                 MOVE_RESTRICTIONS_ENGINE,
@@ -1022,6 +1037,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A12"),
             [
                 ENGINE,
+                RANGE_IMMUNITY_MOVES_ENGINE,
                 BYPASS_ATTACKS_ENGINE,
                 MOVE_HISTORY_ENGINE,
                 MOVE_RESTRICTIONS_ENGINE,
@@ -1035,6 +1051,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A11"),
             [
                 ENGINE,
+                RANGE_IMMUNITY_MOVES_ENGINE,
                 BYPASS_ATTACKS_ENGINE,
                 MOVE_HISTORY_ENGINE,
                 MOVE_RESTRICTIONS_ENGINE,
@@ -1049,6 +1066,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A10"),
             [
                 ENGINE,
+                RANGE_IMMUNITY_MOVES_ENGINE,
                 BYPASS_ATTACKS_ENGINE,
                 MOVE_HISTORY_ENGINE,
                 MOVE_RESTRICTIONS_ENGINE,
@@ -1064,6 +1082,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A09"),
             [
                 ENGINE,
+                RANGE_IMMUNITY_MOVES_ENGINE,
                 BYPASS_ATTACKS_ENGINE,
                 MOVE_HISTORY_ENGINE,
                 MOVE_RESTRICTIONS_ENGINE,
@@ -1080,6 +1099,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A08"),
             [
                 ENGINE,
+                RANGE_IMMUNITY_MOVES_ENGINE,
                 BYPASS_ATTACKS_ENGINE,
                 MOVE_HISTORY_ENGINE,
                 MOVE_RESTRICTIONS_ENGINE,
@@ -1097,6 +1117,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A07"),
             [
                 ENGINE,
+                RANGE_IMMUNITY_MOVES_ENGINE,
                 BYPASS_ATTACKS_ENGINE,
                 MOVE_HISTORY_ENGINE,
                 MOVE_RESTRICTIONS_ENGINE,
@@ -1115,6 +1136,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A06"),
             [
                 ENGINE,
+                RANGE_IMMUNITY_MOVES_ENGINE,
                 BYPASS_ATTACKS_ENGINE,
                 MOVE_HISTORY_ENGINE,
                 MOVE_RESTRICTIONS_ENGINE,
@@ -1134,6 +1156,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A05"),
             [
                 ENGINE,
+                RANGE_IMMUNITY_MOVES_ENGINE,
                 BYPASS_ATTACKS_ENGINE,
                 MOVE_HISTORY_ENGINE,
                 MOVE_RESTRICTIONS_ENGINE,
@@ -1154,6 +1177,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A04"),
             [
                 ENGINE,
+                RANGE_IMMUNITY_MOVES_ENGINE,
                 BYPASS_ATTACKS_ENGINE,
                 MOVE_HISTORY_ENGINE,
                 MOVE_RESTRICTIONS_ENGINE,
@@ -1175,6 +1199,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A03"),
             [
                 ENGINE,
+                RANGE_IMMUNITY_MOVES_ENGINE,
                 BYPASS_ATTACKS_ENGINE,
                 MOVE_HISTORY_ENGINE,
                 MOVE_RESTRICTIONS_ENGINE,
@@ -1197,6 +1222,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.damaging_stats.enabled,
             [
                 ENGINE,
+                RANGE_IMMUNITY_MOVES_ENGINE,
                 BYPASS_ATTACKS_ENGINE,
                 MOVE_HISTORY_ENGINE,
                 MOVE_RESTRICTIONS_ENGINE,
@@ -1221,6 +1247,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.battlefield_review,
             [
                 ENGINE,
+                RANGE_IMMUNITY_MOVES_ENGINE,
                 BYPASS_ATTACKS_ENGINE,
                 MOVE_HISTORY_ENGINE,
                 MOVE_RESTRICTIONS_ENGINE,
@@ -1246,6 +1273,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.direct_status,
             [
                 ENGINE,
+                RANGE_IMMUNITY_MOVES_ENGINE,
                 BYPASS_ATTACKS_ENGINE,
                 MOVE_HISTORY_ENGINE,
                 MOVE_RESTRICTIONS_ENGINE,
@@ -1276,6 +1304,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.chance_status,
             [
                 ENGINE,
+                RANGE_IMMUNITY_MOVES_ENGINE,
                 BYPASS_ATTACKS_ENGINE,
                 MOVE_HISTORY_ENGINE,
                 MOVE_RESTRICTIONS_ENGINE,
@@ -1305,6 +1334,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.compound.enabled,
             [
                 ENGINE,
+                RANGE_IMMUNITY_MOVES_ENGINE,
                 BYPASS_ATTACKS_ENGINE,
                 MOVE_HISTORY_ENGINE,
                 MOVE_RESTRICTIONS_ENGINE,
@@ -1333,6 +1363,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.recurring.enabled,
             [
                 ENGINE,
+                RANGE_IMMUNITY_MOVES_ENGINE,
                 BYPASS_ATTACKS_ENGINE,
                 MOVE_HISTORY_ENGINE,
                 MOVE_RESTRICTIONS_ENGINE,
@@ -1360,6 +1391,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.battlefield_review,
             [
                 ENGINE,
+                RANGE_IMMUNITY_MOVES_ENGINE,
                 BYPASS_ATTACKS_ENGINE,
                 MOVE_HISTORY_ENGINE,
                 MOVE_RESTRICTIONS_ENGINE,
@@ -1385,6 +1417,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.cure_protection,
             [
                 ENGINE,
+                RANGE_IMMUNITY_MOVES_ENGINE,
                 BYPASS_ATTACKS_ENGINE,
                 MOVE_HISTORY_ENGINE,
                 MOVE_RESTRICTIONS_ENGINE,
@@ -1411,6 +1444,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.spite,
             [
                 ENGINE,
+                RANGE_IMMUNITY_MOVES_ENGINE,
                 BYPASS_ATTACKS_ENGINE,
                 MOVE_HISTORY_ENGINE,
                 MOVE_RESTRICTIONS_ENGINE,
@@ -1443,6 +1477,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.will_drains,
             [
                 ENGINE,
+                RANGE_IMMUNITY_MOVES_ENGINE,
                 BYPASS_ATTACKS_ENGINE,
                 MOVE_HISTORY_ENGINE,
                 MOVE_RESTRICTIONS_ENGINE,
@@ -1474,6 +1509,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.status_escalation,
             [
                 ENGINE,
+                RANGE_IMMUNITY_MOVES_ENGINE,
                 BYPASS_ATTACKS_ENGINE,
                 MOVE_HISTORY_ENGINE,
                 MOVE_RESTRICTIONS_ENGINE,
@@ -1507,6 +1543,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.identity_moves,
             [
                 ENGINE,
+                RANGE_IMMUNITY_MOVES_ENGINE,
                 BYPASS_ATTACKS_ENGINE,
                 MOVE_HISTORY_ENGINE,
                 MOVE_RESTRICTIONS_ENGINE,
@@ -1541,6 +1578,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.interaction_rules,
             [
                 ENGINE,
+                RANGE_IMMUNITY_MOVES_ENGINE,
                 BYPASS_ATTACKS_ENGINE,
                 MOVE_HISTORY_ENGINE,
                 MOVE_RESTRICTIONS_ENGINE,
@@ -1579,6 +1617,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.items.completion.enabled,
             [
                 ENGINE,
+                RANGE_IMMUNITY_MOVES_ENGINE,
                 BYPASS_ATTACKS_ENGINE,
                 MOVE_HISTORY_ENGINE,
                 MOVE_RESTRICTIONS_ENGINE,
@@ -1616,6 +1655,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.house_rules,
             [
                 ENGINE,
+                RANGE_IMMUNITY_MOVES_ENGINE,
                 BYPASS_ATTACKS_ENGINE,
                 MOVE_HISTORY_ENGINE,
                 MOVE_RESTRICTIONS_ENGINE,
@@ -1652,6 +1692,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.forms.enabled,
             [
                 ENGINE,
+                RANGE_IMMUNITY_MOVES_ENGINE,
                 BYPASS_ATTACKS_ENGINE,
                 MOVE_HISTORY_ENGINE,
                 MOVE_RESTRICTIONS_ENGINE,
@@ -1693,6 +1734,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.information.enabled,
             [
                 ENGINE,
+                RANGE_IMMUNITY_MOVES_ENGINE,
                 BYPASS_ATTACKS_ENGINE,
                 MOVE_HISTORY_ENGINE,
                 MOVE_RESTRICTIONS_ENGINE,
@@ -1733,6 +1775,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.standalone.enabled,
             [
                 ENGINE,
+                RANGE_IMMUNITY_MOVES_ENGINE,
                 BYPASS_ATTACKS_ENGINE,
                 MOVE_HISTORY_ENGINE,
                 MOVE_RESTRICTIONS_ENGINE,

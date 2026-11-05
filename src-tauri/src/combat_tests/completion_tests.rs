@@ -2726,3 +2726,184 @@ fn completion_a18_shields_still_block_grounding_and_older_encounters_keep_immuni
     let queued = ordinary_accuracy(&c, &a, &t, "Thousand Arrows");
     assert!(queued_damage_pool(&queued).immune);
 }
+fn completion_item_command(command: crate::combat::items::ItemCommand) -> Action {
+    Action::HeldItem {
+        command,
+        reason: "Prepare existing move item context".into(),
+    }
+}
+fn existing_item_move(name: &str, prepare: bool) -> (Campaign, String, String, String) {
+    use crate::combat::items::{self, ItemCommand};
+    let (mut c, a, t) = setup(name);
+    let sid = p(&c, &a).sheet_id.clone();
+    let mut s = c.sheets[&sid].clone();
+    s.inventory.insert("Oran Berry".into(), 1);
+    c.sheets.insert(
+        sid,
+        items::equip(&s, "Oran Berry", "move-completion-item", &catalog()).unwrap(),
+    );
+    let f = c.battle.as_mut().unwrap().flow.as_mut().unwrap();
+    f.items.enabled = true;
+    f.items.completion.enabled = true;
+    items::initialize(&mut c, &catalog()).unwrap();
+    items::completion::initialize(&mut c, &catalog());
+    let unit = items::held(&c, &a)[0].id.clone();
+    if prepare {
+        let owner = p(&c, &a).owner_id.clone();
+        if name == "Natural Gift" {
+            c = decision(
+                &c,
+                "gm",
+                completion_item_command(ItemCommand::BerryFlavor {
+                    unit_id: unit.clone(),
+                    flavor: "Spicy".into(),
+                }),
+            );
+            c = decision(
+                &c,
+                &owner,
+                completion_item_command(ItemCommand::NaturalGift {
+                    combatant_id: a.clone(),
+                    unit_id: unit.clone(),
+                }),
+            );
+        } else {
+            c = decision(
+                &c,
+                &owner,
+                completion_item_command(ItemCommand::Fling {
+                    combatant_id: a.clone(),
+                    unit_id: Some(unit.clone()),
+                }),
+            );
+        }
+    }
+    (c, a, t, unit)
+}
+#[test]
+fn completion_a19_cut_and_both_strength_names_finish_battle_damage_without_narrative_mutation() {
+    for name in ["Cut", "Strength", "Strength "] {
+        let (c, a, t) = setup(name);
+        let sheets = serde_json::to_value(&c.sheets).unwrap();
+        let after = pending(&c, &a, &t, name);
+        assert!(
+            after
+                .battle
+                .as_ref()
+                .unwrap()
+                .flow
+                .as_ref()
+                .unwrap()
+                .queue
+                .is_empty(),
+            "{name:?}"
+        );
+        assert_eq!(serde_json::to_value(&after.sheets).unwrap(), sheets);
+    }
+    assert_eq!(
+        catalog().find("moves", "Name", "Strength ").unwrap()["Name"],
+        "Strength"
+    );
+}
+#[test]
+fn completion_a19_prepared_item_moves_finish_after_damage_and_keep_physical_unit_spending() {
+    use crate::combat::items;
+    for name in ["Fling", "Natural Gift"] {
+        let (c, a, t, unit) = existing_item_move(name, true);
+        let after = pending(&c, &a, &t, name);
+        assert!(
+            after
+                .battle
+                .as_ref()
+                .unwrap()
+                .flow
+                .as_ref()
+                .unwrap()
+                .queue
+                .is_empty(),
+            "{name}"
+        );
+        assert!(items::held(&after, &a).is_empty(), "{name}");
+        assert_ne!(
+            after
+                .battle
+                .as_ref()
+                .unwrap()
+                .flow
+                .as_ref()
+                .unwrap()
+                .items
+                .units[&unit]
+                .state,
+            "held"
+        );
+    }
+    let (mut c, a, t) = setup("Fling");
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .items
+        .enabled = true;
+    items::initialize(&mut c, &catalog()).unwrap();
+    let c = pending(&c, &a, &t, "Fling");
+    assert!(
+        c.battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .queue
+            .is_empty(),
+        "unarmed Fling is valid"
+    );
+}
+#[test]
+fn completion_a19_item_preparation_and_historical_completion_remain_explicit() {
+    for name in ["Fling", "Natural Gift"] {
+        let (c, a, t, _) = existing_item_move(name, false);
+        let action = super::targeting_tests::attack(&a, vec![t.clone()], name);
+        assert!(
+            rules::dice_count(&c, &action, &catalog()).is_err(),
+            "{name} needs selected ingredient/projectile"
+        );
+        let (mut c, a, t, _) = existing_item_move(name, true);
+        c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
+            Box::new(completion::initial(RANGE_IMMUNITY_MOVES_ENGINE));
+        let c = pending(&c, &a, &t, name);
+        assert!(
+            !c.battle
+                .as_ref()
+                .unwrap()
+                .flow
+                .as_ref()
+                .unwrap()
+                .queue
+                .is_empty(),
+            "{name} old extra stage"
+        );
+        let c = resolve(&c);
+        assert!(c
+            .battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .queue
+            .is_empty());
+    }
+    let (mut c, a, t) = setup("Cut");
+    c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
+        Box::new(completion::initial(RANGE_IMMUNITY_MOVES_ENGINE));
+    let c = pending(&c, &a, &t, "Cut");
+    assert_eq!(
+        battle::transition(&c, "gm", &cmd(&c), vec![], &catalog())
+            .unwrap_err()
+            .code,
+        "manual_rule"
+    );
+}

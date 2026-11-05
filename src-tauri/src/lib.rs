@@ -289,6 +289,7 @@ async fn host_room(
         if c.host_id() != store.player_id
             || ![
                 ENGINE,
+                RANGE_IMMUNITY_MOVES_ENGINE,
                 BYPASS_ATTACKS_ENGINE,
                 MOVE_HISTORY_ENGINE,
                 MOVE_RESTRICTIONS_ENGINE,

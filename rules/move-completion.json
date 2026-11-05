@@ -1246,6 +1246,43 @@
           "grounding": true
         }
       }
+    },
+    "MOVE-A19": {
+      "engine": "0.54.0-core",
+      "kind": "complete-existing",
+      "scope": "Four completion routes for existing mechanics. Cut and Strength finish ordinary damage; outside-battle narrative/lifting and lethal wounds stay excluded. Strength preserves its reviewed canonical/legacy names. Fling/Natural Gift retain existing owned item preparation, physical-unit consumption, rarity/flavor/Ripen, hit effects, immunity, rollback and privacy; valid committed moves finish after damage and history-free probes explicitly request preparation.",
+      "moves": {
+        "Cut": {
+          "source": "Pokerole-Data/v3.0/Moves/Cut.json",
+          "sha256": "a65bee252da15767dbf6d73985296571cbcb57026fe5183a5a34fa5d55488d9d",
+          "effect": "Single Target. Lethal. Cutter Move. Out of battle it will help to easily cut down trees and obstacles.",
+          "mode": "ordinary",
+          "requires_input": false
+        },
+        "Strength ": {
+          "source": "Pokerole-Data/v3.0/Moves/Strength.json",
+          "sha256": "65ba2dcfe7a9aed7d37a48fdf0920e07b40bb02f6c0c2720840c540fa4c9c521",
+          "effect": "Single Target. Out of battle, double the Pokemon's lifting capacity.",
+          "mode": "ordinary",
+          "requires_input": false,
+          "runtime_names": ["Strength"],
+          "reference_review": "strength-name"
+        },
+        "Fling": {
+          "source": "Pokerole-Data/v3.0/Moves/Fling.json",
+          "sha256": "37aa14186f3b11d2a3f93231c7b7c657c02354cdaf9da341868671d83d02b9df",
+          "effect": "Single Target. Ranged. *If the User is holding an Item, Add up to 4 dice to the damage pool. User loses its Held Item. See p. 530",
+          "mode": "item",
+          "requires_input": true
+        },
+        "Natural Gift": {
+          "source": "Pokerole-Data/v3.0/Moves/Natural Gift.json",
+          "sha256": "0686a8207734961fee50d10f7204c68c4b5278c5856094f7060053bf2a63ae0d",
+          "effect": "Single Target. Ranged. The User loes its held berry. *The Type of this Move changes according to the berry used. See more on p. 530",
+          "mode": "item",
+          "requires_input": true
+        }
+      }
     }
   },
   "printed_review": {

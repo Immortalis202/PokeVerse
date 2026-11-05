@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.53.0-core",
-  "release": "0.61.0",
-  "protocol": 62,
+  "engine": "0.54.0-core",
+  "release": "0.62.0",
+  "protocol": 63,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -852,6 +852,17 @@
         "completion_a18_shields_still_block_grounding_and_older_encounters_keep_immunity"
       ],
       "scope": "Nine range/immunity attacks. Existing specific charge vulnerabilities retained; canonical Freeze Dry resolves the Dive card's Freeze-Dry spelling and is super-effective against Water. Origin Pulse/Precipice Blades hit hidden charging targets and ignore immunity to their printed damage type. Smack Down/Thousand Arrows remove Ground immunity for the scene, ending on departure. Weather activation guards, Shields and Force Fields remain independent."
+    },
+    {
+      "id": "move-completion-a19",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A19",
+      "fixtures": [
+        "completion_a19_cut_and_both_strength_names_finish_battle_damage_without_narrative_mutation",
+        "completion_a19_prepared_item_moves_finish_after_damage_and_keep_physical_unit_spending",
+        "completion_a19_item_preparation_and_historical_completion_remain_explicit"
+      ],
+      "scope": "Four completion routes for existing mechanics. Cut and Strength finish ordinary damage; outside-battle narrative/lifting and lethal wounds stay excluded. Strength preserves its reviewed canonical/legacy names. Fling/Natural Gift retain existing owned item preparation, physical-unit consumption, rarity/flavor/Ripen, hit effects, immunity, rollback and privacy; valid committed moves finish after damage and history-free probes explicitly request preparation."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -868,5 +879,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "333139633fed53bd598e029070e87bcb114e5a08c18f4640198119fba44a9a82"
+  "move_completion_registry_hash": "d466a6ca7ffe8e082ca96b293521ee41097c5df0bc6c0ba88c9dc21cdbd96a3c"
 }

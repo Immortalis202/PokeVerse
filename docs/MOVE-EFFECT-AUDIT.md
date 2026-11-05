@@ -1,6 +1,6 @@
 # Move-effect audit: milestone 1
 
-Snapshot refreshed: 5 November 2026, app **0.61.0**, engine **0.53.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
+Snapshot refreshed: 5 November 2026, app **0.62.0**, engine **0.54.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
 
 ## Deliverables and limits
 
@@ -18,13 +18,13 @@ The diagnostic deliberately bypasses accuracy, damage, targeting expansion, acti
 
 | Effect-route result | Cards | Meaning |
 | --- | ---: | --- |
-| executable-scope | 691 | At least one probe resolves; only recorded scopes are asserted. |
-| input-required | 13 | Existing handler requests a selection, resource, weather or other legitimate prerequisite. |
-| manual-effect-route | 149 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
+| executable-scope | 693 | At least one probe resolves; only recorded scopes are asserted. |
+| input-required | 15 | Existing handler requests a selection, resource, weather or other legitimate prerequisite. |
+| manual-effect-route | 145 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
 | gm-choice | 1 | Hold Hands: narrative battle-ending decision remains with the storyteller. |
 | excluded | 38 | Supplied Max/Z cards and the user-excluded Sappy Seed. |
 
-These totals sum to 892. **149 manual-effect-route results remain after MOVE-A18. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
+These totals sum to 892. **145 manual-effect-route results remain after MOVE-A19. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
 
 | Focused status result | Cards |
 | --- | ---: |
@@ -193,7 +193,7 @@ A six triggers the single printed Chance pool. Serene Grace, Wonder Skin, Loaded
 
 New 0.36.0-core encounters enable the boxed `damaging_stats` state. Missing saved state defaults disabled; 0.35.0-core remains accepted with its previous M3 behavior. Protocol 45 carries the new state. App version is 0.44.0.
 
-**The whole move catalog is not complete.** The 149 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
+**The whole move catalog is not complete.** The 145 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
 
 
 ### MOVE-A01 verification (1 November 2026)
@@ -361,3 +361,12 @@ Earthquake, Gust, Sky Uppercut and Surf complete with their existing specific ch
 Smack Down and Thousand Arrows remove the target's Ground-move immunity for the scene, including Flying/Levitate and other Ground-move immunity. Thousand Arrows bypasses Ground immunity on its initial hit. Marked targets satisfy the existing grounded-field checks; recall/faint clears the mark. The effect does not invent a charge cancellation. Shields still prevent the grounding clause, and the UI shows the live Ground-immunity removal.
 
 Validation exercises all nine public attack paths, specific/all hidden charges, unrelated hidden-target rejection, three Water dual-type cases, typed/ability immunity, follow-up Ground attacks, public recall, shields and historical behavior. Focused completion/stat/transfer/status/field/gate checks, 126 bindings, full route inventory, 76 frontend tests, 54 script checks, TypeScript and formatting passed. The full Rust suite also passed with localhost networking enabled: 878 passed, one ignored inventory test; the ignored inventory passed separately. Generated bindings were normalized and TypeScript/format/diff checks passed afterward. App 0.61.0, engine 0.53.0-core, protocol 62.
+
+
+### MOVE-A19: completion of existing item and ordinary mechanics (5 November 2026)
+
+Cut and Strength now finish their ordinary battle damage. Outside-battle obstacle/lifting narration and lethal wounds remain excluded. Strength keeps the M4-reviewed canonical name plus the exact trailing-space legacy identity, with an explicit fingerprint-backed runtime alias.
+
+Fling and Natural Gift retain their existing authoritative item preparation, physical-unit spending, rarity/flavor/Ripen calculations, hit effects, protections, ownership, privacy and rollback. A valid committed item move now finishes after damage; the phase-only diagnostic, which bypasses item/accuracy commitment, correctly requests that missing context. Unarmed Fling remains valid. This block reconciles existing mechanics and completion routes rather than claiming the item subsystem is new.
+
+Validation covers canonical/legacy Strength and Cut, item preparation rejection, selected/consumed physical units, valid unarmed Fling, automatic completion and prior encounter stages. Completion/stat/item-move/transfer regressions, adjacent status/field clocks, gates, exports, route inventory, frontend/script tests, TypeScript and formatting passed. App 0.62.0, engine 0.54.0-core, protocol 63.
