@@ -1,6 +1,6 @@
 # Move-effect audit: milestone 1
 
-Snapshot refreshed: 5 November 2026, app **0.67.0**, engine **0.59.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
+Snapshot refreshed: 5 November 2026, app **0.68.0**, engine **0.60.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
 
 ## Deliverables and limits
 
@@ -18,13 +18,13 @@ The diagnostic deliberately bypasses accuracy, damage, targeting expansion, acti
 
 | Effect-route result | Cards | Meaning |
 | --- | ---: | --- |
-| executable-scope | 704 | At least one probe resolves; only recorded scopes are asserted. |
+| executable-scope | 705 | At least one probe resolves; only recorded scopes are asserted. |
 | input-required | 16 | Existing handler requests a selection, resource, weather or other legitimate prerequisite. |
-| manual-effect-route | 133 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
+| manual-effect-route | 132 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
 | gm-choice | 1 | Hold Hands: narrative battle-ending decision remains with the storyteller. |
 | excluded | 38 | Supplied Max/Z cards and the user-excluded Sappy Seed. |
 
-These totals sum to 892. **133 manual-effect-route results remain after MOVE-A24. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
+These totals sum to 892. **132 manual-effect-route results remain after MOVE-A25. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
 
 | Focused status result | Cards |
 | --- | ---: |
@@ -193,7 +193,7 @@ A six triggers the single printed Chance pool. Serene Grace, Wonder Skin, Loaded
 
 New 0.36.0-core encounters enable the boxed `damaging_stats` state. Missing saved state defaults disabled; 0.35.0-core remains accepted with its previous M3 behavior. Protocol 45 carries the new state. App version is 0.44.0.
 
-**The whole move catalog is not complete.** The 133 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
+**The whole move catalog is not complete.** The 132 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
 
 
 ### MOVE-A01 verification (1 November 2026)
@@ -411,3 +411,10 @@ The user confirmed that First Impression works during the first round the deploy
 Initial flow creation now records starting participants as well as subsequent deployments. Entry history is saved and restored with battle state; a missing entry requires review rather than silently guessing. Historical encounters retain their prior behavior. The history-free route diagnostic requests the missing context explicitly.
 
 Validation covers starting participants, normal switching, first eligible versus deployment rounds, missed windows, re-entry, Reaction 2, serialization, missing history, initial flow observation and historical fallback. All 78 completion tests, adjacent regressions, bindings, route inventory, 76 frontend tests, 54 script checks, TypeScript and formatting passed. The full Rust suite passed with localhost networking: 897 passed, one ignored route inventory test; that inventory passed separately. Generated bindings were normalized and TypeScript/format/diff checks passed afterward. App 0.67.0, engine 0.59.0-core, protocol 68.
+
+
+### MOVE-A25: Aura Wheel completion (5 November 2026)
+
+Aura Wheel now raises its user's Dexterity by one through the existing damaging-stat channel, including after a target knockout. Hunger Switch retains its existing Full-Belly Electric and Hangry Dark move typing; no alternate catalog form is invented. Simple, Contrary and the explicit Sheer Force choice retain their behavior. Historical encounters retain manual effect completion.
+
+Validation covers both forms through public attacks and actual damage pools, target knockout, exact user stat change, Simple, Contrary, Sheer Force and historical fallback. All 80 completion tests and adjacent stat/item/entry-hazard/targeting/field regressions, bindings, route inventory, 76 frontend tests, 54 script checks, TypeScript and formatting passed. App 0.68.0, engine 0.60.0-core, protocol 69.

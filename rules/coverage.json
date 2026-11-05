@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.59.0-core",
-  "release": "0.67.0",
-  "protocol": 68,
+  "engine": "0.60.0-core",
+  "release": "0.68.0",
+  "protocol": 69,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -919,6 +919,16 @@
         "completion_a24_first_impression_reaction_two_uses_the_same_eligible_round_guard"
       ],
       "scope": "First Impression is allowed only in the first round its deployed user can act: max(saved deployment round, available_round). User ruling 5 November 2026. Actual deployment history is saved; missed eligibility does not postpone the window. Reaction 2 remains. Missing saved entry history requires explicit review; historical encounters retain their prior manual scope."
+    },
+    {
+      "id": "move-completion-a25",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A25",
+      "fixtures": [
+        "completion_a25_aura_wheel_uses_hunger_form_typing_and_user_stat_after_knockout",
+        "completion_a25_aura_wheel_stat_abilities_sheer_force_and_historical_route"
+      ],
+      "scope": "Aura Wheel raises its user Dexterity by one through the existing damaging-stat channel, retaining Hunger Switch Full-Belly Electric/Hangry Dark typing, including the frozen damage/type pipeline. Existing protection, Sheer Force and stat abilities apply. Historical encounters retain manual effect completion."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -935,5 +945,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "8bc4b0cb67fc184b7a93d3efc1d74210f7f81b6ffdfc905f57cd51c7be9d9022"
+  "move_completion_registry_hash": "941c88a10fed23377a9b0fb5238cc9e1f8c4d217d40636a6d5830d9e252d4b02"
 }

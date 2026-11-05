@@ -901,6 +901,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
     let ended = decision(&c, "gm", Action::EndBattle);
     for engine in [
         ENGINE,
+        FIRST_IMPRESSION_ENGINE,
         TERRAIN_REACTION_ENGINE,
         SPIDER_WEB_ENGINE,
         BATTLEFIELD_SUPPORT_ENGINE,
@@ -960,6 +961,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.entry_hazards,
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -986,21 +988,32 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             .contains(&engine)
         );
         assert_eq!(
-            flow.completion.blocks.contains("MOVE-A24"),
+            flow.completion.blocks.contains("MOVE-A25"),
             engine == ENGINE
         );
         assert_eq!(
+            flow.completion.blocks.contains("MOVE-A24"),
+            [ENGINE, FIRST_IMPRESSION_ENGINE].contains(&engine)
+        );
+        assert_eq!(
             flow.completion.blocks.contains("MOVE-A23"),
-            [ENGINE, TERRAIN_REACTION_ENGINE].contains(&engine)
+            [ENGINE, FIRST_IMPRESSION_ENGINE, TERRAIN_REACTION_ENGINE].contains(&engine)
         );
         assert_eq!(
             flow.completion.blocks.contains("MOVE-A22"),
-            [ENGINE, TERRAIN_REACTION_ENGINE, SPIDER_WEB_ENGINE].contains(&engine)
+            [
+                ENGINE,
+                FIRST_IMPRESSION_ENGINE,
+                TERRAIN_REACTION_ENGINE,
+                SPIDER_WEB_ENGINE
+            ]
+            .contains(&engine)
         );
         assert_eq!(
             flow.completion.blocks.contains("MOVE-A21"),
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE
@@ -1011,6 +1024,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A20"),
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -1022,6 +1036,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A19"),
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -1034,6 +1049,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A18"),
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -1047,6 +1063,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A17"),
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -1061,6 +1078,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A16"),
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -1076,6 +1094,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A15"),
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -1092,6 +1111,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A14"),
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -1109,6 +1129,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A13"),
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -1127,6 +1148,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A12"),
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -1146,6 +1168,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A11"),
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -1166,6 +1189,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A10"),
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -1187,6 +1211,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A09"),
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -1209,6 +1234,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A08"),
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -1232,6 +1258,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A07"),
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -1256,6 +1283,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A06"),
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -1281,6 +1309,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A05"),
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -1307,6 +1336,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A04"),
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -1334,6 +1364,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A03"),
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -1362,6 +1393,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.damaging_stats.enabled,
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -1392,6 +1424,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.battlefield_review,
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -1423,6 +1456,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.direct_status,
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -1459,6 +1493,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.chance_status,
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -1494,6 +1529,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.compound.enabled,
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -1528,6 +1564,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.recurring.enabled,
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -1561,6 +1598,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.battlefield_review,
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -1592,6 +1630,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.cure_protection,
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -1624,6 +1663,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.spite,
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -1662,6 +1702,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.will_drains,
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -1699,6 +1740,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.status_escalation,
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -1738,6 +1780,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.identity_moves,
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -1778,6 +1821,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.interaction_rules,
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -1822,6 +1866,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.items.completion.enabled,
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -1865,6 +1910,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.house_rules,
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -1907,6 +1953,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.forms.enabled,
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -1954,6 +2001,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.information.enabled,
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
@@ -2000,6 +2048,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.standalone.enabled,
             [
                 ENGINE,
+                FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,

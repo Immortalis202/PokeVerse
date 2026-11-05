@@ -3696,3 +3696,87 @@ fn completion_a24_first_impression_reaction_two_uses_the_same_eligible_round_gua
     );
     assert!(battle::transition(&c, "gm", &action, vec![], &catalog()).is_err());
 }
+
+#[test]
+fn completion_a25_aura_wheel_uses_hunger_form_typing_and_user_stat_after_knockout() {
+    use crate::combat::field;
+    for (form, expected) in [("Full-Belly", "Electric"), ("Hangry", "Dark")] {
+        let (mut c, a, t) = setup("Aura Wheel");
+        set_species(&mut c, &a, "Morpeko");
+        let f = c.battle.as_mut().unwrap().flow.as_mut().unwrap();
+        f.forms.enabled = true;
+        f.forms.choices.insert(format!("hunger:{a}"), form.into());
+        refresh_field(&mut c);
+        let m = catalog().find("moves", "Name", "Aura Wheel").unwrap();
+        assert_eq!(field::move_data(&c, p(&c, &a), &m)["Type"], expected);
+        pm(&mut c, &t).hp = 1;
+        let queued = ordinary_accuracy(&c, &a, &t, "Aura Wheel");
+        assert_eq!(queued_damage_pool(&queued).power, 4);
+        let c = roll(&queued, "gm", &damage_command(&queued), 6);
+        assert_eq!(p(&c, &t).hp, 0);
+        let c = resolve(&c);
+        assert_eq!(stat(&c, &a, "Dexterity"), 1, "{form}");
+        assert!(c
+            .battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .queue
+            .is_empty());
+    }
+}
+#[test]
+fn completion_a25_aura_wheel_stat_abilities_sheer_force_and_historical_route() {
+    for (ability, expected) in [("Simple", 2), ("Contrary", -1)] {
+        let (mut c, a, t) = setup("Aura Wheel");
+        pm(&mut c, &a).selected_ability = ability.into();
+        let c = resolve(&pending(&c, &a, &t, "Aura Wheel"));
+        assert_eq!(stat(&c, &a, "Dexterity"), expected);
+    }
+    let (mut c, a, t) = setup("Aura Wheel");
+    pm(&mut c, &a).selected_ability = "Sheer Force".into();
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .provenance_rules = true;
+    c = decision(
+        &c,
+        "gm",
+        Action::ChooseSheerForce {
+            combatant_id: a.clone(),
+            ignore_added_effects: true,
+            reason: "Suppress Aura Wheel boost".into(),
+        },
+    );
+    let c = pending(&c, &a, &t, "Aura Wheel");
+    let c = if c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .queue
+        .is_empty()
+    {
+        c
+    } else {
+        resolve(&c)
+    };
+    assert_eq!(stat(&c, &a, "Dexterity"), 0);
+    let (mut c, a, t) = setup("Aura Wheel");
+    c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
+        Box::new(completion::initial(FIRST_IMPRESSION_ENGINE));
+    let c = pending(&c, &a, &t, "Aura Wheel");
+    assert_eq!(
+        battle::transition(&c, "gm", &cmd(&c), vec![], &catalog())
+            .unwrap_err()
+            .code,
+        "manual_rule"
+    );
+}

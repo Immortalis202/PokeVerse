@@ -1400,6 +1400,22 @@
           "ruling": "User chose first round it can act, 5 November 2026."
         }
       }
+    },
+    "MOVE-A25": {
+      "engine": "0.60.0-core",
+      "kind": "stat",
+      "scope": "Aura Wheel raises its user Dexterity by one through the existing damaging-stat channel, retaining Hunger Switch Full-Belly Electric/Hangry Dark typing, including the frozen damage/type pipeline. Existing protection, Sheer Force and stat abilities apply. Historical encounters retain manual effect completion.",
+      "moves": {
+        "Aura Wheel": {
+          "source": "Pokerole-Data/v3.0/Moves/Aura Wheel.json",
+          "sha256": "874f2adcf03a45731e8db8260eaa18b93f04814b17c464b81892360f06e6e38a",
+          "effect": "Single Target. Increase the user's Dexterity by 1. If the user of this Move is in \"Hangry Form\" this Move is considered Dark-Type.",
+          "dice": 0,
+          "user": true,
+          "keys": ["Dexterity"],
+          "amount": 1
+        }
+      }
     }
   },
   "printed_review": {
