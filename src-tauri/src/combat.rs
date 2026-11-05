@@ -963,7 +963,12 @@ fn base_dice_count(c: &Campaign, a: &Action, cat: &Catalog) -> Result<u32> {
             special::ready_move(c, combatant_id, name)?;
             turn(c, combatant_id)?;
             if matches!(a, Action::AccuracyTargets { .. }) {
-                plan(c, combatant_id, &selected(a), &move_entry(cat, name)?)?;
+                plan(
+                    c,
+                    combatant_id,
+                    &selected(a),
+                    &field::move_data(c, fighter(c, combatant_id)?, &move_entry(cat, name)?),
+                )?;
             }
             let original = rules::dice_count(&old(c), &accuracy_command(a), cat)?;
             if standalone::enabled(c) {
@@ -1135,6 +1140,7 @@ pub fn transition(
     if let Some(setup) = field::start_setup(a) {
         if ![
             ENGINE,
+            EXISTING_MOVE_COMPLETION_ENGINE,
             RANGE_IMMUNITY_MOVES_ENGINE,
             BYPASS_ATTACKS_ENGINE,
             MOVE_HISTORY_ENGINE,
@@ -1177,6 +1183,7 @@ pub fn transition(
             setup,
             [
                 ENGINE,
+                EXISTING_MOVE_COMPLETION_ENGINE,
                 RANGE_IMMUNITY_MOVES_ENGINE,
                 BYPASS_ATTACKS_ENGINE,
                 MOVE_HISTORY_ENGINE,
@@ -3150,6 +3157,7 @@ fn transition_inner(
                 b.flow = Some(TurnFlow {
                     identity_moves: [
                         ENGINE,
+                        EXISTING_MOVE_COMPLETION_ENGINE,
                         RANGE_IMMUNITY_MOVES_ENGINE,
                         BYPASS_ATTACKS_ENGINE,
                         MOVE_HISTORY_ENGINE,
@@ -3182,6 +3190,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     status_escalation: [
                         ENGINE,
+                        EXISTING_MOVE_COMPLETION_ENGINE,
                         RANGE_IMMUNITY_MOVES_ENGINE,
                         BYPASS_ATTACKS_ENGINE,
                         MOVE_HISTORY_ENGINE,
@@ -3213,6 +3222,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     spite: [
                         ENGINE,
+                        EXISTING_MOVE_COMPLETION_ENGINE,
                         RANGE_IMMUNITY_MOVES_ENGINE,
                         BYPASS_ATTACKS_ENGINE,
                         MOVE_HISTORY_ENGINE,
@@ -3243,6 +3253,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     will_drains: [
                         ENGINE,
+                        EXISTING_MOVE_COMPLETION_ENGINE,
                         RANGE_IMMUNITY_MOVES_ENGINE,
                         BYPASS_ATTACKS_ENGINE,
                         MOVE_HISTORY_ENGINE,
@@ -3272,6 +3283,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     direct_status: [
                         ENGINE,
+                        EXISTING_MOVE_COMPLETION_ENGINE,
                         RANGE_IMMUNITY_MOVES_ENGINE,
                         BYPASS_ATTACKS_ENGINE,
                         MOVE_HISTORY_ENGINE,
@@ -3300,6 +3312,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     chance_status: [
                         ENGINE,
+                        EXISTING_MOVE_COMPLETION_ENGINE,
                         RANGE_IMMUNITY_MOVES_ENGINE,
                         BYPASS_ATTACKS_ENGINE,
                         MOVE_HISTORY_ENGINE,
@@ -3327,6 +3340,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     battlefield_review: [
                         ENGINE,
+                        EXISTING_MOVE_COMPLETION_ENGINE,
                         RANGE_IMMUNITY_MOVES_ENGINE,
                         BYPASS_ATTACKS_ENGINE,
                         MOVE_HISTORY_ENGINE,
@@ -3350,6 +3364,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     entry_hazards: [
                         ENGINE,
+                        EXISTING_MOVE_COMPLETION_ENGINE,
                         RANGE_IMMUNITY_MOVES_ENGINE,
                         BYPASS_ATTACKS_ENGINE,
                         MOVE_HISTORY_ENGINE,
@@ -3373,6 +3388,7 @@ fn transition_inner(
                     damaging_stats: Box::new(damaging_stats::StatMoveState {
                         enabled: [
                             ENGINE,
+                            EXISTING_MOVE_COMPLETION_ENGINE,
                             RANGE_IMMUNITY_MOVES_ENGINE,
                             BYPASS_ATTACKS_ENGINE,
                             MOVE_HISTORY_ENGINE,
@@ -3397,6 +3413,7 @@ fn transition_inner(
                     }),
                     cure_protection: [
                         ENGINE,
+                        EXISTING_MOVE_COMPLETION_ENGINE,
                         RANGE_IMMUNITY_MOVES_ENGINE,
                         BYPASS_ATTACKS_ENGINE,
                         MOVE_HISTORY_ENGINE,
@@ -3422,6 +3439,7 @@ fn transition_inner(
                     recurring: Box::new(recurring::RecurringState {
                         enabled: [
                             ENGINE,
+                            EXISTING_MOVE_COMPLETION_ENGINE,
                             RANGE_IMMUNITY_MOVES_ENGINE,
                             BYPASS_ATTACKS_ENGINE,
                             MOVE_HISTORY_ENGINE,
@@ -3450,6 +3468,7 @@ fn transition_inner(
                     compound: compound::CompoundState {
                         enabled: [
                             ENGINE,
+                            EXISTING_MOVE_COMPLETION_ENGINE,
                             RANGE_IMMUNITY_MOVES_ENGINE,
                             BYPASS_ATTACKS_ENGINE,
                             MOVE_HISTORY_ENGINE,
@@ -3478,6 +3497,7 @@ fn transition_inner(
                     },
                     house_rules: [
                         ENGINE,
+                        EXISTING_MOVE_COMPLETION_ENGINE,
                         RANGE_IMMUNITY_MOVES_ENGINE,
                         BYPASS_ATTACKS_ENGINE,
                         MOVE_HISTORY_ENGINE,
@@ -3512,6 +3532,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     interaction_rules: [
                         ENGINE,
+                        EXISTING_MOVE_COMPLETION_ENGINE,
                         RANGE_IMMUNITY_MOVES_ENGINE,
                         BYPASS_ATTACKS_ENGINE,
                         MOVE_HISTORY_ENGINE,
@@ -3549,6 +3570,7 @@ fn transition_inner(
                     standalone: standalone::StandaloneState {
                         enabled: [
                             ENGINE,
+                            EXISTING_MOVE_COMPLETION_ENGINE,
                             RANGE_IMMUNITY_MOVES_ENGINE,
                             BYPASS_ATTACKS_ENGINE,
                             MOVE_HISTORY_ENGINE,
@@ -3589,6 +3611,7 @@ fn transition_inner(
                     information: information::InformationState {
                         enabled: [
                             ENGINE,
+                            EXISTING_MOVE_COMPLETION_ENGINE,
                             RANGE_IMMUNITY_MOVES_ENGINE,
                             BYPASS_ATTACKS_ENGINE,
                             MOVE_HISTORY_ENGINE,
@@ -3630,6 +3653,7 @@ fn transition_inner(
                     forms: forms::FormState {
                         enabled: [
                             ENGINE,
+                            EXISTING_MOVE_COMPLETION_ENGINE,
                             RANGE_IMMUNITY_MOVES_ENGINE,
                             BYPASS_ATTACKS_ENGINE,
                             MOVE_HISTORY_ENGINE,
@@ -3673,6 +3697,7 @@ fn transition_inner(
                         completion: items::completion::CompletionState {
                             enabled: [
                                 ENGINE,
+                                EXISTING_MOVE_COMPLETION_ENGINE,
                                 RANGE_IMMUNITY_MOVES_ENGINE,
                                 BYPASS_ATTACKS_ENGINE,
                                 MOVE_HISTORY_ENGINE,
@@ -3710,6 +3735,7 @@ fn transition_inner(
                         },
                         enabled: [
                             ENGINE,
+                            EXISTING_MOVE_COMPLETION_ENGINE,
                             RANGE_IMMUNITY_MOVES_ENGINE,
                             BYPASS_ATTACKS_ENGINE,
                             MOVE_HISTORY_ENGINE,
@@ -3753,6 +3779,7 @@ fn transition_inner(
                     events: events::EventState {
                         enabled: [
                             ENGINE,
+                            EXISTING_MOVE_COMPLETION_ENGINE,
                             RANGE_IMMUNITY_MOVES_ENGINE,
                             BYPASS_ATTACKS_ENGINE,
                             MOVE_HISTORY_ENGINE,
@@ -3796,6 +3823,7 @@ fn transition_inner(
                     },
                     provenance_rules: [
                         ENGINE,
+                        EXISTING_MOVE_COMPLETION_ENGINE,
                         RANGE_IMMUNITY_MOVES_ENGINE,
                         BYPASS_ATTACKS_ENGINE,
                         MOVE_HISTORY_ENGINE,
@@ -3839,6 +3867,7 @@ fn transition_inner(
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            EXISTING_MOVE_COMPLETION_ENGINE,
                             RANGE_IMMUNITY_MOVES_ENGINE,
                             BYPASS_ATTACKS_ENGINE,
                             MOVE_HISTORY_ENGINE,
@@ -3885,6 +3914,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            EXISTING_MOVE_COMPLETION_ENGINE,
                             RANGE_IMMUNITY_MOVES_ENGINE,
                             BYPASS_ATTACKS_ENGINE,
                             MOVE_HISTORY_ENGINE,
@@ -3931,6 +3961,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        EXISTING_MOVE_COMPLETION_ENGINE,
                         RANGE_IMMUNITY_MOVES_ENGINE,
                         BYPASS_ATTACKS_ENGINE,
                         MOVE_HISTORY_ENGINE,
@@ -3977,6 +4008,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            EXISTING_MOVE_COMPLETION_ENGINE,
                             RANGE_IMMUNITY_MOVES_ENGINE,
                             BYPASS_ATTACKS_ENGINE,
                             MOVE_HISTORY_ENGINE,
@@ -4026,6 +4058,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            EXISTING_MOVE_COMPLETION_ENGINE,
                             RANGE_IMMUNITY_MOVES_ENGINE,
                             BYPASS_ATTACKS_ENGINE,
                             MOVE_HISTORY_ENGINE,
@@ -4076,6 +4109,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            EXISTING_MOVE_COMPLETION_ENGINE,
                             RANGE_IMMUNITY_MOVES_ENGINE,
                             BYPASS_ATTACKS_ENGINE,
                             MOVE_HISTORY_ENGINE,
@@ -4127,6 +4161,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            EXISTING_MOVE_COMPLETION_ENGINE,
                             RANGE_IMMUNITY_MOVES_ENGINE,
                             BYPASS_ATTACKS_ENGINE,
                             MOVE_HISTORY_ENGINE,
@@ -4179,6 +4214,7 @@ fn transition_inner(
                     special: Box::new(special::SpecialState {
                         enabled: [
                             ENGINE,
+                            EXISTING_MOVE_COMPLETION_ENGINE,
                             RANGE_IMMUNITY_MOVES_ENGINE,
                             BYPASS_ATTACKS_ENGINE,
                             MOVE_HISTORY_ENGINE,
@@ -4231,6 +4267,7 @@ fn transition_inner(
                     }),
                     ability_rules: [
                         ENGINE,
+                        EXISTING_MOVE_COMPLETION_ENGINE,
                         RANGE_IMMUNITY_MOVES_ENGINE,
                         BYPASS_ATTACKS_ENGINE,
                         MOVE_HISTORY_ENGINE,
@@ -4285,6 +4322,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            EXISTING_MOVE_COMPLETION_ENGINE,
                             RANGE_IMMUNITY_MOVES_ENGINE,
                             BYPASS_ATTACKS_ENGINE,
                             MOVE_HISTORY_ENGINE,
@@ -4339,6 +4377,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            EXISTING_MOVE_COMPLETION_ENGINE,
                             RANGE_IMMUNITY_MOVES_ENGINE,
                             BYPASS_ATTACKS_ENGINE,
                             MOVE_HISTORY_ENGINE,

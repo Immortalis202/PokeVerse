@@ -1283,6 +1283,46 @@
           "requires_input": true
         }
       }
+    },
+    "MOVE-A20": {
+      "engine": "0.55.0-core",
+      "kind": "partner-attack",
+      "scope": "Four partner attacks: Baddy Bad/Glitzy Glow create four-round own-side Physical/Special Force Fields only after dealing damage; Pika Papow adds Happiness dice capped at five; Zippy Zap retains guaranteed Critical and Reaction 2. Current encounters also correct the three already-routed partner moves' final-stage guard using forward ordinary evolution, excluding From/Mega/Form/same-Dex edges. Historical guard behavior is preserved. Baddy Bad follows Single Target prose rather than its inconsistent battlefield Target metadata.",
+      "moves": {
+        "Baddy Bad": {
+          "source": "Pokerole-Data/v3.0/Moves/Baddy Bad.json",
+          "sha256": "216303bc93caad18e416102b5385541a2c8e8016f3f5ac94eda106a50f2de8a1",
+          "effect": "Single Target. After dealing damage, activate a Force Field against Physical Damage with a Duration of 4 Rounds on the User's side of the Field. If the user of this Move is at its Final Stage of Evolution, this move fails.",
+          "final_stage_fail": true,
+          "field": "Reflect",
+          "happiness_bonus": false,
+          "target_override": "Foe"
+        },
+        "Glitzy Glow": {
+          "source": "Pokerole-Data/v3.0/Moves/Glitzy Glow.json",
+          "sha256": "58d6d785fdc0e1d0d4bb6f526a8f2e2f8684e17f89605686947ae44285770b56",
+          "effect": "Single Target. After dealing damage, activate a Force Field against Special Damage with a Duration of 4 Rounds on the User's side of the Field. If the user of this Move is at its Final Stage of Evolution, this move fails.",
+          "final_stage_fail": true,
+          "field": "Light Screen",
+          "happiness_bonus": false
+        },
+        "Pika Papow": {
+          "source": "Pokerole-Data/v3.0/Moves/Pika Papow.json",
+          "sha256": "4315873e8055e683f2983f5e095b12985ef023a795e4aa1d5277274b7afafa23",
+          "effect": "Single Target. *Add 1 Extra Die to the Damage Pool of this Move for every point of Happiness on the User. Up to 5 Dice may be added this way. If the user of this Move is at its Final Stage of Evolution, this move fails.",
+          "final_stage_fail": true,
+          "field": null,
+          "happiness_bonus": true
+        },
+        "Zippy Zap": {
+          "source": "Pokerole-Data/v3.0/Moves/Zippy Zap.json",
+          "sha256": "9f3bc5359b431bd89d37993b0e41eb8ca07f317a068256200a7cba925043d4c3",
+          "effect": "Single Target. Reaction 2. This Move is always considered a Critical Hit and gets the proper Bonus for it. If the user of this Move is at its Final Stage of Evolution, this move fails.",
+          "final_stage_fail": true,
+          "field": null,
+          "happiness_bonus": false
+        }
+      }
     }
   },
   "printed_review": {

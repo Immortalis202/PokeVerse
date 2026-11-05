@@ -25,7 +25,8 @@ The live source of remaining route work is `rules/move-effect-audit.json`. Its f
 | MOVE-A17 | Four Shield/Force Field bypass attacks | Complete |
 | MOVE-A18 | Nine range, Water/Ground immunity and grounding attacks | Complete |
 | MOVE-A19 | Existing item-move completion and two ordinary/narrative cards | Complete |
-| MOVE-A20 | Four partner attacks and exact final-evolution guards | Next |
+| MOVE-A20 | Four partner attacks and exact final-evolution guards | Complete |
+| MOVE-A21 | Tailwind and Fairy Lock battlefield effects | Next |
 | First Impression | Deployment round versus first eligible action round | Awaiting user ruling; other blocks continue |
 | Later blocks | Ordinary attacks with existing attributes; remaining stat changes, resets and swaps; type/damage conversions; field changes; conditional damage; timing/action restrictions; items; copy/selection effects | Open |
 

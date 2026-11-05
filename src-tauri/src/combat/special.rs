@@ -3046,7 +3046,9 @@ pub fn guard(c: &Campaign, id: &str, m: &serde_json::Value, cat: &Catalog) -> Re
     {
         return Err(error("This move requires Stockpile"));
     }
-    if ["Bouncy Bubble", "Veevee Volley", "Sparkly Swirl"].contains(&name) {
+    if completion::partner_rule(c, name) {
+        completion::partner_guard(c, id, cat)?;
+    } else if ["Bouncy Bubble", "Veevee Volley", "Sparkly Swirl"].contains(&name) {
         let species = cat
             .find(
                 "species",

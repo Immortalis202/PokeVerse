@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.54.0-core",
-  "release": "0.62.0",
-  "protocol": 63,
+  "engine": "0.55.0-core",
+  "release": "0.63.0",
+  "protocol": 64,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -863,6 +863,18 @@
         "completion_a19_item_preparation_and_historical_completion_remain_explicit"
       ],
       "scope": "Four completion routes for existing mechanics. Cut and Strength finish ordinary damage; outside-battle narrative/lifting and lethal wounds stay excluded. Strength preserves its reviewed canonical/legacy names. Fling/Natural Gift retain existing owned item preparation, physical-unit consumption, rarity/flavor/Ripen, hit effects, immunity, rollback and privacy; valid committed moves finish after damage and history-free probes explicitly request preparation."
+    },
+    {
+      "id": "move-completion-a20",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A20",
+      "fixtures": [
+        "completion_a20_partner_fields_follow_damage_side_and_four_round_clock",
+        "completion_a20_happiness_is_capped_and_zippy_zap_keeps_critical_and_reaction_two",
+        "completion_a20_final_stage_uses_forward_ordinary_edges_not_from_or_mega_links",
+        "completion_a20_sheer_force_retains_damage_without_creating_partner_field"
+      ],
+      "scope": "Four partner attacks: Baddy Bad/Glitzy Glow create four-round own-side Physical/Special Force Fields only after dealing damage; Pika Papow adds Happiness dice capped at five; Zippy Zap retains guaranteed Critical and Reaction 2. Current encounters also correct the three already-routed partner moves' final-stage guard using forward ordinary evolution, excluding From/Mega/Form/same-Dex edges. Historical guard behavior is preserved. Baddy Bad follows Single Target prose rather than its inconsistent battlefield Target metadata."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -879,5 +891,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "d466a6ca7ffe8e082ca96b293521ee41097c5df0bc6c0ba88c9dc21cdbd96a3c"
+  "move_completion_registry_hash": "097a9ceeb85552cea9aeed3481cf8eed0370d58a3563e9ad7ea245eae5a107d7"
 }

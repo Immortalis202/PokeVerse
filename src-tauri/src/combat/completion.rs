@@ -315,6 +315,18 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
                 return Err(error("This item move needs its committed accuracy/item context before effect resolution"));
             }
         }
+        "partner-attack" => {
+            if let Some(kind) = d["field"].as_str() {
+                if q.damage > 0 && !immune_target_with_fainted(c, q, cat, true)? {
+                    let scope = format!("side:{}", fighter(c, &q.actor_id)?.side);
+                    flow_mut(c)
+                        .battlefield
+                        .rules
+                        .retain(|r| r.kind != kind || r.scope != scope);
+                    field::insert(c, kind, &format!("move:{}", q.sequence), &scope, Some(4), 1);
+                }
+            }
+        }
         "trap" => {
             if !immune_target(c, q, cat)? {
                 install(c, q, &q.actor_id, &q.target_id)?;
@@ -503,6 +515,7 @@ pub fn ordinary(c: &Campaign, name: &str) -> bool {
                             .first()
                             .is_some_and(|q| q.move_name == name && items::resolved_effects(c, q))
                     })))
+            || (kind == "partner-attack" && d["field"].is_null())
     })
 }
 
@@ -569,6 +582,11 @@ pub fn physical_defense(c: &Campaign, m: &serde_json::Value) -> bool {
 }
 pub fn move_data(c: &Campaign, p: &Combatant, m: &mut serde_json::Value) {
     contextual_type(c, p, m);
+    if let Some(target) = definition(c, m["Name"].as_str().unwrap_or(""))
+        .and_then(|(_, d)| d["target_override"].as_str())
+    {
+        m["Target"] = target.into();
+    }
     if definition(c, m["Name"].as_str().unwrap_or(""))
         .is_some_and(|(_, d)| d["ignore_defense"] == true)
     {
@@ -728,6 +746,13 @@ pub fn damage_bonus(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> i32 {
         return 0;
     };
     let mut n = 0;
+    if d["happiness_bonus"] == true {
+        n += c.sheets[&p.sheet_id]
+            .workflow
+            .as_ref()
+            .map_or(2, |w| w.happiness)
+            .clamp(0, 5);
+    }
     if terrain_type(c, p).is_some() {
         n += d["terrain_bonus"].as_i64().unwrap_or(0) as i32;
     }
@@ -965,4 +990,48 @@ pub fn vulnerable_hidden(c: &Campaign, name: &str, hidden: &str) -> bool {
             .as_array()
             .is_some_and(|v| v.iter().any(|n| n == hidden))
     })
+}
+
+pub fn partner_rule(c: &Campaign, name: &str) -> bool {
+    definition(c, name).is_some_and(|(_, d)| d["final_stage_fail"] == true)
+        || (flow(c).is_ok_and(|f| f.completion.blocks.contains("MOVE-A20"))
+            && ["Bouncy Bubble", "Veevee Volley", "Sparkly Swirl"].contains(&name))
+}
+pub fn partner_guard(c: &Campaign, id: &str, cat: &Catalog) -> Result<()> {
+    let p = fighter(c, id)?;
+    let species = cat
+        .find(
+            "species",
+            "AppId",
+            c.sheets[&p.sheet_id].species_id.as_deref().unwrap_or(""),
+        )
+        .ok_or_else(|| {
+            AppError::new(
+                "manual_rule",
+                "Partner moves require a reviewed species evolution identity",
+            )
+        })?;
+    let number = species["Number"]
+        .as_u64()
+        .ok_or_else(|| error("Partner evolution identity has no Number"))?;
+    if let Some(edges) = species["Evolutions"].as_array() {
+        for edge in edges {
+            if ["Mega", "Form"].contains(&edge["Kind"].as_str().unwrap_or("")) {
+                continue;
+            }
+            let Some(to) = edge["To"].as_str() else {
+                continue;
+            };
+            let target=cat.find("species","Name",to).ok_or_else(||AppError::new("manual_rule","Partner move has an unresolved evolution target; the GM must review its identity"))?;
+            let target_number = target["Number"]
+                .as_u64()
+                .ok_or_else(|| error("Partner evolution target has no Number"))?;
+            if number != target_number {
+                return Ok(());
+            }
+        }
+    }
+    Err(error(
+        "This partner move fails at its user's final ordinary evolution stage",
+    ))
 }

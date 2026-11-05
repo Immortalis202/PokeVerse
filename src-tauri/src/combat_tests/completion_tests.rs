@@ -2907,3 +2907,190 @@ fn completion_a19_item_preparation_and_historical_completion_remain_explicit() {
         "manual_rule"
     );
 }
+#[test]
+fn completion_a20_partner_fields_follow_damage_side_and_four_round_clock() {
+    use crate::combat::field;
+    for (name, kind, category) in [
+        ("Baddy Bad", "Reflect", "Physical"),
+        ("Glitzy Glow", "Light Screen", "Special"),
+    ] {
+        let (c, a, t) = setup(name);
+        let c = pending(&c, &a, &t, name);
+        assert!(q(&c).damage > 0);
+        let mut c = resolve(&c);
+        assert!(field::has(&c, kind, p(&c, &a)));
+        assert!(!field::has(&c, kind, p(&c, &t)));
+        assert_eq!(
+            field::reduction(
+                &c,
+                p(&c, &t),
+                p(&c, &a),
+                &serde_json::json!({"Name":"screen check","Type":"Normal","Category":category})
+            ),
+            1
+        );
+        assert!(c
+            .battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .battlefield
+            .rules
+            .iter()
+            .any(|r| r.kind == kind && r.rounds == Some(4)));
+        for _ in 0..4 {
+            c = round_end(&c);
+        }
+        assert!(!field::has(&c, kind, p(&c, &a)));
+        let (mut c, a, t) = setup(name);
+        pm(&mut c, &t).selected_ability = "Wonder Guard".into();
+        let c = pending(&c, &a, &t, name);
+        assert_eq!(q(&c).damage, 0);
+        let c = resolve(&c);
+        assert!(!field::has(&c, kind, p(&c, &a)));
+    }
+}
+#[test]
+fn completion_a20_happiness_is_capped_and_zippy_zap_keeps_critical_and_reaction_two() {
+    let mut pools = vec![];
+    for happy in 0..=5 {
+        let (mut c, a, t) = setup("Pika Papow");
+        super::sequencing_tests::loyal(&mut c, &a, 3);
+        let sid = p(&c, &a).sheet_id.clone();
+        c.sheets
+            .get_mut(&sid)
+            .unwrap()
+            .workflow
+            .as_mut()
+            .unwrap()
+            .happiness = happy;
+        let queued = ordinary_accuracy(&c, &a, &t, "Pika Papow");
+        pools.push(queued_damage_pool(&queued).dice);
+        let after = roll(&queued, "gm", &damage_command(&queued), 1);
+        assert!(after
+            .battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .queue
+            .is_empty());
+    }
+    assert_eq!(pools[5], pools[0] + 5);
+    let (c, a, t) = setup("Zippy Zap");
+    let c = ordinary_accuracy(&c, &a, &t, "Zippy Zap");
+    assert!(q(&c).critical);
+    let c = roll(&c, "gm", &damage_command(&c), 1);
+    assert!(c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .queue
+        .is_empty());
+    let (mut c, a, t) = setup("Tackle");
+    set_species(&mut c, &t, "Eevee");
+    let sid = p(&c, &t).sheet_id.clone();
+    c.sheets
+        .get_mut(&sid)
+        .unwrap()
+        .moves
+        .push("Zippy Zap".into());
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .tactics
+        .enabled = true;
+    let c = roll(
+        &c,
+        "gm",
+        &super::targeting_tests::attack(&a, vec![t.clone()], "Tackle"),
+        6,
+    );
+    let reaction = Action::Tactics {
+        command: crate::combat::tactics::TacticsCommand::Reaction {
+            combatant_id: t.clone(),
+            move_name: "Zippy Zap".into(),
+            target_ids: vec![a],
+        },
+        reason: "Use Zippy Zap Reaction 2".into(),
+    };
+    let c = roll(&c, "gm", &reaction, 6);
+    assert_eq!(q(&c).priority, 2);
+    assert_eq!(q(&c).actor_id, t);
+    assert!(q(&c).critical);
+}
+#[test]
+fn completion_a20_final_stage_uses_forward_ordinary_edges_not_from_or_mega_links() {
+    for name in ["Baddy Bad", "Glitzy Glow", "Pika Papow", "Zippy Zap"] {
+        for (species, allowed) in [
+            ("Eevee", true),
+            ("Pikachu", true),
+            ("Dunsparce", true),
+            ("Ivysaur", true),
+            ("Charizard", false),
+            ("Vaporeon", false),
+            ("Raichu", false),
+            ("Mew", false),
+        ] {
+            let (mut c, a, t) = setup(name);
+            set_species(&mut c, &a, species);
+            let action = super::targeting_tests::attack(&a, vec![t], name);
+            assert_eq!(
+                rules::dice_count(&c, &action, &catalog()).is_ok(),
+                allowed,
+                "{name} {species}"
+            );
+        }
+    }
+    let (mut c, a, t) = setup("Bouncy Bubble");
+    set_species(&mut c, &a, "Charizard");
+    let action = super::targeting_tests::attack(&a, vec![t], "Bouncy Bubble");
+    assert!(rules::dice_count(&c, &action, &catalog()).is_err());
+    c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
+        Box::new(completion::initial(EXISTING_MOVE_COMPLETION_ENGINE));
+    assert!(
+        rules::dice_count(&c, &action, &catalog()).is_ok(),
+        "historical stage guard preserved"
+    );
+}
+#[test]
+fn completion_a20_sheer_force_retains_damage_without_creating_partner_field() {
+    let (mut c, a, t) = setup("Baddy Bad");
+    pm(&mut c, &a).selected_ability = "Sheer Force".into();
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .provenance_rules = true;
+    let c = decision(
+        &c,
+        "gm",
+        Action::ChooseSheerForce {
+            combatant_id: a.clone(),
+            ignore_added_effects: true,
+            reason: "Trade partner field for damage".into(),
+        },
+    );
+    let c = pending(&c, &a, &t, "Baddy Bad");
+    assert!(c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .queue
+        .is_empty());
+    assert!(!crate::combat::field::has(&c, "Reflect", p(&c, &a)));
+}

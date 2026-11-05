@@ -53,6 +53,7 @@ export default function AdvancedTargeting({
       "0.9.0-core",
       "0.10.0-core",
       "0.11.0-core",
+      "0.55.0-core",
       "0.54.0-core",
       "0.53.0-core",
       "0.52.0-core",
@@ -108,7 +109,12 @@ export default function AdvancedTargeting({
   const sheet = p && battleSheet(campaign, p.id);
   const coaching =
     move === "Coaching" && !!b.flow?.completion.blocks.includes("MOVE-A08");
-  const automatic = m?.Target === "Area" || m?.Target?.includes("Battlefield");
+  const targetPattern =
+    move === "Baddy Bad" && b.flow?.completion.blocks.includes("MOVE-A20")
+      ? "Foe"
+      : m?.Target;
+  const automatic =
+    targetPattern === "Area" || targetPattern?.includes("Battlefield");
   const toggle = (id: string) =>
     setTargets((v) =>
       v.includes(id) ? v.filter((k) => k !== id) : [...v, id],
@@ -210,7 +216,7 @@ export default function AdvancedTargeting({
       </div>
       {m && (
         <p>
-          Target pattern: {m.Target}.{" "}
+          Target pattern: {targetPattern}.{" "}
           {automatic
             ? "Targets are determined by field scope or the GM-confirmed range."
             : coaching
