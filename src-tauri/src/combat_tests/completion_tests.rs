@@ -1861,3 +1861,122 @@ fn completion_a13_acrobatics_uses_held_item_presence_and_old_encounters_keep_ori
     let m = catalog().find("moves", "Name", "Revelation Dance").unwrap();
     assert_eq!(field::move_data(&c, p(&c, &a), &m)["Type"], m["Type"]);
 }
+#[test]
+fn completion_a14_self_damage_uses_exact_half_hp_dice_and_flat_damage() {
+    for (name, hp, max_hp, dice, loss, keys, amount) in [
+        ("Belly Drum", 9, 21, 4, 4, vec!["Strength"], 3),
+        (
+            "Clangorous Soul",
+            9,
+            21,
+            10,
+            10,
+            vec![
+                "Strength",
+                "Dexterity",
+                "Special",
+                "Defense",
+                "SpecialDefense",
+            ],
+            1,
+        ),
+        (
+            "Fillet Away",
+            9,
+            21,
+            0,
+            2,
+            vec!["Strength", "Dexterity", "Special"],
+            2,
+        ),
+    ] {
+        let (mut c, a, _) = setup(name);
+        pm(&mut c, &a).hp = hp;
+        pm(&mut c, &a).max_hp = max_hp;
+        // Keep the actor conscious to inspect buffs when the whole self-damage pool succeeds.
+        if name == "Clangorous Soul" {
+            pm(&mut c, &a).hp = 15;
+        }
+        let c = pending(&c, &a, &a, name);
+        let hp = p(&c, &a).hp;
+        assert_eq!(
+            rules::dice_count(&c, &cmd(&c), &catalog()).unwrap(),
+            dice,
+            "{name}"
+        );
+        assert!(
+            battle::transition(&c, "gm", &cmd(&c), vec![6; dice as usize + 1], &catalog()).is_err()
+        );
+        let after = roll(&c, "gm", &cmd(&c), 4);
+        assert_eq!(p(&after, &a).hp, (hp - loss).max(0), "{name}");
+        for key in keys {
+            assert_eq!(stat(&after, &a, key), amount, "{name} {key}");
+        }
+        assert_eq!(
+            serde_json::to_value(&c.sheets).unwrap(),
+            serde_json::to_value(&after.sheets).unwrap()
+        );
+    }
+    let (mut c, a, _) = setup("Belly Drum");
+    pm(&mut c, &a).hp = 1;
+    let c = pending(&c, &a, &a, "Belly Drum");
+    assert_eq!(rules::dice_count(&c, &cmd(&c), &catalog()).unwrap(), 0);
+    let c = resolve(&c);
+    assert_eq!(p(&c, &a).hp, 1);
+    assert_eq!(stat(&c, &a, "Strength"), 3);
+}
+#[test]
+fn completion_a14_self_damage_is_not_chance_and_retains_indirect_protection() {
+    let (mut c, a, _) = setup("Belly Drum");
+    pm(&mut c, &a).selected_ability = "Serene Grace".into();
+    pm(&mut c, &a).hp = 9;
+    let c = pending(&c, &a, &a, "Belly Drum");
+    assert_eq!(rules::dice_count(&c, &cmd(&c), &catalog()).unwrap(), 4);
+    let after = roll(&c, "gm", &cmd(&c), 1);
+    assert_eq!(p(&after, &a).hp, 9);
+    assert_eq!(stat(&after, &a, "Strength"), 3);
+    for name in ["Belly Drum", "Clangorous Soul", "Fillet Away"] {
+        let (mut c, a, _) = setup(name);
+        pm(&mut c, &a).selected_ability = "Magic Guard".into();
+        let c = resolve(&pending(&c, &a, &a, name));
+        assert_eq!(p(&c, &a).hp, 100, "{name}");
+        assert!(stat(&c, &a, "Strength") > 0);
+    }
+}
+#[test]
+fn completion_a14_no_retreat_and_octolock_block_independently_of_stat_protection() {
+    let (c, a, _) = setup("No Retreat");
+    let c = resolve(&pending(&c, &a, &a, "No Retreat"));
+    assert!(completion::blocked(&c, &a));
+    for key in [
+        "Strength",
+        "Dexterity",
+        "Special",
+        "Defense",
+        "SpecialDefense",
+    ] {
+        assert_eq!(stat(&c, &a, key), 1);
+    }
+    for ability in ["", "Clear Body", "Run Away"] {
+        let (mut c, a, t) = setup("Octolock");
+        pm(&mut c, &t).selected_ability = ability.into();
+        let c = resolve(&pending(&c, &a, &t, "Octolock"));
+        assert_eq!(completion::blocked(&c, &t), ability != "Run Away");
+        for key in ["Defense", "SpecialDefense"] {
+            assert_eq!(
+                stat(&c, &t, key),
+                if ability == "Clear Body" { 0 } else { -1 }
+            );
+        }
+    }
+    let (mut c, a, _) = setup("Belly Drum");
+    c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
+        Box::new(completion::initial(CONTEXT_DAMAGE_MOVES_ENGINE));
+    let c = pending(&c, &a, &a, "Belly Drum");
+    assert_eq!(
+        battle::transition(&c, "gm", &cmd(&c), vec![], &catalog())
+            .unwrap_err()
+            .code,
+        "manual_rule"
+    );
+}

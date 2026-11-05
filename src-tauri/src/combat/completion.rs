@@ -39,6 +39,19 @@ pub fn definition(c: &Campaign, name: &str) -> Option<(&'static str, &'static se
         })
 }
 pub fn effect_dice(c: &Campaign, q: &QueuedAction) -> Result<Option<u32>> {
+    if let Some(("cost-stat", d)) = definition(c, &q.move_name) {
+        let p = fighter(c, &q.actor_id)?;
+        return Ok(Some(if q.ice {
+            0
+        } else {
+            match d["damage_mode"].as_str() {
+                Some("half-current") => (p.hp / 2).max(0) as u32,
+                Some("half-total") => (p.max_hp / 2).max(0) as u32,
+                _ => 0,
+            }
+        }));
+    }
+
     if definition(c, &q.move_name).is_some_and(|(kind, _)| kind == "stat") {
         return damaging_stats::effect_dice(c, q);
     }
@@ -187,6 +200,30 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
                     flow_mut(c).battlefield.events.retain(|e| {
                         !["terrain-ruling", "terrain-contest"].contains(&e.kind.as_str())
                     });
+                }
+            }
+        }
+        "cost-stat" => {
+            if !immune_target(c, q, cat)? {
+                let loss = if d["damage_mode"].is_string() {
+                    rules::successes(_dice)
+                } else {
+                    d["flat_damage"].as_i64().unwrap_or(0) as i32
+                };
+                if loss > 0 {
+                    field::hurt(c, &q.actor_id, loss, "Neutral", cat)?;
+                }
+                for (key, n) in d["changes"].as_object().unwrap() {
+                    extra::change_stat(
+                        c,
+                        &q.actor_id,
+                        &q.target_id,
+                        key,
+                        n.as_i64().unwrap() as i32,
+                    )?;
+                }
+                if d["block"] == true {
+                    install(c, q, &q.actor_id, &q.target_id)?;
                 }
             }
         }

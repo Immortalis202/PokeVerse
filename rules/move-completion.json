@@ -1009,6 +1009,69 @@
           "terrain_bonus": 2
         }
       }
+    },
+    "MOVE-A14": {
+      "engine": "0.49.0-core",
+      "kind": "cost-stat",
+      "scope": "Five stat/Blocking cards. Belly Drum rolls half current HP as typeless self-damage dice; Clangorous Soul half total HP rounded down; Fillet Away deals two self damage. No Retreat blocks the user and Octolock blocks the target independently of protected stat changes. Ordinary indirect protection and stat channels retained.",
+      "moves": {
+        "Belly Drum": {
+          "source": "Pokerole-Data/v3.0/Moves/Belly Drum.json",
+          "sha256": "edd1f54f82623a499c8fe0b3c74fc81abf5cfbf2ae5a5574332b1f7c3272bcc5",
+          "effect": "Target Self. Roll half of the User's HP as Typeless Damage Dice to itself, ignore defenses. Increase User's Strength by 3.",
+          "changes": {
+            "Strength": 3
+          },
+          "damage_mode": "half-current"
+        },
+        "Clangorous Soul": {
+          "source": "Pokerole-Data/v3.0/Moves/Clangorous Soul.json",
+          "sha256": "90a8884ca251e528723eeab4d6db2ce7b5dff6cfd2551d5a33aa6161bc1104c7",
+          "effect": "Target Self. User deals Damage Dice to itself equal to Half of its Total HP rounded down. Increase by 1 the User's Strength, Dexterity, Special, Defense and Sp. Defense.",
+          "changes": {
+            "Strength": 1,
+            "Dexterity": 1,
+            "Special": 1,
+            "Defense": 1,
+            "SpecialDefense": 1
+          },
+          "damage_mode": "half-total"
+        },
+        "Fillet Away": {
+          "source": "Pokerole-Data/v3.0/Moves/Fillet Away.json",
+          "sha256": "5a940418009d1b219133eb78f471d8fc8b548f573e3b51d08da75fa8ad7312a5",
+          "effect": "Target Self. Deal 2 Damage to the User. Increase the User's Strength, Dexterity and Special by 2.",
+          "changes": {
+            "Strength": 2,
+            "Dexterity": 2,
+            "Special": 2
+          },
+          "flat_damage": 2
+        },
+        "No Retreat": {
+          "source": "Pokerole-Data/v3.0/Moves/No Retreat.json",
+          "sha256": "1d23502a977a83762d8477d85151a3ab9431c8cf1ed973e4cf373c1b404587cd",
+          "effect": "Target Self. Increase by 1 the User's Strength, Dexterity, Special, Defense and Sp. Defense. Blocks. Whole Scene Duration.",
+          "changes": {
+            "Strength": 1,
+            "Dexterity": 1,
+            "Special": 1,
+            "Defense": 1,
+            "SpecialDefense": 1
+          },
+          "block": true
+        },
+        "Octolock": {
+          "source": "Pokerole-Data/v3.0/Moves/Octolock.json",
+          "sha256": "3193d40a7bd731b94d181468d0997bf17ac8d3ff182761519866a7d5e5b0a6d5",
+          "effect": "Single Target. Block. Reduce by 1 the Target's Defense and Sp. Defense.",
+          "changes": {
+            "Defense": -1,
+            "SpecialDefense": -1
+          },
+          "block": true
+        }
+      }
     }
   },
   "printed_review": {

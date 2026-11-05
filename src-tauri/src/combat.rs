@@ -1135,6 +1135,7 @@ pub fn transition(
     if let Some(setup) = field::start_setup(a) {
         if ![
             ENGINE,
+            CONTEXT_DAMAGE_MOVES_ENGINE,
             FIELD_CLEANSE_MOVES_ENGINE,
             STACK_STAT_MOVES_ENGINE,
             ACCURACY_LOSS_MOVES_ENGINE,
@@ -1171,6 +1172,7 @@ pub fn transition(
             setup,
             [
                 ENGINE,
+                CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
                 ACCURACY_LOSS_MOVES_ENGINE,
@@ -3134,6 +3136,7 @@ fn transition_inner(
                 b.flow = Some(TurnFlow {
                     identity_moves: [
                         ENGINE,
+                        CONTEXT_DAMAGE_MOVES_ENGINE,
                         FIELD_CLEANSE_MOVES_ENGINE,
                         STACK_STAT_MOVES_ENGINE,
                         ACCURACY_LOSS_MOVES_ENGINE,
@@ -3160,6 +3163,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     status_escalation: [
                         ENGINE,
+                        CONTEXT_DAMAGE_MOVES_ENGINE,
                         FIELD_CLEANSE_MOVES_ENGINE,
                         STACK_STAT_MOVES_ENGINE,
                         ACCURACY_LOSS_MOVES_ENGINE,
@@ -3185,6 +3189,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     spite: [
                         ENGINE,
+                        CONTEXT_DAMAGE_MOVES_ENGINE,
                         FIELD_CLEANSE_MOVES_ENGINE,
                         STACK_STAT_MOVES_ENGINE,
                         ACCURACY_LOSS_MOVES_ENGINE,
@@ -3209,6 +3214,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     will_drains: [
                         ENGINE,
+                        CONTEXT_DAMAGE_MOVES_ENGINE,
                         FIELD_CLEANSE_MOVES_ENGINE,
                         STACK_STAT_MOVES_ENGINE,
                         ACCURACY_LOSS_MOVES_ENGINE,
@@ -3232,6 +3238,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     direct_status: [
                         ENGINE,
+                        CONTEXT_DAMAGE_MOVES_ENGINE,
                         FIELD_CLEANSE_MOVES_ENGINE,
                         STACK_STAT_MOVES_ENGINE,
                         ACCURACY_LOSS_MOVES_ENGINE,
@@ -3254,6 +3261,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     chance_status: [
                         ENGINE,
+                        CONTEXT_DAMAGE_MOVES_ENGINE,
                         FIELD_CLEANSE_MOVES_ENGINE,
                         STACK_STAT_MOVES_ENGINE,
                         ACCURACY_LOSS_MOVES_ENGINE,
@@ -3275,6 +3283,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     battlefield_review: [
                         ENGINE,
+                        CONTEXT_DAMAGE_MOVES_ENGINE,
                         FIELD_CLEANSE_MOVES_ENGINE,
                         STACK_STAT_MOVES_ENGINE,
                         ACCURACY_LOSS_MOVES_ENGINE,
@@ -3292,6 +3301,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     entry_hazards: [
                         ENGINE,
+                        CONTEXT_DAMAGE_MOVES_ENGINE,
                         FIELD_CLEANSE_MOVES_ENGINE,
                         STACK_STAT_MOVES_ENGINE,
                         ACCURACY_LOSS_MOVES_ENGINE,
@@ -3309,6 +3319,7 @@ fn transition_inner(
                     damaging_stats: Box::new(damaging_stats::StatMoveState {
                         enabled: [
                             ENGINE,
+                            CONTEXT_DAMAGE_MOVES_ENGINE,
                             FIELD_CLEANSE_MOVES_ENGINE,
                             STACK_STAT_MOVES_ENGINE,
                             ACCURACY_LOSS_MOVES_ENGINE,
@@ -3327,6 +3338,7 @@ fn transition_inner(
                     }),
                     cure_protection: [
                         ENGINE,
+                        CONTEXT_DAMAGE_MOVES_ENGINE,
                         FIELD_CLEANSE_MOVES_ENGINE,
                         STACK_STAT_MOVES_ENGINE,
                         ACCURACY_LOSS_MOVES_ENGINE,
@@ -3346,6 +3358,7 @@ fn transition_inner(
                     recurring: Box::new(recurring::RecurringState {
                         enabled: [
                             ENGINE,
+                            CONTEXT_DAMAGE_MOVES_ENGINE,
                             FIELD_CLEANSE_MOVES_ENGINE,
                             STACK_STAT_MOVES_ENGINE,
                             ACCURACY_LOSS_MOVES_ENGINE,
@@ -3368,6 +3381,7 @@ fn transition_inner(
                     compound: compound::CompoundState {
                         enabled: [
                             ENGINE,
+                            CONTEXT_DAMAGE_MOVES_ENGINE,
                             FIELD_CLEANSE_MOVES_ENGINE,
                             STACK_STAT_MOVES_ENGINE,
                             ACCURACY_LOSS_MOVES_ENGINE,
@@ -3390,6 +3404,7 @@ fn transition_inner(
                     },
                     house_rules: [
                         ENGINE,
+                        CONTEXT_DAMAGE_MOVES_ENGINE,
                         FIELD_CLEANSE_MOVES_ENGINE,
                         STACK_STAT_MOVES_ENGINE,
                         ACCURACY_LOSS_MOVES_ENGINE,
@@ -3418,6 +3433,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     interaction_rules: [
                         ENGINE,
+                        CONTEXT_DAMAGE_MOVES_ENGINE,
                         FIELD_CLEANSE_MOVES_ENGINE,
                         STACK_STAT_MOVES_ENGINE,
                         ACCURACY_LOSS_MOVES_ENGINE,
@@ -3449,6 +3465,7 @@ fn transition_inner(
                     standalone: standalone::StandaloneState {
                         enabled: [
                             ENGINE,
+                            CONTEXT_DAMAGE_MOVES_ENGINE,
                             FIELD_CLEANSE_MOVES_ENGINE,
                             STACK_STAT_MOVES_ENGINE,
                             ACCURACY_LOSS_MOVES_ENGINE,
@@ -3483,6 +3500,7 @@ fn transition_inner(
                     information: information::InformationState {
                         enabled: [
                             ENGINE,
+                            CONTEXT_DAMAGE_MOVES_ENGINE,
                             FIELD_CLEANSE_MOVES_ENGINE,
                             STACK_STAT_MOVES_ENGINE,
                             ACCURACY_LOSS_MOVES_ENGINE,
@@ -3518,6 +3536,7 @@ fn transition_inner(
                     forms: forms::FormState {
                         enabled: [
                             ENGINE,
+                            CONTEXT_DAMAGE_MOVES_ENGINE,
                             FIELD_CLEANSE_MOVES_ENGINE,
                             STACK_STAT_MOVES_ENGINE,
                             ACCURACY_LOSS_MOVES_ENGINE,
@@ -3555,6 +3574,7 @@ fn transition_inner(
                         completion: items::completion::CompletionState {
                             enabled: [
                                 ENGINE,
+                                CONTEXT_DAMAGE_MOVES_ENGINE,
                                 FIELD_CLEANSE_MOVES_ENGINE,
                                 STACK_STAT_MOVES_ENGINE,
                                 ACCURACY_LOSS_MOVES_ENGINE,
@@ -3586,6 +3606,7 @@ fn transition_inner(
                         },
                         enabled: [
                             ENGINE,
+                            CONTEXT_DAMAGE_MOVES_ENGINE,
                             FIELD_CLEANSE_MOVES_ENGINE,
                             STACK_STAT_MOVES_ENGINE,
                             ACCURACY_LOSS_MOVES_ENGINE,
@@ -3623,6 +3644,7 @@ fn transition_inner(
                     events: events::EventState {
                         enabled: [
                             ENGINE,
+                            CONTEXT_DAMAGE_MOVES_ENGINE,
                             FIELD_CLEANSE_MOVES_ENGINE,
                             STACK_STAT_MOVES_ENGINE,
                             ACCURACY_LOSS_MOVES_ENGINE,
@@ -3660,6 +3682,7 @@ fn transition_inner(
                     },
                     provenance_rules: [
                         ENGINE,
+                        CONTEXT_DAMAGE_MOVES_ENGINE,
                         FIELD_CLEANSE_MOVES_ENGINE,
                         STACK_STAT_MOVES_ENGINE,
                         ACCURACY_LOSS_MOVES_ENGINE,
@@ -3697,6 +3720,7 @@ fn transition_inner(
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            CONTEXT_DAMAGE_MOVES_ENGINE,
                             FIELD_CLEANSE_MOVES_ENGINE,
                             STACK_STAT_MOVES_ENGINE,
                             ACCURACY_LOSS_MOVES_ENGINE,
@@ -3737,6 +3761,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            CONTEXT_DAMAGE_MOVES_ENGINE,
                             FIELD_CLEANSE_MOVES_ENGINE,
                             STACK_STAT_MOVES_ENGINE,
                             ACCURACY_LOSS_MOVES_ENGINE,
@@ -3777,6 +3802,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        CONTEXT_DAMAGE_MOVES_ENGINE,
                         FIELD_CLEANSE_MOVES_ENGINE,
                         STACK_STAT_MOVES_ENGINE,
                         ACCURACY_LOSS_MOVES_ENGINE,
@@ -3817,6 +3843,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            CONTEXT_DAMAGE_MOVES_ENGINE,
                             FIELD_CLEANSE_MOVES_ENGINE,
                             STACK_STAT_MOVES_ENGINE,
                             ACCURACY_LOSS_MOVES_ENGINE,
@@ -3860,6 +3887,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            CONTEXT_DAMAGE_MOVES_ENGINE,
                             FIELD_CLEANSE_MOVES_ENGINE,
                             STACK_STAT_MOVES_ENGINE,
                             ACCURACY_LOSS_MOVES_ENGINE,
@@ -3904,6 +3932,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            CONTEXT_DAMAGE_MOVES_ENGINE,
                             FIELD_CLEANSE_MOVES_ENGINE,
                             STACK_STAT_MOVES_ENGINE,
                             ACCURACY_LOSS_MOVES_ENGINE,
@@ -3949,6 +3978,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            CONTEXT_DAMAGE_MOVES_ENGINE,
                             FIELD_CLEANSE_MOVES_ENGINE,
                             STACK_STAT_MOVES_ENGINE,
                             ACCURACY_LOSS_MOVES_ENGINE,
@@ -3995,6 +4025,7 @@ fn transition_inner(
                     special: Box::new(special::SpecialState {
                         enabled: [
                             ENGINE,
+                            CONTEXT_DAMAGE_MOVES_ENGINE,
                             FIELD_CLEANSE_MOVES_ENGINE,
                             STACK_STAT_MOVES_ENGINE,
                             ACCURACY_LOSS_MOVES_ENGINE,
@@ -4041,6 +4072,7 @@ fn transition_inner(
                     }),
                     ability_rules: [
                         ENGINE,
+                        CONTEXT_DAMAGE_MOVES_ENGINE,
                         FIELD_CLEANSE_MOVES_ENGINE,
                         STACK_STAT_MOVES_ENGINE,
                         ACCURACY_LOSS_MOVES_ENGINE,
@@ -4089,6 +4121,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            CONTEXT_DAMAGE_MOVES_ENGINE,
                             FIELD_CLEANSE_MOVES_ENGINE,
                             STACK_STAT_MOVES_ENGINE,
                             ACCURACY_LOSS_MOVES_ENGINE,
@@ -4137,6 +4170,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            CONTEXT_DAMAGE_MOVES_ENGINE,
                             FIELD_CLEANSE_MOVES_ENGINE,
                             STACK_STAT_MOVES_ENGINE,
                             ACCURACY_LOSS_MOVES_ENGINE,

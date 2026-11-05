@@ -10,6 +10,7 @@ pub fn transition(
 ) -> Result<(Campaign, String)> {
     if [
         ENGINE,
+        CONTEXT_DAMAGE_MOVES_ENGINE,
         FIELD_CLEANSE_MOVES_ENGINE,
         STACK_STAT_MOVES_ENGINE,
         ACCURACY_LOSS_MOVES_ENGINE,
@@ -412,6 +413,7 @@ pub fn transition(
             }
             if ![
                 ENGINE,
+                CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
                 ACCURACY_LOSS_MOVES_ENGINE,

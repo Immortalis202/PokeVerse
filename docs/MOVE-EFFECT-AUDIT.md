@@ -1,6 +1,6 @@
 # Move-effect audit: milestone 1
 
-Snapshot refreshed: 5 November 2026, app **0.56.0**, engine **0.48.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
+Snapshot refreshed: 5 November 2026, app **0.57.0**, engine **0.49.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
 
 ## Deliverables and limits
 
@@ -18,13 +18,13 @@ The diagnostic deliberately bypasses accuracy, damage, targeting expansion, acti
 
 | Effect-route result | Cards | Meaning |
 | --- | ---: | --- |
-| executable-scope | 667 | At least one probe resolves; only recorded scopes are asserted. |
+| executable-scope | 672 | At least one probe resolves; only recorded scopes are asserted. |
 | input-required | 12 | Existing handler requests a selection, resource, weather or other legitimate prerequisite. |
-| manual-effect-route | 174 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
+| manual-effect-route | 169 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
 | gm-choice | 1 | Hold Hands: narrative battle-ending decision remains with the storyteller. |
 | excluded | 38 | Supplied Max/Z cards and the user-excluded Sappy Seed. |
 
-These totals sum to 892. **174 manual-effect-route results remain after MOVE-A13. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
+These totals sum to 892. **169 manual-effect-route results remain after MOVE-A14. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
 
 | Focused status result | Cards |
 | --- | ---: |
@@ -193,7 +193,7 @@ A six triggers the single printed Chance pool. Serene Grace, Wonder Skin, Loaded
 
 New 0.36.0-core encounters enable the boxed `damaging_stats` state. Missing saved state defaults disabled; 0.35.0-core remains accepted with its previous M3 behavior. Protocol 45 carries the new state. App version is 0.44.0.
 
-**The whole move catalog is not complete.** The 174 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
+**The whole move catalog is not complete.** The 169 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
 
 
 ### MOVE-A01 verification (1 November 2026)
@@ -322,3 +322,10 @@ Validation covers all three public attack paths, Steel Roller's declaration prer
 Ivy Cudgel and Raging Bull use the user's current secondary type, falling back to the main type. Multi-Attack and Revelation Dance use the current main type. Their resolved move type enters the existing STAB, resistance, immunity and ability-conversion pipeline using the encounter's current/frozen typing cache. Terrain Pulse adopts the applicable active terrain's type and gains two dice. Psyblade gains two dice in applicable Electric Terrain. Acrobatics loses two pool dice while actually holding an item, regardless of item-effect suppression. Existing damage snapshots retain their behavior.
 
 Validation exercises all seven attacks through public commands, dual/single typing, live GM-confirmed typing changes, STAB and effectiveness, all four terrain mappings, side scope, exact bonus/penalty dice, held-item presence and historical behavior. Completion/stat/transfer regressions, adjacent status/field clocks, gates, exports, route inventory, frontend/script tests, TypeScript and formatting passed. App 0.56.0, engine 0.48.0-core, protocol 57.
+
+
+### MOVE-A14: self-damage, stats and Blocking (5 November 2026)
+
+Belly Drum rolls half the user's current HP as typeless self-damage dice. Clangorous Soul rolls half total HP, rounded down. Fillet Away deals two fixed self damage. These are damage pools, not Chance pools; Serene Grace and Wonder Skin do not alter them. Their printed stat changes use the existing channels, and indirect-damage protection remains active. No Retreat raises its five printed stats and Blocks its user; Octolock reduces Defense/Sp. Defense and Blocks its target. Run Away blocks only the trapping clause, and stat protection blocks only the stat clause.
+
+Validation covers every card, odd/current/total HP, zero-die Belly Drum, exact pool rejection, ordinary damage successes, failed damage dice, Magic Guard, every stat recipient, Run Away, Clear Body, sheets and historical fallback. Completion/stat/transfer regressions, adjacent status/field clocks, gates, exports, route inventory, frontend/script tests, TypeScript and formatting passed. App 0.57.0, engine 0.49.0-core, protocol 58.

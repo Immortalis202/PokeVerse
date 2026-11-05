@@ -19,7 +19,8 @@ The live source of remaining route work is `rules/move-effect-audit.json`. Its f
 | MOVE-A11 | Four explicit three-stack stat cards | Complete |
 | MOVE-A12 | Rapid Spin, Ice Spinner and Steel Roller cleanup | Complete |
 | MOVE-A13 | Seven source-type and conditional damage attacks | Complete |
-| MOVE-A14 | Five self-damage/stat/Blocking support cards | Next |
+| MOVE-A14 | Five self-damage/stat/Blocking support cards | Complete |
+| MOVE-A15 | Taunt, Throat Chop and Imprison restrictions | Next |
 | Later blocks | Ordinary attacks with existing attributes; remaining stat changes, resets and swaps; type/damage conversions; field changes; conditional damage; timing/action restrictions; items; copy/selection effects | Open |
 
 New block adoption is persisted in `TurnFlow.completion.blocks`. Every release records its engine in `rules/move-completion.json`; historical saves adopt no additional blocks automatically. The shared special-effect state is boxed while preserving its JSON shape to keep transition stack usage bounded.

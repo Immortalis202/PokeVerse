@@ -224,6 +224,7 @@ pub fn accuracy(
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
     if [
         ENGINE,
+        CONTEXT_DAMAGE_MOVES_ENGINE,
         FIELD_CLEANSE_MOVES_ENGINE,
         STACK_STAT_MOVES_ENGINE,
         ACCURACY_LOSS_MOVES_ENGINE,

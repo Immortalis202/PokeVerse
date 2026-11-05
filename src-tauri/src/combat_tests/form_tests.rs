@@ -901,6 +901,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
     let ended = decision(&c, "gm", Action::EndBattle);
     for engine in [
         ENGINE,
+        CONTEXT_DAMAGE_MOVES_ENGINE,
         FIELD_CLEANSE_MOVES_ENGINE,
         STACK_STAT_MOVES_ENGINE,
         ACCURACY_LOSS_MOVES_ENGINE,
@@ -949,6 +950,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.entry_hazards,
             [
                 ENGINE,
+                CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
                 ACCURACY_LOSS_MOVES_ENGINE,
@@ -964,21 +966,37 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             .contains(&engine)
         );
         assert_eq!(
-            flow.completion.blocks.contains("MOVE-A13"),
+            flow.completion.blocks.contains("MOVE-A14"),
             engine == ENGINE
         );
         assert_eq!(
+            flow.completion.blocks.contains("MOVE-A13"),
+            [ENGINE, CONTEXT_DAMAGE_MOVES_ENGINE].contains(&engine)
+        );
+        assert_eq!(
             flow.completion.blocks.contains("MOVE-A12"),
-            [ENGINE, FIELD_CLEANSE_MOVES_ENGINE].contains(&engine)
+            [
+                ENGINE,
+                CONTEXT_DAMAGE_MOVES_ENGINE,
+                FIELD_CLEANSE_MOVES_ENGINE
+            ]
+            .contains(&engine)
         );
         assert_eq!(
             flow.completion.blocks.contains("MOVE-A11"),
-            [ENGINE, FIELD_CLEANSE_MOVES_ENGINE, STACK_STAT_MOVES_ENGINE].contains(&engine)
+            [
+                ENGINE,
+                CONTEXT_DAMAGE_MOVES_ENGINE,
+                FIELD_CLEANSE_MOVES_ENGINE,
+                STACK_STAT_MOVES_ENGINE
+            ]
+            .contains(&engine)
         );
         assert_eq!(
             flow.completion.blocks.contains("MOVE-A10"),
             [
                 ENGINE,
+                CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
                 ACCURACY_LOSS_MOVES_ENGINE
@@ -989,6 +1007,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A09"),
             [
                 ENGINE,
+                CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
                 ACCURACY_LOSS_MOVES_ENGINE,
@@ -1000,6 +1019,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A08"),
             [
                 ENGINE,
+                CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
                 ACCURACY_LOSS_MOVES_ENGINE,
@@ -1012,6 +1032,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A07"),
             [
                 ENGINE,
+                CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
                 ACCURACY_LOSS_MOVES_ENGINE,
@@ -1025,6 +1046,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A06"),
             [
                 ENGINE,
+                CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
                 ACCURACY_LOSS_MOVES_ENGINE,
@@ -1039,6 +1061,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A05"),
             [
                 ENGINE,
+                CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
                 ACCURACY_LOSS_MOVES_ENGINE,
@@ -1054,6 +1077,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A04"),
             [
                 ENGINE,
+                CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
                 ACCURACY_LOSS_MOVES_ENGINE,
@@ -1070,6 +1094,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A03"),
             [
                 ENGINE,
+                CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
                 ACCURACY_LOSS_MOVES_ENGINE,
@@ -1087,6 +1112,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.damaging_stats.enabled,
             [
                 ENGINE,
+                CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
                 ACCURACY_LOSS_MOVES_ENGINE,
@@ -1106,6 +1132,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.battlefield_review,
             [
                 ENGINE,
+                CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
                 ACCURACY_LOSS_MOVES_ENGINE,
@@ -1126,6 +1153,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.direct_status,
             [
                 ENGINE,
+                CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
                 ACCURACY_LOSS_MOVES_ENGINE,
@@ -1151,6 +1179,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.chance_status,
             [
                 ENGINE,
+                CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
                 ACCURACY_LOSS_MOVES_ENGINE,
@@ -1175,6 +1204,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.compound.enabled,
             [
                 ENGINE,
+                CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
                 ACCURACY_LOSS_MOVES_ENGINE,
@@ -1198,6 +1228,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.recurring.enabled,
             [
                 ENGINE,
+                CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
                 ACCURACY_LOSS_MOVES_ENGINE,
@@ -1220,6 +1251,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.battlefield_review,
             [
                 ENGINE,
+                CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
                 ACCURACY_LOSS_MOVES_ENGINE,
@@ -1240,6 +1272,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.cure_protection,
             [
                 ENGINE,
+                CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
                 ACCURACY_LOSS_MOVES_ENGINE,
@@ -1261,6 +1294,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.spite,
             [
                 ENGINE,
+                CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
                 ACCURACY_LOSS_MOVES_ENGINE,
@@ -1288,6 +1322,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.will_drains,
             [
                 ENGINE,
+                CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
                 ACCURACY_LOSS_MOVES_ENGINE,
@@ -1314,6 +1349,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.status_escalation,
             [
                 ENGINE,
+                CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
                 ACCURACY_LOSS_MOVES_ENGINE,
@@ -1342,6 +1378,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.identity_moves,
             [
                 ENGINE,
+                CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
                 ACCURACY_LOSS_MOVES_ENGINE,
@@ -1371,6 +1408,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.interaction_rules,
             [
                 ENGINE,
+                CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
                 ACCURACY_LOSS_MOVES_ENGINE,
@@ -1404,6 +1442,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.items.completion.enabled,
             [
                 ENGINE,
+                CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
                 ACCURACY_LOSS_MOVES_ENGINE,
@@ -1436,6 +1475,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.house_rules,
             [
                 ENGINE,
+                CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
                 ACCURACY_LOSS_MOVES_ENGINE,
@@ -1467,6 +1507,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.forms.enabled,
             [
                 ENGINE,
+                CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
                 ACCURACY_LOSS_MOVES_ENGINE,
@@ -1503,6 +1544,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.information.enabled,
             [
                 ENGINE,
+                CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
                 ACCURACY_LOSS_MOVES_ENGINE,
@@ -1538,6 +1580,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.standalone.enabled,
             [
                 ENGINE,
+                CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
                 ACCURACY_LOSS_MOVES_ENGINE,
