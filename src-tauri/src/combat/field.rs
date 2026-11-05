@@ -962,6 +962,9 @@ pub(super) fn force_field_bypass(
     target: &Combatant,
     m: &serde_json::Value,
 ) -> bool {
+    if completion::force_field_bypass(c, m) {
+        return true;
+    }
     !(!interactions::cover_bypass(c, &source.id, m)
         && !source.has_ability("Infiltrator")
         && !(special::enabled(c)

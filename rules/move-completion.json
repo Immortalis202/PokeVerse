@@ -1135,6 +1135,43 @@
           "requires_input": false
         }
       }
+    },
+    "MOVE-A17": {
+      "engine": "0.52.0-core",
+      "kind": "bypass-attack",
+      "scope": "Four shield-bypassing attacks retain exact printed attributes. Mighty Cleave also bypasses Force Fields; Hyperspace Hole/Fury retain existing Force Field bypass; Hyper Drill still takes applicable Force Field reduction. Hyperspace Fury reduces user Defense by one. Other weather/environment reductions remain.",
+      "moves": {
+        "Hyper Drill": {
+          "source": "Pokerole-Data/v3.0/Moves/Hyper Drill.json",
+          "sha256": "c8201223be977bf3f98752dd43cb70d3f680821e538b450e90c482c23d13c826",
+          "effect": "Single Target. Lethal. Ignore Shield Moves active on the Foe or their side of the field.",
+          "force_field": false,
+          "changes": {}
+        },
+        "Hyperspace Hole": {
+          "source": "Pokerole-Data/v3.0/Moves/Hyperspace Hole.json",
+          "sha256": "228c2b36dafad483b200f69ebacf0e3d00d9e55802f5ddc2cdb26cbf02d48194",
+          "effect": "Single Target. Never Miss. Unique. Ignore Defenses. Ignore Shield Moves and Force Field.",
+          "force_field": true,
+          "changes": {}
+        },
+        "Mighty Cleave": {
+          "source": "Pokerole-Data/v3.0/Moves/Mighty Cleave.json",
+          "sha256": "b36c1c4d8a393654088b8734b8c6f400504c4a1cab28c7fbc9c112f1f74874e7",
+          "effect": "Single Target. Cutter Move. Ignore Shield Moves & Force Fields active on the foe or their side of the field.",
+          "force_field": true,
+          "changes": {}
+        },
+        "Hyperspace Fury": {
+          "source": "Pokerole-Data/v3.0/Moves/Hyperspace Fury.json",
+          "sha256": "12b01ad58cc766a247cb45b8ec7f418af013ee308772da59eda7aa479212d6d6",
+          "effect": "Single Target. Never Miss. Ignores the effect of any Force Field or Shield Move active on the foe's side. Reduce the User's Defense by 1.",
+          "force_field": true,
+          "changes": {
+            "Defense": -1
+          }
+        }
+      }
     }
   },
   "printed_review": {

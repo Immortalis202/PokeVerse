@@ -2416,3 +2416,126 @@ fn completion_a16_public_switch_records_actual_deployment_round_without_guessing
     );
     assert_eq!(p(&c, &incoming).available_round, round + 1);
 }
+fn bypass_attack(c: &Campaign, a: &str, t: &str, name: &str) -> Campaign {
+    let c = ordinary_accuracy(c, a, t, name);
+    let mut c = roll(&c, "gm", &damage_command(&c), 6);
+    if !c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .queue
+        .is_empty()
+    {
+        c = resolve(&c);
+    }
+    c
+}
+#[test]
+fn completion_a17_all_four_bypass_shields_and_only_printed_force_fields() {
+    for name in [
+        "Hyper Drill",
+        "Hyperspace Hole",
+        "Mighty Cleave",
+        "Hyperspace Fury",
+    ] {
+        let (mut c, a, t) = setup(name);
+        set_species(&mut c, &t, "Eevee");
+        refresh_field(&mut c);
+        let baseline = bypass_attack(&c, &a, &t, name);
+        let base = 100 - p(&baseline, &t).hp;
+        let side = format!("side:{}", p(&c, &t).side);
+        saved_field_rule(&mut c, "Reflect", "bypass-fixture", &side, Some(4), 3);
+        saved_field_rule(&mut c, "Light Screen", "bypass-fixture", &side, Some(4), 3);
+        let round = c.battle.as_ref().unwrap().round;
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .special
+            .shields
+            .insert(
+                t.clone(),
+                special::Shield {
+                    name: "Protect".into(),
+                    source: t.clone(),
+                    round,
+                    armed_turn: 1,
+                    available: true,
+                },
+            );
+        let after = bypass_attack(&c, &a, &t, name);
+        let damage = 100 - p(&after, &t).hp;
+        assert_eq!(
+            damage,
+            if name == "Hyper Drill" {
+                (base - 3).max(0)
+            } else {
+                base
+            },
+            "{name}"
+        );
+        assert_eq!(
+            stat(&after, &a, "Defense"),
+            if name == "Hyperspace Fury" { -1 } else { 0 },
+            "{name}"
+        );
+        assert!(after
+            .battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .queue
+            .is_empty());
+    }
+}
+#[test]
+fn completion_a17_mighty_cleave_retains_environment_reduction_and_earlier_engine_behavior() {
+    use crate::combat::field;
+    let (mut c, a, t) = setup("Mighty Cleave");
+    let side = format!("side:{}", p(&c, &t).side);
+    saved_field_rule(&mut c, "Reflect", "bypass-fixture", &side, Some(4), 3);
+    saved_field_rule(&mut c, "flowers", "bypass-fixture", "all", Some(4), 0);
+    let m = field::move_data(
+        &c,
+        p(&c, &a),
+        &catalog().find("moves", "Name", "Mighty Cleave").unwrap(),
+    );
+    assert_eq!(
+        field::reduction(&c, p(&c, &a), p(&c, &t), &m),
+        2,
+        "environment still applies"
+    );
+    c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
+        Box::new(completion::initial(MOVE_HISTORY_ENGINE));
+    assert_eq!(
+        field::reduction(&c, p(&c, &a), p(&c, &t), &m),
+        5,
+        "historical field reduction remains"
+    );
+    let c = pending(&c, &a, &t, "Mighty Cleave");
+    assert_eq!(
+        battle::transition(&c, "gm", &cmd(&c), vec![], &catalog())
+            .unwrap_err()
+            .code,
+        "manual_rule"
+    );
+}
+#[test]
+fn completion_a17_hyperspace_hole_ignores_defense_and_fury_self_drop_survives_target_faint() {
+    let (c, a, t) = setup("Hyperspace Hole");
+    let queued = ordinary_accuracy(&c, &a, &t, "Hyperspace Hole");
+    assert_eq!(queued_damage_pool(&queued).defense, 0);
+    let (mut c, a, t) = setup("Hyperspace Fury");
+    pm(&mut c, &t).hp = 1;
+    let c = pending(&c, &a, &t, "Hyperspace Fury");
+    assert_eq!(p(&c, &t).hp, 0);
+    let c = resolve(&c);
+    assert_eq!(stat(&c, &a, "Defense"), -1);
+}

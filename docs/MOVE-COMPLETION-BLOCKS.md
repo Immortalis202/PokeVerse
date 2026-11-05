@@ -22,7 +22,8 @@ The live source of remaining route work is `rules/move-effect-audit.json`. Its f
 | MOVE-A14 | Five self-damage/stat/Blocking support cards | Complete |
 | MOVE-A15 | Taunt, Throat Chop and Imprison restrictions | Complete |
 | MOVE-A16 | Four history/round restrictions and saved deployment clocks | Complete |
-| MOVE-A17 | Four Shield/Force Field bypass attacks | Next |
+| MOVE-A17 | Four Shield/Force Field bypass attacks | Complete |
+| MOVE-A18 | Nine range, Water/Ground immunity and grounding attacks | Next |
 | First Impression | Deployment round versus first eligible action round | Awaiting user ruling; other blocks continue |
 | Later blocks | Ordinary attacks with existing attributes; remaining stat changes, resets and swaps; type/damage conversions; field changes; conditional damage; timing/action restrictions; items; copy/selection effects | Open |
 

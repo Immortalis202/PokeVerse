@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.51.0-core",
-  "release": "0.59.0",
-  "protocol": 60,
+  "engine": "0.52.0-core",
+  "release": "0.60.0",
+  "protocol": 61,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -828,6 +828,17 @@
         "completion_a16_public_switch_records_actual_deployment_round_without_guessing_eligibility"
       ],
       "scope": "Four history-dependent moves with saved accepted Pokemon move attempts and entry rounds. Disable selects only the last recorded target move and replaces its prior disable; Torment excludes last-round moves for four rounds; Blood Moon/Gigaton Hammer fail if used last round, including Clash attempts. Gigaton Hammer's discretionary Steel bonus remains an explicit GM pool modifier."
+    },
+    {
+      "id": "move-completion-a17",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A17",
+      "fixtures": [
+        "completion_a17_all_four_bypass_shields_and_only_printed_force_fields",
+        "completion_a17_mighty_cleave_retains_environment_reduction_and_earlier_engine_behavior",
+        "completion_a17_hyperspace_hole_ignores_defense_and_fury_self_drop_survives_target_faint"
+      ],
+      "scope": "Four shield-bypassing attacks retain exact printed attributes. Mighty Cleave also bypasses Force Fields; Hyperspace Hole/Fury retain existing Force Field bypass; Hyper Drill still takes applicable Force Field reduction. Hyperspace Fury reduces user Defense by one. Other weather/environment reductions remain."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -844,5 +855,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "5ba9485ea2d30f5a8db7f2adbc5e9d48807fca8d5cd85c167f370573867ca133"
+  "move_completion_registry_hash": "abd5fe2d8d9c830a4f664472fb10c8db0877afddf5d14a72f3fa25b3d196a311"
 }

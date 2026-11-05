@@ -265,6 +265,19 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
                 });
             }
         }
+        "bypass-attack" => {
+            if !immune_target_with_fainted(c, q, cat, true)? {
+                for (key, n) in d["changes"].as_object().unwrap() {
+                    extra::change_stat(
+                        c,
+                        &q.actor_id,
+                        &q.actor_id,
+                        key,
+                        n.as_i64().unwrap() as i32,
+                    )?;
+                }
+            }
+        }
         "trap" => {
             if !immune_target(c, q, cat)? {
                 install(c, q, &q.actor_id, &q.target_id)?;
@@ -436,7 +449,7 @@ pub fn cleanse(c: &mut Campaign, id: &str) {
 }
 
 pub fn ordinary(c: &Campaign, name: &str) -> bool {
-    definition(c, name).is_some_and(|(kind, _)| {
+    definition(c, name).is_some_and(|(kind, d)| {
         [
             "ordinary",
             "damage-rules",
@@ -444,6 +457,7 @@ pub fn ordinary(c: &Campaign, name: &str) -> bool {
             "history-gated",
         ]
         .contains(&kind)
+            || (kind == "bypass-attack" && d["changes"].as_object().is_some_and(|v| v.is_empty()))
     })
 }
 
@@ -866,4 +880,8 @@ fn history_effect(
         slot: "move-restriction".into(),
     });
     Ok(())
+}
+
+pub fn force_field_bypass(c: &Campaign, m: &serde_json::Value) -> bool {
+    definition(c, m["Name"].as_str().unwrap_or("")).is_some_and(|(_, d)| d["force_field"] == true)
 }
