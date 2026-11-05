@@ -1323,14 +1323,35 @@
           "happiness_bonus": false
         }
       }
+    },
+    "MOVE-A21": {
+      "engine": "0.56.0-core",
+      "kind": "battlefield-support",
+      "scope": "Tailwind gives own-side Dexterity +2 through the non-additive move stat channel for four rounds, including entrants; Fairy Lock Blocks everyone on the battlefield for one round. Field duration persists without the caster; ordinary Run Away and GM switch override rules apply. Active timed fields cannot restart their counter by recasting (RULING p.77).",
+      "moves": {
+        "Tailwind": {
+          "source": "Pokerole-Data/v3.0/Moves/Tailwind.json",
+          "sha256": "de33621ed13b886ec3ff96938e3402b9fc260bfad28479784edcaccd14af01a6",
+          "effect": "Target User's side of the Field. Wind Move. Increase by 2 the Dexterity of everyone on the User's side of the field. Duration 4 Rounds.",
+          "rounds": 4,
+          "scope": "side"
+        },
+        "Fairy Lock": {
+          "source": "Pokerole-Data/v3.0/Moves/Fairy Lock.json",
+          "sha256": "b334f91b8368de25d4aea02de3c8941c18bc42cb64062e7cb38f14acdece1b02",
+          "effect": "Target Battlefield. Block. Duration 1 Round.",
+          "rounds": 1,
+          "scope": "all"
+        }
+      }
     }
   },
   "printed_review": {
     "ruling": {
       "source": "Pokerole-Data/POKEROLE COREBOOK 3.0 RULING.pdf",
       "sha256": "f50014b330cc00db83906cf232ba432855f4f624684a84c3c494b47390284d74",
-      "pages": [76, 80],
-      "review": "Extracted definitions: Blocking prevents escape/recall/switching and Switcher effects; ongoing damage is 2 typeless dice, first source only."
+      "pages": [76, 77, 80],
+      "review": "Extracted definitions: Blocking prevents escape/recall/switching and Switcher effects; ongoing damage is 2 typeless dice, first source only. Duration p.77: round-duration effects cannot restart their counter while active; entry hazards affect new entrants only."
     },
     "snap_trap": {
       "source": "Pokerole-Data/POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",

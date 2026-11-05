@@ -3094,3 +3094,165 @@ fn completion_a20_sheer_force_retains_damage_without_creating_partner_field() {
         .is_empty());
     assert!(!crate::combat::field::has(&c, "Reflect", p(&c, &a)));
 }
+
+#[test]
+fn completion_a21_tailwind_live_side_stats_duration_and_non_additive_channels() {
+    use crate::combat::{extra, field};
+    let (mut c, a, t) = setup("Tailwind");
+    let incoming = reserve(&mut c, &a);
+    let before = rules::effective_sheet(&c, p(&c, &a)).unwrap().stats["Dexterity"];
+    c = support_cast(&c, &a, vec![], "Tailwind");
+    assert!(field::has(&c, "Tailwind", p(&c, &a)));
+    assert!(!field::has(&c, "Tailwind", p(&c, &t)));
+    assert_eq!(stat(&c, &a, "Dexterity"), 2);
+    assert_eq!(
+        rules::effective_sheet(&c, p(&c, &a)).unwrap().stats["Dexterity"],
+        before + 2
+    );
+    c = round_end(&c);
+    turn(&mut c, &a, "Tailwind");
+    c = support_cast(&c, &a, vec![], "Tailwind");
+    assert_eq!(
+        c.battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .battlefield
+            .rules
+            .iter()
+            .filter(|r| r.kind == "Tailwind")
+            .count(),
+        1
+    );
+    assert_eq!(
+        c.battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .battlefield
+            .rules
+            .iter()
+            .find(|r| r.kind == "Tailwind")
+            .unwrap()
+            .rounds,
+        Some(3),
+        "recasting does not restart a round-duration counter"
+    );
+    extra::change_stat(&mut c, &a, &a, "Dexterity", 2).unwrap();
+    assert_eq!(
+        stat(&c, &a, "Dexterity"),
+        2,
+        "Agility-sized move boost does not add to Tailwind"
+    );
+    let mut copy: Campaign = serde_json::from_str(&serde_json::to_string(&c).unwrap()).unwrap();
+    assert_eq!(stat(&copy, &a, "Dexterity"), 2);
+    copy = decision(
+        &copy,
+        "gm",
+        Action::SwitchPokemon {
+            outgoing_id: a.clone(),
+            incoming_id: incoming.clone(),
+            gm_override: false,
+            reason: "Tailwind follows the side, not the caster".into(),
+        },
+    );
+    assert_eq!(stat(&copy, &incoming, "Dexterity"), 2);
+    assert_eq!(stat(&copy, &a, "Dexterity"), 0);
+    for _ in 0..2 {
+        copy = round_end(&copy);
+        assert_eq!(stat(&copy, &incoming, "Dexterity"), 2);
+    }
+    copy = round_end(&copy);
+    assert_eq!(stat(&copy, &incoming, "Dexterity"), 0);
+}
+#[test]
+fn completion_a21_tailwind_ability_channels_and_transfer_snapshot() {
+    use crate::combat::stat_channels;
+    for (ability, expected) in [("", 2), ("Simple", 3), ("Contrary", -2), ("Clear Body", 0)] {
+        let (mut c, a, t) = setup("Tailwind");
+        let side = p(&c, &a).side.clone();
+        pm(&mut c, &t).side = side;
+        pm(&mut c, &t).selected_ability = ability.into();
+        c = support_cast(&c, &a, vec![], "Tailwind");
+        assert_eq!(stat(&c, &t, "Dexterity"), expected, "{ability}");
+        if ability == "Clear Body" {
+            pm(&mut c, &a).selected_ability = ability.into();
+            assert_eq!(stat(&c, &a, "Dexterity"), 2);
+        }
+    }
+    let (mut c, a, t) = setup("Tailwind");
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .stat_channels
+        .enabled = true;
+    pm(&mut c, &a).selected_ability = "Simple".into();
+    c = support_cast(&c, &a, vec![], "Tailwind");
+    stat_channels::transfer(&mut c, &a, &t, "Baton Pass").unwrap();
+    assert_eq!(
+        stat(&c, &t, "Dexterity"),
+        3,
+        "snapshot captures effective field boost once"
+    );
+}
+#[test]
+fn completion_a21_fairy_lock_blocks_both_sides_and_entrants_for_one_round() {
+    let (mut c, a, t) = setup("Fairy Lock");
+    let incoming = reserve(&mut c, &t);
+    c = support_cast(&c, &a, vec![], "Fairy Lock");
+    assert!(completion::blocked(&c, &a));
+    assert!(completion::blocked(&c, &t));
+    let action = Action::SwitchPokemon {
+        outgoing_id: t.clone(),
+        incoming_id: incoming.clone(),
+        gm_override: false,
+        reason: "Fairy Lock check".into(),
+    };
+    assert!(battle::transition(&c, "gm", &action, vec![], &catalog()).is_err());
+    pm(&mut c, &t).selected_ability = "Run Away".into();
+    assert!(!completion::blocked(&c, &t));
+    pm(&mut c, &t).selected_ability = "".into();
+    c = decision(
+        &c,
+        "gm",
+        Action::SwitchPokemon {
+            outgoing_id: t.clone(),
+            incoming_id: incoming.clone(),
+            gm_override: true,
+            reason: "GM explicitly overrides Blocking".into(),
+        },
+    );
+    assert!(
+        completion::blocked(&c, &incoming),
+        "field also affects newly deployed participants"
+    );
+    c = round_end(&c);
+    assert!(!completion::blocked(&c, &a));
+    assert!(!completion::blocked(&c, &incoming));
+}
+#[test]
+fn completion_a21_historical_fields_keep_manual_resolution() {
+    for name in ["Tailwind", "Fairy Lock"] {
+        let (mut c, a, _) = setup(name);
+        c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
+            Box::new(completion::initial(PARTNER_MOVES_ENGINE));
+        let action = super::targeting_tests::attack(&a, vec![], name);
+        let mut c = roll(&c, "gm", &action, 6);
+        while c.battle.as_ref().unwrap().flow.as_ref().unwrap().window {
+            c = pass(&c);
+        }
+        assert_eq!(
+            battle::transition(&c, "gm", &cmd(&c), vec![], &catalog())
+                .unwrap_err()
+                .code,
+            "manual_rule"
+        );
+    }
+}

@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.55.0-core",
-  "release": "0.63.0",
-  "protocol": 64,
+  "engine": "0.56.0-core",
+  "release": "0.64.0",
+  "protocol": 65,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -875,6 +875,18 @@
         "completion_a20_sheer_force_retains_damage_without_creating_partner_field"
       ],
       "scope": "Four partner attacks: Baddy Bad/Glitzy Glow create four-round own-side Physical/Special Force Fields only after dealing damage; Pika Papow adds Happiness dice capped at five; Zippy Zap retains guaranteed Critical and Reaction 2. Current encounters also correct the three already-routed partner moves' final-stage guard using forward ordinary evolution, excluding From/Mega/Form/same-Dex edges. Historical guard behavior is preserved. Baddy Bad follows Single Target prose rather than its inconsistent battlefield Target metadata."
+    },
+    {
+      "id": "move-completion-a21",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A21",
+      "fixtures": [
+        "completion_a21_tailwind_live_side_stats_duration_and_non_additive_channels",
+        "completion_a21_tailwind_ability_channels_and_transfer_snapshot",
+        "completion_a21_fairy_lock_blocks_both_sides_and_entrants_for_one_round",
+        "completion_a21_historical_fields_keep_manual_resolution"
+      ],
+      "scope": "Tailwind gives own-side Dexterity +2 through the non-additive move stat channel for four rounds, including entrants; Fairy Lock Blocks everyone on the battlefield for one round. Field duration persists without the caster; ordinary Run Away and GM switch override rules apply. Active timed fields cannot restart their counter by recasting (RULING p.77)."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -891,5 +903,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "097a9ceeb85552cea9aeed3481cf8eed0370d58a3563e9ad7ea245eae5a107d7"
+  "move_completion_registry_hash": "edb709106cd0dd33dde5e2b4a7d03d45ff63b6026658fb570a74df41f0fe458f"
 }

@@ -172,6 +172,29 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
         "history-gated" => {
             history_effect(c, q, d, cat)?;
         }
+        "battlefield-support" => {
+            let scope = if d["scope"] == "side" {
+                format!("side:{}", fighter(c, &q.actor_id)?.side)
+            } else {
+                "all".into()
+            };
+            // RULING p.77: an active round-duration move cannot restart its counter.
+            if !flow(c)?
+                .battlefield
+                .rules
+                .iter()
+                .any(|r| r.kind == q.move_name && r.scope == scope)
+            {
+                field::insert(
+                    c,
+                    &q.move_name,
+                    &format!("field-user:{}", q.actor_id),
+                    &scope,
+                    Some(d["rounds"].as_u64().unwrap() as u32),
+                    1,
+                );
+            }
+        }
         "support-stat" => {
             support_stat(c, q, d, cat)?;
         }
@@ -377,6 +400,9 @@ pub fn blocked(c: &Campaign, id: &str) -> bool {
     }
     if p.has_ability("Run Away") && !house::ring(c, p) {
         return false;
+    }
+    if definition(c, "Fairy Lock").is_some() && field::has(c, "Fairy Lock", p) {
+        return true;
     }
     flow(c).unwrap().special.effects.iter().any(|e| {
         e.target == id
@@ -1034,4 +1060,31 @@ pub fn partner_guard(c: &Campaign, id: &str, cat: &Catalog) -> Result<()> {
     Err(error(
         "This partner move fails at its user's final ordinary evolution stage",
     ))
+}
+
+/// Live move-channel values, so a field boost does not add to Agility or copied boosts.
+pub fn field_stat_values(c: &Campaign, p: &Combatant, key: &str) -> Vec<i32> {
+    if key != "Dexterity"
+        || !p.deployed
+        || p.hp == 0
+        || definition(c, "Tailwind").is_none()
+        || !field::has(c, "Tailwind", p)
+    {
+        return vec![];
+    }
+    let allowed = flow(c).unwrap().battlefield.rules.iter().any(|r| {
+        r.kind == "Tailwind"
+            && field::applies(&r.scope, p)
+            && (!p.has_ability("Clear Body")
+                || house::ring(c, p)
+                || r.source == format!("field-user:{}", p.id))
+    });
+    if !allowed {
+        return vec![];
+    }
+    vec![match p.ability_for(&["Contrary", "Simple"]) {
+        "Contrary" => -2,
+        "Simple" => 3,
+        _ => 2,
+    }]
 }

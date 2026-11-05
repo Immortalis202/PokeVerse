@@ -2993,6 +2993,7 @@ pub fn modifier(c: &Campaign, p: &Combatant, key: &str) -> Option<i32> {
     }
     values.extend(copied);
     values.extend(completion::stack_values(c, p, key));
+    values.extend(completion::field_stat_values(c, p, key));
     if item != 0 {
         values.push(item);
     }

@@ -1,6 +1,6 @@
 # Move-effect audit: milestone 1
 
-Snapshot refreshed: 5 November 2026, app **0.63.0**, engine **0.55.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
+Snapshot refreshed: 5 November 2026, app **0.64.0**, engine **0.56.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
 
 ## Deliverables and limits
 
@@ -18,13 +18,13 @@ The diagnostic deliberately bypasses accuracy, damage, targeting expansion, acti
 
 | Effect-route result | Cards | Meaning |
 | --- | ---: | --- |
-| executable-scope | 697 | At least one probe resolves; only recorded scopes are asserted. |
+| executable-scope | 699 | At least one probe resolves; only recorded scopes are asserted. |
 | input-required | 15 | Existing handler requests a selection, resource, weather or other legitimate prerequisite. |
-| manual-effect-route | 141 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
+| manual-effect-route | 139 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
 | gm-choice | 1 | Hold Hands: narrative battle-ending decision remains with the storyteller. |
 | excluded | 38 | Supplied Max/Z cards and the user-excluded Sappy Seed. |
 
-These totals sum to 892. **141 manual-effect-route results remain after MOVE-A20. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
+These totals sum to 892. **139 manual-effect-route results remain after MOVE-A21. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
 
 | Focused status result | Cards |
 | --- | ---: |
@@ -193,7 +193,7 @@ A six triggers the single printed Chance pool. Serene Grace, Wonder Skin, Loaded
 
 New 0.36.0-core encounters enable the boxed `damaging_stats` state. Missing saved state defaults disabled; 0.35.0-core remains accepted with its previous M3 behavior. Protocol 45 carries the new state. App version is 0.44.0.
 
-**The whole move catalog is not complete.** The 141 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
+**The whole move catalog is not complete.** The 139 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
 
 
 ### MOVE-A01 verification (1 November 2026)
@@ -379,3 +379,10 @@ Baddy Bad and Glitzy Glow create four-round own-side Physical/Special Force Fiel
 Baddy Bad's raw JSON Target says Ally's Battlefield, while its Effect explicitly says Single Target and describes damage. The application-owned block resolves it as a Foe attack; source data is preserved, and advanced targeting plus accuracy previews use the corrected target. Historical encounters retain their prior targeting and evolution behavior.
 
 Validation covers all four public attacks, field clocks/category/side, zero damage, Sheer Force, Happiness bounds, exact one-success Critical, Reaction priority, eight species evolution cases and historical guards. All 66 completion tests, adjacent stat/item/targeting/field regressions, bindings, route inventory, 76 frontend tests, 54 script checks, TypeScript and formatting passed. The localhost targeting regression passed with socket access after sandbox Windows 10013. App 0.63.0, engine 0.55.0-core, protocol 64.
+
+
+### MOVE-A21: timed side and battlefield Support (5 November 2026)
+
+Tailwind gives two Dexterity to active allies on the user's side for four rounds, including later entrants. It shares the strongest-positive/strongest-negative move stat channel with Agility and copied boosts. Simple, Contrary and external Clear Body rules apply. The field persists without its caster, and effective stat transfer captures its value once. Fairy Lock Blocks both sides and new entrants for one round; Run Away and explicit GM switch overrides retain their behavior. RULING p.77 prevents an active timed field from restarting its counter on recast. Historical encounters keep manual resolution.
+
+Validation covers both public Support paths, exact side/global scopes, effective sheets, non-additive buffs, ability channels, transfer, serialization, public switching, new entrants, caster departure, recast and expiry. All 70 completion tests and adjacent regression groups, bindings, route inventory, 76 frontend tests, 54 script checks, TypeScript and formatting passed. The final recast correction then passed all four block tests again. App 0.64.0, engine 0.56.0-core, protocol 65.
