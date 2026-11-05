@@ -1344,6 +1344,19 @@
           "scope": "all"
         }
       }
+    },
+    "MOVE-A22": {
+      "engine": "0.57.0-core",
+      "kind": "entry-hazard",
+      "scope": "Spider Web installs a scene-long foe-side entry hazard. New entrants receive scene Blocking, including flying targets; current occupants are unaffected. Heavy-Duty Boots and Run Away retain their separate protections. Hazard cleanup removes the field, while already applied Blocking follows its own lifetime.",
+      "moves": {
+        "Spider Web": {
+          "source": "Pokerole-Data/v3.0/Moves/Spider Web.json",
+          "sha256": "b38e55f6f5b2f5c20761ac47c0d9899a5a8b52cc9e4fb19633b34359270dff4c",
+          "effect": "Target Foe's Side of the Field. Entry Hazard. Blocks. Whole Scene Duration.",
+          "both": false
+        }
+      }
     }
   },
   "printed_review": {

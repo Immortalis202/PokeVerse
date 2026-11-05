@@ -1,8 +1,8 @@
 {
   "version": 1,
   "date": "2026-11-05",
-  "release": "0.64.0",
-  "engine": "0.56.0-core",
+  "release": "0.65.0",
+  "engine": "0.57.0-core",
   "scope": "892-card effect-route inventory; focused semantic review of status infliction, cure and protection clauses. M2-A through M2-E battle status clauses and MOVE-A01 damaging attribute clauses plus MOVE-A02 entry hazards delivered; see scoped registries and retained choices.",
   "limits": [
     "An executable route is not full card coverage.",
@@ -19,10 +19,10 @@
   "counts": {
     "routes": {
       "excluded": 38,
-      "executable-scope": 699,
+      "executable-scope": 700,
       "gm-choice": 1,
       "input-required": 15,
-      "manual-effect-route": 139
+      "manual-effect-route": 138
     },
     "status_clauses": {
       "excluded": 6,
@@ -37876,22 +37876,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A22: Spider Web installs a scene-long foe-side entry hazard. New entrants receive scene Blocking, including flying targets; current occupants are unaffected. Heavy-Duty Boots and Run Away retain their separate protections. Hazard cleanup removes the field, while already applied Blocking follows its own lifetime.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },

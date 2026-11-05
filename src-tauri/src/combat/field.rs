@@ -1165,8 +1165,10 @@ pub fn move_effect(c: &mut Campaign, q: &QueuedAction, cat: &Catalog) -> Result<
         "Defog" => {
             let safeguard = cure_protection::enabled(c);
             let hazards = entry_hazards::enabled(c);
+            let spider = entry_hazards::spider_enabled(c);
             state_mut(c).rules.retain(|r| {
-                !((hazards && entry_hazards::NAMES.contains(&r.kind.as_str()))
+                !((spider && r.kind == "Spider Web")
+                    || (hazards && entry_hazards::NAMES.contains(&r.kind.as_str()))
                     || (safeguard && r.kind == "Safeguard")
                     || r.kind.ends_with("Terrain")
                     || [
@@ -2179,8 +2181,10 @@ pub fn toxic_debris(c: &mut Campaign, p: &Combatant, a: &Combatant) {
 pub fn clear_ability_hazards(c: &mut Campaign) {
     if reviewed::enabled(c) {
         let hazards = entry_hazards::enabled(c);
+        let spider = entry_hazards::spider_enabled(c);
         state_mut(c).rules.retain(|r| {
             r.kind != "Toxic Spikes"
+                && !(spider && r.kind == "Spider Web")
                 && !(hazards && entry_hazards::NAMES.contains(&r.kind.as_str()))
         });
     }

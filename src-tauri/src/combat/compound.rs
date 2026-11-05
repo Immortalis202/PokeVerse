@@ -503,6 +503,7 @@ pub(super) fn cleanse(c: &mut Campaign, id: &str) -> Result<()> {
         }
         vec![]
     };
+    let spider = entry_hazards::spider_enabled(c);
     let kinds = [
         "Spikes",
         "Toxic Spikes",
@@ -518,7 +519,7 @@ pub(super) fn cleanse(c: &mut Campaign, id: &str) -> Result<()> {
         .rules
         .iter()
         .flat_map(|r| {
-            let scopes = if kinds.contains(&r.kind.as_str()) {
+            let scopes = if kinds.contains(&r.kind.as_str()) || (spider && r.kind == "Spider Web") {
                 remaining(&r.scope)
             } else {
                 vec![r.scope.clone()]
@@ -540,7 +541,9 @@ pub(super) fn cleanse(c: &mut Campaign, id: &str) -> Result<()> {
         .field_effects
         .iter()
         .flat_map(|r| {
-            let scopes = if kinds.contains(&r.move_name.as_str()) {
+            let scopes = if kinds.contains(&r.move_name.as_str())
+                || (spider && r.move_name == "Spider Web")
+            {
                 remaining(&r.scope)
             } else {
                 vec![r.scope.clone()]

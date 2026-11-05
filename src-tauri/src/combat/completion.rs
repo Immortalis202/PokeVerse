@@ -131,11 +131,19 @@ fn immune_target_with_fainted(
     Ok(false)
 }
 fn install(c: &mut Campaign, q: &QueuedAction, source: &str, target: &str) -> Result<()> {
+    install_named(c, &q.move_name, source, target)
+}
+pub(super) fn install_named(
+    c: &mut Campaign,
+    move_name: &str,
+    source: &str,
+    target: &str,
+) -> Result<()> {
     let p = fighter(c, target)?;
     if p.hp == 0 || (p.has_ability("Run Away") && !house::ring(c, p)) {
         return Ok(());
     }
-    let name = format!("move-block:{}", q.move_name);
+    let name = format!("move-block:{}", move_name);
     if flow(c)?
         .special
         .effects
@@ -145,7 +153,7 @@ fn install(c: &mut Campaign, q: &QueuedAction, source: &str, target: &str) -> Re
         return Ok(());
     }
     let started = battle(c)?.round;
-    let (_, d) = definition(c, &q.move_name).unwrap();
+    let (_, d) = definition(c, move_name).unwrap();
     let rounds = d["rounds"].as_u64().map(|n| n as u32);
     let paired = d["both"] == true;
     flow_mut(c).special.effects.push(special::TimedEffect {
@@ -171,6 +179,9 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
         "ordinary" | "damage-rules" | "damage-context" => {}
         "history-gated" => {
             history_effect(c, q, d, cat)?;
+        }
+        "entry-hazard" => {
+            entry_hazards::effect(c, q)?;
         }
         "battlefield-support" => {
             let scope = if d["scope"] == "side" {

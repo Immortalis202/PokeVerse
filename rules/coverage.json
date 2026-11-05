@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.56.0-core",
-  "release": "0.64.0",
-  "protocol": 65,
+  "engine": "0.57.0-core",
+  "release": "0.65.0",
+  "protocol": 66,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -887,6 +887,17 @@
         "completion_a21_historical_fields_keep_manual_resolution"
       ],
       "scope": "Tailwind gives own-side Dexterity +2 through the non-additive move stat channel for four rounds, including entrants; Fairy Lock Blocks everyone on the battlefield for one round. Field duration persists without the caster; ordinary Run Away and GM switch override rules apply. Active timed fields cannot restart their counter by recasting (RULING p.77)."
+    },
+    {
+      "id": "move-completion-a22",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A22",
+      "fixtures": [
+        "completion_a22_spider_web_only_blocks_entrants_persists_and_does_not_stack",
+        "completion_a22_entry_protection_and_historical_adoption",
+        "completion_a22_hazard_cleanup_preserves_previously_applied_scene_blocking"
+      ],
+      "scope": "Spider Web installs a scene-long foe-side entry hazard. New entrants receive scene Blocking, including flying targets; current occupants are unaffected. Heavy-Duty Boots and Run Away retain their separate protections. Hazard cleanup removes the field, while already applied Blocking follows its own lifetime."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -903,5 +914,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "edb709106cd0dd33dde5e2b4a7d03d45ff63b6026658fb570a74df41f0fe458f"
+  "move_completion_registry_hash": "6e17e4f5cf50d31aa0013ce499635d82b39b973819e2a1c7b3349c9021b2cc85"
 }

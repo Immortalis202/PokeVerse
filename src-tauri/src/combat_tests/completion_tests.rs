@@ -3256,3 +3256,174 @@ fn completion_a21_historical_fields_keep_manual_resolution() {
         );
     }
 }
+
+fn spider_setup() -> (Campaign, String, String, String) {
+    let (mut c, a, t) = setup("Spider Web");
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .entry_hazards = true;
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .compound
+        .enabled = true;
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .decoys
+        .enabled = true;
+    let incoming = reserve(&mut c, &t);
+    (c, a, t, incoming)
+}
+fn spider_switch(c: &Campaign, outgoing: &str, incoming: &str, gm_override: bool) -> Campaign {
+    decision(
+        c,
+        "gm",
+        Action::SwitchPokemon {
+            outgoing_id: outgoing.into(),
+            incoming_id: incoming.into(),
+            gm_override,
+            reason: "Reviewed Spider Web entry".into(),
+        },
+    )
+}
+#[test]
+fn completion_a22_spider_web_only_blocks_entrants_persists_and_does_not_stack() {
+    use crate::combat::field;
+    let (c, a, t, incoming) = spider_setup();
+    let mut c = support_cast(&c, &a, vec![], "Spider Web");
+    assert!(
+        !completion::blocked(&c, &t),
+        "existing occupants are not entrants"
+    );
+    assert!(!field::has(&c, "Spider Web", p(&c, &a)));
+    assert!(field::has(&c, "Spider Web", p(&c, &t)));
+    turn(&mut c, &a, "Spider Web");
+    c = support_cast(&c, &a, vec![], "Spider Web");
+    assert_eq!(
+        c.battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .battlefield
+            .rules
+            .iter()
+            .filter(|r| r.kind == "Spider Web")
+            .count(),
+        1
+    );
+    // No Ground predicate appears on the Spider Web card.
+    pm(&mut c, &incoming).selected_ability = "Levitate".into();
+    c = spider_switch(&c, &t, &incoming, false);
+    assert!(completion::blocked(&c, &incoming));
+    assert_eq!(
+        c.battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .special
+            .effects
+            .iter()
+            .filter(|e| e.name == "move-block:Spider Web" && e.target == incoming)
+            .count(),
+        1
+    );
+    let action = Action::SwitchPokemon {
+        outgoing_id: incoming.clone(),
+        incoming_id: t.clone(),
+        gm_override: false,
+        reason: "Blocking applies to recall".into(),
+    };
+    assert!(battle::transition(&c, "gm", &action, vec![], &catalog()).is_err());
+    let mut restored: Campaign = serde_json::from_str(&serde_json::to_string(&c).unwrap()).unwrap();
+    pm(&mut restored, &a).deployed = false;
+    assert!(
+        completion::blocked(&restored, &incoming),
+        "scene block does not depend on caster staying"
+    );
+    for _ in 0..5 {
+        c = round_end(&c);
+    }
+    assert!(completion::blocked(&c, &incoming));
+    c = spider_switch(&c, &incoming, &t, true);
+    assert!(!completion::blocked(&c, &incoming));
+    assert!(
+        completion::blocked(&c, &t),
+        "replacement is also an entrant"
+    );
+}
+#[test]
+fn completion_a22_entry_protection_and_historical_adoption() {
+    use crate::combat::items;
+    for protection in ["Run Away", "Heavy-Duty Boots"] {
+        let (mut c, a, t, incoming) = spider_setup();
+        if protection == "Run Away" {
+            pm(&mut c, &incoming).selected_ability = protection.into();
+        } else {
+            let sid = p(&c, &incoming).sheet_id.clone();
+            let mut s = c.sheets[&sid].clone();
+            s.inventory.insert(protection.into(), 1);
+            c.sheets.insert(
+                sid,
+                items::equip(&s, protection, "spider-boots", &catalog()).unwrap(),
+            );
+            let f = c.battle.as_mut().unwrap().flow.as_mut().unwrap();
+            f.items.enabled = true;
+            f.items.completion.enabled = true;
+            items::initialize(&mut c, &catalog()).unwrap();
+            items::completion::initialize(&mut c, &catalog());
+        }
+        c = support_cast(&c, &a, vec![], "Spider Web");
+        c = spider_switch(&c, &t, &incoming, false);
+        assert!(!completion::blocked(&c, &incoming), "{protection}");
+    }
+    let (mut c, a, _, _) = spider_setup();
+    c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
+        Box::new(completion::initial(BATTLEFIELD_SUPPORT_ENGINE));
+    let action = super::targeting_tests::attack(&a, vec![], "Spider Web");
+    c = roll(&c, "gm", &action, 6);
+    while c.battle.as_ref().unwrap().flow.as_ref().unwrap().window {
+        c = pass(&c);
+    }
+    assert_eq!(
+        battle::transition(&c, "gm", &cmd(&c), vec![], &catalog())
+            .unwrap_err()
+            .code,
+        "manual_rule"
+    );
+}
+#[test]
+fn completion_a22_hazard_cleanup_preserves_previously_applied_scene_blocking() {
+    use crate::combat::field;
+    for name in ["Rapid Spin", "Mortal Spin", "Defog", "Tidy Up"] {
+        let (c, a, t, incoming) = spider_setup();
+        let c = support_cast(&c, &a, vec![], "Spider Web");
+        let mut c = spider_switch(&c, &t, &incoming, false);
+        // Permit the entrant to take its first turn normally next round.
+        c = round_end(&c);
+        turn(&mut c, &incoming, name);
+        let c = match name {
+            "Defog" | "Tidy Up" => support_cast(&c, &incoming, vec![], name),
+            _ => resolve(&pending(&c, &incoming, &a, name)),
+        };
+        assert!(!field::has(&c, "Spider Web", p(&c, &incoming)), "{name}");
+        assert!(
+            completion::blocked(&c, &incoming),
+            "{name}: hazard removal does not cure its previously applied scene block"
+        );
+    }
+}

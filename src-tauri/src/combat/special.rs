@@ -1413,9 +1413,11 @@ pub fn effects(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) -
         "Tidy Up" => {
             decoys::tidy(c);
             field::clear_ability_hazards(c);
+            let spider = entry_hazards::spider_enabled(c);
             flow_mut(c).field_effects.retain(|e| {
-                !["Spikes", "Toxic Spikes", "Sticky Web", "Stealth Rock"]
-                    .contains(&e.move_name.as_str())
+                !(spider && e.move_name == "Spider Web")
+                    && !["Spikes", "Toxic Spikes", "Sticky Web", "Stealth Rock"]
+                        .contains(&e.move_name.as_str())
             });
             for key in ["Strength", "Dexterity"] {
                 extra::change_stat(c, a, a, key, 1)?;

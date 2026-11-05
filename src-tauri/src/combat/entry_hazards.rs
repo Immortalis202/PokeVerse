@@ -6,7 +6,9 @@ pub fn enabled(c: &Campaign) -> bool {
     flow(c).is_ok_and(|f| f.entry_hazards)
 }
 pub fn handles(c: &Campaign, name: &str) -> bool {
-    enabled(c) && NAMES.contains(&name)
+    enabled(c)
+        && (NAMES.contains(&name)
+            || completion::definition(c, name).is_some_and(|(kind, _)| kind == "entry-hazard"))
 }
 pub fn effect(c: &mut Campaign, q: &QueuedAction) -> Result<bool> {
     if !handles(c, &q.move_name) {
@@ -55,7 +57,8 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
         .map(|p| p.id.clone())
         .collect();
     for id in entrants {
-        for name in NAMES {
+        let spider = completion::definition(c, "Spider Web").is_some();
+        for name in NAMES.into_iter().chain(spider.then_some("Spider Web")) {
             let p = fighter(c, &id)?;
             if p.hp == 0
                 || !field::has(c, name, p)
@@ -63,7 +66,7 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
             {
                 continue;
             }
-            if name != "Stealth Rock"
+            if !["Stealth Rock", "Spider Web"].contains(&name)
                 && (!field::grounded(c, p, cat)
                     || abilities::damage_immune(
                         c,
@@ -76,6 +79,25 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
             match name {
                 "Spikes" => field::hurt(c, &id, 1, "Neutral", cat)?,
                 "Stealth Rock" => field::hurt(c, &id, 1, "Rock", cat)?,
+                "Spider Web" => {
+                    let source = flow(c)?
+                        .battlefield
+                        .rules
+                        .iter()
+                        .find(|r| r.kind == name && field::applies(&r.scope, p))
+                        .unwrap()
+                        .source
+                        .strip_prefix("hazard:")
+                        .ok_or_else(|| {
+                            AppError::new(
+                                "manual_rule",
+                                "Spider Web requires a recorded hazard caster",
+                            )
+                        })?
+                        .to_string();
+                    special::registered(c, &source)?;
+                    completion::install_named(c, name, &source, &id)?;
+                }
                 "Sticky Web" => {
                     // Overlapping scopes still apply once. Keep the first installed
                     // matching source for the same non-stacking hazard.
@@ -102,4 +124,8 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
         }
     }
     Ok(())
+}
+
+pub fn spider_enabled(c: &Campaign) -> bool {
+    enabled(c) && completion::definition(c, "Spider Web").is_some()
 }
