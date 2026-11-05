@@ -224,6 +224,7 @@ pub fn accuracy(
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
     if [
         ENGINE,
+        SPORT_FIELDS_ENGINE,
         AURA_WHEEL_ENGINE,
         FIRST_IMPRESSION_ENGINE,
         TERRAIN_REACTION_ENGINE,
@@ -703,7 +704,11 @@ pub fn move_matchup(
 ) -> Result<(i32, bool)> {
     let (n, immune) = type_matchup(c, a, t, m["Type"].as_str().unwrap_or(""), cat)?;
     Ok((
-        crate::combat::completion::sport_effectiveness(c, m, n),
+        crate::combat::completion::sport_effectiveness(
+            c,
+            m,
+            crate::combat::completion::typed_effectiveness(c, m, t, n),
+        ),
         immune,
     ))
 }

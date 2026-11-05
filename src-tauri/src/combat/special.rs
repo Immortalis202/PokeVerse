@@ -2482,7 +2482,12 @@ pub fn bonus(
             for dt in field::types(c, t, cat)? {
                 total += rules::type_effect(ty, &dt)?;
             }
-            if completion::sport_effectiveness(c, m, total) > 0 {
+            if completion::sport_effectiveness(
+                c,
+                m,
+                completion::typed_effectiveness(c, m, t, total),
+            ) > 0
+            {
                 4
             } else {
                 0

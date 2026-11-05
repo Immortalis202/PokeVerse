@@ -179,6 +179,25 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
         "history-gated" => {
             history_effect(c, q, d, cat)?;
         }
+        "vulnerability-support" => {
+            if !immune_target(c, q, cat)? {
+                extra::change_stat(c, &q.actor_id, &q.target_id, "Dexterity", -1)?;
+                let started = battle(c)?.round;
+                flow_mut(c)
+                    .special
+                    .effects
+                    .retain(|e| e.name != "Tar Shot" || e.target != q.target_id);
+                flow_mut(c).special.effects.push(special::TimedEffect {
+                    name: "Tar Shot".into(),
+                    source: q.actor_id.clone(),
+                    target: q.target_id.clone(),
+                    rounds: None,
+                    amount: 0,
+                    started,
+                    slot: "fire-vulnerability".into(),
+                });
+            }
+        }
         "entry-hazard" => {
             entry_hazards::effect(c, q)?;
         }
@@ -491,7 +510,11 @@ pub fn effectiveness(
     } else {
         base
     };
-    Ok(sport_effectiveness(c, m, n))
+    Ok(sport_effectiveness(
+        c,
+        m,
+        typed_effectiveness(c, m, target, n),
+    ))
 }
 /// Sports alter the printed Power and positive effectiveness, not total damage.
 pub fn sport(c: &Campaign, m: &serde_json::Value) -> bool {
@@ -1161,4 +1184,17 @@ pub(super) fn sport_effect_blocked(c: &Campaign, q: &QueuedAction, cat: &Catalog
     let source = reviewed::source(c, q)?;
     let m = field::move_data(c, &source, &move_entry(cat, &q.move_name)?);
     Ok(sport(c, &m) && immune_target(c, q, cat)?)
+}
+
+/// An applied Fire vulnerability changes move effectiveness, not static species typing.
+pub fn typed_effectiveness(c: &Campaign, m: &serde_json::Value, t: &Combatant, n: i32) -> i32 {
+    if m["Type"] == "Fire"
+        && ["Physical", "Special"].contains(&m["Category"].as_str().unwrap_or(""))
+        && definition(c, "Tar Shot").is_some()
+        && field::fire_vulnerable(c, &t.id)
+    {
+        1
+    } else {
+        n
+    }
 }

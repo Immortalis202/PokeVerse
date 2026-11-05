@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.61.0-core",
-  "release": "0.69.0",
-  "protocol": 70,
+  "engine": "0.62.0-core",
+  "release": "0.70.0",
+  "protocol": 71,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -941,6 +941,19 @@
         "completion_a26_sports_four_round_clock_recast_and_historical_scope"
       ],
       "scope": "Mud Sport and Water Sport create non-refreshable four-round global fields. Resolved damaging Electric/Fire moves have Power zero and cannot deal super-effective damage; resistance, immunity, STAB and independent extra dice remain. Damage and effect-immunity checks share the same sport-adjusted matchup. Historical encounters retain their previous behavior."
+    },
+    {
+      "id": "move-completion-a27",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A27",
+      "fixtures": [
+        "completion_a27_tar_shot_stat_and_fire_vulnerability_are_independent_clauses",
+        "completion_a27_tar_shot_respects_ability_immunity_water_sport_and_target_recall",
+        "completion_a27_tar_shot_freezes_effectiveness_through_knockout_for_user_stat_effects",
+        "completion_a27_tar_shot_support_immunity_and_historical_scope",
+        "completion_a27_tar_shot_single_damage_snapshot_preserves_resolved_type_field_bonus"
+      ],
+      "scope": "Tar Shot reduces target Dexterity by one using ordinary stat protection/reflection, and independently makes damaging Fire-type moves super-effective against it for the scene. Existing type/ability immunity remains; Water Sport still suppresses super-effective damage. Recall/faint clears the scene mark. Historical encounters retain manual resolution."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -957,5 +970,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "83d3ff0be9064c0f4eea9a822d74c3871533a2be32267e80f65d3ae3e4854c20"
+  "move_completion_registry_hash": "dd6ffcb8886dae612a3a13a8a215d2cf7342d346c961e9069f00d92e20366cea"
 }

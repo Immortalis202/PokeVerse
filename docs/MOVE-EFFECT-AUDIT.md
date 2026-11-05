@@ -1,6 +1,6 @@
 # Move-effect audit: milestone 1
 
-Snapshot refreshed: 5 November 2026, app **0.69.0**, engine **0.61.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
+Snapshot refreshed: 5 November 2026, app **0.70.0**, engine **0.62.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
 
 ## Deliverables and limits
 
@@ -18,13 +18,13 @@ The diagnostic deliberately bypasses accuracy, damage, targeting expansion, acti
 
 | Effect-route result | Cards | Meaning |
 | --- | ---: | --- |
-| executable-scope | 707 | At least one probe resolves; only recorded scopes are asserted. |
+| executable-scope | 708 | At least one probe resolves; only recorded scopes are asserted. |
 | input-required | 16 | Existing handler requests a selection, resource, weather or other legitimate prerequisite. |
-| manual-effect-route | 130 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
+| manual-effect-route | 129 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
 | gm-choice | 1 | Hold Hands: narrative battle-ending decision remains with the storyteller. |
 | excluded | 38 | Supplied Max/Z cards and the user-excluded Sappy Seed. |
 
-These totals sum to 892. **130 manual-effect-route results remain after MOVE-A26. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
+These totals sum to 892. **129 manual-effect-route results remain after MOVE-A27. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
 
 | Focused status result | Cards |
 | --- | ---: |
@@ -193,7 +193,7 @@ A six triggers the single printed Chance pool. Serene Grace, Wonder Skin, Loaded
 
 New 0.36.0-core encounters enable the boxed `damaging_stats` state. Missing saved state defaults disabled; 0.35.0-core remains accepted with its previous M3 behavior. Protocol 45 carries the new state. App version is 0.44.0.
 
-**The whole move catalog is not complete.** The 130 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
+**The whole move catalog is not complete.** The 129 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
 
 
 ### MOVE-A01 verification (1 November 2026)
@@ -427,3 +427,12 @@ Both cards create non-refreshable four-round global fields. Damaging Electric mo
 Damage-linked status, stat, item and ability checks now share the sport-adjusted matchup. The legacy Thunderbolt/Thunder Punch Chance path and guaranteed Nuzzle/Zap Cannon status path also respect it, preventing status application when Wonder Guard blocks the sport-adjusted attack. Historical encounters retain prior behavior.
 
 Validation covers public field/attack paths, Physical/Special pools, exact zero Power, retained other dice, positive/negative/immune matchups, Galvanize conversion, Electro Drift, Wonder Guard versus Chance/guaranteed status and stat effects, Support separation, recast, expiry and historical scope. All 84 completion tests and adjacent regressions, bindings, route inventory, 76 frontend tests, 54 script checks, TypeScript and formatting passed. The full Rust suite passed with localhost networking: 903 passed, one ignored inventory; the inventory passed separately. Generated bindings were normalized and TypeScript/format/diff checks passed afterward. App 0.69.0, engine 0.61.0-core, protocol 70.
+
+
+### MOVE-A27: Tar Shot and frozen Fire vulnerability (5 November 2026)
+
+Tar Shot reduces Dexterity by one through ordinary stat protection/reflection and independently makes damaging Fire moves super-effective against its target for the scene. Clear Body blocks the stat reduction, not the Fire vulnerability; Contrary, Simple and Mirror Armor retain their stat behavior. Ability immunity remains, and Water Sport still prevents positive effectiveness. Support immunity prevents both clauses. Recall/faint clears the mark.
+
+The damage snapshot now optionally preserves Fire vulnerability, with a default for older snapshots. Marked Fire attacks using legacy single-target commands also capture this context. A knockout therefore cannot clear the live mark and retroactively block an attack's user boost through Wonder Guard. New snapshots use the resolved move type for field bonuses and restrict conditional bonus calculation to actual recipients. Historical encounters retain prior behavior.
+
+Validation covers public casting/damage, independent stat/Fire clauses, four stat abilities, Support immunity, Flash Fire, Water Sport, recall, serialization, knockout plus Flame Charge's user boost, and converted Ivy Cudgel/Weather Ball damage previews in sunlight. All 89 completion tests, adjacent regressions, bindings, route inventory, 76 frontend tests, 54 script checks, TypeScript and formatting passed. App 0.70.0, engine 0.62.0-core, protocol 71.

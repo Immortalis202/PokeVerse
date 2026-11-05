@@ -1439,6 +1439,18 @@
           "sport_type": "Fire"
         }
       }
+    },
+    "MOVE-A27": {
+      "engine": "0.62.0-core",
+      "kind": "vulnerability-support",
+      "scope": "Tar Shot reduces target Dexterity by one using ordinary stat protection/reflection, and independently makes damaging Fire-type moves super-effective against it for the scene. Existing type/ability immunity remains; Water Sport still suppresses super-effective damage. Recall/faint clears the scene mark. Historical encounters retain manual resolution.",
+      "moves": {
+        "Tar Shot": {
+          "source": "Pokerole-Data/v3.0/Moves/Tar Shot.json",
+          "sha256": "7f059b106d91ad674cfb0c5865f3c67213d6ad2b95049666a58336ba314b51ba",
+          "effect": "Single Target. Reduce the Target's Dexterity by 1. For the Whole Scene, Fire-Type Moves deal Super-Effective damage against the Target."
+        }
+      }
     }
   },
   "printed_review": {

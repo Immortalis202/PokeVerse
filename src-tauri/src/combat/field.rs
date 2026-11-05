@@ -148,6 +148,8 @@ pub fn moonlight_night(c: &Campaign, legacy: bool, explicit: Option<bool>) -> bo
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct FieldSnapshot {
     #[serde(default)]
+    pub fire_vulnerable: Option<BTreeSet<String>>,
+    #[serde(default)]
     pub base_attribute_defenses: BTreeMap<String, [i32; 2]>,
     pub weather: Option<Weather>,
     #[serde(default)]
@@ -224,6 +226,19 @@ pub fn snapshot(c: &Campaign, cat: &Catalog) -> Result<FieldSnapshot> {
         );
     }
     Ok(FieldSnapshot {
+        fire_vulnerable: completion::definition(c, "Tar Shot").map(|_| {
+            flow(c)
+                .unwrap()
+                .special
+                .effects
+                .iter()
+                .filter(|e| {
+                    e.name == "Tar Shot"
+                        && special::registered(c, &e.target).is_ok_and(|p| p.deployed && p.hp > 0)
+                })
+                .map(|e| e.target.clone())
+                .collect()
+        }),
         base_attribute_defenses,
         defenses,
         weather: weather(c, None),
@@ -2189,4 +2204,17 @@ pub fn clear_ability_hazards(c: &mut Campaign) {
                 && !(hazards && entry_hazards::NAMES.contains(&r.kind.as_str()))
         });
     }
+}
+
+/// Keep damage-linked effects consistent when a knockout clears the live scene mark.
+pub(super) fn fire_vulnerable(c: &Campaign, id: &str) -> bool {
+    if let Some(marked) = frozen(c).and_then(|s| s.fire_vulnerable.as_ref()) {
+        return marked.contains(id);
+    }
+    flow(c).is_ok_and(|f| {
+        f.special
+            .effects
+            .iter()
+            .any(|e| e.name == "Tar Shot" && e.target == id)
+    }) && special::registered(c, id).is_ok_and(|p| p.deployed && p.hp > 0)
 }

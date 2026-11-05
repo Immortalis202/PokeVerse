@@ -3990,3 +3990,177 @@ fn completion_a26_sports_four_round_clock_recast_and_historical_scope() {
         assert!(!completion::blocked(&c, &t));
     }
 }
+
+#[test]
+fn completion_a27_tar_shot_stat_and_fire_vulnerability_are_independent_clauses() {
+    for (ability, expected) in [("", -1), ("Clear Body", 0), ("Contrary", 1), ("Simple", -2)] {
+        let (mut c, a, t) = setup("Tar Shot");
+        set_species(&mut c, &t, "Blastoise");
+        refresh_field(&mut c);
+        pm(&mut c, &t).selected_ability = ability.into();
+        let mut c = resolve(&pending(&c, &a, &t, "Tar Shot"));
+        assert_eq!(stat(&c, &t, "Dexterity"), expected, "{ability}");
+        turn(&mut c, &a, "Flamethrower");
+        let pool = queued_damage_pool(&ordinary_accuracy(&c, &a, &t, "Flamethrower"));
+        assert_eq!(pool.effectiveness, 1, "{ability}");
+    }
+    let (mut c, a, t) = setup("Tar Shot");
+    pm(&mut c, &t).selected_ability = "Mirror Armor".into();
+    let c = resolve(&pending(&c, &a, &t, "Tar Shot"));
+    assert_eq!(stat(&c, &a, "Dexterity"), -1);
+    assert_eq!(stat(&c, &t, "Dexterity"), 0);
+    assert!(c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .special
+        .effects
+        .iter()
+        .any(|e| e.name == "Tar Shot" && e.target == t));
+}
+#[test]
+fn completion_a27_tar_shot_respects_ability_immunity_water_sport_and_target_recall() {
+    let (mut c, a, t) = setup("Tar Shot");
+    set_species(&mut c, &t, "Blastoise");
+    refresh_field(&mut c);
+    let incoming = reserve(&mut c, &t);
+    let c = resolve(&pending(&c, &a, &t, "Tar Shot"));
+    let mut c: Campaign = serde_json::from_str(&serde_json::to_string(&c).unwrap()).unwrap();
+    pm(&mut c, &t).selected_ability = "Flash Fire".into();
+    turn(&mut c, &a, "Flamethrower");
+    assert!(queued_damage_pool(&ordinary_accuracy(&c, &a, &t, "Flamethrower")).immune);
+    pm(&mut c, &t).selected_ability = "".into();
+    turn(&mut c, &a, "Water Sport");
+    c = support_cast(&c, &a, vec![], "Water Sport");
+    turn(&mut c, &a, "Flamethrower");
+    assert_eq!(
+        queued_damage_pool(&ordinary_accuracy(&c, &a, &t, "Flamethrower")).effectiveness,
+        0,
+        "Water Sport suppresses positive effectiveness"
+    );
+    c = spider_switch(&c, &t, &incoming, false);
+    assert!(!c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .special
+        .effects
+        .iter()
+        .any(|e| e.name == "Tar Shot" && e.target == t));
+}
+#[test]
+fn completion_a27_tar_shot_freezes_effectiveness_through_knockout_for_user_stat_effects() {
+    let (mut c, a, t) = setup("Tar Shot");
+    set_species(&mut c, &t, "Blastoise");
+    refresh_field(&mut c);
+    pm(&mut c, &t).selected_ability = "Wonder Guard".into();
+    c = resolve(&pending(&c, &a, &t, "Tar Shot"));
+    pm(&mut c, &t).hp = 1;
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .damaging_stats
+        .enabled = true;
+    turn(&mut c, &a, "Flame Charge");
+    let queued = ordinary_accuracy(&c, &a, &t, "Flame Charge");
+    assert!(!queued_damage_pool(&queued).immune);
+    let c = roll(&queued, "gm", &damage_command(&queued), 6);
+    assert_eq!(p(&c, &t).hp, 0);
+    assert!(!c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .special
+        .effects
+        .iter()
+        .any(|e| e.name == "Tar Shot" && e.target == t));
+    let snapshot = q(&c).damage_context.unwrap().field_snapshot.unwrap();
+    assert!(snapshot.fire_vulnerable.as_ref().unwrap().contains(&t));
+    let c: Campaign = serde_json::from_str(&serde_json::to_string(&c).unwrap()).unwrap();
+    let c = resolve(&c);
+    assert_eq!(stat(&c, &a, "Dexterity"), 1);
+}
+#[test]
+fn completion_a27_tar_shot_support_immunity_and_historical_scope() {
+    let (mut c, a, t) = setup("Tar Shot");
+    c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
+        Box::new(completion::initial(SPORT_FIELDS_ENGINE));
+    let c = pending(&c, &a, &t, "Tar Shot");
+    assert_eq!(
+        battle::transition(&c, "gm", &cmd(&c), vec![], &catalog())
+            .unwrap_err()
+            .code,
+        "manual_rule"
+    );
+    let (mut c, a, t) = setup("Tar Shot");
+    pm(&mut c, &t).selected_ability = "Good As Gold".into();
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .tactics
+        .enabled = true;
+    let c = support_cast(&c, &a, vec![t.clone()], "Tar Shot");
+    assert_eq!(stat(&c, &t, "Dexterity"), 0);
+    assert!(!c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .special
+        .effects
+        .iter()
+        .any(|e| e.name == "Tar Shot" && e.target == t));
+}
+
+#[test]
+fn completion_a27_tar_shot_single_damage_snapshot_preserves_resolved_type_field_bonus() {
+    use crate::combat::field;
+    for name in ["Ivy Cudgel", "Weather Ball"] {
+        let (mut c, a, t) = setup("Tar Shot");
+        set_species(&mut c, &a, "Charmander");
+        set_species(&mut c, &t, "Blastoise");
+        refresh_field(&mut c);
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .battlefield
+            .natural = Some(field::Weather::Sunny);
+        c = resolve(&pending(&c, &a, &t, "Tar Shot"));
+        turn(&mut c, &a, name);
+        let queued = ordinary_accuracy(&c, &a, &t, name);
+        let pool = queued_damage_pool(&queued);
+        assert_eq!(pool.effectiveness, 1);
+        let c = roll(&queued, "gm", &damage_command(&queued), 1);
+        assert!(
+            c.battle
+                .as_ref()
+                .unwrap()
+                .flow
+                .as_ref()
+                .unwrap()
+                .queue
+                .is_empty(),
+            "{name}: resolved-type damage snapshot matches its public dice preview"
+        );
+    }
+}
