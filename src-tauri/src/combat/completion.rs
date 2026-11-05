@@ -227,6 +227,31 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
                 }
             }
         }
+        "restriction" => {
+            if !immune_target(c, q, cat)? {
+                let name = q.move_name.clone();
+                let started = battle(c)?.round;
+                flow_mut(c).special.effects.retain(|e| {
+                    e.name != name
+                        || e.target != q.target_id
+                        || !["move-restriction", "persistent-restriction"]
+                            .contains(&e.slot.as_str())
+                });
+                flow_mut(c).special.effects.push(special::TimedEffect {
+                    name,
+                    source: q.actor_id.clone(),
+                    target: q.target_id.clone(),
+                    rounds: d["rounds"].as_u64().map(|n| n as u32),
+                    amount: 0,
+                    started,
+                    slot: if d["persistent"] == true {
+                        "persistent-restriction".into()
+                    } else {
+                        "move-restriction".into()
+                    },
+                });
+            }
+        }
         "trap" => {
             if !immune_target(c, q, cat)? {
                 install(c, q, &q.actor_id, &q.target_id)?;
@@ -567,7 +592,8 @@ pub fn stack_values(c: &Campaign, p: &Combatant, key: &str) -> Vec<i32> {
     )
 }
 
-pub fn guard_move(c: &Campaign, m: &serde_json::Value) -> Result<()> {
+pub fn guard_move(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> Result<()> {
+    restriction_guard(c, p, m)?;
     if definition(c, m["Name"].as_str().unwrap_or(""))
         .is_some_and(|(_, d)| d["requires_terrain"] == true)
         && !flow(c)?
@@ -632,4 +658,51 @@ pub fn damage_bonus(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> i32 {
         n += d["held_penalty"].as_i64().unwrap_or(0) as i32;
     }
     n
+}
+
+fn restriction_guard(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> Result<()> {
+    let Some(f) = c.battle.as_ref().and_then(|b| b.flow.as_ref()) else {
+        return Ok(());
+    };
+    for e in &f.special.effects {
+        if !["move-restriction", "persistent-restriction"].contains(&e.slot.as_str()) {
+            continue;
+        }
+        if e.target == p.id
+            && e.name == "Taunt"
+            && m["Category"] == "Support"
+            && m["Type"] != "Typeless"
+        {
+            return Err(error(
+                "Taunt prevents Support moves; Support Maneuvers remain available",
+            ));
+        }
+        if e.target == p.id && e.name == "Throat Chop" && m["Attributes"]["SoundMove"] == true {
+            return Err(error("Throat Chop prevents Sound moves for this scene"));
+        }
+        if e.name == "Imprison"
+            && m["Type"] != "Typeless"
+            && special::registered(c, &e.source).is_ok_and(|source| {
+                source.deployed
+                    && source.hp > 0
+                    && source.side != p.side
+                    && rules::effective_sheet(c, source)
+                        .is_ok_and(|s| s.moves.iter().any(|n| m["Name"] == n.as_str()))
+            })
+        {
+            return Err(error(
+                "Imprison prevents a foe from using this active caster's known move",
+            ));
+        }
+    }
+    Ok(())
+}
+pub fn clear_restriction(c: &mut Campaign, id: &str, name: &str) {
+    if flow(c).is_ok_and(|f| f.completion.blocks.contains("MOVE-A15")) {
+        flow_mut(c).special.effects.retain(|e| {
+            e.target != id
+                || e.name != name
+                || !["move-restriction", "persistent-restriction"].contains(&e.slot.as_str())
+        });
+    }
 }

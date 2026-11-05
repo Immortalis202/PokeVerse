@@ -79,6 +79,7 @@ pub(super) fn turn(c: &mut Campaign, a: &str, name: &str) {
     f.queue.clear();
     f.window = false;
     f.order = vec![a.into()];
+    f.started = true;
     f.cursor = 0;
     f.turn += 1;
 }
@@ -1973,6 +1974,164 @@ fn completion_a14_no_retreat_and_octolock_block_independently_of_stat_protection
     c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
         Box::new(completion::initial(CONTEXT_DAMAGE_MOVES_ENGINE));
     let c = pending(&c, &a, &a, "Belly Drum");
+    assert_eq!(
+        battle::transition(&c, "gm", &cmd(&c), vec![], &catalog())
+            .unwrap_err()
+            .code,
+        "manual_rule"
+    );
+}
+#[test]
+fn completion_a15_taunt_blocks_support_moves_preserves_maneuvers_and_expires_after_four_rounds() {
+    let (c, a, t) = setup("Taunt");
+    let mut c = resolve(&pending(&c, &a, &t, "Taunt"));
+    for _ in 0..4 {
+        turn(&mut c, &t, "Rest");
+        let support = super::targeting_tests::attack(&t, vec![t.clone()], "Rest");
+        assert!(rules::dice_count(&c, &support, &catalog()).is_err());
+        let attack = super::targeting_tests::attack(&t, vec![a.clone()], "Tackle");
+        rules::dice_count(&c, &attack, &catalog()).expect("Taunt must permit Tackle");
+        turn(&mut c, &t, "Evasion");
+        let maneuver = super::targeting_tests::attack(&t, vec![t.clone()], "Evasion");
+        rules::dice_count(&c, &maneuver, &catalog()).expect("Taunt must permit Evasion");
+        c = round_end(&c);
+    }
+    turn(&mut c, &t, "Rest");
+    assert!(rules::dice_count(
+        &c,
+        &super::targeting_tests::attack(&t, vec![t.clone()], "Rest"),
+        &catalog()
+    )
+    .is_ok());
+}
+#[test]
+fn completion_a15_throat_chop_blocks_sound_and_survives_public_switching_until_faint() {
+    let (mut c, a, t) = setup("Throat Chop");
+    let incoming = reserve(&mut c, &t);
+    let mut c = resolve(&pending(&c, &a, &t, "Throat Chop"));
+    turn(&mut c, &t, "Hyper Voice");
+    let sound = super::targeting_tests::attack(&t, vec![a.clone()], "Hyper Voice");
+    assert!(rules::dice_count(&c, &sound, &catalog()).is_err());
+    let attack = super::targeting_tests::attack(&t, vec![a.clone()], "Tackle");
+    assert!(rules::dice_count(&c, &attack, &catalog()).is_ok());
+    let c = decision(
+        &c,
+        "gm",
+        Action::SwitchPokemon {
+            outgoing_id: t.clone(),
+            incoming_id: incoming.clone(),
+            gm_override: false,
+            reason: "Switch while silenced".into(),
+        },
+    );
+    assert!(!p(&c, &t).deployed);
+    assert!(c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .special
+        .effects
+        .iter()
+        .any(|e| e.name == "Throat Chop" && e.target == t));
+    assert!(!c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .special
+        .effects
+        .iter()
+        .any(|e| e.name == "Throat Chop" && e.target == incoming));
+    let mut saved: Campaign = serde_json::from_value(serde_json::to_value(&c).unwrap()).unwrap();
+    pm(&mut saved, &t).hp = 0;
+    special::lifecycle(&c, &mut saved, &catalog()).unwrap();
+    assert!(!saved
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .special
+        .effects
+        .iter()
+        .any(|e| e.name == "Throat Chop"));
+}
+#[test]
+fn completion_a15_imprison_uses_current_caster_moves_and_ends_on_caster_departure() {
+    let (c, a, t) = setup("Imprison");
+    let mut c = resolve(&pending(&c, &a, &a, "Imprison"));
+    turn(&mut c, &t, "Tackle");
+    let attack = super::targeting_tests::attack(&t, vec![a.clone()], "Tackle");
+    assert!(rules::dice_count(&c, &attack, &catalog()).is_err());
+    let sid = p(&c, &a).sheet_id.clone();
+    c.sheets
+        .get_mut(&sid)
+        .unwrap()
+        .moves
+        .retain(|n| n != "Tackle");
+    assert!(rules::dice_count(&c, &attack, &catalog()).is_ok());
+    c.sheets.get_mut(&sid).unwrap().moves.push("Tackle".into());
+    assert!(rules::dice_count(&c, &attack, &catalog()).is_err());
+    let before = c.clone();
+    pm(&mut c, &a).deployed = false;
+    special::lifecycle(&before, &mut c, &catalog()).unwrap();
+    assert!(!c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .special
+        .effects
+        .iter()
+        .any(|e| e.name == "Imprison"));
+}
+#[test]
+fn completion_a15_protection_gm_clearing_and_historical_states_keep_authority() {
+    let (mut c, a, t) = setup("Taunt");
+    pm(&mut c, &t).selected_ability = "Aroma Veil".into();
+    let c = resolve(&pending(&c, &a, &t, "Taunt"));
+    assert!(!c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .special
+        .effects
+        .iter()
+        .any(|e| e.name == "Taunt"));
+    let (c, a, t) = setup("Taunt");
+    let c = resolve(&pending(&c, &a, &t, "Taunt"));
+    let clear = Action::SetStatus {
+        combatant_id: t.clone(),
+        kind: "Taunt".into(),
+        detail: String::new(),
+        rounds: None,
+        remove: true,
+        reason: "GM ends Taunt".into(),
+    };
+    assert!(battle::transition(&c, "intruder", &clear, vec![], &catalog()).is_err());
+    let mut c = decision(&c, "gm", clear);
+    turn(&mut c, &t, "Rest");
+    assert!(rules::dice_count(
+        &c,
+        &super::targeting_tests::attack(&t, vec![t.clone()], "Rest"),
+        &catalog()
+    )
+    .is_ok());
+    let (mut c, a, t) = setup("Taunt");
+    c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
+        Box::new(completion::initial(COST_STAT_MOVES_ENGINE));
+    let c = pending(&c, &a, &t, "Taunt");
     assert_eq!(
         battle::transition(&c, "gm", &cmd(&c), vec![], &catalog())
             .unwrap_err()

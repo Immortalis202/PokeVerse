@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.49.0-core",
-  "release": "0.57.0",
-  "protocol": 58,
+  "engine": "0.50.0-core",
+  "release": "0.58.0",
+  "protocol": 59,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -802,6 +802,18 @@
         "completion_a14_no_retreat_and_octolock_block_independently_of_stat_protection"
       ],
       "scope": "Five stat/Blocking cards. Belly Drum rolls half current HP as typeless self-damage dice; Clangorous Soul half total HP rounded down; Fillet Away deals two self damage. No Retreat blocks the user and Octolock blocks the target independently of protected stat changes. Ordinary indirect protection and stat channels retained."
+    },
+    {
+      "id": "move-completion-a15",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A15",
+      "fixtures": [
+        "completion_a15_taunt_blocks_support_moves_preserves_maneuvers_and_expires_after_four_rounds",
+        "completion_a15_throat_chop_blocks_sound_and_survives_public_switching_until_faint",
+        "completion_a15_imprison_uses_current_caster_moves_and_ends_on_caster_departure",
+        "completion_a15_protection_gm_clearing_and_historical_states_keep_authority"
+      ],
+      "scope": "Taunt prevents Support Pokemon moves for four rounds while preserving Support Maneuvers. Throat Chop prevents Sound moves for the scene across switching. Imprison prevents foes from using the active caster's current known moves and ends on caster departure/faint. Authority, immunity and GM clearing remain explicit."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -818,5 +830,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "3a79c9a27412dee38666dd198e29bac659bab3c3f2b17a038e58cefe4565a8ea"
+  "move_completion_registry_hash": "3fa2d9101fa1e00242a3bae55c4f2da686f68f084d7c9698bb508a08af76eeb9"
 }

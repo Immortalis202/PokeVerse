@@ -21,7 +21,9 @@ export default function MoveCompletionControls({
       ({ effect: e }) =>
         e.name.startsWith("move-block:") ||
         e.name.startsWith("ongoing:") ||
-        e.name.startsWith("accuracy-loss:"),
+        e.name.startsWith("accuracy-loss:") ||
+        e.slot === "move-restriction" ||
+        e.slot === "persistent-restriction",
     );
   if (!entries.length) return null;
   const owned = (id: string) =>
@@ -33,6 +35,9 @@ export default function MoveCompletionControls({
       {entries.map(({ effect: e, index }) => {
         const ongoing = e.name.startsWith("ongoing:"),
           accuracy = e.name.startsWith("accuracy-loss:"),
+          restriction =
+            e.slot === "move-restriction" ||
+            e.slot === "persistent-restriction",
           move = e.name.replace(/^(move-block:|ongoing:|accuracy-loss:)/, "");
         const target = b.combatants.find((p) => p.id === e.target);
         const due =
@@ -45,12 +50,36 @@ export default function MoveCompletionControls({
         return (
           <div key={index} className="notice">
             {target?.name ?? "Registered participant"}:{" "}
-            {accuracy
-              ? `${move}: remove ${e.amount} Accuracy successes`
-              : ongoing
-                ? `${move} ongoing damage`
-                : `blocked by ${move}`}{" "}
+            {restriction
+              ? move === "Taunt"
+                ? "Taunt: Support moves disabled"
+                : move === "Throat Chop"
+                  ? "Throat Chop: Sound moves disabled"
+                  : "Imprison: foes cannot use this Pokémon’s known moves"
+              : accuracy
+                ? `${move}: remove ${e.amount} Accuracy successes`
+                : ongoing
+                  ? `${move} ongoing damage`
+                  : `blocked by ${move}`}{" "}
             {e.rounds == null ? "(scene)" : `(${e.rounds} rounds remaining)`}
+            {restriction && campaign.gm_id === playerId && (
+              <button
+                disabled={disabled}
+                onClick={() =>
+                  execute({
+                    type: "set_status",
+                    combatant_id: e.target,
+                    kind: e.name,
+                    detail: "",
+                    rounds: null,
+                    remove: true,
+                    reason: `GM clears ${e.name}`,
+                  })
+                }
+              >
+                Clear {move}
+              </button>
+            )}
             {due && owned(e.source) && (
               <button
                 disabled={disabled}

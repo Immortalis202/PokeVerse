@@ -901,6 +901,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
     let ended = decision(&c, "gm", Action::EndBattle);
     for engine in [
         ENGINE,
+        COST_STAT_MOVES_ENGINE,
         CONTEXT_DAMAGE_MOVES_ENGINE,
         FIELD_CLEANSE_MOVES_ENGINE,
         STACK_STAT_MOVES_ENGINE,
@@ -950,6 +951,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.entry_hazards,
             [
                 ENGINE,
+                COST_STAT_MOVES_ENGINE,
                 CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
@@ -966,17 +968,22 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             .contains(&engine)
         );
         assert_eq!(
-            flow.completion.blocks.contains("MOVE-A14"),
+            flow.completion.blocks.contains("MOVE-A15"),
             engine == ENGINE
         );
         assert_eq!(
+            flow.completion.blocks.contains("MOVE-A14"),
+            [ENGINE, COST_STAT_MOVES_ENGINE].contains(&engine)
+        );
+        assert_eq!(
             flow.completion.blocks.contains("MOVE-A13"),
-            [ENGINE, CONTEXT_DAMAGE_MOVES_ENGINE].contains(&engine)
+            [ENGINE, COST_STAT_MOVES_ENGINE, CONTEXT_DAMAGE_MOVES_ENGINE].contains(&engine)
         );
         assert_eq!(
             flow.completion.blocks.contains("MOVE-A12"),
             [
                 ENGINE,
+                COST_STAT_MOVES_ENGINE,
                 CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE
             ]
@@ -986,6 +993,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A11"),
             [
                 ENGINE,
+                COST_STAT_MOVES_ENGINE,
                 CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE
@@ -996,6 +1004,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A10"),
             [
                 ENGINE,
+                COST_STAT_MOVES_ENGINE,
                 CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
@@ -1007,6 +1016,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A09"),
             [
                 ENGINE,
+                COST_STAT_MOVES_ENGINE,
                 CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
@@ -1019,6 +1029,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A08"),
             [
                 ENGINE,
+                COST_STAT_MOVES_ENGINE,
                 CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
@@ -1032,6 +1043,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A07"),
             [
                 ENGINE,
+                COST_STAT_MOVES_ENGINE,
                 CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
@@ -1046,6 +1058,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A06"),
             [
                 ENGINE,
+                COST_STAT_MOVES_ENGINE,
                 CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
@@ -1061,6 +1074,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A05"),
             [
                 ENGINE,
+                COST_STAT_MOVES_ENGINE,
                 CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
@@ -1077,6 +1091,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A04"),
             [
                 ENGINE,
+                COST_STAT_MOVES_ENGINE,
                 CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
@@ -1094,6 +1109,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A03"),
             [
                 ENGINE,
+                COST_STAT_MOVES_ENGINE,
                 CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
@@ -1112,6 +1128,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.damaging_stats.enabled,
             [
                 ENGINE,
+                COST_STAT_MOVES_ENGINE,
                 CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
@@ -1132,6 +1149,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.battlefield_review,
             [
                 ENGINE,
+                COST_STAT_MOVES_ENGINE,
                 CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
@@ -1153,6 +1171,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.direct_status,
             [
                 ENGINE,
+                COST_STAT_MOVES_ENGINE,
                 CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
@@ -1179,6 +1198,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.chance_status,
             [
                 ENGINE,
+                COST_STAT_MOVES_ENGINE,
                 CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
@@ -1204,6 +1224,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.compound.enabled,
             [
                 ENGINE,
+                COST_STAT_MOVES_ENGINE,
                 CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
@@ -1228,6 +1249,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.recurring.enabled,
             [
                 ENGINE,
+                COST_STAT_MOVES_ENGINE,
                 CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
@@ -1251,6 +1273,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.battlefield_review,
             [
                 ENGINE,
+                COST_STAT_MOVES_ENGINE,
                 CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
@@ -1272,6 +1295,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.cure_protection,
             [
                 ENGINE,
+                COST_STAT_MOVES_ENGINE,
                 CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
@@ -1294,6 +1318,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.spite,
             [
                 ENGINE,
+                COST_STAT_MOVES_ENGINE,
                 CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
@@ -1322,6 +1347,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.will_drains,
             [
                 ENGINE,
+                COST_STAT_MOVES_ENGINE,
                 CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
@@ -1349,6 +1375,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.status_escalation,
             [
                 ENGINE,
+                COST_STAT_MOVES_ENGINE,
                 CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
@@ -1378,6 +1405,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.identity_moves,
             [
                 ENGINE,
+                COST_STAT_MOVES_ENGINE,
                 CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
@@ -1408,6 +1436,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.interaction_rules,
             [
                 ENGINE,
+                COST_STAT_MOVES_ENGINE,
                 CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
@@ -1442,6 +1471,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.items.completion.enabled,
             [
                 ENGINE,
+                COST_STAT_MOVES_ENGINE,
                 CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
@@ -1475,6 +1505,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.house_rules,
             [
                 ENGINE,
+                COST_STAT_MOVES_ENGINE,
                 CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
@@ -1507,6 +1538,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.forms.enabled,
             [
                 ENGINE,
+                COST_STAT_MOVES_ENGINE,
                 CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
@@ -1544,6 +1576,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.information.enabled,
             [
                 ENGINE,
+                COST_STAT_MOVES_ENGINE,
                 CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,
@@ -1580,6 +1613,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.standalone.enabled,
             [
                 ENGINE,
+                COST_STAT_MOVES_ENGINE,
                 CONTEXT_DAMAGE_MOVES_ENGINE,
                 FIELD_CLEANSE_MOVES_ENGINE,
                 STACK_STAT_MOVES_ENGINE,

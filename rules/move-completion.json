@@ -1072,6 +1072,34 @@
           "block": true
         }
       }
+    },
+    "MOVE-A15": {
+      "engine": "0.50.0-core",
+      "kind": "restriction",
+      "scope": "Taunt prevents Support Pokemon moves for four rounds while preserving Support Maneuvers. Throat Chop prevents Sound moves for the scene across switching. Imprison prevents foes from using the active caster's current known moves and ends on caster departure/faint. Authority, immunity and GM clearing remain explicit.",
+      "moves": {
+        "Taunt": {
+          "source": "Pokerole-Data/v3.0/Moves/Taunt.json",
+          "sha256": "68b6340400fc379aa6b565e78d779c727096b3ed98d53517d11894997301c03f",
+          "effect": "Single Target. The Target cannot perform Support Moves (Support Maneuvers may still be performed). Duration 4 Rounds.",
+          "rounds": 4,
+          "persistent": false
+        },
+        "Throat Chop": {
+          "source": "Pokerole-Data/v3.0/Moves/Throat Chop.json",
+          "sha256": "638f1544050cbe5067315e3bd743f3264f00b05472d2e9b0b8c8527e087ff063",
+          "effect": "Single Target. The target cannot use any \"Sound Based\" Move. Whole Scene Duration. This effect does not end by switching out the affected Pokemon.",
+          "rounds": null,
+          "persistent": true
+        },
+        "Imprison": {
+          "source": "Pokerole-Data/v3.0/Moves/Imprison.json",
+          "sha256": "4062a29e2cffd6b717f131a7215532182ff522d263c3138f7a95f096b14ab624",
+          "effect": "Target Self. While the User is on the battlefield, Moves known by the User cannot be used by foes. This effect ends if the User is removed from battle.",
+          "rounds": null,
+          "persistent": false
+        }
+      }
     }
   },
   "printed_review": {

@@ -904,8 +904,16 @@ pub fn lifecycle(_before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<
             s.armed_turn = turn;
         }
     }
+    let conscious: BTreeSet<String> = battle(c)?
+        .combatants
+        .iter()
+        .filter(|p| p.hp > 0)
+        .map(|p| p.id.clone())
+        .collect();
     state_mut(c).effects.retain(|e| {
-        (active.contains(&e.target) || ["Wish", "Shadow Force"].contains(&e.name.as_str()))
+        (active.contains(&e.target)
+            || (e.slot == "persistent-restriction" && conscious.contains(&e.target))
+            || ["Wish", "Shadow Force"].contains(&e.name.as_str()))
             && ((e.name != "move-block:Jaw Lock" && e.slot != "trap-pair")
                 || active.contains(&e.source))
     });

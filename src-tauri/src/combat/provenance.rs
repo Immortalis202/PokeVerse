@@ -97,8 +97,14 @@ pub fn tag_actions(before: &Campaign, after: &mut Campaign, cat: &Catalog) -> Re
                         || damaging_stats::definition(before, &q.move_name).is_some()
                         || completion::definition(before, &q.move_name).is_some_and(
                             |(kind, _)| {
-                                ["ongoing", "accuracy", "stack-stat", "field-cleanse"]
-                                    .contains(&kind)
+                                [
+                                    "ongoing",
+                                    "accuracy",
+                                    "stack-stat",
+                                    "field-cleanse",
+                                    "restriction",
+                                ]
+                                .contains(&kind)
                             },
                         )
                         || chance_status::definition(before, &q.move_name).is_some()
