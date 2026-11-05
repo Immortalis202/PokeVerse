@@ -155,6 +155,7 @@ fn snapshot(
                 }
             }
             values.extend(move_values(c, p, key));
+            values.extend(completion::stack_values(c, p, key));
             let positive = values.iter().copied().max().unwrap_or(0).max(0);
             let negative = if reductions {
                 values.iter().copied().min().unwrap_or(0).min(0)

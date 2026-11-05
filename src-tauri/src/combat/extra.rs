@@ -804,7 +804,7 @@ fn apply_stat(
     n: i32,
     reflected: bool,
 ) -> Result<()> {
-    apply_stat_context(c, source, id, key, n, reflected, false)
+    apply_stat_context(c, source, id, key, n, reflected, false, None)
 }
 
 #[allow(clippy::too_many_arguments)]
@@ -816,6 +816,7 @@ fn apply_stat_context(
     n: i32,
     reflected: bool,
     hazard: bool,
+    stacking: Option<&str>,
 ) -> Result<()> {
     if tactics::baton_blocked(c, source, id, key, n) {
         return Err(error("Baton Pass prevents this user from raising its own attributes until the recipient faints or the encounter ends"));
@@ -855,7 +856,7 @@ fn apply_stat_context(
         if hazard && !fighter(c, source).is_ok_and(|p| p.hp > 0) {
             return Err(AppError::new("manual_rule", "Mirror Armor entry-hazard reflection has no conscious active source; the GM must record the redirected field/stat outcome"));
         }
-        return apply_stat_context(c, id, source, key, n, true, hazard);
+        return apply_stat_context(c, id, source, key, n, true, hazard, stacking);
     }
     if source != id
         && !ring
@@ -867,6 +868,34 @@ fn apply_stat_context(
         }
         return Ok(());
     }
+
+    let n = if let Some(cause) = stacking {
+        let name = format!("stack-stat:{cause}:{key}");
+        let previous = flow(c)?
+            .special
+            .effects
+            .iter()
+            .find(|e| e.name == name && e.target == id)
+            .map_or(0, |e| e.amount);
+        let total = (previous + n).clamp(-3, 3);
+        let started = battle(c)?.round;
+        flow_mut(c)
+            .special
+            .effects
+            .retain(|e| e.name != name || e.target != id);
+        flow_mut(c).special.effects.push(special::TimedEffect {
+            name,
+            source: source.into(),
+            target: id.into(),
+            rounds: None,
+            amount: total,
+            started,
+            slot: "stacking-stat".into(),
+        });
+        total
+    } else {
+        n
+    };
     let reviewed = if special::enabled(c) {
         Some(special::record_modifier(c, source, id, key, n)?)
     } else {
@@ -1700,5 +1729,16 @@ pub(super) fn ability_drop(c: &mut Campaign, id: &str, key: &str, n: i32) -> Res
 
 /// A persistent hazard retains its caster identity, but not a live attack's bypass.
 pub fn hazard_stat(c: &mut Campaign, source: &str, id: &str, key: &str, n: i32) -> Result<()> {
-    apply_stat_context(c, source, id, key, n, false, true)
+    apply_stat_context(c, source, id, key, n, false, true, None)
+}
+
+pub fn stack_stat(
+    c: &mut Campaign,
+    source: &str,
+    id: &str,
+    key: &str,
+    n: i32,
+    cause: &str,
+) -> Result<()> {
+    apply_stat_context(c, source, id, key, n, false, false, Some(cause))
 }

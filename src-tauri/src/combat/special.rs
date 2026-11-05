@@ -2880,7 +2880,10 @@ pub fn clear_modifiers(c: &mut Campaign, id: &str) {
     }
     if enabled(c) {
         state_mut(c).effects.retain(|e| {
-            e.target != id || (!e.name.starts_with("buff:") && !e.name.starts_with("debuff:"))
+            e.target != id
+                || (!e.name.starts_with("buff:")
+                    && !e.name.starts_with("debuff:")
+                    && !e.name.starts_with("stack-stat:"))
         });
     }
 }
@@ -2974,6 +2977,7 @@ pub fn modifier(c: &Campaign, p: &Combatant, key: &str) -> Option<i32> {
         }
     }
     values.extend(copied);
+    values.extend(completion::stack_values(c, p, key));
     if item != 0 {
         values.push(item);
     }

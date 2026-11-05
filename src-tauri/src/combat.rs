@@ -1135,6 +1135,7 @@ pub fn transition(
     if let Some(setup) = field::start_setup(a) {
         if ![
             ENGINE,
+            ACCURACY_LOSS_MOVES_ENGINE,
             DAMAGE_RULE_ATTACKS_ENGINE,
             SUPPORT_STAT_MOVES_ENGINE,
             REMAINING_STAT_ATTACKS_ENGINE,
@@ -1168,6 +1169,7 @@ pub fn transition(
             setup,
             [
                 ENGINE,
+                ACCURACY_LOSS_MOVES_ENGINE,
                 DAMAGE_RULE_ATTACKS_ENGINE,
                 SUPPORT_STAT_MOVES_ENGINE,
                 REMAINING_STAT_ATTACKS_ENGINE,
@@ -3128,6 +3130,7 @@ fn transition_inner(
                 b.flow = Some(TurnFlow {
                     identity_moves: [
                         ENGINE,
+                        ACCURACY_LOSS_MOVES_ENGINE,
                         DAMAGE_RULE_ATTACKS_ENGINE,
                         SUPPORT_STAT_MOVES_ENGINE,
                         REMAINING_STAT_ATTACKS_ENGINE,
@@ -3151,6 +3154,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     status_escalation: [
                         ENGINE,
+                        ACCURACY_LOSS_MOVES_ENGINE,
                         DAMAGE_RULE_ATTACKS_ENGINE,
                         SUPPORT_STAT_MOVES_ENGINE,
                         REMAINING_STAT_ATTACKS_ENGINE,
@@ -3173,6 +3177,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     spite: [
                         ENGINE,
+                        ACCURACY_LOSS_MOVES_ENGINE,
                         DAMAGE_RULE_ATTACKS_ENGINE,
                         SUPPORT_STAT_MOVES_ENGINE,
                         REMAINING_STAT_ATTACKS_ENGINE,
@@ -3194,6 +3199,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     will_drains: [
                         ENGINE,
+                        ACCURACY_LOSS_MOVES_ENGINE,
                         DAMAGE_RULE_ATTACKS_ENGINE,
                         SUPPORT_STAT_MOVES_ENGINE,
                         REMAINING_STAT_ATTACKS_ENGINE,
@@ -3214,6 +3220,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     direct_status: [
                         ENGINE,
+                        ACCURACY_LOSS_MOVES_ENGINE,
                         DAMAGE_RULE_ATTACKS_ENGINE,
                         SUPPORT_STAT_MOVES_ENGINE,
                         REMAINING_STAT_ATTACKS_ENGINE,
@@ -3233,6 +3240,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     chance_status: [
                         ENGINE,
+                        ACCURACY_LOSS_MOVES_ENGINE,
                         DAMAGE_RULE_ATTACKS_ENGINE,
                         SUPPORT_STAT_MOVES_ENGINE,
                         REMAINING_STAT_ATTACKS_ENGINE,
@@ -3251,6 +3259,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     battlefield_review: [
                         ENGINE,
+                        ACCURACY_LOSS_MOVES_ENGINE,
                         DAMAGE_RULE_ATTACKS_ENGINE,
                         SUPPORT_STAT_MOVES_ENGINE,
                         REMAINING_STAT_ATTACKS_ENGINE,
@@ -3265,6 +3274,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     entry_hazards: [
                         ENGINE,
+                        ACCURACY_LOSS_MOVES_ENGINE,
                         DAMAGE_RULE_ATTACKS_ENGINE,
                         SUPPORT_STAT_MOVES_ENGINE,
                         REMAINING_STAT_ATTACKS_ENGINE,
@@ -3279,6 +3289,7 @@ fn transition_inner(
                     damaging_stats: Box::new(damaging_stats::StatMoveState {
                         enabled: [
                             ENGINE,
+                            ACCURACY_LOSS_MOVES_ENGINE,
                             DAMAGE_RULE_ATTACKS_ENGINE,
                             SUPPORT_STAT_MOVES_ENGINE,
                             REMAINING_STAT_ATTACKS_ENGINE,
@@ -3294,6 +3305,7 @@ fn transition_inner(
                     }),
                     cure_protection: [
                         ENGINE,
+                        ACCURACY_LOSS_MOVES_ENGINE,
                         DAMAGE_RULE_ATTACKS_ENGINE,
                         SUPPORT_STAT_MOVES_ENGINE,
                         REMAINING_STAT_ATTACKS_ENGINE,
@@ -3310,6 +3322,7 @@ fn transition_inner(
                     recurring: Box::new(recurring::RecurringState {
                         enabled: [
                             ENGINE,
+                            ACCURACY_LOSS_MOVES_ENGINE,
                             DAMAGE_RULE_ATTACKS_ENGINE,
                             SUPPORT_STAT_MOVES_ENGINE,
                             REMAINING_STAT_ATTACKS_ENGINE,
@@ -3329,6 +3342,7 @@ fn transition_inner(
                     compound: compound::CompoundState {
                         enabled: [
                             ENGINE,
+                            ACCURACY_LOSS_MOVES_ENGINE,
                             DAMAGE_RULE_ATTACKS_ENGINE,
                             SUPPORT_STAT_MOVES_ENGINE,
                             REMAINING_STAT_ATTACKS_ENGINE,
@@ -3348,6 +3362,7 @@ fn transition_inner(
                     },
                     house_rules: [
                         ENGINE,
+                        ACCURACY_LOSS_MOVES_ENGINE,
                         DAMAGE_RULE_ATTACKS_ENGINE,
                         SUPPORT_STAT_MOVES_ENGINE,
                         REMAINING_STAT_ATTACKS_ENGINE,
@@ -3373,6 +3388,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     interaction_rules: [
                         ENGINE,
+                        ACCURACY_LOSS_MOVES_ENGINE,
                         DAMAGE_RULE_ATTACKS_ENGINE,
                         SUPPORT_STAT_MOVES_ENGINE,
                         REMAINING_STAT_ATTACKS_ENGINE,
@@ -3401,6 +3417,7 @@ fn transition_inner(
                     standalone: standalone::StandaloneState {
                         enabled: [
                             ENGINE,
+                            ACCURACY_LOSS_MOVES_ENGINE,
                             DAMAGE_RULE_ATTACKS_ENGINE,
                             SUPPORT_STAT_MOVES_ENGINE,
                             REMAINING_STAT_ATTACKS_ENGINE,
@@ -3432,6 +3449,7 @@ fn transition_inner(
                     information: information::InformationState {
                         enabled: [
                             ENGINE,
+                            ACCURACY_LOSS_MOVES_ENGINE,
                             DAMAGE_RULE_ATTACKS_ENGINE,
                             SUPPORT_STAT_MOVES_ENGINE,
                             REMAINING_STAT_ATTACKS_ENGINE,
@@ -3464,6 +3482,7 @@ fn transition_inner(
                     forms: forms::FormState {
                         enabled: [
                             ENGINE,
+                            ACCURACY_LOSS_MOVES_ENGINE,
                             DAMAGE_RULE_ATTACKS_ENGINE,
                             SUPPORT_STAT_MOVES_ENGINE,
                             REMAINING_STAT_ATTACKS_ENGINE,
@@ -3498,6 +3517,7 @@ fn transition_inner(
                         completion: items::completion::CompletionState {
                             enabled: [
                                 ENGINE,
+                                ACCURACY_LOSS_MOVES_ENGINE,
                                 DAMAGE_RULE_ATTACKS_ENGINE,
                                 SUPPORT_STAT_MOVES_ENGINE,
                                 REMAINING_STAT_ATTACKS_ENGINE,
@@ -3526,6 +3546,7 @@ fn transition_inner(
                         },
                         enabled: [
                             ENGINE,
+                            ACCURACY_LOSS_MOVES_ENGINE,
                             DAMAGE_RULE_ATTACKS_ENGINE,
                             SUPPORT_STAT_MOVES_ENGINE,
                             REMAINING_STAT_ATTACKS_ENGINE,
@@ -3560,6 +3581,7 @@ fn transition_inner(
                     events: events::EventState {
                         enabled: [
                             ENGINE,
+                            ACCURACY_LOSS_MOVES_ENGINE,
                             DAMAGE_RULE_ATTACKS_ENGINE,
                             SUPPORT_STAT_MOVES_ENGINE,
                             REMAINING_STAT_ATTACKS_ENGINE,
@@ -3594,6 +3616,7 @@ fn transition_inner(
                     },
                     provenance_rules: [
                         ENGINE,
+                        ACCURACY_LOSS_MOVES_ENGINE,
                         DAMAGE_RULE_ATTACKS_ENGINE,
                         SUPPORT_STAT_MOVES_ENGINE,
                         REMAINING_STAT_ATTACKS_ENGINE,
@@ -3628,6 +3651,7 @@ fn transition_inner(
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            ACCURACY_LOSS_MOVES_ENGINE,
                             DAMAGE_RULE_ATTACKS_ENGINE,
                             SUPPORT_STAT_MOVES_ENGINE,
                             REMAINING_STAT_ATTACKS_ENGINE,
@@ -3665,6 +3689,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            ACCURACY_LOSS_MOVES_ENGINE,
                             DAMAGE_RULE_ATTACKS_ENGINE,
                             SUPPORT_STAT_MOVES_ENGINE,
                             REMAINING_STAT_ATTACKS_ENGINE,
@@ -3702,6 +3727,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        ACCURACY_LOSS_MOVES_ENGINE,
                         DAMAGE_RULE_ATTACKS_ENGINE,
                         SUPPORT_STAT_MOVES_ENGINE,
                         REMAINING_STAT_ATTACKS_ENGINE,
@@ -3739,6 +3765,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            ACCURACY_LOSS_MOVES_ENGINE,
                             DAMAGE_RULE_ATTACKS_ENGINE,
                             SUPPORT_STAT_MOVES_ENGINE,
                             REMAINING_STAT_ATTACKS_ENGINE,
@@ -3779,6 +3806,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            ACCURACY_LOSS_MOVES_ENGINE,
                             DAMAGE_RULE_ATTACKS_ENGINE,
                             SUPPORT_STAT_MOVES_ENGINE,
                             REMAINING_STAT_ATTACKS_ENGINE,
@@ -3820,6 +3848,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            ACCURACY_LOSS_MOVES_ENGINE,
                             DAMAGE_RULE_ATTACKS_ENGINE,
                             SUPPORT_STAT_MOVES_ENGINE,
                             REMAINING_STAT_ATTACKS_ENGINE,
@@ -3862,6 +3891,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            ACCURACY_LOSS_MOVES_ENGINE,
                             DAMAGE_RULE_ATTACKS_ENGINE,
                             SUPPORT_STAT_MOVES_ENGINE,
                             REMAINING_STAT_ATTACKS_ENGINE,
@@ -3905,6 +3935,7 @@ fn transition_inner(
                     special: Box::new(special::SpecialState {
                         enabled: [
                             ENGINE,
+                            ACCURACY_LOSS_MOVES_ENGINE,
                             DAMAGE_RULE_ATTACKS_ENGINE,
                             SUPPORT_STAT_MOVES_ENGINE,
                             REMAINING_STAT_ATTACKS_ENGINE,
@@ -3948,6 +3979,7 @@ fn transition_inner(
                     }),
                     ability_rules: [
                         ENGINE,
+                        ACCURACY_LOSS_MOVES_ENGINE,
                         DAMAGE_RULE_ATTACKS_ENGINE,
                         SUPPORT_STAT_MOVES_ENGINE,
                         REMAINING_STAT_ATTACKS_ENGINE,
@@ -3993,6 +4025,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            ACCURACY_LOSS_MOVES_ENGINE,
                             DAMAGE_RULE_ATTACKS_ENGINE,
                             SUPPORT_STAT_MOVES_ENGINE,
                             REMAINING_STAT_ATTACKS_ENGINE,
@@ -4038,6 +4071,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            ACCURACY_LOSS_MOVES_ENGINE,
                             DAMAGE_RULE_ATTACKS_ENGINE,
                             SUPPORT_STAT_MOVES_ENGINE,
                             REMAINING_STAT_ATTACKS_ENGINE,

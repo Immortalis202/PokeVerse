@@ -888,6 +888,49 @@
           "amount": 1
         }
       }
+    },
+    "MOVE-A11": {
+      "engine": "0.46.0-core",
+      "kind": "stack-stat",
+      "scope": "Four explicitly stacking stat cards: Sharpen, Syrup Bomb, Luster Purge and Mist Ball. Each named stat effect stacks to three; exact Chance pools, live reflection/protection and standard other-move nonstacking channels remain. Scene-local counters clear with modifiers or departure.",
+      "moves": {
+        "Sharpen": {
+          "source": "Pokerole-Data/v3.0/Moves/Sharpen.json",
+          "sha256": "d867b3269eb4b53e78b8602df47bca5f178a430eeefa9bb23a63aced4e122dbf",
+          "effect": "Target Self. Increase the User's Strength by 1. *This effect can stack up to 3 times.",
+          "dice": 0,
+          "user": true,
+          "keys": ["Strength"],
+          "amount": 1
+        },
+        "Syrup Bomb": {
+          "source": "Pokerole-Data/v3.0/Moves/Syrup Bomb.json",
+          "sha256": "a1efdc8a9ae29d99be56bde11e694c440c8af2a9121442c723ca2780529c155c",
+          "effect": "Single Target. Low Accuracy 1. Projectile Move. Reduce the Target's Dexterity by 1. *This effect can stack up to 3 Times.",
+          "dice": 0,
+          "user": false,
+          "keys": ["Dexterity"],
+          "amount": -1
+        },
+        "Luster Purge": {
+          "source": "Pokerole-Data/v3.0/Moves/Luster Purge.json",
+          "sha256": "9500be8bfb78f960093a8ac72bb603b8c2303d26f2cc1b16928138859e8490d2",
+          "effect": "Single Target. Unique. Roll 5 Chance Dice to Reduce Sp. Defense by 1. *This effect can stack up to 3 times per Target.",
+          "dice": 5,
+          "user": false,
+          "keys": ["SpecialDefense"],
+          "amount": -1
+        },
+        "Mist Ball": {
+          "source": "Pokerole-Data/v3.0/Moves/Mist Ball.json",
+          "sha256": "2c0683cb3b00e150a0aeb21771cd7ca9862d8d9e5ffed3debfafc9fe5e2838d6",
+          "effect": "Single Target. Unique. Projectile Move. Roll 5 Chance Dice to Reduce the Target's Special by 1. *This Effect can be stacked up to 3 times per target.",
+          "dice": 5,
+          "user": false,
+          "keys": ["Special"],
+          "amount": -1
+        }
+      }
     }
   },
   "printed_review": {

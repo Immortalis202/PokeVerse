@@ -1378,3 +1378,109 @@ fn completion_a10_tactics_reaction_uses_success_loss_and_live_keen_eye() {
         );
     }
 }
+#[test]
+fn completion_a11_all_four_explicit_stacks_stop_at_three_and_keep_chance_pools() {
+    let r: serde_json::Value =
+        serde_json::from_str(include_str!("../../../rules/move-completion.json")).unwrap();
+    for (name, d) in r["blocks"]["MOVE-A11"]["moves"].as_object().unwrap() {
+        let (mut c, a, t) = setup(name);
+        let target = if d["user"] == true {
+            a.clone()
+        } else {
+            t.clone()
+        };
+        if d["dice"].as_u64().unwrap() > 0 {
+            let queued = pending(&c, &a, &target, name);
+            assert_eq!(
+                rules::dice_count(&queued, &cmd(&queued), &catalog()).unwrap(),
+                5
+            );
+            c = roll(&queued, "gm", &cmd(&queued), 5);
+            assert_eq!(stat(&c, &target, d["keys"][0].as_str().unwrap()), 0);
+            turn(&mut c, &a, name);
+        }
+        for cast in 1..=4 {
+            c = resolve(&pending(&c, &a, &target, name));
+            assert_eq!(
+                stat(&c, &target, d["keys"][0].as_str().unwrap()),
+                cast.min(3) * d["amount"].as_i64().unwrap() as i32,
+                "{name} cast {cast}"
+            );
+            turn(&mut c, &a, name);
+        }
+    }
+}
+#[test]
+fn completion_a11_stacking_protections_reflection_and_each_simple_increment() {
+    for (ability, multiplier) in [("Simple", -2), ("Contrary", 1), ("Mirror Armor", -1)] {
+        let (mut c, a, t) = setup("Syrup Bomb");
+        pm(&mut c, &t).selected_ability = ability.into();
+        for cast in 1..=3 {
+            c = resolve(&pending(&c, &a, &t, "Syrup Bomb"));
+            let recipient = if ability == "Mirror Armor" { &a } else { &t };
+            assert_eq!(
+                stat(&c, recipient, "Dexterity"),
+                cast * multiplier,
+                "{ability} cast {cast}"
+            );
+            if ability == "Mirror Armor" {
+                assert_eq!(stat(&c, &t, "Dexterity"), 0);
+            }
+            turn(&mut c, &a, "Syrup Bomb");
+        }
+    }
+    let (mut c, a, t) = setup("Syrup Bomb");
+    pm(&mut c, &t).selected_ability = "Clear Body".into();
+    c = resolve(&pending(&c, &a, &t, "Syrup Bomb"));
+    assert_eq!(stat(&c, &t, "Dexterity"), 0);
+    pm(&mut c, &t).selected_ability.clear();
+    turn(&mut c, &a, "Syrup Bomb");
+    c = resolve(&pending(&c, &a, &t, "Syrup Bomb"));
+    assert_eq!(stat(&c, &t, "Dexterity"), -1);
+}
+#[test]
+fn completion_a11_save_and_clear_preserve_named_counters_without_changing_historical_states() {
+    let (c, a, t) = setup("Syrup Bomb");
+    let c = resolve(&pending(&c, &a, &t, "Syrup Bomb"));
+    let mut saved: Campaign = serde_json::from_value(serde_json::to_value(&c).unwrap()).unwrap();
+    turn(&mut saved, &a, "Syrup Bomb");
+    let mut saved = resolve(&pending(&saved, &a, &t, "Syrup Bomb"));
+    assert_eq!(stat(&saved, &t, "Dexterity"), -2);
+    special::clear_modifiers(&mut saved, &t);
+    pm(&mut saved, &t).runtime.modifiers.clear();
+    turn(&mut saved, &a, "Syrup Bomb");
+    let saved = resolve(&pending(&saved, &a, &t, "Syrup Bomb"));
+    assert_eq!(stat(&saved, &t, "Dexterity"), -1);
+    let (mut c, a, t) = setup("Syrup Bomb");
+    c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
+        Box::new(completion::initial(ACCURACY_LOSS_MOVES_ENGINE));
+    let c = pending(&c, &a, &t, "Syrup Bomb");
+    assert_eq!(
+        battle::transition(&c, "gm", &cmd(&c), vec![], &catalog())
+            .unwrap_err()
+            .code,
+        "manual_rule"
+    );
+}
+#[test]
+fn completion_a11_stat_transfer_captures_effective_simple_stacks_once() {
+    let (mut c, a, t) = setup("Sharpen");
+    pm(&mut c, &a).selected_ability = "Simple".into();
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .stat_channels
+        .enabled = true;
+    for _ in 0..3 {
+        c = resolve(&pending(&c, &a, &a, "Sharpen"));
+        turn(&mut c, &a, "Sharpen");
+    }
+    assert_eq!(stat(&c, &a, "Strength"), 6);
+    let side = p(&c, &a).side.clone();
+    pm(&mut c, &t).side = side;
+    crate::combat::stat_channels::transfer(&mut c, &a, &t, "Baton Pass").unwrap();
+    assert_eq!(stat(&c, &t, "Strength"), 6);
+}

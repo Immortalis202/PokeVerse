@@ -95,8 +95,9 @@ pub fn tag_actions(before: &Campaign, after: &mut Campaign, cat: &Catalog) -> Re
                         .as_object()
                         .is_some_and(|effects| !effects.is_empty())
                         || damaging_stats::definition(before, &q.move_name).is_some()
-                        || completion::definition(before, &q.move_name)
-                            .is_some_and(|(kind, _)| ["ongoing", "accuracy"].contains(&kind))
+                        || completion::definition(before, &q.move_name).is_some_and(
+                            |(kind, _)| ["ongoing", "accuracy", "stack-stat"].contains(&kind),
+                        )
                         || chance_status::definition(before, &q.move_name).is_some()
                         || compound::definition(before, &q.move_name).is_some()
                         || items::chance_base(before, fighter(before, &q.actor_id)?, &m) > 0);

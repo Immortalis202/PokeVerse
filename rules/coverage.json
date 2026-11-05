@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.45.0-core",
-  "release": "0.53.0",
-  "protocol": 54,
+  "engine": "0.46.0-core",
+  "release": "0.54.0",
+  "protocol": 55,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -756,6 +756,18 @@
         "completion_a10_tactics_reaction_uses_success_loss_and_live_keen_eye"
       ],
       "scope": "Eleven Accuracy-success reductions, including five exact Chance pools and Spacial Rend minus five. Reduces successes, not pool dice. Strongest loss applies without stacking; scene-local lifecycle, Keen Eye, Clear Amulet, Mirror Armor, decoys, shields and Shield Dust retained. Narrative effects remain GM-managed."
+    },
+    {
+      "id": "move-completion-a11",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A11",
+      "fixtures": [
+        "completion_a11_all_four_explicit_stacks_stop_at_three_and_keep_chance_pools",
+        "completion_a11_stacking_protections_reflection_and_each_simple_increment",
+        "completion_a11_save_and_clear_preserve_named_counters_without_changing_historical_states",
+        "completion_a11_stat_transfer_captures_effective_simple_stacks_once"
+      ],
+      "scope": "Four explicitly stacking stat cards: Sharpen, Syrup Bomb, Luster Purge and Mist Ball. Each named stat effect stacks to three; exact Chance pools, live reflection/protection and standard other-move nonstacking channels remain. Scene-local counters clear with modifiers or departure."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -772,5 +784,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "5776ae3a87cf3cab57b34690e4f1ba74b949f95d2a3ef016dcbedc79196ad051"
+  "move_completion_registry_hash": "51bdb2d24098c8ee395b1ca3f7999dc7dff8ad8b6d683bd6e1f0b014fcf67650"
 }

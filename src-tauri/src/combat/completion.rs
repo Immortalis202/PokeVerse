@@ -42,7 +42,9 @@ pub fn effect_dice(c: &Campaign, q: &QueuedAction) -> Result<Option<u32>> {
     if definition(c, &q.move_name).is_some_and(|(kind, _)| kind == "stat") {
         return damaging_stats::effect_dice(c, q);
     }
-    if let Some(("accuracy", d)) = definition(c, &q.move_name) {
+    if let Some((_, d)) =
+        definition(c, &q.move_name).filter(|(kind, _)| ["accuracy", "stack-stat"].contains(kind))
+    {
         let n = d["dice"].as_u64().unwrap() as u32;
         if n == 0 || q.ice || (provenance::enabled(c) && q.sheer_force) {
             return Ok(Some(0));
@@ -128,6 +130,35 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
         }
         "stat" => {
             return damaging_stats::effect(c, q, _dice, cat);
+        }
+        "stack-stat" => {
+            if !immune_target(c, q, cat)? && !(provenance::enabled(c) && q.sheer_force) {
+                let source = reviewed::source(c, q)?;
+                let target = fighter(c, &q.target_id)?;
+                let chance = d["dice"].as_u64().unwrap() > 0;
+                if !chance
+                    || (_dice.contains(&6)
+                        && !(source.side != target.side
+                            && target.has_ability("Shield Dust")
+                            && !reviewed::extreme(c, &source)))
+                {
+                    let recipient = if d["user"] == true {
+                        &q.actor_id
+                    } else {
+                        &q.target_id
+                    };
+                    for key in d["keys"].as_array().unwrap() {
+                        extra::stack_stat(
+                            c,
+                            &q.actor_id,
+                            recipient,
+                            key.as_str().unwrap(),
+                            d["amount"].as_i64().unwrap() as i32,
+                            &q.move_name,
+                        )?;
+                    }
+                }
+            }
         }
         "accuracy" => {
             accuracy_effect(c, q, d, _dice, cat)?;
@@ -446,4 +477,26 @@ pub fn applied_accuracy_loss(c: &Campaign, id: &str) -> i32 {
     } else {
         accuracy_loss(c, id)
     }
+}
+
+pub fn stack_values(c: &Campaign, p: &Combatant, key: &str) -> Vec<i32> {
+    flow(c).map_or_else(
+        |_| vec![],
+        |f| {
+            f.special
+                .effects
+                .iter()
+                .filter(|e| {
+                    e.target == p.id
+                        && e.slot == "stacking-stat"
+                        && e.name.ends_with(&format!(":{key}"))
+                })
+                .map(|e| match p.ability_for(&["Contrary", "Simple"]) {
+                    "Contrary" => -e.amount,
+                    "Simple" => 2 * e.amount,
+                    _ => e.amount,
+                })
+                .collect()
+        },
+    )
 }
