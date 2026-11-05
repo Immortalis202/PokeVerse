@@ -1140,6 +1140,7 @@ pub fn transition(
     if let Some(setup) = field::start_setup(a) {
         if ![
             ENGINE,
+            TERRAIN_REACTION_ENGINE,
             SPIDER_WEB_ENGINE,
             BATTLEFIELD_SUPPORT_ENGINE,
             PARTNER_MOVES_ENGINE,
@@ -1186,6 +1187,7 @@ pub fn transition(
             setup,
             [
                 ENGINE,
+                TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
                 PARTNER_MOVES_ENGINE,
@@ -3163,6 +3165,7 @@ fn transition_inner(
                 b.flow = Some(TurnFlow {
                     identity_moves: [
                         ENGINE,
+                        TERRAIN_REACTION_ENGINE,
                         SPIDER_WEB_ENGINE,
                         BATTLEFIELD_SUPPORT_ENGINE,
                         PARTNER_MOVES_ENGINE,
@@ -3199,6 +3202,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     status_escalation: [
                         ENGINE,
+                        TERRAIN_REACTION_ENGINE,
                         SPIDER_WEB_ENGINE,
                         BATTLEFIELD_SUPPORT_ENGINE,
                         PARTNER_MOVES_ENGINE,
@@ -3234,6 +3238,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     spite: [
                         ENGINE,
+                        TERRAIN_REACTION_ENGINE,
                         SPIDER_WEB_ENGINE,
                         BATTLEFIELD_SUPPORT_ENGINE,
                         PARTNER_MOVES_ENGINE,
@@ -3268,6 +3273,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     will_drains: [
                         ENGINE,
+                        TERRAIN_REACTION_ENGINE,
                         SPIDER_WEB_ENGINE,
                         BATTLEFIELD_SUPPORT_ENGINE,
                         PARTNER_MOVES_ENGINE,
@@ -3301,6 +3307,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     direct_status: [
                         ENGINE,
+                        TERRAIN_REACTION_ENGINE,
                         SPIDER_WEB_ENGINE,
                         BATTLEFIELD_SUPPORT_ENGINE,
                         PARTNER_MOVES_ENGINE,
@@ -3333,6 +3340,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     chance_status: [
                         ENGINE,
+                        TERRAIN_REACTION_ENGINE,
                         SPIDER_WEB_ENGINE,
                         BATTLEFIELD_SUPPORT_ENGINE,
                         PARTNER_MOVES_ENGINE,
@@ -3364,6 +3372,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     battlefield_review: [
                         ENGINE,
+                        TERRAIN_REACTION_ENGINE,
                         SPIDER_WEB_ENGINE,
                         BATTLEFIELD_SUPPORT_ENGINE,
                         PARTNER_MOVES_ENGINE,
@@ -3391,6 +3400,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     entry_hazards: [
                         ENGINE,
+                        TERRAIN_REACTION_ENGINE,
                         SPIDER_WEB_ENGINE,
                         BATTLEFIELD_SUPPORT_ENGINE,
                         PARTNER_MOVES_ENGINE,
@@ -3418,6 +3428,7 @@ fn transition_inner(
                     damaging_stats: Box::new(damaging_stats::StatMoveState {
                         enabled: [
                             ENGINE,
+                            TERRAIN_REACTION_ENGINE,
                             SPIDER_WEB_ENGINE,
                             BATTLEFIELD_SUPPORT_ENGINE,
                             PARTNER_MOVES_ENGINE,
@@ -3446,6 +3457,7 @@ fn transition_inner(
                     }),
                     cure_protection: [
                         ENGINE,
+                        TERRAIN_REACTION_ENGINE,
                         SPIDER_WEB_ENGINE,
                         BATTLEFIELD_SUPPORT_ENGINE,
                         PARTNER_MOVES_ENGINE,
@@ -3475,6 +3487,7 @@ fn transition_inner(
                     recurring: Box::new(recurring::RecurringState {
                         enabled: [
                             ENGINE,
+                            TERRAIN_REACTION_ENGINE,
                             SPIDER_WEB_ENGINE,
                             BATTLEFIELD_SUPPORT_ENGINE,
                             PARTNER_MOVES_ENGINE,
@@ -3507,6 +3520,7 @@ fn transition_inner(
                     compound: compound::CompoundState {
                         enabled: [
                             ENGINE,
+                            TERRAIN_REACTION_ENGINE,
                             SPIDER_WEB_ENGINE,
                             BATTLEFIELD_SUPPORT_ENGINE,
                             PARTNER_MOVES_ENGINE,
@@ -3539,6 +3553,7 @@ fn transition_inner(
                     },
                     house_rules: [
                         ENGINE,
+                        TERRAIN_REACTION_ENGINE,
                         SPIDER_WEB_ENGINE,
                         BATTLEFIELD_SUPPORT_ENGINE,
                         PARTNER_MOVES_ENGINE,
@@ -3577,6 +3592,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     interaction_rules: [
                         ENGINE,
+                        TERRAIN_REACTION_ENGINE,
                         SPIDER_WEB_ENGINE,
                         BATTLEFIELD_SUPPORT_ENGINE,
                         PARTNER_MOVES_ENGINE,
@@ -3618,6 +3634,7 @@ fn transition_inner(
                     standalone: standalone::StandaloneState {
                         enabled: [
                             ENGINE,
+                            TERRAIN_REACTION_ENGINE,
                             SPIDER_WEB_ENGINE,
                             BATTLEFIELD_SUPPORT_ENGINE,
                             PARTNER_MOVES_ENGINE,
@@ -3662,6 +3679,7 @@ fn transition_inner(
                     information: information::InformationState {
                         enabled: [
                             ENGINE,
+                            TERRAIN_REACTION_ENGINE,
                             SPIDER_WEB_ENGINE,
                             BATTLEFIELD_SUPPORT_ENGINE,
                             PARTNER_MOVES_ENGINE,
@@ -3707,6 +3725,7 @@ fn transition_inner(
                     forms: forms::FormState {
                         enabled: [
                             ENGINE,
+                            TERRAIN_REACTION_ENGINE,
                             SPIDER_WEB_ENGINE,
                             BATTLEFIELD_SUPPORT_ENGINE,
                             PARTNER_MOVES_ENGINE,
@@ -3754,6 +3773,7 @@ fn transition_inner(
                         completion: items::completion::CompletionState {
                             enabled: [
                                 ENGINE,
+                                TERRAIN_REACTION_ENGINE,
                                 SPIDER_WEB_ENGINE,
                                 BATTLEFIELD_SUPPORT_ENGINE,
                                 PARTNER_MOVES_ENGINE,
@@ -3795,6 +3815,7 @@ fn transition_inner(
                         },
                         enabled: [
                             ENGINE,
+                            TERRAIN_REACTION_ENGINE,
                             SPIDER_WEB_ENGINE,
                             BATTLEFIELD_SUPPORT_ENGINE,
                             PARTNER_MOVES_ENGINE,
@@ -3842,6 +3863,7 @@ fn transition_inner(
                     events: events::EventState {
                         enabled: [
                             ENGINE,
+                            TERRAIN_REACTION_ENGINE,
                             SPIDER_WEB_ENGINE,
                             BATTLEFIELD_SUPPORT_ENGINE,
                             PARTNER_MOVES_ENGINE,
@@ -3889,6 +3911,7 @@ fn transition_inner(
                     },
                     provenance_rules: [
                         ENGINE,
+                        TERRAIN_REACTION_ENGINE,
                         SPIDER_WEB_ENGINE,
                         BATTLEFIELD_SUPPORT_ENGINE,
                         PARTNER_MOVES_ENGINE,
@@ -3936,6 +3959,7 @@ fn transition_inner(
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            TERRAIN_REACTION_ENGINE,
                             SPIDER_WEB_ENGINE,
                             BATTLEFIELD_SUPPORT_ENGINE,
                             PARTNER_MOVES_ENGINE,
@@ -3986,6 +4010,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            TERRAIN_REACTION_ENGINE,
                             SPIDER_WEB_ENGINE,
                             BATTLEFIELD_SUPPORT_ENGINE,
                             PARTNER_MOVES_ENGINE,
@@ -4036,6 +4061,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        TERRAIN_REACTION_ENGINE,
                         SPIDER_WEB_ENGINE,
                         BATTLEFIELD_SUPPORT_ENGINE,
                         PARTNER_MOVES_ENGINE,
@@ -4086,6 +4112,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            TERRAIN_REACTION_ENGINE,
                             SPIDER_WEB_ENGINE,
                             BATTLEFIELD_SUPPORT_ENGINE,
                             PARTNER_MOVES_ENGINE,
@@ -4139,6 +4166,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            TERRAIN_REACTION_ENGINE,
                             SPIDER_WEB_ENGINE,
                             BATTLEFIELD_SUPPORT_ENGINE,
                             PARTNER_MOVES_ENGINE,
@@ -4193,6 +4221,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            TERRAIN_REACTION_ENGINE,
                             SPIDER_WEB_ENGINE,
                             BATTLEFIELD_SUPPORT_ENGINE,
                             PARTNER_MOVES_ENGINE,
@@ -4248,6 +4277,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            TERRAIN_REACTION_ENGINE,
                             SPIDER_WEB_ENGINE,
                             BATTLEFIELD_SUPPORT_ENGINE,
                             PARTNER_MOVES_ENGINE,
@@ -4304,6 +4334,7 @@ fn transition_inner(
                     special: Box::new(special::SpecialState {
                         enabled: [
                             ENGINE,
+                            TERRAIN_REACTION_ENGINE,
                             SPIDER_WEB_ENGINE,
                             BATTLEFIELD_SUPPORT_ENGINE,
                             PARTNER_MOVES_ENGINE,
@@ -4360,6 +4391,7 @@ fn transition_inner(
                     }),
                     ability_rules: [
                         ENGINE,
+                        TERRAIN_REACTION_ENGINE,
                         SPIDER_WEB_ENGINE,
                         BATTLEFIELD_SUPPORT_ENGINE,
                         PARTNER_MOVES_ENGINE,
@@ -4418,6 +4450,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            TERRAIN_REACTION_ENGINE,
                             SPIDER_WEB_ENGINE,
                             BATTLEFIELD_SUPPORT_ENGINE,
                             PARTNER_MOVES_ENGINE,
@@ -4476,6 +4509,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            TERRAIN_REACTION_ENGINE,
                             SPIDER_WEB_ENGINE,
                             BATTLEFIELD_SUPPORT_ENGINE,
                             PARTNER_MOVES_ENGINE,

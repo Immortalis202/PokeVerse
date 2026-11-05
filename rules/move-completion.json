@@ -1385,6 +1385,21 @@
           "reaction_terrain": "Grassy Terrain"
         }
       }
+    },
+    "MOVE-A24": {
+      "engine": "0.59.0-core",
+      "kind": "history-gated",
+      "scope": "First Impression is allowed only in the first round its deployed user can act: max(saved deployment round, available_round). User ruling 5 November 2026. Actual deployment history is saved; missed eligibility does not postpone the window. Reaction 2 remains. Missing saved entry history requires explicit review; historical encounters retain their prior manual scope.",
+      "moves": {
+        "First Impression": {
+          "source": "Pokerole-Data/v3.0/Moves/First Impression.json",
+          "sha256": "a5292af54047c7072d51b11dbf6809c8244a7d59eb2143fa2be2d5e0fd1c1eee",
+          "effect": "Single Target. Reaction 2. This Move will only work on the First Round the User is out in battle. From the second round on, it will fail automatically.",
+          "mode": "first-eligible",
+          "requires_input": true,
+          "ruling": "User chose first round it can act, 5 November 2026."
+        }
+      }
     }
   },
   "printed_review": {

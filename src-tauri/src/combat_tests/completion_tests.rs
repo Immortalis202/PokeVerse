@@ -3536,3 +3536,163 @@ fn completion_a23_grassy_glide_conditional_priority_uses_live_field_scope_and_cl
         "historical encounters retain raw printed metadata behavior"
     );
 }
+
+#[test]
+fn completion_a24_first_impression_uses_eligible_round_after_switch_and_reentry() {
+    let (mut c, a, t) = setup("First Impression");
+    let incoming = reserve(&mut c, &a);
+    let deployed = c.battle.as_ref().unwrap().round;
+    c = spider_switch(&c, &a, &incoming, false);
+    assert_eq!(
+        c.battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .completion
+            .entered[&incoming],
+        deployed
+    );
+    assert_eq!(p(&c, &incoming).available_round, deployed + 1);
+    let action = super::targeting_tests::attack(&incoming, vec![t.clone()], "First Impression");
+    assert!(
+        battle::transition(&c, "gm", &action, vec![], &catalog()).is_err(),
+        "incoming cannot act on deployment round"
+    );
+    c = round_end(&c);
+    turn(&mut c, &incoming, "First Impression");
+    let queued = ordinary_accuracy(&c, &incoming, &t, "First Impression");
+    let mut c = roll(&queued, "gm", &damage_command(&queued), 1);
+    assert!(c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .queue
+        .is_empty());
+    // This is a round restriction, not a once-per-deployment use restriction.
+    turn(&mut c, &incoming, "First Impression");
+    assert!(rules::dice_count(&c, &action, &catalog()).is_ok());
+    c = round_end(&c);
+    turn(&mut c, &incoming, "First Impression");
+    assert!(battle::transition(&c, "gm", &action, vec![], &catalog()).is_err());
+    c = spider_switch(&c, &incoming, &a, false);
+    c = round_end(&c);
+    c = spider_switch(&c, &a, &incoming, false);
+    c = round_end(&c);
+    turn(&mut c, &incoming, "First Impression");
+    let c = ordinary_accuracy(&c, &incoming, &t, "First Impression");
+    assert_eq!(q(&c).move_name, "First Impression");
+}
+#[test]
+fn completion_a24_first_impression_starting_participant_missing_history_and_initial_flow() {
+    let (mut c, a, t) = setup("First Impression");
+    let queued = ordinary_accuracy(&c, &a, &t, "First Impression");
+    assert_eq!(q(&queued).move_name, "First Impression");
+    c = round_end(&c);
+    turn(&mut c, &a, "First Impression");
+    let action = super::targeting_tests::attack(&a, vec![t.clone()], "First Impression");
+    assert!(
+        battle::transition(&c, "gm", &action, vec![], &catalog()).is_err(),
+        "waiting does not defer the first eligible round"
+    );
+    let (mut c, a, t) = setup("First Impression");
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .completion
+        .entered
+        .clear();
+    let action = super::targeting_tests::attack(&a, vec![t.clone()], "First Impression");
+    assert_eq!(
+        battle::transition(&c, "gm", &action, vec![], &catalog())
+            .unwrap_err()
+            .code,
+        "manual_rule"
+    );
+    let mut before = c.clone();
+    before.battle.as_mut().unwrap().flow = None;
+    completion::observe(&before, &mut c, &catalog()).unwrap();
+    assert_eq!(
+        c.battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .completion
+            .entered[&a],
+        c.battle.as_ref().unwrap().round
+    );
+    let saved: Campaign = serde_json::from_str(&serde_json::to_string(&c).unwrap()).unwrap();
+    assert!(rules::dice_count(&saved, &action, &catalog()).is_ok());
+    let (mut c, a, t) = setup("First Impression");
+    c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
+        Box::new(completion::initial(TERRAIN_REACTION_ENGINE));
+    let c = pending(&c, &a, &t, "First Impression");
+    assert_eq!(
+        battle::transition(&c, "gm", &cmd(&c), vec![], &catalog())
+            .unwrap_err()
+            .code,
+        "manual_rule"
+    );
+}
+#[test]
+fn completion_a24_first_impression_reaction_two_uses_the_same_eligible_round_guard() {
+    use crate::combat::tactics::TacticsCommand;
+    let (mut c, a, t) = setup("Tackle");
+    let incoming = reserve(&mut c, &t);
+    let sid = p(&c, &incoming).sheet_id.clone();
+    c.sheets
+        .get_mut(&sid)
+        .unwrap()
+        .moves
+        .push("First Impression".into());
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .tactics
+        .enabled = true;
+    c = spider_switch(&c, &t, &incoming, false);
+    c = round_end(&c);
+    turn(&mut c, &a, "Tackle");
+    c = roll(
+        &c,
+        "gm",
+        &super::targeting_tests::attack(&a, vec![incoming.clone()], "Tackle"),
+        6,
+    );
+    let action = Action::Tactics {
+        command: TacticsCommand::Reaction {
+            combatant_id: incoming.clone(),
+            move_name: "First Impression".into(),
+            target_ids: vec![a.clone()],
+        },
+        reason: "First eligible round reaction".into(),
+    };
+    let reacted = roll(&c, "gm", &action, 6);
+    assert_eq!(q(&reacted).priority, 2);
+    assert_eq!(q(&reacted).actor_id, incoming);
+    while c.battle.as_ref().unwrap().flow.as_ref().unwrap().window {
+        c = pass(&c);
+    }
+    c = roll(&c, "gm", &damage_command(&c), 1);
+    c = round_end(&c);
+    turn(&mut c, &a, "Tackle");
+    c = roll(
+        &c,
+        "gm",
+        &super::targeting_tests::attack(&a, vec![incoming], "Tackle"),
+        6,
+    );
+    assert!(battle::transition(&c, "gm", &action, vec![], &catalog()).is_err());
+}

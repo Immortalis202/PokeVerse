@@ -1,8 +1,8 @@
 {
   "version": 1,
   "date": "2026-11-05",
-  "release": "0.66.0",
-  "engine": "0.58.0-core",
+  "release": "0.67.0",
+  "engine": "0.59.0-core",
   "scope": "892-card effect-route inventory; focused semantic review of status infliction, cure and protection clauses. M2-A through M2-E battle status clauses and MOVE-A01 damaging attribute clauses plus MOVE-A02 entry hazards delivered; see scoped registries and retained choices.",
   "limits": [
     "An executable route is not full card coverage.",
@@ -21,8 +21,8 @@
       "excluded": 38,
       "executable-scope": 704,
       "gm-choice": 1,
-      "input-required": 15,
-      "manual-effect-route": 134
+      "input-required": 16,
+      "manual-effect-route": 133
     },
     "status_clauses": {
       "excluded": 6,
@@ -13474,21 +13474,28 @@
       },
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "input-required",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A24: First Impression is allowed only in the first round its deployed user can act: max(saved deployment round, available_round). User ruling 5 November 2026. Actual deployment history is saved; missed eligibility does not postpone the window. Reaction 2 remains. Missing saved entry history requires explicit review; historical encounters retain their prior manual scope.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
           "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
+          "message": "First Impression requires recorded deployment history to determine its first eligible round",
           "result": "route_error"
         },
         "baseline": {
           "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
+          "message": "First Impression requires recorded deployment history to determine its first eligible round",
           "result": "route_error"
         }
       }

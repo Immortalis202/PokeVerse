@@ -1,5 +1,5 @@
 {
-  "engine": "0.58.0-core",
+  "engine": "0.59.0-core",
   "moves": [
     {
       "catalog_attributes": {},
@@ -7250,12 +7250,12 @@
       "scenarios": {
         "ailments": {
           "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
+          "message": "First Impression requires recorded deployment history to determine its first eligible round",
           "result": "route_error"
         },
         "baseline": {
           "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
+          "message": "First Impression requires recorded deployment history to determine its first eligible round",
           "result": "route_error"
         }
       }
@@ -25003,7 +25003,7 @@
       }
     }
   ],
-  "release": "0.66.0",
+  "release": "0.67.0",
   "scenario": "baseline and synthetic Burn2/Poison/Paralysis/Sleep profiles; effect phase only; wounded participants; no abilities, shields or decoys; all chance dice six; no GM selections/history; current gates enabled",
   "warning": "A resolved route is not proof that every card clause is implemented. Errors may be legitimate input requirements."
 }

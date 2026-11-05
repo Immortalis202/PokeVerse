@@ -1,6 +1,6 @@
 # Move-effect audit: milestone 1
 
-Snapshot refreshed: 5 November 2026, app **0.66.0**, engine **0.58.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
+Snapshot refreshed: 5 November 2026, app **0.67.0**, engine **0.59.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
 
 ## Deliverables and limits
 
@@ -19,12 +19,12 @@ The diagnostic deliberately bypasses accuracy, damage, targeting expansion, acti
 | Effect-route result | Cards | Meaning |
 | --- | ---: | --- |
 | executable-scope | 704 | At least one probe resolves; only recorded scopes are asserted. |
-| input-required | 15 | Existing handler requests a selection, resource, weather or other legitimate prerequisite. |
-| manual-effect-route | 134 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
+| input-required | 16 | Existing handler requests a selection, resource, weather or other legitimate prerequisite. |
+| manual-effect-route | 133 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
 | gm-choice | 1 | Hold Hands: narrative battle-ending decision remains with the storyteller. |
 | excluded | 38 | Supplied Max/Z cards and the user-excluded Sappy Seed. |
 
-These totals sum to 892. **134 manual-effect-route results remain after MOVE-A23. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
+These totals sum to 892. **133 manual-effect-route results remain after MOVE-A24. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
 
 | Focused status result | Cards |
 | --- | ---: |
@@ -193,7 +193,7 @@ A six triggers the single printed Chance pool. Serene Grace, Wonder Skin, Loaded
 
 New 0.36.0-core encounters enable the boxed `damaging_stats` state. Missing saved state defaults disabled; 0.35.0-core remains accepted with its previous M3 behavior. Protocol 45 carries the new state. App version is 0.44.0.
 
-**The whole move catalog is not complete.** The 134 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
+**The whole move catalog is not complete.** The 133 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
 
 
 ### MOVE-A01 verification (1 November 2026)
@@ -342,7 +342,7 @@ Validation covers all three public effect paths, legal/illegal categories, four-
 
 Disable selects the target's last recorded Pokémon move, replaces any prior disabled move on that target, and rejects declaration when no prior move exists. Torment dynamically prevents the target's previous-round moves for four rounds. Blood Moon and Gigaton Hammer reject use after any previous-round attempt, including a failed Clash, and become usable after a gap. Gigaton Hammer's optional Steel-target bonus remains an explicit GM damage-pool modifier with a reason.
 
-Accepted Pokémon move attempts and actual deployment rounds are saved in the completion state and restored by undo. Typeless Maneuvers are separate. Old states default empty and historical encounters adopt none of these rules. Disable is correctly classified as input-required in the deliberately history-free diagnostic, rather than pretending its prerequisite exists. First Impression remains pending the user ruling on deployment round versus first eligible action round; normal switches deploy now but prohibit acting until the following round.
+Accepted Pokémon move attempts and actual deployment rounds are saved in the completion state and restored by undo. Typeless Maneuvers are separate. Old states default empty and historical encounters adopt none of these rules. Disable is correctly classified as input-required in the deliberately history-free diagnostic, rather than pretending its prerequisite exists. First Impression was deferred at this block and is delivered in MOVE-A24 using the user-confirmed first eligible action round. Normal switches deploy now but prohibit acting until the following round.
 
 Validation covers all four moves through public commands, declaration prerequisites, replacement, moving previous-round sets, failed Clash history, gaps, serialization, undo, missing historical state and actual switch deployment/availability clocks. Completion/stat/transfer regressions, adjacent status/field clocks, gates, 126 exports, route inventory, frontend/script tests, TypeScript and formatting passed. App 0.59.0, engine 0.51.0-core, protocol 60.
 
@@ -402,3 +402,12 @@ Validation covers public casting and switching, both sides, current occupants/ne
 Behemoth Bash, Behemoth Blade and Dynamax Cannon now finish ordinary battle damage, retaining their existing printed attributes. Dynamax/Gigantamax bonuses and lethal wounds remain explicitly excluded. Grassy Glide now has Reaction 1 only while Grassy Terrain applies to its user; raw metadata previously granted it unconditionally. The same resolved metadata enters public reaction validation. Historical encounters retain prior behavior.
 
 Validation covers all four public damage paths, exact base Power, completion and historical fallback; live Grassy Terrain side scope, expiry, public Reaction acceptance/rejection and priority. All 75 completion tests, entry-hazard/targeting/stat/item/field regressions, bindings, route inventory, 76 frontend tests, 54 script checks, TypeScript and formatting passed. A final audit-document newline issue was normalized before the final diff check. App 0.66.0, engine 0.58.0-core, protocol 67.
+
+
+### MOVE-A24: First Impression eligibility (5 November 2026)
+
+The user confirmed that First Impression works during the first round the deployed user can act. Its guard compares the current round with max(saved deployment round, available_round). Normal switch-ins therefore get their opportunity next round. Waiting beyond that eligible round does not postpone the opportunity; re-entry starts a new deployment window. The restriction applies equally to ordinary attacks and Reaction 2, and does not invent a once-per-deployment use limit.
+
+Initial flow creation now records starting participants as well as subsequent deployments. Entry history is saved and restored with battle state; a missing entry requires review rather than silently guessing. Historical encounters retain their prior behavior. The history-free route diagnostic requests the missing context explicitly.
+
+Validation covers starting participants, normal switching, first eligible versus deployment rounds, missed windows, re-entry, Reaction 2, serialization, missing history, initial flow observation and historical fallback. All 78 completion tests, adjacent regressions, bindings, route inventory, 76 frontend tests, 54 script checks, TypeScript and formatting passed. The full Rust suite passed with localhost networking: 897 passed, one ignored route inventory test; that inventory passed separately. Generated bindings were normalized and TypeScript/format/diff checks passed afterward. App 0.67.0, engine 0.59.0-core, protocol 68.

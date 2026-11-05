@@ -29,8 +29,9 @@ The live source of remaining route work is `rules/move-effect-audit.json`. Its f
 | MOVE-A21 | Tailwind and Fairy Lock battlefield effects | Complete |
 | MOVE-A22 | Spider Web entry Blocking and hazard cleanup | Complete |
 | MOVE-A23 | Three ordinary attack completions and conditional Grassy Glide Reaction | Complete |
-| MOVE-A24 | First Impression uses the first eligible action round (user ruling) | Next |
-| First Impression | Deployment round versus first eligible action round | Awaiting user ruling; other blocks continue |
+| MOVE-A24 | First Impression uses the first eligible action round (user ruling) | Complete |
+| MOVE-A25 | Aura Wheel Dexterity and existing Hunger Switch typing | Next |
+| First Impression ruling | First eligible action round, confirmed by the user on 5 November 2026 | Implemented in MOVE-A24 |
 | Later blocks | Ordinary attacks with existing attributes; remaining stat changes, resets and swaps; type/damage conversions; field changes; conditional damage; timing/action restrictions; items; copy/selection effects | Open |
 
 New block adoption is persisted in `TurnFlow.completion.blocks`. Every release records its engine in `rules/move-completion.json`; historical saves adopt no additional blocks automatically. The shared special-effect state is boxed while preserving its JSON shape to keep transition stack usage bounded.

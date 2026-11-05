@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.58.0-core",
-  "release": "0.66.0",
-  "protocol": 67,
+  "engine": "0.59.0-core",
+  "release": "0.67.0",
+  "protocol": 68,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -908,6 +908,17 @@
         "completion_a23_grassy_glide_conditional_priority_uses_live_field_scope_and_clock"
       ],
       "scope": "Complete ordinary Behemoth Bash, Behemoth Blade and Dynamax Cannon damage with their existing printed attributes; Dynamax/Gigantamax bonuses and lethal wounds remain excluded. Grassy Glide gains its printed Reaction 1 only while applicable Grassy Terrain is active, then finishes after ordinary damage."
+    },
+    {
+      "id": "move-completion-a24",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A24",
+      "fixtures": [
+        "completion_a24_first_impression_uses_eligible_round_after_switch_and_reentry",
+        "completion_a24_first_impression_starting_participant_missing_history_and_initial_flow",
+        "completion_a24_first_impression_reaction_two_uses_the_same_eligible_round_guard"
+      ],
+      "scope": "First Impression is allowed only in the first round its deployed user can act: max(saved deployment round, available_round). User ruling 5 November 2026. Actual deployment history is saved; missed eligibility does not postpone the window. Reaction 2 remains. Missing saved entry history requires explicit review; historical encounters retain their prior manual scope."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -924,5 +935,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "a3b060cff9a572b7958d7c44393633858a8ac9910a071478955914482f892ed8"
+  "move_completion_registry_hash": "8bc4b0cb67fc184b7a93d3efc1d74210f7f81b6ffdfc905f57cd51c7be9d9022"
 }

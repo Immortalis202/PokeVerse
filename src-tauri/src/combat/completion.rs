@@ -888,13 +888,17 @@ pub fn observe(before: &Campaign, next: &mut Campaign, cat: &Catalog) -> Result<
     }
     let old = before.battle.as_ref().filter(|b| b.id == after.id);
     let round = after.round;
+    let initial_entry =
+        flow(next)?.completion.blocks.contains("MOVE-A24") && old.is_none_or(|b| b.flow.is_none());
     let entered: Vec<String> = after
         .combatants
         .iter()
         .filter(|p| {
             p.deployed
                 && p.hp > 0
-                && !old.is_some_and(|b| b.combatants.iter().any(|v| v.id == p.id && v.deployed))
+                && (initial_entry
+                    || !old
+                        .is_some_and(|b| b.combatants.iter().any(|v| v.id == p.id && v.deployed)))
         })
         .map(|p| p.id.clone())
         .collect();
@@ -930,6 +934,12 @@ fn history_guard(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> Result<(
     let Some(("history-gated", d)) = definition(c, m["Name"].as_str().unwrap_or("")) else {
         return Ok(());
     };
+    if d["mode"] == "first-eligible" {
+        let entered=flow(c)?.completion.entered.get(&p.id).copied().ok_or_else(||AppError::new("manual_rule","First Impression requires recorded deployment history to determine its first eligible round"))?;
+        if battle(c)?.round != entered.max(p.available_round) {
+            return Err(error("First Impression works only during the first round its user can act after deployment"));
+        }
+    }
     match d["mode"].as_str().unwrap() {
         "previous-round"
             if flow(c)?.completion.uses.iter().any(|u| {
@@ -962,6 +972,10 @@ fn history_effect(
     cat: &Catalog,
 ) -> Result<()> {
     let mode = d["mode"].as_str().unwrap();
+    if mode == "first-eligible" {
+        return history_guard(c, fighter(c, &q.actor_id)?, &move_entry(cat, &q.move_name)?);
+    }
+
     if !["disable", "torment"].contains(&mode) || immune_target(c, q, cat)? {
         return Ok(());
     }

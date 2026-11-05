@@ -289,6 +289,7 @@ async fn host_room(
         if c.host_id() != store.player_id
             || ![
                 ENGINE,
+                TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
                 PARTNER_MOVES_ENGINE,
