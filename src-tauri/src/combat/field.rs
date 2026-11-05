@@ -531,6 +531,14 @@ pub fn types(c: &Campaign, p: &Combatant, cat: &Catalog) -> Result<Vec<String>> 
     }
     live_types(c, p, cat)
 }
+
+pub fn cached_types(c: &Campaign, p: &Combatant) -> Vec<String> {
+    frozen(c)
+        .and_then(|f| f.types.get(&p.id))
+        .or_else(|| state(c).and_then(|f| f.species_types.get(&p.id)))
+        .cloned()
+        .unwrap_or_default()
+}
 pub fn live_types(c: &Campaign, p: &Combatant, cat: &Catalog) -> Result<Vec<String>> {
     let s = &c.sheets[&p.sheet_id];
     if s.kind != "pokemon" {
@@ -905,7 +913,7 @@ pub fn bonus(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> i32 {
     if enabled(c) && m["Name"] == "Weather Ball" && weather(c, Some(p)).is_some() {
         n += 2;
     }
-    n
+    n + completion::damage_bonus(c, p, m)
 }
 pub fn reduction(
     c: &Campaign,
@@ -1965,7 +1973,7 @@ pub fn move_data(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> serde_js
             m["Type"] = serde_json::json!(t);
         }
     }
-    completion::move_data(c, &mut m);
+    completion::move_data(c, p, &mut m);
     extra::move_data(c, p, &mut m);
     special::move_data(c, p, &mut m);
     compound::move_data(c, p, &mut m);

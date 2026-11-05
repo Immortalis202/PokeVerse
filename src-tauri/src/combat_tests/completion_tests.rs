@@ -1693,3 +1693,171 @@ fn completion_a12_immunity_and_sheer_force_preserve_terrain_when_effect_is_block
         .is_empty());
     assert!(field::has(&c, "Grassy Terrain", p(&c, &a)));
 }
+fn refresh_field(c: &mut Campaign) {
+    let before = c.clone();
+    crate::combat::field::lifecycle(&before, c, &catalog()).unwrap();
+}
+#[test]
+fn completion_a13_source_type_attacks_use_current_main_or_secondary_type_with_stab() {
+    use crate::combat::field;
+    for name in [
+        "Ivy Cudgel",
+        "Raging Bull",
+        "Multi-Attack",
+        "Revelation Dance",
+    ] {
+        let (mut c, a, t) = setup(name);
+        set_species(&mut c, &a, "Charizard");
+        set_species(&mut c, &t, "Mawile");
+        refresh_field(&mut c);
+        let secondary = ["Ivy Cudgel", "Raging Bull"].contains(&name);
+        let m = catalog().find("moves", "Name", name).unwrap();
+        let resolved = field::move_data(&c, p(&c, &a), &m);
+        assert_eq!(
+            resolved["Type"],
+            if secondary { "Flying" } else { "Fire" },
+            "{name}"
+        );
+        let queued = ordinary_accuracy(&c, &a, &t, name);
+        let pool = queued_damage_pool(&queued);
+        assert_eq!(pool.stab, 1, "{name}");
+        assert_eq!(pool.effectiveness, if secondary { -1 } else { 1 }, "{name}");
+        let after = roll(&queued, "gm", &damage_command(&queued), 1);
+        assert!(after
+            .battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .queue
+            .is_empty());
+        set_species(&mut c, &a, "Eevee");
+        refresh_field(&mut c);
+        assert_eq!(
+            field::move_data(&c, p(&c, &a), &m)["Type"],
+            "Normal",
+            "{name} single-type fallback"
+        );
+        let command = Action::Battlefield {
+            command: field::FieldCommand::Typing {
+                combatant_id: a.clone(),
+                mode: "replace".into(),
+                types: vec!["Water".into(), "Electric".into()],
+            },
+            reason: "Confirm current battle typing".into(),
+        };
+        let c = decision(&c, "gm", command);
+        assert_eq!(
+            field::move_data(&c, p(&c, &a), &m)["Type"],
+            if secondary { "Electric" } else { "Water" }
+        );
+    }
+}
+#[test]
+fn completion_a13_terrain_pulse_and_psyblade_use_exact_context_bonuses() {
+    use crate::combat::field;
+    for (terrain, tpe) in [
+        ("Electric Terrain", "Electric"),
+        ("Grassy Terrain", "Grass"),
+        ("Misty Terrain", "Fairy"),
+        ("Psychic Terrain", "Psychic"),
+    ] {
+        let (mut c, a, t) = setup("Terrain Pulse");
+        let scope = format!("side:{}", p(&c, &a).side);
+        saved_field_rule(&mut c, terrain, "context-fixture", &scope, Some(4), 0);
+        refresh_field(&mut c);
+        let m = catalog().find("moves", "Name", "Terrain Pulse").unwrap();
+        let m = field::move_data(&c, p(&c, &a), &m);
+        assert_eq!(m["Type"], tpe);
+        let mut control = m.clone();
+        control["Name"] = "Terrain control".into();
+        assert_eq!(
+            field::bonus(&c, p(&c, &a), &m) - field::bonus(&c, p(&c, &a), &control),
+            2
+        );
+        let after = pending(&c, &a, &t, "Terrain Pulse");
+        assert!(after
+            .battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .queue
+            .is_empty());
+    }
+    let (mut c, a, t) = setup("Psyblade");
+    let m = catalog().find("moves", "Name", "Psyblade").unwrap();
+    assert_eq!(completion::damage_bonus(&c, p(&c, &a), &m), 0);
+    let scope = format!("side:{}", p(&c, &t).side);
+    saved_field_rule(
+        &mut c,
+        "Electric Terrain",
+        "context-fixture",
+        &scope,
+        Some(4),
+        0,
+    );
+    assert_eq!(
+        completion::damage_bonus(&c, p(&c, &a), &m),
+        0,
+        "opposing terrain does not reach user"
+    );
+    saved_field_rule(
+        &mut c,
+        "Electric Terrain",
+        "context-fixture",
+        "all",
+        Some(4),
+        0,
+    );
+    assert_eq!(completion::damage_bonus(&c, p(&c, &a), &m), 2);
+    let after = pending(&c, &a, &t, "Psyblade");
+    assert!(after
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .queue
+        .is_empty());
+}
+#[test]
+fn completion_a13_acrobatics_uses_held_item_presence_and_old_encounters_keep_original_type() {
+    use crate::combat::{field, items};
+    let (mut c, a, t) = setup("Acrobatics");
+    let m = catalog().find("moves", "Name", "Acrobatics").unwrap();
+    assert_eq!(completion::damage_bonus(&c, p(&c, &a), &m), 0);
+    let sid = p(&c, &a).sheet_id.clone();
+    let mut s = c.sheets[&sid].clone();
+    s.inventory.insert("Leftovers".into(), 1);
+    c.sheets.insert(
+        sid,
+        items::equip(&s, "Leftovers", "acrobatics-item", &catalog()).unwrap(),
+    );
+    let f = c.battle.as_mut().unwrap().flow.as_mut().unwrap();
+    f.items.enabled = true;
+    f.items.completion.enabled = true;
+    items::initialize(&mut c, &catalog()).unwrap();
+    items::completion::initialize(&mut c, &catalog());
+    assert_eq!(completion::damage_bonus(&c, p(&c, &a), &m), -2);
+    let after = pending(&c, &a, &t, "Acrobatics");
+    assert!(after
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .queue
+        .is_empty());
+    let (mut c, a, _) = setup("Revelation Dance");
+    set_species(&mut c, &a, "Charizard");
+    refresh_field(&mut c);
+    c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
+        Box::new(completion::initial(FIELD_CLEANSE_MOVES_ENGINE));
+    let m = catalog().find("moves", "Name", "Revelation Dance").unwrap();
+    assert_eq!(field::move_data(&c, p(&c, &a), &m)["Type"], m["Type"]);
+}

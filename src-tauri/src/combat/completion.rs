@@ -132,7 +132,7 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
         return Ok(false);
     };
     match kind {
-        "ordinary" | "damage-rules" => {}
+        "ordinary" | "damage-rules" | "damage-context" => {}
         "support-stat" => {
             support_stat(c, q, d, cat)?;
         }
@@ -361,7 +361,8 @@ pub fn cleanse(c: &mut Campaign, id: &str) {
 }
 
 pub fn ordinary(c: &Campaign, name: &str) -> bool {
-    definition(c, name).is_some_and(|(kind, _)| ["ordinary", "damage-rules"].contains(&kind))
+    definition(c, name)
+        .is_some_and(|(kind, _)| ["ordinary", "damage-rules", "damage-context"].contains(&kind))
 }
 
 pub fn excludes_self(c: &Campaign, name: &str) -> bool {
@@ -425,7 +426,8 @@ pub fn physical_defense(c: &Campaign, m: &serde_json::Value) -> bool {
     definition(c, m["Name"].as_str().unwrap_or(""))
         .is_some_and(|(_, d)| d["physical_defense"] == true)
 }
-pub fn move_data(c: &Campaign, m: &mut serde_json::Value) {
+pub fn move_data(c: &Campaign, p: &Combatant, m: &mut serde_json::Value) {
+    contextual_type(c, p, m);
     if definition(c, m["Name"].as_str().unwrap_or(""))
         .is_some_and(|(_, d)| d["ignore_defense"] == true)
     {
@@ -540,4 +542,57 @@ pub fn guard_move(c: &Campaign, m: &serde_json::Value) -> Result<()> {
         return Err(error("Steel Roller requires an active Terrain"));
     }
     Ok(())
+}
+
+fn terrain_type(c: &Campaign, p: &Combatant) -> Option<&'static str> {
+    flow(c)
+        .ok()?
+        .battlefield
+        .rules
+        .iter()
+        .rev()
+        .filter(|r| field::applies(&r.scope, p))
+        .find_map(|r| match r.kind.as_str() {
+            "Electric Terrain" => Some("Electric"),
+            "Grassy Terrain" => Some("Grass"),
+            "Misty Terrain" => Some("Fairy"),
+            "Psychic Terrain" => Some("Psychic"),
+            _ => None,
+        })
+}
+fn contextual_type(c: &Campaign, p: &Combatant, m: &mut serde_json::Value) {
+    let Some((_, d)) = definition(c, m["Name"].as_str().unwrap_or("")) else {
+        return;
+    };
+    if let Some(choice) = d["source_type"].as_str() {
+        let types = field::cached_types(c, p);
+        if let Some(t) = if choice == "secondary" {
+            types.get(1).or(types.first())
+        } else {
+            types.first()
+        } {
+            m["Type"] = t.clone().into();
+        }
+    }
+    if d["terrain_type"] == true {
+        if let Some(t) = terrain_type(c, p) {
+            m["Type"] = t.into();
+        }
+    }
+}
+pub fn damage_bonus(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> i32 {
+    let Some((_, d)) = definition(c, m["Name"].as_str().unwrap_or("")) else {
+        return 0;
+    };
+    let mut n = 0;
+    if terrain_type(c, p).is_some() {
+        n += d["terrain_bonus"].as_i64().unwrap_or(0) as i32;
+    }
+    if field::has(c, "Electric Terrain", p) {
+        n += d["electric_terrain_bonus"].as_i64().unwrap_or(0) as i32;
+    }
+    if !items::held(c, &p.id).is_empty() {
+        n += d["held_penalty"].as_i64().unwrap_or(0) as i32;
+    }
+    n
 }

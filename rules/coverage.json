@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.47.0-core",
-  "release": "0.55.0",
-  "protocol": 56,
+  "engine": "0.48.0-core",
+  "release": "0.56.0",
+  "protocol": 57,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -780,6 +780,17 @@
         "completion_a12_immunity_and_sheer_force_preserve_terrain_when_effect_is_blocked"
       ],
       "scope": "Rapid Spin raises user Dexterity and clears its ongoing damage/Leech Seed and its side hazards/terrains. Ice Spinner and Steel Roller remove active terrains; Steel Roller requires a terrain at declaration. Cleanup retains opposing side effects and pure scene Blocking, including shared/global scopes."
+    },
+    {
+      "id": "move-completion-a13",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A13",
+      "fixtures": [
+        "completion_a13_source_type_attacks_use_current_main_or_secondary_type_with_stab",
+        "completion_a13_terrain_pulse_and_psyblade_use_exact_context_bonuses",
+        "completion_a13_acrobatics_uses_held_item_presence_and_old_encounters_keep_original_type"
+      ],
+      "scope": "Seven source/context attacks. Current source main/secondary typing determines four move types; Terrain Pulse takes the active applicable terrain type and two dice; Psyblade gains two dice in Electric Terrain; Acrobatics loses two pool dice while holding an item. Existing STAB, immunity, resistance, snapshots and ability conversions retained."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -796,5 +807,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "6ce61277c090fea37a6cb1059a2b65389b858fe09a9978924a81f933ef0c2333"
+  "move_completion_registry_hash": "4a09e031bffd6c8d01a09a307344deca0417ce975794385f42396a0093053293"
 }

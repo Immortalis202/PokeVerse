@@ -1,6 +1,6 @@
 # Move-effect audit: milestone 1
 
-Snapshot refreshed: 5 November 2026, app **0.55.0**, engine **0.47.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
+Snapshot refreshed: 5 November 2026, app **0.56.0**, engine **0.48.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
 
 ## Deliverables and limits
 
@@ -18,13 +18,13 @@ The diagnostic deliberately bypasses accuracy, damage, targeting expansion, acti
 
 | Effect-route result | Cards | Meaning |
 | --- | ---: | --- |
-| executable-scope | 660 | At least one probe resolves; only recorded scopes are asserted. |
+| executable-scope | 667 | At least one probe resolves; only recorded scopes are asserted. |
 | input-required | 12 | Existing handler requests a selection, resource, weather or other legitimate prerequisite. |
-| manual-effect-route | 181 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
+| manual-effect-route | 174 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
 | gm-choice | 1 | Hold Hands: narrative battle-ending decision remains with the storyteller. |
 | excluded | 38 | Supplied Max/Z cards and the user-excluded Sappy Seed. |
 
-These totals sum to 892. **181 manual-effect-route results remain after MOVE-A12. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
+These totals sum to 892. **174 manual-effect-route results remain after MOVE-A13. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
 
 | Focused status result | Cards |
 | --- | ---: |
@@ -193,7 +193,7 @@ A six triggers the single printed Chance pool. Serene Grace, Wonder Skin, Loaded
 
 New 0.36.0-core encounters enable the boxed `damaging_stats` state. Missing saved state defaults disabled; 0.35.0-core remains accepted with its previous M3 behavior. Protocol 45 carries the new state. App version is 0.44.0.
 
-**The whole move catalog is not complete.** The 181 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
+**The whole move catalog is not complete.** The 174 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
 
 
 ### MOVE-A01 verification (1 November 2026)
@@ -315,3 +315,10 @@ The 19 stat-channel regressions, including the localhost room/reconnect/persiste
 Rapid Spin raises the user's Dexterity by one and removes its ongoing damage and Leech Seed, plus entry hazards and terrains affecting its side. Pure scene Blocking remains. Shared/global field scopes are narrowed to preserve effects on opposing sides; the same corrected cleanup applies to Mortal Spin only in encounters adopting this block. Ice Spinner and Steel Roller remove all active terrain scopes; Steel Roller requires an active terrain at declaration. Cleanup still resolves after the target faints. Immunity/protection and Sheer Force remain in the effect pipeline.
 
 Validation covers all three public attack paths, Steel Roller's declaration prerequisite, ongoing/Leech Seed removal, retained scene blocks/screens/opposing hazards, narrowed global terrain/hazard scopes, target fainting, immunity, Sheer Force and historical fallback. Completion/stat/transfer regressions, adjacent Mortal Spin/Leech Seed/field clocks, gates, exports, the full route inventory, frontend/script tests, TypeScript and formatting passed. App 0.55.0, engine 0.47.0-core, protocol 56.
+
+
+### MOVE-A13: source-type and context damage (5 November 2026)
+
+Ivy Cudgel and Raging Bull use the user's current secondary type, falling back to the main type. Multi-Attack and Revelation Dance use the current main type. Their resolved move type enters the existing STAB, resistance, immunity and ability-conversion pipeline using the encounter's current/frozen typing cache. Terrain Pulse adopts the applicable active terrain's type and gains two dice. Psyblade gains two dice in applicable Electric Terrain. Acrobatics loses two pool dice while actually holding an item, regardless of item-effect suppression. Existing damage snapshots retain their behavior.
+
+Validation exercises all seven attacks through public commands, dual/single typing, live GM-confirmed typing changes, STAB and effectiveness, all four terrain mappings, side scope, exact bonus/penalty dice, held-item presence and historical behavior. Completion/stat/transfer regressions, adjacent status/field clocks, gates, exports, route inventory, frontend/script tests, TypeScript and formatting passed. App 0.56.0, engine 0.48.0-core, protocol 57.

@@ -959,6 +959,56 @@
           "requires_terrain": true
         }
       }
+    },
+    "MOVE-A13": {
+      "engine": "0.48.0-core",
+      "kind": "damage-context",
+      "scope": "Seven source/context attacks. Current source main/secondary typing determines four move types; Terrain Pulse takes the active applicable terrain type and two dice; Psyblade gains two dice in Electric Terrain; Acrobatics loses two pool dice while holding an item. Existing STAB, immunity, resistance, snapshots and ability conversions retained.",
+      "moves": {
+        "Acrobatics": {
+          "source": "Pokerole-Data/v3.0/Moves/Acrobatics.json",
+          "sha256": "46642c4517cdc34faba67acf581224b73a33843b09ca888ccfad99c27f672817",
+          "effect": "Single Target. *If the User has a Held Item, Reduce 2 Dice to the Damage Pool of this Move.",
+          "held_penalty": -2
+        },
+        "Ivy Cudgel": {
+          "source": "Pokerole-Data/v3.0/Moves/Ivy Cudgel.json",
+          "sha256": "e4cd9a4cb01cf3016d24aac3e485a5e5e7be8bda86c723f2d91eda8bbbc8dc2a",
+          "effect": "Single Target. *The Type of this Move becomes the same as the User's Secondary Type if possible Otherwise their Main Type. This affects Weakness, Resistances, and STAB accordingly.",
+          "source_type": "secondary"
+        },
+        "Raging Bull": {
+          "source": "Pokerole-Data/v3.0/Moves/Raging Bull.json",
+          "sha256": "f2f4adc35b9e14e57d5d0f10d60b0fc8dceb9716ad62c25ae9dc4119af5f1890",
+          "effect": "Single Target. *The Type of this Move becomes the same as the User's Secondary Type if possible, otherwise their Main Type. This affects Weakness, Resistances and STAB accordingly.",
+          "source_type": "secondary"
+        },
+        "Multi-Attack": {
+          "source": "Pokerole-Data/v3.0/Moves/Multi-Attack.json",
+          "sha256": "b588936aa026a125ea5b1ac16debc30c5983651d5f8ab441826445e7627716b0",
+          "effect": "Single Target. Unique. This Move's type will change to match the User's Main Type.",
+          "source_type": "main"
+        },
+        "Revelation Dance": {
+          "source": "Pokerole-Data/v3.0/Moves/Revelation Dance.json",
+          "sha256": "69fb65c65b13b77bbc1d7b7789efe4790a4de68c7fa4ac9d197c78987b39411c",
+          "effect": "Single Target. *The Type of this Move becomes the same as the User's Main Type. This affects Weakness, Resistances, and STAB accordingly.",
+          "source_type": "main"
+        },
+        "Psyblade": {
+          "source": "Pokerole-Data/v3.0/Moves/Psyblade.json",
+          "sha256": "53d19069a223ee928409c80b51b00e9d0cfef1f8a02743067f0b0611fa4e4774",
+          "effect": "Single Target. Lethal. Cutter Move. *If Electric Terrain is active, add 2 Extra Dice to the Damage pool of this Move.",
+          "electric_terrain_bonus": 2
+        },
+        "Terrain Pulse": {
+          "source": "Pokerole-Data/v3.0/Moves/Terrain Pulse.json",
+          "sha256": "3b3583aa9e2184f585c7d377358b9b32a33a4a32515480363bf7f3fe9fa9398c",
+          "effect": "Single Target. *Add 2 Extra Dice to the Damage Pool if there is a Terrain active in the Battlefield. Change this Move's Type to match that of a currently active Terrain (ie Electric Terrain, Grassy Terrain, etc.).",
+          "terrain_type": true,
+          "terrain_bonus": 2
+        }
+      }
     }
   },
   "printed_review": {
