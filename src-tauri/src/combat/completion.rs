@@ -618,6 +618,15 @@ pub fn physical_defense(c: &Campaign, m: &serde_json::Value) -> bool {
         .is_some_and(|(_, d)| d["physical_defense"] == true)
 }
 pub fn move_data(c: &Campaign, p: &Combatant, m: &mut serde_json::Value) {
+    if let Some(terrain) = definition(c, m["Name"].as_str().unwrap_or(""))
+        .and_then(|(_, d)| d["reaction_terrain"].as_str())
+    {
+        if field::has(c, terrain, p) {
+            m["Attributes"]["Reaction"] = "1".into();
+        } else if let Some(attrs) = m["Attributes"].as_object_mut() {
+            attrs.remove("Reaction");
+        }
+    }
     contextual_type(c, p, m);
     if let Some(target) = definition(c, m["Name"].as_str().unwrap_or(""))
         .and_then(|(_, d)| d["target_override"].as_str())

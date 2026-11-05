@@ -217,6 +217,7 @@ describe("structured core battle controls", () => {
         combatants,
         flow: {
           battlefield_review: [
+            "0.58.0-core",
             "0.57.0-core",
             "0.56.0-core",
             "0.55.0-core",
@@ -242,6 +243,7 @@ describe("structured core battle controls", () => {
             "0.35.0-core",
           ].includes(engine),
           entry_hazards: [
+            "0.58.0-core",
             "0.57.0-core",
             "0.56.0-core",
             "0.55.0-core",
@@ -286,12 +288,14 @@ describe("structured core battle controls", () => {
               ...(Number(engine.split(".")[1]) >= 55 ? ["MOVE-A20"] : []),
               ...(Number(engine.split(".")[1]) >= 56 ? ["MOVE-A21"] : []),
               ...(Number(engine.split(".")[1]) >= 57 ? ["MOVE-A22"] : []),
+              ...(Number(engine.split(".")[1]) >= 58 ? ["MOVE-A23"] : []),
             ],
             uses: [],
             entered: {},
           },
           damaging_stats: {
             enabled: [
+              "0.58.0-core",
               "0.57.0-core",
               "0.56.0-core",
               "0.55.0-core",
@@ -422,6 +426,7 @@ describe("structured core battle controls", () => {
           },
           identity_moves: false,
           status_escalation: [
+            "0.58.0-core",
             "0.57.0-core",
             "0.56.0-core",
             "0.55.0-core",
@@ -455,6 +460,7 @@ describe("structured core battle controls", () => {
             "0.27.0-core",
           ].includes(engine),
           spite: [
+            "0.58.0-core",
             "0.57.0-core",
             "0.56.0-core",
             "0.55.0-core",
@@ -487,6 +493,7 @@ describe("structured core battle controls", () => {
             "0.28.0-core",
           ].includes(engine),
           will_drains: [
+            "0.58.0-core",
             "0.57.0-core",
             "0.56.0-core",
             "0.55.0-core",
@@ -518,6 +525,7 @@ describe("structured core battle controls", () => {
             "0.29.0-core",
           ].includes(engine),
           direct_status: [
+            "0.58.0-core",
             "0.57.0-core",
             "0.56.0-core",
             "0.55.0-core",
@@ -548,6 +556,7 @@ describe("structured core battle controls", () => {
             "0.30.0-core",
           ].includes(engine),
           chance_status: [
+            "0.58.0-core",
             "0.57.0-core",
             "0.56.0-core",
             "0.55.0-core",
@@ -577,6 +586,7 @@ describe("structured core battle controls", () => {
             "0.31.0-core",
           ].includes(engine),
           cure_protection: [
+            "0.58.0-core",
             "0.57.0-core",
             "0.56.0-core",
             "0.55.0-core",
@@ -604,6 +614,7 @@ describe("structured core battle controls", () => {
           ].includes(engine),
           recurring: {
             enabled: [
+              "0.58.0-core",
               "0.57.0-core",
               "0.56.0-core",
               "0.55.0-core",
@@ -640,6 +651,7 @@ describe("structured core battle controls", () => {
           },
           compound: {
             enabled: [
+              "0.58.0-core",
               "0.57.0-core",
               "0.56.0-core",
               "0.55.0-core",

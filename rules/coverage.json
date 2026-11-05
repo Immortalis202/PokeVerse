@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.57.0-core",
-  "release": "0.65.0",
-  "protocol": 66,
+  "engine": "0.58.0-core",
+  "release": "0.66.0",
+  "protocol": 67,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -898,6 +898,16 @@
         "completion_a22_hazard_cleanup_preserves_previously_applied_scene_blocking"
       ],
       "scope": "Spider Web installs a scene-long foe-side entry hazard. New entrants receive scene Blocking, including flying targets; current occupants are unaffected. Heavy-Duty Boots and Run Away retain their separate protections. Hazard cleanup removes the field, while already applied Blocking follows its own lifetime."
+    },
+    {
+      "id": "move-completion-a23",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A23",
+      "fixtures": [
+        "completion_a23_ordinary_attacks_finish_without_excluded_dynamax_bonuses",
+        "completion_a23_grassy_glide_conditional_priority_uses_live_field_scope_and_clock"
+      ],
+      "scope": "Complete ordinary Behemoth Bash, Behemoth Blade and Dynamax Cannon damage with their existing printed attributes; Dynamax/Gigantamax bonuses and lethal wounds remain excluded. Grassy Glide gains its printed Reaction 1 only while applicable Grassy Terrain is active, then finishes after ordinary damage."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -914,5 +924,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "6e17e4f5cf50d31aa0013ce499635d82b39b973819e2a1c7b3349c9021b2cc85"
+  "move_completion_registry_hash": "a3b060cff9a572b7958d7c44393633858a8ac9910a071478955914482f892ed8"
 }

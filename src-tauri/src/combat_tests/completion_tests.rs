@@ -3427,3 +3427,112 @@ fn completion_a22_hazard_cleanup_preserves_previously_applied_scene_blocking() {
         );
     }
 }
+
+#[test]
+fn completion_a23_ordinary_attacks_finish_without_excluded_dynamax_bonuses() {
+    for name in [
+        "Behemoth Bash",
+        "Behemoth Blade",
+        "Dynamax Cannon",
+        "Grassy Glide",
+    ] {
+        let (c, a, t) = setup(name);
+        let queued = ordinary_accuracy(&c, &a, &t, name);
+        let pool = queued_damage_pool(&queued);
+        assert_eq!(
+            pool.power,
+            if name == "Grassy Glide" { 3 } else { 4 },
+            "{name}"
+        );
+        let c = roll(&queued, "gm", &damage_command(&queued), 1);
+        assert!(
+            c.battle
+                .as_ref()
+                .unwrap()
+                .flow
+                .as_ref()
+                .unwrap()
+                .queue
+                .is_empty(),
+            "{name}"
+        );
+        let (mut c, a, t) = setup(name);
+        c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
+            Box::new(completion::initial(SPIDER_WEB_ENGINE));
+        let c = pending(&c, &a, &t, name);
+        assert_eq!(
+            battle::transition(&c, "gm", &cmd(&c), vec![], &catalog())
+                .unwrap_err()
+                .code,
+            "manual_rule"
+        );
+    }
+}
+#[test]
+fn completion_a23_grassy_glide_conditional_priority_uses_live_field_scope_and_clock() {
+    use crate::combat::{field, tactics::TacticsCommand};
+    for scope in ["none", "all", "opposing"] {
+        let (mut c, a, t) = setup("Tackle");
+        let sid = p(&c, &t).sheet_id.clone();
+        c.sheets
+            .get_mut(&sid)
+            .unwrap()
+            .moves
+            .push("Grassy Glide".into());
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .tactics
+            .enabled = true;
+        if scope != "none" {
+            let actual = if scope == "all" {
+                "all".to_string()
+            } else {
+                format!("side:{}", p(&c, &a).side)
+            };
+            saved_field_rule(&mut c, "Grassy Terrain", "move:review", &actual, Some(1), 0);
+        }
+        let m = catalog().find("moves", "Name", "Grassy Glide").unwrap();
+        let resolved = field::move_data(&c, p(&c, &t), &m);
+        assert_eq!(
+            resolved["Attributes"]["Reaction"].as_str(),
+            if scope == "all" { Some("1") } else { None }
+        );
+        c = roll(
+            &c,
+            "gm",
+            &super::targeting_tests::attack(&a, vec![t.clone()], "Tackle"),
+            6,
+        );
+        let action = Action::Tactics {
+            command: TacticsCommand::Reaction {
+                combatant_id: t.clone(),
+                move_name: "Grassy Glide".into(),
+                target_ids: vec![a],
+            },
+            reason: "Conditional Grassy Glide reaction".into(),
+        };
+        if scope == "all" {
+            let c = roll(&c, "gm", &action, 6);
+            assert_eq!(q(&c).priority, 1);
+            assert_eq!(q(&c).actor_id, t);
+        } else {
+            assert!(battle::transition(&c, "gm", &action, vec![], &catalog()).is_err());
+        }
+    }
+    let (mut c, a, _) = setup("Grassy Glide");
+    saved_field_rule(&mut c, "Grassy Terrain", "move:review", "all", Some(1), 0);
+    c = round_end(&c);
+    let m = catalog().find("moves", "Name", "Grassy Glide").unwrap();
+    assert!(field::move_data(&c, p(&c, &a), &m)["Attributes"]["Reaction"].is_null());
+    c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
+        Box::new(completion::initial(SPIDER_WEB_ENGINE));
+    assert_eq!(
+        field::move_data(&c, p(&c, &a), &m)["Attributes"]["Reaction"],
+        "1",
+        "historical encounters retain raw printed metadata behavior"
+    );
+}

@@ -10,6 +10,7 @@ pub fn transition(
 ) -> Result<(Campaign, String)> {
     if [
         ENGINE,
+        SPIDER_WEB_ENGINE,
         BATTLEFIELD_SUPPORT_ENGINE,
         PARTNER_MOVES_ENGINE,
         EXISTING_MOVE_COMPLETION_ENGINE,
@@ -421,6 +422,7 @@ pub fn transition(
             }
             if ![
                 ENGINE,
+                SPIDER_WEB_ENGINE,
                 BATTLEFIELD_SUPPORT_ENGINE,
                 PARTNER_MOVES_ENGINE,
                 EXISTING_MOVE_COMPLETION_ENGINE,

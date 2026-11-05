@@ -28,7 +28,8 @@ The live source of remaining route work is `rules/move-effect-audit.json`. Its f
 | MOVE-A20 | Four partner attacks and exact final-evolution guards | Complete |
 | MOVE-A21 | Tailwind and Fairy Lock battlefield effects | Complete |
 | MOVE-A22 | Spider Web entry Blocking and hazard cleanup | Complete |
-| MOVE-A23 | Three ordinary attack completions and conditional Grassy Glide Reaction | Next |
+| MOVE-A23 | Three ordinary attack completions and conditional Grassy Glide Reaction | Complete |
+| MOVE-A24 | First Impression uses the first eligible action round (user ruling) | Next |
 | First Impression | Deployment round versus first eligible action round | Awaiting user ruling; other blocks continue |
 | Later blocks | Ordinary attacks with existing attributes; remaining stat changes, resets and swaps; type/damage conversions; field changes; conditional damage; timing/action restrictions; items; copy/selection effects | Open |
 

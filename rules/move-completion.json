@@ -1357,6 +1357,34 @@
           "both": false
         }
       }
+    },
+    "MOVE-A23": {
+      "engine": "0.58.0-core",
+      "kind": "ordinary",
+      "scope": "Complete ordinary Behemoth Bash, Behemoth Blade and Dynamax Cannon damage with their existing printed attributes; Dynamax/Gigantamax bonuses and lethal wounds remain excluded. Grassy Glide gains its printed Reaction 1 only while applicable Grassy Terrain is active, then finishes after ordinary damage.",
+      "moves": {
+        "Behemoth Bash": {
+          "source": "Pokerole-Data/v3.0/Moves/Behemoth Bash.json",
+          "sha256": "6ef5a10a6b8924d1dda12248b741792e9868a1aababd2da5f1a1a008996733cb",
+          "effect": "Single Target. Unique. *If the Foe is under the effects of Dynamax/Gigantamax, This Move becomes Lethal and add 4 Extra Dice to the Damage Pool."
+        },
+        "Behemoth Blade": {
+          "source": "Pokerole-Data/v3.0/Moves/Behemoth Blade.json",
+          "sha256": "65d7fa2ba5c4fdd5f0d0f850ee5065585cfc2cad2f369e88e8e97f3aad1b1d6e",
+          "effect": "Single Target. Cutter Move. Unique. *If the Foe is under the effects of Dynamax/Gigantamax, This Move becomes Lethal and add 4 Extra Dice to the Damage Pool."
+        },
+        "Dynamax Cannon": {
+          "source": "Pokerole-Data/v3.0/Moves/Dynamax Cannon.json",
+          "sha256": "188714ee09408ad4e56a5bb948380a3cb0e7ef5da41e1f48b0451e0493e9668c",
+          "effect": "Single Target. *If the Target is under the effects of Dynamax, this Move becomes Lethal and you add 4 Extra Dice to the Damage Pool."
+        },
+        "Grassy Glide": {
+          "source": "Pokerole-Data/v3.0/Moves/Grassy Glide.json",
+          "sha256": "d00798d761483bb8abb9a7f3f6c8a5840b6448e13143ed790ba4382eb5dd3cba",
+          "effect": "Single Target. *If Grassy Terrain is active, this Move has Reaction 1.",
+          "reaction_terrain": "Grassy Terrain"
+        }
+      }
     }
   },
   "printed_review": {
