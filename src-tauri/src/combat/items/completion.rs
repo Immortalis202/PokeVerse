@@ -401,8 +401,7 @@ pub fn hit(c: &mut Campaign, q: &QueuedAction, m: &serde_json::Value, cat: &Cata
     consume(c, &q.target_id, "Air Balloon", cat)?;
     let source = reviewed::source(c, q)?;
     let target = fighter(c, &q.target_id)?.clone();
-    let (effect, immune) =
-        rules::type_matchup(c, &source, &target, m["Type"].as_str().unwrap_or(""), cat)?;
+    let (effect, immune) = rules::move_matchup(c, &source, &target, &m, cat)?;
     if effect > 0 && !immune && live(c, &q.target_id, "Weakness Policy") {
         extra::boost(c, &q.target_id, "Strength", 1)?;
         extra::boost(c, &q.target_id, "Special", 1)?;

@@ -87,6 +87,7 @@ pub fn active_copy<'a>(c: &'a Campaign, sheet: &str) -> Option<&'a InheritedAbil
 pub fn dice(c: &Campaign, command: &TransferCommand) -> Result<u32> {
     if ![
         ENGINE,
+        AURA_WHEEL_ENGINE,
         FIRST_IMPRESSION_ENGINE,
         TERRAIN_REACTION_ENGINE,
         SPIDER_WEB_ENGINE,
@@ -262,8 +263,7 @@ pub fn hit(c: &mut Campaign, q: &QueuedAction, m: &serde_json::Value, cat: &Cata
     if source.side == target.side || source.has_ability("Long Reach") {
         return Ok(());
     }
-    let (_, immune) =
-        rules::type_matchup(c, &source, &target, m["Type"].as_str().unwrap_or(""), cat)?;
+    let (_, immune) = rules::move_matchup(c, &source, &target, &m, cat)?;
     if immune || abilities::damage_immune_from(c, &source, &target, m) {
         return Ok(());
     }

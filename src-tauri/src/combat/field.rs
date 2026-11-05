@@ -1991,6 +1991,7 @@ pub fn move_data(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> serde_js
     if house::enabled(c) {
         items::completion::move_data(c, p, &mut m);
     }
+    completion::final_move_data(c, &mut m);
     m
 }
 pub fn target_bonus(c: &Campaign, target: &Combatant, m: &serde_json::Value) -> i32 {

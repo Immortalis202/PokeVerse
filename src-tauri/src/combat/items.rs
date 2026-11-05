@@ -881,7 +881,7 @@ pub fn chance_dice(c: &Campaign, q: &QueuedAction, cat: &Catalog) -> Result<u32>
     let (effect, immune) = if q.move_name == "Sonic Boom" {
         (0, false)
     } else {
-        rules::type_matchup(c, &source, target, m["Type"].as_str().unwrap_or(""), cat)?
+        rules::move_matchup(c, &source, target, &m, cat)?
     };
     if immune
         || abilities::damage_immune_from(c, &source, target, &m)
@@ -1367,8 +1367,7 @@ fn fling_berry_hit(
     }
     let source = reviewed::source(c, q)?;
     let target = fighter(c, &q.target_id)?;
-    let (effective, immune) =
-        rules::type_matchup(c, &source, target, m["Type"].as_str().unwrap_or(""), cat)?;
+    let (effective, immune) = rules::move_matchup(c, &source, target, &m, cat)?;
     if immune
         || abilities::damage_immune_from(c, &source, target, m)
         || extra::source_immune(c, &source, target, effective)
@@ -1469,8 +1468,7 @@ pub fn hit(c: &mut Campaign, q: &QueuedAction, m: &serde_json::Value, cat: &Cata
     {
         return Ok(());
     }
-    let (effective, immune) =
-        rules::type_matchup(c, &source, &target, m["Type"].as_str().unwrap_or(""), cat)?;
+    let (effective, immune) = rules::move_matchup(c, &source, &target, &m, cat)?;
     if immune
         || abilities::damage_immune_from(c, &source, &target, m)
         || extra::source_immune(c, &source, &target, effective)

@@ -401,8 +401,7 @@ pub fn hit(
     {
         return Ok(());
     }
-    let (effect, immune) =
-        rules::type_matchup(c, attacker, target, m["Type"].as_str().unwrap_or(""), cat)?;
+    let (effect, immune) = rules::move_matchup(c, attacker, target, &m, cat)?;
     if immune
         || abilities::damage_immune_from(c, attacker, target, m)
         || extra::source_immune(c, attacker, target, effect)

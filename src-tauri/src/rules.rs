@@ -224,6 +224,7 @@ pub fn accuracy(
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
     if [
         ENGINE,
+        AURA_WHEEL_ENGINE,
         FIRST_IMPRESSION_ENGINE,
         TERRAIN_REACTION_ENGINE,
         SPIDER_WEB_ENGINE,
@@ -413,7 +414,9 @@ pub fn damage_pool(
     };
     let attribute_source = m["Damage1"].as_str().unwrap_or_default();
     if !m["Damage2"].as_str().unwrap_or_default().is_empty()
-        || m["Power"].as_i64().is_none_or(|p| p <= 0 || p > 100)
+        || m["Power"].as_i64().is_none_or(|p| {
+            p < 0 || p > 100 || (p == 0 && !crate::combat::completion::sport(c, &m))
+        })
     {
         return Err(AppError::new(
             "manual_rule",
@@ -690,6 +693,20 @@ pub fn type_effect(attack: &str, defense: &str) -> Result<i32> {
 }
 
 /// Shared type-immunity calculation for damage and qualifying contact hooks.
+/// Per-move matchup for damage-linked effects; analytical type queries stay raw.
+pub fn move_matchup(
+    c: &Campaign,
+    a: &Combatant,
+    t: &Combatant,
+    m: &Value,
+    cat: &Catalog,
+) -> Result<(i32, bool)> {
+    let (n, immune) = type_matchup(c, a, t, m["Type"].as_str().unwrap_or(""), cat)?;
+    Ok((
+        crate::combat::completion::sport_effectiveness(c, m, n),
+        immune,
+    ))
+}
 pub fn type_matchup(
     c: &Campaign,
     attacker: &Combatant,

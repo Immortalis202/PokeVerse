@@ -339,8 +339,7 @@ fn blocked(c: &Campaign, q: &QueuedAction, cat: &Catalog) -> Result<bool> {
         return Ok(true);
     }
     if m["Category"] != "Support" {
-        let (n, immune) =
-            rules::type_matchup(c, &source, t, m["Type"].as_str().unwrap_or(""), cat)?;
+        let (n, immune) = rules::move_matchup(c, &source, t, &m, cat)?;
         return Ok(immune
             || abilities::damage_immune_from(c, &source, t, &m)
             || extra::source_immune(c, &source, t, n));

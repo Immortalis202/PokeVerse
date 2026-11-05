@@ -3780,3 +3780,213 @@ fn completion_a25_aura_wheel_stat_abilities_sheer_force_and_historical_route() {
         "manual_rule"
     );
 }
+
+#[test]
+fn completion_a26_sports_zero_power_and_positive_effectiveness_but_preserve_other_dice() {
+    use crate::combat::field;
+    for (sport, name, target) in [
+        ("Mud Sport", "Thunderbolt", "Blastoise"),
+        ("Mud Sport", "Electro Drift", "Blastoise"),
+        ("Mud Sport", "Thunder Punch", "Blastoise"),
+        ("Water Sport", "Flamethrower", "Bulbasaur"),
+        ("Water Sport", "Fire Punch", "Bulbasaur"),
+    ] {
+        let (mut c, a, t) = setup(sport);
+        set_species(&mut c, &t, target);
+        refresh_field(&mut c);
+        let mut control = c.clone();
+        turn(&mut control, &a, name);
+        let old = queued_damage_pool(&ordinary_accuracy(&control, &a, &t, name));
+        c = support_cast(&c, &a, vec![], sport);
+        turn(&mut c, &a, name);
+        let queued = ordinary_accuracy(&c, &a, &t, name);
+        let pool = queued_damage_pool(&queued);
+        assert_eq!(pool.power, 0, "{name}");
+        assert_eq!(pool.effectiveness, 0, "{name}");
+        assert!(!pool.immune);
+        assert_eq!(pool.attribute, old.attribute);
+        assert_eq!(pool.stab, old.stab);
+        assert!(pool.dice > 0, "Power zero does not mean total damage zero");
+        let m = catalog().find("moves", "Name", name).unwrap();
+        assert_eq!(field::move_data(&c, p(&c, &a), &m)["Power"], 0);
+        if name == "Electro Drift" {
+            assert_eq!(
+                special::bonus(&c, p(&c, &a), p(&c, &t), &m, &catalog()).unwrap(),
+                0
+            );
+            assert_eq!(
+                special::bonus(&control, p(&control, &a), p(&control, &t), &m, &catalog()).unwrap(),
+                4
+            );
+        }
+
+        let after = roll(&queued, "gm", &damage_command(&queued), 1);
+        assert!(
+            after
+                .battle
+                .as_ref()
+                .unwrap()
+                .flow
+                .as_ref()
+                .unwrap()
+                .queue
+                .is_empty()
+                || q(&after).damage_done
+        );
+    }
+}
+#[test]
+fn completion_a26_sports_preserve_resistance_immunity_and_use_resolved_ability_type() {
+    use crate::combat::field;
+    for (sport, name, target, expected, immune) in [
+        ("Mud Sport", "Thunderbolt", "Bulbasaur", -1, false),
+        ("Mud Sport", "Thunderbolt", "Sandshrew", 0, true),
+        ("Water Sport", "Flamethrower", "Blastoise", -1, false),
+    ] {
+        let (mut c, a, t) = setup(sport);
+        set_species(&mut c, &t, target);
+        refresh_field(&mut c);
+        c = support_cast(&c, &a, vec![], sport);
+        turn(&mut c, &a, name);
+        let pool = queued_damage_pool(&ordinary_accuracy(&c, &a, &t, name));
+        assert_eq!(pool.effectiveness, expected);
+        assert_eq!(pool.immune, immune);
+    }
+    let (mut c, a, t) = setup("Mud Sport");
+    set_species(&mut c, &t, "Blastoise");
+    refresh_field(&mut c);
+    c = support_cast(&c, &a, vec![], "Mud Sport");
+    pm(&mut c, &a).selected_ability = "Galvanize".into();
+    turn(&mut c, &a, "Tackle");
+    let m = catalog().find("moves", "Name", "Tackle").unwrap();
+    let m = field::move_data(&c, p(&c, &a), &m);
+    assert_eq!(m["Type"], "Electric");
+    assert_eq!(m["Power"], 0);
+    let pool = queued_damage_pool(&ordinary_accuracy(&c, &a, &t, "Tackle"));
+    assert_eq!(pool.power, 0);
+    assert_eq!(pool.effectiveness, 0);
+    assert_eq!(
+        rules::type_matchup(&c, p(&c, &a), p(&c, &t), "Electric", &catalog())
+            .unwrap()
+            .0,
+        1,
+        "analytical type chart remains raw"
+    );
+    let support = catalog().find("moves", "Name", "Thunder Wave").unwrap();
+    assert!(!completion::sport(&c, &support));
+}
+#[test]
+fn completion_a26_sport_adjusted_immunity_also_blocks_secondary_status_and_stats() {
+    for name in ["Thunderbolt", "Thunder Punch", "Nuzzle", "Zap Cannon"] {
+        let (mut c, a, t) = setup("Mud Sport");
+        set_species(&mut c, &t, "Blastoise");
+        refresh_field(&mut c);
+        pm(&mut c, &t).selected_ability = "Wonder Guard".into();
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .chance_status = true;
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .direct_status = true;
+        c = support_cast(&c, &a, vec![], "Mud Sport");
+        turn(&mut c, &a, name);
+        let queued = ordinary_accuracy(&c, &a, &t, name);
+        assert!(queued_damage_pool(&queued).immune);
+        let mut c = roll(&queued, "gm", &damage_command(&queued), 6);
+        if !c
+            .battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .queue
+            .is_empty()
+        {
+            c = resolve(&c);
+        }
+        assert!(
+            !p(&c, &t)
+                .runtime
+                .statuses
+                .iter()
+                .any(|s| s.kind == "Paralysis"),
+            "{name}"
+        );
+    }
+    let (mut c, a, t) = setup("Mud Sport");
+    set_species(&mut c, &t, "Blastoise");
+    refresh_field(&mut c);
+    pm(&mut c, &t).selected_ability = "Wonder Guard".into();
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .damaging_stats
+        .enabled = true;
+    c = support_cast(&c, &a, vec![], "Mud Sport");
+    turn(&mut c, &a, "Electroweb");
+    let c = resolve(&pending(&c, &a, &t, "Electroweb"));
+    assert_eq!(stat(&c, &t, "Dexterity"), 0);
+}
+#[test]
+fn completion_a26_sports_four_round_clock_recast_and_historical_scope() {
+    use crate::combat::field;
+    for (sport, name) in [
+        ("Mud Sport", "Thunderbolt"),
+        ("Water Sport", "Flamethrower"),
+    ] {
+        let (c, a, _) = setup(sport);
+        let mut c = support_cast(&c, &a, vec![], sport);
+        c = round_end(&c);
+        turn(&mut c, &a, sport);
+        c = support_cast(&c, &a, vec![], sport);
+        assert_eq!(
+            c.battle
+                .as_ref()
+                .unwrap()
+                .flow
+                .as_ref()
+                .unwrap()
+                .battlefield
+                .rules
+                .iter()
+                .find(|r| r.kind == sport)
+                .unwrap()
+                .rounds,
+            Some(3)
+        );
+        for _ in 0..3 {
+            c = round_end(&c);
+        }
+        let m = catalog().find("moves", "Name", name).unwrap();
+        assert_ne!(field::move_data(&c, p(&c, &a), &m)["Power"], 0);
+        let (mut c, a, t) = setup(sport);
+        c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
+            Box::new(completion::initial(AURA_WHEEL_ENGINE));
+        saved_field_rule(&mut c, sport, "GM:historical", "all", Some(4), 0);
+        assert!(!completion::sport(&c, &m));
+        let action = super::targeting_tests::attack(&a, vec![], sport);
+        c = roll(&c, "gm", &action, 6);
+        while c.battle.as_ref().unwrap().flow.as_ref().unwrap().window {
+            c = pass(&c);
+        }
+        assert_eq!(
+            battle::transition(&c, "gm", &cmd(&c), vec![], &catalog())
+                .unwrap_err()
+                .code,
+            "manual_rule"
+        );
+        assert!(!completion::blocked(&c, &t));
+    }
+}

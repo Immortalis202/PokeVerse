@@ -118,8 +118,7 @@ fn immune_target_with_fainted(
         return Ok(true);
     }
     if m["Category"] != "Support" {
-        let (n, immune) =
-            rules::type_matchup(c, &source, target, m["Type"].as_str().unwrap_or(""), cat)?;
+        let (n, immune) = rules::move_matchup(c, &source, target, &m, cat)?;
         let n = effectiveness(c, &m, target, cat, n)?;
         return Ok(
             !(ignores_type_immunity(c, &m) || target_immunity_removed(c, target, &m))
@@ -483,17 +482,51 @@ pub fn effectiveness(
     cat: &Catalog,
     base: i32,
 ) -> Result<i32> {
-    let Some((_, d)) = definition(c, m["Name"].as_str().unwrap_or("")) else {
-        return Ok(base);
-    };
-    Ok(
+    let n = if let Some((_, d)) = definition(c, m["Name"].as_str().unwrap_or("")) {
         if matches_types(c, target, cat, &d["super_effective_types"])? {
             1
         } else {
             base
-        },
-    )
+        }
+    } else {
+        base
+    };
+    Ok(sport_effectiveness(c, m, n))
 }
+/// Sports alter the printed Power and positive effectiveness, not total damage.
+pub fn sport(c: &Campaign, m: &serde_json::Value) -> bool {
+    if !["Physical", "Special"].contains(&m["Category"].as_str().unwrap_or(""))
+        || !field::enabled(c)
+        || forms::zero_active(c)
+    {
+        return false;
+    }
+    let name = match m["Type"].as_str().unwrap_or("") {
+        "Electric" => "Mud Sport",
+        "Fire" => "Water Sport",
+        _ => return false,
+    };
+    definition(c, name).is_some()
+        && flow(c).is_ok_and(|f| {
+            f.battlefield
+                .rules
+                .iter()
+                .any(|r| r.kind == name && r.scope == "all")
+        })
+}
+pub fn sport_effectiveness(c: &Campaign, m: &serde_json::Value, n: i32) -> i32 {
+    if sport(c, m) {
+        n.min(0)
+    } else {
+        n
+    }
+}
+pub fn final_move_data(c: &Campaign, m: &mut serde_json::Value) {
+    if sport(c, m) {
+        m["Power"] = 0.into();
+    }
+}
+
 pub fn cleanse(c: &mut Campaign, id: &str) {
     let paired: Vec<_> = flow(c)
         .unwrap()
@@ -1121,4 +1154,11 @@ pub fn field_stat_values(c: &Campaign, p: &Combatant, key: &str) -> Vec<i32> {
         "Simple" => 3,
         _ => 2,
     }]
+}
+
+/// Guaranteed target status clauses use the same sport-adjusted immunity as damage.
+pub(super) fn sport_effect_blocked(c: &Campaign, q: &QueuedAction, cat: &Catalog) -> Result<bool> {
+    let source = reviewed::source(c, q)?;
+    let m = field::move_data(c, &source, &move_entry(cat, &q.move_name)?);
+    Ok(sport(c, &m) && immune_target(c, q, cat)?)
 }

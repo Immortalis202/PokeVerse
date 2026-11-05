@@ -3,9 +3,9 @@
   "status": "complete",
   "date": "2026-10-31",
   "scope": "Named catalog reliability batches C01, R01, S01 JSON reconciliation and A01 assets; final generated-catalog and automated Compendium checks.",
-  "catalog_hash": "de7fbd2382113e72470285e31efe7a12123282e89e99a565da9468bdabadd0dd",
+  "catalog_hash": "bf140244f035a181cb7a2cdf6d7935735f91f0a6222efd0d0528e15e8a225be2",
   "source_hash": "3c7df581a48e9a88ba4a1bbe2de6be40bfca9abc4b15aa3a151f83b3d92d958f",
-  "database_sha256": "92bec6c49cc38138b53184874dd1e8fe342864f22a79de1d26b1821659352dc4",
+  "database_sha256": "a9ae1a9c1dc97957631cacd2a402d14574e17b12b1585bf9585949897131b0a8",
   "source_fingerprints": {
     "POKEROLE COREBOOK 3.0 RULING.pdf": "f50014b330cc00db83906cf232ba432855f4f624684a84c3c494b47390284d74",
     "POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf": "f8a1ab8c7c059c1e32b658a6770893e58f364fd4c8d28ca87ec912154cfd6cc2"

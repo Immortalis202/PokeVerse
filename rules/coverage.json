@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.60.0-core",
-  "release": "0.68.0",
-  "protocol": 69,
+  "engine": "0.61.0-core",
+  "release": "0.69.0",
+  "protocol": 70,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -929,6 +929,18 @@
         "completion_a25_aura_wheel_stat_abilities_sheer_force_and_historical_route"
       ],
       "scope": "Aura Wheel raises its user Dexterity by one through the existing damaging-stat channel, retaining Hunger Switch Full-Belly Electric/Hangry Dark typing, including the frozen damage/type pipeline. Existing protection, Sheer Force and stat abilities apply. Historical encounters retain manual effect completion."
+    },
+    {
+      "id": "move-completion-a26",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A26",
+      "fixtures": [
+        "completion_a26_sports_zero_power_and_positive_effectiveness_but_preserve_other_dice",
+        "completion_a26_sports_preserve_resistance_immunity_and_use_resolved_ability_type",
+        "completion_a26_sport_adjusted_immunity_also_blocks_secondary_status_and_stats",
+        "completion_a26_sports_four_round_clock_recast_and_historical_scope"
+      ],
+      "scope": "Mud Sport and Water Sport create non-refreshable four-round global fields. Resolved damaging Electric/Fire moves have Power zero and cannot deal super-effective damage; resistance, immunity, STAB and independent extra dice remain. Damage and effect-immunity checks share the same sport-adjusted matchup. Historical encounters retain their previous behavior."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -945,5 +957,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "941c88a10fed23377a9b0fb5238cc9e1f8c4d217d40636a6d5830d9e252d4b02"
+  "move_completion_registry_hash": "83d3ff0be9064c0f4eea9a822d74c3871533a2be32267e80f65d3ae3e4854c20"
 }

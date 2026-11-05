@@ -2061,7 +2061,7 @@ pub fn formula(
         }
     }
     if reviewed::enabled(c) && name != "Sonic Boom" {
-        (effect, immune) = rules::type_matchup(c, a, t, ty, cat)?;
+        (effect, immune) = rules::move_matchup(c, a, t, m, cat)?;
     }
     reviewed::unique_damage_guard(c, a, t, effect)?;
     immune |= abilities::damage_immune_from(c, a, t, m) || extra::source_immune(c, a, t, effect);
@@ -2482,7 +2482,7 @@ pub fn bonus(
             for dt in field::types(c, t, cat)? {
                 total += rules::type_effect(ty, &dt)?;
             }
-            if total > 0 {
+            if completion::sport_effectiveness(c, m, total) > 0 {
                 4
             } else {
                 0

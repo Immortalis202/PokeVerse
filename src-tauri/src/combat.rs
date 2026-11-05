@@ -1140,6 +1140,7 @@ pub fn transition(
     if let Some(setup) = field::start_setup(a) {
         if ![
             ENGINE,
+            AURA_WHEEL_ENGINE,
             FIRST_IMPRESSION_ENGINE,
             TERRAIN_REACTION_ENGINE,
             SPIDER_WEB_ENGINE,
@@ -1188,6 +1189,7 @@ pub fn transition(
             setup,
             [
                 ENGINE,
+                AURA_WHEEL_ENGINE,
                 FIRST_IMPRESSION_ENGINE,
                 TERRAIN_REACTION_ENGINE,
                 SPIDER_WEB_ENGINE,
@@ -3167,6 +3169,7 @@ fn transition_inner(
                 b.flow = Some(TurnFlow {
                     identity_moves: [
                         ENGINE,
+                        AURA_WHEEL_ENGINE,
                         FIRST_IMPRESSION_ENGINE,
                         TERRAIN_REACTION_ENGINE,
                         SPIDER_WEB_ENGINE,
@@ -3205,6 +3208,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     status_escalation: [
                         ENGINE,
+                        AURA_WHEEL_ENGINE,
                         FIRST_IMPRESSION_ENGINE,
                         TERRAIN_REACTION_ENGINE,
                         SPIDER_WEB_ENGINE,
@@ -3242,6 +3246,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     spite: [
                         ENGINE,
+                        AURA_WHEEL_ENGINE,
                         FIRST_IMPRESSION_ENGINE,
                         TERRAIN_REACTION_ENGINE,
                         SPIDER_WEB_ENGINE,
@@ -3278,6 +3283,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     will_drains: [
                         ENGINE,
+                        AURA_WHEEL_ENGINE,
                         FIRST_IMPRESSION_ENGINE,
                         TERRAIN_REACTION_ENGINE,
                         SPIDER_WEB_ENGINE,
@@ -3313,6 +3319,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     direct_status: [
                         ENGINE,
+                        AURA_WHEEL_ENGINE,
                         FIRST_IMPRESSION_ENGINE,
                         TERRAIN_REACTION_ENGINE,
                         SPIDER_WEB_ENGINE,
@@ -3347,6 +3354,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     chance_status: [
                         ENGINE,
+                        AURA_WHEEL_ENGINE,
                         FIRST_IMPRESSION_ENGINE,
                         TERRAIN_REACTION_ENGINE,
                         SPIDER_WEB_ENGINE,
@@ -3380,6 +3388,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     battlefield_review: [
                         ENGINE,
+                        AURA_WHEEL_ENGINE,
                         FIRST_IMPRESSION_ENGINE,
                         TERRAIN_REACTION_ENGINE,
                         SPIDER_WEB_ENGINE,
@@ -3409,6 +3418,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     entry_hazards: [
                         ENGINE,
+                        AURA_WHEEL_ENGINE,
                         FIRST_IMPRESSION_ENGINE,
                         TERRAIN_REACTION_ENGINE,
                         SPIDER_WEB_ENGINE,
@@ -3438,6 +3448,7 @@ fn transition_inner(
                     damaging_stats: Box::new(damaging_stats::StatMoveState {
                         enabled: [
                             ENGINE,
+                            AURA_WHEEL_ENGINE,
                             FIRST_IMPRESSION_ENGINE,
                             TERRAIN_REACTION_ENGINE,
                             SPIDER_WEB_ENGINE,
@@ -3468,6 +3479,7 @@ fn transition_inner(
                     }),
                     cure_protection: [
                         ENGINE,
+                        AURA_WHEEL_ENGINE,
                         FIRST_IMPRESSION_ENGINE,
                         TERRAIN_REACTION_ENGINE,
                         SPIDER_WEB_ENGINE,
@@ -3499,6 +3511,7 @@ fn transition_inner(
                     recurring: Box::new(recurring::RecurringState {
                         enabled: [
                             ENGINE,
+                            AURA_WHEEL_ENGINE,
                             FIRST_IMPRESSION_ENGINE,
                             TERRAIN_REACTION_ENGINE,
                             SPIDER_WEB_ENGINE,
@@ -3533,6 +3546,7 @@ fn transition_inner(
                     compound: compound::CompoundState {
                         enabled: [
                             ENGINE,
+                            AURA_WHEEL_ENGINE,
                             FIRST_IMPRESSION_ENGINE,
                             TERRAIN_REACTION_ENGINE,
                             SPIDER_WEB_ENGINE,
@@ -3567,6 +3581,7 @@ fn transition_inner(
                     },
                     house_rules: [
                         ENGINE,
+                        AURA_WHEEL_ENGINE,
                         FIRST_IMPRESSION_ENGINE,
                         TERRAIN_REACTION_ENGINE,
                         SPIDER_WEB_ENGINE,
@@ -3607,6 +3622,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     interaction_rules: [
                         ENGINE,
+                        AURA_WHEEL_ENGINE,
                         FIRST_IMPRESSION_ENGINE,
                         TERRAIN_REACTION_ENGINE,
                         SPIDER_WEB_ENGINE,
@@ -3650,6 +3666,7 @@ fn transition_inner(
                     standalone: standalone::StandaloneState {
                         enabled: [
                             ENGINE,
+                            AURA_WHEEL_ENGINE,
                             FIRST_IMPRESSION_ENGINE,
                             TERRAIN_REACTION_ENGINE,
                             SPIDER_WEB_ENGINE,
@@ -3696,6 +3713,7 @@ fn transition_inner(
                     information: information::InformationState {
                         enabled: [
                             ENGINE,
+                            AURA_WHEEL_ENGINE,
                             FIRST_IMPRESSION_ENGINE,
                             TERRAIN_REACTION_ENGINE,
                             SPIDER_WEB_ENGINE,
@@ -3743,6 +3761,7 @@ fn transition_inner(
                     forms: forms::FormState {
                         enabled: [
                             ENGINE,
+                            AURA_WHEEL_ENGINE,
                             FIRST_IMPRESSION_ENGINE,
                             TERRAIN_REACTION_ENGINE,
                             SPIDER_WEB_ENGINE,
@@ -3792,6 +3811,7 @@ fn transition_inner(
                         completion: items::completion::CompletionState {
                             enabled: [
                                 ENGINE,
+                                AURA_WHEEL_ENGINE,
                                 FIRST_IMPRESSION_ENGINE,
                                 TERRAIN_REACTION_ENGINE,
                                 SPIDER_WEB_ENGINE,
@@ -3835,6 +3855,7 @@ fn transition_inner(
                         },
                         enabled: [
                             ENGINE,
+                            AURA_WHEEL_ENGINE,
                             FIRST_IMPRESSION_ENGINE,
                             TERRAIN_REACTION_ENGINE,
                             SPIDER_WEB_ENGINE,
@@ -3884,6 +3905,7 @@ fn transition_inner(
                     events: events::EventState {
                         enabled: [
                             ENGINE,
+                            AURA_WHEEL_ENGINE,
                             FIRST_IMPRESSION_ENGINE,
                             TERRAIN_REACTION_ENGINE,
                             SPIDER_WEB_ENGINE,
@@ -3933,6 +3955,7 @@ fn transition_inner(
                     },
                     provenance_rules: [
                         ENGINE,
+                        AURA_WHEEL_ENGINE,
                         FIRST_IMPRESSION_ENGINE,
                         TERRAIN_REACTION_ENGINE,
                         SPIDER_WEB_ENGINE,
@@ -3982,6 +4005,7 @@ fn transition_inner(
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            AURA_WHEEL_ENGINE,
                             FIRST_IMPRESSION_ENGINE,
                             TERRAIN_REACTION_ENGINE,
                             SPIDER_WEB_ENGINE,
@@ -4034,6 +4058,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            AURA_WHEEL_ENGINE,
                             FIRST_IMPRESSION_ENGINE,
                             TERRAIN_REACTION_ENGINE,
                             SPIDER_WEB_ENGINE,
@@ -4086,6 +4111,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        AURA_WHEEL_ENGINE,
                         FIRST_IMPRESSION_ENGINE,
                         TERRAIN_REACTION_ENGINE,
                         SPIDER_WEB_ENGINE,
@@ -4138,6 +4164,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            AURA_WHEEL_ENGINE,
                             FIRST_IMPRESSION_ENGINE,
                             TERRAIN_REACTION_ENGINE,
                             SPIDER_WEB_ENGINE,
@@ -4193,6 +4220,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            AURA_WHEEL_ENGINE,
                             FIRST_IMPRESSION_ENGINE,
                             TERRAIN_REACTION_ENGINE,
                             SPIDER_WEB_ENGINE,
@@ -4249,6 +4277,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            AURA_WHEEL_ENGINE,
                             FIRST_IMPRESSION_ENGINE,
                             TERRAIN_REACTION_ENGINE,
                             SPIDER_WEB_ENGINE,
@@ -4306,6 +4335,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            AURA_WHEEL_ENGINE,
                             FIRST_IMPRESSION_ENGINE,
                             TERRAIN_REACTION_ENGINE,
                             SPIDER_WEB_ENGINE,
@@ -4364,6 +4394,7 @@ fn transition_inner(
                     special: Box::new(special::SpecialState {
                         enabled: [
                             ENGINE,
+                            AURA_WHEEL_ENGINE,
                             FIRST_IMPRESSION_ENGINE,
                             TERRAIN_REACTION_ENGINE,
                             SPIDER_WEB_ENGINE,
@@ -4422,6 +4453,7 @@ fn transition_inner(
                     }),
                     ability_rules: [
                         ENGINE,
+                        AURA_WHEEL_ENGINE,
                         FIRST_IMPRESSION_ENGINE,
                         TERRAIN_REACTION_ENGINE,
                         SPIDER_WEB_ENGINE,
@@ -4482,6 +4514,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            AURA_WHEEL_ENGINE,
                             FIRST_IMPRESSION_ENGINE,
                             TERRAIN_REACTION_ENGINE,
                             SPIDER_WEB_ENGINE,
@@ -4542,6 +4575,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            AURA_WHEEL_ENGINE,
                             FIRST_IMPRESSION_ENGINE,
                             TERRAIN_REACTION_ENGINE,
                             SPIDER_WEB_ENGINE,
@@ -5410,6 +5444,13 @@ fn effects_inner_base(
         }
         name if chance_effect(name).is_some() => {
             let (kind, _) = chance_effect(name).unwrap();
+            let source = reviewed::source(c, q)?;
+            let resolved = field::move_data(c, &source, &data);
+            if completion::sport(c, &resolved) {
+                interactions::apply_status_chance(c, q, dice, kind, cat)?;
+                return Ok(());
+            }
+
             let already_flinched = kind == "Flinch"
                 && fighter(c, &q.target_id)?.runtime.flinch_round == battle(c)?.round;
             let dust = abilities::enabled(c)

@@ -136,6 +136,7 @@ pub fn apply_status_chance(
     let source = reviewed::source(c, q)?;
     if chance_status::definition(c, &q.move_name).is_some()
         || compound::definition(c, &q.move_name).is_some()
+        || completion::definition(c, "Mud Sport").is_some()
     {
         // Use the same canonical move type as damage (notably Fighting -> Fight).
         // Historical interaction handlers retain their previous inputs.
@@ -143,8 +144,7 @@ pub fn apply_status_chance(
         m = field::move_data(c, &source, &m);
     }
     let target = fighter(c, &q.target_id)?;
-    let (effectiveness, immune) =
-        rules::type_matchup(c, &source, target, m["Type"].as_str().unwrap_or(""), cat)?;
+    let (effectiveness, immune) = rules::move_matchup(c, &source, target, &m, cat)?;
     if special::target_effects_blocked(c, q, &m)
         || immune
         || abilities::damage_immune_from(c, &source, target, &m)

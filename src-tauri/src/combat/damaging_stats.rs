@@ -84,8 +84,7 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, dice: &[u8], cat: &Catalog) ->
     let mut m = move_entry(cat, &q.move_name)?;
     special::move_data(c, &source, &mut m);
     let m = field::move_data(c, &source, &m);
-    let (effectiveness, immune) =
-        rules::type_matchup(c, &source, target, m["Type"].as_str().unwrap_or(""), cat)?;
+    let (effectiveness, immune) = rules::move_matchup(c, &source, target, &m, cat)?;
     if special::target_effects_blocked(c, q, &m)
         || immune
         || abilities::damage_immune_from(c, &source, target, &m)

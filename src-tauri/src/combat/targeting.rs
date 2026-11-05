@@ -27,6 +27,7 @@ pub struct FieldEffect {
 pub(super) fn require_targeting(c: &Campaign) -> Result<()> {
     if ![
         ENGINE,
+        AURA_WHEEL_ENGINE,
         FIRST_IMPRESSION_ENGINE,
         TERRAIN_REACTION_ENGINE,
         SPIDER_WEB_ENGINE,

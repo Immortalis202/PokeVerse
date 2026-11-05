@@ -1416,6 +1416,29 @@
           "amount": 1
         }
       }
+    },
+    "MOVE-A26": {
+      "engine": "0.61.0-core",
+      "kind": "battlefield-support",
+      "scope": "Mud Sport and Water Sport create non-refreshable four-round global fields. Resolved damaging Electric/Fire moves have Power zero and cannot deal super-effective damage; resistance, immunity, STAB and independent extra dice remain. Damage and effect-immunity checks share the same sport-adjusted matchup. Historical encounters retain their previous behavior.",
+      "moves": {
+        "Mud Sport": {
+          "source": "Pokerole-Data/v3.0/Moves/Mud Sport.json",
+          "sha256": "f7211004ba2cefda3e6c24a9a7325bd14db350f1bb7858a39f4da0e0b2a8327a",
+          "effect": "Target Battlefield. Physical & Special Electric-Type Moves have Power 0. Pokemon weak to Electric-Type Moves won't receive Super-Effective Damage from them. Duration 4 Rounds.",
+          "scope": "all",
+          "rounds": 4,
+          "sport_type": "Electric"
+        },
+        "Water Sport": {
+          "source": "Pokerole-Data/v3.0/Moves/Water Sport.json",
+          "sha256": "0ea6f1cb3d87f6f8d1b82a9a246a993297bc9cc3121653812046cc8b9369c94d",
+          "effect": "Target Battlefield. Physical & Special Fire-Type Moves have Power 0. Pokemon weak to Fire-Type Moves won't receive Super-Effective Damage from them. Duration 4 Rounds.",
+          "scope": "all",
+          "rounds": 4,
+          "sport_type": "Fire"
+        }
+      }
     }
   },
   "printed_review": {

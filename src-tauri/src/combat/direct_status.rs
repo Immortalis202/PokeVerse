@@ -25,6 +25,9 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, cat: &Catalog) -> Result<bool>
     if !flow(c)?.direct_status {
         return Ok(false);
     }
+    if completion::sport_effect_blocked(c, q, cat)? {
+        return Ok(true);
+    }
     let m = move_entry(cat, &q.move_name)?;
     if special::target_effects_blocked(c, q, &m)
         || (!reviewed::extreme(c, &reviewed::source(c, q)?)

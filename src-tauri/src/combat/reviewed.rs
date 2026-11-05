@@ -119,7 +119,7 @@ pub fn hit(c: &mut Campaign, q: &QueuedAction, m: &serde_json::Value, cat: &Cata
     if a.id == t.id || decoys::intercepted(c, q) {
         return Ok(());
     }
-    let (_, immune) = rules::type_matchup(c, &a, &t, m["Type"].as_str().unwrap_or("Normal"), cat)?;
+    let (_, immune) = rules::move_matchup(c, &a, &t, &m, cat)?;
     if immune {
         return Ok(());
     }

@@ -153,7 +153,7 @@ pub fn clash_bonus(
     }
     let a = fighter(c, source)?;
     let t = fighter(c, target)?;
-    let (effect, immune) = rules::type_matchup(c, a, t, m["Type"].as_str().unwrap_or(""), cat)?;
+    let (effect, immune) = rules::move_matchup(c, a, t, &m, cat)?;
     Ok(i32::from(
         !immune
             && !abilities::damage_immune_from(c, a, t, m)
