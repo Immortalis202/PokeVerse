@@ -61,6 +61,14 @@ pub fn effect_dice(c: &Campaign, q: &QueuedAction) -> Result<Option<u32>> {
     Ok(definition(c, &q.move_name).map(|_| 0))
 }
 fn immune_target(c: &Campaign, q: &QueuedAction, cat: &Catalog) -> Result<bool> {
+    immune_target_with_fainted(c, q, cat, false)
+}
+fn immune_target_with_fainted(
+    c: &Campaign,
+    q: &QueuedAction,
+    cat: &Catalog,
+    allow_fainted: bool,
+) -> Result<bool> {
     if q.ice {
         return Ok(true);
     }
@@ -69,7 +77,7 @@ fn immune_target(c: &Campaign, q: &QueuedAction, cat: &Catalog) -> Result<bool> 
     let mut m = move_entry(cat, &q.move_name)?;
     special::move_data(c, &source, &mut m);
     let m = field::move_data(c, &source, &m);
-    if target.hp == 0
+    if (!allow_fainted && target.hp == 0)
         || special::target_effects_blocked(c, q, &m)
         || (!reviewed::extreme(c, &source)
             && (extra::effects_immune(c, target, &m) || abilities::move_immune(c, target, &m)))
@@ -162,6 +170,25 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
         }
         "accuracy" => {
             accuracy_effect(c, q, d, _dice, cat)?;
+        }
+        "field-cleanse" => {
+            if !immune_target_with_fainted(c, q, cat, true)? {
+                if d["spin"] == true {
+                    extra::change_stat(c, &q.actor_id, &q.actor_id, "Dexterity", 1)?;
+                    compound::cleanse(c, &q.actor_id)?;
+                } else {
+                    flow_mut(c)
+                        .battlefield
+                        .rules
+                        .retain(|r| !r.kind.ends_with("Terrain"));
+                    flow_mut(c)
+                        .field_effects
+                        .retain(|r| !r.move_name.ends_with("Terrain"));
+                    flow_mut(c).battlefield.events.retain(|e| {
+                        !["terrain-ruling", "terrain-contest"].contains(&e.kind.as_str())
+                    });
+                }
+            }
         }
         "trap" => {
             if !immune_target(c, q, cat)? {
@@ -499,4 +526,18 @@ pub fn stack_values(c: &Campaign, p: &Combatant, key: &str) -> Vec<i32> {
                 .collect()
         },
     )
+}
+
+pub fn guard_move(c: &Campaign, m: &serde_json::Value) -> Result<()> {
+    if definition(c, m["Name"].as_str().unwrap_or(""))
+        .is_some_and(|(_, d)| d["requires_terrain"] == true)
+        && !flow(c)?
+            .battlefield
+            .rules
+            .iter()
+            .any(|r| r.kind.ends_with("Terrain"))
+    {
+        return Err(error("Steel Roller requires an active Terrain"));
+    }
+    Ok(())
 }

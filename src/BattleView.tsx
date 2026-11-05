@@ -128,6 +128,7 @@ export default function BattleView({
     "0.9.0-core",
     "0.10.0-core",
     "0.11.0-core",
+    "0.47.0-core",
     "0.46.0-core",
     "0.45.0-core",
     "0.44.0-core",
@@ -313,6 +314,7 @@ export default function BattleView({
         <>
           {gm &&
             [
+              "0.47.0-core",
               "0.46.0-core",
               "0.45.0-core",
               "0.44.0-core",
@@ -440,6 +442,7 @@ export default function BattleView({
                     ? {
                         type: "start_team_battle",
                         environment: [
+                          "0.47.0-core",
                           "0.46.0-core",
                           "0.45.0-core",
                           "0.44.0-core",
@@ -483,6 +486,7 @@ export default function BattleView({
                     : {
                         type: "start_battle",
                         environment: [
+                          "0.47.0-core",
                           "0.46.0-core",
                           "0.45.0-core",
                           "0.44.0-core",
@@ -1053,6 +1057,7 @@ export default function BattleView({
                   "0.9.0-core",
                   "0.10.0-core",
                   "0.11.0-core",
+                  "0.47.0-core",
                   "0.46.0-core",
                   "0.45.0-core",
                   "0.44.0-core",
@@ -1133,6 +1138,7 @@ export default function BattleView({
                         "0.9.0-core",
                         "0.10.0-core",
                         "0.11.0-core",
+                        "0.47.0-core",
                         "0.46.0-core",
                         "0.45.0-core",
                         "0.44.0-core",
@@ -1204,6 +1210,7 @@ export default function BattleView({
                       "0.9.0-core",
                       "0.10.0-core",
                       "0.11.0-core",
+                      "0.47.0-core",
                       "0.46.0-core",
                       "0.45.0-core",
                       "0.44.0-core",
@@ -1272,6 +1279,7 @@ export default function BattleView({
                         "0.9.0-core",
                         "0.10.0-core",
                         "0.11.0-core",
+                        "0.47.0-core",
                         "0.46.0-core",
                         "0.45.0-core",
                         "0.44.0-core",

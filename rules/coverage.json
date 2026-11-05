@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.46.0-core",
-  "release": "0.54.0",
-  "protocol": 55,
+  "engine": "0.47.0-core",
+  "release": "0.55.0",
+  "protocol": 56,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -768,6 +768,18 @@
         "completion_a11_stat_transfer_captures_effective_simple_stacks_once"
       ],
       "scope": "Four explicitly stacking stat cards: Sharpen, Syrup Bomb, Luster Purge and Mist Ball. Each named stat effect stacks to three; exact Chance pools, live reflection/protection and standard other-move nonstacking channels remain. Scene-local counters clear with modifiers or departure."
+    },
+    {
+      "id": "move-completion-a12",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A12",
+      "fixtures": [
+        "completion_a12_rapid_spin_cleans_own_side_and_ongoing_without_removing_scene_blocks",
+        "completion_a12_terrain_attacks_validate_declaration_and_remove_all_terrain_scopes",
+        "completion_a12_terrain_cleanup_survives_target_faint_and_old_encounters_keep_fallback",
+        "completion_a12_immunity_and_sheer_force_preserve_terrain_when_effect_is_blocked"
+      ],
+      "scope": "Rapid Spin raises user Dexterity and clears its ongoing damage/Leech Seed and its side hazards/terrains. Ice Spinner and Steel Roller remove active terrains; Steel Roller requires a terrain at declaration. Cleanup retains opposing side effects and pure scene Blocking, including shared/global scopes."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -784,5 +796,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "51bdb2d24098c8ee395b1ca3f7999dc7dff8ad8b6d683bd6e1f0b014fcf67650"
+  "move_completion_registry_hash": "6ce61277c090fea37a6cb1059a2b65389b858fe09a9978924a81f933ef0c2333"
 }

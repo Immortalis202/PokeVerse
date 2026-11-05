@@ -466,7 +466,7 @@ pub fn poisoned(c: &mut Campaign, id: &str) -> Result<()> {
     }
     Ok(())
 }
-fn cleanse(c: &mut Campaign, id: &str) -> Result<()> {
+pub(super) fn cleanse(c: &mut Campaign, id: &str) -> Result<()> {
     completion::cleanse(c, id);
     let side = fighter(c, id)?.side.clone();
     let affects = |scope: &str| {
@@ -476,6 +476,32 @@ fn cleanse(c: &mut Campaign, id: &str) -> Result<()> {
             || scope
                 .strip_prefix("opponents-of:")
                 .is_some_and(|s| s != side)
+    };
+
+    let scoped = flow(c)?.completion.blocks.contains("MOVE-A12");
+    let sides: BTreeSet<String> = battle(c)?
+        .combatants
+        .iter()
+        .map(|p| p.side.clone())
+        .collect();
+    let remaining = |scope: &str| -> Vec<String> {
+        if !affects(scope) {
+            return vec![scope.into()];
+        }
+        if !scoped {
+            return vec![];
+        }
+        if scope == "all" {
+            return vec![format!("opponents-of:{side}")];
+        }
+        if let Some(excluded) = scope.strip_prefix("opponents-of:") {
+            return sides
+                .iter()
+                .filter(|s| s.as_str() != excluded && **s != side)
+                .map(|s| format!("side:{s}"))
+                .collect();
+        }
+        vec![]
     };
     let kinds = [
         "Spikes",
@@ -487,13 +513,50 @@ fn cleanse(c: &mut Campaign, id: &str) -> Result<()> {
         "Misty Terrain",
         "Psychic Terrain",
     ];
-    flow_mut(c)
+    let rules = flow(c)?
         .battlefield
         .rules
-        .retain(|r| !(affects(&r.scope) && kinds.contains(&r.kind.as_str())));
-    flow_mut(c)
+        .iter()
+        .flat_map(|r| {
+            let scopes = if kinds.contains(&r.kind.as_str()) {
+                remaining(&r.scope)
+            } else {
+                vec![r.scope.clone()]
+            };
+            scopes
+                .into_iter()
+                .map(|scope| {
+                    let mut r = r.clone();
+                    if r.scope != scope {
+                        r.id = format!("{}:cleanse:{scope}", r.id);
+                    }
+                    r.scope = scope;
+                    r
+                })
+                .collect::<Vec<_>>()
+        })
+        .collect();
+    let effects = flow(c)?
         .field_effects
-        .retain(|r| !(affects(&r.scope) && kinds.contains(&r.move_name.as_str())));
+        .iter()
+        .flat_map(|r| {
+            let scopes = if kinds.contains(&r.move_name.as_str()) {
+                remaining(&r.scope)
+            } else {
+                vec![r.scope.clone()]
+            };
+            scopes
+                .into_iter()
+                .map(|scope| {
+                    let mut r = r.clone();
+                    r.scope = scope;
+                    r
+                })
+                .collect::<Vec<_>>()
+        })
+        .collect();
+    flow_mut(c).battlefield.rules = rules;
+    flow_mut(c).field_effects = effects;
     flow_mut(c).special.effects.retain(|e| {
         !(e.target == id
             && [

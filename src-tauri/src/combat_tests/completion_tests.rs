@@ -1484,3 +1484,212 @@ fn completion_a11_stat_transfer_captures_effective_simple_stacks_once() {
     crate::combat::stat_channels::transfer(&mut c, &a, &t, "Baton Pass").unwrap();
     assert_eq!(stat(&c, &t, "Strength"), 6);
 }
+fn saved_field_rule(
+    c: &mut Campaign,
+    kind: &str,
+    source: &str,
+    scope: &str,
+    rounds: Option<u32>,
+    parameter: i32,
+) {
+    let started_round = c.battle.as_ref().unwrap().round;
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .battlefield
+        .rules
+        .push(crate::combat::field::FieldRule {
+            id: id(),
+            kind: kind.into(),
+            source: source.into(),
+            scope: scope.into(),
+            rounds,
+            parameter,
+            started_round,
+        });
+}
+#[test]
+fn completion_a12_rapid_spin_cleans_own_side_and_ongoing_without_removing_scene_blocks() {
+    use crate::combat::field;
+    let (c, a, t) = setup("Bind");
+    let mut c = resolve(&pending(&c, &a, &t, "Bind"));
+    turn(&mut c, &a, "Mean Look");
+    let mut c = resolve(&pending(&c, &a, &t, "Mean Look"));
+    let own = format!("side:{}", p(&c, &t).side);
+    let other = format!("side:{}", p(&c, &a).side);
+    saved_field_rule(&mut c, "Spikes", "spin-fixture", "all", None, 0);
+    saved_field_rule(&mut c, "Sticky Web", "spin-fixture", &own, None, 0);
+    saved_field_rule(&mut c, "Stealth Rock", "spin-fixture", &other, None, 0);
+    saved_field_rule(&mut c, "Grassy Terrain", "spin-fixture", "all", Some(4), 0);
+    saved_field_rule(&mut c, "Reflect", "spin-fixture", &own, Some(4), 0);
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .special
+        .effects
+        .push(special::TimedEffect {
+            name: "Leech Seed".into(),
+            source: a.clone(),
+            target: t.clone(),
+            rounds: None,
+            amount: 2,
+            started: 0,
+            slot: String::new(),
+        });
+    turn(&mut c, &t, "Rapid Spin");
+    let c = resolve(&pending(&c, &t, &a, "Rapid Spin"));
+    assert_eq!(stat(&c, &t, "Dexterity"), 1);
+    assert!(completion::blocked(&c, &t), "Mean Look remains");
+    assert!(!c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .special
+        .effects
+        .iter()
+        .any(|e| e.target == t && (e.name.starts_with("ongoing:") || e.name == "Leech Seed")));
+    assert!(!field::has(&c, "Spikes", p(&c, &t)));
+    assert!(!field::has(&c, "Sticky Web", p(&c, &t)));
+    assert!(
+        field::has(&c, "Spikes", p(&c, &a)),
+        "global hazard retained on other side"
+    );
+    assert!(field::has(&c, "Stealth Rock", p(&c, &a)));
+    assert!(!field::has(&c, "Grassy Terrain", p(&c, &t)));
+    assert!(field::has(&c, "Grassy Terrain", p(&c, &a)));
+    assert!(field::has(&c, "Reflect", p(&c, &t)));
+}
+#[test]
+fn completion_a12_terrain_attacks_validate_declaration_and_remove_all_terrain_scopes() {
+    use crate::combat::field;
+    for name in ["Ice Spinner", "Steel Roller"] {
+        let (mut c, a, t) = setup(name);
+        let action = super::targeting_tests::attack(&a, vec![t.clone()], name);
+        assert_eq!(
+            rules::dice_count(&c, &action, &catalog()).is_err(),
+            name == "Steel Roller"
+        );
+        let own = format!("side:{}", p(&c, &a).side);
+        let other = format!("side:{}", p(&c, &t).side);
+        saved_field_rule(
+            &mut c,
+            "Grassy Terrain",
+            "terrain-fixture",
+            &own,
+            Some(4),
+            0,
+        );
+        saved_field_rule(
+            &mut c,
+            "Electric Terrain",
+            "terrain-fixture",
+            &other,
+            Some(3),
+            0,
+        );
+        saved_field_rule(&mut c, "Reflect", "terrain-fixture", &own, Some(2), 0);
+        let c = resolve(&pending(&c, &a, &t, name));
+        assert!(!c
+            .battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .battlefield
+            .rules
+            .iter()
+            .any(|r| r.kind.ends_with("Terrain")));
+        assert!(field::has(&c, "Reflect", p(&c, &a)));
+    }
+}
+#[test]
+fn completion_a12_terrain_cleanup_survives_target_faint_and_old_encounters_keep_fallback() {
+    use crate::combat::field;
+    let (mut c, a, t) = setup("Ice Spinner");
+    pm(&mut c, &t).hp = 1;
+    saved_field_rule(
+        &mut c,
+        "Grassy Terrain",
+        "terrain-fixture",
+        "all",
+        Some(4),
+        0,
+    );
+    let c = pending(&c, &a, &t, "Ice Spinner");
+    assert_eq!(p(&c, &t).hp, 0);
+    let c = resolve(&c);
+    assert!(!field::has(&c, "Grassy Terrain", p(&c, &a)));
+    let (mut c, a, t) = setup("Ice Spinner");
+    c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
+        Box::new(completion::initial(STACK_STAT_MOVES_ENGINE));
+    let c = pending(&c, &a, &t, "Ice Spinner");
+    assert_eq!(
+        battle::transition(&c, "gm", &cmd(&c), vec![], &catalog())
+            .unwrap_err()
+            .code,
+        "manual_rule"
+    );
+}
+#[test]
+fn completion_a12_immunity_and_sheer_force_preserve_terrain_when_effect_is_blocked() {
+    use crate::combat::field;
+    let (mut c, a, t) = setup("Ice Spinner");
+    pm(&mut c, &t).selected_ability = "Wonder Guard".into();
+    saved_field_rule(
+        &mut c,
+        "Grassy Terrain",
+        "terrain-fixture",
+        "all",
+        Some(4),
+        0,
+    );
+    let c = resolve(&pending(&c, &a, &t, "Ice Spinner"));
+    assert!(field::has(&c, "Grassy Terrain", p(&c, &a)));
+    let (mut c, a, t) = setup("Ice Spinner");
+    pm(&mut c, &a).selected_ability = "Sheer Force".into();
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .provenance_rules = true;
+    saved_field_rule(
+        &mut c,
+        "Grassy Terrain",
+        "terrain-fixture",
+        "all",
+        Some(4),
+        0,
+    );
+    let c = decision(
+        &c,
+        "gm",
+        Action::ChooseSheerForce {
+            combatant_id: a.clone(),
+            ignore_added_effects: true,
+            reason: "Trade terrain removal for damage".into(),
+        },
+    );
+    let c = pending(&c, &a, &t, "Ice Spinner");
+    assert!(c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .queue
+        .is_empty());
+    assert!(field::has(&c, "Grassy Terrain", p(&c, &a)));
+}

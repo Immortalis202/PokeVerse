@@ -931,6 +931,34 @@
           "amount": -1
         }
       }
+    },
+    "MOVE-A12": {
+      "engine": "0.47.0-core",
+      "kind": "field-cleanse",
+      "scope": "Rapid Spin raises user Dexterity and clears its ongoing damage/Leech Seed and its side hazards/terrains. Ice Spinner and Steel Roller remove active terrains; Steel Roller requires a terrain at declaration. Cleanup retains opposing side effects and pure scene Blocking, including shared/global scopes.",
+      "moves": {
+        "Rapid Spin": {
+          "source": "Pokerole-Data/v3.0/Moves/Rapid Spin.json",
+          "sha256": "d77d5140eb7e2460cbf4dfd729761fec03745957fc0660adc540cb1fd5cafa0d",
+          "effect": "Single Target. Increase the User's Dexterity by 1. Remove Entry Hazards, Terrains (ie Grassy Terrain, Misty Terrain), Ongoing Damage and Leech seed from the User and/or their side of the field.",
+          "spin": true,
+          "requires_terrain": false
+        },
+        "Ice Spinner": {
+          "source": "Pokerole-Data/v3.0/Moves/Ice Spinner.json",
+          "sha256": "8a1eb0c445e6063fb0ed88c2fe1d50c8792e29bf24135f1c28b4c12ec1b19c86",
+          "effect": "Single Target. Remove any active Terrain on the Battlefield.",
+          "spin": false,
+          "requires_terrain": false
+        },
+        "Steel Roller": {
+          "source": "Pokerole-Data/v3.0/Moves/Steel Roller.json",
+          "sha256": "1ffd267e1f40b10ba86fa6817cbadba0866388c6bba47b372a6eb3d227f1c2e1",
+          "effect": "Single Target. Lethal. Can't be used if there is no Active Terrain (Grassy Terrain, Electric Terrain, etc.) on the Battlefield. Remove any active Terrain on the Battlefield.",
+          "spin": false,
+          "requires_terrain": true
+        }
+      }
     }
   },
   "printed_review": {

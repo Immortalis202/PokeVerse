@@ -827,6 +827,7 @@ pub fn low_accuracy(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> i32 {
     }
 }
 pub fn guard_move(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> Result<()> {
+    completion::guard_move(c, m)?;
     extra::reaction(c, p, "move", Some(m))?;
     if !enabled(c) {
         return Ok(());

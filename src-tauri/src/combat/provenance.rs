@@ -96,7 +96,10 @@ pub fn tag_actions(before: &Campaign, after: &mut Campaign, cat: &Catalog) -> Re
                         .is_some_and(|effects| !effects.is_empty())
                         || damaging_stats::definition(before, &q.move_name).is_some()
                         || completion::definition(before, &q.move_name).is_some_and(
-                            |(kind, _)| ["ongoing", "accuracy", "stack-stat"].contains(&kind),
+                            |(kind, _)| {
+                                ["ongoing", "accuracy", "stack-stat", "field-cleanse"]
+                                    .contains(&kind)
+                            },
                         )
                         || chance_status::definition(before, &q.move_name).is_some()
                         || compound::definition(before, &q.move_name).is_some()
