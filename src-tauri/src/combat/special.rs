@@ -2355,12 +2355,13 @@ fn weight(c: &Campaign, p: &Combatant, cat: &Catalog) -> Result<f64> {
     }
 
     if let Some(n) = state(c).parameters.get(&p.id).and_then(|v| v.weight_kg) {
-        return Ok(n);
+        return Ok(completion::weight(c, p, n));
     }
     let s = &c.sheets[&p.sheet_id];
     cat.find("species", "AppId", s.species_id.as_deref().unwrap_or(""))
         .and_then(|v| v["Weight"]["Kilograms"].as_f64())
         .filter(|n| n.is_finite() && *n > 0.)
+        .map(|n| completion::weight(c, p, n))
         .ok_or_else(|| error("Missing weight: GM must supply the encounter weight in kg"))
 }
 pub fn bonus(

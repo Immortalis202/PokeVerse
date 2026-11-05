@@ -4164,3 +4164,181 @@ fn completion_a27_tar_shot_single_damage_snapshot_preserves_resolved_type_field_
         );
     }
 }
+
+#[test]
+fn completion_a28_victory_dance_bonuses_do_not_stack_and_match_only_non_ranged_physical() {
+    let (mut c, a, t) = setup("Victory Dance");
+    c = resolve(&pending(&c, &a, &a, "Victory Dance"));
+    turn(&mut c, &a, "Victory Dance");
+    c = resolve(&pending(&c, &a, &a, "Victory Dance"));
+    assert_eq!(stat(&c, &a, "Strength"), 1);
+    assert_eq!(stat(&c, &a, "Defense"), 1);
+    assert_eq!(
+        c.battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .special
+            .effects
+            .iter()
+            .filter(|e| e.name == "Victory Dance" && e.target == a)
+            .count(),
+        1
+    );
+    for (name, expected) in [("Tackle", 1), ("Rock Throw", 0), ("Flamethrower", 0)] {
+        let mut cast = c.clone();
+        turn(&mut cast, &a, name);
+        let mut control = cast.clone();
+        control
+            .battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .special
+            .effects
+            .retain(|e| e.name != "Victory Dance");
+        let boosted = queued_damage_pool(&ordinary_accuracy(&cast, &a, &t, name));
+        let normal = queued_damage_pool(&ordinary_accuracy(&control, &a, &t, name));
+        assert_eq!(
+            boosted.dice,
+            normal.dice + expected,
+            "{name}: isolate the flat auxiliary from the Strength buff"
+        );
+    }
+    pm(&mut c, &a).selected_ability = "Long Reach".into();
+    turn(&mut c, &a, "Tackle");
+    let mut control = c.clone();
+    control
+        .battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .special
+        .effects
+        .retain(|e| e.name != "Victory Dance");
+    assert_eq!(
+        queued_damage_pool(&ordinary_accuracy(&c, &a, &t, "Tackle")).dice,
+        queued_damage_pool(&ordinary_accuracy(&control, &a, &t, "Tackle")).dice
+    );
+}
+#[test]
+fn completion_a28_autotomize_halves_authoritative_weight_once_and_changes_weight_attacks() {
+    use crate::combat::standalone;
+    let (mut c, a, t) = setup("Autotomize");
+    set_species(&mut c, &a, "Blastoise");
+    refresh_field(&mut c);
+    assert_eq!(
+        standalone::weight(&c, p(&c, &a), &catalog(), None).unwrap(),
+        170.0
+    );
+    let attack = catalog().find("moves", "Name", "Grass Knot").unwrap();
+    assert_eq!(
+        special::bonus(&c, p(&c, &t), p(&c, &a), &attack, &catalog()).unwrap(),
+        3
+    );
+    for _ in 0..2 {
+        turn(&mut c, &a, "Autotomize");
+        c = resolve(&pending(&c, &a, &a, "Autotomize"));
+    }
+    assert_eq!(stat(&c, &a, "Dexterity"), 2);
+    assert_eq!(
+        standalone::weight(&c, p(&c, &a), &catalog(), None).unwrap(),
+        85.0
+    );
+    assert_eq!(
+        special::bonus(&c, p(&c, &t), p(&c, &a), &attack, &catalog()).unwrap(),
+        1,
+        "legacy encounter-weight path"
+    );
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .standalone
+        .enabled = true;
+    assert_eq!(
+        special::bonus(&c, p(&c, &t), p(&c, &a), &attack, &catalog()).unwrap(),
+        1,
+        "authoritative profile path"
+    );
+    let sid = p(&c, &a).sheet_id.clone();
+    let species_id = c.sheets[&sid].species_id.clone();
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .standalone
+        .profiles
+        .insert(
+            a.clone(),
+            standalone::BattleProfile {
+                species_id,
+                gender: "Unknown".into(),
+                preference: "Unknown".into(),
+                weight_kg: Some(170.0),
+                metal_weight_kg: Some(500.0),
+            },
+        );
+    pm(&mut c, &a).selected_ability = "Heavy Metal".into();
+    assert_eq!(
+        standalone::weight(&c, p(&c, &a), &catalog(), None).unwrap(),
+        250.0,
+        "halve the explicit metal-adjusted weight"
+    );
+}
+#[test]
+fn completion_a28_auxiliaries_serialize_clear_on_recall_and_keep_stat_ability_rules() {
+    use crate::combat::standalone;
+    for (name, key, expected) in [
+        ("Autotomize", "Dexterity", 3),
+        ("Victory Dance", "Strength", 2),
+    ] {
+        let (mut c, a, _) = setup(name);
+        pm(&mut c, &a).selected_ability = "Simple".into();
+        let incoming = reserve(&mut c, &a);
+        let c = resolve(&pending(&c, &a, &a, name));
+        assert_eq!(stat(&c, &a, key), expected);
+        let mut c: Campaign = serde_json::from_str(&serde_json::to_string(&c).unwrap()).unwrap();
+        let original = standalone::weight(&c, p(&c, &a), &catalog(), None).unwrap();
+        c = spider_switch(&c, &a, &incoming, false);
+        assert!(!c
+            .battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .special
+            .effects
+            .iter()
+            .any(|e| e.name == name && e.target == a));
+        if name == "Autotomize" {
+            assert_eq!(
+                standalone::weight(&c, p(&c, &a), &catalog(), None).unwrap(),
+                original * 2.0
+            );
+        }
+    }
+    for name in ["Victory Dance", "Autotomize"] {
+        let (mut c, a, _) = setup(name);
+        c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
+            Box::new(completion::initial(TAR_SHOT_ENGINE));
+        let c = pending(&c, &a, &a, name);
+        assert_eq!(
+            battle::transition(&c, "gm", &cmd(&c), vec![], &catalog())
+                .unwrap_err()
+                .code,
+            "manual_rule"
+        );
+    }
+}

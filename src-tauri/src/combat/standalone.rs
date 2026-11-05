@@ -293,9 +293,9 @@ pub fn weight(c: &Campaign, p: &Combatant, cat: &Catalog, legacy: Option<f64>) -
                 "Metal weight must follow the printed increase/reduction direction",
             ));
         }
-        return Ok(n);
+        return Ok(completion::weight(c, p, n));
     }
-    Ok(baseline)
+    Ok(completion::weight(c, p, baseline))
 }
 pub fn transition(
     c: &Campaign,

@@ -33,7 +33,8 @@ The live source of remaining route work is `rules/move-effect-audit.json`. Its f
 | MOVE-A25 | Aura Wheel Dexterity and existing Hunger Switch typing | Complete |
 | MOVE-A26 | Mud Sport and Water Sport damage fields | Complete |
 | MOVE-A27 | Tar Shot independent stat and Fire vulnerability clauses | Complete |
-| MOVE-A28 | Victory Dance and Autotomize stats and scene auxiliaries | Next |
+| MOVE-A28 | Victory Dance and Autotomize stats and scene auxiliaries | Complete |
+| MOVE-A29 | Charge next-damaging-Electric cast bonus | Next |
 | First Impression ruling | First eligible action round, confirmed by the user on 5 November 2026 | Implemented in MOVE-A24 |
 | Later blocks | Ordinary attacks with existing attributes; remaining stat changes, resets and swaps; type/damage conversions; field changes; conditional damage; timing/action restrictions; items; copy/selection effects | Open |
 

@@ -665,6 +665,22 @@ fn support_stat(
             }
             extra::change_stat(c, &q.actor_id, &target, key, n)?;
         }
+        if d["auxiliary"] == true {
+            let started = battle(c)?.round;
+            flow_mut(c)
+                .special
+                .effects
+                .retain(|e| e.name != q.move_name || e.target != target);
+            flow_mut(c).special.effects.push(special::TimedEffect {
+                name: q.move_name.clone(),
+                source: q.actor_id.clone(),
+                target: target.clone(),
+                rounds: None,
+                amount: 0,
+                started,
+                slot: "self-support".into(),
+            });
+        }
     }
     Ok(())
 }
@@ -844,10 +860,10 @@ fn contextual_type(c: &Campaign, p: &Combatant, m: &mut serde_json::Value) {
     }
 }
 pub fn damage_bonus(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> i32 {
+    let mut n = i32::from(abilities::contact(m) && self_support(c, p, "Victory Dance"));
     let Some((_, d)) = definition(c, m["Name"].as_str().unwrap_or("")) else {
-        return 0;
+        return n;
     };
-    let mut n = 0;
     if d["happiness_bonus"] == true {
         n += c.sheets[&p.sheet_id]
             .workflow
@@ -1194,6 +1210,25 @@ pub fn typed_effectiveness(c: &Campaign, m: &serde_json::Value, t: &Combatant, n
         && field::fire_vulnerable(c, &t.id)
     {
         1
+    } else {
+        n
+    }
+}
+
+fn self_support(c: &Campaign, p: &Combatant, name: &str) -> bool {
+    p.deployed
+        && p.hp > 0
+        && definition(c, name).is_some()
+        && flow(c).is_ok_and(|f| {
+            f.special
+                .effects
+                .iter()
+                .any(|e| e.name == name && e.target == p.id && e.slot == "self-support")
+        })
+}
+pub fn weight(c: &Campaign, p: &Combatant, n: f64) -> f64 {
+    if self_support(c, p, "Autotomize") {
+        n / 2.0
     } else {
         n
     }

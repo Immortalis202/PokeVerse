@@ -1451,6 +1451,32 @@
           "effect": "Single Target. Reduce the Target's Dexterity by 1. For the Whole Scene, Fire-Type Moves deal Super-Effective damage against the Target."
         }
       }
+    },
+    "MOVE-A28": {
+      "engine": "0.63.0-core",
+      "kind": "support-stat",
+      "scope": "Victory Dance grants Strength/Defense +1 and one additional die on non-ranged Physical damage pools. Autotomize grants Dexterity +2 and halves current-form encounter weight. Their separate scene auxiliary effects do not stack on recast, clear on recall/faint, and use existing frozen pools and authoritative weight profiles.",
+      "moves": {
+        "Victory Dance": {
+          "source": "Pokerole-Data/v3.0/Moves/Victory Dance.json",
+          "sha256": "8ad8a91259eb8527ec7b9d433af13147e0eadf85d23c44efbe8078fb7a4df94b",
+          "effect": "Target Self. Increase by 1 the User's Strength and Defense. Add 1 Die to the User's Damage Pool for all Non-Ranged Physical Attacks.",
+          "changes": {
+            "Strength": 1,
+            "Defense": 1
+          },
+          "auxiliary": true
+        },
+        "Autotomize": {
+          "source": "Pokerole-Data/v3.0/Moves/Autotomize.json",
+          "sha256": "dd3d335c25da548d0adf087f6550698a013ff048b7c6c98a13b9abd6fea105d1",
+          "effect": "Target Self. Increase the User's Dexterity by 2. Halve the User's weight.",
+          "changes": {
+            "Dexterity": 2
+          },
+          "auxiliary": true
+        }
+      }
     }
   },
   "printed_review": {

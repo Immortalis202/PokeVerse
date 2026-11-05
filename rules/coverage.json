@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.62.0-core",
-  "release": "0.70.0",
-  "protocol": 71,
+  "engine": "0.63.0-core",
+  "release": "0.71.0",
+  "protocol": 72,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -954,6 +954,17 @@
         "completion_a27_tar_shot_single_damage_snapshot_preserves_resolved_type_field_bonus"
       ],
       "scope": "Tar Shot reduces target Dexterity by one using ordinary stat protection/reflection, and independently makes damaging Fire-type moves super-effective against it for the scene. Existing type/ability immunity remains; Water Sport still suppresses super-effective damage. Recall/faint clears the scene mark. Historical encounters retain manual resolution."
+    },
+    {
+      "id": "move-completion-a28",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A28",
+      "fixtures": [
+        "completion_a28_victory_dance_bonuses_do_not_stack_and_match_only_non_ranged_physical",
+        "completion_a28_autotomize_halves_authoritative_weight_once_and_changes_weight_attacks",
+        "completion_a28_auxiliaries_serialize_clear_on_recall_and_keep_stat_ability_rules"
+      ],
+      "scope": "Victory Dance grants Strength/Defense +1 and one additional die on non-ranged Physical damage pools. Autotomize grants Dexterity +2 and halves current-form encounter weight. Their separate scene auxiliary effects do not stack on recast, clear on recall/faint, and use existing frozen pools and authoritative weight profiles."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -970,5 +981,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "dd6ffcb8886dae612a3a13a8a215d2cf7342d346c961e9069f00d92e20366cea"
+  "move_completion_registry_hash": "2935f20d1289cd33494d7258f21709113bbe923c9597d490a1c30ce44469ff36"
 }
