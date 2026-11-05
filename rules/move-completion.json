@@ -1100,6 +1100,41 @@
           "persistent": false
         }
       }
+    },
+    "MOVE-A16": {
+      "engine": "0.51.0-core",
+      "kind": "history-gated",
+      "scope": "Four history-dependent moves with saved accepted Pokemon move attempts and entry rounds. Disable selects only the last recorded target move and replaces its prior disable; Torment excludes last-round moves for four rounds; Blood Moon/Gigaton Hammer fail if used last round, including Clash attempts. Gigaton Hammer's discretionary Steel bonus remains an explicit GM pool modifier.",
+      "moves": {
+        "Disable": {
+          "source": "Pokerole-Data/v3.0/Moves/Disable.json",
+          "sha256": "a861806e05d4bd255cd24ccc38ca61c66774697cdc9eb01d9960cd03077668be",
+          "effect": "Single Target. Disable the last Move performed by the Target. Only one Move may be Disabled at a time.",
+          "mode": "disable",
+          "requires_input": true
+        },
+        "Torment": {
+          "source": "Pokerole-Data/v3.0/Moves/Torment.json",
+          "sha256": "304660a35118eb2b1d3c6b0e34b64f702484878fc8a4779d22289c52d0da87d0",
+          "effect": "Single Target. The Target cannot use any of the Moves it used during the last Round. Duration 4 Rounds.",
+          "mode": "torment",
+          "requires_input": false
+        },
+        "Blood Moon": {
+          "source": "Pokerole-Data/v3.0/Moves/Blood Moon.json",
+          "sha256": "4650dba6903b07ac63eded5e3263fb1f5f89553386de31a8c4b5cd48025e2a90",
+          "effect": "Single Target. If this Move was used on the previous Round, it fails (Clashing counts as using the Move.)",
+          "mode": "previous-round",
+          "requires_input": false
+        },
+        "Gigaton Hammer": {
+          "source": "Pokerole-Data/v3.0/Moves/Gigaton Hammer.json",
+          "sha256": "8232e81e0adc0846a0f79346672edb4dc94c3b4fd211af8d2df9f832312ac64c",
+          "effect": "Single Target. Lethal. This Move will fail if it was used the previous Round. *This Move may deal 2 Extra Damage Dice to Steel-Type Pokemon at Storyteller's Discretion.",
+          "mode": "previous-round",
+          "requires_input": false
+        }
+      }
     }
   },
   "printed_review": {

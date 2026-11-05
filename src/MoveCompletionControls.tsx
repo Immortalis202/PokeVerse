@@ -55,7 +55,11 @@ export default function MoveCompletionControls({
                 ? "Taunt: Support moves disabled"
                 : move === "Throat Chop"
                   ? "Throat Chop: Sound moves disabled"
-                  : "Imprison: foes cannot use this Pokémon’s known moves"
+                  : move.startsWith("Disable:")
+                    ? `${move.slice(8)} disabled by Disable`
+                    : move === "Torment"
+                      ? "Torment: last-round moves disabled"
+                      : "Imprison: foes cannot use this Pokémon’s known moves"
               : accuracy
                 ? `${move}: remove ${e.amount} Accuracy successes`
                 : ongoing
@@ -77,7 +81,7 @@ export default function MoveCompletionControls({
                   })
                 }
               >
-                Clear {move}
+                Clear {move.startsWith("Disable:") ? "Disable" : move}
               </button>
             )}
             {due && owned(e.source) && (

@@ -21,7 +21,9 @@ The live source of remaining route work is `rules/move-effect-audit.json`. Its f
 | MOVE-A13 | Seven source-type and conditional damage attacks | Complete |
 | MOVE-A14 | Five self-damage/stat/Blocking support cards | Complete |
 | MOVE-A15 | Taunt, Throat Chop and Imprison restrictions | Complete |
-| MOVE-A16 | Saved move history and round-based restrictions | Next |
+| MOVE-A16 | Four history/round restrictions and saved deployment clocks | Complete |
+| MOVE-A17 | Four Shield/Force Field bypass attacks | Next |
+| First Impression | Deployment round versus first eligible action round | Awaiting user ruling; other blocks continue |
 | Later blocks | Ordinary attacks with existing attributes; remaining stat changes, resets and swaps; type/damage conversions; field changes; conditional damage; timing/action restrictions; items; copy/selection effects | Open |
 
 New block adoption is persisted in `TurnFlow.completion.blocks`. Every release records its engine in `rules/move-completion.json`; historical saves adopt no additional blocks automatically. The shared special-effect state is boxed while preserving its JSON shape to keep transition stack usage bounded.

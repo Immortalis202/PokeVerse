@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.50.0-core",
-  "release": "0.58.0",
-  "protocol": 59,
+  "engine": "0.51.0-core",
+  "release": "0.59.0",
+  "protocol": 60,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -814,6 +814,20 @@
         "completion_a15_protection_gm_clearing_and_historical_states_keep_authority"
       ],
       "scope": "Taunt prevents Support Pokemon moves for four rounds while preserving Support Maneuvers. Throat Chop prevents Sound moves for the scene across switching. Imprison prevents foes from using the active caster's current known moves and ends on caster departure/faint. Authority, immunity and GM clearing remain explicit."
+    },
+    {
+      "id": "move-completion-a16",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A16",
+      "fixtures": [
+        "completion_a16_previous_round_limits_record_public_attempts_and_allow_after_a_gap",
+        "completion_a16_failed_clash_counts_as_using_blood_moon",
+        "completion_a16_disable_selects_only_last_move_and_replaces_the_previous_disable",
+        "completion_a16_torment_tracks_the_previous_round_dynamically",
+        "completion_a16_history_survives_save_and_undo_and_old_states_default_empty",
+        "completion_a16_public_switch_records_actual_deployment_round_without_guessing_eligibility"
+      ],
+      "scope": "Four history-dependent moves with saved accepted Pokemon move attempts and entry rounds. Disable selects only the last recorded target move and replaces its prior disable; Torment excludes last-round moves for four rounds; Blood Moon/Gigaton Hammer fail if used last round, including Clash attempts. Gigaton Hammer's discretionary Steel bonus remains an explicit GM pool modifier."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -830,5 +844,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "3fa2d9101fa1e00242a3bae55c4f2da686f68f084d7c9698bb508a08af76eeb9"
+  "move_completion_registry_hash": "5ba9485ea2d30f5a8db7f2adbc5e9d48807fca8d5cd85c167f370573867ca133"
 }

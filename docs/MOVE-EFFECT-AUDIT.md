@@ -1,6 +1,6 @@
 # Move-effect audit: milestone 1
 
-Snapshot refreshed: 5 November 2026, app **0.58.0**, engine **0.50.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
+Snapshot refreshed: 5 November 2026, app **0.59.0**, engine **0.51.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
 
 ## Deliverables and limits
 
@@ -18,13 +18,13 @@ The diagnostic deliberately bypasses accuracy, damage, targeting expansion, acti
 
 | Effect-route result | Cards | Meaning |
 | --- | ---: | --- |
-| executable-scope | 675 | At least one probe resolves; only recorded scopes are asserted. |
-| input-required | 12 | Existing handler requests a selection, resource, weather or other legitimate prerequisite. |
-| manual-effect-route | 166 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
+| executable-scope | 678 | At least one probe resolves; only recorded scopes are asserted. |
+| input-required | 13 | Existing handler requests a selection, resource, weather or other legitimate prerequisite. |
+| manual-effect-route | 162 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
 | gm-choice | 1 | Hold Hands: narrative battle-ending decision remains with the storyteller. |
 | excluded | 38 | Supplied Max/Z cards and the user-excluded Sappy Seed. |
 
-These totals sum to 892. **166 manual-effect-route results remain after MOVE-A15. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
+These totals sum to 892. **162 manual-effect-route results remain after MOVE-A16. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
 
 | Focused status result | Cards |
 | --- | ---: |
@@ -193,7 +193,7 @@ A six triggers the single printed Chance pool. Serene Grace, Wonder Skin, Loaded
 
 New 0.36.0-core encounters enable the boxed `damaging_stats` state. Missing saved state defaults disabled; 0.35.0-core remains accepted with its previous M3 behavior. Protocol 45 carries the new state. App version is 0.44.0.
 
-**The whole move catalog is not complete.** The 166 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
+**The whole move catalog is not complete.** The 162 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
 
 
 ### MOVE-A01 verification (1 November 2026)
@@ -336,3 +336,12 @@ Validation covers every card, odd/current/total HP, zero-die Belly Drum, exact p
 Taunt prevents Support Pokémon moves for four rounds while preserving Typeless Support Maneuvers. Throat Chop prevents Sound moves for the scene and persists through recall/switching, ending when its target faints. Imprison prevents foes from using moves currently known by its active caster; it ends on caster departure or fainting. Restrictions enter the ordinary accuracy/reaction validation path and retain existing immunity, reflection and protection. The GM can explicitly clear them through the existing authorized status-removal action; the UI shows readable restrictions, clocks and GM-only clear controls.
 
 Validation covers all three public effect paths, legal/illegal categories, four-round expiry, dynamic known moves, public switching, serialization/faint cleanup, Aroma Veil, GM/intruder authority and historical fallback. Completion/stat/transfer regressions, adjacent status/field clocks, gates, exports, route inventory, frontend/script tests, TypeScript and formatting passed. App 0.58.0, engine 0.50.0-core, protocol 59.
+
+
+### MOVE-A16: saved move history and round restrictions (5 November 2026)
+
+Disable selects the target's last recorded Pokémon move, replaces any prior disabled move on that target, and rejects declaration when no prior move exists. Torment dynamically prevents the target's previous-round moves for four rounds. Blood Moon and Gigaton Hammer reject use after any previous-round attempt, including a failed Clash, and become usable after a gap. Gigaton Hammer's optional Steel-target bonus remains an explicit GM damage-pool modifier with a reason.
+
+Accepted Pokémon move attempts and actual deployment rounds are saved in the completion state and restored by undo. Typeless Maneuvers are separate. Old states default empty and historical encounters adopt none of these rules. Disable is correctly classified as input-required in the deliberately history-free diagnostic, rather than pretending its prerequisite exists. First Impression remains pending the user ruling on deployment round versus first eligible action round; normal switches deploy now but prohibit acting until the following round.
+
+Validation covers all four moves through public commands, declaration prerequisites, replacement, moving previous-round sets, failed Clash history, gaps, serialization, undo, missing historical state and actual switch deployment/availability clocks. Completion/stat/transfer regressions, adjacent status/field clocks, gates, 126 exports, route inventory, frontend/script tests, TypeScript and formatting passed. App 0.59.0, engine 0.51.0-core, protocol 60.

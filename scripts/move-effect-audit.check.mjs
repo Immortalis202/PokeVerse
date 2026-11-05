@@ -29,7 +29,11 @@ test("completion blocks retain exact source identities, printed decisions and ex
       const m = byName.get(name);
       assert.equal(d.sha256, m.sha256);
       assert.equal(d.effect, m.effect);
-      assert.equal(m.route, "executable-scope", name);
+      assert.equal(
+        m.route,
+        d.requires_input ? "input-required" : "executable-scope",
+        name,
+      );
       assert.ok(
         m.declared_scopes.some(
           (s) =>

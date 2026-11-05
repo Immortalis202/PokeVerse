@@ -6,6 +6,15 @@ use super::*;
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct MoveCompletionState {
     pub blocks: BTreeSet<String>,
+    pub uses: Vec<CompletionMoveUse>,
+    pub entered: BTreeMap<String, u32>,
+}
+#[derive(Debug, Clone, Serialize, Deserialize, TS)]
+#[ts(export, export_to = "../../src/bindings/")]
+pub struct CompletionMoveUse {
+    pub actor: String,
+    pub name: String,
+    pub round: u32,
 }
 fn registry() -> &'static serde_json::Value {
     static DATA: std::sync::LazyLock<serde_json::Value> = std::sync::LazyLock::new(|| {
@@ -24,6 +33,7 @@ pub fn initial(engine: &str) -> MoveCompletionState {
     };
     MoveCompletionState {
         blocks: blocks.keys().filter(|id| *id <= last).cloned().collect(),
+        ..Default::default()
     }
 }
 pub fn definition(c: &Campaign, name: &str) -> Option<(&'static str, &'static serde_json::Value)> {
@@ -146,6 +156,9 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
     };
     match kind {
         "ordinary" | "damage-rules" | "damage-context" => {}
+        "history-gated" => {
+            history_effect(c, q, d, cat)?;
+        }
         "support-stat" => {
             support_stat(c, q, d, cat)?;
         }
@@ -423,8 +436,15 @@ pub fn cleanse(c: &mut Campaign, id: &str) {
 }
 
 pub fn ordinary(c: &Campaign, name: &str) -> bool {
-    definition(c, name)
-        .is_some_and(|(kind, _)| ["ordinary", "damage-rules", "damage-context"].contains(&kind))
+    definition(c, name).is_some_and(|(kind, _)| {
+        [
+            "ordinary",
+            "damage-rules",
+            "damage-context",
+            "history-gated",
+        ]
+        .contains(&kind)
+    })
 }
 
 pub fn excludes_self(c: &Campaign, name: &str) -> bool {
@@ -594,6 +614,7 @@ pub fn stack_values(c: &Campaign, p: &Combatant, key: &str) -> Vec<i32> {
 
 pub fn guard_move(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> Result<()> {
     restriction_guard(c, p, m)?;
+    history_guard(c, p, m)?;
     if definition(c, m["Name"].as_str().unwrap_or(""))
         .is_some_and(|(_, d)| d["requires_terrain"] == true)
         && !flow(c)?
@@ -668,6 +689,26 @@ fn restriction_guard(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> Resu
         if !["move-restriction", "persistent-restriction"].contains(&e.slot.as_str()) {
             continue;
         }
+
+        if e.target == p.id && m["Type"] != "Typeless" {
+            if e.name
+                .strip_prefix("Disable:")
+                .is_some_and(|n| m["Name"] == n)
+            {
+                return Err(error("This move is Disabled"));
+            }
+            if e.name == "Torment"
+                && f.completion.uses.iter().any(|u| {
+                    u.actor == p.id
+                        && m["Name"] == u.name
+                        && u.round + 1 == battle(c).unwrap().round
+                })
+            {
+                return Err(error(
+                    "Torment prevents moves performed during the last round",
+                ));
+            }
+        }
         if e.target == p.id
             && e.name == "Taunt"
             && m["Category"] == "Support"
@@ -705,4 +746,124 @@ pub fn clear_restriction(c: &mut Campaign, id: &str, name: &str) {
                 || !["move-restriction", "persistent-restriction"].contains(&e.slot.as_str())
         });
     }
+}
+
+pub fn observe(before: &Campaign, next: &mut Campaign, cat: &Catalog) -> Result<()> {
+    if !flow(next).is_ok_and(|f| f.completion.blocks.contains("MOVE-A16")) {
+        return Ok(());
+    }
+    let after = battle(next)?;
+    if !after.active {
+        return Ok(());
+    }
+    let old = before.battle.as_ref().filter(|b| b.id == after.id);
+    let round = after.round;
+    let entered: Vec<String> = after
+        .combatants
+        .iter()
+        .filter(|p| {
+            p.deployed
+                && p.hp > 0
+                && !old.is_some_and(|b| b.combatants.iter().any(|v| v.id == p.id && v.deployed))
+        })
+        .map(|p| p.id.clone())
+        .collect();
+    let mut uses = vec![];
+    for p in &after.combatants {
+        let previous = old
+            .filter(|b| b.round == round)
+            .and_then(|b| b.combatants.iter().find(|v| v.id == p.id));
+        let prior = previous.map_or(&[][..], |v| v.used_moves.as_slice());
+        if p.used_moves.starts_with(prior) {
+            for name in &p.used_moves[prior.len()..] {
+                if cat
+                    .find("moves", "Name", name)
+                    .is_some_and(|m| m["Type"] != "Typeless")
+                {
+                    uses.push(CompletionMoveUse {
+                        actor: p.id.clone(),
+                        name: name.clone(),
+                        round,
+                    });
+                }
+            }
+        }
+    }
+    let f = flow_mut(next);
+    for id in entered {
+        f.completion.entered.insert(id, round);
+    }
+    f.completion.uses.extend(uses);
+    Ok(())
+}
+fn history_guard(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> Result<()> {
+    let Some(("history-gated", d)) = definition(c, m["Name"].as_str().unwrap_or("")) else {
+        return Ok(());
+    };
+    match d["mode"].as_str().unwrap() {
+        "previous-round"
+            if flow(c)?.completion.uses.iter().any(|u| {
+                u.actor == p.id && m["Name"] == u.name && u.round + 1 == battle(c).unwrap().round
+            }) =>
+        {
+            return Err(error(
+                "This move fails because it was performed during the previous round",
+            ))
+        }
+        _ => {}
+    }
+    Ok(())
+}
+pub fn target_guard(c: &Campaign, id: &str, m: &serde_json::Value) -> Result<()> {
+    if definition(c, m["Name"].as_str().unwrap_or(""))
+        .is_some_and(|(kind, d)| kind == "history-gated" && d["mode"] == "disable")
+        && !flow(c)?.completion.uses.iter().any(|u| u.actor == id)
+    {
+        return Err(error(
+            "Disable requires a previously performed Pokemon move",
+        ));
+    }
+    Ok(())
+}
+fn history_effect(
+    c: &mut Campaign,
+    q: &QueuedAction,
+    d: &serde_json::Value,
+    cat: &Catalog,
+) -> Result<()> {
+    let mode = d["mode"].as_str().unwrap();
+    if !["disable", "torment"].contains(&mode) || immune_target(c, q, cat)? {
+        return Ok(());
+    }
+    let name = if mode == "disable" {
+        let last = flow(c)?
+            .completion
+            .uses
+            .iter()
+            .rev()
+            .find(|u| u.actor == q.target_id)
+            .ok_or_else(|| error("Disable requires a previously performed Pokemon move"))?;
+        format!("Disable:{}", last.name)
+    } else {
+        "Torment".into()
+    };
+    flow_mut(c).special.effects.retain(|e| {
+        e.target != q.target_id
+            || if mode == "disable" {
+                !e.name.starts_with("Disable:")
+            } else {
+                e.name != "Torment"
+            }
+    });
+    let started = battle(c)?.round;
+    flow_mut(c).special.effects.push(special::TimedEffect {
+        name,
+        source: q.actor_id.clone(),
+        target: q.target_id.clone(),
+        rounds: if mode == "torment" { Some(4) } else { None },
+        amount: 0,
+        started,
+        slot: "move-restriction".into(),
+    });
+    Ok(())
 }

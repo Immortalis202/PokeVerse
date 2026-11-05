@@ -1,8 +1,8 @@
 {
   "version": 1,
   "date": "2026-11-05",
-  "release": "0.58.0",
-  "engine": "0.50.0-core",
+  "release": "0.59.0",
+  "engine": "0.51.0-core",
   "scope": "892-card effect-route inventory; focused semantic review of status infliction, cure and protection clauses. M2-A through M2-E battle status clauses and MOVE-A01 damaging attribute clauses plus MOVE-A02 entry hazards delivered; see scoped registries and retained choices.",
   "limits": [
     "An executable route is not full card coverage.",
@@ -19,10 +19,10 @@
   "counts": {
     "routes": {
       "excluded": 38,
-      "executable-scope": 675,
+      "executable-scope": 678,
       "gm-choice": 1,
-      "input-required": 12,
-      "manual-effect-route": 166
+      "input-required": 13,
+      "manual-effect-route": 162
     },
     "status_clauses": {
       "excluded": 6,
@@ -3748,22 +3748,39 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A16: Four history-dependent moves with saved accepted Pokemon move attempts and entry rounds. Disable selects only the last recorded target move and replaces its prior disable; Torment excludes last-round moves for four rounds; Blood Moon/Gigaton Hammer fail if used last round, including Clash attempts. Gigaton Hammer's discretionary Steel bonus remains an explicit GM pool modifier.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -8861,21 +8878,28 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "input-required",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A16: Four history-dependent moves with saved accepted Pokemon move attempts and entry rounds. Disable selects only the last recorded target move and replaces its prior disable; Torment excludes last-round moves for four rounds; Blood Moon/Gigaton Hammer fail if used last round, including Clash attempts. Gigaton Hammer's discretionary Steel bonus remains an explicit GM pool modifier.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
+          "code": "battle",
+          "message": "Disable requires a previously performed Pokemon move",
           "result": "route_error"
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
+          "code": "battle",
+          "message": "Disable requires a previously performed Pokemon move",
           "result": "route_error"
         }
       }
@@ -15844,24 +15868,41 @@
       },
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [
         "Optional lethal wounds are excluded; ordinary damage remains separate"
       ],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A16: Four history-dependent moves with saved accepted Pokemon move attempts and entry rounds. Disable selects only the last recorded target move and replaces its prior disable; Torment excludes last-round moves for four rounds; Blood Moon/Gigaton Hammer fail if used last round, including Clash attempts. Gigaton Hammer's discretionary Steel bonus remains an explicit GM pool modifier.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -42632,22 +42673,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A16: Four history-dependent moves with saved accepted Pokemon move attempts and entry rounds. Disable selects only the last recorded target move and replaces its prior disable; Torment excludes last-round moves for four rounds; Blood Moon/Gigaton Hammer fail if used last round, including Clash attempts. Gigaton Hammer's discretionary Steel bonus remains an explicit GM pool modifier.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },

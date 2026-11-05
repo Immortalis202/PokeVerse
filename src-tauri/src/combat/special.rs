@@ -2757,6 +2757,7 @@ pub fn vulnerable(c: &Campaign, id: &str, name: &str) -> bool {
     })
 }
 pub fn target_guard(c: &Campaign, source: &str, id: &str, m: &serde_json::Value) -> Result<()> {
+    completion::target_guard(c, id, m)?;
     if !enabled(c) {
         return Ok(());
     }

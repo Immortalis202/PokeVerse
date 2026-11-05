@@ -38,6 +38,24 @@ pub(super) fn setup(name: &str) -> (Campaign, String, String) {
             .unwrap()
             .into(),
     );
+    let round = c.battle.as_ref().unwrap().round;
+    let entered = c
+        .battle
+        .as_ref()
+        .unwrap()
+        .combatants
+        .iter()
+        .filter(|p| p.deployed)
+        .map(|p| (p.id.clone(), round))
+        .collect();
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .completion
+        .entered = entered;
     (c, a, t)
 }
 pub(super) fn q(c: &Campaign) -> crate::combat::QueuedAction {
@@ -2138,4 +2156,263 @@ fn completion_a15_protection_gm_clearing_and_historical_states_keep_authority() 
             .code,
         "manual_rule"
     );
+}
+#[test]
+fn completion_a16_previous_round_limits_record_public_attempts_and_allow_after_a_gap() {
+    for name in ["Blood Moon", "Gigaton Hammer"] {
+        let (c, a, t) = setup(name);
+        let c = pending(&c, &a, &t, name);
+        assert!(c
+            .battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .queue
+            .is_empty());
+        assert!(c
+            .battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .completion
+            .uses
+            .iter()
+            .any(|u| u.actor == a && u.name == name && u.round == 1));
+        let mut next = round_end(&c);
+        turn(&mut next, &a, name);
+        let action = super::targeting_tests::attack(&a, vec![t.clone()], name);
+        assert!(
+            rules::dice_count(&next, &action, &catalog()).is_err(),
+            "{name}"
+        );
+        let mut next = round_end(&next);
+        turn(&mut next, &a, name);
+        assert!(
+            rules::dice_count(&next, &action, &catalog()).is_ok(),
+            "{name}"
+        );
+    }
+}
+#[test]
+fn completion_a16_failed_clash_counts_as_using_blood_moon() {
+    let (mut c, a, t) = setup("Tackle");
+    let sid = p(&c, &t).sheet_id.clone();
+    c.sheets
+        .get_mut(&sid)
+        .unwrap()
+        .moves
+        .push("Blood Moon".into());
+    let action = super::targeting_tests::attack(&a, vec![t.clone()], "Tackle");
+    let c = roll(&c, "gm", &action, 6);
+    let clash = Action::React {
+        combatant_id: t.clone(),
+        kind: "clash".into(),
+        move_name: "Blood Moon".into(),
+        reason: "Attempt Blood Moon Clash".into(),
+    };
+    let c = roll(&c, "gm", &clash, 1);
+    assert!(c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .completion
+        .uses
+        .iter()
+        .any(|u| u.actor == t && u.name == "Blood Moon"));
+    let c = roll(&c, "gm", &damage_command(&c), 1);
+    let mut c = round_end(&c);
+    turn(&mut c, &t, "Blood Moon");
+    assert!(rules::dice_count(
+        &c,
+        &super::targeting_tests::attack(&t, vec![a.clone()], "Blood Moon"),
+        &catalog()
+    )
+    .is_err());
+}
+#[test]
+fn completion_a16_disable_selects_only_last_move_and_replaces_the_previous_disable() {
+    let (mut c, a, t) = setup("Disable");
+    let action = super::targeting_tests::attack(&a, vec![t.clone()], "Disable");
+    assert!(rules::dice_count(&c, &action, &catalog()).is_err());
+    turn(&mut c, &t, "Tackle");
+    let mut c = pending(&c, &t, &a, "Tackle");
+    turn(&mut c, &a, "Disable");
+    let mut c = resolve(&pending(&c, &a, &t, "Disable"));
+    turn(&mut c, &t, "Tackle");
+    assert!(rules::dice_count(
+        &c,
+        &super::targeting_tests::attack(&t, vec![a.clone()], "Tackle"),
+        &catalog()
+    )
+    .is_err());
+    turn(&mut c, &t, "Quick Attack");
+    let mut c = pending(&c, &t, &a, "Quick Attack");
+    turn(&mut c, &a, "Disable");
+    let mut c = resolve(&pending(&c, &a, &t, "Disable"));
+    let effects = &c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .special
+        .effects;
+    assert_eq!(
+        effects
+            .iter()
+            .filter(|e| e.target == t && e.name.starts_with("Disable:"))
+            .count(),
+        1
+    );
+    assert!(effects
+        .iter()
+        .any(|e| e.target == t && e.name == "Disable:Quick Attack"));
+    turn(&mut c, &t, "Tackle");
+    assert!(rules::dice_count(
+        &c,
+        &super::targeting_tests::attack(&t, vec![a.clone()], "Tackle"),
+        &catalog()
+    )
+    .is_ok());
+    turn(&mut c, &t, "Quick Attack");
+    assert!(rules::dice_count(
+        &c,
+        &super::targeting_tests::attack(&t, vec![a.clone()], "Quick Attack"),
+        &catalog()
+    )
+    .is_err());
+}
+#[test]
+fn completion_a16_torment_tracks_the_previous_round_dynamically() {
+    let (mut c, a, t) = setup("Torment");
+    turn(&mut c, &t, "Tackle");
+    let mut c = pending(&c, &t, &a, "Tackle");
+    turn(&mut c, &a, "Torment");
+    let c = resolve(&pending(&c, &a, &t, "Torment"));
+    let mut c = round_end(&c);
+    turn(&mut c, &t, "Tackle");
+    assert!(rules::dice_count(
+        &c,
+        &super::targeting_tests::attack(&t, vec![a.clone()], "Tackle"),
+        &catalog()
+    )
+    .is_err());
+    turn(&mut c, &t, "Quick Attack");
+    let c = pending(&c, &t, &a, "Quick Attack");
+    let mut c = round_end(&c);
+    turn(&mut c, &t, "Tackle");
+    assert!(rules::dice_count(
+        &c,
+        &super::targeting_tests::attack(&t, vec![a.clone()], "Tackle"),
+        &catalog()
+    )
+    .is_ok());
+    turn(&mut c, &t, "Quick Attack");
+    assert!(rules::dice_count(
+        &c,
+        &super::targeting_tests::attack(&t, vec![a.clone()], "Quick Attack"),
+        &catalog()
+    )
+    .is_err());
+}
+#[test]
+fn completion_a16_history_survives_save_and_undo_and_old_states_default_empty() {
+    let (c, a, t) = setup("Blood Moon");
+    let action = super::targeting_tests::attack(&a, vec![t.clone()], "Blood Moon");
+    let c = roll(&c, "gm", &action, 6);
+    assert_eq!(
+        c.battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .completion
+            .uses
+            .len(),
+        1
+    );
+    let saved: Campaign = serde_json::from_value(serde_json::to_value(&c).unwrap()).unwrap();
+    assert_eq!(
+        saved
+            .battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .completion
+            .uses[0]
+            .name,
+        "Blood Moon"
+    );
+    let restored = decision(
+        &c,
+        "gm",
+        Action::RollbackBattle {
+            event_sequence: c.battle_undo.last().unwrap().event_sequence,
+            reason: "Undo move declaration and history".into(),
+        },
+    );
+    assert!(restored
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .completion
+        .uses
+        .is_empty());
+    let state: completion::MoveCompletionState =
+        serde_json::from_value(serde_json::json!({"blocks":["MOVE-A15"]})).unwrap();
+    assert!(state.uses.is_empty());
+    assert!(state.entered.is_empty());
+    let (mut c, a, t) = setup("Blood Moon");
+    c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
+        Box::new(completion::initial(MOVE_RESTRICTIONS_ENGINE));
+    let c = pending(&c, &a, &t, "Blood Moon");
+    assert_eq!(
+        battle::transition(&c, "gm", &cmd(&c), vec![], &catalog())
+            .unwrap_err()
+            .code,
+        "manual_rule"
+    );
+}
+#[test]
+fn completion_a16_public_switch_records_actual_deployment_round_without_guessing_eligibility() {
+    let (mut c, a, _) = setup("Blood Moon");
+    let incoming = reserve(&mut c, &a);
+    let round = c.battle.as_ref().unwrap().round;
+    let c = decision(
+        &c,
+        "gm",
+        Action::SwitchPokemon {
+            outgoing_id: a.clone(),
+            incoming_id: incoming.clone(),
+            gm_override: false,
+            reason: "Record reserve deployment".into(),
+        },
+    );
+    assert_eq!(
+        c.battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .completion
+            .entered
+            .get(&incoming),
+        Some(&round)
+    );
+    assert_eq!(p(&c, &incoming).available_round, round + 1);
 }
