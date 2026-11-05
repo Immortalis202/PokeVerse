@@ -1477,6 +1477,20 @@
           "auxiliary": true
         }
       }
+    },
+    "MOVE-A29": {
+      "engine": "0.64.0-core",
+      "kind": "support-stat",
+      "scope": "Charge stores two move-channel damage dice for the next damaging resolved Electric move. Electric Support moves preserve it. A damaging attempt consumes the stored charge even on a miss; a successful attempt binds it to the complete cast, including area recipients and multi-hits. Existing ability charge remains a separate channel. Recall/faint clears unspent charge; saved casts and undo retain their state. Clash attempts also consume Charge, while their fixed damage has no damage pool to increase. Newly adopting encounters use the sport/Tar Shot-adjusted matchup and Wonder Guard for Clash damage as well.",
+      "moves": {
+        "Charge": {
+          "source": "Pokerole-Data/v3.0/Moves/Charge.json",
+          "sha256": "ab693f53c43193ce060c06d496960c79bd44bacce9c8a35dbb3ec6593e6d1d7b",
+          "effect": "Target Self. Add 2 Dice to the Damage Pool of thenext Damaging Electric-Type Move the User performs.",
+          "changes": {},
+          "auxiliary": true
+        }
+      }
     }
   },
   "printed_review": {

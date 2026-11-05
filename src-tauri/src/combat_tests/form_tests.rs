@@ -901,6 +901,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
     let ended = decision(&c, "gm", Action::EndBattle);
     for engine in [
         ENGINE,
+        SELF_AUXILIARY_MOVES_ENGINE,
         TAR_SHOT_ENGINE,
         SPORT_FIELDS_ENGINE,
         AURA_WHEEL_ENGINE,
@@ -964,6 +965,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.entry_hazards,
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -994,21 +996,32 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             .contains(&engine)
         );
         assert_eq!(
-            flow.completion.blocks.contains("MOVE-A28"),
+            flow.completion.blocks.contains("MOVE-A29"),
             engine == ENGINE
         );
         assert_eq!(
+            flow.completion.blocks.contains("MOVE-A28"),
+            [ENGINE, SELF_AUXILIARY_MOVES_ENGINE].contains(&engine)
+        );
+        assert_eq!(
             flow.completion.blocks.contains("MOVE-A27"),
-            [ENGINE, TAR_SHOT_ENGINE].contains(&engine)
+            [ENGINE, SELF_AUXILIARY_MOVES_ENGINE, TAR_SHOT_ENGINE].contains(&engine)
         );
         assert_eq!(
             flow.completion.blocks.contains("MOVE-A26"),
-            [ENGINE, TAR_SHOT_ENGINE, SPORT_FIELDS_ENGINE].contains(&engine)
+            [
+                ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
+                TAR_SHOT_ENGINE,
+                SPORT_FIELDS_ENGINE
+            ]
+            .contains(&engine)
         );
         assert_eq!(
             flow.completion.blocks.contains("MOVE-A25"),
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE
@@ -1019,6 +1032,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A24"),
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -1030,6 +1044,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A23"),
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -1042,6 +1057,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A22"),
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -1055,6 +1071,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A21"),
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -1069,6 +1086,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A20"),
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -1084,6 +1102,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A19"),
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -1100,6 +1119,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A18"),
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -1117,6 +1137,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A17"),
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -1135,6 +1156,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A16"),
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -1154,6 +1176,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A15"),
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -1174,6 +1197,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A14"),
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -1195,6 +1219,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A13"),
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -1217,6 +1242,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A12"),
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -1240,6 +1266,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A11"),
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -1264,6 +1291,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A10"),
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -1289,6 +1317,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A09"),
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -1315,6 +1344,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A08"),
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -1342,6 +1372,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A07"),
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -1370,6 +1401,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A06"),
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -1399,6 +1431,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A05"),
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -1429,6 +1462,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A04"),
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -1460,6 +1494,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A03"),
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -1492,6 +1527,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.damaging_stats.enabled,
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -1526,6 +1562,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.battlefield_review,
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -1561,6 +1598,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.direct_status,
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -1601,6 +1639,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.chance_status,
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -1640,6 +1679,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.compound.enabled,
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -1678,6 +1718,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.recurring.enabled,
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -1715,6 +1756,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.battlefield_review,
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -1750,6 +1792,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.cure_protection,
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -1786,6 +1829,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.spite,
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -1828,6 +1872,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.will_drains,
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -1869,6 +1914,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.status_escalation,
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -1912,6 +1958,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.identity_moves,
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -1956,6 +2003,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.interaction_rules,
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -2004,6 +2052,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.items.completion.enabled,
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -2051,6 +2100,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.house_rules,
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -2097,6 +2147,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.forms.enabled,
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -2148,6 +2199,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.information.enabled,
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -2198,6 +2250,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.standalone.enabled,
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,

@@ -1140,6 +1140,7 @@ pub fn transition(
     if let Some(setup) = field::start_setup(a) {
         if ![
             ENGINE,
+            SELF_AUXILIARY_MOVES_ENGINE,
             TAR_SHOT_ENGINE,
             SPORT_FIELDS_ENGINE,
             AURA_WHEEL_ENGINE,
@@ -1191,6 +1192,7 @@ pub fn transition(
             setup,
             [
                 ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
                 SPORT_FIELDS_ENGINE,
                 AURA_WHEEL_ENGINE,
@@ -2182,6 +2184,8 @@ fn transition_inner(
             responded(&mut next);
             break_cover(&mut next, combatant_id);
             if kind == "clash" {
+                let resolved = field::move_data(c, p, &move_entry(cat, move_name)?);
+                completion::charge_attempt(&mut next, combatant_id, &resolved, cat)?;
                 items::commit_item_move(
                     c,
                     &mut next,
@@ -2214,7 +2218,7 @@ fn transition_inner(
                             c,
                             &incoming.actor_id,
                             &incoming.target_id,
-                            attack["Type"].as_str().unwrap_or(""),
+                            &attack,
                             incoming.sequence,
                             cat,
                         )?;
@@ -2222,7 +2226,7 @@ fn transition_inner(
                             c,
                             &incoming.target_id,
                             &incoming.actor_id,
-                            defend["Type"].as_str().unwrap_or(""),
+                            &defend,
                             incoming.sequence,
                             cat,
                         )?;
@@ -3200,6 +3204,7 @@ fn transition_inner(
                 b.flow = Some(TurnFlow {
                     identity_moves: [
                         ENGINE,
+                        SELF_AUXILIARY_MOVES_ENGINE,
                         TAR_SHOT_ENGINE,
                         SPORT_FIELDS_ENGINE,
                         AURA_WHEEL_ENGINE,
@@ -3241,6 +3246,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     status_escalation: [
                         ENGINE,
+                        SELF_AUXILIARY_MOVES_ENGINE,
                         TAR_SHOT_ENGINE,
                         SPORT_FIELDS_ENGINE,
                         AURA_WHEEL_ENGINE,
@@ -3281,6 +3287,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     spite: [
                         ENGINE,
+                        SELF_AUXILIARY_MOVES_ENGINE,
                         TAR_SHOT_ENGINE,
                         SPORT_FIELDS_ENGINE,
                         AURA_WHEEL_ENGINE,
@@ -3320,6 +3327,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     will_drains: [
                         ENGINE,
+                        SELF_AUXILIARY_MOVES_ENGINE,
                         TAR_SHOT_ENGINE,
                         SPORT_FIELDS_ENGINE,
                         AURA_WHEEL_ENGINE,
@@ -3358,6 +3366,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     direct_status: [
                         ENGINE,
+                        SELF_AUXILIARY_MOVES_ENGINE,
                         TAR_SHOT_ENGINE,
                         SPORT_FIELDS_ENGINE,
                         AURA_WHEEL_ENGINE,
@@ -3395,6 +3404,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     chance_status: [
                         ENGINE,
+                        SELF_AUXILIARY_MOVES_ENGINE,
                         TAR_SHOT_ENGINE,
                         SPORT_FIELDS_ENGINE,
                         AURA_WHEEL_ENGINE,
@@ -3431,6 +3441,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     battlefield_review: [
                         ENGINE,
+                        SELF_AUXILIARY_MOVES_ENGINE,
                         TAR_SHOT_ENGINE,
                         SPORT_FIELDS_ENGINE,
                         AURA_WHEEL_ENGINE,
@@ -3463,6 +3474,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     entry_hazards: [
                         ENGINE,
+                        SELF_AUXILIARY_MOVES_ENGINE,
                         TAR_SHOT_ENGINE,
                         SPORT_FIELDS_ENGINE,
                         AURA_WHEEL_ENGINE,
@@ -3495,6 +3507,7 @@ fn transition_inner(
                     damaging_stats: Box::new(damaging_stats::StatMoveState {
                         enabled: [
                             ENGINE,
+                            SELF_AUXILIARY_MOVES_ENGINE,
                             TAR_SHOT_ENGINE,
                             SPORT_FIELDS_ENGINE,
                             AURA_WHEEL_ENGINE,
@@ -3528,6 +3541,7 @@ fn transition_inner(
                     }),
                     cure_protection: [
                         ENGINE,
+                        SELF_AUXILIARY_MOVES_ENGINE,
                         TAR_SHOT_ENGINE,
                         SPORT_FIELDS_ENGINE,
                         AURA_WHEEL_ENGINE,
@@ -3562,6 +3576,7 @@ fn transition_inner(
                     recurring: Box::new(recurring::RecurringState {
                         enabled: [
                             ENGINE,
+                            SELF_AUXILIARY_MOVES_ENGINE,
                             TAR_SHOT_ENGINE,
                             SPORT_FIELDS_ENGINE,
                             AURA_WHEEL_ENGINE,
@@ -3599,6 +3614,7 @@ fn transition_inner(
                     compound: compound::CompoundState {
                         enabled: [
                             ENGINE,
+                            SELF_AUXILIARY_MOVES_ENGINE,
                             TAR_SHOT_ENGINE,
                             SPORT_FIELDS_ENGINE,
                             AURA_WHEEL_ENGINE,
@@ -3636,6 +3652,7 @@ fn transition_inner(
                     },
                     house_rules: [
                         ENGINE,
+                        SELF_AUXILIARY_MOVES_ENGINE,
                         TAR_SHOT_ENGINE,
                         SPORT_FIELDS_ENGINE,
                         AURA_WHEEL_ENGINE,
@@ -3679,6 +3696,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     interaction_rules: [
                         ENGINE,
+                        SELF_AUXILIARY_MOVES_ENGINE,
                         TAR_SHOT_ENGINE,
                         SPORT_FIELDS_ENGINE,
                         AURA_WHEEL_ENGINE,
@@ -3725,6 +3743,7 @@ fn transition_inner(
                     standalone: standalone::StandaloneState {
                         enabled: [
                             ENGINE,
+                            SELF_AUXILIARY_MOVES_ENGINE,
                             TAR_SHOT_ENGINE,
                             SPORT_FIELDS_ENGINE,
                             AURA_WHEEL_ENGINE,
@@ -3774,6 +3793,7 @@ fn transition_inner(
                     information: information::InformationState {
                         enabled: [
                             ENGINE,
+                            SELF_AUXILIARY_MOVES_ENGINE,
                             TAR_SHOT_ENGINE,
                             SPORT_FIELDS_ENGINE,
                             AURA_WHEEL_ENGINE,
@@ -3824,6 +3844,7 @@ fn transition_inner(
                     forms: forms::FormState {
                         enabled: [
                             ENGINE,
+                            SELF_AUXILIARY_MOVES_ENGINE,
                             TAR_SHOT_ENGINE,
                             SPORT_FIELDS_ENGINE,
                             AURA_WHEEL_ENGINE,
@@ -3876,6 +3897,7 @@ fn transition_inner(
                         completion: items::completion::CompletionState {
                             enabled: [
                                 ENGINE,
+                                SELF_AUXILIARY_MOVES_ENGINE,
                                 TAR_SHOT_ENGINE,
                                 SPORT_FIELDS_ENGINE,
                                 AURA_WHEEL_ENGINE,
@@ -3922,6 +3944,7 @@ fn transition_inner(
                         },
                         enabled: [
                             ENGINE,
+                            SELF_AUXILIARY_MOVES_ENGINE,
                             TAR_SHOT_ENGINE,
                             SPORT_FIELDS_ENGINE,
                             AURA_WHEEL_ENGINE,
@@ -3974,6 +3997,7 @@ fn transition_inner(
                     events: events::EventState {
                         enabled: [
                             ENGINE,
+                            SELF_AUXILIARY_MOVES_ENGINE,
                             TAR_SHOT_ENGINE,
                             SPORT_FIELDS_ENGINE,
                             AURA_WHEEL_ENGINE,
@@ -4026,6 +4050,7 @@ fn transition_inner(
                     },
                     provenance_rules: [
                         ENGINE,
+                        SELF_AUXILIARY_MOVES_ENGINE,
                         TAR_SHOT_ENGINE,
                         SPORT_FIELDS_ENGINE,
                         AURA_WHEEL_ENGINE,
@@ -4078,6 +4103,7 @@ fn transition_inner(
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            SELF_AUXILIARY_MOVES_ENGINE,
                             TAR_SHOT_ENGINE,
                             SPORT_FIELDS_ENGINE,
                             AURA_WHEEL_ENGINE,
@@ -4133,6 +4159,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            SELF_AUXILIARY_MOVES_ENGINE,
                             TAR_SHOT_ENGINE,
                             SPORT_FIELDS_ENGINE,
                             AURA_WHEEL_ENGINE,
@@ -4188,6 +4215,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        SELF_AUXILIARY_MOVES_ENGINE,
                         TAR_SHOT_ENGINE,
                         SPORT_FIELDS_ENGINE,
                         AURA_WHEEL_ENGINE,
@@ -4243,6 +4271,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            SELF_AUXILIARY_MOVES_ENGINE,
                             TAR_SHOT_ENGINE,
                             SPORT_FIELDS_ENGINE,
                             AURA_WHEEL_ENGINE,
@@ -4301,6 +4330,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            SELF_AUXILIARY_MOVES_ENGINE,
                             TAR_SHOT_ENGINE,
                             SPORT_FIELDS_ENGINE,
                             AURA_WHEEL_ENGINE,
@@ -4360,6 +4390,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            SELF_AUXILIARY_MOVES_ENGINE,
                             TAR_SHOT_ENGINE,
                             SPORT_FIELDS_ENGINE,
                             AURA_WHEEL_ENGINE,
@@ -4420,6 +4451,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            SELF_AUXILIARY_MOVES_ENGINE,
                             TAR_SHOT_ENGINE,
                             SPORT_FIELDS_ENGINE,
                             AURA_WHEEL_ENGINE,
@@ -4481,6 +4513,7 @@ fn transition_inner(
                     special: Box::new(special::SpecialState {
                         enabled: [
                             ENGINE,
+                            SELF_AUXILIARY_MOVES_ENGINE,
                             TAR_SHOT_ENGINE,
                             SPORT_FIELDS_ENGINE,
                             AURA_WHEEL_ENGINE,
@@ -4542,6 +4575,7 @@ fn transition_inner(
                     }),
                     ability_rules: [
                         ENGINE,
+                        SELF_AUXILIARY_MOVES_ENGINE,
                         TAR_SHOT_ENGINE,
                         SPORT_FIELDS_ENGINE,
                         AURA_WHEEL_ENGINE,
@@ -4605,6 +4639,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            SELF_AUXILIARY_MOVES_ENGINE,
                             TAR_SHOT_ENGINE,
                             SPORT_FIELDS_ENGINE,
                             AURA_WHEEL_ENGINE,
@@ -4668,6 +4703,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            SELF_AUXILIARY_MOVES_ENGINE,
                             TAR_SHOT_ENGINE,
                             SPORT_FIELDS_ENGINE,
                             AURA_WHEEL_ENGINE,
@@ -4892,12 +4928,14 @@ fn clash_damage(
     c: &Campaign,
     source: &str,
     id: &str,
-    move_type: &str,
+    m: &serde_json::Value,
     sequence: u32,
     cat: &Catalog,
 ) -> Result<i32> {
     let p = fighter(c, id)?;
     let mut damage = 1;
+    let move_type = m["Type"].as_str().unwrap_or("");
+    let modern = completion::definition(c, "Charge").is_some();
     let move_type = if move_type == "Fighting" {
         "Fight"
     } else {
@@ -4905,13 +4943,17 @@ fn clash_damage(
     };
     if reviewed::enabled(c) || items::enabled(c) {
         let a = fighter(c, source)?;
-        let (mut effect, mut immune) = rules::type_matchup(c, a, p, move_type, cat)?;
+        let (mut effect, mut immune) = if modern {
+            rules::move_matchup(c, a, p, m, cat)?
+        } else {
+            rules::type_matchup(c, a, p, move_type, cat)?
+        };
         if forms::tera_shell(c, p, &serde_json::json!({"Category":"Physical"})) {
             effect = -1;
             immune = false;
         }
         reviewed::unique_damage_guard(c, a, p, effect)?;
-        if immune {
+        if immune || (modern && extra::source_immune(c, a, p, effect)) {
             return Ok(0);
         }
         damage += effect;

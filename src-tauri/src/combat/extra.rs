@@ -924,6 +924,7 @@ pub fn accuracy_attempt(
     m: &serde_json::Value,
     cat: &Catalog,
 ) -> Result<()> {
+    completion::charge_attempt(c, id, m, cat)?;
     items::completion::used_move(c, id, m)?;
     if !enabled(c) {
         return Ok(());

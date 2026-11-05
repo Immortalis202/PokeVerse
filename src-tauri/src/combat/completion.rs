@@ -861,6 +861,25 @@ fn contextual_type(c: &Campaign, p: &Combatant, m: &mut serde_json::Value) {
 }
 pub fn damage_bonus(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> i32 {
     let mut n = i32::from(abilities::contact(m) && self_support(c, p, "Victory Dance"));
+    if m["Type"] == "Electric"
+        && ["Physical", "Special"].contains(&m["Category"].as_str().unwrap_or(""))
+        && definition(c, "Charge").is_some()
+    {
+        let cast = flow(c)
+            .ok()
+            .and_then(|f| f.queue.first())
+            .filter(|q| q.actor_id == p.id && m["Name"] == q.move_name)
+            .is_some_and(|q| {
+                flow(c).unwrap().special.effects.iter().any(|e| {
+                    e.name == "Charge"
+                        && e.target == p.id
+                        && e.slot == format!("charge-cast:{}", q.sequence)
+                })
+            });
+        if cast || self_support(c, p, "Charge") {
+            n += 2;
+        }
+    }
     let Some((_, d)) = definition(c, m["Name"].as_str().unwrap_or("")) else {
         return n;
     };
@@ -953,6 +972,18 @@ pub fn clear_restriction(c: &mut Campaign, id: &str, name: &str) {
 pub fn observe(before: &Campaign, next: &mut Campaign, cat: &Catalog) -> Result<()> {
     if !flow(next).is_ok_and(|f| f.completion.blocks.contains("MOVE-A16")) {
         return Ok(());
+    }
+    if definition(next, "Charge").is_some() {
+        let sequences: BTreeSet<_> = flow(next)?
+            .queue
+            .iter()
+            .map(|q| (q.actor_id.clone(), format!("charge-cast:{}", q.sequence)))
+            .collect();
+        flow_mut(next).special.effects.retain(|e| {
+            e.name != "Charge"
+                || !e.slot.starts_with("charge-cast:")
+                || sequences.contains(&(e.target.clone(), e.slot.clone()))
+        });
     }
     let after = battle(next)?;
     if !after.active {
@@ -1232,4 +1263,40 @@ pub fn weight(c: &Campaign, p: &Combatant, n: f64) -> f64 {
     } else {
         n
     }
+}
+
+/// Bind a stored Charge to the attempted cast before hit/miss branching.
+pub(super) fn charge_attempt(
+    c: &mut Campaign,
+    id: &str,
+    m: &serde_json::Value,
+    cat: &Catalog,
+) -> Result<()> {
+    let p = fighter(c, id)?.clone();
+    if !self_support(c, &p, "Charge") {
+        return Ok(());
+    }
+    let m = field::move_data(c, &p, m);
+    if m["Type"] != "Electric"
+        || !["Physical", "Special"].contains(&m["Category"].as_str().unwrap_or(""))
+    {
+        return Ok(());
+    }
+    let sequence = c.revision + 1;
+    let started = battle(c)?.round;
+    flow_mut(c)
+        .special
+        .effects
+        .retain(|e| e.name != "Charge" || e.target != id || e.slot != "self-support");
+    flow_mut(c).special.effects.push(special::TimedEffect {
+        name: "Charge".into(),
+        source: id.into(),
+        target: id.into(),
+        rounds: None,
+        amount: 2,
+        started,
+        slot: format!("charge-cast:{sequence}"),
+    });
+    let _ = cat;
+    Ok(())
 }

@@ -4342,3 +4342,329 @@ fn completion_a28_auxiliaries_serialize_clear_on_recall_and_keep_stat_ability_ru
         );
     }
 }
+
+fn charged() -> (Campaign, String, String) {
+    let (c, a, t) = setup("Charge");
+    let c = resolve(&pending(&c, &a, &a, "Charge"));
+    (c, a, t)
+}
+fn charge_ready(c: &Campaign, a: &str) -> bool {
+    c.battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .special
+        .effects
+        .iter()
+        .any(|e| e.name == "Charge" && e.target == a && e.slot == "self-support")
+}
+#[test]
+fn completion_a29_charge_preserves_support_and_non_electric_moves_then_adds_two_once() {
+    let (mut c, a, t) = charged();
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .direct_status = true;
+    turn(&mut c, &a, "Thunder Wave");
+    c = resolve(&pending(&c, &a, &t, "Thunder Wave"));
+    assert!(charge_ready(&c, &a));
+    turn(&mut c, &a, "Tackle");
+    c = pending(&c, &a, &t, "Tackle");
+    assert!(charge_ready(&c, &a));
+    turn(&mut c, &a, "Thunderbolt");
+    let mut control = c.clone();
+    control
+        .battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .special
+        .effects
+        .retain(|e| e.name != "Charge");
+    let queued = ordinary_accuracy(&c, &a, &t, "Thunderbolt");
+    let uncharged = ordinary_accuracy(&control, &a, &t, "Thunderbolt");
+    assert_eq!(
+        queued_damage_pool(&queued).dice,
+        queued_damage_pool(&uncharged).dice + 2
+    );
+    assert!(!charge_ready(&queued, &a));
+    let mut c = roll(&queued, "gm", &damage_command(&queued), 1);
+    if !c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .queue
+        .is_empty()
+    {
+        c = resolve(&c);
+    }
+    assert!(!c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .special
+        .effects
+        .iter()
+        .any(|e| e.name == "Charge" && e.target == a));
+}
+#[test]
+fn completion_a29_charge_miss_undo_recall_and_resolved_type_are_authoritative() {
+    let (mut c, a, t) = charged();
+    turn(&mut c, &a, "Thunderbolt");
+    let action = super::targeting_tests::attack(&a, vec![t.clone()], "Thunderbolt");
+    let missed = roll(&c, "gm", &action, 1);
+    assert!(missed
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .queue
+        .is_empty());
+    assert!(!charge_ready(&missed, &a));
+    let restored = decision(
+        &missed,
+        "gm",
+        Action::RollbackBattle {
+            event_sequence: missed.battle_undo.last().unwrap().event_sequence,
+            reason: "Restore consumed Charge after missed attempt".into(),
+        },
+    );
+    assert!(charge_ready(&restored, &a));
+    let saved: Campaign = serde_json::from_str(&serde_json::to_string(&restored).unwrap()).unwrap();
+    assert!(charge_ready(&saved, &a));
+    for (ability, name, consumed) in [
+        ("Galvanize", "Tackle", true),
+        ("Normalize", "Thunderbolt", false),
+    ] {
+        let (mut c, a, t) = charged();
+        pm(&mut c, &a).selected_ability = ability.into();
+        turn(&mut c, &a, name);
+        let c = ordinary_accuracy(&c, &a, &t, name);
+        assert_eq!(!charge_ready(&c, &a), consumed, "{ability}");
+    }
+    let (mut c, a, _) = charged();
+    let incoming = reserve(&mut c, &a);
+    let c = spider_switch(&c, &a, &incoming, false);
+    assert!(!charge_ready(&c, &a));
+}
+#[test]
+fn completion_a29_charge_is_bound_to_all_area_recipients_and_separate_from_ability_charge() {
+    let (mut c, a, t) = charged();
+    pm(&mut c, &a)
+        .runtime
+        .ability
+        .counters
+        .insert("charged-electric".into(), 2);
+    let other = reserve(&mut c, &t);
+    pm(&mut c, &other).deployed = true;
+    pm(&mut c, &other).field_slot = Some(1);
+    c.battle.as_mut().unwrap().slots_per_side = 2;
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .tactics
+        .enabled = true;
+    turn(&mut c, &a, "Discharge");
+    let action = super::targeting_tests::attack(&a, vec![t.clone(), other.clone()], "Discharge");
+    c = roll(&c, "gm", &action, 6);
+    while c.battle.as_ref().unwrap().flow.as_ref().unwrap().window {
+        c = pass(&c);
+    }
+    let mut control = c.clone();
+    control
+        .battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .special
+        .effects
+        .retain(|e| e.name != "Charge");
+    assert_eq!(
+        queued_damage_pool(&c).dice,
+        queued_damage_pool(&control).dice + 2,
+        "ability charge is present on both sides of this comparison"
+    );
+    c = roll(&c, "gm", &damage_command(&c), 1);
+    assert_eq!(q(&c).damage_context.as_ref().unwrap().field_bonus, 2);
+    c = resolve(&c);
+    assert!(!q(&c).damage_done);
+    assert_eq!(q(&c).damage_context.as_ref().unwrap().field_bonus, 2);
+    c = roll(&c, "gm", &damage_command(&c), 1);
+    c = resolve(&c);
+    assert!(c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .queue
+        .is_empty());
+    assert!(!c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .special
+        .effects
+        .iter()
+        .any(|e| e.name == "Charge"));
+}
+#[test]
+fn completion_a29_charge_recast_does_not_stack_and_historical_effect_remains_manual() {
+    let (mut c, a, t) = charged();
+    turn(&mut c, &a, "Charge");
+    c = resolve(&pending(&c, &a, &a, "Charge"));
+    assert_eq!(
+        c.battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .special
+            .effects
+            .iter()
+            .filter(|e| e.name == "Charge")
+            .count(),
+        1
+    );
+    turn(&mut c, &a, "Thunderbolt");
+    let mut control = c.clone();
+    control
+        .battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .special
+        .effects
+        .retain(|e| e.name != "Charge");
+    assert_eq!(
+        queued_damage_pool(&ordinary_accuracy(&c, &a, &t, "Thunderbolt")).dice,
+        queued_damage_pool(&ordinary_accuracy(&control, &a, &t, "Thunderbolt")).dice + 2
+    );
+    let (mut c, a, _) = setup("Charge");
+    c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
+        Box::new(completion::initial(SELF_AUXILIARY_MOVES_ENGINE));
+    let c = pending(&c, &a, &a, "Charge");
+    assert_eq!(
+        battle::transition(&c, "gm", &cmd(&c), vec![], &catalog())
+            .unwrap_err()
+            .code,
+        "manual_rule"
+    );
+}
+
+fn charged_clash_case(
+    move_name: &str,
+    sport: bool,
+    tar: bool,
+    wonder: bool,
+) -> (Campaign, String, String) {
+    let (mut c, a, t) = charged();
+    set_species(&mut c, &t, "Blastoise");
+    refresh_field(&mut c);
+    if sport {
+        turn(&mut c, &a, "Mud Sport");
+        c = support_cast(&c, &a, vec![], "Mud Sport");
+    }
+    if tar {
+        turn(&mut c, &a, "Tar Shot");
+        c = resolve(&pending(&c, &a, &t, "Tar Shot"));
+    }
+    if wonder {
+        pm(&mut c, &t).selected_ability = "Wonder Guard".into();
+    }
+    let sid = p(&c, &a).sheet_id.clone();
+    c.sheets.get_mut(&sid).unwrap().moves.push(move_name.into());
+    turn(&mut c, &t, "Tackle");
+    let mut action = super::targeting_tests::attack(&t, vec![a.clone()], "Tackle");
+    if let Action::AccuracyTargets {
+        success_modifier, ..
+    } = &mut action
+    {
+        *success_modifier = 1;
+    }
+    c = roll(&c, "gm", &action, 1);
+    (c, a, t)
+}
+#[test]
+fn completion_a29_clash_consumes_charge_on_success_or_failure_without_inventing_pool_dice() {
+    for face in [1, 6] {
+        let (c, a, t) = charged_clash_case("Thunder Punch", false, false, false);
+        let before = p(&c, &t).hp;
+        let c = roll(
+            &c,
+            "gm",
+            &Action::React {
+                combatant_id: a.clone(),
+                kind: "clash".into(),
+                move_name: "Thunder Punch".into(),
+                reason: "Charge's next damaging attempt is a Clash".into(),
+            },
+            face,
+        );
+        assert!(!charge_ready(&c, &a));
+        if face == 6 {
+            assert_eq!(
+                before - p(&c, &t).hp,
+                2,
+                "Electric is super-effective against Water, but Charge adds no fixed Clash damage"
+            );
+        } else {
+            assert_eq!(before, p(&c, &t).hp);
+        }
+    }
+}
+#[test]
+fn completion_a29_clash_uses_sport_tar_shot_and_wonder_guard_matchups() {
+    for (name, sport, tar, wonder, damage) in [
+        ("Thunder Punch", true, false, false, 1),
+        ("Thunder Punch", true, false, true, 0),
+        ("Flame Wheel", false, true, true, 2),
+    ] {
+        let (c, a, t) = charged_clash_case(name, sport, tar, wonder);
+        let before = p(&c, &t).hp;
+        let c = roll(
+            &c,
+            "gm",
+            &Action::React {
+                combatant_id: a.clone(),
+                kind: "clash".into(),
+                move_name: name.into(),
+                reason: "Use the same field-adjusted matchup for Clash".into(),
+            },
+            6,
+        );
+        assert_eq!(
+            before - p(&c, &t).hp,
+            damage,
+            "{name}, sport={sport}, tar={tar}, WG={wonder}"
+        );
+        assert_eq!(charge_ready(&c, &a), name == "Flame Wheel");
+    }
+}

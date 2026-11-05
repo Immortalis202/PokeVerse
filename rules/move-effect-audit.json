@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "date": "2026-11-05",
-  "release": "0.71.0",
-  "engine": "0.63.0-core",
+  "date": "2026-11-06",
+  "release": "0.72.0",
+  "engine": "0.64.0-core",
   "scope": "892-card effect-route inventory; focused semantic review of status infliction, cure and protection clauses. M2-A through M2-E battle status clauses and MOVE-A01 damaging attribute clauses plus MOVE-A02 entry hazards delivered; see scoped registries and retained choices.",
   "limits": [
     "An executable route is not full card coverage.",
@@ -19,10 +19,10 @@
   "counts": {
     "routes": {
       "excluded": 38,
-      "executable-scope": 710,
+      "executable-scope": 711,
       "gm-choice": 1,
       "input-required": 16,
-      "manual-effect-route": 127
+      "manual-effect-route": 126
     },
     "status_clauses": {
       "excluded": 6,
@@ -5814,22 +5814,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A29: Charge stores two move-channel damage dice for the next damaging resolved Electric move. Electric Support moves preserve it. A damaging attempt consumes the stored charge even on a miss; a successful attempt binds it to the complete cast, including area recipients and multi-hits. Existing ability charge remains a separate channel. Recall/faint clears unspent charge; saved casts and undo retain their state. Clash attempts also consume Charge, while their fixed damage has no damage pool to increase. Newly adopting encounters use the sport/Tar Shot-adjusted matchup and Wonder Guard for Clash damage as well.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
