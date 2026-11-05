@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.52.0-core",
-  "release": "0.60.0",
-  "protocol": 61,
+  "engine": "0.53.0-core",
+  "release": "0.61.0",
+  "protocol": 62,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -839,6 +839,19 @@
         "completion_a17_hyperspace_hole_ignores_defense_and_fury_self_drop_survives_target_faint"
       ],
       "scope": "Four shield-bypassing attacks retain exact printed attributes. Mighty Cleave also bypasses Force Fields; Hyperspace Hole/Fury retain existing Force Field bypass; Hyper Drill still takes applicable Force Field reduction. Hyperspace Fury reduces user Defense by one. Other weather/environment reductions remain."
+    },
+    {
+      "id": "move-completion-a18",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A18",
+      "fixtures": [
+        "completion_a18_all_nine_attack_paths_finish_and_install_only_printed_grounding",
+        "completion_a18_public_attacks_reach_only_the_reviewed_hidden_charge_targets",
+        "completion_a18_water_effectiveness_and_printed_type_immunities_use_real_damage_pools",
+        "completion_a18_grounding_removes_ground_move_immunity_until_public_recall",
+        "completion_a18_shields_still_block_grounding_and_older_encounters_keep_immunity"
+      ],
+      "scope": "Nine range/immunity attacks. Existing specific charge vulnerabilities retained; canonical Freeze Dry resolves the Dive card's Freeze-Dry spelling and is super-effective against Water. Origin Pulse/Precipice Blades hit hidden charging targets and ignore immunity to their printed damage type. Smack Down/Thousand Arrows remove Ground immunity for the scene, ending on departure. Weather activation guards, Shields and Force Fields remain independent."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -855,5 +868,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "abd5fe2d8d9c830a4f664472fb10c8db0877afddf5d14a72f3fa25b3d196a311"
+  "move_completion_registry_hash": "333139633fed53bd598e029070e87bcb114e5a08c18f4640198119fba44a9a82"
 }

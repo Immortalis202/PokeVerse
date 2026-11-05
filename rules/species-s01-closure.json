@@ -3,7 +3,7 @@
   "status": "complete",
   "date": "2026-10-31",
   "scope": "Exact species/form JSON reconciliation plus retained manual evidence and explicit user rulings.",
-  "catalog_hash": "cea51b7348244af86ce12c3eebfeee9d2fa05a1278bdb49ce90c25c5703550fb",
+  "catalog_hash": "376ab8e7b1054ea8d079234004a4f0dcabfcd84b98cdd726e181425f74cbabf0",
   "identities": 1200,
   "stat_fields": 13200,
   "matching_stat_fields": 13191,

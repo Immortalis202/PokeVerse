@@ -2734,6 +2734,11 @@ pub fn vulnerable(c: &Campaign, id: &str, name: &str) -> bool {
     if compound::minimized(c, id, name) {
         return true;
     }
+    if charge_for(c, id)
+        .is_some_and(|q| completion::vulnerable_hidden(c, name, &q.action.move_name))
+    {
+        return true;
+    }
     charge_for(c, id).is_some_and(|q| match q.action.move_name.as_str() {
         "Fly" | "Bounce" | "Sky Drop" => [
             "Thunder",
@@ -2780,6 +2785,7 @@ pub fn target_guard(c: &Campaign, source: &str, id: &str, m: &serde_json::Value)
                 "Shadow Force",
             ]
             .contains(&q.action.move_name.as_str())
+                && !completion::hits_hidden(c, name, &q.action.move_name)
         })
         && !vulnerable(c, id, name)
     {

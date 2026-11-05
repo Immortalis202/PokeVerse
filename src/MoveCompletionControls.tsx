@@ -23,7 +23,8 @@ export default function MoveCompletionControls({
         e.name.startsWith("ongoing:") ||
         e.name.startsWith("accuracy-loss:") ||
         e.slot === "move-restriction" ||
-        e.slot === "persistent-restriction",
+        e.slot === "persistent-restriction" ||
+        e.slot === "ground-immunity",
     );
   if (!entries.length) return null;
   const owned = (id: string) =>
@@ -35,10 +36,14 @@ export default function MoveCompletionControls({
       {entries.map(({ effect: e, index }) => {
         const ongoing = e.name.startsWith("ongoing:"),
           accuracy = e.name.startsWith("accuracy-loss:"),
+          ground = e.slot === "ground-immunity",
           restriction =
             e.slot === "move-restriction" ||
             e.slot === "persistent-restriction",
-          move = e.name.replace(/^(move-block:|ongoing:|accuracy-loss:)/, "");
+          move = e.name.replace(
+            /^(move-block:|ongoing:|accuracy-loss:|grounded:)/,
+            "",
+          );
         const target = b.combatants.find((p) => p.id === e.target);
         const due =
           ongoing &&
@@ -50,21 +55,23 @@ export default function MoveCompletionControls({
         return (
           <div key={index} className="notice">
             {target?.name ?? "Registered participant"}:{" "}
-            {restriction
-              ? move === "Taunt"
-                ? "Taunt: Support moves disabled"
-                : move === "Throat Chop"
-                  ? "Throat Chop: Sound moves disabled"
-                  : move.startsWith("Disable:")
-                    ? `${move.slice(8)} disabled by Disable`
-                    : move === "Torment"
-                      ? "Torment: last-round moves disabled"
-                      : "Imprison: foes cannot use this Pokémon’s known moves"
-              : accuracy
-                ? `${move}: remove ${e.amount} Accuracy successes`
-                : ongoing
-                  ? `${move} ongoing damage`
-                  : `blocked by ${move}`}{" "}
+            {ground
+              ? `${move}: Ground immunity removed`
+              : restriction
+                ? move === "Taunt"
+                  ? "Taunt: Support moves disabled"
+                  : move === "Throat Chop"
+                    ? "Throat Chop: Sound moves disabled"
+                    : move.startsWith("Disable:")
+                      ? `${move.slice(8)} disabled by Disable`
+                      : move === "Torment"
+                        ? "Torment: last-round moves disabled"
+                        : "Imprison: foes cannot use this Pokémon’s known moves"
+                : accuracy
+                  ? `${move}: remove ${e.amount} Accuracy successes`
+                  : ongoing
+                    ? `${move} ongoing damage`
+                    : `blocked by ${move}`}{" "}
             {e.rounds == null ? "(scene)" : `(${e.rounds} rounds remaining)`}
             {restriction && campaign.gm_id === playerId && (
               <button

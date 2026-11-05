@@ -20,6 +20,14 @@ function view(who: string, ended = true, done = false) {
           enabled: true,
           effects: [
             {
+              name: "grounded:Smack Down",
+              source: "a",
+              target: "t",
+              rounds: null,
+              started: 0,
+              slot: "ground-immunity",
+            },
+            {
               name: "Throat Chop",
               source: "a",
               target: "t",
@@ -66,6 +74,8 @@ function view(who: string, ended = true, done = false) {
 it("shows readable scene blocks and ongoing clocks without exposing internal labels", () => {
   const html = view("foe");
   expect(html).toContain("blocked by Mean Look");
+  expect(html).toContain("Smack Down: Ground immunity removed");
+  expect(html).not.toContain("grounded:");
   expect(html).toContain("Throat Chop: Sound moves disabled");
   expect(html).not.toContain("Clear Throat Chop");
   expect(view("gm")).toContain("Clear Throat Chop");

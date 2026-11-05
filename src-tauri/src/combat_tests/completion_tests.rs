@@ -2539,3 +2539,190 @@ fn completion_a17_hyperspace_hole_ignores_defense_and_fury_self_drop_survives_ta
     let c = resolve(&c);
     assert_eq!(stat(&c, &a, "Defense"), -1);
 }
+#[test]
+fn completion_a18_all_nine_attack_paths_finish_and_install_only_printed_grounding() {
+    for name in [
+        "Earthquake",
+        "Gust",
+        "Sky Uppercut",
+        "Surf",
+        "Freeze Dry",
+        "Origin Pulse",
+        "Precipice Blades",
+        "Smack Down",
+        "Thousand Arrows",
+    ] {
+        let (c, a, t) = setup(name);
+        let mut c = pending(&c, &a, &t, name);
+        let grounding = ["Smack Down", "Thousand Arrows"].contains(&name);
+        if grounding {
+            c = resolve(&c);
+        }
+        assert!(
+            c.battle
+                .as_ref()
+                .unwrap()
+                .flow
+                .as_ref()
+                .unwrap()
+                .queue
+                .is_empty(),
+            "{name}"
+        );
+        assert_eq!(completion::grounded(&c, p(&c, &t)), grounding, "{name}");
+    }
+}
+#[test]
+fn completion_a18_public_attacks_reach_only_the_reviewed_hidden_charge_targets() {
+    for (name, hidden) in [
+        ("Earthquake", "Dig"),
+        ("Gust", "Fly"),
+        ("Sky Uppercut", "Bounce"),
+        ("Surf", "Dive"),
+        ("Freeze Dry", "Dive"),
+        ("Origin Pulse", "Phantom Force"),
+        ("Precipice Blades", "Shadow Force"),
+        ("Smack Down", "Fly"),
+    ] {
+        let (c, a, t) = setup(hidden);
+        let charge = super::targeting_tests::attack(&a, vec![t.clone()], hidden);
+        let mut c = roll(&c, "gm", &charge, 6);
+        assert!(
+            c.battle
+                .as_ref()
+                .unwrap()
+                .flow
+                .as_ref()
+                .unwrap()
+                .special
+                .charges
+                .contains_key(&a),
+            "{hidden}"
+        );
+        turn(&mut c, &t, name);
+        let mut after = pending(&c, &t, &a, name);
+        if name == "Smack Down" {
+            after = resolve(&after);
+        }
+        assert!(
+            after
+                .battle
+                .as_ref()
+                .unwrap()
+                .flow
+                .as_ref()
+                .unwrap()
+                .queue
+                .is_empty(),
+            "{name} against {hidden}"
+        );
+    }
+    let (c, a, t) = setup("Dive");
+    let charge = super::targeting_tests::attack(&a, vec![t.clone()], "Dive");
+    let mut c = roll(&c, "gm", &charge, 6);
+    turn(&mut c, &t, "Freeze Dry");
+    assert!(special::vulnerable(&c, &a, "Freeze Dry"));
+    turn(&mut c, &t, "Gust");
+    assert!(rules::dice_count(
+        &c,
+        &super::targeting_tests::attack(&t, vec![a.clone()], "Gust"),
+        &catalog()
+    )
+    .is_err());
+}
+#[test]
+fn completion_a18_water_effectiveness_and_printed_type_immunities_use_real_damage_pools() {
+    for species in ["Mudkip", "Gyarados", "Empoleon"] {
+        let (mut c, a, t) = setup("Freeze Dry");
+        set_species(&mut c, &t, species);
+        refresh_field(&mut c);
+        let queued = ordinary_accuracy(&c, &a, &t, "Freeze Dry");
+        assert_eq!(queued_damage_pool(&queued).effectiveness, 1, "{species}");
+    }
+    for (name, ability, species) in [
+        ("Origin Pulse", "Water Absorb", "Eevee"),
+        ("Precipice Blades", "Levitate", "Charizard"),
+        ("Thousand Arrows", "Levitate", "Charizard"),
+        ("Thousand Arrows", "Wonder Guard", "Eevee"),
+    ] {
+        let (mut c, a, t) = setup(name);
+        set_species(&mut c, &t, species);
+        pm(&mut c, &t).selected_ability = ability.into();
+        refresh_field(&mut c);
+        let queued = ordinary_accuracy(&c, &a, &t, name);
+        assert!(!queued_damage_pool(&queued).immune, "{name} {ability}");
+    }
+}
+#[test]
+fn completion_a18_grounding_removes_ground_move_immunity_until_public_recall() {
+    use crate::combat::field;
+    for name in ["Smack Down", "Thousand Arrows"] {
+        let (mut c, a, t) = setup(name);
+        let incoming = reserve(&mut c, &t);
+        set_species(&mut c, &t, "Charizard");
+        pm(&mut c, &t).selected_ability = "Levitate".into();
+        refresh_field(&mut c);
+        let mut c = resolve(&pending(&c, &a, &t, name));
+        assert!(field::grounded(&c, p(&c, &t), &catalog()));
+        turn(&mut c, &a, "Earthquake");
+        let queued = ordinary_accuracy(&c, &a, &t, "Earthquake");
+        assert!(!queued_damage_pool(&queued).immune);
+        let mut c = roll(&queued, "gm", &damage_command(&queued), 1);
+        turn(&mut c, &t, "Tackle");
+        let c = decision(
+            &c,
+            "gm",
+            Action::SwitchPokemon {
+                outgoing_id: t.clone(),
+                incoming_id: incoming,
+                gm_override: false,
+                reason: "Recall grounded target".into(),
+            },
+        );
+        assert!(!completion::grounded(&c, p(&c, &t)));
+        assert!(!c
+            .battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .special
+            .effects
+            .iter()
+            .any(|e| e.target == t && e.slot == "ground-immunity"));
+    }
+}
+#[test]
+fn completion_a18_shields_still_block_grounding_and_older_encounters_keep_immunity() {
+    let (mut c, a, t) = setup("Thousand Arrows");
+    set_species(&mut c, &t, "Charizard");
+    let round = c.battle.as_ref().unwrap().round;
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .special
+        .shields
+        .insert(
+            t.clone(),
+            special::Shield {
+                name: "Protect".into(),
+                source: t.clone(),
+                round,
+                armed_turn: 1,
+                available: true,
+            },
+        );
+    let c = resolve(&pending(&c, &a, &t, "Thousand Arrows"));
+    assert!(!completion::grounded(&c, p(&c, &t)));
+    let (mut c, a, t) = setup("Thousand Arrows");
+    set_species(&mut c, &t, "Charizard");
+    refresh_field(&mut c);
+    c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
+        Box::new(completion::initial(BYPASS_ATTACKS_ENGINE));
+    let queued = ordinary_accuracy(&c, &a, &t, "Thousand Arrows");
+    assert!(queued_damage_pool(&queued).immune);
+}

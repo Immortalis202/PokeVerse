@@ -317,6 +317,7 @@ pub fn move_immune(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> bool {
             && m["Type"] == "Ground"
             && !field::has(c, "Gravity", p)
             && !special::roost(c, &p.id)
+            && !completion::grounded(c, p)
             && !items::iron_ball(c, &p.id))
             || (p.has_ability("Soundproof") && m["Attributes"]["SoundMove"] == true))
 }
@@ -326,8 +327,12 @@ pub fn damage_immune_from(
     t: &Combatant,
     m: &serde_json::Value,
 ) -> bool {
+    if completion::ignores_type_immunity(c, m) || completion::target_immunity_removed(c, t, m) {
+        return false;
+    }
     if m["Type"] == "Ground"
         && items::completion::has(c, &t.id, "Air Balloon")
+        && !completion::grounded(c, t)
         && !reviewed::extreme(c, a)
         && (!items::completion::ring(c, t, true) || house::enabled(c))
     {

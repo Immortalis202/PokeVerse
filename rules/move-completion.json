@@ -1172,6 +1172,80 @@
           }
         }
       }
+    },
+    "MOVE-A18": {
+      "engine": "0.53.0-core",
+      "kind": "reach-attack",
+      "scope": "Nine range/immunity attacks. Existing specific charge vulnerabilities retained; canonical Freeze Dry resolves the Dive card's Freeze-Dry spelling and is super-effective against Water. Origin Pulse/Precipice Blades hit hidden charging targets and ignore immunity to their printed damage type. Smack Down/Thousand Arrows remove Ground immunity for the scene, ending on departure. Weather activation guards, Shields and Force Fields remain independent.",
+      "moves": {
+        "Earthquake": {
+          "source": "Pokerole-Data/v3.0/Moves/Earthquake.json",
+          "sha256": "3c47cb55c5c0cf72c945cfbb005c4b8571cc3eaf7ae8934ba05f872805e41633",
+          "effect": "Area Move. Ranged. If the Target is out of range due to using the Move \"Dig\" this Move hits anyways.",
+          "hidden": ["Dig"]
+        },
+        "Gust": {
+          "source": "Pokerole-Data/v3.0/Moves/Gust.json",
+          "sha256": "67466926ffa26cdb64f8acd98ecdac4bcf772abcce9272a2a039fe43efbc04be",
+          "effect": "Single Target. Wind Move. If the Target is Out of Range due to using \"Fly\", \"Bounce\" or \"Sky Drop\", this Move hits anyway.",
+          "hidden": ["Fly", "Bounce", "Sky Drop"]
+        },
+        "Sky Uppercut": {
+          "source": "Pokerole-Data/v3.0/Moves/Sky Uppercut.json",
+          "sha256": "fa1a679501cd32ea3bc057e5e8efda10e022ae956600d95ab4ddfdca19d2cf9c",
+          "effect": "Single Target. Fist Move. Low Accuracy 1. If the Target is Out of Range due to using \"Fly\", \"Bounce\" or \"Sky Drop\" this Move hits anyways.",
+          "hidden": ["Fly", "Bounce", "Sky Drop"]
+        },
+        "Surf": {
+          "source": "Pokerole-Data/v3.0/Moves/Surf.json",
+          "sha256": "6b04a8f16b5542ef8c9964d532dc4dbe71e2f3ea731eedb1ed69f3b207591f43",
+          "effect": "Area Move. If a Target is out of range due to the Move \"Dive\", this Move hits anyways. Out of battle, allows the Pokemon to travel the sea for long distances.",
+          "hidden": ["Dive"]
+        },
+        "Freeze Dry": {
+          "source": "Pokerole-Data/v3.0/Moves/Freeze Dry.json",
+          "sha256": "972fe335c99dc16289ade0de43a10d63c10114631ad28e1a115e8e8afd3d29ac",
+          "effect": "Single Target. Water-Type Pokemon receive Super-Effective Damage from this Move. If a Target is out of range due to using the Move \"Dive\" this Move hits anyways.",
+          "hidden": ["Dive"],
+          "vulnerable_hidden": ["Dive"],
+          "super_effective_types": ["Water"],
+          "related_sources": [
+            {
+              "name": "Dive",
+              "sha256": "def01a129f5de47f517c2d41231c8053842a4b86ec2a6408f0cf89ab4da1a800",
+              "effect": "Single Target. Charge Move. Out of Range while Charging. Vulnerable while charging to: Scald/ Surf/ Whirlpool/ Freeze-Dry/ Sheer Cold. Out of battle allows the Pokemon to move underwater carrying someone without risk of drowning."
+            }
+          ]
+        },
+        "Origin Pulse": {
+          "source": "Pokerole-Data/v3.0/Moves/Origin Pulse.json",
+          "sha256": "a992ed56413e69e980eaa0abc3f6580a0ed0fd4247bcec8c70531b9e60aa9806",
+          "effect": "Target All Foes in Range. Low Accuracy 2. Lethal. Unique. Ignore the Target's immunity to Water-Type Damage. If a Target is \"Out of Range\" due to using a Move, this Move hits anyways.",
+          "hidden_any": true,
+          "ignore_type_immunity": "Water"
+        },
+        "Precipice Blades": {
+          "source": "Pokerole-Data/v3.0/Moves/Precipice Blades.json",
+          "sha256": "d455d96ae3d3292bc7a4d6128c9d877286eb5dcb50fa092336ef6bb1eb7856a8",
+          "effect": "Target All Foes in Range. Low Accuracy 2. Ranged. Lethal. Unique. Ignore the Target's Immunity to Ground-Type Damage. If a Target is \"Out of Range\" due to using any Move, this Move hits anyways.",
+          "hidden_any": true,
+          "ignore_type_immunity": "Ground"
+        },
+        "Smack Down": {
+          "source": "Pokerole-Data/v3.0/Moves/Smack Down.json",
+          "sha256": "93149abb4ec5fae92369d08d49e7f575ff929b5e16abcbceb862ebdeeb768d33",
+          "effect": "Single Target. Ranged. Remove the Target's immunity to Ground-Type Moves. If the Target is Out of Range due to using \"Fly\", \"Bounce\" or \"Sky Drop\", this Move hits anyways.",
+          "hidden": ["Fly", "Bounce", "Sky Drop"],
+          "grounding": true
+        },
+        "Thousand Arrows": {
+          "source": "Pokerole-Data/v3.0/Moves/Thousand Arrows.json",
+          "sha256": "5f3aade02ea57623f17f739506874a3db4a853df800f685fff5841bf686cb610",
+          "effect": "Target All Foes in Range. Ranged. Lethal. Unique. Ignore the Target's immunity to Ground. Remove the immunity to Ground-Type Moves of those affected. Whole Scene Duration.",
+          "ignore_type_immunity": "Ground",
+          "grounding": true
+        }
+      }
     }
   },
   "printed_review": {

@@ -635,7 +635,8 @@ pub fn live_types(c: &Campaign, p: &Combatant, cat: &Catalog) -> Result<Vec<Stri
     Ok(ts)
 }
 pub fn grounded(c: &Campaign, p: &Combatant, cat: &Catalog) -> bool {
-    items::completion::ring(c, p, true)
+    completion::grounded(c, p)
+        || items::completion::ring(c, p, true)
         || has(c, "Gravity", p)
         || items::iron_ball(c, &p.id)
         || (!items::completion::has(c, &p.id, "Air Balloon")
@@ -1024,7 +1025,10 @@ pub(super) fn hurt(c: &mut Campaign, id: &str, n: i32, t: &str, cat: &Catalog) -
     if t != "Neutral" {
         for ty in types(c, p, cat)? {
             let e = rules::type_effect(t, &ty)?;
-            if e == -100 && !items::completion::ring(c, p, false) {
+            if e == -100
+                && !items::completion::ring(c, p, false)
+                && !(t == "Ground" && ty == "Flying" && completion::grounded(c, p))
+            {
                 return Ok(());
             }
             if e != -100 {

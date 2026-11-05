@@ -1,6 +1,6 @@
 # Move-effect audit: milestone 1
 
-Snapshot refreshed: 5 November 2026, app **0.60.0**, engine **0.52.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
+Snapshot refreshed: 5 November 2026, app **0.61.0**, engine **0.53.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
 
 ## Deliverables and limits
 
@@ -18,13 +18,13 @@ The diagnostic deliberately bypasses accuracy, damage, targeting expansion, acti
 
 | Effect-route result | Cards | Meaning |
 | --- | ---: | --- |
-| executable-scope | 682 | At least one probe resolves; only recorded scopes are asserted. |
+| executable-scope | 691 | At least one probe resolves; only recorded scopes are asserted. |
 | input-required | 13 | Existing handler requests a selection, resource, weather or other legitimate prerequisite. |
-| manual-effect-route | 158 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
+| manual-effect-route | 149 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
 | gm-choice | 1 | Hold Hands: narrative battle-ending decision remains with the storyteller. |
 | excluded | 38 | Supplied Max/Z cards and the user-excluded Sappy Seed. |
 
-These totals sum to 892. **158 manual-effect-route results remain after MOVE-A17. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
+These totals sum to 892. **149 manual-effect-route results remain after MOVE-A18. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
 
 | Focused status result | Cards |
 | --- | ---: |
@@ -193,7 +193,7 @@ A six triggers the single printed Chance pool. Serene Grace, Wonder Skin, Loaded
 
 New 0.36.0-core encounters enable the boxed `damaging_stats` state. Missing saved state defaults disabled; 0.35.0-core remains accepted with its previous M3 behavior. Protocol 45 carries the new state. App version is 0.44.0.
 
-**The whole move catalog is not complete.** The 158 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
+**The whole move catalog is not complete.** The 149 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
 
 
 ### MOVE-A01 verification (1 November 2026)
@@ -352,3 +352,12 @@ Validation covers all four moves through public commands, declaration prerequisi
 Hyper Drill, Hyperspace Hole, Mighty Cleave and Hyperspace Fury retain their printed Shield bypass. Mighty Cleave now also bypasses Force Fields; Hyperspace Hole/Fury retain their existing Force Field behavior, and Hyper Drill still takes Force Field reduction. Hyperspace Hole ignores defenses. Hyperspace Fury reduces its user's Defense by one after damage, including a target knockout. Other environment/weather reductions remain independent, and optional held-item effects retain their resolution stage.
 
 Validation compares all four public attacks with and without Protect plus both defense screens, verifies Fury's self change, Hole's zero defense, retained environment reduction, knockout resolution and historical Mighty Cleave behavior. Completion/stat/transfer regressions, adjacent status/field clocks, gates, exports, route inventory, frontend/script tests, TypeScript and formatting passed. App 0.60.0, engine 0.52.0-core, protocol 61.
+
+
+### MOVE-A18: range, typed immunity and grounding (5 November 2026)
+
+Earthquake, Gust, Sky Uppercut and Surf complete with their existing specific charge vulnerabilities. Freeze Dry now resolves Dive's source spelling Freeze-Dry to the canonical card, retains the printed Dive vulnerability, and deals super-effective damage against Water targets. Both source fingerprints are retained. Origin Pulse and Precipice Blades can hit targets hidden by charging moves and bypass immunity to their printed Water/Ground damage type; weather activation guards, Shields and Force Fields remain independent.
+
+Smack Down and Thousand Arrows remove the target's Ground-move immunity for the scene, including Flying/Levitate and other Ground-move immunity. Thousand Arrows bypasses Ground immunity on its initial hit. Marked targets satisfy the existing grounded-field checks; recall/faint clears the mark. The effect does not invent a charge cancellation. Shields still prevent the grounding clause, and the UI shows the live Ground-immunity removal.
+
+Validation exercises all nine public attack paths, specific/all hidden charges, unrelated hidden-target rejection, three Water dual-type cases, typed/ability immunity, follow-up Ground attacks, public recall, shields and historical behavior. Focused completion/stat/transfer/status/field/gate checks, 126 bindings, full route inventory, 76 frontend tests, 54 script checks, TypeScript and formatting passed. The full Rust suite also passed with localhost networking enabled: 878 passed, one ignored inventory test; the ignored inventory passed separately. Generated bindings were normalized and TypeScript/format/diff checks passed afterward. App 0.61.0, engine 0.53.0-core, protocol 62.

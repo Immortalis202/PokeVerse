@@ -103,7 +103,10 @@ fn immune_target_with_fainted(
     if (!allow_fainted && target.hp == 0)
         || special::target_effects_blocked(c, q, &m)
         || (!reviewed::extreme(c, &source)
-            && (extra::effects_immune(c, target, &m) || abilities::move_immune(c, target, &m)))
+            && (extra::effects_immune(c, target, &m)
+                || (!ignores_type_immunity(c, &m)
+                    && !target_immunity_removed(c, target, &m)
+                    && abilities::move_immune(c, target, &m))))
     {
         return Ok(true);
     }
@@ -111,9 +114,12 @@ fn immune_target_with_fainted(
         let (n, immune) =
             rules::type_matchup(c, &source, target, m["Type"].as_str().unwrap_or(""), cat)?;
         let n = effectiveness(c, &m, target, cat, n)?;
-        return Ok(immune
-            || abilities::damage_immune_from(c, &source, target, &m)
-            || extra::source_immune(c, &source, target, n));
+        return Ok(
+            !(ignores_type_immunity(c, &m) || target_immunity_removed(c, target, &m))
+                && (immune
+                    || abilities::damage_immune_from(c, &source, target, &m)
+                    || extra::source_immune(c, &source, target, n)),
+        );
     }
     Ok(false)
 }
@@ -276,6 +282,25 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
                         n.as_i64().unwrap() as i32,
                     )?;
                 }
+            }
+        }
+        "reach-attack" => {
+            if d["grounding"] == true && !immune_target(c, q, cat)? {
+                let name = format!("grounded:{}", q.move_name);
+                let started = battle(c)?.round;
+                flow_mut(c)
+                    .special
+                    .effects
+                    .retain(|e| e.target != q.target_id || e.name != name);
+                flow_mut(c).special.effects.push(special::TimedEffect {
+                    name,
+                    source: q.actor_id.clone(),
+                    target: q.target_id.clone(),
+                    rounds: None,
+                    amount: 0,
+                    started,
+                    slot: "ground-immunity".into(),
+                });
             }
         }
         "trap" => {
@@ -458,6 +483,7 @@ pub fn ordinary(c: &Campaign, name: &str) -> bool {
         ]
         .contains(&kind)
             || (kind == "bypass-attack" && d["changes"].as_object().is_some_and(|v| v.is_empty()))
+            || (kind == "reach-attack" && d["grounding"] != true)
     })
 }
 
@@ -884,4 +910,40 @@ fn history_effect(
 
 pub fn force_field_bypass(c: &Campaign, m: &serde_json::Value) -> bool {
     definition(c, m["Name"].as_str().unwrap_or("")).is_some_and(|(_, d)| d["force_field"] == true)
+}
+
+pub fn ignores_type_immunity(c: &Campaign, m: &serde_json::Value) -> bool {
+    definition(c, m["Name"].as_str().unwrap_or("")).is_some_and(|(_, d)| {
+        d["ignore_type_immunity"]
+            .as_str()
+            .is_some_and(|t| m["Type"] == t)
+    })
+}
+pub fn target_immunity_removed(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> bool {
+    m["Type"] == "Ground" && grounded(c, p)
+}
+pub fn grounded(c: &Campaign, p: &Combatant) -> bool {
+    p.deployed
+        && p.hp > 0
+        && flow(c).is_ok_and(|f| {
+            f.special
+                .effects
+                .iter()
+                .any(|e| e.target == p.id && e.slot == "ground-immunity")
+        })
+}
+pub fn hits_hidden(c: &Campaign, name: &str, hidden: &str) -> bool {
+    definition(c, name).is_some_and(|(_, d)| {
+        d["hidden_any"] == true
+            || d["hidden"]
+                .as_array()
+                .is_some_and(|v| v.iter().any(|n| n == hidden))
+    })
+}
+pub fn vulnerable_hidden(c: &Campaign, name: &str, hidden: &str) -> bool {
+    definition(c, name).is_some_and(|(_, d)| {
+        d["vulnerable_hidden"]
+            .as_array()
+            .is_some_and(|v| v.iter().any(|n| n == hidden))
+    })
 }

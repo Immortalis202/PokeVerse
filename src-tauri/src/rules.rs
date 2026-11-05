@@ -224,6 +224,7 @@ pub fn accuracy(
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
     if [
         ENGINE,
+        BYPASS_ATTACKS_ENGINE,
         MOVE_HISTORY_ENGINE,
         MOVE_RESTRICTIONS_ENGINE,
         COST_STAT_MOVES_ENGINE,
@@ -539,6 +540,11 @@ pub fn damage_pool(
         && !corrosion
         && (crate::combat::abilities::damage_immune_from(c, attacker, target, &m)
             || crate::combat::extra::source_immune(c, attacker, target, effectiveness));
+    if crate::combat::completion::ignores_type_immunity(c, &m)
+        || crate::combat::completion::target_immunity_removed(c, target, &m)
+    {
+        immune = false;
+    }
     let ability_bonus = if conditional
         && !(crate::combat::standalone::enabled(c)
             && attacker.has_ability("Torrent")
@@ -713,7 +719,8 @@ pub fn type_matchup(
                 && t == "Flying"
                 && (crate::combat::field::has(c, "Gravity", target)
                     || crate::combat::special::roost(c, &target.id)
-                    || crate::combat::items::iron_ball(c, &target.id)));
+                    || crate::combat::items::iron_ball(c, &target.id)
+                    || crate::combat::completion::grounded(c, target)));
         if effect == -1 && ignore_resistance {
             ignore_resistance = false;
         } else if effect != -100 {
