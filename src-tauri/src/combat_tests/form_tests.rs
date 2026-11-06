@@ -901,6 +901,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
     let ended = decision(&c, "gm", Action::EndBattle);
     for engine in [
         ENGINE,
+        EXPLOSION_MOVES_ENGINE,
         FALSE_SWIPE_ENGINE,
         FICKLE_BEAM_ENGINE,
         TELEKINESIS_MOVES_ENGINE,
@@ -974,6 +975,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.entry_hazards,
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1014,21 +1016,32 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             .contains(&engine)
         );
         assert_eq!(
-            flow.completion.blocks.contains("MOVE-A38"),
+            flow.completion.blocks.contains("MOVE-A39"),
             engine == ENGINE
         );
         assert_eq!(
+            flow.completion.blocks.contains("MOVE-A38"),
+            [ENGINE, EXPLOSION_MOVES_ENGINE].contains(&engine)
+        );
+        assert_eq!(
             flow.completion.blocks.contains("MOVE-A37"),
-            [ENGINE, FALSE_SWIPE_ENGINE].contains(&engine)
+            [ENGINE, EXPLOSION_MOVES_ENGINE, FALSE_SWIPE_ENGINE].contains(&engine)
         );
         assert_eq!(
             flow.completion.blocks.contains("MOVE-A36"),
-            [ENGINE, FALSE_SWIPE_ENGINE, FICKLE_BEAM_ENGINE].contains(&engine)
+            [
+                ENGINE,
+                EXPLOSION_MOVES_ENGINE,
+                FALSE_SWIPE_ENGINE,
+                FICKLE_BEAM_ENGINE
+            ]
+            .contains(&engine)
         );
         assert_eq!(
             flow.completion.blocks.contains("MOVE-A35"),
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE
@@ -1039,6 +1052,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A34"),
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1050,6 +1064,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A33"),
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1062,6 +1077,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A32"),
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1075,6 +1091,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A31"),
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1089,6 +1106,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A30"),
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1104,6 +1122,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A29"),
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1120,6 +1139,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A28"),
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1137,6 +1157,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A27"),
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1155,6 +1176,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A26"),
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1174,6 +1196,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A25"),
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1194,6 +1217,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A24"),
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1215,6 +1239,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A23"),
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1237,6 +1262,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A22"),
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1260,6 +1286,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A21"),
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1284,6 +1311,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A20"),
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1309,6 +1337,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A19"),
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1335,6 +1364,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A18"),
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1362,6 +1392,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A17"),
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1390,6 +1421,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A16"),
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1419,6 +1451,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A15"),
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1449,6 +1482,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A14"),
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1480,6 +1514,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A13"),
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1512,6 +1547,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A12"),
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1545,6 +1581,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A11"),
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1579,6 +1616,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A10"),
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1614,6 +1652,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A09"),
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1650,6 +1689,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A08"),
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1687,6 +1727,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A07"),
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1725,6 +1766,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A06"),
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1764,6 +1806,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A05"),
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1804,6 +1847,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A04"),
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1845,6 +1889,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A03"),
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1887,6 +1932,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.damaging_stats.enabled,
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1931,6 +1977,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.battlefield_review,
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -1976,6 +2023,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.direct_status,
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -2026,6 +2074,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.chance_status,
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -2075,6 +2124,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.compound.enabled,
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -2123,6 +2173,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.recurring.enabled,
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -2170,6 +2221,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.battlefield_review,
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -2215,6 +2267,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.cure_protection,
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -2261,6 +2314,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.spite,
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -2313,6 +2367,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.will_drains,
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -2364,6 +2419,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.status_escalation,
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -2417,6 +2473,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.identity_moves,
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -2471,6 +2528,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.interaction_rules,
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -2529,6 +2587,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.items.completion.enabled,
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -2586,6 +2645,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.house_rules,
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -2642,6 +2702,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.forms.enabled,
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -2703,6 +2764,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.information.enabled,
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
@@ -2763,6 +2825,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.standalone.enabled,
             [
                 ENGINE,
+                EXPLOSION_MOVES_ENGINE,
                 FALSE_SWIPE_ENGINE,
                 FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,

@@ -6195,3 +6195,120 @@ fn completion_a38_immunity_preserves_target_but_does_not_prevent_self_fainting()
     assert_eq!(p(&done, &t).hp, before);
     assert_eq!(p(&done, &a).hp, 0);
 }
+#[test]
+fn completion_a39_magic_powder_replaces_both_types_and_clears_on_recall() {
+    use crate::combat::field;
+    let (mut c, a, t) = setup("Magic Powder");
+    set_species(&mut c, &t, "Charizard");
+    refresh_field(&mut c);
+    let species = c.sheets[&p(&c, &t).sheet_id].species_id.clone();
+    let incoming = reserve(&mut c, &t);
+    c = support_cast(&c, &a, vec![t.clone()], "Magic Powder");
+    assert_eq!(
+        field::types(&c, p(&c, &t), &catalog()).unwrap(),
+        vec!["Psychic"]
+    );
+    assert_eq!(c.sheets[&p(&c, &t).sheet_id].species_id, species);
+    turn(&mut c, &a, "Magic Powder");
+    c = support_cast(&c, &a, vec![t.clone()], "Magic Powder");
+    assert_eq!(
+        c.battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .battlefield
+            .rules
+            .iter()
+            .filter(|r| r.source == "completion-type")
+            .count(),
+        1
+    );
+    c = serde_json::from_str(&serde_json::to_string(&c).unwrap()).unwrap();
+    c = spider_switch(&c, &t, &incoming, false);
+    assert_eq!(
+        field::types(&c, p(&c, &t), &catalog()).unwrap(),
+        vec!["Fire", "Flying"]
+    );
+}
+#[test]
+fn completion_a39_powder_respects_grass_overcoat_goggles_and_support_protection() {
+    use crate::combat::field;
+    for protection in ["Grass", "Overcoat", "Safety Goggles", "Good As Gold"] {
+        let (mut c, a, t) = setup("Magic Powder");
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .tactics
+            .enabled = true;
+        match protection {
+            "Grass" => set_species(&mut c, &t, "Bulbasaur"),
+            "Safety Goggles" => equip_accuracy(&mut c, &t, "Safety Goggles"),
+            name => pm(&mut c, &t).selected_ability = name.into(),
+        }
+        refresh_field(&mut c);
+        let before = field::types(&c, p(&c, &t), &catalog()).unwrap();
+        let c = support_cast(&c, &a, vec![t.clone()], "Magic Powder");
+        assert_eq!(
+            field::types(&c, p(&c, &t), &catalog()).unwrap(),
+            before,
+            "{protection}"
+        );
+    }
+}
+#[test]
+fn completion_a39_uses_current_grass_type_and_preserves_historical_fallback() {
+    use crate::combat::field;
+    let (mut c, a, t) = setup("Magic Powder");
+    field::change_type(&mut c, &t, "replace", &["Grass".into()]).unwrap();
+    let c = support_cast(&c, &a, vec![t.clone()], "Magic Powder");
+    assert_eq!(
+        field::types(&c, p(&c, &t), &catalog()).unwrap(),
+        vec!["Grass"]
+    );
+    let (mut old, a, t) = setup("Magic Powder");
+    old.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .completion
+        .blocks
+        .remove("MOVE-A39");
+    let c = pending(&old, &a, &t, "Magic Powder");
+    assert!(battle::transition(&c, "gm", &cmd(&c), vec![], &catalog()).is_err());
+}
+#[test]
+fn completion_a39_dark_typing_does_not_block_support_and_magic_bounce_reflects() {
+    use crate::combat::field;
+    let (mut c, a, t) = setup("Magic Powder");
+    set_species(&mut c, &t, "Umbreon");
+    refresh_field(&mut c);
+    let c = support_cast(&c, &a, vec![t.clone()], "Magic Powder");
+    assert_eq!(
+        field::types(&c, p(&c, &t), &catalog()).unwrap(),
+        vec!["Psychic"]
+    );
+    let (mut c, a, t) = setup("Magic Powder");
+    pm(&mut c, &t).selected_ability = "Magic Bounce".into();
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .tactics
+        .enabled = true;
+    let before = field::types(&c, p(&c, &t), &catalog()).unwrap();
+    let c = resolve(&pending(&c, &a, &t, "Magic Powder"));
+    assert_eq!(
+        field::types(&c, p(&c, &a), &catalog()).unwrap(),
+        vec!["Psychic"]
+    );
+    assert_eq!(field::types(&c, p(&c, &t), &catalog()).unwrap(), before);
+}

@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.73.0-core",
-  "release": "0.81.0",
-  "protocol": 82,
+  "engine": "0.74.0-core",
+  "release": "0.82.0",
+  "protocol": 83,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -1086,6 +1086,18 @@
         "completion_a38_immunity_preserves_target_but_does_not_prevent_self_fainting"
       ],
       "scope": "Resolve the entire attempted area cast before self-fainting, including misses, immunity and Evasion. Misty Explosion adds four pool dice while applicable Misty Terrain is active. Damp recognizes exact catalog Self Destruct. Lethal wound automation remains excluded."
+    },
+    {
+      "id": "move-completion-a39",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A39",
+      "fixtures": [
+        "completion_a39_magic_powder_replaces_both_types_and_clears_on_recall",
+        "completion_a39_powder_respects_grass_overcoat_goggles_and_support_protection",
+        "completion_a39_uses_current_grass_type_and_preserves_historical_fallback",
+        "completion_a39_dark_typing_does_not_block_support_and_magic_bounce_reflects"
+      ],
+      "scope": "Magic Powder replaces current target typing with Psychic for the scene or until the target leaves battle. Recasting replaces rather than stacks. Preserve sheet species, saved pending typing, existing Support reflection/protection, Powder immunity and held-item/ability protections."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -1102,5 +1114,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "7cc21f2cf8302c05600d630f406dcc8b0a2912a7f49ff0b3e97a7eff85b0bb54"
+  "move_completion_registry_hash": "57723f136d4946e93dd2d825d01b5bb884abb4554812bedadc1ab112f5e94a73"
 }

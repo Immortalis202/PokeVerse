@@ -1420,6 +1420,7 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
     if !enabled(c) || !c.battle.as_ref().is_some_and(|b| b.active) {
         return Ok(());
     }
+    completion::clear_inactive_types(c);
     let entries = battle(c)?.combatants.clone();
     for p in &entries {
         let ts = live_types(c, p, cat).unwrap_or_default();

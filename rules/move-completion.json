@@ -1672,14 +1672,36 @@
           "effect": "Area Attack. Lethal. The User faints after using this Move. *If Misty Terrain is active, add 4 Extra Dice to the Damage Pool of this Move."
         }
       }
+    },
+    "MOVE-A39": {
+      "engine": "0.74.0-core",
+      "kind": "type-change",
+      "scope": "Magic Powder replaces current target typing with Psychic for the scene or until the target leaves battle. Recasting replaces rather than stacks. Preserve sheet species, saved pending typing, existing Support reflection/protection, Powder immunity and held-item/ability protections.",
+      "moves": {
+        "Magic Powder": {
+          "source": "Pokerole-Data/v3.0/Moves/Magic Powder.json",
+          "sha256": "0977fef8d1b7f59fc5c7dc03932575a122d933b930f467f9274d98db7f554547",
+          "effect": "Single Target. Powder Move. Change the target's Type to Psychic.",
+          "type": "Psychic",
+          "related_sources": [
+            {
+              "source": "Pokerole-Data/v3.0/Abilities/Overcoat.json",
+              "name": "Overcoat",
+              "sha256": "2dcc5dbfadbf2ca907ca4bffc405927bfdf091bddaf5d9ef3ec6b8342e128aac",
+              "effect": "This Pokemon won't recieve damage from Hail or Sandstorm weather. This Pok\u00e9mon is immune to the added effects of Powder Moves.",
+              "reason": "Retain existing Powder added-effect immunity."
+            }
+          ]
+        }
+      }
     }
   },
   "printed_review": {
     "ruling": {
       "source": "Pokerole-Data/POKEROLE COREBOOK 3.0 RULING.pdf",
       "sha256": "f50014b330cc00db83906cf232ba432855f4f624684a84c3c494b47390284d74",
-      "pages": [76, 77, 80],
-      "review": "Extracted definitions: Blocking prevents escape/recall/switching and Switcher effects; ongoing damage is 2 typeless dice, first source only. Duration p.77: round-duration effects cannot restart their counter while active; entry hazards affect new entrants only."
+      "pages": [76, 77, 80, 81],
+      "review": "Extracted definitions: Blocking prevents escape/recall/switching and Switcher effects; ongoing damage is 2 typeless dice, first source only. Duration p.77: round-duration effects cannot restart their counter while active; entry hazards affect new entrants only. Duration p.77: scene effects end when the affected Pokemon leaves battle. Powder p.81: Grass Pokemon take no damage or ill effects from Powder moves; MOVE-A39 applies this to Magic Powder."
     },
     "snap_trap": {
       "source": "Pokerole-Data/POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",

@@ -1,6 +1,6 @@
 # Move-effect audit: milestone 1
 
-Snapshot refreshed: 6 November 2026, app **0.81.0**, engine **0.73.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
+Snapshot refreshed: 6 November 2026, app **0.82.0**, engine **0.74.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
 
 ## Deliverables and limits
 
@@ -18,13 +18,13 @@ The diagnostic deliberately bypasses accuracy, damage, targeting expansion, acti
 
 | Effect-route result | Cards | Meaning |
 | --- | ---: | --- |
-| executable-scope | 726 | At least one probe resolves; only recorded scopes are asserted. |
+| executable-scope | 727 | At least one probe resolves; only recorded scopes are asserted. |
 | input-required | 16 | Existing handler requests a selection, resource, weather or other legitimate prerequisite. |
-| manual-effect-route | 111 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
+| manual-effect-route | 110 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
 | gm-choice | 1 | Hold Hands: narrative battle-ending decision remains with the storyteller. |
 | excluded | 38 | Supplied Max/Z cards and the user-excluded Sappy Seed. |
 
-These totals sum to 892. **111 manual-effect-route results remain after MOVE-A38. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
+These totals sum to 892. **110 manual-effect-route results remain after MOVE-A39. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
 
 | Focused status result | Cards |
 | --- | ---: |
@@ -193,7 +193,7 @@ A six triggers the single printed Chance pool. Serene Grace, Wonder Skin, Loaded
 
 New 0.36.0-core encounters enable the boxed `damaging_stats` state. Missing saved state defaults disabled; 0.35.0-core remains accepted with its previous M3 behavior. Protocol 45 carries the new state. App version is 0.44.0.
 
-**The whole move catalog is not complete.** The 111 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
+**The whole move catalog is not complete.** The 110 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
 
 
 ### MOVE-A01 verification (1 November 2026)
@@ -521,3 +521,9 @@ Validation covers targets at one, two and five HP, excess damage, Focus Sash and
 Explosion, Self Destruct and Misty Explosion finish their pending area cast before the user faints. The source remains available for later recipients and saved pending damage. An unsuccessful Accuracy attempt or an immune recipient does not prevent self-fainting. Damp blocks the attempt before costs or self-fainting and recognizes the exact Self Destruct catalog name alongside its hyphenated source spelling. Misty Explosion gains four pool dice under applicable Misty Terrain. Lethal wound automation remains excluded.
 
 Validation covers all three public area paths with two recipients, saving between damage rolls, complete misses, Damp, Ghost immunity, exact terrain bonus and historical gating. All 133 completion tests, adjacent regressions, bindings, route inventory, 76 frontend tests, 54 script checks, TypeScript and formatting passed. Full Rust regression: 952 passed, one ignored inventory; that inventory passed separately. Bindings were normalized and TypeScript/format/diff checks passed afterward. App 0.81.0, engine 0.73.0-core, protocol 82.
+
+### MOVE-A39: Magic Powder (6 November 2026)
+
+Magic Powder replaces the recipient's current types with Psychic without changing its sheet species. Its scene override ends on recall/faint; recasting replaces rather than stacks. Current Grass typing has the natural Powder immunity stated on RULING p.81. Overcoat, Safety Goggles, Support protection and reflection retain their reviewed behavior. Psychic attack-type immunity does not block this Support effect.
+
+Validation covers dual-type replacement, sheet preservation, recast, serialization, recall, current Grass typing, Overcoat, Safety Goggles, Good As Gold, Dark recipients, Magic Bounce reflection and historical fallback. All 137 completion tests, adjacent regressions, bindings, route inventory, 76 frontend tests, 54 script checks, TypeScript and formatting passed. App 0.82.0, engine 0.74.0-core, protocol 83.

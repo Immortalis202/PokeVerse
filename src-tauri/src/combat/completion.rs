@@ -224,6 +224,26 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
                 );
             }
         }
+        "type-change" => {
+            let source = reviewed::source(c, q)?;
+            let target = fighter(c, &q.target_id)?;
+            let grass = field::types(c, target, cat)?.iter().any(|t| t == "Grass")
+                && !reviewed::type_bypass(c, &source, target);
+            if !immune_target(c, q, cat)? && !grass {
+                field::change_type(
+                    c,
+                    &q.target_id,
+                    "replace",
+                    &[d["type"].as_str().unwrap().into()],
+                )?;
+                let scope = format!("combatant:{}", q.target_id);
+                for r in &mut flow_mut(c).battlefield.rules {
+                    if r.scope == scope && r.kind.starts_with("typing:") && r.source == "typing" {
+                        r.source = "completion-type".into();
+                    }
+                }
+            }
+        }
         "detection" => {
             if !immune_target(c, q, cat)? {
                 if d["rounds"].as_u64().is_some()
@@ -1603,4 +1623,20 @@ pub fn self_faint(before: &Campaign, next: &mut Campaign) -> Result<bool> {
         }
     }
     Ok(changed)
+}
+
+pub fn clear_inactive_types(c: &mut Campaign) {
+    let Some(b) = c.battle.as_ref() else { return };
+    let active: BTreeSet<_> = b
+        .combatants
+        .iter()
+        .filter(|p| p.deployed && p.hp > 0)
+        .map(|p| format!("combatant:{}", p.id))
+        .collect();
+    if flow(c).is_ok() {
+        flow_mut(c)
+            .battlefield
+            .rules
+            .retain(|r| r.source != "completion-type" || active.contains(&r.scope));
+    }
 }
