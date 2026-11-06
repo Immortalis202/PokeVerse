@@ -5746,3 +5746,157 @@ fn completion_a34_saved_detection_survives_knockout_for_user_stat_effects_and_cl
         );
     }
 }
+
+fn telekinetic_case() -> (Campaign, String, String) {
+    let (c, a, t) = setup("Telekinesis");
+    let c = resolve(&pending(&c, &a, &t, "Telekinesis"));
+    (c, a, t)
+}
+#[test]
+fn completion_a35_telekinesis_grants_ground_immunity_hovering_and_no_evade_for_two_rounds() {
+    use crate::combat::field;
+    let (mut c, a, t) = telekinetic_case();
+    assert!(completion::telekinetic(&c, p(&c, &t)));
+    assert!(!field::grounded(&c, p(&c, &t), &catalog()));
+    turn(&mut c, &a, "Mud Shot");
+    assert!(queued_damage_pool(&ordinary_accuracy(&c, &a, &t, "Mud Shot")).immune);
+    let incoming = detection_attack(&c, &a, &t, "Tackle");
+    let action = Action::React {
+        combatant_id: t.clone(),
+        kind: "evade".into(),
+        move_name: "Evasion".into(),
+        reason: "Telekinesis prevents Evading".into(),
+    };
+    assert!(rules::dice_count(&incoming, &action, &catalog()).is_err());
+    c = round_end(&c);
+    assert_eq!(
+        c.battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .special
+            .effects
+            .iter()
+            .find(|e| e.name == "Telekinesis" && e.target == t)
+            .unwrap()
+            .rounds,
+        Some(1)
+    );
+    turn(&mut c, &a, "Telekinesis");
+    c = resolve(&pending(&c, &a, &t, "Telekinesis"));
+    assert_eq!(
+        c.battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .special
+            .effects
+            .iter()
+            .find(|e| e.name == "Telekinesis" && e.target == t)
+            .unwrap()
+            .rounds,
+        Some(1),
+        "recast cannot restart the counter"
+    );
+    c = round_end(&c);
+    assert!(!completion::telekinetic(&c, p(&c, &t)));
+    assert!(!completion::cannot_evade(&c, &a, &t));
+    assert!(field::grounded(&c, p(&c, &t), &catalog()));
+}
+#[test]
+fn completion_a35_grounding_removes_only_telekinesis_ground_clause_and_attack_bypass_is_scoped() {
+    use crate::combat::field;
+    for mode in ["Gravity", "Iron Ball", "Smack Down"] {
+        let (mut c, a, t) = telekinetic_case();
+        match mode {
+            "Gravity" => saved_field_rule(&mut c, "Gravity", "move:review", "all", Some(4), 0),
+            "Iron Ball" => equip_accuracy(&mut c, &t, "Iron Ball"),
+            _ => {
+                turn(&mut c, &a, "Smack Down");
+                c = resolve(&pending(&c, &a, &t, "Smack Down"));
+            }
+        }
+        assert!(!completion::telekinetic(&c, p(&c, &t)), "{mode}");
+        assert!(completion::cannot_evade(&c, &a, &t));
+        assert!(field::grounded(&c, p(&c, &t), &catalog()));
+        turn(&mut c, &a, "Mud Shot");
+        assert!(
+            !queued_damage_pool(&ordinary_accuracy(&c, &a, &t, "Mud Shot")).immune,
+            "{mode}"
+        );
+    }
+    for mode in ["Mold Breaker", "Precipice Blades"] {
+        let (mut c, a, t) = telekinetic_case();
+        let name = if mode == "Mold Breaker" {
+            pm(&mut c, &a).selected_ability = mode.into();
+            "Mud Shot"
+        } else {
+            mode
+        };
+        turn(&mut c, &a, name);
+        assert!(
+            !queued_damage_pool(&ordinary_accuracy(&c, &a, &t, name)).immune,
+            "{mode}"
+        );
+        assert!(
+            completion::telekinetic(&c, p(&c, &t)),
+            "attack-scoped bypass leaves the target's status intact"
+        );
+    }
+}
+#[test]
+fn completion_a35_clash_obeys_telekinesis_and_explicit_ground_immunity_bypass() {
+    for (name, damage) in [("Mud Slap", 0), ("Precipice Blades", 1)] {
+        let (mut c, a, t) = telekinetic_case();
+        let sid = p(&c, &a).sheet_id.clone();
+        c.sheets.get_mut(&sid).unwrap().moves.push(name.into());
+        turn(&mut c, &t, "Tackle");
+        let mut action = super::targeting_tests::attack(&t, vec![a.clone()], "Tackle");
+        if let Action::AccuracyTargets {
+            success_modifier, ..
+        } = &mut action
+        {
+            *success_modifier = 1;
+        }
+        c = roll(&c, "gm", &action, 1);
+        let before = p(&c, &t).hp;
+        let action = Action::React {
+            combatant_id: a,
+            kind: "clash".into(),
+            move_name: name.into(),
+            reason: "Ground immunity and explicit bypass are consistent in Clash".into(),
+        };
+        let c = roll(&c, "gm", &action, 6);
+        assert_eq!(before - p(&c, &t).hp, damage, "{name}");
+    }
+}
+#[test]
+fn completion_a35_telekinesis_serialization_caster_departure_recall_and_historical_route() {
+    let (mut c, a, t) = telekinetic_case();
+    let incoming = reserve(&mut c, &t);
+    let mut saved: Campaign = serde_json::from_str(&serde_json::to_string(&c).unwrap()).unwrap();
+    let before = saved.clone();
+    pm(&mut saved, &a).deployed = false;
+    special::lifecycle(&before, &mut saved, &catalog()).unwrap();
+    assert!(
+        completion::telekinetic(&saved, p(&saved, &t)),
+        "target effect persists after caster departure"
+    );
+    let c = spider_switch(&c, &t, &incoming, false);
+    assert!(!completion::telekinetic(&c, p(&c, &t)));
+    assert!(!completion::cannot_evade(&c, &a, &t));
+    let (mut c, a, t) = setup("Telekinesis");
+    c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
+        Box::new(completion::initial(DETECTION_MOVES_ENGINE));
+    let c = pending(&c, &a, &t, "Telekinesis");
+    assert_eq!(
+        battle::transition(&c, "gm", &cmd(&c), vec![], &catalog())
+            .unwrap_err()
+            .code,
+        "manual_rule"
+    );
+}

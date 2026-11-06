@@ -38,8 +38,19 @@ test("completion blocks retain exact source identities, printed decisions and ex
         assert.deepEqual(d.runtime_names, ["Strength"]);
       }
       for (const related of d.related_sources ?? []) {
-        assert.equal(related.sha256, byName.get(related.name).sha256);
-        assert.equal(related.effect, byName.get(related.name).effect);
+        if (related.source) {
+          const bytes = readFileSync(`../${related.source}`);
+          const source = JSON.parse(bytes);
+          assert.equal(
+            related.sha256,
+            createHash("sha256").update(bytes).digest("hex"),
+          );
+          assert.equal(related.effect, source.Effect);
+          if (related.name) assert.equal(related.name, source.Name);
+        } else {
+          assert.equal(related.sha256, byName.get(related.name).sha256);
+          assert.equal(related.effect, byName.get(related.name).effect);
+        }
       }
       assert.equal(
         m.route,

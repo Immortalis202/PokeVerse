@@ -226,6 +226,15 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
         }
         "detection" => {
             if !immune_target(c, q, cat)? {
+                if d["rounds"].as_u64().is_some()
+                    && flow(c)?
+                        .special
+                        .effects
+                        .iter()
+                        .any(|e| e.name == q.move_name && e.target == q.target_id)
+                {
+                    return Ok(true);
+                }
                 let started = battle(c)?.round;
                 flow_mut(c).special.effects.retain(|e| {
                     e.name != q.move_name
@@ -236,7 +245,7 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
                     name: q.move_name.clone(),
                     source: q.actor_id.clone(),
                     target: q.target_id.clone(),
-                    rounds: None,
+                    rounds: d["rounds"].as_u64().map(|n| n as u32),
                     amount: 0,
                     started,
                     slot: "detection".into(),
@@ -1518,4 +1527,20 @@ pub fn ghost_pair(
     ((["Normal", "Fight", "Fighting"].contains(&move_type) && target_type == "Ghost")
         || (move_type == "Ghost" && target_type == "Normal"))
         && field::detected(c, &a.id, &t.id)
+}
+
+pub fn telekinetic(c: &Campaign, p: &Combatant) -> bool {
+    p.deployed
+        && p.hp > 0
+        && definition(c, "Telekinesis").is_some()
+        && !grounded(c, p)
+        && !field::has(c, "Gravity", p)
+        && !items::iron_ball(c, &p.id)
+        && !items::completion::ring(c, p, true)
+        && flow(c).is_ok_and(|f| {
+            f.special
+                .effects
+                .iter()
+                .any(|e| e.name == "Telekinesis" && e.target == p.id)
+        })
 }

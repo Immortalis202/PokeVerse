@@ -1594,6 +1594,29 @@
           "detection": false
         }
       }
+    },
+    "MOVE-A35": {
+      "engine": "0.70.0-core",
+      "kind": "detection",
+      "scope": "Telekinesis prevents Evade and grants Ground-move immunity for two rounds, using its supplied Hovering metadata for grounded-field eligibility. Gravity, Iron Ball, explicit grounding, Mold Breaker and Ground-immunity bypass retain their established precedence; suppressing the Ground clause does not remove the no-Evade clause. Recast cannot restart an active timer; recall/faint clears the mark. Newly adopting Clash calculations also honor explicit Ground-immunity bypass.",
+      "moves": {
+        "Telekinesis": {
+          "source": "Pokerole-Data/v3.0/Moves/Telekinesis.json",
+          "sha256": "ca9f859d21892a5ec8ca159b434956f0d64fec1dbf0abb49de2ec273e662f378",
+          "effect": "Single Target. Target becomes immune to Ground-Type Moves. Target can't Evade. Duration 2 Rounds.",
+          "detection": false,
+          "rounds": 2,
+          "related_sources": [
+            {
+              "source": "Pokerole-Data/v3.0/Abilities/Mold Breaker.json",
+              "sha256": "b213b3771857c59ac828265f320245be819cbf25a4ca740469bc4399d21a16e9",
+              "effect": "If a foe Pokemon has a Type, an immunity, or an Ability that would prevent this Pokemon from dealing Damage with a Move, ignore it.",
+              "reason": "Existing Mold Breaker wording explicitly bypasses a foe immunity that prevents move damage.",
+              "name": "Mold Breaker"
+            }
+          ]
+        }
+      }
     }
   },
   "printed_review": {

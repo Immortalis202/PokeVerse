@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.69.0-core",
-  "release": "0.77.0",
-  "protocol": 78,
+  "engine": "0.70.0-core",
+  "release": "0.78.0",
+  "protocol": 79,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -1041,6 +1041,18 @@
         "completion_a34_saved_detection_survives_knockout_for_user_stat_effects_and_clears_on_recall"
       ],
       "scope": "Foresight and Odor Sleuth prevent their marked target from Evading that caster and bypass innate Ghost versus Normal/Fight immunity in both attack directions for that caster-target pair. Sweet Scent prevents affected foes from Evading any moves. Scene marks clear on target recall/faint; saved detection pairs preserve damage-linked effects through knockout. Accuracy, Clash and unrelated type/ability immunity remain independent. Outside-battle tracking/attraction remains narrative."
+    },
+    {
+      "id": "move-completion-a35",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A35",
+      "fixtures": [
+        "completion_a35_telekinesis_grants_ground_immunity_hovering_and_no_evade_for_two_rounds",
+        "completion_a35_grounding_removes_only_telekinesis_ground_clause_and_attack_bypass_is_scoped",
+        "completion_a35_clash_obeys_telekinesis_and_explicit_ground_immunity_bypass",
+        "completion_a35_telekinesis_serialization_caster_departure_recall_and_historical_route"
+      ],
+      "scope": "Telekinesis prevents Evade and grants Ground-move immunity for two rounds, using its supplied Hovering metadata for grounded-field eligibility. Gravity, Iron Ball, explicit grounding, Mold Breaker and Ground-immunity bypass retain their established precedence; suppressing the Ground clause does not remove the no-Evade clause. Recast cannot restart an active timer; recall/faint clears the mark. Newly adopting Clash calculations also honor explicit Ground-immunity bypass."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -1057,5 +1069,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "8f7e3a0b2aa17b03b3b75e7a5645cc908337656e6b993ca795a11010c526bf1e"
+  "move_completion_registry_hash": "290adf4df80e0d8e013d14f0a576c9603e4e27b3f0ceddef24c5384abed07133"
 }
