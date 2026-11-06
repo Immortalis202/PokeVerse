@@ -55,12 +55,12 @@ export default function CompoundMoveControls({
       </label>
       {s.crashes.map((id) => (
         <p key={id}>
-          {name(id)}: Axe Kick missed.{" "}
+          {name(id)}: Missed attack.{" "}
           <button
             disabled={disabled || !owned(id)}
             onClick={() => send({ kind: "Crash", combatant_id: id })}
           >
-            Roll 4 crash damage dice
+            {`Roll ${s.crash_pools?.[id] ?? 4} crash damage dice`}
           </button>
         </p>
       ))}

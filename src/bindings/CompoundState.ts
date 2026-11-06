@@ -6,6 +6,7 @@ export type CompoundState = {
   entered: { [key in string]?: number };
   venom: Array<Venom>;
   crashes: Array<string>;
+  crash_pools: { [key in string]?: number };
   environments: Array<string>;
   alignments: { [key in string]?: string };
   relic: Array<string>;

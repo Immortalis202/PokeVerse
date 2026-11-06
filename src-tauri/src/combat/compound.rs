@@ -10,6 +10,7 @@ pub struct CompoundState {
     pub entered: BTreeMap<String, u32>,
     pub venom: Vec<Venom>,
     pub crashes: Vec<String>,
+    pub crash_pools: BTreeMap<String, u32>,
     pub environments: Vec<String>,
     pub alignments: BTreeMap<String, String>,
     pub relic: Vec<String>,
@@ -96,7 +97,7 @@ pub fn phase(c: &Campaign, a: &Action) -> Result<()> {
                 | Action::Override { .. }
         )
     {
-        return Err(error("Resolve the pending Axe Kick crash damage first"));
+        return Err(error("Resolve the pending crash damage first"));
     }
     Ok(())
 }
@@ -106,9 +107,9 @@ pub fn dice(c: &Campaign, command: &Command) -> Result<u32> {
     }
     if let Command::Crash { combatant_id } = command {
         if state(c).crashes.first() != Some(combatant_id) {
-            return Err(error("No pending Axe Kick crash for this combatant"));
+            return Err(error("No pending crash for this combatant"));
         }
-        return Ok(4);
+        return Ok(state(c).crash_pools.get(combatant_id).copied().unwrap_or(4));
     }
     Ok(0)
 }
@@ -150,7 +151,7 @@ pub fn transition(
 ) -> Result<(Campaign, String)> {
     reason(why)?;
     if !state(c).crashes.is_empty() && !matches!(command, Command::Crash { .. }) {
-        return Err(error("Resolve pending Axe Kick crash damage first"));
+        return Err(error("Resolve pending crash damage first"));
     }
     check_count(dice, self::dice(c, command)?)?;
     let mut next = c.clone();
@@ -160,6 +161,9 @@ pub fn transition(
             let p = fighter_mut(&mut next, combatant_id)?;
             p.hp = (p.hp - rules::successes(dice)).max(0);
             state_mut(&mut next).crashes.remove(0);
+            if !state(&next).crashes.contains(combatant_id) {
+                state_mut(&mut next).crash_pools.remove(combatant_id);
+            }
         }
         Command::Environment { sources } => {
             gm(c, actor)?;
@@ -626,10 +630,19 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, a: &Action, _cat: &Catalog
     Ok(())
 }
 pub fn missed(c: &mut Campaign, id: &str, name: &str, success: bool) {
-    if enabled(c) && name == "Axe Kick" && !success {
+    if !enabled(c) || success {
+        return;
+    }
+    let pool = completion::definition(c, name)
+        .and_then(|(_, d)| d["crash_dice"].as_u64())
+        .map(|n| n as u32)
+        .or_else(|| (name == "Axe Kick").then_some(4));
+    if let Some(pool) = pool {
         state_mut(c).crashes.push(id.into());
+        state_mut(c).crash_pools.insert(id.into(), pool);
     }
 }
+
 pub fn minimized(c: &Campaign, id: &str, name: &str) -> bool {
     enabled(c) && name == "Stomp" && state(c).minimized.iter().any(|s| s == id)
 }

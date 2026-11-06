@@ -2,7 +2,8 @@ use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 use ts_rs::TS;
 
-pub const ENGINE: &str = "0.77.0-core";
+pub const ENGINE: &str = "0.78.0-core";
+pub const ELECTRIFY_ENGINE: &str = "0.77.0-core";
 pub const NORMAL_ELECTRIC_ENGINE: &str = "0.76.0-core";
 pub const MAGNET_RISE_ENGINE: &str = "0.75.0-core";
 pub const MAGIC_POWDER_ENGINE: &str = "0.74.0-core";
@@ -81,6 +82,7 @@ pub const PREVIOUS_ENGINE: &str = "0.2.0-core";
 pub fn core_engine(engine: &str) -> bool {
     [
         ENGINE,
+        ELECTRIFY_ENGINE,
         NORMAL_ELECTRIC_ENGINE,
         MAGNET_RISE_ENGINE,
         MAGIC_POWDER_ENGINE,
@@ -160,7 +162,7 @@ pub fn core_engine(engine: &str) -> bool {
     .contains(&engine)
 }
 pub const LEGACY_ENGINE: &str = "0.1.0-manual";
-pub const PROTOCOL: u32 = 86;
+pub const PROTOCOL: u32 = 87;
 pub fn enabled() -> bool {
     true
 }

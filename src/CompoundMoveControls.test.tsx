@@ -3,7 +3,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import CompoundMoveControls from "./CompoundMoveControls";
 import type { Campaign } from "./bindings/Campaign";
 
-function view(who: string, enabled = true, pending = false) {
+function view(who: string, enabled = true, pending = false, crashPool = 4) {
   const campaign = {
     gm_id: "gm",
     battle: {
@@ -22,6 +22,7 @@ function view(who: string, enabled = true, pending = false) {
         compound: {
           enabled,
           crashes: ["a"],
+          crash_pools: { a: crashPool },
           environments: ["Forest/Jungle"],
           alignments: {},
           minimized: [],
@@ -42,6 +43,11 @@ function view(who: string, enabled = true, pending = false) {
   );
 }
 describe("compound move choices", () => {
+  it("shows the saved High Jump Kick crash pool", () => {
+    expect(view("owner", true, false, 5)).toContain(
+      "<button>Roll 5 crash damage dice</button>",
+    );
+  });
   it("exposes scene and Minimize confirmation only to the GM", () => {
     expect(view("gm")).toContain("Confirm Secret Power surroundings");
     expect(view("gm")).toContain("GM confirms Minimize");

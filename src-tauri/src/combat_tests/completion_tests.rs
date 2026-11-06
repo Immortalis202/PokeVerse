@@ -6719,3 +6719,188 @@ fn completion_a42_recall_and_historical_fallback() {
     let c = pending(&old, &a, &t, "Electrify");
     assert!(battle::transition(&c, "gm", &cmd(&c), vec![], &catalog()).is_err());
 }
+fn crash_action(id: &str) -> Action {
+    Action::CompoundMove {
+        command: crate::combat::compound::CompoundCommand::Crash {
+            combatant_id: id.into(),
+        },
+        reason: "Resolve source-sized crash".into(),
+    }
+}
+#[test]
+fn completion_a43_crashes_use_exact_owned_pools_and_survive_save_and_undo() {
+    for (name, n) in [
+        ("Jump Kick", 4),
+        ("High Jump Kick", 5),
+        ("Supercell Slam", 4),
+    ] {
+        let (mut c, a, t) = setup(name);
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .compound
+            .enabled = true;
+        pm(&mut c, &a)
+            .runtime
+            .modifiers
+            .insert("Defense".into(), 100);
+        c = roll(
+            &c,
+            "gm",
+            &super::targeting_tests::attack(&a, vec![t], name),
+            1,
+        );
+        let action = crash_action(&a);
+        assert_eq!(rules::dice_count(&c, &action, &catalog()).unwrap(), n);
+        assert!(rules::dice_count(&c, &Action::NextRound, &catalog()).is_err());
+        assert!(
+            battle::transition(&c, "intruder", &action, vec![6; n as usize], &catalog()).is_err()
+        );
+        c = serde_json::from_str(&serde_json::to_string(&c).unwrap()).unwrap();
+        let before = p(&c, &a).hp;
+        let done = roll(&c, "gm", &action, 6);
+        assert_eq!(p(&done, &a).hp, before - n as i32);
+        assert!(rules::dice_count(&done, &action, &catalog()).is_err());
+        let restored = decision(
+            &done,
+            "gm",
+            Action::RollbackBattle {
+                event_sequence: done.battle_undo.last().unwrap().event_sequence,
+                reason: "Undo crash pool and HP".into(),
+            },
+        );
+        assert_eq!(p(&restored, &a).hp, before);
+        assert_eq!(
+            rules::dice_count(&restored, &action, &catalog()).unwrap(),
+            n
+        );
+    }
+}
+#[test]
+fn completion_a43_successful_accuracy_never_crashes_even_when_target_is_immune() {
+    for (name, species) in [
+        ("Jump Kick", "Gengar"),
+        ("High Jump Kick", "Gengar"),
+        ("Supercell Slam", "Golem"),
+    ] {
+        let (mut c, a, t) = setup(name);
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .compound
+            .enabled = true;
+        set_species(&mut c, &t, species);
+        refresh_field(&mut c);
+        let c = ordinary_accuracy(&c, &a, &t, name);
+        let before = p(&c, &t).hp;
+        let c = roll(&c, "gm", &damage_command(&c), 6);
+        assert_eq!(p(&c, &t).hp, before);
+        assert!(c
+            .battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .compound
+            .crashes
+            .is_empty());
+        assert!(c
+            .battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .queue
+            .is_empty());
+    }
+}
+#[test]
+fn completion_a43_failed_clash_uses_five_dice_and_legacy_axe_defaults_to_four() {
+    let (mut c, a, t) = setup("Tackle");
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .compound
+        .enabled = true;
+    let sid = p(&c, &t).sheet_id.clone();
+    c.sheets
+        .get_mut(&sid)
+        .unwrap()
+        .moves
+        .push("High Jump Kick".into());
+    let c = detection_attack(&c, &a, &t, "Tackle");
+    let c = roll(
+        &c,
+        "gm",
+        &Action::React {
+            combatant_id: t.clone(),
+            kind: "clash".into(),
+            move_name: "High Jump Kick".into(),
+            reason: "Failed five-die crash Clash".into(),
+        },
+        1,
+    );
+    assert_eq!(
+        rules::dice_count(&c, &crash_action(&t), &catalog()).unwrap(),
+        5
+    );
+    let (mut c, a, t) = setup("Axe Kick");
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .compound
+        .enabled = true;
+    let c = roll(
+        &c,
+        "gm",
+        &super::targeting_tests::attack(&a, vec![t], "Axe Kick"),
+        1,
+    );
+    let mut saved = serde_json::to_value(&c).unwrap();
+    saved["battle"]["flow"]["compound"]
+        .as_object_mut()
+        .unwrap()
+        .remove("crash_pools");
+    let old: Campaign = serde_json::from_value(saved).unwrap();
+    assert_eq!(
+        rules::dice_count(&old, &crash_action(&a), &catalog()).unwrap(),
+        4
+    );
+}
+#[test]
+fn completion_a43_historical_misses_do_not_add_new_crash_rules() {
+    let (mut c, a, t) = setup("High Jump Kick");
+    let f = c.battle.as_mut().unwrap().flow.as_mut().unwrap();
+    f.compound.enabled = true;
+    f.completion.blocks.remove("MOVE-A43");
+    let c = roll(
+        &c,
+        "gm",
+        &super::targeting_tests::attack(&a, vec![t], "High Jump Kick"),
+        1,
+    );
+    assert!(c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .compound
+        .crashes
+        .is_empty());
+}

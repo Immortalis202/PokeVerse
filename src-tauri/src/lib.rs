@@ -289,6 +289,7 @@ async fn host_room(
         if c.host_id() != store.player_id
             || ![
                 ENGINE,
+                ELECTRIFY_ENGINE,
                 NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,

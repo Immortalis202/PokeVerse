@@ -1739,6 +1739,31 @@
           "effect": "Single Target. Reaction 1. All Damage of the Next Physical or Special Move the Target performs will become Electric-Type"
         }
       }
+    },
+    "MOVE-A43": {
+      "engine": "0.78.0-core",
+      "kind": "ordinary",
+      "scope": "Accepted Accuracy failures of Jump Kick/Supercell Slam require four typeless crash dice; High Jump Kick requires five. Successful Accuracy, including a later immune hit, does not crash. Reuse the owned host-roll pending-crash phase and save its exact pool. Legacy Axe Kick remains four dice.",
+      "moves": {
+        "Jump Kick": {
+          "source": "Pokerole-Data/v3.0/Moves/Jump Kick.json",
+          "sha256": "77c3d1dbd7945cfad5ace51f40aa7dc3fc78507f0564e5d4d9eafdbbfe0765e7",
+          "effect": "Single Target. Low Accuracy 1. If the Accuracy roll fails, Roll 4 Dice of Typeless Damage against the user, ignoring defenses.",
+          "crash_dice": 4
+        },
+        "High Jump Kick": {
+          "source": "Pokerole-Data/v3.0/Moves/High Jump Kick.json",
+          "sha256": "6204d09e2f29a16d3a907094877f0dffaa1e1d7c2bdfc0d0ac63df82967712ef",
+          "effect": "Single Target. Low Accuracy 2. If the Accuracy roll fails, Roll 5 Dice of Typeless Damage against the user, ignoring defenses.",
+          "crash_dice": 5
+        },
+        "Supercell Slam": {
+          "source": "Pokerole-Data/v3.0/Moves/Supercell Slam.json",
+          "sha256": "c588f6ba4773e0efecc83aba8e399921798cb89d6084426df101bfe5dce522ae",
+          "effect": "Single Target. Low Accuracy 1. If the Accuracy roll fails, Roll 4 Dice of Typeless Damage against the user, ignoring defenses.",
+          "crash_dice": 4
+        }
+      }
     }
   },
   "printed_review": {
