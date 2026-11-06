@@ -489,6 +489,7 @@ pub fn clash_amount(
         return Ok(reduced);
     }
     let hp = fighter(c, id)?.hp;
+    let reduced = completion::non_fainting_damage(c, m["Name"].as_str().unwrap_or(""), hp, reduced);
     sturdy(c, id, reduced, hp)
 }
 pub fn hit(

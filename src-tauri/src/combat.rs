@@ -1145,6 +1145,7 @@ pub fn transition(
     if let Some(setup) = field::start_setup(a) {
         if ![
             ENGINE,
+            FICKLE_BEAM_ENGINE,
             TELEKINESIS_MOVES_ENGINE,
             DETECTION_MOVES_ENGINE,
             STAT_RESET_MOVES_ENGINE,
@@ -1204,6 +1205,7 @@ pub fn transition(
             setup,
             [
                 ENGINE,
+                FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
                 DETECTION_MOVES_ENGINE,
                 STAT_RESET_MOVES_ENGINE,
@@ -2293,10 +2295,22 @@ fn transition_inner(
                             && decoys::damage(&mut next, &counter, &defend, to_att);
                         // Apply simultaneous damage before either hit callback; never overwrite retaliation HP.
                         if !def_decoy {
+                            to_def = completion::non_fainting_damage(
+                                &next,
+                                &incoming.move_name,
+                                p.hp,
+                                to_def,
+                            );
                             fighter_mut(&mut next, &incoming.target_id)?.hp =
                                 (p.hp - to_def).max(0);
                         }
                         if !deferred_counter && !att_decoy {
+                            to_att = completion::non_fainting_damage(
+                                &next,
+                                &counter.move_name,
+                                attacker_hp,
+                                to_att,
+                            );
                             fighter_mut(&mut next, &incoming.actor_id)?.hp =
                                 (attacker_hp - to_att).max(0);
                         }
@@ -2858,6 +2872,7 @@ fn transition_inner(
             if !decoy_hit
                 && !abilities::damage_immune_from(c, fighter(c, combatant_id)?, target, &move_data)
             {
+                damage = completion::non_fainting_damage(&done, &q.move_name, before, damage);
                 damage = abilities::sturdy(&mut done, &q.target_id, damage, before)?;
             }
             if !decoy_hit {
@@ -3233,6 +3248,7 @@ fn transition_inner(
                 b.flow = Some(TurnFlow {
                     identity_moves: [
                         ENGINE,
+                        FICKLE_BEAM_ENGINE,
                         TELEKINESIS_MOVES_ENGINE,
                         DETECTION_MOVES_ENGINE,
                         STAT_RESET_MOVES_ENGINE,
@@ -3282,6 +3298,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     status_escalation: [
                         ENGINE,
+                        FICKLE_BEAM_ENGINE,
                         TELEKINESIS_MOVES_ENGINE,
                         DETECTION_MOVES_ENGINE,
                         STAT_RESET_MOVES_ENGINE,
@@ -3330,6 +3347,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     spite: [
                         ENGINE,
+                        FICKLE_BEAM_ENGINE,
                         TELEKINESIS_MOVES_ENGINE,
                         DETECTION_MOVES_ENGINE,
                         STAT_RESET_MOVES_ENGINE,
@@ -3377,6 +3395,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     will_drains: [
                         ENGINE,
+                        FICKLE_BEAM_ENGINE,
                         TELEKINESIS_MOVES_ENGINE,
                         DETECTION_MOVES_ENGINE,
                         STAT_RESET_MOVES_ENGINE,
@@ -3423,6 +3442,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     direct_status: [
                         ENGINE,
+                        FICKLE_BEAM_ENGINE,
                         TELEKINESIS_MOVES_ENGINE,
                         DETECTION_MOVES_ENGINE,
                         STAT_RESET_MOVES_ENGINE,
@@ -3468,6 +3488,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     chance_status: [
                         ENGINE,
+                        FICKLE_BEAM_ENGINE,
                         TELEKINESIS_MOVES_ENGINE,
                         DETECTION_MOVES_ENGINE,
                         STAT_RESET_MOVES_ENGINE,
@@ -3512,6 +3533,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     battlefield_review: [
                         ENGINE,
+                        FICKLE_BEAM_ENGINE,
                         TELEKINESIS_MOVES_ENGINE,
                         DETECTION_MOVES_ENGINE,
                         STAT_RESET_MOVES_ENGINE,
@@ -3552,6 +3574,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     entry_hazards: [
                         ENGINE,
+                        FICKLE_BEAM_ENGINE,
                         TELEKINESIS_MOVES_ENGINE,
                         DETECTION_MOVES_ENGINE,
                         STAT_RESET_MOVES_ENGINE,
@@ -3592,6 +3615,7 @@ fn transition_inner(
                     damaging_stats: Box::new(damaging_stats::StatMoveState {
                         enabled: [
                             ENGINE,
+                            FICKLE_BEAM_ENGINE,
                             TELEKINESIS_MOVES_ENGINE,
                             DETECTION_MOVES_ENGINE,
                             STAT_RESET_MOVES_ENGINE,
@@ -3633,6 +3657,7 @@ fn transition_inner(
                     }),
                     cure_protection: [
                         ENGINE,
+                        FICKLE_BEAM_ENGINE,
                         TELEKINESIS_MOVES_ENGINE,
                         DETECTION_MOVES_ENGINE,
                         STAT_RESET_MOVES_ENGINE,
@@ -3675,6 +3700,7 @@ fn transition_inner(
                     recurring: Box::new(recurring::RecurringState {
                         enabled: [
                             ENGINE,
+                            FICKLE_BEAM_ENGINE,
                             TELEKINESIS_MOVES_ENGINE,
                             DETECTION_MOVES_ENGINE,
                             STAT_RESET_MOVES_ENGINE,
@@ -3720,6 +3746,7 @@ fn transition_inner(
                     compound: compound::CompoundState {
                         enabled: [
                             ENGINE,
+                            FICKLE_BEAM_ENGINE,
                             TELEKINESIS_MOVES_ENGINE,
                             DETECTION_MOVES_ENGINE,
                             STAT_RESET_MOVES_ENGINE,
@@ -3765,6 +3792,7 @@ fn transition_inner(
                     },
                     house_rules: [
                         ENGINE,
+                        FICKLE_BEAM_ENGINE,
                         TELEKINESIS_MOVES_ENGINE,
                         DETECTION_MOVES_ENGINE,
                         STAT_RESET_MOVES_ENGINE,
@@ -3816,6 +3844,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     interaction_rules: [
                         ENGINE,
+                        FICKLE_BEAM_ENGINE,
                         TELEKINESIS_MOVES_ENGINE,
                         DETECTION_MOVES_ENGINE,
                         STAT_RESET_MOVES_ENGINE,
@@ -3870,6 +3899,7 @@ fn transition_inner(
                     standalone: standalone::StandaloneState {
                         enabled: [
                             ENGINE,
+                            FICKLE_BEAM_ENGINE,
                             TELEKINESIS_MOVES_ENGINE,
                             DETECTION_MOVES_ENGINE,
                             STAT_RESET_MOVES_ENGINE,
@@ -3927,6 +3957,7 @@ fn transition_inner(
                     information: information::InformationState {
                         enabled: [
                             ENGINE,
+                            FICKLE_BEAM_ENGINE,
                             TELEKINESIS_MOVES_ENGINE,
                             DETECTION_MOVES_ENGINE,
                             STAT_RESET_MOVES_ENGINE,
@@ -3985,6 +4016,7 @@ fn transition_inner(
                     forms: forms::FormState {
                         enabled: [
                             ENGINE,
+                            FICKLE_BEAM_ENGINE,
                             TELEKINESIS_MOVES_ENGINE,
                             DETECTION_MOVES_ENGINE,
                             STAT_RESET_MOVES_ENGINE,
@@ -4045,6 +4077,7 @@ fn transition_inner(
                         completion: items::completion::CompletionState {
                             enabled: [
                                 ENGINE,
+                                FICKLE_BEAM_ENGINE,
                                 TELEKINESIS_MOVES_ENGINE,
                                 DETECTION_MOVES_ENGINE,
                                 STAT_RESET_MOVES_ENGINE,
@@ -4099,6 +4132,7 @@ fn transition_inner(
                         },
                         enabled: [
                             ENGINE,
+                            FICKLE_BEAM_ENGINE,
                             TELEKINESIS_MOVES_ENGINE,
                             DETECTION_MOVES_ENGINE,
                             STAT_RESET_MOVES_ENGINE,
@@ -4159,6 +4193,7 @@ fn transition_inner(
                     events: events::EventState {
                         enabled: [
                             ENGINE,
+                            FICKLE_BEAM_ENGINE,
                             TELEKINESIS_MOVES_ENGINE,
                             DETECTION_MOVES_ENGINE,
                             STAT_RESET_MOVES_ENGINE,
@@ -4219,6 +4254,7 @@ fn transition_inner(
                     },
                     provenance_rules: [
                         ENGINE,
+                        FICKLE_BEAM_ENGINE,
                         TELEKINESIS_MOVES_ENGINE,
                         DETECTION_MOVES_ENGINE,
                         STAT_RESET_MOVES_ENGINE,
@@ -4279,6 +4315,7 @@ fn transition_inner(
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            FICKLE_BEAM_ENGINE,
                             TELEKINESIS_MOVES_ENGINE,
                             DETECTION_MOVES_ENGINE,
                             STAT_RESET_MOVES_ENGINE,
@@ -4342,6 +4379,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            FICKLE_BEAM_ENGINE,
                             TELEKINESIS_MOVES_ENGINE,
                             DETECTION_MOVES_ENGINE,
                             STAT_RESET_MOVES_ENGINE,
@@ -4405,6 +4443,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        FICKLE_BEAM_ENGINE,
                         TELEKINESIS_MOVES_ENGINE,
                         DETECTION_MOVES_ENGINE,
                         STAT_RESET_MOVES_ENGINE,
@@ -4468,6 +4507,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            FICKLE_BEAM_ENGINE,
                             TELEKINESIS_MOVES_ENGINE,
                             DETECTION_MOVES_ENGINE,
                             STAT_RESET_MOVES_ENGINE,
@@ -4534,6 +4574,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            FICKLE_BEAM_ENGINE,
                             TELEKINESIS_MOVES_ENGINE,
                             DETECTION_MOVES_ENGINE,
                             STAT_RESET_MOVES_ENGINE,
@@ -4601,6 +4642,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            FICKLE_BEAM_ENGINE,
                             TELEKINESIS_MOVES_ENGINE,
                             DETECTION_MOVES_ENGINE,
                             STAT_RESET_MOVES_ENGINE,
@@ -4669,6 +4711,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            FICKLE_BEAM_ENGINE,
                             TELEKINESIS_MOVES_ENGINE,
                             DETECTION_MOVES_ENGINE,
                             STAT_RESET_MOVES_ENGINE,
@@ -4738,6 +4781,7 @@ fn transition_inner(
                     special: Box::new(special::SpecialState {
                         enabled: [
                             ENGINE,
+                            FICKLE_BEAM_ENGINE,
                             TELEKINESIS_MOVES_ENGINE,
                             DETECTION_MOVES_ENGINE,
                             STAT_RESET_MOVES_ENGINE,
@@ -4807,6 +4851,7 @@ fn transition_inner(
                     }),
                     ability_rules: [
                         ENGINE,
+                        FICKLE_BEAM_ENGINE,
                         TELEKINESIS_MOVES_ENGINE,
                         DETECTION_MOVES_ENGINE,
                         STAT_RESET_MOVES_ENGINE,
@@ -4878,6 +4923,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            FICKLE_BEAM_ENGINE,
                             TELEKINESIS_MOVES_ENGINE,
                             DETECTION_MOVES_ENGINE,
                             STAT_RESET_MOVES_ENGINE,
@@ -4949,6 +4995,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            FICKLE_BEAM_ENGINE,
                             TELEKINESIS_MOVES_ENGINE,
                             DETECTION_MOVES_ENGINE,
                             STAT_RESET_MOVES_ENGINE,

@@ -1629,6 +1629,18 @@
           "effect": "Single Target Before you roll damage, Roll 1 die to determine this Move's Power. "
         }
       }
+    },
+    "MOVE-A37": {
+      "engine": "0.72.0-core",
+      "kind": "ordinary",
+      "scope": "False Swipe move damage cannot reduce a conscious recipient below one HP. Apply after damage reductions and independently of target survival items; decoy damage and later unrelated damage remain separate. Includes ordinary and Clash paths.",
+      "moves": {
+        "False Swipe": {
+          "source": "Pokerole-Data/v3.0/Moves/False Swipe.json",
+          "sha256": "e4ec280ded4a876ed4771e217a2b32b4ce8c7712c60236e4665804b1cfe7e40b",
+          "effect": "Single Target. Cutter Move. This Move's Damage can't make the Target go below 1 HP."
+        }
+      }
     }
   },
   "printed_review": {

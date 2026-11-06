@@ -5965,3 +5965,127 @@ fn completion_a36_keeps_json_special_and_historical_gate() {
     };
     assert!(rules::dice_count(&c, &random, &catalog()).is_err());
 }
+#[test]
+fn completion_a37_false_swipe_caps_real_damage_without_consuming_sash() {
+    for hp in [1, 2, 5] {
+        let (mut c, a, t) = setup("False Swipe");
+        equip_accuracy(&mut c, &t, "Focus Sash");
+        pm(&mut c, &t).selected_ability = "Sturdy".into();
+        pm(&mut c, &t).hp = hp;
+        let c = ordinary_accuracy(&c, &a, &t, "False Swipe");
+        let mut damage = damage_command(&c);
+        if let Action::Damage {
+            damage_modifier, ..
+        } = &mut damage
+        {
+            *damage_modifier = 20;
+        }
+        let done = roll(&c, "gm", &damage, 6);
+        assert_eq!(p(&done, &t).hp, 1);
+        assert!(!p(&done, &t).runtime.ability.flags.contains("Sturdy"));
+        assert!(done
+            .battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .items
+            .completion
+            .used
+            .iter()
+            .all(|k| !k.starts_with("sash:")));
+        assert!(done
+            .battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .queue
+            .is_empty());
+    }
+}
+#[test]
+fn completion_a37_clash_cannot_faint_and_historical_damage_is_unchanged() {
+    let (mut c, a, t) = setup("False Swipe");
+    let sid = p(&c, &t).sheet_id.clone();
+    c.sheets.get_mut(&sid).unwrap().species_id = Some(
+        catalog().find("species", "Name", "Blastoise").unwrap()["AppId"]
+            .as_str()
+            .unwrap()
+            .into(),
+    );
+    refresh_field(&mut c);
+    pm(&mut c, &t).hp = 1;
+    turn(&mut c, &t, "Tackle");
+    let mut attack = super::targeting_tests::attack(&t, vec![a.clone()], "Tackle");
+    if let Action::AccuracyTargets {
+        success_modifier, ..
+    } = &mut attack
+    {
+        *success_modifier = 1;
+    }
+    let c = roll(&c, "gm", &attack, 1);
+    let action = Action::React {
+        combatant_id: a.clone(),
+        kind: "clash".into(),
+        move_name: "False Swipe".into(),
+        reason: "Non-fainting Clash".into(),
+    };
+    let done = roll(&c, "gm", &action, 6);
+    assert_eq!(p(&done, &t).hp, 1);
+    let mut old = c.clone();
+    old.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .completion
+        .blocks
+        .remove("MOVE-A37");
+    let done = roll(&old, "gm", &action, 6);
+    assert_eq!(p(&done, &t).hp, 0);
+}
+#[test]
+fn completion_a37_decoy_damage_is_not_capped_by_recipient_hp() {
+    let (mut c, a, t) = setup("False Swipe");
+    pm(&mut c, &t).hp = 1;
+    let f = c.battle.as_mut().unwrap().flow.as_mut().unwrap();
+    f.decoys.enabled = true;
+    f.decoys.active.insert(
+        t.clone(),
+        decoys::Decoy {
+            hp: 5,
+            defenses: [2, 2],
+            source: t.clone(),
+            move_name: "Substitute".into(),
+        },
+    );
+    let c = ordinary_accuracy(&c, &a, &t, "False Swipe");
+    let mut damage = damage_command(&c);
+    if let Action::Damage {
+        damage_modifier, ..
+    } = &mut damage
+    {
+        *damage_modifier = 20;
+    }
+    let done = roll(&c, "gm", &damage, 6);
+    assert_eq!(p(&done, &t).hp, 1);
+    assert!(!done
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .decoys
+        .active
+        .contains_key(&t));
+    assert_eq!(completion::non_fainting_damage(&done, "Tackle", 1, 10), 10);
+    assert_eq!(
+        completion::non_fainting_damage(&done, "False Swipe", 0, 10),
+        10
+    );
+}

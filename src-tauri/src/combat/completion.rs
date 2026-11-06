@@ -1544,3 +1544,11 @@ pub fn telekinetic(c: &Campaign, p: &Combatant) -> bool {
                 .any(|e| e.name == "Telekinesis" && e.target == p.id)
         })
 }
+
+pub fn non_fainting_damage(c: &Campaign, name: &str, before: i32, damage: i32) -> i32 {
+    if name == "False Swipe" && definition(c, name).is_some() && before > 0 {
+        damage.min(before - 1).max(0)
+    } else {
+        damage
+    }
+}

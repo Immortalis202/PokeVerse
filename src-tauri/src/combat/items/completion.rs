@@ -316,6 +316,7 @@ pub fn added_immune(c: &Campaign, id: &str, m: &serde_json::Value) -> bool {
             .any(|w| m["Name"].as_str().unwrap_or("").contains(w))
 }
 pub fn survive(c: &mut Campaign, q: &QueuedAction, before: i32, damage: i32) -> i32 {
+    let damage = crate::combat::completion::non_fainting_damage(c, &q.move_name, before, damage);
     if reviewed::source(c, q).is_ok_and(|source| {
         reviewed::extreme(c, &source)
             && fighter(c, &q.target_id).is_ok_and(|target| target.side != source.side)

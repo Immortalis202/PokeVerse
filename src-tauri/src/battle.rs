@@ -10,6 +10,7 @@ pub fn transition(
 ) -> Result<(Campaign, String)> {
     if [
         ENGINE,
+        FICKLE_BEAM_ENGINE,
         TELEKINESIS_MOVES_ENGINE,
         DETECTION_MOVES_ENGINE,
         STAT_RESET_MOVES_ENGINE,
@@ -435,6 +436,7 @@ pub fn transition(
             }
             if ![
                 ENGINE,
+                FICKLE_BEAM_ENGINE,
                 TELEKINESIS_MOVES_ENGINE,
                 DETECTION_MOVES_ENGINE,
                 STAT_RESET_MOVES_ENGINE,

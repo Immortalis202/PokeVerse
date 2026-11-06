@@ -42,7 +42,8 @@ The live source of remaining route work is `rules/move-effect-audit.json`. Its f
 | MOVE-A34 | Foresight, Odor Sleuth and Sweet Scent detection effects | Complete |
 | MOVE-A35 | Telekinesis two-round hovering, immunity and no-Evade | Complete |
 | MOVE-A36 | Fickle Beam host-rolled Power | Complete |
-| MOVE-A37 | False Swipe non-fainting damage | Next |
+| MOVE-A37 | False Swipe non-fainting damage | Complete |
+| MOVE-A38 | Explosion, Self Destruct and Misty Explosion | Next |
 | Stat reset ruling | Preserve active passive bonuses; clear applied move and triggered-ability changes, confirmed 6 November 2026 | Adopted by MOVE-A33 |
 | First Impression ruling | First eligible action round, confirmed by the user on 5 November 2026 | Implemented in MOVE-A24 |
 | Later blocks | Ordinary attacks with existing attributes; remaining stat changes, resets and swaps; type/damage conversions; field changes; conditional damage; timing/action restrictions; items; copy/selection effects | Open |

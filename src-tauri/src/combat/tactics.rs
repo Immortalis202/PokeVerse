@@ -746,9 +746,10 @@ fn flush_clashes(c: &mut Campaign, cat: &Catalog) -> Result<()> {
         }
         let m = move_entry(cat, &q.move_name)?;
         let hp = fighter(c, &q.target_id)?.hp;
-        let amount = abilities::clash_amount(c, &q.target_id, &m, raw, &q.actor_id, cat)?;
+        let mut amount = abilities::clash_amount(c, &q.target_id, &m, raw, &q.actor_id, cat)?;
         let decoy_hit = decoys::damage(c, &q, &m, amount);
         if !decoy_hit {
+            amount = completion::non_fainting_damage(c, &q.move_name, hp, amount);
             fighter_mut(c, &q.target_id)?.hp = (hp - amount).max(0);
         }
         state_mut(c).clash_damage.insert(seq, amount);

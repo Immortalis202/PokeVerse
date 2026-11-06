@@ -1,6 +1,6 @@
 # Move-effect audit: milestone 1
 
-Snapshot refreshed: 6 November 2026, app **0.79.0**, engine **0.71.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
+Snapshot refreshed: 6 November 2026, app **0.80.0**, engine **0.72.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
 
 ## Deliverables and limits
 
@@ -18,13 +18,13 @@ The diagnostic deliberately bypasses accuracy, damage, targeting expansion, acti
 
 | Effect-route result | Cards | Meaning |
 | --- | ---: | --- |
-| executable-scope | 722 | At least one probe resolves; only recorded scopes are asserted. |
+| executable-scope | 723 | At least one probe resolves; only recorded scopes are asserted. |
 | input-required | 16 | Existing handler requests a selection, resource, weather or other legitimate prerequisite. |
-| manual-effect-route | 115 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
+| manual-effect-route | 114 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
 | gm-choice | 1 | Hold Hands: narrative battle-ending decision remains with the storyteller. |
 | excluded | 38 | Supplied Max/Z cards and the user-excluded Sappy Seed. |
 
-These totals sum to 892. **115 manual-effect-route results remain after MOVE-A36. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
+These totals sum to 892. **114 manual-effect-route results remain after MOVE-A37. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
 
 | Focused status result | Cards |
 | --- | ---: |
@@ -193,7 +193,7 @@ A six triggers the single printed Chance pool. Serene Grace, Wonder Skin, Loaded
 
 New 0.36.0-core encounters enable the boxed `damaging_stats` state. Missing saved state defaults disabled; 0.35.0-core remains accepted with its previous M3 behavior. Protocol 45 carries the new state. App version is 0.44.0.
 
-**The whole move catalog is not complete.** The 115 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
+**The whole move catalog is not complete.** The 114 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
 
 
 ### MOVE-A01 verification (1 November 2026)
@@ -509,3 +509,9 @@ Validation covers duration, recast, grounded-field eligibility, grounding preced
 The host rolls one die before Fickle Beam damage; its face supplies Power for the saved cast. Damage cannot proceed before that roll, and the cast cannot reroll its Power. The source JSON Special damage stat and Dragon type remain. The printed card has no additional power table and disagrees with JSON on its damage-pool stat; the registry records that discrepancy without changing upstream data. Historical encounters retain prior behavior.
 
 Validation covers all six Power faces, blocked premature damage, reroll prevention, saved pending casts, automatic completion, Special/Dragon metadata and historical gating. All 126 completion tests, adjacent regressions, bindings, route inventory, 76 frontend tests, 54 script checks, TypeScript and formatting passed. App 0.79.0, engine 0.71.0-core, protocol 80.
+
+### MOVE-A37: False Swipe (6 November 2026)
+
+False Swipe caps its own damage to leave a conscious recipient at one HP. Ordinary damage, direct Clash and deferred area Clash paths use the same cap. Decoy damage is unaffected; unrelated later damage can still cause fainting. The cap applies before survival triggers so Focus Sash and Sturdy remain unused. Historical encounters retain prior behavior.
+
+Validation covers targets at one, two and five HP, excess damage, Focus Sash and Sturdy preservation, automatic completion, decoy interception, Clash, unrelated damage and historical gating. All 129 completion tests, adjacent regressions, bindings, route inventory, 76 frontend tests, 54 script checks, TypeScript and formatting passed. App 0.80.0, engine 0.72.0-core, protocol 81.

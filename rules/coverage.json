@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.71.0-core",
-  "release": "0.79.0",
-  "protocol": 80,
+  "engine": "0.72.0-core",
+  "release": "0.80.0",
+  "protocol": 81,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -1063,6 +1063,17 @@
         "completion_a36_keeps_json_special_and_historical_gate"
       ],
       "scope": "Host rolls one die before damage; its face is the Power for that saved cast. Preserve the JSON Special damage stat and Dragon type. No invented power table."
+    },
+    {
+      "id": "move-completion-a37",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A37",
+      "fixtures": [
+        "completion_a37_false_swipe_caps_real_damage_without_consuming_sash",
+        "completion_a37_clash_cannot_faint_and_historical_damage_is_unchanged",
+        "completion_a37_decoy_damage_is_not_capped_by_recipient_hp"
+      ],
+      "scope": "False Swipe move damage cannot reduce a conscious recipient below one HP. Apply after damage reductions and independently of target survival items; decoy damage and later unrelated damage remain separate. Includes ordinary and Clash paths."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -1079,5 +1090,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "7fa0eea8b0a11d4116d5639f697c543dee135be68cffb59451f9be18b569a092"
+  "move_completion_registry_hash": "f3ce5c97f632980a503087a70870c5f0b731e49e7f4919c974861c0ef4af82ad"
 }
