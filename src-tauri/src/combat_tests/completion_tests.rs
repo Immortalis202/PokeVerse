@@ -4992,3 +4992,284 @@ fn completion_a31_dragon_cheer_saved_scene_lifetime_and_historical_scope() {
         "manual_rule"
     );
 }
+
+fn sheltered() -> (Campaign, String, String) {
+    let (c, a, t) = setup("Shelter");
+    let c = resolve(&pending(&c, &a, &a, "Shelter"));
+    (c, a, t)
+}
+fn equip_accuracy(c: &mut Campaign, id: &str, name: &str) {
+    use crate::combat::items;
+    let sid = p(c, id).sheet_id.clone();
+    let mut sheet = c.sheets[&sid].clone();
+    sheet.inventory.insert(name.into(), 1);
+    c.sheets.insert(
+        sid,
+        items::equip(&sheet, name, &format!("accuracy-{id}-{name}"), &catalog()).unwrap(),
+    );
+    let f = c.battle.as_mut().unwrap().flow.as_mut().unwrap();
+    f.items.initialized = false;
+    f.items.enabled = true;
+    f.items.completion.enabled = true;
+    items::initialize(c, &catalog()).unwrap();
+    items::completion::initialize(c, &catalog());
+}
+#[test]
+fn completion_a32_shelter_stats_and_foe_accuracy_loss_are_independent_and_non_stacking() {
+    for (ability, expected) in [("", 1), ("Simple", 2), ("Contrary", -1)] {
+        let (mut c, a, t) = setup("Shelter");
+        pm(&mut c, &a).selected_ability = ability.into();
+        for _ in 0..2 {
+            turn(&mut c, &a, "Shelter");
+            c = resolve(&pending(&c, &a, &a, "Shelter"));
+        }
+        assert_eq!(stat(&c, &a, "Defense"), expected);
+        assert_eq!(stat(&c, &a, "SpecialDefense"), expected);
+        turn(&mut c, &t, "Tackle");
+        let c = exact_accuracy(&c, &t, &a, "Tackle", 3);
+        assert_eq!(q(&c).successes, 2, "{ability}");
+    }
+    let (mut c, a, t) = sheltered();
+    let side = p(&c, &a).side.clone();
+    pm(&mut c, &t).side = side;
+    turn(&mut c, &t, "Tackle");
+    let c = exact_accuracy(&c, &t, &a, "Tackle", 3);
+    assert_eq!(q(&c).successes, 3, "only foes lose successes");
+    let (mut c, a, t) = sheltered();
+    pm(&mut c, &t).selected_ability = "Keen Eye".into();
+    turn(&mut c, &t, "Tackle");
+    let c = exact_accuracy(&c, &t, &a, "Tackle", 3);
+    assert_eq!(q(&c).successes, 3);
+}
+#[test]
+fn completion_a32_shelter_accuracy_shares_the_move_item_loss_channel_and_preserves_printed_difficulty(
+) {
+    let (mut c, a, t) = sheltered();
+    turn(&mut c, &a, "Sand Attack");
+    c = resolve(&pending(&c, &a, &t, "Sand Attack"));
+    equip_accuracy(&mut c, &a, "Bright Powder");
+    turn(&mut c, &t, "Tackle");
+    let c = exact_accuracy(&c, &t, &a, "Tackle", 4);
+    assert_eq!(
+        q(&c).successes,
+        3,
+        "Sand Attack, Shelter and Bright Powder share the strongest -1 channel"
+    );
+    let (mut c, a, t) = sheltered();
+    equip_accuracy(&mut c, &a, "Bright Powder");
+    equip_accuracy(&mut c, &t, "Zoom Lens");
+    turn(&mut c, &t, "Tackle");
+    let c = exact_accuracy(&c, &t, &a, "Tackle", 3);
+    assert_eq!(
+        q(&c).successes,
+        3,
+        "reviewed Zoom Lens removes the combined loss"
+    );
+    let (mut c, a, t) = sheltered();
+    turn(&mut c, &t, "Rock Tomb");
+    let action = Action::Accuracy {
+        combatant_id: t.clone(),
+        target_id: Some(a),
+        move_name: "Rock Tomb".into(),
+        pool_modifier: 0,
+        success_modifier: 4,
+        reason: "Printed Low Accuracy remains separate from Shelter's trait loss".into(),
+    };
+    let mut c = roll(&c, "gm", &action, 1);
+    while c.battle.as_ref().unwrap().flow.as_ref().unwrap().window {
+        c = pass(&c);
+    }
+    let m = catalog().find("moves", "Name", "Rock Tomb").unwrap();
+    assert_eq!(
+        q(&c).successes,
+        4 + m["Attributes"]["AccuracyReduction"].as_i64().unwrap_or(0) as i32 - 1
+    );
+}
+fn shelter_area() -> (Campaign, String, String, String) {
+    let (mut c, a, t) = sheltered();
+    let other = reserve(&mut c, &a);
+    pm(&mut c, &other).deployed = true;
+    pm(&mut c, &other).field_slot = Some(1);
+    c.battle.as_mut().unwrap().slots_per_side = 2;
+    let f = c.battle.as_mut().unwrap().flow.as_mut().unwrap();
+    f.tactics.enabled = true;
+    (c, a, t, other)
+}
+#[test]
+fn completion_a32_main_area_accuracy_records_each_recipient_and_skips_only_the_missed_one() {
+    for net in [1, 3] {
+        let (mut c, a, t, other) = shelter_area();
+        turn(&mut c, &t, "Air Cutter");
+        let mut action =
+            super::targeting_tests::attack(&t, vec![a.clone(), other.clone()], "Air Cutter");
+        if let Action::AccuracyTargets {
+            success_modifier, ..
+        } = &mut action
+        {
+            *success_modifier = net;
+        }
+        c = roll(&c, "gm", &action, 1);
+        let targets = q(&c).targets;
+        assert_eq!(
+            targets.iter().find(|v| v.target_id == a).unwrap().successes,
+            Some(net - 1)
+        );
+        assert_eq!(
+            targets
+                .iter()
+                .find(|v| v.target_id == other)
+                .unwrap()
+                .successes,
+            Some(net)
+        );
+        assert_eq!(
+            targets.iter().find(|v| v.target_id == a).unwrap().avoided,
+            net == 1
+        );
+        assert!(
+            !targets
+                .iter()
+                .find(|v| v.target_id == other)
+                .unwrap()
+                .avoided
+        );
+        while c.battle.as_ref().unwrap().flow.as_ref().unwrap().window {
+            c = pass(&c);
+        }
+        if net == 1 {
+            assert_eq!(q(&c).target_id, other);
+        }
+    }
+}
+#[test]
+fn completion_a32_move_reactions_apply_the_same_per_target_accuracy_loss() {
+    use crate::combat::tactics::TacticsCommand;
+    for modern in [false, true] {
+        let (mut c, a, t) = sheltered();
+        let sid = p(&c, &t).sheet_id.clone();
+        c.sheets
+            .get_mut(&sid)
+            .unwrap()
+            .moves
+            .push("Quick Attack".into());
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .tactics
+            .enabled = modern;
+        turn(&mut c, &a, "Tackle");
+        c = roll(
+            &c,
+            "gm",
+            &super::targeting_tests::attack(&a, vec![t.clone()], "Tackle"),
+            6,
+        );
+        let mut control = c.clone();
+        control
+            .battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .special
+            .effects
+            .retain(|e| e.name != "Shelter");
+        let defender = t.clone();
+        let action = if modern {
+            Action::Tactics {
+                command: TacticsCommand::Reaction {
+                    combatant_id: t.clone(),
+                    move_name: "Quick Attack".into(),
+                    target_ids: vec![a],
+                },
+                reason: "Shelter applies to reactions that target its user".into(),
+            }
+        } else {
+            Action::React {
+                combatant_id: t,
+                kind: "move".into(),
+                move_name: "Quick Attack".into(),
+                reason: "Legacy reaction uses the same Shelter penalty".into(),
+            }
+        };
+        let c = roll(&c, "gm", &action, 6);
+        let control = roll(&control, "gm", &action, 6);
+        let net = |c: &Campaign| {
+            c.battle
+                .as_ref()
+                .unwrap()
+                .flow
+                .as_ref()
+                .unwrap()
+                .queue
+                .iter()
+                .find(|q| q.actor_id == defender)
+                .unwrap()
+                .successes
+        };
+        assert_eq!(net(&c) + 1, net(&control), "modern={modern}");
+    }
+    let (mut c, a, t, other) = shelter_area();
+    let sid = p(&c, &t).sheet_id.clone();
+    c.sheets
+        .get_mut(&sid)
+        .unwrap()
+        .moves
+        .push("Air Cutter".into());
+    pm(&mut c, &t).selected_ability = "Gale Wings".into();
+    turn(&mut c, &a, "Tackle");
+    c = roll(
+        &c,
+        "gm",
+        &super::targeting_tests::attack(&a, vec![t.clone()], "Tackle"),
+        6,
+    );
+    let action = Action::Tactics {
+        command: TacticsCommand::Reaction {
+            combatant_id: t,
+            move_name: "Air Cutter".into(),
+            target_ids: vec![a.clone(), other.clone()],
+        },
+        reason: "Mixed Shelter recipients in one area reaction".into(),
+    };
+    let c = roll(&c, "gm", &action, 6);
+    let targets = q(&c).targets;
+    assert_eq!(
+        targets
+            .iter()
+            .find(|v| v.target_id == a)
+            .unwrap()
+            .successes
+            .unwrap()
+            + 1,
+        targets
+            .iter()
+            .find(|v| v.target_id == other)
+            .unwrap()
+            .successes
+            .unwrap()
+    );
+}
+#[test]
+fn completion_a32_shelter_scene_serialization_recall_and_historical_scope() {
+    let (mut c, a, t) = sheltered();
+    let incoming = reserve(&mut c, &a);
+    let c: Campaign = serde_json::from_str(&serde_json::to_string(&c).unwrap()).unwrap();
+    assert_eq!(completion::shelter_loss(&c, p(&c, &t), p(&c, &a)), 1);
+    let c = spider_switch(&c, &a, &incoming, false);
+    assert_eq!(completion::shelter_loss(&c, p(&c, &t), p(&c, &a)), 0);
+    let (mut c, a, _) = setup("Shelter");
+    c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
+        Box::new(completion::initial(DRAGON_CHEER_ENGINE));
+    let c = pending(&c, &a, &a, "Shelter");
+    assert_eq!(
+        battle::transition(&c, "gm", &cmd(&c), vec![], &catalog())
+            .unwrap_err()
+            .code,
+        "manual_rule"
+    );
+}

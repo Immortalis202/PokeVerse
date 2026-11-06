@@ -1123,6 +1123,14 @@ pub fn accuracy_bonus(c: &Campaign, id: &str) -> i32 {
 }
 
 pub fn accuracy_penalty(c: &Campaign, a: &Combatant, t: &Combatant, penalty: i32) -> i32 {
+    if super::completion::definition(c, "Shelter").is_some() {
+        let actor_loss = special::low_accuracy(c, &a.id);
+        let item_loss = i32::from(a.side != t.side && has_effect(c, &t.id, "Bright Powder"));
+        let loss = actor_loss
+            .max(item_loss)
+            .max(super::completion::shelter_loss(c, a, t));
+        return reduce_low_accuracy(c, &a.id, penalty - (loss - actor_loss));
+    }
     let penalty = penalty - i32::from(has_effect(c, &t.id, "Bright Powder"));
     reduce_low_accuracy(c, &a.id, penalty)
 }

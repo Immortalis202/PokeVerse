@@ -387,17 +387,36 @@ pub fn react(
     if pain_exempt(&before, &p, &m)? {
         fighter_mut(c, id)?.runtime.pain_ignored = 3;
     }
-    let net = (action_success(c, id, faces, base)
-        + m["Attributes"]["AccuracyReduction"]
-            .as_i64()
-            .unwrap_or(0)
-            .min(0) as i32
+    let modern = completion::definition(&before, "Shelter").is_some();
+    let penalty = if modern && reviewed::enabled(&before) && p.has_ability("Keen Eye") {
+        0
+    } else {
+        penalty
+    };
+    let common_low = m["Attributes"]["AccuracyReduction"]
+        .as_i64()
+        .unwrap_or(0)
+        .min(0) as i32
         - abilities::low_accuracy(&before, &p, &m)
         - field::low_accuracy(&before, &p, &m)
-        - special::low_accuracy(&before, id)
-        - penalty)
-        .max(0)
-        + i32::from(p.runtime.fate_pending);
+        - special::low_accuracy(&before, id);
+    let raw = action_success(c, id, faces, base) - penalty;
+    let mut outcomes = BTreeMap::new();
+    if modern && scope.is_none() {
+        for target in &targets {
+            let low =
+                reviewed::accuracy_penalty(&before, &p, fighter(&before, target)?, common_low);
+            let n = (raw + low).max(0) + i32::from(p.runtime.fate_pending);
+            let critical = m["Category"] != "Support"
+                && n >= (p.actions + 1) as i32 + extra::critical_margin(&before, &p, &m);
+            outcomes.insert(target.clone(), (n, critical));
+        }
+    }
+    let net = outcomes
+        .values()
+        .map(|(n, _)| *n)
+        .max()
+        .unwrap_or((raw + common_low).max(0) + i32::from(p.runtime.fate_pending));
     fighter_mut(c, id)?.runtime.pain_ignored = saved;
     fighter_mut(c, id)?.actions += 1;
     fighter_mut(c, id)?.reactions += 1;
@@ -443,13 +462,16 @@ pub fn react(
             special_index: 0,
             targets: targets
                 .into_iter()
-                .map(|target_id| TargetImpact {
-                    successes: None,
-                    critical: None,
-                    target_id,
-                    responded: false,
-                    avoided: false,
-                    resolved: false,
+                .map(|target_id| {
+                    let result = outcomes.get(&target_id).copied();
+                    TargetImpact {
+                        successes: result.map(|(n, _)| n),
+                        critical: result.map(|(_, crit)| crit),
+                        avoided: result.is_some_and(|(n, _)| n < (p.actions + 1) as i32),
+                        target_id,
+                        responded: false,
+                        resolved: false,
+                    }
                 })
                 .collect(),
             field_scope: scope,

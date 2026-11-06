@@ -901,6 +901,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
     let ended = decision(&c, "gm", Action::EndBattle);
     for engine in [
         ENGINE,
+        DRAGON_CHEER_ENGINE,
         LASER_FOCUS_ENGINE,
         CHARGE_MOVE_ENGINE,
         SELF_AUXILIARY_MOVES_ENGINE,
@@ -967,6 +968,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.entry_hazards,
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1000,21 +1002,32 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             .contains(&engine)
         );
         assert_eq!(
-            flow.completion.blocks.contains("MOVE-A31"),
+            flow.completion.blocks.contains("MOVE-A32"),
             engine == ENGINE
         );
         assert_eq!(
+            flow.completion.blocks.contains("MOVE-A31"),
+            [ENGINE, DRAGON_CHEER_ENGINE].contains(&engine)
+        );
+        assert_eq!(
             flow.completion.blocks.contains("MOVE-A30"),
-            [ENGINE, LASER_FOCUS_ENGINE].contains(&engine)
+            [ENGINE, DRAGON_CHEER_ENGINE, LASER_FOCUS_ENGINE].contains(&engine)
         );
         assert_eq!(
             flow.completion.blocks.contains("MOVE-A29"),
-            [ENGINE, LASER_FOCUS_ENGINE, CHARGE_MOVE_ENGINE].contains(&engine)
+            [
+                ENGINE,
+                DRAGON_CHEER_ENGINE,
+                LASER_FOCUS_ENGINE,
+                CHARGE_MOVE_ENGINE
+            ]
+            .contains(&engine)
         );
         assert_eq!(
             flow.completion.blocks.contains("MOVE-A28"),
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE
@@ -1025,6 +1038,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A27"),
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1036,6 +1050,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A26"),
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1048,6 +1063,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A25"),
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1061,6 +1077,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A24"),
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1075,6 +1092,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A23"),
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1090,6 +1108,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A22"),
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1106,6 +1125,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A21"),
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1123,6 +1143,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A20"),
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1141,6 +1162,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A19"),
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1160,6 +1182,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A18"),
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1180,6 +1203,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A17"),
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1201,6 +1225,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A16"),
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1223,6 +1248,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A15"),
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1246,6 +1272,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A14"),
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1270,6 +1297,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A13"),
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1295,6 +1323,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A12"),
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1321,6 +1350,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A11"),
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1348,6 +1378,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A10"),
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1376,6 +1407,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A09"),
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1405,6 +1437,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A08"),
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1435,6 +1468,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A07"),
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1466,6 +1500,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A06"),
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1498,6 +1533,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A05"),
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1531,6 +1567,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A04"),
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1565,6 +1602,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A03"),
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1600,6 +1638,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.damaging_stats.enabled,
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1637,6 +1676,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.battlefield_review,
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1675,6 +1715,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.direct_status,
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1718,6 +1759,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.chance_status,
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1760,6 +1802,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.compound.enabled,
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1801,6 +1844,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.recurring.enabled,
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1841,6 +1885,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.battlefield_review,
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1879,6 +1924,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.cure_protection,
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1918,6 +1964,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.spite,
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1963,6 +2010,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.will_drains,
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -2007,6 +2055,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.status_escalation,
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -2053,6 +2102,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.identity_moves,
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -2100,6 +2150,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.interaction_rules,
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -2151,6 +2202,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.items.completion.enabled,
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -2201,6 +2253,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.house_rules,
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -2250,6 +2303,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.forms.enabled,
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -2304,6 +2358,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.information.enabled,
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -2357,6 +2412,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.standalone.enabled,
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,

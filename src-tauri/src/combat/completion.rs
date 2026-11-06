@@ -1374,3 +1374,7 @@ pub fn laser_defenses(c: &Campaign, id: &str, sequence: u32, target: &str) -> bo
             && successes >= e.amount
     })
 }
+
+pub fn shelter_loss(c: &Campaign, a: &Combatant, t: &Combatant) -> i32 {
+    i32::from(a.side != t.side && self_support(c, t, "Shelter"))
+}

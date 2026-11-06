@@ -1140,6 +1140,7 @@ pub fn transition(
     if let Some(setup) = field::start_setup(a) {
         if ![
             ENGINE,
+            DRAGON_CHEER_ENGINE,
             LASER_FOCUS_ENGINE,
             CHARGE_MOVE_ENGINE,
             SELF_AUXILIARY_MOVES_ENGINE,
@@ -1194,6 +1195,7 @@ pub fn transition(
             setup,
             [
                 ENGINE,
+                DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -1944,6 +1946,7 @@ fn transition_inner(
             );
             let targets = tactics::redirect_move(c, combatant_id, targets, &m, cat)?;
             if reviewed::enabled(c)
+                && completion::definition(c, "Shelter").is_none()
                 && !events::enabled(c)
                 && !items::enabled(c)
                 && targets.len() > 1
@@ -2005,7 +2008,8 @@ fn transition_inner(
                 net
             };
             let mut target_outcomes = BTreeMap::new();
-            if standalone::enabled(c)
+            if completion::definition(c, "Shelter").is_some()
+                || standalone::enabled(c)
                 || ((events::enabled(c) || items::enabled(c)) && targets.len() > 1)
             {
                 for id in &targets {
@@ -2147,7 +2151,11 @@ fn transition_inner(
                     .min(0) as i32
                     - abilities::low_accuracy(c, p, &resolved_move)
                     - field::low_accuracy(c, p, &resolved_move)
-                    - completion::accuracy_loss(c, combatant_id)
+                    - if completion::definition(c, "Shelter").is_some() {
+                        special::low_accuracy(c, combatant_id)
+                    } else {
+                        completion::accuracy_loss(c, combatant_id)
+                    }
             } else {
                 0
             };
@@ -3209,6 +3217,7 @@ fn transition_inner(
                 b.flow = Some(TurnFlow {
                     identity_moves: [
                         ENGINE,
+                        DRAGON_CHEER_ENGINE,
                         LASER_FOCUS_ENGINE,
                         CHARGE_MOVE_ENGINE,
                         SELF_AUXILIARY_MOVES_ENGINE,
@@ -3253,6 +3262,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     status_escalation: [
                         ENGINE,
+                        DRAGON_CHEER_ENGINE,
                         LASER_FOCUS_ENGINE,
                         CHARGE_MOVE_ENGINE,
                         SELF_AUXILIARY_MOVES_ENGINE,
@@ -3296,6 +3306,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     spite: [
                         ENGINE,
+                        DRAGON_CHEER_ENGINE,
                         LASER_FOCUS_ENGINE,
                         CHARGE_MOVE_ENGINE,
                         SELF_AUXILIARY_MOVES_ENGINE,
@@ -3338,6 +3349,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     will_drains: [
                         ENGINE,
+                        DRAGON_CHEER_ENGINE,
                         LASER_FOCUS_ENGINE,
                         CHARGE_MOVE_ENGINE,
                         SELF_AUXILIARY_MOVES_ENGINE,
@@ -3379,6 +3391,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     direct_status: [
                         ENGINE,
+                        DRAGON_CHEER_ENGINE,
                         LASER_FOCUS_ENGINE,
                         CHARGE_MOVE_ENGINE,
                         SELF_AUXILIARY_MOVES_ENGINE,
@@ -3419,6 +3432,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     chance_status: [
                         ENGINE,
+                        DRAGON_CHEER_ENGINE,
                         LASER_FOCUS_ENGINE,
                         CHARGE_MOVE_ENGINE,
                         SELF_AUXILIARY_MOVES_ENGINE,
@@ -3458,6 +3472,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     battlefield_review: [
                         ENGINE,
+                        DRAGON_CHEER_ENGINE,
                         LASER_FOCUS_ENGINE,
                         CHARGE_MOVE_ENGINE,
                         SELF_AUXILIARY_MOVES_ENGINE,
@@ -3493,6 +3508,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     entry_hazards: [
                         ENGINE,
+                        DRAGON_CHEER_ENGINE,
                         LASER_FOCUS_ENGINE,
                         CHARGE_MOVE_ENGINE,
                         SELF_AUXILIARY_MOVES_ENGINE,
@@ -3528,6 +3544,7 @@ fn transition_inner(
                     damaging_stats: Box::new(damaging_stats::StatMoveState {
                         enabled: [
                             ENGINE,
+                            DRAGON_CHEER_ENGINE,
                             LASER_FOCUS_ENGINE,
                             CHARGE_MOVE_ENGINE,
                             SELF_AUXILIARY_MOVES_ENGINE,
@@ -3564,6 +3581,7 @@ fn transition_inner(
                     }),
                     cure_protection: [
                         ENGINE,
+                        DRAGON_CHEER_ENGINE,
                         LASER_FOCUS_ENGINE,
                         CHARGE_MOVE_ENGINE,
                         SELF_AUXILIARY_MOVES_ENGINE,
@@ -3601,6 +3619,7 @@ fn transition_inner(
                     recurring: Box::new(recurring::RecurringState {
                         enabled: [
                             ENGINE,
+                            DRAGON_CHEER_ENGINE,
                             LASER_FOCUS_ENGINE,
                             CHARGE_MOVE_ENGINE,
                             SELF_AUXILIARY_MOVES_ENGINE,
@@ -3641,6 +3660,7 @@ fn transition_inner(
                     compound: compound::CompoundState {
                         enabled: [
                             ENGINE,
+                            DRAGON_CHEER_ENGINE,
                             LASER_FOCUS_ENGINE,
                             CHARGE_MOVE_ENGINE,
                             SELF_AUXILIARY_MOVES_ENGINE,
@@ -3681,6 +3701,7 @@ fn transition_inner(
                     },
                     house_rules: [
                         ENGINE,
+                        DRAGON_CHEER_ENGINE,
                         LASER_FOCUS_ENGINE,
                         CHARGE_MOVE_ENGINE,
                         SELF_AUXILIARY_MOVES_ENGINE,
@@ -3727,6 +3748,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     interaction_rules: [
                         ENGINE,
+                        DRAGON_CHEER_ENGINE,
                         LASER_FOCUS_ENGINE,
                         CHARGE_MOVE_ENGINE,
                         SELF_AUXILIARY_MOVES_ENGINE,
@@ -3776,6 +3798,7 @@ fn transition_inner(
                     standalone: standalone::StandaloneState {
                         enabled: [
                             ENGINE,
+                            DRAGON_CHEER_ENGINE,
                             LASER_FOCUS_ENGINE,
                             CHARGE_MOVE_ENGINE,
                             SELF_AUXILIARY_MOVES_ENGINE,
@@ -3828,6 +3851,7 @@ fn transition_inner(
                     information: information::InformationState {
                         enabled: [
                             ENGINE,
+                            DRAGON_CHEER_ENGINE,
                             LASER_FOCUS_ENGINE,
                             CHARGE_MOVE_ENGINE,
                             SELF_AUXILIARY_MOVES_ENGINE,
@@ -3881,6 +3905,7 @@ fn transition_inner(
                     forms: forms::FormState {
                         enabled: [
                             ENGINE,
+                            DRAGON_CHEER_ENGINE,
                             LASER_FOCUS_ENGINE,
                             CHARGE_MOVE_ENGINE,
                             SELF_AUXILIARY_MOVES_ENGINE,
@@ -3936,6 +3961,7 @@ fn transition_inner(
                         completion: items::completion::CompletionState {
                             enabled: [
                                 ENGINE,
+                                DRAGON_CHEER_ENGINE,
                                 LASER_FOCUS_ENGINE,
                                 CHARGE_MOVE_ENGINE,
                                 SELF_AUXILIARY_MOVES_ENGINE,
@@ -3985,6 +4011,7 @@ fn transition_inner(
                         },
                         enabled: [
                             ENGINE,
+                            DRAGON_CHEER_ENGINE,
                             LASER_FOCUS_ENGINE,
                             CHARGE_MOVE_ENGINE,
                             SELF_AUXILIARY_MOVES_ENGINE,
@@ -4040,6 +4067,7 @@ fn transition_inner(
                     events: events::EventState {
                         enabled: [
                             ENGINE,
+                            DRAGON_CHEER_ENGINE,
                             LASER_FOCUS_ENGINE,
                             CHARGE_MOVE_ENGINE,
                             SELF_AUXILIARY_MOVES_ENGINE,
@@ -4095,6 +4123,7 @@ fn transition_inner(
                     },
                     provenance_rules: [
                         ENGINE,
+                        DRAGON_CHEER_ENGINE,
                         LASER_FOCUS_ENGINE,
                         CHARGE_MOVE_ENGINE,
                         SELF_AUXILIARY_MOVES_ENGINE,
@@ -4150,6 +4179,7 @@ fn transition_inner(
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            DRAGON_CHEER_ENGINE,
                             LASER_FOCUS_ENGINE,
                             CHARGE_MOVE_ENGINE,
                             SELF_AUXILIARY_MOVES_ENGINE,
@@ -4208,6 +4238,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            DRAGON_CHEER_ENGINE,
                             LASER_FOCUS_ENGINE,
                             CHARGE_MOVE_ENGINE,
                             SELF_AUXILIARY_MOVES_ENGINE,
@@ -4266,6 +4297,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        DRAGON_CHEER_ENGINE,
                         LASER_FOCUS_ENGINE,
                         CHARGE_MOVE_ENGINE,
                         SELF_AUXILIARY_MOVES_ENGINE,
@@ -4324,6 +4356,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            DRAGON_CHEER_ENGINE,
                             LASER_FOCUS_ENGINE,
                             CHARGE_MOVE_ENGINE,
                             SELF_AUXILIARY_MOVES_ENGINE,
@@ -4385,6 +4418,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            DRAGON_CHEER_ENGINE,
                             LASER_FOCUS_ENGINE,
                             CHARGE_MOVE_ENGINE,
                             SELF_AUXILIARY_MOVES_ENGINE,
@@ -4447,6 +4481,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            DRAGON_CHEER_ENGINE,
                             LASER_FOCUS_ENGINE,
                             CHARGE_MOVE_ENGINE,
                             SELF_AUXILIARY_MOVES_ENGINE,
@@ -4510,6 +4545,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            DRAGON_CHEER_ENGINE,
                             LASER_FOCUS_ENGINE,
                             CHARGE_MOVE_ENGINE,
                             SELF_AUXILIARY_MOVES_ENGINE,
@@ -4574,6 +4610,7 @@ fn transition_inner(
                     special: Box::new(special::SpecialState {
                         enabled: [
                             ENGINE,
+                            DRAGON_CHEER_ENGINE,
                             LASER_FOCUS_ENGINE,
                             CHARGE_MOVE_ENGINE,
                             SELF_AUXILIARY_MOVES_ENGINE,
@@ -4638,6 +4675,7 @@ fn transition_inner(
                     }),
                     ability_rules: [
                         ENGINE,
+                        DRAGON_CHEER_ENGINE,
                         LASER_FOCUS_ENGINE,
                         CHARGE_MOVE_ENGINE,
                         SELF_AUXILIARY_MOVES_ENGINE,
@@ -4704,6 +4742,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            DRAGON_CHEER_ENGINE,
                             LASER_FOCUS_ENGINE,
                             CHARGE_MOVE_ENGINE,
                             SELF_AUXILIARY_MOVES_ENGINE,
@@ -4770,6 +4809,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            DRAGON_CHEER_ENGINE,
                             LASER_FOCUS_ENGINE,
                             CHARGE_MOVE_ENGINE,
                             SELF_AUXILIARY_MOVES_ENGINE,

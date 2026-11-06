@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.66.0-core",
-  "release": "0.74.0",
-  "protocol": 75,
+  "engine": "0.67.0-core",
+  "release": "0.75.0",
+  "protocol": 76,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -1003,6 +1003,19 @@
         "completion_a31_dragon_cheer_saved_scene_lifetime_and_historical_scope"
       ],
       "scope": "Dragon Cheer gives allies in range High Critical on Physical/Special moves and raises Strength/Special by one only for allies currently Dragon-typed. It preserves the supplied All Allies targeting pattern, including its user requirement; no extra self-exclusion is invented. Stat protection and Contrary/Simple affect the stat clauses independently of High Critical. Recast does not stack; target recall/faint ends the scene effect."
+    },
+    {
+      "id": "move-completion-a32",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A32",
+      "fixtures": [
+        "completion_a32_shelter_stats_and_foe_accuracy_loss_are_independent_and_non_stacking",
+        "completion_a32_shelter_accuracy_shares_the_move_item_loss_channel_and_preserves_printed_difficulty",
+        "completion_a32_main_area_accuracy_records_each_recipient_and_skips_only_the_missed_one",
+        "completion_a32_move_reactions_apply_the_same_per_target_accuracy_loss",
+        "completion_a32_shelter_scene_serialization_recall_and_historical_scope"
+      ],
+      "scope": "Shelter grants Defense/Sp. Defense +1 and removes one success from foes' move Accuracy when targeting its user. The success penalty shares the strongest move/item accuracy-loss channel with existing accuracy drops and Bright Powder; printed move difficulty and ability penalties remain separate. Keen Eye and Zoom Lens retain their reviewed behavior. Main and reaction area rolls save individual target results. Recall/faint clears the scene auxiliary."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -1019,5 +1032,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "fec8f439b516e06cd1c59c0ac7a74b08f513b06ed79a5d7502359a74b8008987"
+  "move_completion_registry_hash": "a029746ed06c518290e0188c115ab0602de2876919b16724257e8e426c9f8cc4"
 }

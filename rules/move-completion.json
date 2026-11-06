@@ -1523,6 +1523,23 @@
           "auxiliary": true
         }
       }
+    },
+    "MOVE-A32": {
+      "engine": "0.67.0-core",
+      "kind": "support-stat",
+      "scope": "Shelter grants Defense/Sp. Defense +1 and removes one success from foes' move Accuracy when targeting its user. The success penalty shares the strongest move/item accuracy-loss channel with existing accuracy drops and Bright Powder; printed move difficulty and ability penalties remain separate. Keen Eye and Zoom Lens retain their reviewed behavior. Main and reaction area rolls save individual target results. Recall/faint clears the scene auxiliary.",
+      "moves": {
+        "Shelter": {
+          "source": "Pokerole-Data/v3.0/Moves/Shelter.json",
+          "sha256": "ec2f394c320be051cad6ceb198828b2021fc06ec24481abbd961a33b95247620",
+          "effect": "Target Self. Increase by 1 the User's Defense and Sp. Defense. Reduce 1 success to all the Accuracy Rolls of the Foes when targeting the User.",
+          "changes": {
+            "Defense": 1,
+            "SpecialDefense": 1
+          },
+          "auxiliary": true
+        }
+      }
     }
   },
   "printed_review": {
