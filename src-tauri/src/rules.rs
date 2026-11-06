@@ -224,6 +224,7 @@ pub fn accuracy(
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
     if [
         ENGINE,
+        MAGIC_POWDER_ENGINE,
         EXPLOSION_MOVES_ENGINE,
         FALSE_SWIPE_ENGINE,
         FICKLE_BEAM_ENGINE,
@@ -735,7 +736,7 @@ pub fn type_matchup(
 ) -> Result<(i32, bool)> {
     let mut effectiveness = 0;
     let mut immune = move_type == "Ground"
-        && crate::combat::completion::telekinetic(c, target)
+        && crate::combat::completion::lifted(c, target)
         && !crate::combat::reviewed::type_bypass(c, attacker, target);
     let mut ignore_resistance = crate::combat::provenance::ignore_resistance(c, attacker, target);
     for t in crate::combat::field::types(c, target, catalog)? {

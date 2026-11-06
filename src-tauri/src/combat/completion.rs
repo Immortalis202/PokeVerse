@@ -1552,10 +1552,10 @@ pub fn ghost_pair(
         && field::detected(c, &a.id, &t.id)
 }
 
-pub fn telekinetic(c: &Campaign, p: &Combatant) -> bool {
+fn lifted_by(c: &Campaign, p: &Combatant, name: &str) -> bool {
     p.deployed
         && p.hp > 0
-        && definition(c, "Telekinesis").is_some()
+        && definition(c, name).is_some()
         && !grounded(c, p)
         && !field::has(c, "Gravity", p)
         && !items::iron_ball(c, &p.id)
@@ -1564,8 +1564,15 @@ pub fn telekinetic(c: &Campaign, p: &Combatant) -> bool {
             f.special
                 .effects
                 .iter()
-                .any(|e| e.name == "Telekinesis" && e.target == p.id)
+                .any(|e| e.name == name && e.target == p.id)
         })
+}
+
+pub fn telekinetic(c: &Campaign, p: &Combatant) -> bool {
+    lifted_by(c, p, "Telekinesis")
+}
+pub fn lifted(c: &Campaign, p: &Combatant) -> bool {
+    telekinetic(c, p) || lifted_by(c, p, "Magnet Rise")
 }
 
 pub fn non_fainting_damage(c: &Campaign, name: &str, before: i32, damage: i32) -> i32 {

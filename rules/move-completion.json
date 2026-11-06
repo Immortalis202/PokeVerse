@@ -1694,6 +1694,20 @@
           ]
         }
       }
+    },
+    "MOVE-A40": {
+      "engine": "0.75.0-core",
+      "kind": "support-stat",
+      "scope": "Magnet Rise grants scene Ground-move immunity and the supplied Float condition, ending on recall/faint. Gravity, Iron Ball, explicit grounding and Ground-immunity bypass retain established precedence. No added type or no-Evade clause. Recast does not stack.",
+      "moves": {
+        "Magnet Rise": {
+          "source": "Pokerole-Data/v3.0/Moves/Magnet Rise.json",
+          "sha256": "2970cf4dc68b6fbfb8914378f27e7b30d7448125ccfa8df6fb8a4da055dd817f",
+          "effect": "Target Self. The User gains Immunity against Ground-Type Moves. Whole Scene Duration",
+          "changes": {},
+          "auxiliary": true
+        }
+      }
     }
   },
   "printed_review": {

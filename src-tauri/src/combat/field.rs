@@ -670,7 +670,7 @@ pub fn grounded(c: &Campaign, p: &Combatant, cat: &Catalog) -> bool {
         || items::completion::ring(c, p, true)
         || has(c, "Gravity", p)
         || items::iron_ball(c, &p.id)
-        || (!completion::telekinetic(c, p)
+        || (!completion::lifted(c, p)
             && !items::completion::has(c, &p.id, "Air Balloon")
             && (items::completion::ring(c, p, false)
                 || !types(c, p, cat)

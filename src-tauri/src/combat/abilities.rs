@@ -347,7 +347,7 @@ pub fn damage_immune(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> bool
     if house::ring(c, p) {
         return false;
     }
-    (m["Type"] == "Ground" && completion::telekinetic(c, p))
+    (m["Type"] == "Ground" && completion::lifted(c, p))
         || tactics::damage_immune(c, p, m)
         || extra::immune(c, p, m)
         || move_immune(c, p, m)

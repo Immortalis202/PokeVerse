@@ -6312,3 +6312,112 @@ fn completion_a39_dark_typing_does_not_block_support_and_magic_bounce_reflects()
     );
     assert_eq!(field::types(&c, p(&c, &t), &catalog()).unwrap(), before);
 }
+fn magnet_risen_case() -> (Campaign, String, String) {
+    let (mut c, a, t) = setup("Magnet Rise");
+    turn(&mut c, &t, "Magnet Rise");
+    let c = support_cast(&c, &t, vec![t.clone()], "Magnet Rise");
+    (c, a, t)
+}
+#[test]
+fn completion_a40_magnet_rise_grants_scene_immunity_without_no_evade_or_type_changes() {
+    use crate::combat::field;
+    let (mut c, a, t) = magnet_risen_case();
+    assert!(completion::lifted(&c, p(&c, &t)));
+    assert!(!completion::telekinetic(&c, p(&c, &t)));
+    assert!(!completion::cannot_evade(&c, &a, &t));
+    assert!(!field::grounded(&c, p(&c, &t), &catalog()));
+    assert_eq!(
+        field::types(&c, p(&c, &t), &catalog()).unwrap(),
+        vec!["Bug", "Rock"]
+    );
+    turn(&mut c, &a, "Mud Shot");
+    let hit = ordinary_accuracy(&c, &a, &t, "Mud Shot");
+    assert!(queued_damage_pool(&hit).immune);
+    let incoming = detection_attack(&c, &a, &t, "Tackle");
+    assert!(rules::dice_count(
+        &incoming,
+        &Action::React {
+            combatant_id: t.clone(),
+            kind: "evade".into(),
+            move_name: "Evasion".into(),
+            reason: "Magnet Rise permits Evasion".into()
+        },
+        &catalog()
+    )
+    .is_ok());
+    c = round_end(&c);
+    c = round_end(&c);
+    c = round_end(&c);
+    assert!(completion::lifted(&c, p(&c, &t)));
+    turn(&mut c, &t, "Magnet Rise");
+    c = support_cast(&c, &t, vec![t.clone()], "Magnet Rise");
+    assert_eq!(
+        c.battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .special
+            .effects
+            .iter()
+            .filter(|e| e.name == "Magnet Rise")
+            .count(),
+        1
+    );
+}
+#[test]
+fn completion_a40_grounding_and_explicit_bypasses_override_only_immunity() {
+    for mode in [
+        "Gravity",
+        "Iron Ball",
+        "Smack Down",
+        "Mold Breaker",
+        "Precipice Blades",
+    ] {
+        let (mut c, a, t) = magnet_risen_case();
+        match mode {
+            "Gravity" => saved_field_rule(&mut c, "Gravity", &a, "all", Some(4), 0),
+            "Iron Ball" => equip_accuracy(&mut c, &t, "Iron Ball"),
+            "Smack Down" => {
+                turn(&mut c, &a, "Smack Down");
+                c = resolve(&pending(&c, &a, &t, "Smack Down"));
+            }
+            "Mold Breaker" => pm(&mut c, &a).selected_ability = "Mold Breaker".into(),
+            _ => {}
+        }
+        let name = if mode == "Precipice Blades" {
+            "Precipice Blades"
+        } else {
+            "Mud Shot"
+        };
+        turn(&mut c, &a, name);
+        let hit = ordinary_accuracy(&c, &a, &t, name);
+        assert!(!queued_damage_pool(&hit).immune, "{mode}");
+    }
+}
+#[test]
+fn completion_a40_recall_faint_serialization_and_historical_gate() {
+    let (mut c, _a, t) = magnet_risen_case();
+    let incoming = reserve(&mut c, &t);
+    let c: Campaign = serde_json::from_str(&serde_json::to_string(&c).unwrap()).unwrap();
+    assert!(completion::lifted(&c, p(&c, &t)));
+    let gone = spider_switch(&c, &t, &incoming, false);
+    assert!(!completion::lifted(&gone, p(&gone, &t)));
+    let mut faint = c.clone();
+    pm(&mut faint, &t).hp = 0;
+    special::lifecycle(&c, &mut faint, &catalog()).unwrap();
+    assert!(!completion::lifted(&faint, p(&faint, &t)));
+    let (mut old, a, _t) = setup("Magnet Rise");
+    old.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .completion
+        .blocks
+        .remove("MOVE-A40");
+    let c = pending(&old, &a, &a, "Magnet Rise");
+    assert!(battle::transition(&c, "gm", &cmd(&c), vec![], &catalog()).is_err());
+}
