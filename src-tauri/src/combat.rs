@@ -1145,6 +1145,7 @@ pub fn transition(
     if let Some(setup) = field::start_setup(a) {
         if ![
             ENGINE,
+            NORMAL_ELECTRIC_ENGINE,
             MAGNET_RISE_ENGINE,
             MAGIC_POWDER_ENGINE,
             EXPLOSION_MOVES_ENGINE,
@@ -1209,6 +1210,7 @@ pub fn transition(
             setup,
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -2229,6 +2231,7 @@ fn transition_inner(
                 let resolved = field::move_data(c, p, &move_entry(cat, move_name)?);
                 completion::charge_attempt(&mut next, combatant_id, &resolved, cat)?;
                 completion::laser_attempt(&mut next, combatant_id, &resolved, p.actions + 1)?;
+                completion::electrify_attempt(&mut next, combatant_id, &resolved)?;
                 items::commit_item_move(
                     c,
                     &mut next,
@@ -3264,6 +3267,7 @@ fn transition_inner(
                 b.flow = Some(TurnFlow {
                     identity_moves: [
                         ENGINE,
+                        NORMAL_ELECTRIC_ENGINE,
                         MAGNET_RISE_ENGINE,
                         MAGIC_POWDER_ENGINE,
                         EXPLOSION_MOVES_ENGINE,
@@ -3318,6 +3322,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     status_escalation: [
                         ENGINE,
+                        NORMAL_ELECTRIC_ENGINE,
                         MAGNET_RISE_ENGINE,
                         MAGIC_POWDER_ENGINE,
                         EXPLOSION_MOVES_ENGINE,
@@ -3371,6 +3376,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     spite: [
                         ENGINE,
+                        NORMAL_ELECTRIC_ENGINE,
                         MAGNET_RISE_ENGINE,
                         MAGIC_POWDER_ENGINE,
                         EXPLOSION_MOVES_ENGINE,
@@ -3423,6 +3429,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     will_drains: [
                         ENGINE,
+                        NORMAL_ELECTRIC_ENGINE,
                         MAGNET_RISE_ENGINE,
                         MAGIC_POWDER_ENGINE,
                         EXPLOSION_MOVES_ENGINE,
@@ -3474,6 +3481,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     direct_status: [
                         ENGINE,
+                        NORMAL_ELECTRIC_ENGINE,
                         MAGNET_RISE_ENGINE,
                         MAGIC_POWDER_ENGINE,
                         EXPLOSION_MOVES_ENGINE,
@@ -3524,6 +3532,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     chance_status: [
                         ENGINE,
+                        NORMAL_ELECTRIC_ENGINE,
                         MAGNET_RISE_ENGINE,
                         MAGIC_POWDER_ENGINE,
                         EXPLOSION_MOVES_ENGINE,
@@ -3573,6 +3582,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     battlefield_review: [
                         ENGINE,
+                        NORMAL_ELECTRIC_ENGINE,
                         MAGNET_RISE_ENGINE,
                         MAGIC_POWDER_ENGINE,
                         EXPLOSION_MOVES_ENGINE,
@@ -3618,6 +3628,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     entry_hazards: [
                         ENGINE,
+                        NORMAL_ELECTRIC_ENGINE,
                         MAGNET_RISE_ENGINE,
                         MAGIC_POWDER_ENGINE,
                         EXPLOSION_MOVES_ENGINE,
@@ -3663,6 +3674,7 @@ fn transition_inner(
                     damaging_stats: Box::new(damaging_stats::StatMoveState {
                         enabled: [
                             ENGINE,
+                            NORMAL_ELECTRIC_ENGINE,
                             MAGNET_RISE_ENGINE,
                             MAGIC_POWDER_ENGINE,
                             EXPLOSION_MOVES_ENGINE,
@@ -3709,6 +3721,7 @@ fn transition_inner(
                     }),
                     cure_protection: [
                         ENGINE,
+                        NORMAL_ELECTRIC_ENGINE,
                         MAGNET_RISE_ENGINE,
                         MAGIC_POWDER_ENGINE,
                         EXPLOSION_MOVES_ENGINE,
@@ -3756,6 +3769,7 @@ fn transition_inner(
                     recurring: Box::new(recurring::RecurringState {
                         enabled: [
                             ENGINE,
+                            NORMAL_ELECTRIC_ENGINE,
                             MAGNET_RISE_ENGINE,
                             MAGIC_POWDER_ENGINE,
                             EXPLOSION_MOVES_ENGINE,
@@ -3806,6 +3820,7 @@ fn transition_inner(
                     compound: compound::CompoundState {
                         enabled: [
                             ENGINE,
+                            NORMAL_ELECTRIC_ENGINE,
                             MAGNET_RISE_ENGINE,
                             MAGIC_POWDER_ENGINE,
                             EXPLOSION_MOVES_ENGINE,
@@ -3856,6 +3871,7 @@ fn transition_inner(
                     },
                     house_rules: [
                         ENGINE,
+                        NORMAL_ELECTRIC_ENGINE,
                         MAGNET_RISE_ENGINE,
                         MAGIC_POWDER_ENGINE,
                         EXPLOSION_MOVES_ENGINE,
@@ -3912,6 +3928,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     interaction_rules: [
                         ENGINE,
+                        NORMAL_ELECTRIC_ENGINE,
                         MAGNET_RISE_ENGINE,
                         MAGIC_POWDER_ENGINE,
                         EXPLOSION_MOVES_ENGINE,
@@ -3971,6 +3988,7 @@ fn transition_inner(
                     standalone: standalone::StandaloneState {
                         enabled: [
                             ENGINE,
+                            NORMAL_ELECTRIC_ENGINE,
                             MAGNET_RISE_ENGINE,
                             MAGIC_POWDER_ENGINE,
                             EXPLOSION_MOVES_ENGINE,
@@ -4033,6 +4051,7 @@ fn transition_inner(
                     information: information::InformationState {
                         enabled: [
                             ENGINE,
+                            NORMAL_ELECTRIC_ENGINE,
                             MAGNET_RISE_ENGINE,
                             MAGIC_POWDER_ENGINE,
                             EXPLOSION_MOVES_ENGINE,
@@ -4096,6 +4115,7 @@ fn transition_inner(
                     forms: forms::FormState {
                         enabled: [
                             ENGINE,
+                            NORMAL_ELECTRIC_ENGINE,
                             MAGNET_RISE_ENGINE,
                             MAGIC_POWDER_ENGINE,
                             EXPLOSION_MOVES_ENGINE,
@@ -4161,6 +4181,7 @@ fn transition_inner(
                         completion: items::completion::CompletionState {
                             enabled: [
                                 ENGINE,
+                                NORMAL_ELECTRIC_ENGINE,
                                 MAGNET_RISE_ENGINE,
                                 MAGIC_POWDER_ENGINE,
                                 EXPLOSION_MOVES_ENGINE,
@@ -4220,6 +4241,7 @@ fn transition_inner(
                         },
                         enabled: [
                             ENGINE,
+                            NORMAL_ELECTRIC_ENGINE,
                             MAGNET_RISE_ENGINE,
                             MAGIC_POWDER_ENGINE,
                             EXPLOSION_MOVES_ENGINE,
@@ -4285,6 +4307,7 @@ fn transition_inner(
                     events: events::EventState {
                         enabled: [
                             ENGINE,
+                            NORMAL_ELECTRIC_ENGINE,
                             MAGNET_RISE_ENGINE,
                             MAGIC_POWDER_ENGINE,
                             EXPLOSION_MOVES_ENGINE,
@@ -4350,6 +4373,7 @@ fn transition_inner(
                     },
                     provenance_rules: [
                         ENGINE,
+                        NORMAL_ELECTRIC_ENGINE,
                         MAGNET_RISE_ENGINE,
                         MAGIC_POWDER_ENGINE,
                         EXPLOSION_MOVES_ENGINE,
@@ -4415,6 +4439,7 @@ fn transition_inner(
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            NORMAL_ELECTRIC_ENGINE,
                             MAGNET_RISE_ENGINE,
                             MAGIC_POWDER_ENGINE,
                             EXPLOSION_MOVES_ENGINE,
@@ -4483,6 +4508,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            NORMAL_ELECTRIC_ENGINE,
                             MAGNET_RISE_ENGINE,
                             MAGIC_POWDER_ENGINE,
                             EXPLOSION_MOVES_ENGINE,
@@ -4551,6 +4577,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        NORMAL_ELECTRIC_ENGINE,
                         MAGNET_RISE_ENGINE,
                         MAGIC_POWDER_ENGINE,
                         EXPLOSION_MOVES_ENGINE,
@@ -4619,6 +4646,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            NORMAL_ELECTRIC_ENGINE,
                             MAGNET_RISE_ENGINE,
                             MAGIC_POWDER_ENGINE,
                             EXPLOSION_MOVES_ENGINE,
@@ -4690,6 +4718,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            NORMAL_ELECTRIC_ENGINE,
                             MAGNET_RISE_ENGINE,
                             MAGIC_POWDER_ENGINE,
                             EXPLOSION_MOVES_ENGINE,
@@ -4762,6 +4791,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            NORMAL_ELECTRIC_ENGINE,
                             MAGNET_RISE_ENGINE,
                             MAGIC_POWDER_ENGINE,
                             EXPLOSION_MOVES_ENGINE,
@@ -4835,6 +4865,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            NORMAL_ELECTRIC_ENGINE,
                             MAGNET_RISE_ENGINE,
                             MAGIC_POWDER_ENGINE,
                             EXPLOSION_MOVES_ENGINE,
@@ -4909,6 +4940,7 @@ fn transition_inner(
                     special: Box::new(special::SpecialState {
                         enabled: [
                             ENGINE,
+                            NORMAL_ELECTRIC_ENGINE,
                             MAGNET_RISE_ENGINE,
                             MAGIC_POWDER_ENGINE,
                             EXPLOSION_MOVES_ENGINE,
@@ -4983,6 +5015,7 @@ fn transition_inner(
                     }),
                     ability_rules: [
                         ENGINE,
+                        NORMAL_ELECTRIC_ENGINE,
                         MAGNET_RISE_ENGINE,
                         MAGIC_POWDER_ENGINE,
                         EXPLOSION_MOVES_ENGINE,
@@ -5059,6 +5092,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            NORMAL_ELECTRIC_ENGINE,
                             MAGNET_RISE_ENGINE,
                             MAGIC_POWDER_ENGINE,
                             EXPLOSION_MOVES_ENGINE,
@@ -5135,6 +5169,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            NORMAL_ELECTRIC_ENGINE,
                             MAGNET_RISE_ENGINE,
                             MAGIC_POWDER_ENGINE,
                             EXPLOSION_MOVES_ENGINE,

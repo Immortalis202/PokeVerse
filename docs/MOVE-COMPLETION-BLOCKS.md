@@ -47,7 +47,8 @@ The live source of remaining route work is `rules/move-effect-audit.json`. Its f
 | MOVE-A39 | Magic Powder type replacement | Complete |
 | MOVE-A40 | Magnet Rise scene Ground immunity | Complete |
 | MOVE-A41 | Ion Deluge and Plasma Fists type conversion | Complete |
-| MOVE-A42 | Electrify next damaging cast | Next |
+| MOVE-A42 | Electrify next damaging cast | Complete |
+| MOVE-A43 | Jump Kick, High Jump Kick and Supercell Slam crash damage | Next |
 | Stat reset ruling | Preserve active passive bonuses; clear applied move and triggered-ability changes, confirmed 6 November 2026 | Adopted by MOVE-A33 |
 | First Impression ruling | First eligible action round, confirmed by the user on 5 November 2026 | Implemented in MOVE-A24 |
 | Later blocks | Ordinary attacks with existing attributes; remaining stat changes, resets and swaps; type/damage conversions; field changes; conditional damage; timing/action restrictions; items; copy/selection effects | Open |

@@ -224,6 +224,23 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
                 );
             }
         }
+        "electrify" => {
+            if !immune_target(c, q, cat)? {
+                flow_mut(c).special.effects.retain(|e| {
+                    e.name != q.move_name || e.target != q.target_id || e.slot != "self-support"
+                });
+                let started = battle(c)?.round;
+                flow_mut(c).special.effects.push(special::TimedEffect {
+                    name: q.move_name.clone(),
+                    source: q.actor_id.clone(),
+                    target: q.target_id.clone(),
+                    rounds: None,
+                    amount: 0,
+                    started,
+                    slot: "self-support".into(),
+                });
+            }
+        }
         "type-conversion" => {
             if d["field"] == true {
                 if !flow(c)?
@@ -642,6 +659,11 @@ pub fn sport_effectiveness(c: &Campaign, m: &serde_json::Value, n: i32) -> i32 {
     }
 }
 pub fn final_move_data(c: &Campaign, p: &Combatant, m: &mut serde_json::Value) {
+    if ["Physical", "Special"].contains(&m["Category"].as_str().unwrap_or(""))
+        && electrified(c, p, m)
+    {
+        m["Type"] = "Electric".into();
+    }
     if m["Type"] == "Normal"
         && (field::normal_electric(c, &p.id)
             || (definition(c, "Ion Deluge").is_some()
@@ -1102,6 +1124,8 @@ pub fn observe(before: &Campaign, next: &mut Campaign, cat: &Catalog) -> Result<
         flow_mut(next).special.effects.retain(|e| {
             let cast = if e.name == "Charge" {
                 e.slot.strip_prefix("charge-cast:")
+            } else if e.name == "Electrify" {
+                e.slot.strip_prefix("electrify-cast:")
             } else if e.name == "Laser Focus" {
                 e.slot.strip_prefix("focus-cast:")
             } else {
@@ -1692,4 +1716,47 @@ pub fn clear_inactive_types(c: &mut Campaign) {
 
 pub fn plasma(c: &Campaign, p: &Combatant) -> bool {
     self_support(c, p, "Plasma Fists")
+}
+
+fn electrified(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> bool {
+    if definition(c, "Electrify").is_none() {
+        return false;
+    }
+    if self_support(c, p, "Electrify") {
+        return true;
+    }
+    flow(c).is_ok_and(|f| {
+        f.queue.first().is_some_and(|q| {
+            q.actor_id == p.id
+                && m["Name"] == q.move_name
+                && f.special.effects.iter().any(|e| {
+                    e.name == "Electrify"
+                        && e.target == p.id
+                        && e.slot == format!("electrify-cast:{}", q.sequence)
+                })
+        })
+    })
+}
+pub(super) fn electrify_attempt(c: &mut Campaign, id: &str, m: &serde_json::Value) -> Result<()> {
+    if !["Physical", "Special"].contains(&m["Category"].as_str().unwrap_or(""))
+        || !self_support(c, fighter(c, id)?, "Electrify")
+    {
+        return Ok(());
+    }
+    let seq = c.revision + 1;
+    let started = battle(c)?.round;
+    flow_mut(c)
+        .special
+        .effects
+        .retain(|e| e.name != "Electrify" || e.target != id || e.slot != "self-support");
+    flow_mut(c).special.effects.push(special::TimedEffect {
+        name: "Electrify".into(),
+        source: id.into(),
+        target: id.into(),
+        rounds: None,
+        amount: 0,
+        started,
+        slot: format!("electrify-cast:{seq}"),
+    });
+    Ok(())
 }

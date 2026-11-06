@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.76.0-core",
-  "release": "0.84.0",
-  "protocol": 85,
+  "engine": "0.77.0-core",
+  "release": "0.85.0",
+  "protocol": 86,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -1122,6 +1122,19 @@
         "completion_a41_immune_hit_cannot_prepare_plasma_and_historical_states_keep_fallback"
       ],
       "scope": "Ion Deluge converts resolved Normal-type Physical/Special damage to Electric battlefield-wide for the scene, persisting after caster departure. Successful Plasma Fists converts only its user Normal-type moves, including Support, for the scene until recall/faint. Recast does not stack. Conversion follows other resolved typing and precedes sport suppression. Optional saved source marks preserve pending damage typing."
+    },
+    {
+      "id": "move-completion-a42",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A42",
+      "fixtures": [
+        "completion_a42_support_preserves_preparation_and_damaging_miss_consumes_it",
+        "completion_a42_conversion_is_bound_to_the_whole_saved_area_cast",
+        "completion_a42_charge_and_protean_use_the_converted_type",
+        "completion_a42_clash_consumes_preparation_and_uses_electric_damage",
+        "completion_a42_recall_and_historical_fallback"
+      ],
+      "scope": "Electrify converts damage of the target next Physical/Special attempt to Electric. Support preserves preparation; a damaging miss consumes it. Bind conversion to the complete saved cast, including area and Clash, then clear it. Recall/faint clears unspent preparation; pending casts retain bound conversion. Existing Support protection/reflection and Reaction 1 timing remain."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -1138,5 +1151,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "73e9031cb02abedbe39af47929bd60665c6aa9de3c3881a77b5009835b6554a7"
+  "move_completion_registry_hash": "ed72d481265b557ec5fec40645855db360e8ea78d97e9926752d86a8ecd7c519"
 }

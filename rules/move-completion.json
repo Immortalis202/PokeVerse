@@ -1727,6 +1727,18 @@
           "field": false
         }
       }
+    },
+    "MOVE-A42": {
+      "engine": "0.77.0-core",
+      "kind": "electrify",
+      "scope": "Electrify converts damage of the target next Physical/Special attempt to Electric. Support preserves preparation; a damaging miss consumes it. Bind conversion to the complete saved cast, including area and Clash, then clear it. Recall/faint clears unspent preparation; pending casts retain bound conversion. Existing Support protection/reflection and Reaction 1 timing remain.",
+      "moves": {
+        "Electrify": {
+          "source": "Pokerole-Data/v3.0/Moves/Electrify.json",
+          "sha256": "216a2faf06eb295bd03fe61c8c2c3b32bcb3555425add5b41567d695cb435904",
+          "effect": "Single Target. Reaction 1. All Damage of the Next Physical or Special Move the Target performs will become Electric-Type"
+        }
+      }
     }
   },
   "printed_review": {

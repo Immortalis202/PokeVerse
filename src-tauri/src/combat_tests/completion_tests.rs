@@ -6573,3 +6573,149 @@ fn completion_a41_immune_hit_cannot_prepare_plasma_and_historical_states_keep_fa
         assert_eq!(converted_move(&c, &a, "Tackle")["Type"], "Normal");
     }
 }
+fn electrified_case() -> (Campaign, String, String) {
+    let (c, a, t) = setup("Electrify");
+    let c = resolve(&pending(&c, &a, &t, "Electrify"));
+    (c, a, t)
+}
+fn electrify_ready(c: &Campaign, id: &str) -> bool {
+    c.battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .special
+        .effects
+        .iter()
+        .any(|e| e.name == "Electrify" && e.target == id && e.slot == "self-support")
+}
+#[test]
+fn completion_a42_support_preserves_preparation_and_damaging_miss_consumes_it() {
+    let (mut c, a, t) = electrified_case();
+    assert!(electrify_ready(&c, &t));
+    assert_eq!(converted_move(&c, &t, "Howl")["Type"], "Normal");
+    turn(&mut c, &t, "Howl");
+    c = support_cast(&c, &t, vec![t.clone()], "Howl");
+    assert!(electrify_ready(&c, &t));
+    turn(&mut c, &t, "Flamethrower");
+    let c = roll(
+        &c,
+        "gm",
+        &super::targeting_tests::attack(&t, vec![a.clone()], "Flamethrower"),
+        1,
+    );
+    assert!(!electrify_ready(&c, &t));
+    assert_eq!(converted_move(&c, &t, "Flamethrower")["Type"], "Fire");
+}
+#[test]
+fn completion_a42_conversion_is_bound_to_the_whole_saved_area_cast() {
+    let (mut c, a, t) = electrified_case();
+    let other = reserve(&mut c, &a);
+    pm(&mut c, &other).deployed = true;
+    pm(&mut c, &other).field_slot = Some(1);
+    c.battle.as_mut().unwrap().slots_per_side = 2;
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .tactics
+        .enabled = true;
+    turn(&mut c, &t, "Hyper Voice");
+    c = roll(
+        &c,
+        "gm",
+        &super::targeting_tests::attack(&t, vec![a.clone(), other.clone()], "Hyper Voice"),
+        6,
+    );
+    while c.battle.as_ref().unwrap().flow.as_ref().unwrap().window {
+        c = pass(&c);
+    }
+    assert!(!electrify_ready(&c, &t));
+    assert_eq!(converted_move(&c, &t, "Hyper Voice")["Type"], "Electric");
+    c = roll(&c, "gm", &damage_command(&c), 1);
+    let before = c.clone();
+    pm(&mut c, &t).hp = 0;
+    special::lifecycle(&before, &mut c, &catalog()).unwrap();
+    c = serde_json::from_str(&serde_json::to_string(&c).unwrap()).unwrap();
+    assert_eq!(converted_move(&c, &t, "Hyper Voice")["Type"], "Electric");
+    c = roll(&c, "gm", &damage_command(&c), 1);
+    assert_eq!(converted_move(&c, &t, "Hyper Voice")["Type"], "Normal");
+}
+#[test]
+fn completion_a42_charge_and_protean_use_the_converted_type() {
+    let (mut c, a, t) = electrified_case();
+    pm(&mut c, &t).selected_ability = "Protean".into();
+    turn(&mut c, &t, "Charge");
+    c = support_cast(&c, &t, vec![t.clone()], "Charge");
+    assert!(electrify_ready(&c, &t));
+    turn(&mut c, &t, "Flamethrower");
+    let c = ordinary_accuracy(&c, &t, &a, "Flamethrower");
+    assert_eq!(
+        crate::combat::field::types(&c, p(&c, &t), &catalog()).unwrap(),
+        vec!["Electric"]
+    );
+    assert!(!charge_ready(&c, &t));
+    let pool = queued_damage_pool(&c).dice;
+    let mut control = c.clone();
+    control
+        .battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .special
+        .effects
+        .retain(|e| e.name != "Charge");
+    assert_eq!(pool, queued_damage_pool(&control).dice + 2);
+}
+#[test]
+fn completion_a42_clash_consumes_preparation_and_uses_electric_damage() {
+    let (c, a, t) = electrified_case();
+    let mut c = c;
+    set_species(&mut c, &a, "Blastoise");
+    refresh_field(&mut c);
+    let mut c = detection_attack(&c, &a, &t, "Tackle");
+    let sid = p(&c, &t).sheet_id.clone();
+    c.sheets
+        .get_mut(&sid)
+        .unwrap()
+        .moves
+        .push("Flamethrower".into());
+    let before = p(&c, &a).hp;
+    let c = roll(
+        &c,
+        "gm",
+        &Action::React {
+            combatant_id: t.clone(),
+            kind: "clash".into(),
+            move_name: "Flamethrower".into(),
+            reason: "Electrify applies to Clash".into(),
+        },
+        6,
+    );
+    assert!(!electrify_ready(&c, &t));
+    assert_eq!(before - p(&c, &a).hp, 2);
+}
+#[test]
+fn completion_a42_recall_and_historical_fallback() {
+    let (mut c, _a, t) = electrified_case();
+    let incoming = reserve(&mut c, &t);
+    let c = spider_switch(&c, &t, &incoming, false);
+    assert!(!electrify_ready(&c, &t));
+    let (mut old, a, t) = setup("Electrify");
+    old.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .completion
+        .blocks
+        .remove("MOVE-A42");
+    let c = pending(&old, &a, &t, "Electrify");
+    assert!(battle::transition(&c, "gm", &cmd(&c), vec![], &catalog()).is_err());
+}

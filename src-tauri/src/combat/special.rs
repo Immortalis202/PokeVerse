@@ -921,6 +921,7 @@ pub fn lifecycle(_before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<
                 [
                     (q.actor_id.clone(), format!("charge-cast:{}", q.sequence)),
                     (q.actor_id.clone(), format!("focus-cast:{}", q.sequence)),
+                    (q.actor_id.clone(), format!("electrify-cast:{}", q.sequence)),
                 ]
             })
             .collect()

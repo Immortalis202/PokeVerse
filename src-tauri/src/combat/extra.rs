@@ -929,7 +929,7 @@ pub fn accuracy_attempt(
     completion::laser_attempt(c, id, m, required)?;
     items::completion::used_move(c, id, m)?;
     if !enabled(c) {
-        return Ok(());
+        return completion::electrify_attempt(c, id, m);
     }
     let p = fighter(c, id)?.clone();
     if events::enabled(c) && m["Category"] == "Support" {
@@ -946,7 +946,7 @@ pub fn accuracy_attempt(
         )?;
     }
     let _ = cat;
-    Ok(())
+    completion::electrify_attempt(c, id, m)
 }
 pub fn consume_charge(c: &mut Campaign, id: &str, m: &serde_json::Value) {
     if enabled(c) && m["Type"] == "Electric" {

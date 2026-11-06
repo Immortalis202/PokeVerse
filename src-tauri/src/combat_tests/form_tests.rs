@@ -901,6 +901,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
     let ended = decision(&c, "gm", Action::EndBattle);
     for engine in [
         ENGINE,
+        NORMAL_ELECTRIC_ENGINE,
         MAGNET_RISE_ENGINE,
         MAGIC_POWDER_ENGINE,
         EXPLOSION_MOVES_ENGINE,
@@ -977,6 +978,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.entry_hazards,
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1020,21 +1022,32 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             .contains(&engine)
         );
         assert_eq!(
-            flow.completion.blocks.contains("MOVE-A41"),
+            flow.completion.blocks.contains("MOVE-A42"),
             engine == ENGINE
         );
         assert_eq!(
+            flow.completion.blocks.contains("MOVE-A41"),
+            [ENGINE, NORMAL_ELECTRIC_ENGINE].contains(&engine)
+        );
+        assert_eq!(
             flow.completion.blocks.contains("MOVE-A40"),
-            [ENGINE, MAGNET_RISE_ENGINE].contains(&engine)
+            [ENGINE, NORMAL_ELECTRIC_ENGINE, MAGNET_RISE_ENGINE].contains(&engine)
         );
         assert_eq!(
             flow.completion.blocks.contains("MOVE-A39"),
-            [ENGINE, MAGNET_RISE_ENGINE, MAGIC_POWDER_ENGINE].contains(&engine)
+            [
+                ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
+                MAGNET_RISE_ENGINE,
+                MAGIC_POWDER_ENGINE
+            ]
+            .contains(&engine)
         );
         assert_eq!(
             flow.completion.blocks.contains("MOVE-A38"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE
@@ -1045,6 +1058,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A37"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1056,6 +1070,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A36"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1068,6 +1083,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A35"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1081,6 +1097,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A34"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1095,6 +1112,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A33"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1110,6 +1128,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A32"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1126,6 +1145,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A31"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1143,6 +1163,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A30"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1161,6 +1182,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A29"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1180,6 +1202,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A28"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1200,6 +1223,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A27"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1221,6 +1245,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A26"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1243,6 +1268,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A25"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1266,6 +1292,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A24"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1290,6 +1317,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A23"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1315,6 +1343,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A22"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1341,6 +1370,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A21"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1368,6 +1398,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A20"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1396,6 +1427,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A19"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1425,6 +1457,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A18"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1455,6 +1488,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A17"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1486,6 +1520,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A16"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1518,6 +1553,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A15"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1551,6 +1587,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A14"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1585,6 +1622,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A13"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1620,6 +1658,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A12"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1656,6 +1695,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A11"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1693,6 +1733,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A10"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1731,6 +1772,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A09"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1770,6 +1812,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A08"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1810,6 +1853,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A07"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1851,6 +1895,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A06"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1893,6 +1938,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A05"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1936,6 +1982,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A04"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -1980,6 +2027,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A03"),
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -2025,6 +2073,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.damaging_stats.enabled,
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -2072,6 +2121,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.battlefield_review,
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -2120,6 +2170,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.direct_status,
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -2173,6 +2224,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.chance_status,
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -2225,6 +2277,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.compound.enabled,
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -2276,6 +2329,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.recurring.enabled,
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -2326,6 +2380,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.battlefield_review,
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -2374,6 +2429,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.cure_protection,
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -2423,6 +2479,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.spite,
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -2478,6 +2535,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.will_drains,
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -2532,6 +2590,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.status_escalation,
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -2588,6 +2647,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.identity_moves,
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -2645,6 +2705,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.interaction_rules,
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -2706,6 +2767,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.items.completion.enabled,
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -2766,6 +2828,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.house_rules,
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -2825,6 +2888,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.forms.enabled,
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -2889,6 +2953,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.information.enabled,
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
@@ -2952,6 +3017,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.standalone.enabled,
             [
                 ENGINE,
+                NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
                 MAGIC_POWDER_ENGINE,
                 EXPLOSION_MOVES_ENGINE,
