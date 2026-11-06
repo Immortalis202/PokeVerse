@@ -6089,3 +6089,109 @@ fn completion_a37_decoy_damage_is_not_capped_by_recipient_hp() {
         10
     );
 }
+#[test]
+fn completion_a38_area_finishes_all_recipients_before_self_fainting() {
+    for name in ["Explosion", "Self Destruct", "Misty Explosion"] {
+        let (mut c, a, t) = setup(name);
+        let other = reserve(&mut c, &t);
+        pm(&mut c, &other).deployed = true;
+        pm(&mut c, &other).field_slot = Some(1);
+        c.battle.as_mut().unwrap().slots_per_side = 2;
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .tactics
+            .enabled = true;
+        turn(&mut c, &a, name);
+        c = roll(
+            &c,
+            "gm",
+            &super::targeting_tests::attack(&a, vec![t.clone(), other.clone()], name),
+            6,
+        );
+        while c.battle.as_ref().unwrap().flow.as_ref().unwrap().window {
+            c = pass(&c);
+        }
+        c = roll(&c, "gm", &damage_command(&c), 1);
+        assert!(
+            p(&c, &a).hp > 0,
+            "{name}: first recipient must preserve source"
+        );
+        assert!(!c
+            .battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .queue
+            .is_empty());
+        c = serde_json::from_str(&serde_json::to_string(&c).unwrap()).unwrap();
+        c = roll(&c, "gm", &damage_command(&c), 1);
+        assert_eq!(p(&c, &a).hp, 0, "{name}");
+        assert!(c
+            .battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .queue
+            .is_empty());
+    }
+}
+#[test]
+fn completion_a38_miss_still_faints_but_damp_rejects_before_attempt() {
+    for name in ["Explosion", "Self Destruct", "Misty Explosion"] {
+        let (mut c, a, t) = setup(name);
+        let action = super::targeting_tests::attack(&a, vec![t.clone()], name);
+        pm(&mut c, &t).selected_ability = "Damp".into();
+        assert!(rules::dice_count(&c, &action, &catalog())
+            .unwrap_err()
+            .message
+            .contains("Damp"));
+        pm(&mut c, &t).selected_ability.clear();
+        let done = roll(&c, "gm", &action, 1);
+        assert_eq!(p(&done, &a).hp, 0, "{name}");
+        let mut old = c.clone();
+        old.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .completion
+            .blocks
+            .remove("MOVE-A38");
+        let done = roll(&old, "gm", &action, 1);
+        assert!(p(&done, &a).hp > 0);
+    }
+}
+#[test]
+fn completion_a38_misty_terrain_adds_exactly_four_pool_dice() {
+    let (mut c, a, t) = setup("Misty Explosion");
+    let side = p(&c, &a).side.clone();
+    let ordinary = ordinary_accuracy(&c, &a, &t, "Misty Explosion");
+    let base = queued_damage_pool(&ordinary).dice;
+    saved_field_rule(&mut c, "Misty Terrain", &a, "all", Some(4), 0);
+    let c = ordinary_accuracy(&c, &a, &t, "Misty Explosion");
+    assert_eq!(
+        queued_damage_pool(&c).dice,
+        base + 4,
+        "terrain scope {side}"
+    );
+}
+#[test]
+fn completion_a38_immunity_preserves_target_but_does_not_prevent_self_fainting() {
+    let (mut c, a, t) = setup("Explosion");
+    set_species(&mut c, &t, "Gengar");
+    refresh_field(&mut c);
+    let c = ordinary_accuracy(&c, &a, &t, "Explosion");
+    let before = p(&c, &t).hp;
+    let done = roll(&c, "gm", &damage_command(&c), 6);
+    assert_eq!(p(&done, &t).hp, before);
+    assert_eq!(p(&done, &a).hp, 0);
+}

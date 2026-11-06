@@ -938,6 +938,9 @@ pub fn damage_bonus(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> i32 {
     let Some((_, d)) = definition(c, m["Name"].as_str().unwrap_or("")) else {
         return n;
     };
+    if m["Name"] == "Misty Explosion" && field::has(c, "Misty Terrain", p) {
+        n += 4;
+    }
     if d["happiness_bonus"] == true {
         n += c.sheets[&p.sheet_id]
             .workflow
@@ -1551,4 +1554,53 @@ pub fn non_fainting_damage(c: &Campaign, name: &str, before: i32, damage: i32) -
     } else {
         damage
     }
+}
+
+/// Finish self-fainting only once the whole cast leaves the pending queue.
+pub fn self_faint(before: &Campaign, next: &mut Campaign) -> Result<bool> {
+    let Some(b) = next.battle.as_ref().filter(|b| b.active) else {
+        return Ok(false);
+    };
+    if !flow(next).is_ok_and(|f| f.completion.blocks.contains("MOVE-A38")) {
+        return Ok(false);
+    }
+    let old = before.battle.as_ref().filter(|v| v.id == b.id);
+    let explosive = |name: &str| ["Explosion", "Self Destruct", "Misty Explosion"].contains(&name);
+    let mut finished = BTreeSet::new();
+    for p in &b.combatants {
+        let prior = old
+            .filter(|v| v.round == b.round)
+            .and_then(|v| v.combatants.iter().find(|v| v.id == p.id))
+            .map_or(&[][..], |v| v.used_moves.as_slice());
+        if p.used_moves.starts_with(prior)
+            && p.used_moves[prior.len()..].iter().any(|n| explosive(n))
+        {
+            finished.insert(p.id.clone());
+        }
+    }
+    if let Some(f) = old.and_then(|v| v.flow.as_ref()) {
+        for q in &f.queue {
+            if explosive(&q.move_name)
+                && !flow(next)?
+                    .queue
+                    .iter()
+                    .any(|v| v.actor_id == q.actor_id && v.sequence == q.sequence)
+            {
+                finished.insert(q.actor_id.clone());
+            }
+        }
+    }
+    let mut changed = false;
+    for id in finished {
+        if !flow(next)?
+            .queue
+            .iter()
+            .any(|q| q.actor_id == id && explosive(&q.move_name))
+            && fighter(next, &id)?.hp > 0
+        {
+            fighter_mut(next, &id)?.hp = 0;
+            changed = true;
+        }
+    }
+    Ok(changed)
 }

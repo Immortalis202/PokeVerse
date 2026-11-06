@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.72.0-core",
-  "release": "0.80.0",
-  "protocol": 81,
+  "engine": "0.73.0-core",
+  "release": "0.81.0",
+  "protocol": 82,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -1074,6 +1074,18 @@
         "completion_a37_decoy_damage_is_not_capped_by_recipient_hp"
       ],
       "scope": "False Swipe move damage cannot reduce a conscious recipient below one HP. Apply after damage reductions and independently of target survival items; decoy damage and later unrelated damage remain separate. Includes ordinary and Clash paths."
+    },
+    {
+      "id": "move-completion-a38",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A38",
+      "fixtures": [
+        "completion_a38_area_finishes_all_recipients_before_self_fainting",
+        "completion_a38_miss_still_faints_but_damp_rejects_before_attempt",
+        "completion_a38_misty_terrain_adds_exactly_four_pool_dice",
+        "completion_a38_immunity_preserves_target_but_does_not_prevent_self_fainting"
+      ],
+      "scope": "Resolve the entire attempted area cast before self-fainting, including misses, immunity and Evasion. Misty Explosion adds four pool dice while applicable Misty Terrain is active. Damp recognizes exact catalog Self Destruct. Lethal wound automation remains excluded."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -1090,5 +1102,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "f3ce5c97f632980a503087a70870c5f0b731e49e7f4919c974861c0ef4af82ad"
+  "move_completion_registry_hash": "7cc21f2cf8302c05600d630f406dcc8b0a2912a7f49ff0b3e97a7eff85b0bb54"
 }

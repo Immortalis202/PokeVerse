@@ -94,7 +94,7 @@ pub fn guard(c: &Campaign, source: &Combatant) -> Result<()> {
 }
 pub fn move_guard(c: &Campaign, name: &str) -> Result<()> {
     if enabled(c)
-        && [
+        && ([
             "Self-Destruct",
             "Explosion",
             "Misty Explosion",
@@ -102,6 +102,7 @@ pub fn move_guard(c: &Campaign, name: &str) -> Result<()> {
             "Burn Up",
         ]
         .contains(&name)
+            || (name == "Self Destruct" && completion::definition(c, name).is_some()))
         && battle(c)?
             .combatants
             .iter()

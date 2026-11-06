@@ -1641,6 +1641,37 @@
           "effect": "Single Target. Cutter Move. This Move's Damage can't make the Target go below 1 HP."
         }
       }
+    },
+    "MOVE-A38": {
+      "engine": "0.73.0-core",
+      "kind": "ordinary",
+      "scope": "Resolve the entire attempted area cast before self-fainting, including misses, immunity and Evasion. Misty Explosion adds four pool dice while applicable Misty Terrain is active. Damp recognizes exact catalog Self Destruct. Lethal wound automation remains excluded.",
+      "moves": {
+        "Explosion": {
+          "source": "Pokerole-Data/v3.0/Moves/Explosion.json",
+          "sha256": "57cc2f737a2f400be060864e837522809a930830b9fd15eeb496da3810aa9615",
+          "effect": "Area Move. Ranged. Lethal. The User Faints."
+        },
+        "Self Destruct": {
+          "source": "Pokerole-Data/v3.0/Moves/Self Destruct.json",
+          "sha256": "32a73eaf5f85119da099329999a6b24f9ae75584d4b2b9c1af930bdbe1408a68",
+          "effect": "Area Move. Lethal. Ranged. The User faints.",
+          "related_sources": [
+            {
+              "source": "Pokerole-Data/v3.0/Abilities/Damp.json",
+              "name": "Damp",
+              "sha256": "a2019a74693dfe7cc7783a74624f860a53b6b8836ab43272222288227bf66374",
+              "effect": "No one in the field will be able to use the moves: Self-Destruct, Explosion, Misty Explosion, Mind Blown, and Burn Up while this Pokemon is in the field. The Ability Aftermath does not activate if this Pokemon is in the field.",
+              "reason": "Ability prose uses Self-Destruct; exact move JSON Name is Self Destruct."
+            }
+          ]
+        },
+        "Misty Explosion": {
+          "source": "Pokerole-Data/v3.0/Moves/Misty Explosion.json",
+          "sha256": "2ac4d25eff0a8fcada5b00326caead5a16dcf1fd71001e8f0d4dbde08b106a5f",
+          "effect": "Area Attack. Lethal. The User faints after using this Move. *If Misty Terrain is active, add 4 Extra Dice to the Damage Pool of this Move."
+        }
+      }
     }
   },
   "printed_review": {
