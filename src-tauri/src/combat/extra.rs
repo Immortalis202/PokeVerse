@@ -1178,6 +1178,10 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
                             .cloned()
                             .collect::<Vec<_>>()
                         {
+                            if completion::definition(c, "Haze").is_some() {
+                                completion::reset_stats(c, &t.id, true)?;
+                                continue;
+                            }
                             special::clear_modifiers(c, &t.id);
                             if stat_channels::enabled(c) {
                                 flow_mut(c)

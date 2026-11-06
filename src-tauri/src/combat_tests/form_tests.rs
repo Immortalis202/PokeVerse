@@ -901,6 +901,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
     let ended = decision(&c, "gm", Action::EndBattle);
     for engine in [
         ENGINE,
+        SHELTER_ENGINE,
         DRAGON_CHEER_ENGINE,
         LASER_FOCUS_ENGINE,
         CHARGE_MOVE_ENGINE,
@@ -968,6 +969,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.entry_hazards,
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1002,21 +1004,32 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             .contains(&engine)
         );
         assert_eq!(
-            flow.completion.blocks.contains("MOVE-A32"),
+            flow.completion.blocks.contains("MOVE-A33"),
             engine == ENGINE
         );
         assert_eq!(
+            flow.completion.blocks.contains("MOVE-A32"),
+            [ENGINE, SHELTER_ENGINE].contains(&engine)
+        );
+        assert_eq!(
             flow.completion.blocks.contains("MOVE-A31"),
-            [ENGINE, DRAGON_CHEER_ENGINE].contains(&engine)
+            [ENGINE, SHELTER_ENGINE, DRAGON_CHEER_ENGINE].contains(&engine)
         );
         assert_eq!(
             flow.completion.blocks.contains("MOVE-A30"),
-            [ENGINE, DRAGON_CHEER_ENGINE, LASER_FOCUS_ENGINE].contains(&engine)
+            [
+                ENGINE,
+                SHELTER_ENGINE,
+                DRAGON_CHEER_ENGINE,
+                LASER_FOCUS_ENGINE
+            ]
+            .contains(&engine)
         );
         assert_eq!(
             flow.completion.blocks.contains("MOVE-A29"),
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE
@@ -1027,6 +1040,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A28"),
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1038,6 +1052,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A27"),
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1050,6 +1065,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A26"),
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1063,6 +1079,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A25"),
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1077,6 +1094,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A24"),
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1092,6 +1110,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A23"),
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1108,6 +1127,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A22"),
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1125,6 +1145,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A21"),
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1143,6 +1164,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A20"),
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1162,6 +1184,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A19"),
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1182,6 +1205,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A18"),
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1203,6 +1227,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A17"),
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1225,6 +1250,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A16"),
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1248,6 +1274,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A15"),
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1272,6 +1299,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A14"),
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1297,6 +1325,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A13"),
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1323,6 +1352,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A12"),
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1350,6 +1380,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A11"),
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1378,6 +1409,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A10"),
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1407,6 +1439,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A09"),
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1437,6 +1470,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A08"),
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1468,6 +1502,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A07"),
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1500,6 +1535,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A06"),
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1533,6 +1569,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A05"),
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1567,6 +1604,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A04"),
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1602,6 +1640,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A03"),
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1638,6 +1677,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.damaging_stats.enabled,
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1676,6 +1716,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.battlefield_review,
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1715,6 +1756,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.direct_status,
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1759,6 +1801,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.chance_status,
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1802,6 +1845,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.compound.enabled,
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1844,6 +1888,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.recurring.enabled,
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1885,6 +1930,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.battlefield_review,
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1924,6 +1970,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.cure_protection,
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -1964,6 +2011,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.spite,
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -2010,6 +2058,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.will_drains,
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -2055,6 +2104,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.status_escalation,
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -2102,6 +2152,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.identity_moves,
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -2150,6 +2201,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.interaction_rules,
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -2202,6 +2254,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.items.completion.enabled,
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -2253,6 +2306,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.house_rules,
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -2303,6 +2357,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.forms.enabled,
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -2358,6 +2413,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.information.enabled,
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
@@ -2412,6 +2468,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.standalone.enabled,
             [
                 ENGINE,
+                SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,

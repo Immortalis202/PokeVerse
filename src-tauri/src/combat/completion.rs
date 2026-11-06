@@ -224,6 +224,21 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
                 );
             }
         }
+        "stat-reset" => {
+            if d["field"] == true {
+                let ids: Vec<_> = battle(c)?
+                    .combatants
+                    .iter()
+                    .filter(|p| p.deployed && p.hp > 0)
+                    .map(|p| p.id.clone())
+                    .collect();
+                for id in ids {
+                    reset_stats(c, &id, true)?;
+                }
+            } else if !immune_target(c, q, cat)? {
+                reset_stats(c, &q.target_id, d["traits"] == true)?;
+            }
+        }
         "support-stat" => {
             support_stat(c, q, d, cat)?;
         }
@@ -1377,4 +1392,89 @@ pub fn laser_defenses(c: &Campaign, id: &str, sequence: u32, target: &str) -> bo
 
 pub fn shelter_loss(c: &Campaign, a: &Combatant, t: &Combatant) -> i32 {
     i32::from(a.side != t.side && self_support(c, t, "Shelter"))
+}
+
+/// Reset applied stat changes, preserving active passives under the user's ruling.
+pub(super) fn reset_stats(c: &mut Campaign, id: &str, traits: bool) -> Result<()> {
+    let mut keys: BTreeSet<&str> = ["Strength", "Dexterity", "Vitality", "Special", "Insight"]
+        .into_iter()
+        .collect();
+    if traits {
+        keys.extend([
+            "Defense",
+            "SpecialDefense",
+            "AccuracyPool",
+            "AccuracySuccess",
+            "Evasion",
+            "Will",
+        ]);
+    }
+    flow_mut(c).special.effects.retain(|e| {
+        if e.target != id {
+            return true;
+        }
+        if traits && (e.name.starts_with("accuracy-loss:") || e.name == "Lunar accuracy") {
+            return false;
+        }
+        if e.name.starts_with("buff:") || e.name.starts_with("debuff:") || e.slot == "stacking-stat"
+        {
+            return !e
+                .name
+                .rsplit(':')
+                .next()
+                .is_some_and(|key| keys.contains(key));
+        }
+        true
+    });
+    let f = flow_mut(c);
+    f.stat_channels
+        .grants
+        .retain(|g| g.target != id || !keys.contains(g.key.as_str()));
+    if let Some(removed) = f.stat_channels.removed.get_mut(id) {
+        removed.retain(|key, _| !keys.contains(key.as_str()));
+    }
+    if f.stat_channels
+        .removed
+        .get(id)
+        .is_some_and(|v| v.is_empty())
+    {
+        f.stat_channels.removed.remove(id);
+        f.stat_channels.removed_abilities.remove(id);
+    }
+    if keys.contains("Strength") {
+        for targets in f.intimidate.values_mut() {
+            targets.retain(|target| target != id);
+        }
+    }
+    let rt = &mut fighter_mut(c, id)?.runtime;
+    rt.modifiers.retain(|key, _| !keys.contains(key.as_str()));
+    rt.ability.counters.retain(|key, _| {
+        if let Some(stat) = key
+            .strip_prefix("boost:")
+            .or_else(|| key.strip_prefix("debuff:"))
+        {
+            return !keys.contains(stat);
+        }
+        let stat = match key.as_str() {
+            "Moxie" | "Sap Sipper" => "Strength",
+            "Lightning Rod" | "Storm Drain" => "Special",
+            "Speed Boost" => "Dexterity",
+            "Beast Boost total" => "Strength",
+            _ => "",
+        };
+        !keys.contains(stat)
+    });
+    rt.ability.flags.retain(|flag| {
+        let affected: &[&str] = match flag.as_str() {
+            "Defiant" | "Thermal Exchange" => &["Strength"],
+            "Competitive" => &["Special"],
+            "Steadfast" | "Rattled" | "Steam Engine" | "Unburden" => &["Dexterity"],
+            "Weak Armor" => &["Dexterity", "Defense"],
+            "Stamina" => &["Defense", "SpecialDefense"],
+            "Water Compaction" | "Well-Baked Body" => &["Defense"],
+            _ => &[],
+        };
+        !affected.iter().any(|key| keys.contains(key))
+    });
+    Ok(())
 }

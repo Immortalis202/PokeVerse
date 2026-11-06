@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.67.0-core",
-  "release": "0.75.0",
-  "protocol": 76,
+  "engine": "0.68.0-core",
+  "release": "0.76.0",
+  "protocol": 77,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -1016,6 +1016,19 @@
         "completion_a32_shelter_scene_serialization_recall_and_historical_scope"
       ],
       "scope": "Shelter grants Defense/Sp. Defense +1 and removes one success from foes' move Accuracy when targeting its user. The success penalty shares the strongest move/item accuracy-loss channel with existing accuracy drops and Bright Powder; printed move difficulty and ability penalties remain separate. Keen Eye and Zoom Lens retain their reviewed behavior. Main and reaction area rolls save individual target results. Recall/faint clears the scene auxiliary."
+    },
+    {
+      "id": "move-completion-a33",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A33",
+      "fixtures": [
+        "completion_a33_all_three_reset_exact_attribute_trait_scopes_without_touching_resources_or_tags",
+        "completion_a33_reset_preserves_active_weather_items_fields_and_non_stat_auxiliaries",
+        "completion_a33_triggered_ability_and_copied_changes_clear_and_can_trigger_again",
+        "completion_a33_haze_affects_both_sides_and_unavailable_entrants_and_freezy_checks_evolution",
+        "completion_a33_curious_medicine_adopts_the_ruling_and_historical_moves_remain_manual"
+      ],
+      "scope": "Clear Smog resets the five Attributes; Haze and Freezy Frost reset Attributes plus numeric Traits. User ruling 6 November 2026: retain active passive bonuses, clear applied move and triggered-ability changes. Applied item/copy grants are cleared; active fields, passive held/weather/conditional abilities, permanent stats and non-stat tags remain. Curious Medicine adopts the same reset. Freezy Frost uses the reviewed final-evolution guard."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -1032,5 +1045,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "a029746ed06c518290e0188c115ab0602de2876919b16724257e8e426c9f8cc4"
+  "move_completion_registry_hash": "1ab38810725d6576336b28f058b717361c19d5aeb104c05cc4b8e1dbe99b2974"
 }

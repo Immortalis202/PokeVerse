@@ -1540,6 +1540,35 @@
           "auxiliary": true
         }
       }
+    },
+    "MOVE-A33": {
+      "engine": "0.68.0-core",
+      "kind": "stat-reset",
+      "scope": "Clear Smog resets the five Attributes; Haze and Freezy Frost reset Attributes plus numeric Traits. User ruling 6 November 2026: retain active passive bonuses, clear applied move and triggered-ability changes. Applied item/copy grants are cleared; active fields, passive held/weather/conditional abilities, permanent stats and non-stat tags remain. Curious Medicine adopts the same reset. Freezy Frost uses the reviewed final-evolution guard.",
+      "moves": {
+        "Clear Smog": {
+          "source": "Pokerole-Data/v3.0/Moves/Clear Smog.json",
+          "sha256": "916ed480ec87371572e3a2a50af8a6649ea6a84b12f55b9f438fc349eb52d218",
+          "effect": "Single Target. Never Miss. Reset all Increased or Reduced Attributes on the Foe.",
+          "traits": false,
+          "field": false
+        },
+        "Haze": {
+          "source": "Pokerole-Data/v3.0/Moves/Haze.json",
+          "sha256": "c77efc6ec2952ccbbedfc53401c3f42e5f8ef046ad2c673f94b9c1dacbb160a0",
+          "effect": "Target Battlefield. Remove all Increased or Reduced Attributes and Traits of everyone on the battlefield.",
+          "traits": true,
+          "field": true
+        },
+        "Freezy Frost": {
+          "source": "Pokerole-Data/v3.0/Moves/Freezy Frost.json",
+          "sha256": "21870cd27317fcce36896a8b232c3b7570494a6e7456345a8d70a0b8b7b6bb0d",
+          "effect": "Single Target. Low Accuracy 1. Remove all Increased or Reduced Attributes and Traits the Target may have. If the user of this Move is at its Final Stage of Evolution, this move fails.",
+          "traits": true,
+          "field": false,
+          "final_stage_fail": true
+        }
+      }
     }
   },
   "printed_review": {

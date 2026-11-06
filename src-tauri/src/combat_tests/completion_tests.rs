@@ -5273,3 +5273,287 @@ fn completion_a32_shelter_scene_serialization_recall_and_historical_scope() {
         "manual_rule"
     );
 }
+
+fn seed_reset_changes(c: &mut Campaign, id: &str) {
+    use crate::combat::extra;
+    for (key, n) in [
+        ("Strength", 2),
+        ("Dexterity", 1),
+        ("Vitality", 1),
+        ("Special", -1),
+        ("Insight", -1),
+        ("Defense", 1),
+        ("SpecialDefense", -1),
+    ] {
+        extra::change_stat(c, id, id, key, n).unwrap();
+    }
+    extra::boost(c, id, "Strength", 3).unwrap();
+    extra::boost(c, id, "Defense", 1).unwrap();
+    let amount = special::record_modifier(c, id, id, "AccuracyPool", 2).unwrap();
+    pm(c, id)
+        .runtime
+        .modifiers
+        .insert("AccuracyPool".into(), amount);
+    let amount = special::record_modifier(c, id, id, "HighCritical", 1).unwrap();
+    pm(c, id)
+        .runtime
+        .modifiers
+        .insert("HighCritical".into(), amount);
+    let started = c.battle.as_ref().unwrap().round;
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .special
+        .effects
+        .push(special::TimedEffect {
+            name: "accuracy-loss:Sand Attack".into(),
+            source: id.into(),
+            target: id.into(),
+            rounds: None,
+            amount: 1,
+            started,
+            slot: "accuracy-success".into(),
+        });
+    pm(c, id).runtime.will = 4;
+}
+#[test]
+fn completion_a33_all_three_reset_exact_attribute_trait_scopes_without_touching_resources_or_tags()
+{
+    use crate::combat::{interactions, stat_channels};
+    for (name, traits) in [
+        ("Clear Smog", false),
+        ("Haze", true),
+        ("Freezy Frost", true),
+    ] {
+        let (mut c, a, t) = setup(name);
+        seed_reset_changes(&mut c, &t);
+        turn(&mut c, &a, name);
+        let c = if name == "Haze" {
+            support_cast(&c, &a, vec![], name)
+        } else {
+            resolve(&pending(&c, &a, &t, name))
+        };
+        for key in ["Strength", "Dexterity", "Vitality", "Special", "Insight"] {
+            assert_eq!(stat(&c, &t, key), 0, "{name}: {key}");
+            assert_eq!(stat_channels::channel(&c, p(&c, &t), key), (0, 0));
+        }
+        assert_eq!(stat(&c, &t, "Defense"), if traits { 0 } else { 1 });
+        assert_eq!(stat(&c, &t, "SpecialDefense"), if traits { 0 } else { -1 });
+        assert_eq!(
+            stat_channels::channel(&c, p(&c, &t), "Defense").0,
+            if traits { 0 } else { 1 }
+        );
+        assert_eq!(
+            interactions::trait_value(&c, p(&c, &t), "AccuracyPool"),
+            if traits { 0 } else { 2 }
+        );
+        assert_eq!(
+            completion::accuracy_loss(&c, &t),
+            if traits { 0 } else { 1 }
+        );
+        assert_eq!(
+            interactions::trait_value(&c, p(&c, &t), "HighCritical"),
+            1,
+            "High Critical is a move tag, not one of the printed numeric Traits"
+        );
+        assert_eq!(p(&c, &t).runtime.will, 4);
+    }
+}
+#[test]
+fn completion_a33_reset_preserves_active_weather_items_fields_and_non_stat_auxiliaries() {
+    use crate::combat::{extra, field, stat_channels};
+    let (mut c, a, t) = setup("Haze");
+    set_species(&mut c, &t, "Bulbasaur");
+    refresh_field(&mut c);
+    pm(&mut c, &t).selected_ability = "Chlorophyll".into();
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .battlefield
+        .natural = Some(field::Weather::Sunny);
+    equip_accuracy(&mut c, &t, "Eviolite");
+    let scope = format!("side:{}", p(&c, &t).side);
+    saved_field_rule(
+        &mut c,
+        "Tailwind",
+        &format!("field-user:{t}"),
+        &scope,
+        Some(4),
+        1,
+    );
+    let before = rules::effective_sheet(&c, p(&c, &t)).unwrap();
+    let expected = crate::creation::profile_stats(&before);
+    extra::change_stat(&mut c, &t, &t, "Dexterity", 1).unwrap();
+    extra::change_stat(&mut c, &t, &t, "Strength", 2).unwrap();
+    extra::change_stat(&mut c, &t, &t, "Defense", 1).unwrap();
+    let c = support_cast(&c, &a, vec![], "Haze");
+    let after = rules::effective_sheet(&c, p(&c, &t)).unwrap();
+    let actual = crate::creation::profile_stats(&after);
+    assert_eq!(after.stats["Dexterity"], before.stats["Dexterity"]);
+    assert_eq!(actual["Defense"], expected["Defense"]);
+    assert_eq!(after.stats["Strength"], before.stats["Strength"]);
+    assert_eq!(stat_channels::channel(&c, p(&c, &t), "Dexterity").0, 2);
+    assert!(field::has(&c, "Tailwind", p(&c, &t)));
+    assert_eq!(field::weather(&c, None), Some(field::Weather::Sunny));
+    assert!(!p(&c, &t).runtime.modifiers.contains_key("Strength"));
+    let (mut c, a, t) = setup("Haze");
+    turn(&mut c, &t, "Shelter");
+    c = resolve(&pending(&c, &t, &t, "Shelter"));
+    turn(&mut c, &a, "Haze");
+    let c = support_cast(&c, &a, vec![], "Haze");
+    assert_eq!(stat(&c, &t, "Defense"), 0);
+    assert_eq!(
+        completion::shelter_loss(&c, p(&c, &a), p(&c, &t)),
+        1,
+        "reset stat clauses, preserve the separate targeting condition"
+    );
+}
+#[test]
+fn completion_a33_triggered_ability_and_copied_changes_clear_and_can_trigger_again() {
+    use crate::combat::stat_channels::{self, StatGrant};
+    let (mut c, a, t) = setup("Tackle");
+    pm(&mut c, &t).selected_ability = "Stamina".into();
+    let queued = ordinary_accuracy(&c, &a, &t, "Tackle");
+    c = roll(&queued, "gm", &damage_command(&queued), 6);
+    assert_eq!(stat_channels::channel(&c, p(&c, &t), "Defense").0, 1);
+    turn(&mut c, &a, "Haze");
+    c = support_cast(&c, &a, vec![], "Haze");
+    assert_eq!(stat_channels::channel(&c, p(&c, &t), "Defense").0, 0);
+    assert!(!p(&c, &t).runtime.ability.flags.contains("Stamina"));
+    turn(&mut c, &a, "Tackle");
+    let queued = ordinary_accuracy(&c, &a, &t, "Tackle");
+    c = roll(&queued, "gm", &damage_command(&queued), 6);
+    assert_eq!(
+        stat_channels::channel(&c, p(&c, &t), "Defense").0,
+        1,
+        "a later hit can apply a new Stamina increase"
+    );
+    let (mut c, a, t) = setup("Haze");
+    let f = c.battle.as_mut().unwrap().flow.as_mut().unwrap();
+    f.stat_channels.enabled = true;
+    for channel in ["move", "ability"] {
+        f.stat_channels.grants.push(StatGrant {
+            source: a.clone(),
+            target: t.clone(),
+            cause: "Costar".into(),
+            key: "Strength".into(),
+            channel: channel.into(),
+            positive: 2,
+            negative: 0,
+        });
+    }
+    c = support_cast(&c, &a, vec![], "Haze");
+    assert!(!c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .stat_channels
+        .grants
+        .iter()
+        .any(|g| g.target == t && g.key == "Strength"));
+}
+#[test]
+fn completion_a33_haze_affects_both_sides_and_unavailable_entrants_and_freezy_checks_evolution() {
+    use crate::combat::extra;
+    let (mut c, a, t) = setup("Haze");
+    extra::change_stat(&mut c, &a, &a, "Strength", 2).unwrap();
+    extra::change_stat(&mut c, &t, &t, "Strength", 2).unwrap();
+    let round = c.battle.as_ref().unwrap().round;
+    pm(&mut c, &t).available_round = round + 1;
+    pm(&mut c, &t).selected_ability = "Good As Gold".into();
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .tactics
+        .enabled = true;
+    let c = support_cast(&c, &a, vec![], "Haze");
+    assert_eq!(stat(&c, &a, "Strength"), 0);
+    assert_eq!(
+        stat(&c, &t, "Strength"),
+        0,
+        "field reset includes current occupants even before their first eligible action"
+    );
+    let (mut c, a, t) = setup("Freezy Frost");
+    set_species(&mut c, &a, "Charizard");
+    let action = super::targeting_tests::attack(&a, vec![t], "Freezy Frost");
+    assert!(rules::dice_count(&c, &action, &catalog())
+        .unwrap_err()
+        .message
+        .contains("final ordinary evolution"));
+    let (mut c, a, t) = setup("Clear Smog");
+    set_species(&mut c, &t, "Steelix");
+    refresh_field(&mut c);
+    extra::change_stat(&mut c, &t, &t, "Strength", 2).unwrap();
+    let c = resolve(&pending(&c, &a, &t, "Clear Smog"));
+    assert_eq!(
+        stat(&c, &t, "Strength"),
+        2,
+        "Poison immunity prevents the target effect"
+    );
+}
+#[test]
+fn completion_a33_curious_medicine_adopts_the_ruling_and_historical_moves_remain_manual() {
+    use crate::combat::{extra, field};
+    let (mut c, a, t) = setup("Haze");
+    let side = p(&c, &a).side.clone();
+    pm(&mut c, &t).side = side;
+    pm(&mut c, &t).field_slot = Some(1);
+    let incoming = reserve(&mut c, &a);
+    c.battle.as_mut().unwrap().slots_per_side = 2;
+    pm(&mut c, &incoming).selected_ability = "Curious Medicine".into();
+    pm(&mut c, &t).selected_ability = "Chlorophyll".into();
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .battlefield
+        .natural = Some(field::Weather::Sunny);
+    seed_reset_changes(&mut c, &t);
+    extra::boost(&mut c, &t, "Special", 2).unwrap();
+    let c = spider_switch(&c, &a, &incoming, false);
+    assert_eq!(stat(&c, &t, "Strength"), 0);
+    assert_eq!(
+        p(&c, &t).runtime.ability.counters.get("boost:Special"),
+        None
+    );
+    assert_eq!(
+        crate::combat::stat_channels::channel(&c, p(&c, &t), "Dexterity").0,
+        2
+    );
+    let saved: Campaign = serde_json::from_str(&serde_json::to_string(&c).unwrap()).unwrap();
+    assert_eq!(stat(&saved, &t, "Strength"), 0);
+    for name in ["Clear Smog", "Haze", "Freezy Frost"] {
+        let (mut c, a, t) = setup(name);
+        c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
+            Box::new(completion::initial(SHELTER_ENGINE));
+        if name == "Haze" {
+            let action = super::targeting_tests::attack(&a, vec![], name);
+            c = roll(&c, "gm", &action, 6);
+            while c.battle.as_ref().unwrap().flow.as_ref().unwrap().window {
+                c = pass(&c);
+            }
+        } else {
+            c = pending(&c, &a, &t, name);
+        }
+        assert_eq!(
+            battle::transition(&c, "gm", &cmd(&c), vec![], &catalog())
+                .unwrap_err()
+                .code,
+            "manual_rule"
+        );
+    }
+}

@@ -1,6 +1,6 @@
 # Move-effect audit: milestone 1
 
-Snapshot refreshed: 6 November 2026, app **0.75.0**, engine **0.67.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
+Snapshot refreshed: 6 November 2026, app **0.76.0**, engine **0.68.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
 
 ## Deliverables and limits
 
@@ -18,13 +18,13 @@ The diagnostic deliberately bypasses accuracy, damage, targeting expansion, acti
 
 | Effect-route result | Cards | Meaning |
 | --- | ---: | --- |
-| executable-scope | 714 | At least one probe resolves; only recorded scopes are asserted. |
+| executable-scope | 717 | At least one probe resolves; only recorded scopes are asserted. |
 | input-required | 16 | Existing handler requests a selection, resource, weather or other legitimate prerequisite. |
-| manual-effect-route | 123 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
+| manual-effect-route | 120 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
 | gm-choice | 1 | Hold Hands: narrative battle-ending decision remains with the storyteller. |
 | excluded | 38 | Supplied Max/Z cards and the user-excluded Sappy Seed. |
 
-These totals sum to 892. **123 manual-effect-route results remain after MOVE-A32. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
+These totals sum to 892. **120 manual-effect-route results remain after MOVE-A33. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
 
 | Focused status result | Cards |
 | --- | ---: |
@@ -193,7 +193,7 @@ A six triggers the single printed Chance pool. Serene Grace, Wonder Skin, Loaded
 
 New 0.36.0-core encounters enable the boxed `damaging_stats` state. Missing saved state defaults disabled; 0.35.0-core remains accepted with its previous M3 behavior. Protocol 45 carries the new state. App version is 0.44.0.
 
-**The whole move catalog is not complete.** The 123 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
+**The whole move catalog is not complete.** The 120 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
 
 
 ### MOVE-A01 verification (1 November 2026)
@@ -479,3 +479,12 @@ Shelter raises Defense and Sp. Defense by one and removes one success from foes'
 Newly adopting main and move-reaction area rolls save individual target results, including mixed misses, rather than rejecting mixed target penalties or applying one target's penalty to everyone. Legacy move reactions use the same channel. Self-targeting Evade/Clash maneuvers retain their existing semantics. Recall/faint clears the scene effect; saved state and historical behavior are retained.
 
 Validation covers public Support/accuracy/reaction paths, independent clauses, Simple/Contrary, repeated casts, friendly targets, Keen Eye, Sand Attack/Bright Powder/Zoom Lens, printed Low Accuracy, mixed area success/misses, both reaction APIs, area reactions, serialization, recall and historical fallback. All 111 completion tests, adjacent regressions, bindings, route inventory, 76 frontend tests, 54 script checks, TypeScript and formatting passed. The full Rust suite passed with localhost networking: 930 passed, one ignored inventory; the inventory passed separately. Bindings were normalized and TypeScript/format/diff checks passed afterward. App 0.75.0, engine 0.67.0-core, protocol 76.
+
+
+### MOVE-A33: applied-stat resets and passive-bonus ruling (6 November 2026)
+
+The user confirmed that stat resets preserve active passive bonuses while clearing applied move and triggered-ability changes. Clear Smog resets the five Attributes. Haze and Freezy Frost also reset numeric Traits, including the supported Accuracy pool/success changes. Applied item/copy grants, stat stacks, triggered counters and applicable once-trigger flags clear. Current HP/Will resources, permanent sheet values, active held/weather/conditional-ability bonuses, active fields and separate non-stat tags/conditions remain. Resetting a triggered boost permits a later valid trigger to grant it again.
+
+Haze affects current occupants on both sides, including deployed entrants not yet eligible to act, and is a field effect rather than a single-recipient Support attack. Freezy Frost uses the reviewed forward ordinary-evolution guard. Target immunity still protects against the damaging cards. Newly adopting Curious Medicine uses the same reset policy; historical encounters retain their prior behavior.
+
+Validation covers all three public move paths, exact Attribute/Trait boundaries, Accuracy changes, High Critical tag/resource preservation, Chlorophyll/Eviolite/Tailwind, Shelter's separate targeting condition, Stamina clearing/retriggering, copied move/ability grants, both sides, unavailable entrants, Good As Gold versus field scope, Poison immunity, final evolution, Curious Medicine entry, serialization and historical fallback. All 116 completion tests, adjacent regressions, bindings, route inventory, 76 frontend tests, 54 script checks, TypeScript and formatting passed. App 0.76.0, engine 0.68.0-core, protocol 77.
