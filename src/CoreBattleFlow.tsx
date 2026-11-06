@@ -311,6 +311,7 @@ export default function CoreBattleFlow({
             "0.9.0-core",
             "0.10.0-core",
             "0.11.0-core",
+            "0.65.0-core",
             "0.64.0-core",
             "0.63.0-core",
             "0.62.0-core",

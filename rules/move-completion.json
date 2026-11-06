@@ -1491,6 +1491,20 @@
           "auxiliary": true
         }
       }
+    },
+    "MOVE-A30": {
+      "engine": "0.65.0-core",
+      "kind": "support-stat",
+      "scope": "Laser Focus prepares the next Physical/Special move: if its accuracy has at least five successes above that attempt's required action difficulty, ignore defenses. A damaging attempt consumes it even on a miss; Support preserves it. The condition is per recipient for area casts and survives saved casts, knockout continuation and undo. Critical damage, Shields, Force Fields and type/ability immunity remain independent; Clash has fixed damage without defenses.",
+      "moves": {
+        "Laser Focus": {
+          "source": "Pokerole-Data/v3.0/Moves/Laser Focus.json",
+          "sha256": "8764d7d55ac57913f622a5efdfec0774f8fca375affa3c5c18e9e0480d47ee3c",
+          "effect": "Target Self. If the next Physical or Special Move the user performs gets 5 more successes required on the Accuracy Roll, ignore the Target's defenses on the Damage roll.",
+          "changes": {},
+          "auxiliary": true
+        }
+      }
     }
   },
   "printed_review": {

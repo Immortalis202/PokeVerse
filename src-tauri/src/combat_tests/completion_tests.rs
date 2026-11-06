@@ -4668,3 +4668,208 @@ fn completion_a29_clash_uses_sport_tar_shot_and_wonder_guard_matchups() {
         assert_eq!(charge_ready(&c, &a), name == "Flame Wheel");
     }
 }
+
+fn focused() -> (Campaign, String, String) {
+    let (c, a, t) = setup("Laser Focus");
+    let c = resolve(&pending(&c, &a, &a, "Laser Focus"));
+    (c, a, t)
+}
+fn focus_ready(c: &Campaign, a: &str) -> bool {
+    c.battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .special
+        .effects
+        .iter()
+        .any(|e| e.name == "Laser Focus" && e.target == a && e.slot == "self-support")
+}
+fn exact_accuracy(c: &Campaign, a: &str, t: &str, name: &str, successes: i32) -> Campaign {
+    let m = catalog().find("moves", "Name", name).unwrap();
+    let action = Action::Accuracy {
+        combatant_id: a.into(),
+        target_id: Some(t.into()),
+        move_name: name.into(),
+        pool_modifier: 0,
+        success_modifier: successes
+            - m["Attributes"]["AccuracyReduction"].as_i64().unwrap_or(0) as i32,
+        reason: "Exercise the exact five-extra-successes boundary".into(),
+    };
+    let mut c = roll(c, "gm", &action, 1);
+    while c.battle.as_ref().unwrap().flow.as_ref().unwrap().window {
+        c = pass(&c);
+    }
+    c
+}
+#[test]
+fn completion_a30_laser_focus_requires_five_extra_successes_and_is_independent_of_critical() {
+    for (prior, net, ignored) in [
+        (0, 5, false),
+        (0, 6, true),
+        (0, 9, true),
+        (2, 7, false),
+        (2, 8, true),
+    ] {
+        let (mut c, a, t) = focused();
+        pm(&mut c, &t).selected_ability = "Battle Armor".into();
+        turn(&mut c, &a, "Tackle");
+        pm(&mut c, &a).actions = prior;
+        let c = exact_accuracy(&c, &a, &t, "Tackle", net);
+        let pool = queued_damage_pool(&c);
+        assert_eq!(
+            pool.defense == 0,
+            ignored,
+            "prior actions={prior}, net={net}"
+        );
+        assert_eq!(
+            pool.critical, 0,
+            "Battle Armor blocks Critical bonus but not Laser Focus's separate condition"
+        );
+        assert!(!focus_ready(&c, &a));
+    }
+}
+#[test]
+fn completion_a30_laser_focus_preserves_support_and_consumes_misses_with_saved_undo() {
+    let (mut c, a, t) = focused();
+    turn(&mut c, &a, "Growth");
+    c = resolve(&pending(&c, &a, &a, "Growth"));
+    assert!(focus_ready(&c, &a));
+    turn(&mut c, &a, "Tackle");
+    let missed = exact_accuracy(&c, &a, &t, "Tackle", 0);
+    assert!(missed
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .queue
+        .is_empty());
+    assert!(!focus_ready(&missed, &a));
+    let restored = decision(
+        &missed,
+        "gm",
+        Action::RollbackBattle {
+            event_sequence: missed.battle_undo.last().unwrap().event_sequence,
+            reason: "Restore prepared Laser Focus after a missed attempt".into(),
+        },
+    );
+    assert!(focus_ready(&restored, &a));
+    let c: Campaign = serde_json::from_str(&serde_json::to_string(&restored).unwrap()).unwrap();
+    let c = exact_accuracy(&c, &a, &t, "Tackle", 6);
+    let c: Campaign = serde_json::from_str(&serde_json::to_string(&c).unwrap()).unwrap();
+    assert_eq!(queued_damage_pool(&c).defense, 0);
+}
+#[test]
+fn completion_a30_laser_focus_keeps_force_fields_and_type_ability_immunity() {
+    let (mut c, a, t) = focused();
+    turn(&mut c, &a, "Tackle");
+    let mut c = exact_accuracy(&c, &a, &t, "Tackle", 6);
+    let before = queued_damage_pool(&c);
+    let unshielded = roll(&c, "gm", &damage_command(&c), 6);
+    let scope = format!("side:{}", p(&c, &t).side);
+    saved_field_rule(&mut c, "Reflect", "move:test", &scope, Some(4), 1);
+    let pool = queued_damage_pool(&c);
+    assert_eq!(pool.defense, 0);
+    assert_eq!(pool.dice, before.dice);
+    let shielded = roll(&c, "gm", &damage_command(&c), 6);
+    assert_eq!(
+        p(&shielded, &t).hp,
+        p(&unshielded, &t).hp + 1,
+        "Force Fields reduce final damage, independently of ignored defenses"
+    );
+    for (species, ability) in [("Gastly", ""), ("Shuckle", "Wonder Guard")] {
+        let (mut c, a, t) = focused();
+        set_species(&mut c, &t, species);
+        refresh_field(&mut c);
+        pm(&mut c, &t).selected_ability = ability.into();
+        turn(&mut c, &a, "Tackle");
+        let c = exact_accuracy(&c, &a, &t, "Tackle", 6);
+        let pool = queued_damage_pool(&c);
+        assert_eq!(pool.defense, 0);
+        assert!(pool.immune, "{species}, {ability}");
+    }
+}
+#[test]
+fn completion_a30_laser_focus_area_checks_saved_per_target_successes_and_survives_source_faint() {
+    let (mut c, a, t) = focused();
+    let other = reserve(&mut c, &t);
+    pm(&mut c, &other).deployed = true;
+    pm(&mut c, &other).field_slot = Some(1);
+    c.battle.as_mut().unwrap().slots_per_side = 2;
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .tactics
+        .enabled = true;
+    turn(&mut c, &a, "Air Cutter");
+    let mut action =
+        super::targeting_tests::attack(&a, vec![t.clone(), other.clone()], "Air Cutter");
+    if let Action::AccuracyTargets {
+        success_modifier, ..
+    } = &mut action
+    {
+        *success_modifier = 6;
+    }
+    c = roll(&c, "gm", &action, 1);
+    while c.battle.as_ref().unwrap().flow.as_ref().unwrap().window {
+        c = pass(&c);
+    }
+    let first = q(&c).target_id;
+    assert_eq!(queued_damage_pool(&c).defense, 0);
+    let mut mixed = c.clone();
+    for v in &mut mixed.battle.as_mut().unwrap().flow.as_mut().unwrap().queue[0].targets {
+        v.successes = Some(if v.target_id == first { 6 } else { 5 });
+    }
+    mixed = roll(&mixed, "gm", &damage_command(&mixed), 1);
+    mixed = resolve(&mixed);
+    assert_ne!(q(&mixed).target_id, first);
+    assert!(
+        queued_damage_pool(&mixed).defense > 0,
+        "five net successes is below the per-target six-success threshold"
+    );
+    c = roll(&c, "gm", &damage_command(&c), 1);
+    c = resolve(&c);
+    assert!(q(&c).damage_context.is_some());
+    let before = c.clone();
+    pm(&mut c, &a).hp = 0;
+    special::lifecycle(&before, &mut c, &catalog()).unwrap();
+    assert_eq!(
+        queued_damage_pool(&c).defense,
+        0,
+        "a queued frozen cast retains its prepared effect after source fainting"
+    );
+    c = roll(&c, "gm", &damage_command(&c), 1);
+    c = resolve(&c);
+    assert!(c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .queue
+        .is_empty());
+}
+#[test]
+fn completion_a30_laser_focus_recall_and_historical_route() {
+    let (mut c, a, _) = focused();
+    let incoming = reserve(&mut c, &a);
+    let c = spider_switch(&c, &a, &incoming, false);
+    assert!(!focus_ready(&c, &a));
+    let (mut c, a, _) = setup("Laser Focus");
+    c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
+        Box::new(completion::initial(CHARGE_MOVE_ENGINE));
+    let c = pending(&c, &a, &a, "Laser Focus");
+    assert_eq!(
+        battle::transition(&c, "gm", &cmd(&c), vec![], &catalog())
+            .unwrap_err()
+            .code,
+        "manual_rule"
+    );
+}

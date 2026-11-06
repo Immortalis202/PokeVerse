@@ -910,8 +910,24 @@ pub fn lifecycle(_before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<
         .filter(|p| p.hp > 0)
         .map(|p| p.id.clone())
         .collect();
+    let prepared_casts: BTreeSet<_> = if completion::definition(c, "Laser Focus").is_some() {
+        flow(c)?
+            .queue
+            .iter()
+            .filter(|q| !q.cancelled)
+            .flat_map(|q| {
+                [
+                    (q.actor_id.clone(), format!("charge-cast:{}", q.sequence)),
+                    (q.actor_id.clone(), format!("focus-cast:{}", q.sequence)),
+                ]
+            })
+            .collect()
+    } else {
+        BTreeSet::new()
+    };
     state_mut(c).effects.retain(|e| {
         (active.contains(&e.target)
+            || prepared_casts.contains(&(e.target.clone(), e.slot.clone()))
             || (e.slot == "persistent-restriction" && conscious.contains(&e.target))
             || ["Wish", "Shadow Force"].contains(&e.name.as_str()))
             && ((e.name != "move-block:Jaw Lock" && e.slot != "trap-pair")

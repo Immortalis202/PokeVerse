@@ -923,8 +923,10 @@ pub fn accuracy_attempt(
     id: &str,
     m: &serde_json::Value,
     cat: &Catalog,
+    required: u32,
 ) -> Result<()> {
     completion::charge_attempt(c, id, m, cat)?;
+    completion::laser_attempt(c, id, m, required)?;
     items::completion::used_move(c, id, m)?;
     if !enabled(c) {
         return Ok(());

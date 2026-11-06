@@ -977,12 +977,20 @@ pub fn observe(before: &Campaign, next: &mut Campaign, cat: &Catalog) -> Result<
         let sequences: BTreeSet<_> = flow(next)?
             .queue
             .iter()
-            .map(|q| (q.actor_id.clone(), format!("charge-cast:{}", q.sequence)))
+            .map(|q| (q.actor_id.clone(), q.sequence))
             .collect();
         flow_mut(next).special.effects.retain(|e| {
-            e.name != "Charge"
-                || !e.slot.starts_with("charge-cast:")
-                || sequences.contains(&(e.target.clone(), e.slot.clone()))
+            let cast = if e.name == "Charge" {
+                e.slot.strip_prefix("charge-cast:")
+            } else if e.name == "Laser Focus" {
+                e.slot.strip_prefix("focus-cast:")
+            } else {
+                None
+            };
+            cast.is_none_or(|s| {
+                s.parse::<u32>()
+                    .is_ok_and(|seq| sequences.contains(&(e.target.clone(), seq)))
+            })
         });
     }
     let after = battle(next)?;
@@ -1299,4 +1307,58 @@ pub(super) fn charge_attempt(
     });
     let _ = cat;
     Ok(())
+}
+
+pub(super) fn laser_attempt(
+    c: &mut Campaign,
+    id: &str,
+    m: &serde_json::Value,
+    required: u32,
+) -> Result<()> {
+    if !["Physical", "Special"].contains(&m["Category"].as_str().unwrap_or(""))
+        || !self_support(c, fighter(c, id)?, "Laser Focus")
+    {
+        return Ok(());
+    }
+    let started = battle(c)?.round;
+    let sequence = c.revision + 1;
+    flow_mut(c)
+        .special
+        .effects
+        .retain(|e| e.name != "Laser Focus" || e.target != id || e.slot != "self-support");
+    flow_mut(c).special.effects.push(special::TimedEffect {
+        name: "Laser Focus".into(),
+        source: id.into(),
+        target: id.into(),
+        rounds: None,
+        amount: required as i32 + 5,
+        started,
+        slot: format!("focus-cast:{sequence}"),
+    });
+    Ok(())
+}
+pub fn laser_defenses(c: &Campaign, id: &str, sequence: u32, target: &str) -> bool {
+    if definition(c, "Laser Focus").is_none() {
+        return false;
+    }
+    let Ok(f) = flow(c) else { return false };
+    let Some(q) = f
+        .queue
+        .first()
+        .filter(|q| q.actor_id == id && q.sequence == sequence)
+    else {
+        return false;
+    };
+    let successes = q
+        .targets
+        .iter()
+        .find(|v| v.target_id == target)
+        .and_then(|v| v.successes)
+        .unwrap_or(q.successes);
+    f.special.effects.iter().any(|e| {
+        e.name == "Laser Focus"
+            && e.target == id
+            && e.slot == format!("focus-cast:{sequence}")
+            && successes >= e.amount
+    })
 }

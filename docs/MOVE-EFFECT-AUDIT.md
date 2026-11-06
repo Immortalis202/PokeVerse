@@ -1,6 +1,6 @@
 # Move-effect audit: milestone 1
 
-Snapshot refreshed: 6 November 2026, app **0.72.0**, engine **0.64.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
+Snapshot refreshed: 6 November 2026, app **0.73.0**, engine **0.65.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
 
 ## Deliverables and limits
 
@@ -18,13 +18,13 @@ The diagnostic deliberately bypasses accuracy, damage, targeting expansion, acti
 
 | Effect-route result | Cards | Meaning |
 | --- | ---: | --- |
-| executable-scope | 711 | At least one probe resolves; only recorded scopes are asserted. |
+| executable-scope | 712 | At least one probe resolves; only recorded scopes are asserted. |
 | input-required | 16 | Existing handler requests a selection, resource, weather or other legitimate prerequisite. |
-| manual-effect-route | 126 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
+| manual-effect-route | 125 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
 | gm-choice | 1 | Hold Hands: narrative battle-ending decision remains with the storyteller. |
 | excluded | 38 | Supplied Max/Z cards and the user-excluded Sappy Seed. |
 
-These totals sum to 892. **126 manual-effect-route results remain after MOVE-A29. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
+These totals sum to 892. **125 manual-effect-route results remain after MOVE-A30. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
 
 | Focused status result | Cards |
 | --- | ---: |
@@ -193,7 +193,7 @@ A six triggers the single printed Chance pool. Serene Grace, Wonder Skin, Loaded
 
 New 0.36.0-core encounters enable the boxed `damaging_stats` state. Missing saved state defaults disabled; 0.35.0-core remains accepted with its previous M3 behavior. Protocol 45 carries the new state. App version is 0.44.0.
 
-**The whole move catalog is not complete.** The 126 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
+**The whole move catalog is not complete.** The 125 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
 
 
 ### MOVE-A01 verification (1 November 2026)
@@ -454,3 +454,12 @@ Charge stores two move-channel damage dice for the next damaging move whose reso
 Clash attempts also consume Charge. Clash has fixed damage rather than a damage pool, so Charge does not increase it. Newly adopting encounters also use the sport/Tar Shot-adjusted matchup and Wonder Guard for fixed Clash damage; older encounters retain their prior Clash behavior. Cast cleanup matches both source and sequence.
 
 Validation covers public Support/attack paths, exact two-die differences, ability charge, area recipients, misses, undo, serialization, recall, Galvanize/Normalize, recast, historical fallback, successful/failed Clashes, and Mud Sport/Tar Shot/Wonder Guard Clash outcomes. All 98 completion tests, adjacent regressions, bindings, route inventory, 76 frontend tests, 54 script checks, TypeScript and formatting passed. The full Rust suite passed with localhost networking: 917 passed, one ignored inventory; that inventory passed separately. Generated bindings were normalized and TypeScript/format/diff checks passed afterward. App 0.72.0, engine 0.64.0-core, protocol 73.
+
+
+### MOVE-A30: Laser Focus conditional defenses (6 November 2026)
+
+Laser Focus prepares the next Physical or Special move. If that attempt's Accuracy reaches at least five successes above its required action difficulty, its damage ignores defenses. This is independent of Critical bonus dice, Shields, Force Fields and type/ability immunity. Support moves preserve preparation; an accepted damaging attempt consumes it even on a miss. Clash's fixed damage already has no defenses.
+
+Preparation is bound to the cast, with saved per-recipient Accuracy used for area attacks. Prepared cast effects remain while a frozen pending cast continues after source fainting, then clear with their source/sequence. Recall/faint still clears unspent preparation. Serialization and undo preserve the state; historical encounters keep prior behavior.
+
+Validation covers exact five-extra-success boundaries at different action difficulties, Battle Armor, Support preservation, misses, undo, saved pending casts, Force Field final-damage reduction, Ghost/Wonder Guard immunity, per-target area results, source-faint continuation, recall and historical fallback. All 103 completion tests, adjacent regressions, bindings, route inventory, 76 frontend tests, 54 script checks, TypeScript and formatting passed. Verification resumed from its interrupted binding/frontend stage without rerunning completed checks. App 0.73.0, engine 0.65.0-core, protocol 74.

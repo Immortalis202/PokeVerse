@@ -407,7 +407,7 @@ pub fn react(
         responded(c);
     }
     break_cover(c, id);
-    extra::accuracy_attempt(c, id, &m, cat)?;
+    extra::accuracy_attempt(c, id, &m, cat, p.actions + 1)?;
     if net >= (p.actions + 1) as i32 {
         let (timing, priority) = number(&m, "Reaction")
             .map(|n| ("before", n))

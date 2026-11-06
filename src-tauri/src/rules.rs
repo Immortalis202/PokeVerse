@@ -224,6 +224,7 @@ pub fn accuracy(
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
     if [
         ENGINE,
+        CHARGE_MOVE_ENGINE,
         SELF_AUXILIARY_MOVES_ENGINE,
         TAR_SHOT_ENGINE,
         SPORT_FIELDS_ENGINE,
@@ -496,7 +497,9 @@ pub fn damage_pool(
     let defense =
         crate::combat::decoys::pool_defense(c, key, &target.id, &m, defense_source == "Vitality")
             .unwrap_or(defense);
-    let defense = if crate::combat::special::enabled(c) && m["Attributes"]["IgnoreDefenses"] == true
+    let defense = if (crate::combat::special::enabled(c)
+        && m["Attributes"]["IgnoreDefenses"] == true)
+        || crate::combat::completion::laser_defenses(c, key, sequence, &target.id)
     {
         0
     } else {
