@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.68.0-core",
-  "release": "0.76.0",
-  "protocol": 77,
+  "engine": "0.69.0-core",
+  "release": "0.77.0",
+  "protocol": 78,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -1029,6 +1029,18 @@
         "completion_a33_curious_medicine_adopts_the_ruling_and_historical_moves_remain_manual"
       ],
       "scope": "Clear Smog resets the five Attributes; Haze and Freezy Frost reset Attributes plus numeric Traits. User ruling 6 November 2026: retain active passive bonuses, clear applied move and triggered-ability changes. Applied item/copy grants are cleared; active fields, passive held/weather/conditional abilities, permanent stats and non-stat tags remain. Curious Medicine adopts the same reset. Freezy Frost uses the reviewed final-evolution guard."
+    },
+    {
+      "id": "move-completion-a34",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A34",
+      "fixtures": [
+        "completion_a34_detection_prevents_only_evade_and_only_against_the_marking_caster",
+        "completion_a34_detection_bypasses_only_its_specific_innate_ghost_immunity_pairs",
+        "completion_a34_sweet_scent_affects_each_foe_against_all_attackers",
+        "completion_a34_saved_detection_survives_knockout_for_user_stat_effects_and_clears_on_recall"
+      ],
+      "scope": "Foresight and Odor Sleuth prevent their marked target from Evading that caster and bypass innate Ghost versus Normal/Fight immunity in both attack directions for that caster-target pair. Sweet Scent prevents affected foes from Evading any moves. Scene marks clear on target recall/faint; saved detection pairs preserve damage-linked effects through knockout. Accuracy, Clash and unrelated type/ability immunity remain independent. Outside-battle tracking/attraction remains narrative."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -1045,5 +1057,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "1ab38810725d6576336b28f058b717361c19d5aeb104c05cc4b8e1dbe99b2974"
+  "move_completion_registry_hash": "8f7e3a0b2aa17b03b3b75e7a5645cc908337656e6b993ca795a11010c526bf1e"
 }

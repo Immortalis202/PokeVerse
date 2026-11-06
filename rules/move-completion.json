@@ -1569,6 +1569,31 @@
           "final_stage_fail": true
         }
       }
+    },
+    "MOVE-A34": {
+      "engine": "0.69.0-core",
+      "kind": "detection",
+      "scope": "Foresight and Odor Sleuth prevent their marked target from Evading that caster and bypass innate Ghost versus Normal/Fight immunity in both attack directions for that caster-target pair. Sweet Scent prevents affected foes from Evading any moves. Scene marks clear on target recall/faint; saved detection pairs preserve damage-linked effects through knockout. Accuracy, Clash and unrelated type/ability immunity remain independent. Outside-battle tracking/attraction remains narrative.",
+      "moves": {
+        "Foresight": {
+          "source": "Pokerole-Data/v3.0/Moves/Foresight.json",
+          "sha256": "eefa9d2e797b612cf734636bbff3f8a74834a2f289e49d60b06f74700aff2227",
+          "effect": "Single Target. The Foe cannot Evade Moves performed by the User. User ignores Ghost-Type immunity to Normal and Fight-Type Moves and vice versa.",
+          "detection": true
+        },
+        "Odor Sleuth": {
+          "source": "Pokerole-Data/v3.0/Moves/Odor Sleuth.json",
+          "sha256": "e93cb0d22c5b78380ae1ec5382a6d04bca531a44e2a1de5ffb8e245e3e2f20be",
+          "effect": "Single Target. The Foe cannot Evade Moves performed by the User. User ignores Ghost-Type immunity to Normal and Fight-Type Moves and vice versa. Out of battle, Add successes of this Move to any roll for Tracking targets.",
+          "detection": true
+        },
+        "Sweet Scent": {
+          "source": "Pokerole-Data/v3.0/Moves/Sweet Scent.json",
+          "sha256": "e33daed37892db71f027fb9463b5ff5e465fc4d75bad851a1bb5b5e02345b922",
+          "effect": "Target All Foes in Range. Those affected cannot Evade Moves. Out of Battle, it will attract wild Pokemon.",
+          "detection": false
+        }
+      }
     }
   },
   "printed_review": {

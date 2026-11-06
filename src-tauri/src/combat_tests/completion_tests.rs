@@ -5557,3 +5557,192 @@ fn completion_a33_curious_medicine_adopts_the_ruling_and_historical_moves_remain
         );
     }
 }
+
+fn detection_attack(c: &Campaign, a: &str, t: &str, name: &str) -> Campaign {
+    let mut c = c.clone();
+    turn(&mut c, a, name);
+    let mut action = super::targeting_tests::attack(a, vec![t.into()], name);
+    if let Action::AccuracyTargets {
+        success_modifier, ..
+    } = &mut action
+    {
+        *success_modifier = 3;
+    }
+    roll(&c, "gm", &action, 1)
+}
+#[test]
+fn completion_a34_detection_prevents_only_evade_and_only_against_the_marking_caster() {
+    for name in ["Foresight", "Odor Sleuth"] {
+        let (mut c, a, t) = setup(name);
+        let other = reserve(&mut c, &a);
+        pm(&mut c, &other).deployed = true;
+        pm(&mut c, &other).field_slot = Some(1);
+        c.battle.as_mut().unwrap().slots_per_side = 2;
+        let c = resolve(&pending(&c, &a, &t, name));
+        let incoming = detection_attack(&c, &a, &t, "Tackle");
+        let evade = Action::React {
+            combatant_id: t.clone(),
+            kind: "evade".into(),
+            move_name: "Evasion".into(),
+            reason: "A marked foe cannot Evade this caster".into(),
+        };
+        assert!(rules::dice_count(&incoming, &evade, &catalog())
+            .unwrap_err()
+            .message
+            .contains("detection"));
+        let clash = Action::React {
+            combatant_id: t.clone(),
+            kind: "clash".into(),
+            move_name: "Tackle".into(),
+            reason: "Detection does not forbid Clash".into(),
+        };
+        assert!(rules::dice_count(&incoming, &clash, &catalog()).is_ok());
+        let incoming = detection_attack(&c, &other, &t, "Tackle");
+        assert!(
+            rules::dice_count(&incoming, &evade, &catalog()).is_ok(),
+            "third-party moves remain evadable"
+        );
+    }
+}
+#[test]
+fn completion_a34_detection_bypasses_only_its_specific_innate_ghost_immunity_pairs() {
+    for name in ["Foresight", "Odor Sleuth"] {
+        for (target, attack, effect) in [
+            ("Gastly", "Tackle", 0),
+            ("Sableye", "Karate Chop", 1),
+            ("Eevee", "Lick", 0),
+            ("Obstagoon", "Lick", -1),
+        ] {
+            let (mut c, a, t) = setup(name);
+            set_species(&mut c, &t, target);
+            refresh_field(&mut c);
+            let other = reserve(&mut c, &a);
+            pm(&mut c, &other).deployed = true;
+            pm(&mut c, &other).field_slot = Some(1);
+            c.battle.as_mut().unwrap().slots_per_side = 2;
+            c = resolve(&pending(&c, &a, &t, name));
+            turn(&mut c, &a, attack);
+            let queued = ordinary_accuracy(&c, &a, &t, attack);
+            let pool = queued_damage_pool(&queued);
+            assert!(!pool.immune, "{name}: {target}, {attack}");
+            assert_eq!(pool.effectiveness, effect);
+            turn(&mut c, &other, attack);
+            let queued = ordinary_accuracy(&c, &other, &t, attack);
+            assert!(
+                queued_damage_pool(&queued).immune,
+                "detection is specific to the marking caster"
+            );
+        }
+        let (mut c, a, t) = setup(name);
+        set_species(&mut c, &t, "Gastly");
+        refresh_field(&mut c);
+        pm(&mut c, &t).selected_ability = "Wonder Guard".into();
+        c = resolve(&pending(&c, &a, &t, name));
+        turn(&mut c, &a, "Tackle");
+        assert!(
+            queued_damage_pool(&ordinary_accuracy(&c, &a, &t, "Tackle")).immune,
+            "innate Ghost immunity bypass does not bypass Wonder Guard"
+        );
+    }
+}
+#[test]
+fn completion_a34_sweet_scent_affects_each_foe_against_all_attackers() {
+    let (mut c, a, t) = setup("Sweet Scent");
+    let other = reserve(&mut c, &t);
+    pm(&mut c, &other).deployed = true;
+    pm(&mut c, &other).field_slot = Some(1);
+    let ally = reserve(&mut c, &a);
+    pm(&mut c, &ally).deployed = true;
+    pm(&mut c, &ally).field_slot = Some(1);
+    c.battle.as_mut().unwrap().slots_per_side = 2;
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .tactics
+        .enabled = true;
+    let c = support_cast(&c, &a, vec![t.clone(), other.clone()], "Sweet Scent");
+    for target in [&t, &other] {
+        for source in [&a, &ally] {
+            assert!(completion::cannot_evade(&c, source, target));
+        }
+        let incoming = detection_attack(&c, &ally, target, "Tackle");
+        let action = Action::React {
+            combatant_id: target.clone(),
+            kind: "evade".into(),
+            move_name: "Evasion".into(),
+            reason: "Sweet Scent prevents Evading another attacker's move too".into(),
+        };
+        assert!(rules::dice_count(&incoming, &action, &catalog()).is_err());
+    }
+    assert!(!completion::cannot_evade(&c, &t, &a));
+}
+#[test]
+fn completion_a34_saved_detection_survives_knockout_for_user_stat_effects_and_clears_on_recall() {
+    let (mut c, a, t) = setup("Foresight");
+    set_species(&mut c, &t, "Sableye");
+    refresh_field(&mut c);
+    pm(&mut c, &t).selected_ability = "Wonder Guard".into();
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .damaging_stats
+        .enabled = true;
+    c = resolve(&pending(&c, &a, &t, "Foresight"));
+    pm(&mut c, &t).hp = 1;
+    turn(&mut c, &a, "Superpower");
+    let queued = exact_accuracy(&c, &a, &t, "Superpower", 6);
+    assert!(!queued_damage_pool(&queued).immune);
+    let c = roll(&queued, "gm", &damage_command(&queued), 6);
+    assert_eq!(p(&c, &t).hp, 0);
+    assert!(!completion::cannot_evade(&c, &a, &t));
+    assert!(q(&c)
+        .damage_context
+        .as_ref()
+        .unwrap()
+        .field_snapshot
+        .as_ref()
+        .unwrap()
+        .detected_pairs
+        .as_ref()
+        .unwrap()
+        .contains(&(a.clone(), t.clone())));
+    let c: Campaign = serde_json::from_str(&serde_json::to_string(&c).unwrap()).unwrap();
+    let c = resolve(&c);
+    assert_eq!(stat(&c, &a, "Strength"), -1);
+    assert_eq!(stat(&c, &a, "Defense"), -1);
+    for name in ["Foresight", "Odor Sleuth", "Sweet Scent"] {
+        let (mut c, a, t) = setup(name);
+        let incoming = reserve(&mut c, &t);
+        let c = if name == "Sweet Scent" {
+            support_cast(&c, &a, vec![t.clone()], name)
+        } else {
+            resolve(&pending(&c, &a, &t, name))
+        };
+        let c = spider_switch(&c, &t, &incoming, false);
+        assert!(!completion::cannot_evade(&c, &a, &t));
+        let (mut c, a, t) = setup(name);
+        c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
+            Box::new(completion::initial(STAT_RESET_MOVES_ENGINE));
+        if name == "Sweet Scent" {
+            let action = super::targeting_tests::attack(&a, vec![t], name);
+            c = roll(&c, "gm", &action, 6);
+            while c.battle.as_ref().unwrap().flow.as_ref().unwrap().window {
+                c = pass(&c);
+            }
+        } else {
+            c = pending(&c, &a, &t, name);
+        }
+        assert_eq!(
+            battle::transition(&c, "gm", &cmd(&c), vec![], &catalog())
+                .unwrap_err()
+                .code,
+            "manual_rule"
+        );
+    }
+}

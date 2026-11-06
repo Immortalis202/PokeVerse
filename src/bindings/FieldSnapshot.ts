@@ -2,6 +2,7 @@
 import type { Weather } from "./Weather";
 
 export type FieldSnapshot = {
+  detected_pairs: Array<[string, string]> | null;
   fire_vulnerable: Array<string> | null;
   base_attribute_defenses: { [key in string]?: [number, number] };
   weather: Weather | null;

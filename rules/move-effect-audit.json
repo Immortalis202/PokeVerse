@@ -1,8 +1,8 @@
 {
   "version": 1,
   "date": "2026-11-06",
-  "release": "0.76.0",
-  "engine": "0.68.0-core",
+  "release": "0.77.0",
+  "engine": "0.69.0-core",
   "scope": "892-card effect-route inventory; focused semantic review of status infliction, cure and protection clauses. M2-A through M2-E battle status clauses and MOVE-A01 damaging attribute clauses plus MOVE-A02 entry hazards delivered; see scoped registries and retained choices.",
   "limits": [
     "An executable route is not full card coverage.",
@@ -19,10 +19,10 @@
   "counts": {
     "routes": {
       "excluded": 38,
-      "executable-scope": 717,
+      "executable-scope": 720,
       "gm-choice": 1,
       "input-required": 16,
-      "manual-effect-route": 120
+      "manual-effect-route": 117
     },
     "status_clauses": {
       "excluded": 6,
@@ -14993,22 +14993,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A34: Foresight and Odor Sleuth prevent their marked target from Evading that caster and bypass innate Ghost versus Normal/Fight immunity in both attack directions for that caster-target pair. Sweet Scent prevents affected foes from Evading any moves. Scene marks clear on target recall/faint; saved detection pairs preserve damage-linked effects through knockout. Accuracy, Clash and unrelated type/ability immunity remain independent. Outside-battle tracking/attraction remains narrative.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -27607,24 +27624,41 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [
         "Outside-battle narrative clauses are outside this battle audit"
       ],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A34: Foresight and Odor Sleuth prevent their marked target from Evading that caster and bypass innate Ghost versus Normal/Fight immunity in both attack directions for that caster-target pair. Sweet Scent prevents affected foes from Evading any moves. Scene marks clear on target recall/faint; saved detection pairs preserve damage-linked effects through knockout. Accuracy, Clash and unrelated type/ability immunity remain independent. Outside-battle tracking/attraction remains narrative.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -41026,24 +41060,41 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [
         "Outside-battle narrative clauses are outside this battle audit"
       ],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A34: Foresight and Odor Sleuth prevent their marked target from Evading that caster and bypass innate Ghost versus Normal/Fight immunity in both attack directions for that caster-target pair. Sweet Scent prevents affected foes from Evading any moves. Scene marks clear on target recall/faint; saved detection pairs preserve damage-linked effects through knockout. Accuracy, Clash and unrelated type/ability immunity remain independent. Outside-battle tracking/attraction remains narrative.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },

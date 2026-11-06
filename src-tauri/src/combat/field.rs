@@ -148,6 +148,8 @@ pub fn moonlight_night(c: &Campaign, legacy: bool, explicit: Option<bool>) -> bo
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct FieldSnapshot {
     #[serde(default)]
+    pub detected_pairs: Option<BTreeSet<(String, String)>>,
+    #[serde(default)]
     pub fire_vulnerable: Option<BTreeSet<String>>,
     #[serde(default)]
     pub base_attribute_defenses: BTreeMap<String, [i32; 2]>,
@@ -226,6 +228,20 @@ pub fn snapshot(c: &Campaign, cat: &Catalog) -> Result<FieldSnapshot> {
         );
     }
     Ok(FieldSnapshot {
+        detected_pairs: completion::definition(c, "Foresight").map(|_| {
+            flow(c)
+                .unwrap()
+                .special
+                .effects
+                .iter()
+                .filter(|e| {
+                    completion::definition(c, &e.name)
+                        .is_some_and(|(kind, d)| kind == "detection" && d["detection"] == true)
+                        && special::registered(c, &e.target).is_ok_and(|p| p.deployed && p.hp > 0)
+                })
+                .map(|e| (e.source.clone(), e.target.clone()))
+                .collect()
+        }),
         fire_vulnerable: completion::definition(c, "Tar Shot").map(|_| {
             flow(c)
                 .unwrap()
@@ -2217,4 +2233,18 @@ pub(super) fn fire_vulnerable(c: &Campaign, id: &str) -> bool {
             .iter()
             .any(|e| e.name == "Tar Shot" && e.target == id)
     }) && special::registered(c, id).is_ok_and(|p| p.deployed && p.hp > 0)
+}
+
+pub(super) fn detected(c: &Campaign, source: &str, target: &str) -> bool {
+    if let Some(pairs) = frozen(c).and_then(|s| s.detected_pairs.as_ref()) {
+        return pairs.contains(&(source.into(), target.into()));
+    }
+    flow(c).is_ok_and(|f| {
+        f.special.effects.iter().any(|e| {
+            e.source == source
+                && e.target == target
+                && completion::definition(c, &e.name)
+                    .is_some_and(|(kind, d)| kind == "detection" && d["detection"] == true)
+        })
+    }) && special::registered(c, target).is_ok_and(|p| p.deployed && p.hp > 0)
 }

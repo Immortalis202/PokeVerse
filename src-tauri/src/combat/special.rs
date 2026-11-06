@@ -2057,7 +2057,9 @@ pub fn formula(
     let mut immune = false;
     if name != "Sonic Boom" {
         for dt in field::types(c, t, cat)? {
-            let n = if extra::ignores_ghost(c, a, ty, &dt) {
+            let n = if extra::ignores_ghost(c, a, ty, &dt)
+                || completion::ghost_pair(c, a, t, ty, &dt)
+            {
                 0
             } else {
                 rules::type_effect(ty, &dt)?

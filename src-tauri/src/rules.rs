@@ -224,6 +224,7 @@ pub fn accuracy(
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
     if [
         ENGINE,
+        STAT_RESET_MOVES_ENGINE,
         SHELTER_ENGINE,
         DRAGON_CHEER_ENGINE,
         LASER_FOCUS_ENGINE,
@@ -731,7 +732,9 @@ pub fn type_matchup(
     let mut immune = false;
     let mut ignore_resistance = crate::combat::provenance::ignore_resistance(c, attacker, target);
     for t in crate::combat::field::types(c, target, catalog)? {
-        let effect = if crate::combat::extra::ignores_ghost(c, attacker, move_type, &t) {
+        let effect = if crate::combat::extra::ignores_ghost(c, attacker, move_type, &t)
+            || crate::combat::completion::ghost_pair(c, attacker, target, move_type, &t)
+        {
             0
         } else {
             type_effect(move_type, &t)?

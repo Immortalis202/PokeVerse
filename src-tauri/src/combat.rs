@@ -652,6 +652,11 @@ fn reaction_pool(c: &Campaign, id: &str, kind: &str, name: &str, cat: &Catalog) 
                 "This target pattern requires adjudication",
             ));
         }
+        if kind == "evade" && completion::cannot_evade(c, &incoming.actor_id, id) {
+            return Err(error(
+                "A reviewed detection effect prevents Evading this user's move",
+            ));
+        }
         if kind == "evade"
             && (m["Attributes"]["NeverMiss"].as_bool() == Some(true)
                 || reviewed::syrup(c, fighter(c, &incoming.actor_id)?, p))
@@ -1140,6 +1145,7 @@ pub fn transition(
     if let Some(setup) = field::start_setup(a) {
         if ![
             ENGINE,
+            STAT_RESET_MOVES_ENGINE,
             SHELTER_ENGINE,
             DRAGON_CHEER_ENGINE,
             LASER_FOCUS_ENGINE,
@@ -1196,6 +1202,7 @@ pub fn transition(
             setup,
             [
                 ENGINE,
+                STAT_RESET_MOVES_ENGINE,
                 SHELTER_ENGINE,
                 DRAGON_CHEER_ENGINE,
                 LASER_FOCUS_ENGINE,
@@ -2462,7 +2469,10 @@ fn transition_inner(
                     0,
                 ) == 1;
             if (abilities::enabled(c) || items::enabled(c))
-                && (!current(c)?.targets.is_empty() || tar_fire)
+                && (!current(c)?.targets.is_empty()
+                    || tar_fire
+                    || (completion::definition(c, "Foresight").is_some()
+                        && field::detected(c, combatant_id, &current(c)?.target_id)))
                 && current(c)?.damage_context.is_none()
             {
                 let p = fighter(c, combatant_id)?;
@@ -3219,6 +3229,7 @@ fn transition_inner(
                 b.flow = Some(TurnFlow {
                     identity_moves: [
                         ENGINE,
+                        STAT_RESET_MOVES_ENGINE,
                         SHELTER_ENGINE,
                         DRAGON_CHEER_ENGINE,
                         LASER_FOCUS_ENGINE,
@@ -3265,6 +3276,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     status_escalation: [
                         ENGINE,
+                        STAT_RESET_MOVES_ENGINE,
                         SHELTER_ENGINE,
                         DRAGON_CHEER_ENGINE,
                         LASER_FOCUS_ENGINE,
@@ -3310,6 +3322,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     spite: [
                         ENGINE,
+                        STAT_RESET_MOVES_ENGINE,
                         SHELTER_ENGINE,
                         DRAGON_CHEER_ENGINE,
                         LASER_FOCUS_ENGINE,
@@ -3354,6 +3367,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     will_drains: [
                         ENGINE,
+                        STAT_RESET_MOVES_ENGINE,
                         SHELTER_ENGINE,
                         DRAGON_CHEER_ENGINE,
                         LASER_FOCUS_ENGINE,
@@ -3397,6 +3411,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     direct_status: [
                         ENGINE,
+                        STAT_RESET_MOVES_ENGINE,
                         SHELTER_ENGINE,
                         DRAGON_CHEER_ENGINE,
                         LASER_FOCUS_ENGINE,
@@ -3439,6 +3454,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     chance_status: [
                         ENGINE,
+                        STAT_RESET_MOVES_ENGINE,
                         SHELTER_ENGINE,
                         DRAGON_CHEER_ENGINE,
                         LASER_FOCUS_ENGINE,
@@ -3480,6 +3496,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     battlefield_review: [
                         ENGINE,
+                        STAT_RESET_MOVES_ENGINE,
                         SHELTER_ENGINE,
                         DRAGON_CHEER_ENGINE,
                         LASER_FOCUS_ENGINE,
@@ -3517,6 +3534,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     entry_hazards: [
                         ENGINE,
+                        STAT_RESET_MOVES_ENGINE,
                         SHELTER_ENGINE,
                         DRAGON_CHEER_ENGINE,
                         LASER_FOCUS_ENGINE,
@@ -3554,6 +3572,7 @@ fn transition_inner(
                     damaging_stats: Box::new(damaging_stats::StatMoveState {
                         enabled: [
                             ENGINE,
+                            STAT_RESET_MOVES_ENGINE,
                             SHELTER_ENGINE,
                             DRAGON_CHEER_ENGINE,
                             LASER_FOCUS_ENGINE,
@@ -3592,6 +3611,7 @@ fn transition_inner(
                     }),
                     cure_protection: [
                         ENGINE,
+                        STAT_RESET_MOVES_ENGINE,
                         SHELTER_ENGINE,
                         DRAGON_CHEER_ENGINE,
                         LASER_FOCUS_ENGINE,
@@ -3631,6 +3651,7 @@ fn transition_inner(
                     recurring: Box::new(recurring::RecurringState {
                         enabled: [
                             ENGINE,
+                            STAT_RESET_MOVES_ENGINE,
                             SHELTER_ENGINE,
                             DRAGON_CHEER_ENGINE,
                             LASER_FOCUS_ENGINE,
@@ -3673,6 +3694,7 @@ fn transition_inner(
                     compound: compound::CompoundState {
                         enabled: [
                             ENGINE,
+                            STAT_RESET_MOVES_ENGINE,
                             SHELTER_ENGINE,
                             DRAGON_CHEER_ENGINE,
                             LASER_FOCUS_ENGINE,
@@ -3715,6 +3737,7 @@ fn transition_inner(
                     },
                     house_rules: [
                         ENGINE,
+                        STAT_RESET_MOVES_ENGINE,
                         SHELTER_ENGINE,
                         DRAGON_CHEER_ENGINE,
                         LASER_FOCUS_ENGINE,
@@ -3763,6 +3786,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     interaction_rules: [
                         ENGINE,
+                        STAT_RESET_MOVES_ENGINE,
                         SHELTER_ENGINE,
                         DRAGON_CHEER_ENGINE,
                         LASER_FOCUS_ENGINE,
@@ -3814,6 +3838,7 @@ fn transition_inner(
                     standalone: standalone::StandaloneState {
                         enabled: [
                             ENGINE,
+                            STAT_RESET_MOVES_ENGINE,
                             SHELTER_ENGINE,
                             DRAGON_CHEER_ENGINE,
                             LASER_FOCUS_ENGINE,
@@ -3868,6 +3893,7 @@ fn transition_inner(
                     information: information::InformationState {
                         enabled: [
                             ENGINE,
+                            STAT_RESET_MOVES_ENGINE,
                             SHELTER_ENGINE,
                             DRAGON_CHEER_ENGINE,
                             LASER_FOCUS_ENGINE,
@@ -3923,6 +3949,7 @@ fn transition_inner(
                     forms: forms::FormState {
                         enabled: [
                             ENGINE,
+                            STAT_RESET_MOVES_ENGINE,
                             SHELTER_ENGINE,
                             DRAGON_CHEER_ENGINE,
                             LASER_FOCUS_ENGINE,
@@ -3980,6 +4007,7 @@ fn transition_inner(
                         completion: items::completion::CompletionState {
                             enabled: [
                                 ENGINE,
+                                STAT_RESET_MOVES_ENGINE,
                                 SHELTER_ENGINE,
                                 DRAGON_CHEER_ENGINE,
                                 LASER_FOCUS_ENGINE,
@@ -4031,6 +4059,7 @@ fn transition_inner(
                         },
                         enabled: [
                             ENGINE,
+                            STAT_RESET_MOVES_ENGINE,
                             SHELTER_ENGINE,
                             DRAGON_CHEER_ENGINE,
                             LASER_FOCUS_ENGINE,
@@ -4088,6 +4117,7 @@ fn transition_inner(
                     events: events::EventState {
                         enabled: [
                             ENGINE,
+                            STAT_RESET_MOVES_ENGINE,
                             SHELTER_ENGINE,
                             DRAGON_CHEER_ENGINE,
                             LASER_FOCUS_ENGINE,
@@ -4145,6 +4175,7 @@ fn transition_inner(
                     },
                     provenance_rules: [
                         ENGINE,
+                        STAT_RESET_MOVES_ENGINE,
                         SHELTER_ENGINE,
                         DRAGON_CHEER_ENGINE,
                         LASER_FOCUS_ENGINE,
@@ -4202,6 +4233,7 @@ fn transition_inner(
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            STAT_RESET_MOVES_ENGINE,
                             SHELTER_ENGINE,
                             DRAGON_CHEER_ENGINE,
                             LASER_FOCUS_ENGINE,
@@ -4262,6 +4294,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            STAT_RESET_MOVES_ENGINE,
                             SHELTER_ENGINE,
                             DRAGON_CHEER_ENGINE,
                             LASER_FOCUS_ENGINE,
@@ -4322,6 +4355,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        STAT_RESET_MOVES_ENGINE,
                         SHELTER_ENGINE,
                         DRAGON_CHEER_ENGINE,
                         LASER_FOCUS_ENGINE,
@@ -4382,6 +4416,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            STAT_RESET_MOVES_ENGINE,
                             SHELTER_ENGINE,
                             DRAGON_CHEER_ENGINE,
                             LASER_FOCUS_ENGINE,
@@ -4445,6 +4480,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            STAT_RESET_MOVES_ENGINE,
                             SHELTER_ENGINE,
                             DRAGON_CHEER_ENGINE,
                             LASER_FOCUS_ENGINE,
@@ -4509,6 +4545,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            STAT_RESET_MOVES_ENGINE,
                             SHELTER_ENGINE,
                             DRAGON_CHEER_ENGINE,
                             LASER_FOCUS_ENGINE,
@@ -4574,6 +4611,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            STAT_RESET_MOVES_ENGINE,
                             SHELTER_ENGINE,
                             DRAGON_CHEER_ENGINE,
                             LASER_FOCUS_ENGINE,
@@ -4640,6 +4678,7 @@ fn transition_inner(
                     special: Box::new(special::SpecialState {
                         enabled: [
                             ENGINE,
+                            STAT_RESET_MOVES_ENGINE,
                             SHELTER_ENGINE,
                             DRAGON_CHEER_ENGINE,
                             LASER_FOCUS_ENGINE,
@@ -4706,6 +4745,7 @@ fn transition_inner(
                     }),
                     ability_rules: [
                         ENGINE,
+                        STAT_RESET_MOVES_ENGINE,
                         SHELTER_ENGINE,
                         DRAGON_CHEER_ENGINE,
                         LASER_FOCUS_ENGINE,
@@ -4774,6 +4814,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            STAT_RESET_MOVES_ENGINE,
                             SHELTER_ENGINE,
                             DRAGON_CHEER_ENGINE,
                             LASER_FOCUS_ENGINE,
@@ -4842,6 +4883,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            STAT_RESET_MOVES_ENGINE,
                             SHELTER_ENGINE,
                             DRAGON_CHEER_ENGINE,
                             LASER_FOCUS_ENGINE,

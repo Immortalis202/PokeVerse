@@ -224,6 +224,25 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
                 );
             }
         }
+        "detection" => {
+            if !immune_target(c, q, cat)? {
+                let started = battle(c)?.round;
+                flow_mut(c).special.effects.retain(|e| {
+                    e.name != q.move_name
+                        || e.target != q.target_id
+                        || (d["detection"] == true && e.source != q.actor_id)
+                });
+                flow_mut(c).special.effects.push(special::TimedEffect {
+                    name: q.move_name.clone(),
+                    source: q.actor_id.clone(),
+                    target: q.target_id.clone(),
+                    rounds: None,
+                    amount: 0,
+                    started,
+                    slot: "detection".into(),
+                });
+            }
+        }
         "stat-reset" => {
             if d["field"] == true {
                 let ids: Vec<_> = battle(c)?
@@ -1477,4 +1496,26 @@ pub(super) fn reset_stats(c: &mut Campaign, id: &str, traits: bool) -> Result<()
         !affected.iter().any(|key| keys.contains(key))
     });
     Ok(())
+}
+
+pub fn cannot_evade(c: &Campaign, source: &str, target: &str) -> bool {
+    flow(c).is_ok_and(|f| {
+        f.special.effects.iter().any(|e| {
+            e.target == target
+                && definition(c, &e.name).is_some_and(|(kind, d)| {
+                    kind == "detection" && (d["detection"] != true || e.source == source)
+                })
+        })
+    })
+}
+pub fn ghost_pair(
+    c: &Campaign,
+    a: &Combatant,
+    t: &Combatant,
+    move_type: &str,
+    target_type: &str,
+) -> bool {
+    ((["Normal", "Fight", "Fighting"].contains(&move_type) && target_type == "Ghost")
+        || (move_type == "Ghost" && target_type == "Normal"))
+        && field::detected(c, &a.id, &t.id)
 }
