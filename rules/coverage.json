@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.65.0-core",
-  "release": "0.73.0",
-  "protocol": 74,
+  "engine": "0.66.0-core",
+  "release": "0.74.0",
+  "protocol": 75,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -992,6 +992,17 @@
         "completion_a30_laser_focus_recall_and_historical_route"
       ],
       "scope": "Laser Focus prepares the next Physical/Special move: if its accuracy has at least five successes above that attempt's required action difficulty, ignore defenses. A damaging attempt consumes it even on a miss; Support preserves it. The condition is per recipient for area casts and survives saved casts, knockout continuation and undo. Critical damage, Shields, Force Fields and type/ability immunity remain independent; Clash has fixed damage without defenses."
+    },
+    {
+      "id": "move-completion-a31",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A31",
+      "fixtures": [
+        "completion_a31_dragon_cheer_uses_catalog_allies_pattern_and_separates_dragon_stats",
+        "completion_a31_dragon_cheer_stat_protection_and_stat_abilities_do_not_change_high_critical",
+        "completion_a31_dragon_cheer_saved_scene_lifetime_and_historical_scope"
+      ],
+      "scope": "Dragon Cheer gives allies in range High Critical on Physical/Special moves and raises Strength/Special by one only for allies currently Dragon-typed. It preserves the supplied All Allies targeting pattern, including its user requirement; no extra self-exclusion is invented. Stat protection and Contrary/Simple affect the stat clauses independently of High Critical. Recast does not stack; target recall/faint ends the scene effect."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -1008,5 +1019,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "cbf64ce86309a9968f19169c76f44dbae1cf6470a5a8ecc075ba144a7e692821"
+  "move_completion_registry_hash": "fec8f439b516e06cd1c59c0ac7a74b08f513b06ed79a5d7502359a74b8008987"
 }

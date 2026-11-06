@@ -901,6 +901,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
     let ended = decision(&c, "gm", Action::EndBattle);
     for engine in [
         ENGINE,
+        LASER_FOCUS_ENGINE,
         CHARGE_MOVE_ENGINE,
         SELF_AUXILIARY_MOVES_ENGINE,
         TAR_SHOT_ENGINE,
@@ -966,6 +967,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.entry_hazards,
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -998,21 +1000,32 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             .contains(&engine)
         );
         assert_eq!(
-            flow.completion.blocks.contains("MOVE-A30"),
+            flow.completion.blocks.contains("MOVE-A31"),
             engine == ENGINE
         );
         assert_eq!(
+            flow.completion.blocks.contains("MOVE-A30"),
+            [ENGINE, LASER_FOCUS_ENGINE].contains(&engine)
+        );
+        assert_eq!(
             flow.completion.blocks.contains("MOVE-A29"),
-            [ENGINE, CHARGE_MOVE_ENGINE].contains(&engine)
+            [ENGINE, LASER_FOCUS_ENGINE, CHARGE_MOVE_ENGINE].contains(&engine)
         );
         assert_eq!(
             flow.completion.blocks.contains("MOVE-A28"),
-            [ENGINE, CHARGE_MOVE_ENGINE, SELF_AUXILIARY_MOVES_ENGINE].contains(&engine)
+            [
+                ENGINE,
+                LASER_FOCUS_ENGINE,
+                CHARGE_MOVE_ENGINE,
+                SELF_AUXILIARY_MOVES_ENGINE
+            ]
+            .contains(&engine)
         );
         assert_eq!(
             flow.completion.blocks.contains("MOVE-A27"),
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE
@@ -1023,6 +1036,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A26"),
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -1034,6 +1048,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A25"),
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -1046,6 +1061,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A24"),
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -1059,6 +1075,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A23"),
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -1073,6 +1090,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A22"),
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -1088,6 +1106,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A21"),
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -1104,6 +1123,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A20"),
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -1121,6 +1141,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A19"),
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -1139,6 +1160,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A18"),
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -1158,6 +1180,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A17"),
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -1178,6 +1201,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A16"),
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -1199,6 +1223,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A15"),
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -1221,6 +1246,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A14"),
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -1244,6 +1270,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A13"),
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -1268,6 +1295,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A12"),
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -1293,6 +1321,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A11"),
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -1319,6 +1348,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A10"),
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -1346,6 +1376,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A09"),
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -1374,6 +1405,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A08"),
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -1403,6 +1435,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A07"),
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -1433,6 +1466,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A06"),
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -1464,6 +1498,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A05"),
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -1496,6 +1531,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A04"),
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -1529,6 +1565,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A03"),
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -1563,6 +1600,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.damaging_stats.enabled,
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -1599,6 +1637,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.battlefield_review,
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -1636,6 +1675,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.direct_status,
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -1678,6 +1718,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.chance_status,
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -1719,6 +1760,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.compound.enabled,
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -1759,6 +1801,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.recurring.enabled,
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -1798,6 +1841,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.battlefield_review,
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -1835,6 +1879,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.cure_protection,
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -1873,6 +1918,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.spite,
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -1917,6 +1963,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.will_drains,
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -1960,6 +2007,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.status_escalation,
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -2005,6 +2053,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.identity_moves,
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -2051,6 +2100,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.interaction_rules,
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -2101,6 +2151,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.items.completion.enabled,
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -2150,6 +2201,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.house_rules,
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -2198,6 +2250,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.forms.enabled,
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -2251,6 +2304,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.information.enabled,
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,
@@ -2303,6 +2357,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.standalone.enabled,
             [
                 ENGINE,
+                LASER_FOCUS_ENGINE,
                 CHARGE_MOVE_ENGINE,
                 SELF_AUXILIARY_MOVES_ENGINE,
                 TAR_SHOT_ENGINE,

@@ -1,6 +1,6 @@
 # Move-effect audit: milestone 1
 
-Snapshot refreshed: 6 November 2026, app **0.73.0**, engine **0.65.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
+Snapshot refreshed: 6 November 2026, app **0.74.0**, engine **0.66.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
 
 ## Deliverables and limits
 
@@ -18,13 +18,13 @@ The diagnostic deliberately bypasses accuracy, damage, targeting expansion, acti
 
 | Effect-route result | Cards | Meaning |
 | --- | ---: | --- |
-| executable-scope | 712 | At least one probe resolves; only recorded scopes are asserted. |
+| executable-scope | 713 | At least one probe resolves; only recorded scopes are asserted. |
 | input-required | 16 | Existing handler requests a selection, resource, weather or other legitimate prerequisite. |
-| manual-effect-route | 125 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
+| manual-effect-route | 124 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
 | gm-choice | 1 | Hold Hands: narrative battle-ending decision remains with the storyteller. |
 | excluded | 38 | Supplied Max/Z cards and the user-excluded Sappy Seed. |
 
-These totals sum to 892. **125 manual-effect-route results remain after MOVE-A30. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
+These totals sum to 892. **124 manual-effect-route results remain after MOVE-A31. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
 
 | Focused status result | Cards |
 | --- | ---: |
@@ -193,7 +193,7 @@ A six triggers the single printed Chance pool. Serene Grace, Wonder Skin, Loaded
 
 New 0.36.0-core encounters enable the boxed `damaging_stats` state. Missing saved state defaults disabled; 0.35.0-core remains accepted with its previous M3 behavior. Protocol 45 carries the new state. App version is 0.44.0.
 
-**The whole move catalog is not complete.** The 125 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
+**The whole move catalog is not complete.** The 124 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
 
 
 ### MOVE-A01 verification (1 November 2026)
@@ -463,3 +463,10 @@ Laser Focus prepares the next Physical or Special move. If that attempt's Accura
 Preparation is bound to the cast, with saved per-recipient Accuracy used for area attacks. Prepared cast effects remain while a frozen pending cast continues after source fainting, then clear with their source/sequence. Recall/faint still clears unspent preparation. Serialization and undo preserve the state; historical encounters keep prior behavior.
 
 Validation covers exact five-extra-success boundaries at different action difficulties, Battle Armor, Support preservation, misses, undo, saved pending casts, Force Field final-damage reduction, Ghost/Wonder Guard immunity, per-target area results, source-faint continuation, recall and historical fallback. All 103 completion tests, adjacent regressions, bindings, route inventory, 76 frontend tests, 54 script checks, TypeScript and formatting passed. Verification resumed from its interrupted binding/frontend stage without rerunning completed checks. App 0.73.0, engine 0.65.0-core, protocol 74.
+
+
+### MOVE-A31: Dragon Cheer (6 November 2026)
+
+Dragon Cheer gives its selected recipients High Critical on Physical/Special moves. Recipients currently typed Dragon also gain one Strength and Special. The supplied All Allies targeting pattern retains the existing user-and-allies contract; the source has no explicit self-exclusion like Coaching. Stat protection and Simple/Contrary apply independently of High Critical. Recasting does not stack. The scene effect persists after caster departure and ends on recipient recall/faint.
+
+Validation covers the public multi-recipient Support path, required user inclusion, Dragon/non-Dragon recipients, exact critical thresholds, Physical/Special versus Support metadata, Clear Body, Simple, Contrary, current battle typing, recast, saved state, caster departure, recipient cleanup and historical fallback. All 106 completion tests, adjacent regressions, bindings, route inventory, 76 frontend tests, 54 script checks, TypeScript and formatting passed. App 0.74.0, engine 0.66.0-core, protocol 75.

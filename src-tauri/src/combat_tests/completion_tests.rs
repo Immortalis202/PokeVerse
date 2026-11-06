@@ -4873,3 +4873,122 @@ fn completion_a30_laser_focus_recall_and_historical_route() {
         "manual_rule"
     );
 }
+
+fn cheer_setup() -> (Campaign, String, String) {
+    let (mut c, a, t) = setup("Dragon Cheer");
+    let side = p(&c, &a).side.clone();
+    pm(&mut c, &t).side = side;
+    pm(&mut c, &t).field_slot = Some(1);
+    c.battle.as_mut().unwrap().slots_per_side = 2;
+    set_species(&mut c, &t, "Dragonite");
+    refresh_field(&mut c);
+    (c, a, t)
+}
+#[test]
+fn completion_a31_dragon_cheer_uses_catalog_allies_pattern_and_separates_dragon_stats() {
+    use crate::combat::field;
+    let (c, a, t) = cheer_setup();
+    let missing = super::targeting_tests::attack(&a, vec![t.clone()], "Dragon Cheer");
+    assert!(
+        rules::dice_count(&c, &missing, &catalog()).is_err(),
+        "preserve the supplied All Allies user requirement"
+    );
+    let c = support_cast(&c, &a, vec![a.clone(), t.clone()], "Dragon Cheer");
+    assert_eq!(stat(&c, &a, "Strength"), 0);
+    assert_eq!(stat(&c, &a, "Special"), 0);
+    assert_eq!(stat(&c, &t, "Strength"), 1);
+    assert_eq!(stat(&c, &t, "Special"), 1);
+    for id in [&a, &t] {
+        for name in ["Tackle", "Flamethrower"] {
+            let m = catalog().find("moves", "Name", name).unwrap();
+            assert_eq!(
+                field::move_data(&c, p(&c, id), &m)["Attributes"]["HighCritical"],
+                true
+            );
+        }
+        let m = catalog().find("moves", "Name", "Growth").unwrap();
+        assert!(field::move_data(&c, p(&c, id), &m)["Attributes"]["HighCritical"].is_null());
+    }
+    let mut cast = c.clone();
+    turn(&mut cast, &a, "Tackle");
+    let cast = exact_accuracy(&cast, &a, &t, "Tackle", 3);
+    assert!(q(&cast).critical);
+    let mut control = c.clone();
+    control
+        .battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .special
+        .effects
+        .retain(|e| e.name != "Dragon Cheer");
+    turn(&mut control, &a, "Tackle");
+    let control = exact_accuracy(&control, &a, &t, "Tackle", 3);
+    assert!(!q(&control).critical);
+}
+#[test]
+fn completion_a31_dragon_cheer_stat_protection_and_stat_abilities_do_not_change_high_critical() {
+    use crate::combat::field;
+    for (ability, expected) in [("Clear Body", 0), ("Simple", 2), ("Contrary", -1)] {
+        let (mut c, a, t) = cheer_setup();
+        pm(&mut c, &t).selected_ability = ability.into();
+        let mut c = support_cast(&c, &a, vec![a.clone(), t.clone()], "Dragon Cheer");
+        assert_eq!(stat(&c, &t, "Strength"), expected, "{ability}");
+        assert_eq!(stat(&c, &t, "Special"), expected);
+        turn(&mut c, &a, "Dragon Cheer");
+        c = support_cast(&c, &a, vec![a.clone(), t.clone()], "Dragon Cheer");
+        assert_eq!(stat(&c, &t, "Strength"), expected, "recast does not stack");
+        let m = catalog().find("moves", "Name", "Tackle").unwrap();
+        assert_eq!(
+            field::move_data(&c, p(&c, &t), &m)["Attributes"]["HighCritical"],
+            true
+        );
+    }
+    let (mut c, a, t) = cheer_setup();
+    set_species(&mut c, &t, "Eevee");
+    refresh_field(&mut c);
+    field::change_type(&mut c, &t, "replace", &["Dragon".into()]).unwrap();
+    let c = support_cast(&c, &a, vec![a.clone(), t.clone()], "Dragon Cheer");
+    assert_eq!(
+        stat(&c, &t, "Strength"),
+        1,
+        "use the ally's current battle type"
+    );
+}
+#[test]
+fn completion_a31_dragon_cheer_saved_scene_lifetime_and_historical_scope() {
+    use crate::combat::field;
+    let (mut c, a, t) = cheer_setup();
+    let incoming = reserve(&mut c, &a);
+    c.battle.as_mut().unwrap().slots_per_side = 2;
+    let c = support_cast(&c, &a, vec![a.clone(), t.clone()], "Dragon Cheer");
+    let mut c: Campaign = serde_json::from_str(&serde_json::to_string(&c).unwrap()).unwrap();
+    c = spider_switch(&c, &a, &incoming, false);
+    let m = catalog().find("moves", "Name", "Tackle").unwrap();
+    assert_eq!(
+        field::move_data(&c, p(&c, &t), &m)["Attributes"]["HighCritical"],
+        true,
+        "ally effect persists after caster departure"
+    );
+    assert!(field::move_data(&c, p(&c, &a), &m)["Attributes"]["HighCritical"].is_null());
+    let before = c.clone();
+    pm(&mut c, &t).hp = 0;
+    special::lifecycle(&before, &mut c, &catalog()).unwrap();
+    assert!(field::move_data(&c, p(&c, &t), &m)["Attributes"]["HighCritical"].is_null());
+    let (mut c, a, t) = cheer_setup();
+    c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion =
+        Box::new(completion::initial(LASER_FOCUS_ENGINE));
+    let action = super::targeting_tests::attack(&a, vec![a.clone(), t], "Dragon Cheer");
+    c = roll(&c, "gm", &action, 6);
+    while c.battle.as_ref().unwrap().flow.as_ref().unwrap().window {
+        c = pass(&c);
+    }
+    assert_eq!(
+        battle::transition(&c, "gm", &cmd(&c), vec![], &catalog())
+            .unwrap_err()
+            .code,
+        "manual_rule"
+    );
+}

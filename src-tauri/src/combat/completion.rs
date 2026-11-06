@@ -654,6 +654,13 @@ fn support_stat(
             continue;
         }
         for (key, amount) in d["changes"].as_object().unwrap() {
+            if let Some(types) = d["stat_types"].as_array() {
+                let actual = field::types(c, fighter(c, &target)?, cat)?;
+                if !types.iter().any(|t| actual.iter().any(|v| t == v.as_str())) {
+                    continue;
+                }
+            }
+
             let mut n = amount.as_i64().unwrap() as i32;
             if let Some(sunny) = d["sunny_amount"].as_i64() {
                 if matches!(
@@ -690,6 +697,11 @@ pub fn physical_defense(c: &Campaign, m: &serde_json::Value) -> bool {
         .is_some_and(|(_, d)| d["physical_defense"] == true)
 }
 pub fn move_data(c: &Campaign, p: &Combatant, m: &mut serde_json::Value) {
+    if ["Physical", "Special"].contains(&m["Category"].as_str().unwrap_or(""))
+        && self_support(c, p, "Dragon Cheer")
+    {
+        m["Attributes"]["HighCritical"] = true.into();
+    }
     if let Some(terrain) = definition(c, m["Name"].as_str().unwrap_or(""))
         .and_then(|(_, d)| d["reaction_terrain"].as_str())
     {

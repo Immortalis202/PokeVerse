@@ -36,7 +36,8 @@ The live source of remaining route work is `rules/move-effect-audit.json`. Its f
 | MOVE-A28 | Victory Dance and Autotomize stats and scene auxiliaries | Complete |
 | MOVE-A29 | Charge next-damaging-Electric cast bonus and Clash consistency | Complete |
 | MOVE-A30 | Laser Focus five-extra-successes defense condition | Complete |
-| MOVE-A31 | Dragon Cheer High Critical and conditional Dragon stats | Next |
+| MOVE-A31 | Dragon Cheer High Critical and conditional Dragon stats | Complete |
+| MOVE-A32 | Shelter defenses and per-target Accuracy protection | Next |
 | First Impression ruling | First eligible action round, confirmed by the user on 5 November 2026 | Implemented in MOVE-A24 |
 | Later blocks | Ordinary attacks with existing attributes; remaining stat changes, resets and swaps; type/damage conversions; field changes; conditional damage; timing/action restrictions; items; copy/selection effects | Open |
 

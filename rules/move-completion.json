@@ -1505,6 +1505,24 @@
           "auxiliary": true
         }
       }
+    },
+    "MOVE-A31": {
+      "engine": "0.66.0-core",
+      "kind": "support-stat",
+      "scope": "Dragon Cheer gives allies in range High Critical on Physical/Special moves and raises Strength/Special by one only for allies currently Dragon-typed. It preserves the supplied All Allies targeting pattern, including its user requirement; no extra self-exclusion is invented. Stat protection and Contrary/Simple affect the stat clauses independently of High Critical. Recast does not stack; target recall/faint ends the scene effect.",
+      "moves": {
+        "Dragon Cheer": {
+          "source": "Pokerole-Data/v3.0/Moves/Dragon Cheer.json",
+          "sha256": "40d18b8d54dfb4bcde787457d6411e338381fbd3d1e8592868cf1d69629f780f",
+          "effect": "Target Allies in Range. All Physical and Special Moves of the Allies now have the \"High Critical\" Added Effect. *If an Ally is a Dragon-Type, Increase their Strength and Special by 1.",
+          "changes": {
+            "Strength": 1,
+            "Special": 1
+          },
+          "stat_types": ["Dragon"],
+          "auxiliary": true
+        }
+      }
     }
   },
   "printed_review": {
