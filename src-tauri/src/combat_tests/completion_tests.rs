@@ -5900,3 +5900,68 @@ fn completion_a35_telekinesis_serialization_caster_departure_recall_and_historic
         "manual_rule"
     );
 }
+#[test]
+fn completion_a36_host_power_is_saved_once_and_spans_all_six_faces() {
+    let (c, a, t) = setup("Fickle Beam");
+    let c = ordinary_accuracy(&c, &a, &t, "Fickle Beam");
+    assert!(rules::dice_count(&c, &damage_command(&c), &catalog())
+        .unwrap_err()
+        .message
+        .contains("Host-roll Fickle Beam"));
+    let random = Action::SpecialMove {
+        command: special::SpecialCommand::Randomize {
+            sequence: q(&c).sequence,
+        },
+        reason: "Host power die".into(),
+    };
+    assert_eq!(rules::dice_count(&c, &random, &catalog()).unwrap(), 1);
+    let mut pools = Vec::new();
+    for face in 1..=6 {
+        let saved = roll(&c, "gm", &random, face);
+        assert!(rules::dice_count(&saved, &random, &catalog()).is_err());
+        let saved: Campaign =
+            serde_json::from_str(&serde_json::to_string(&saved).unwrap()).unwrap();
+        pools.push(rules::dice_count(&saved, &damage_command(&saved), &catalog()).unwrap());
+        let done = roll(&saved, "gm", &damage_command(&saved), 1);
+        assert!(done
+            .battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .queue
+            .is_empty());
+    }
+    for pair in pools.windows(2) {
+        assert_eq!(pair[1], pair[0] + 1);
+    }
+}
+#[test]
+fn completion_a36_keeps_json_special_and_historical_gate() {
+    let (mut c, a, t) = setup("Fickle Beam");
+    let m = crate::combat::field::move_data(
+        &c,
+        p(&c, &a),
+        &catalog().find("moves", "Name", "Fickle Beam").unwrap(),
+    );
+    assert_eq!(m["Damage1"], "Special");
+    assert_eq!(m["Type"], "Dragon");
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .completion
+        .blocks
+        .remove("MOVE-A36");
+    let c = ordinary_accuracy(&c, &a, &t, "Fickle Beam");
+    let random = Action::SpecialMove {
+        command: special::SpecialCommand::Randomize {
+            sequence: q(&c).sequence,
+        },
+        reason: "Historical cast".into(),
+    };
+    assert!(rules::dice_count(&c, &random, &catalog()).is_err());
+}

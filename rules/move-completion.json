@@ -1617,6 +1617,18 @@
           ]
         }
       }
+    },
+    "MOVE-A36": {
+      "engine": "0.71.0-core",
+      "kind": "ordinary",
+      "scope": "Host rolls one die before damage; its face is the Power for that saved cast. Preserve the JSON Special damage stat and Dragon type. No invented power table.",
+      "moves": {
+        "Fickle Beam": {
+          "source": "Pokerole-Data/v3.0/Moves/Fickle Beam.json",
+          "sha256": "30c30bae427ca465777cd58483cfd6e73240a24e815a5efaecaeb1b6d31604d3",
+          "effect": "Single Target Before you roll damage, Roll 1 die to determine this Move's Power. "
+        }
+      }
     }
   },
   "printed_review": {
@@ -1633,6 +1645,14 @@
       "pdf": 346,
       "visual_review": true,
       "decision": "Printed prose and icons show scene Blocking only. Remove unsupported OngoingDamage metadata in the application correction layer."
+    },
+    "fickle_beam": {
+      "source": "Pokerole-Data/POKEROLE COREBOOK 3.0 POKEDEX MASTER.pdf",
+      "sha256": "f8a1ab8c7c059c1e32b658a6770893e58f364fd4c8d28ca87ec912154cfd6cc2",
+      "printed": 450,
+      "pdf": 317,
+      "visual_review": true,
+      "decision": "Card supplies no separate power table. Retain JSON Special damage stat; printed Damage Pool says Strength plus X despite Special category."
     }
   }
 }

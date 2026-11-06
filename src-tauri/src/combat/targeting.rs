@@ -27,6 +27,7 @@ pub struct FieldEffect {
 pub(super) fn require_targeting(c: &Campaign) -> Result<()> {
     if ![
         ENGINE,
+        TELEKINESIS_MOVES_ENGINE,
         DETECTION_MOVES_ENGINE,
         STAT_RESET_MOVES_ENGINE,
         SHELTER_ENGINE,

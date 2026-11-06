@@ -354,7 +354,9 @@ export default function SpecialMoveControls({
       {pending && owned(pending.actor_id) && (
         <div className="notice">
           <strong>Pending move effect: {pending.move_name}</strong>
-          {["Magnitude", "Present"].includes(pending.move_name) &&
+          {(["Magnitude", "Present"].includes(pending.move_name) ||
+            (pending.move_name === "Fickle Beam" &&
+              !!f?.completion.blocks.includes("MOVE-A36"))) &&
             !(f?.house_rules && pending.move_name === "Bide") && (
               <button
                 disabled={disabled || s.random[pending.sequence] != null}

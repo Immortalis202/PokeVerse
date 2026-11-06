@@ -256,7 +256,9 @@ pub fn dice(c: &Campaign, cmd: &SpecialCommand, cat: &Catalog) -> Result<u32> {
         SpecialCommand::Randomize { sequence } => {
             let q = current(c)?;
             if q.sequence != *sequence
-                || !["Magnitude", "Present"].contains(&q.move_name.as_str())
+                || !(["Magnitude", "Present"].contains(&q.move_name.as_str())
+                    || (q.move_name == "Fickle Beam"
+                        && completion::definition(c, "Fickle Beam").is_some()))
                 || state(c).random.contains_key(sequence)
             {
                 return Err(error("No unresolved random move power"));
@@ -2557,6 +2559,13 @@ pub fn bonus(
         {
             4
         }
+        "Fickle Beam" if completion::definition(c, name).is_some() => {
+            *state(c)
+                .random
+                .get(&seq)
+                .ok_or_else(|| error("Host-roll Fickle Beam before rolling damage"))?
+                - 1
+        }
         "Magnitude" => {
             *state(c)
                 .random
@@ -2615,7 +2624,8 @@ pub fn move_data(c: &Campaign, p: &Combatant, m: &mut serde_json::Value) {
     {
         m["Power"] = serde_json::json!(2);
     }
-    if name == "Magnitude" {
+    if name == "Magnitude" || (name == "Fickle Beam" && completion::definition(c, &name).is_some())
+    {
         m["Power"] = serde_json::json!(1);
     }
     if m["Category"] != "Support"
