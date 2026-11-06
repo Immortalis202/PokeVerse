@@ -148,6 +148,8 @@ pub fn moonlight_night(c: &Campaign, legacy: bool, explicit: Option<bool>) -> bo
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct FieldSnapshot {
     #[serde(default)]
+    pub normal_electric: Option<BTreeSet<String>>,
+    #[serde(default)]
     pub detected_pairs: Option<BTreeSet<(String, String)>>,
     #[serde(default)]
     pub fire_vulnerable: Option<BTreeSet<String>>,
@@ -228,6 +230,15 @@ pub fn snapshot(c: &Campaign, cat: &Catalog) -> Result<FieldSnapshot> {
         );
     }
     Ok(FieldSnapshot {
+        normal_electric: completion::definition(c, "Plasma Fists").map(|_| {
+            battle(c)
+                .unwrap()
+                .combatants
+                .iter()
+                .filter(|p| completion::plasma(c, p))
+                .map(|p| p.id.clone())
+                .collect()
+        }),
         detected_pairs: completion::definition(c, "Foresight").map(|_| {
             flow(c)
                 .unwrap()
@@ -2024,7 +2035,7 @@ pub fn move_data(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> serde_js
     if house::enabled(c) {
         items::completion::move_data(c, p, &mut m);
     }
-    completion::final_move_data(c, &mut m);
+    completion::final_move_data(c, p, &mut m);
     m
 }
 pub fn target_bonus(c: &Campaign, target: &Combatant, m: &serde_json::Value) -> i32 {
@@ -2249,4 +2260,11 @@ pub(super) fn detected(c: &Campaign, source: &str, target: &str) -> bool {
                     .is_some_and(|(kind, d)| kind == "detection" && d["detection"] == true)
         })
     }) && special::registered(c, target).is_ok_and(|p| p.deployed && p.hp > 0)
+}
+
+pub(super) fn normal_electric(c: &Campaign, id: &str) -> bool {
+    if let Some(marked) = frozen(c).and_then(|s| s.normal_electric.as_ref()) {
+        return marked.contains(id);
+    }
+    fighter(c, id).is_ok_and(|p| completion::plasma(c, p))
 }

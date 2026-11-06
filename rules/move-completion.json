@@ -1708,6 +1708,25 @@
           "auxiliary": true
         }
       }
+    },
+    "MOVE-A41": {
+      "engine": "0.76.0-core",
+      "kind": "type-conversion",
+      "scope": "Ion Deluge converts resolved Normal-type Physical/Special damage to Electric battlefield-wide for the scene, persisting after caster departure. Successful Plasma Fists converts only its user Normal-type moves, including Support, for the scene until recall/faint. Recast does not stack. Conversion follows other resolved typing and precedes sport suppression. Optional saved source marks preserve pending damage typing.",
+      "moves": {
+        "Ion Deluge": {
+          "source": "Pokerole-Data/v3.0/Moves/Ion Deluge.json",
+          "sha256": "27171262c3a837600403eaad121f962d839d0e5959c14cc807452962222baf54",
+          "effect": "Target Battlefield. Damage from Normal-Type Moves will be considered to be Electric-Type. Whole Scene Duration.",
+          "field": true
+        },
+        "Plasma Fists": {
+          "source": "Pokerole-Data/v3.0/Moves/Plasma Fists.json",
+          "sha256": "a5b76d55f67af1ddccc1e3e7deb1f219f1f428d1057a2d0843cb3c97209de893",
+          "effect": "Single Target. Fist Move. If successful, all Normal-Type Moves of the User will be considered Electric-Type. Whole Scene Duration.",
+          "field": false
+        }
+      }
     }
   },
   "printed_review": {

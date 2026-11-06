@@ -224,6 +224,40 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
                 );
             }
         }
+        "type-conversion" => {
+            if d["field"] == true {
+                if !flow(c)?
+                    .battlefield
+                    .rules
+                    .iter()
+                    .any(|r| r.kind == q.move_name && r.scope == "all")
+                {
+                    field::insert(
+                        c,
+                        &q.move_name,
+                        &format!("field-user:{}", q.actor_id),
+                        "all",
+                        None,
+                        0,
+                    );
+                }
+            } else if !immune_target_with_fainted(c, q, cat, true)? {
+                flow_mut(c)
+                    .special
+                    .effects
+                    .retain(|e| e.name != q.move_name || e.target != q.actor_id);
+                let started = battle(c)?.round;
+                flow_mut(c).special.effects.push(special::TimedEffect {
+                    name: q.move_name.clone(),
+                    source: q.actor_id.clone(),
+                    target: q.actor_id.clone(),
+                    rounds: None,
+                    amount: 0,
+                    started,
+                    slot: "self-support".into(),
+                });
+            }
+        }
         "type-change" => {
             let source = reviewed::source(c, q)?;
             let target = fighter(c, &q.target_id)?;
@@ -607,7 +641,15 @@ pub fn sport_effectiveness(c: &Campaign, m: &serde_json::Value, n: i32) -> i32 {
         n
     }
 }
-pub fn final_move_data(c: &Campaign, m: &mut serde_json::Value) {
+pub fn final_move_data(c: &Campaign, p: &Combatant, m: &mut serde_json::Value) {
+    if m["Type"] == "Normal"
+        && (field::normal_electric(c, &p.id)
+            || (definition(c, "Ion Deluge").is_some()
+                && field::has(c, "Ion Deluge", p)
+                && ["Physical", "Special"].contains(&m["Category"].as_str().unwrap_or(""))))
+    {
+        m["Type"] = "Electric".into();
+    }
     if sport(c, m) {
         m["Power"] = 0.into();
     }
@@ -1646,4 +1688,8 @@ pub fn clear_inactive_types(c: &mut Campaign) {
             .rules
             .retain(|r| r.source != "completion-type" || active.contains(&r.scope));
     }
+}
+
+pub fn plasma(c: &Campaign, p: &Combatant) -> bool {
+    self_support(c, p, "Plasma Fists")
 }

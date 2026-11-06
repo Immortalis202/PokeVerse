@@ -1,6 +1,6 @@
 # Move-effect audit: milestone 1
 
-Snapshot refreshed: 6 November 2026, app **0.83.0**, engine **0.75.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
+Snapshot refreshed: 6 November 2026, app **0.84.0**, engine **0.76.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
 
 ## Deliverables and limits
 
@@ -18,13 +18,13 @@ The diagnostic deliberately bypasses accuracy, damage, targeting expansion, acti
 
 | Effect-route result | Cards | Meaning |
 | --- | ---: | --- |
-| executable-scope | 728 | At least one probe resolves; only recorded scopes are asserted. |
+| executable-scope | 730 | At least one probe resolves; only recorded scopes are asserted. |
 | input-required | 16 | Existing handler requests a selection, resource, weather or other legitimate prerequisite. |
-| manual-effect-route | 109 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
+| manual-effect-route | 107 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
 | gm-choice | 1 | Hold Hands: narrative battle-ending decision remains with the storyteller. |
 | excluded | 38 | Supplied Max/Z cards and the user-excluded Sappy Seed. |
 
-These totals sum to 892. **109 manual-effect-route results remain after MOVE-A40. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
+These totals sum to 892. **107 manual-effect-route results remain after MOVE-A41. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
 
 | Focused status result | Cards |
 | --- | ---: |
@@ -193,7 +193,7 @@ A six triggers the single printed Chance pool. Serene Grace, Wonder Skin, Loaded
 
 New 0.36.0-core encounters enable the boxed `damaging_stats` state. Missing saved state defaults disabled; 0.35.0-core remains accepted with its previous M3 behavior. Protocol 45 carries the new state. App version is 0.44.0.
 
-**The whole move catalog is not complete.** The 109 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
+**The whole move catalog is not complete.** The 107 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
 
 
 ### MOVE-A01 verification (1 November 2026)
@@ -533,3 +533,9 @@ Validation covers dual-type replacement, sheet preservation, recast, serializati
 Magnet Rise grants its supplied Float condition and Ground-move immunity for the scene, ending on recall/faint. It changes neither species typing nor Evasion eligibility. Gravity, Iron Ball, explicit grounding and reviewed immunity bypass preserve their precedence. Recasting does not stack. Historical encounters retain prior behavior.
 
 Validation covers public Support/attack paths, Ground immunity, Float eligibility, Evasion, unchanged typing, several rounds, recast, Gravity, Iron Ball, Smack Down, Mold Breaker, explicit Ground-immunity bypass, serialization, recall, fainting and historical gating. All 140 completion tests, adjacent regressions, bindings, route inventory, 76 frontend tests, 54 script checks, TypeScript and formatting passed. App 0.83.0, engine 0.75.0-core, protocol 84.
+
+### MOVE-A41: Ion Deluge and Plasma Fists (6 November 2026)
+
+Ion Deluge converts Normal-type Physical/Special damage to Electric throughout the battlefield for the scene, persisting after caster departure. Plasma Fists prepares only its user after a successful non-immune hit; that user's Normal-type moves, including Support, become Electric for the scene until recall/faint. Neither effect stacks. Conversion follows resolved ability typing and precedes sport suppression. Optional saved source marks preserve Plasma Fists typing through pending area damage after source fainting; old snapshots default to prior behavior.
+
+Validation covers public field/attack/effect paths, both sides, Support versus damaging scope, caster departure, recast, scene persistence across a round transition, recall, Normalize, Pixilate, Mud Sport, immune hits, saved area continuation after source fainting and historical fallback. All 145 completion tests, adjacent regressions, bindings, route inventory, 76 frontend tests, 54 script checks, TypeScript and formatting passed. App 0.84.0, engine 0.76.0-core, protocol 85.

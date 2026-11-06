@@ -6421,3 +6421,155 @@ fn completion_a40_recall_faint_serialization_and_historical_gate() {
     let c = pending(&old, &a, &a, "Magnet Rise");
     assert!(battle::transition(&c, "gm", &cmd(&c), vec![], &catalog()).is_err());
 }
+fn converted_move(c: &Campaign, id: &str, name: &str) -> serde_json::Value {
+    crate::combat::field::move_data(c, p(c, id), &catalog().find("moves", "Name", name).unwrap())
+}
+fn plasma_case() -> (Campaign, String, String) {
+    let (c, a, t) = setup("Plasma Fists");
+    let c = resolve(&pending(&c, &a, &t, "Plasma Fists"));
+    (c, a, t)
+}
+#[test]
+fn completion_a41_ion_deluge_is_scene_wide_damage_only_and_survives_caster_departure() {
+    let (mut c, a, t) = setup("Ion Deluge");
+    c = support_cast(&c, &a, vec![], "Ion Deluge");
+    for id in [&a, &t] {
+        assert_eq!(converted_move(&c, id, "Tackle")["Type"], "Electric");
+        assert_eq!(converted_move(&c, id, "Howl")["Type"], "Normal");
+        assert_eq!(converted_move(&c, id, "Flamethrower")["Type"], "Fire");
+    }
+    turn(&mut c, &a, "Ion Deluge");
+    c = support_cast(&c, &a, vec![], "Ion Deluge");
+    assert_eq!(
+        c.battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .battlefield
+            .rules
+            .iter()
+            .filter(|r| r.kind == "Ion Deluge")
+            .count(),
+        1
+    );
+    c = round_end(&c);
+    let before = c.clone();
+    pm(&mut c, &a).deployed = false;
+    crate::combat::field::lifecycle(&before, &mut c, &catalog()).unwrap();
+    assert_eq!(converted_move(&c, &t, "Tackle")["Type"], "Electric");
+}
+#[test]
+fn completion_a41_plasma_fists_converts_only_its_user_including_support_and_clears_on_recall() {
+    let (mut c, a, t) = plasma_case();
+    assert_eq!(converted_move(&c, &a, "Tackle")["Type"], "Electric");
+    assert_eq!(converted_move(&c, &a, "Howl")["Type"], "Electric");
+    assert_eq!(converted_move(&c, &t, "Tackle")["Type"], "Normal");
+    let incoming = reserve(&mut c, &a);
+    let c = spider_switch(&c, &a, &incoming, false);
+    assert_eq!(converted_move(&c, &a, "Tackle")["Type"], "Normal");
+}
+#[test]
+fn completion_a41_conversion_follows_other_typing_and_precedes_sport_suppression() {
+    let (mut c, a, t) = plasma_case();
+    pm(&mut c, &a).selected_ability = "Pixilate".into();
+    assert_eq!(converted_move(&c, &a, "Tackle")["Type"], "Fairy");
+    pm(&mut c, &a).selected_ability = "Normalize".into();
+    assert_eq!(converted_move(&c, &a, "Flamethrower")["Type"], "Electric");
+    turn(&mut c, &a, "Mud Sport");
+    c = support_cast(&c, &a, vec![], "Mud Sport");
+    let m = converted_move(&c, &a, "Flamethrower");
+    assert_eq!(m["Type"], "Electric");
+    assert_eq!(m["Power"], 0);
+    let _ = t;
+}
+#[test]
+fn completion_a41_plasma_pending_area_typing_survives_source_faint_and_save() {
+    let (mut c, a, t) = plasma_case();
+    let other = reserve(&mut c, &t);
+    pm(&mut c, &other).deployed = true;
+    pm(&mut c, &other).field_slot = Some(1);
+    c.battle.as_mut().unwrap().slots_per_side = 2;
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .tactics
+        .enabled = true;
+    turn(&mut c, &a, "Hyper Voice");
+    c = roll(
+        &c,
+        "gm",
+        &super::targeting_tests::attack(&a, vec![t.clone(), other.clone()], "Hyper Voice"),
+        6,
+    );
+    while c.battle.as_ref().unwrap().flow.as_ref().unwrap().window {
+        c = pass(&c);
+    }
+    c = roll(&c, "gm", &damage_command(&c), 1);
+    assert!(q(&c)
+        .damage_context
+        .as_ref()
+        .unwrap()
+        .field_snapshot
+        .as_ref()
+        .unwrap()
+        .normal_electric
+        .as_ref()
+        .unwrap()
+        .contains(&a));
+    let before = c.clone();
+    pm(&mut c, &a).hp = 0;
+    special::lifecycle(&before, &mut c, &catalog()).unwrap();
+    let c: Campaign = serde_json::from_str(&serde_json::to_string(&c).unwrap()).unwrap();
+    assert_eq!(converted_move(&c, &a, "Hyper Voice")["Type"], "Electric");
+    let done = roll(&c, "gm", &damage_command(&c), 1);
+    assert!(done
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .queue
+        .is_empty());
+}
+#[test]
+fn completion_a41_immune_hit_cannot_prepare_plasma_and_historical_states_keep_fallback() {
+    let (mut c, a, t) = setup("Plasma Fists");
+    set_species(&mut c, &t, "Golem");
+    refresh_field(&mut c);
+    let c = resolve(&pending(&c, &a, &t, "Plasma Fists"));
+    assert_eq!(converted_move(&c, &a, "Tackle")["Type"], "Normal");
+    for name in ["Ion Deluge", "Plasma Fists"] {
+        let (mut c, a, t) = setup(name);
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .completion
+            .blocks
+            .remove("MOVE-A41");
+        let c = if name == "Ion Deluge" {
+            let mut c = roll(
+                &c,
+                "gm",
+                &super::targeting_tests::attack(&a, vec![], name),
+                6,
+            );
+            while c.battle.as_ref().unwrap().flow.as_ref().unwrap().window {
+                c = pass(&c);
+            }
+            c
+        } else {
+            pending(&c, &a, &t, name)
+        };
+        assert!(battle::transition(&c, "gm", &cmd(&c), vec![], &catalog()).is_err());
+        assert_eq!(converted_move(&c, &a, "Tackle")["Type"], "Normal");
+    }
+}

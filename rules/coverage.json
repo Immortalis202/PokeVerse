@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.75.0-core",
-  "release": "0.83.0",
-  "protocol": 84,
+  "engine": "0.76.0-core",
+  "release": "0.84.0",
+  "protocol": 85,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -1109,6 +1109,19 @@
         "completion_a40_recall_faint_serialization_and_historical_gate"
       ],
       "scope": "Magnet Rise grants scene Ground-move immunity and the supplied Float condition, ending on recall/faint. Gravity, Iron Ball, explicit grounding and Ground-immunity bypass retain established precedence. No added type or no-Evade clause. Recast does not stack."
+    },
+    {
+      "id": "move-completion-a41",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A41",
+      "fixtures": [
+        "completion_a41_ion_deluge_is_scene_wide_damage_only_and_survives_caster_departure",
+        "completion_a41_plasma_fists_converts_only_its_user_including_support_and_clears_on_recall",
+        "completion_a41_conversion_follows_other_typing_and_precedes_sport_suppression",
+        "completion_a41_plasma_pending_area_typing_survives_source_faint_and_save",
+        "completion_a41_immune_hit_cannot_prepare_plasma_and_historical_states_keep_fallback"
+      ],
+      "scope": "Ion Deluge converts resolved Normal-type Physical/Special damage to Electric battlefield-wide for the scene, persisting after caster departure. Successful Plasma Fists converts only its user Normal-type moves, including Support, for the scene until recall/faint. Recast does not stack. Conversion follows other resolved typing and precedes sport suppression. Optional saved source marks preserve pending damage typing."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -1125,5 +1138,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "9ecb88ea5ed7d0b07119df9d897cab401951fe95137622e698725da338b9fa62"
+  "move_completion_registry_hash": "73e9031cb02abedbe39af47929bd60665c6aa9de3c3881a77b5009835b6554a7"
 }
