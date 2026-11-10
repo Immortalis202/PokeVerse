@@ -224,6 +224,25 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
                 );
             }
         }
+        "cover-stat" => {
+            if fighter(c, &q.actor_id)?.hp > 0 && !immune_target_with_fainted(c, q, cat, true)? {
+                let prefix = format!("order-up-cast:{}:", q.sequence);
+                let key = flow(c)?
+                    .special
+                    .effects
+                    .iter()
+                    .find(|e| {
+                        e.name == q.move_name
+                            && e.target == q.actor_id
+                            && e.slot.starts_with(&prefix)
+                    })
+                    .and_then(|e| e.slot.strip_prefix(&prefix))
+                    .map(str::to_owned);
+                if let Some(key) = key {
+                    extra::change_stat(c, &q.actor_id, &q.actor_id, &key, 1)?;
+                }
+            }
+        }
         "electrify" => {
             if !immune_target(c, q, cat)? {
                 flow_mut(c).special.effects.retain(|e| {
@@ -1124,6 +1143,10 @@ pub fn observe(before: &Campaign, next: &mut Campaign, cat: &Catalog) -> Result<
         flow_mut(next).special.effects.retain(|e| {
             let cast = if e.name == "Charge" {
                 e.slot.strip_prefix("charge-cast:")
+            } else if e.name == "Order Up" {
+                e.slot
+                    .strip_prefix("order-up-cast:")
+                    .and_then(|s| s.split_once(':').map(|v| v.0))
             } else if e.name == "Electrify" {
                 e.slot.strip_prefix("electrify-cast:")
             } else if e.name == "Laser Focus" {
@@ -1758,5 +1781,55 @@ pub(super) fn electrify_attempt(c: &mut Campaign, id: &str, m: &serde_json::Valu
         started,
         slot: format!("electrify-cast:{seq}"),
     });
+    Ok(())
+}
+
+pub(super) fn order_up_attempt(
+    c: &mut Campaign,
+    id: &str,
+    m: &serde_json::Value,
+    cat: &Catalog,
+) -> Result<()> {
+    let name = m["Name"].as_str().unwrap_or("");
+    let Some(("cover-stat", d)) = definition(c, name) else {
+        return Ok(());
+    };
+    let side = fighter(c, id)?.side.clone();
+    let mut key = None;
+    for (ally, coverer) in &flow(c)?.covers {
+        if coverer != id {
+            continue;
+        }
+        let p = fighter(c, ally)?;
+        if !p.deployed || p.hp == 0 || p.side != side {
+            continue;
+        }
+        let sheet = rules::base_sheet(c, p)?;
+        if let Some(species) = sheet
+            .species_id
+            .as_deref()
+            .and_then(|v| cat.find("species", "AppId", v))
+        {
+            if species["Number"].as_i64() == Some(978) {
+                key = species["DexID"]
+                    .as_str()
+                    .and_then(|id| d["forms"][id].as_str())
+                    .map(str::to_owned);
+            }
+        }
+    }
+    if let Some(key) = key {
+        let sequence = c.revision + 1;
+        let started = battle(c)?.round;
+        flow_mut(c).special.effects.push(special::TimedEffect {
+            name: name.into(),
+            source: id.into(),
+            target: id.into(),
+            rounds: None,
+            amount: 0,
+            started,
+            slot: format!("order-up-cast:{sequence}:{key}"),
+        });
+    }
     Ok(())
 }

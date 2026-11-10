@@ -1145,6 +1145,7 @@ pub fn transition(
     if let Some(setup) = field::start_setup(a) {
         if ![
             ENGINE,
+            CRASH_MOVES_ENGINE,
             ELECTRIFY_ENGINE,
             NORMAL_ELECTRIC_ENGINE,
             MAGNET_RISE_ENGINE,
@@ -1211,6 +1212,7 @@ pub fn transition(
             setup,
             [
                 ENGINE,
+                CRASH_MOVES_ENGINE,
                 ELECTRIFY_ENGINE,
                 NORMAL_ELECTRIC_ENGINE,
                 MAGNET_RISE_ENGINE,
@@ -1968,6 +1970,7 @@ fn transition_inner(
             if m["Target"] == "Random Foe" && actor != c.gm_id {
                 return Err(error("GM must record the randomly selected foe"));
             }
+            completion::order_up_attempt(&mut next, combatant_id, &m, cat)?;
             break_cover(&mut next, combatant_id);
             let targets = redirect(
                 &next,
@@ -2228,6 +2231,10 @@ fn transition_inner(
                 flow_mut(&mut next).reacted.insert(combatant_id.clone());
             }
             responded(&mut next);
+            if kind != "evade" {
+                let declared = field::move_data(c, p, &move_entry(cat, move_name)?);
+                completion::order_up_attempt(&mut next, combatant_id, &declared, cat)?;
+            }
             break_cover(&mut next, combatant_id);
             if kind == "clash" {
                 let resolved = field::move_data(c, p, &move_entry(cat, move_name)?);
@@ -3269,6 +3276,7 @@ fn transition_inner(
                 b.flow = Some(TurnFlow {
                     identity_moves: [
                         ENGINE,
+                        CRASH_MOVES_ENGINE,
                         ELECTRIFY_ENGINE,
                         NORMAL_ELECTRIC_ENGINE,
                         MAGNET_RISE_ENGINE,
@@ -3325,6 +3333,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     status_escalation: [
                         ENGINE,
+                        CRASH_MOVES_ENGINE,
                         ELECTRIFY_ENGINE,
                         NORMAL_ELECTRIC_ENGINE,
                         MAGNET_RISE_ENGINE,
@@ -3380,6 +3389,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     spite: [
                         ENGINE,
+                        CRASH_MOVES_ENGINE,
                         ELECTRIFY_ENGINE,
                         NORMAL_ELECTRIC_ENGINE,
                         MAGNET_RISE_ENGINE,
@@ -3434,6 +3444,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     will_drains: [
                         ENGINE,
+                        CRASH_MOVES_ENGINE,
                         ELECTRIFY_ENGINE,
                         NORMAL_ELECTRIC_ENGINE,
                         MAGNET_RISE_ENGINE,
@@ -3487,6 +3498,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     direct_status: [
                         ENGINE,
+                        CRASH_MOVES_ENGINE,
                         ELECTRIFY_ENGINE,
                         NORMAL_ELECTRIC_ENGINE,
                         MAGNET_RISE_ENGINE,
@@ -3539,6 +3551,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     chance_status: [
                         ENGINE,
+                        CRASH_MOVES_ENGINE,
                         ELECTRIFY_ENGINE,
                         NORMAL_ELECTRIC_ENGINE,
                         MAGNET_RISE_ENGINE,
@@ -3590,6 +3603,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     battlefield_review: [
                         ENGINE,
+                        CRASH_MOVES_ENGINE,
                         ELECTRIFY_ENGINE,
                         NORMAL_ELECTRIC_ENGINE,
                         MAGNET_RISE_ENGINE,
@@ -3637,6 +3651,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     entry_hazards: [
                         ENGINE,
+                        CRASH_MOVES_ENGINE,
                         ELECTRIFY_ENGINE,
                         NORMAL_ELECTRIC_ENGINE,
                         MAGNET_RISE_ENGINE,
@@ -3684,6 +3699,7 @@ fn transition_inner(
                     damaging_stats: Box::new(damaging_stats::StatMoveState {
                         enabled: [
                             ENGINE,
+                            CRASH_MOVES_ENGINE,
                             ELECTRIFY_ENGINE,
                             NORMAL_ELECTRIC_ENGINE,
                             MAGNET_RISE_ENGINE,
@@ -3732,6 +3748,7 @@ fn transition_inner(
                     }),
                     cure_protection: [
                         ENGINE,
+                        CRASH_MOVES_ENGINE,
                         ELECTRIFY_ENGINE,
                         NORMAL_ELECTRIC_ENGINE,
                         MAGNET_RISE_ENGINE,
@@ -3781,6 +3798,7 @@ fn transition_inner(
                     recurring: Box::new(recurring::RecurringState {
                         enabled: [
                             ENGINE,
+                            CRASH_MOVES_ENGINE,
                             ELECTRIFY_ENGINE,
                             NORMAL_ELECTRIC_ENGINE,
                             MAGNET_RISE_ENGINE,
@@ -3833,6 +3851,7 @@ fn transition_inner(
                     compound: compound::CompoundState {
                         enabled: [
                             ENGINE,
+                            CRASH_MOVES_ENGINE,
                             ELECTRIFY_ENGINE,
                             NORMAL_ELECTRIC_ENGINE,
                             MAGNET_RISE_ENGINE,
@@ -3885,6 +3904,7 @@ fn transition_inner(
                     },
                     house_rules: [
                         ENGINE,
+                        CRASH_MOVES_ENGINE,
                         ELECTRIFY_ENGINE,
                         NORMAL_ELECTRIC_ENGINE,
                         MAGNET_RISE_ENGINE,
@@ -3943,6 +3963,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     interaction_rules: [
                         ENGINE,
+                        CRASH_MOVES_ENGINE,
                         ELECTRIFY_ENGINE,
                         NORMAL_ELECTRIC_ENGINE,
                         MAGNET_RISE_ENGINE,
@@ -4004,6 +4025,7 @@ fn transition_inner(
                     standalone: standalone::StandaloneState {
                         enabled: [
                             ENGINE,
+                            CRASH_MOVES_ENGINE,
                             ELECTRIFY_ENGINE,
                             NORMAL_ELECTRIC_ENGINE,
                             MAGNET_RISE_ENGINE,
@@ -4068,6 +4090,7 @@ fn transition_inner(
                     information: information::InformationState {
                         enabled: [
                             ENGINE,
+                            CRASH_MOVES_ENGINE,
                             ELECTRIFY_ENGINE,
                             NORMAL_ELECTRIC_ENGINE,
                             MAGNET_RISE_ENGINE,
@@ -4133,6 +4156,7 @@ fn transition_inner(
                     forms: forms::FormState {
                         enabled: [
                             ENGINE,
+                            CRASH_MOVES_ENGINE,
                             ELECTRIFY_ENGINE,
                             NORMAL_ELECTRIC_ENGINE,
                             MAGNET_RISE_ENGINE,
@@ -4200,6 +4224,7 @@ fn transition_inner(
                         completion: items::completion::CompletionState {
                             enabled: [
                                 ENGINE,
+                                CRASH_MOVES_ENGINE,
                                 ELECTRIFY_ENGINE,
                                 NORMAL_ELECTRIC_ENGINE,
                                 MAGNET_RISE_ENGINE,
@@ -4261,6 +4286,7 @@ fn transition_inner(
                         },
                         enabled: [
                             ENGINE,
+                            CRASH_MOVES_ENGINE,
                             ELECTRIFY_ENGINE,
                             NORMAL_ELECTRIC_ENGINE,
                             MAGNET_RISE_ENGINE,
@@ -4328,6 +4354,7 @@ fn transition_inner(
                     events: events::EventState {
                         enabled: [
                             ENGINE,
+                            CRASH_MOVES_ENGINE,
                             ELECTRIFY_ENGINE,
                             NORMAL_ELECTRIC_ENGINE,
                             MAGNET_RISE_ENGINE,
@@ -4395,6 +4422,7 @@ fn transition_inner(
                     },
                     provenance_rules: [
                         ENGINE,
+                        CRASH_MOVES_ENGINE,
                         ELECTRIFY_ENGINE,
                         NORMAL_ELECTRIC_ENGINE,
                         MAGNET_RISE_ENGINE,
@@ -4462,6 +4490,7 @@ fn transition_inner(
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            CRASH_MOVES_ENGINE,
                             ELECTRIFY_ENGINE,
                             NORMAL_ELECTRIC_ENGINE,
                             MAGNET_RISE_ENGINE,
@@ -4532,6 +4561,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            CRASH_MOVES_ENGINE,
                             ELECTRIFY_ENGINE,
                             NORMAL_ELECTRIC_ENGINE,
                             MAGNET_RISE_ENGINE,
@@ -4602,6 +4632,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        CRASH_MOVES_ENGINE,
                         ELECTRIFY_ENGINE,
                         NORMAL_ELECTRIC_ENGINE,
                         MAGNET_RISE_ENGINE,
@@ -4672,6 +4703,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            CRASH_MOVES_ENGINE,
                             ELECTRIFY_ENGINE,
                             NORMAL_ELECTRIC_ENGINE,
                             MAGNET_RISE_ENGINE,
@@ -4745,6 +4777,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            CRASH_MOVES_ENGINE,
                             ELECTRIFY_ENGINE,
                             NORMAL_ELECTRIC_ENGINE,
                             MAGNET_RISE_ENGINE,
@@ -4819,6 +4852,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            CRASH_MOVES_ENGINE,
                             ELECTRIFY_ENGINE,
                             NORMAL_ELECTRIC_ENGINE,
                             MAGNET_RISE_ENGINE,
@@ -4894,6 +4928,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            CRASH_MOVES_ENGINE,
                             ELECTRIFY_ENGINE,
                             NORMAL_ELECTRIC_ENGINE,
                             MAGNET_RISE_ENGINE,
@@ -4970,6 +5005,7 @@ fn transition_inner(
                     special: Box::new(special::SpecialState {
                         enabled: [
                             ENGINE,
+                            CRASH_MOVES_ENGINE,
                             ELECTRIFY_ENGINE,
                             NORMAL_ELECTRIC_ENGINE,
                             MAGNET_RISE_ENGINE,
@@ -5046,6 +5082,7 @@ fn transition_inner(
                     }),
                     ability_rules: [
                         ENGINE,
+                        CRASH_MOVES_ENGINE,
                         ELECTRIFY_ENGINE,
                         NORMAL_ELECTRIC_ENGINE,
                         MAGNET_RISE_ENGINE,
@@ -5124,6 +5161,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            CRASH_MOVES_ENGINE,
                             ELECTRIFY_ENGINE,
                             NORMAL_ELECTRIC_ENGINE,
                             MAGNET_RISE_ENGINE,
@@ -5202,6 +5240,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            CRASH_MOVES_ENGINE,
                             ELECTRIFY_ENGINE,
                             NORMAL_ELECTRIC_ENGINE,
                             MAGNET_RISE_ENGINE,

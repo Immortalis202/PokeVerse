@@ -425,6 +425,7 @@ pub fn react(
     if incoming(&before)?.target_id == id {
         responded(c);
     }
+    completion::order_up_attempt(c, id, &m, cat)?;
     break_cover(c, id);
     extra::accuracy_attempt(c, id, &m, cat, p.actions + 1)?;
     if net >= (p.actions + 1) as i32 {

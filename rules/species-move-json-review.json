@@ -1,7 +1,7 @@
 {
   "batch": "M4-S01",
   "scope": "Every exact species/form Moves array: Name and Learned; JSON comparison only. No printed certification or ordinary ability review.",
-  "catalog_hash": "ff0e009c33bb0a5521c792bd27f3a595f2ed1bdd436292a5382650b72eb9e5a9",
+  "catalog_hash": "e093ed09096b20fdc4b405a0dd812c9a939e2532f617c029c6fc73ae9df2b590",
   "species_compared": 1200,
   "move_entries_compared": 25438,
   "matching_arrays": 1200,

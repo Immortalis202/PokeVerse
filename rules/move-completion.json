@@ -1764,6 +1764,46 @@
           "crash_dice": 4
         }
       }
+    },
+    "MOVE-A44": {
+      "engine": "0.79.0-core",
+      "kind": "cover-stat",
+      "scope": "Order Up captures the covered conscious allied Tatsugiri current exact form when the attack is declared, before taking the action clears Cover. After a successful non-immune attack, grant the user one Strength (orange/Curly), Defense (red/Droopy) or Dexterity (yellow/Stretchy). No extra species restriction on the user. Apply existing non-stacking stat channels and Simple/Contrary. Saved cast markers preserve the selected stat; fixed-damage Clash retains its established effect rules.",
+      "moves": {
+        "Order Up": {
+          "source": "Pokerole-Data/v3.0/Moves/Order Up.json",
+          "sha256": "54c770da0c8a676b32cf9822a9f469323b6431b9adc494bd5ce5be5174aceb85",
+          "effect": "Single Target. Unique. If the User is giving cover to a #978 Tatsugiri Ally. Increase by 1 an Attribute depending on the Ally's color. *Orange - Strength *Red - Defense *Yellow - Dexterity",
+          "forms": {
+            "0978F1": "Strength",
+            "0978F3": "Defense",
+            "0978F2": "Dexterity"
+          },
+          "related_sources": [
+            {
+              "source": "Pokerole-Data/v3.0/Pokedex/Tatsugiri (Curly Form).json",
+              "name": "Tatsugiri (Curly Form)",
+              "sha256": "976661c1ded5b14a6c4df9320e1007ad6c7849cfa47811e6042f77a88e6984d4",
+              "description": "These small dragon Pok\u00e9mon are very cunning: they hide inside the mouths of Dondozo, then feign weakness to lure prey and order their partner to attack. Orange Tatsugiri focus on offensive tactics.",
+              "reason": "Exact source form and its colour determine the Order Up Attribute/Trait."
+            },
+            {
+              "source": "Pokerole-Data/v3.0/Pokedex/Tatsugiri (Droopy Form).json",
+              "name": "Tatsugiri (Droopy Form)",
+              "sha256": "f80ced295222a756555b0cd1ee5560d69e5820650f2ecdca49b0244b5f130342",
+              "description": "These small dragon Pok\u00e9mon are very cunning: they hide inside the mouths of Dondozo, then feign weakness to lure prey and order their partner to attack. Red Tatsugiri focus on defensive tactics.",
+              "reason": "Exact source form and its colour determine the Order Up Attribute/Trait."
+            },
+            {
+              "source": "Pokerole-Data/v3.0/Pokedex/Tatsugiri (Stretchy Form).json",
+              "name": "Tatsugiri (Stretchy Form)",
+              "sha256": "2ec238c80e837c259ef699c64e829b1586e1c9775827c5ce1c6c7954a8aca5c4",
+              "description": "These small dragon Pok\u00e9mon are very cunning: they hide inside the mouths of Dondozo, then feign weakness to lure prey and order their partner to attack. Yellow Tatsugiri focus on speed tactics.",
+              "reason": "Exact source form and its colour determine the Order Up Attribute/Trait."
+            }
+          ]
+        }
+      }
     }
   },
   "printed_review": {

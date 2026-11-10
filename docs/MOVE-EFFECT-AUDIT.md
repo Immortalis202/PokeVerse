@@ -1,6 +1,6 @@
 # Move-effect audit: milestone 1
 
-Snapshot refreshed: 6 November 2026, app **0.86.0**, engine **0.78.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
+Snapshot refreshed: 6 November 2026, app **0.87.0**, engine **0.79.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
 
 ## Deliverables and limits
 
@@ -18,13 +18,13 @@ The diagnostic deliberately bypasses accuracy, damage, targeting expansion, acti
 
 | Effect-route result | Cards | Meaning |
 | --- | ---: | --- |
-| executable-scope | 734 | At least one probe resolves; only recorded scopes are asserted. |
+| executable-scope | 735 | At least one probe resolves; only recorded scopes are asserted. |
 | input-required | 16 | Existing handler requests a selection, resource, weather or other legitimate prerequisite. |
-| manual-effect-route | 103 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
+| manual-effect-route | 102 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
 | gm-choice | 1 | Hold Hands: narrative battle-ending decision remains with the storyteller. |
 | excluded | 38 | Supplied Max/Z cards and the user-excluded Sappy Seed. |
 
-These totals sum to 892. **103 manual-effect-route results remain after MOVE-A43. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
+These totals sum to 892. **102 manual-effect-route results remain after MOVE-A44. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
 
 | Focused status result | Cards |
 | --- | ---: |
@@ -193,7 +193,7 @@ A six triggers the single printed Chance pool. Serene Grace, Wonder Skin, Loaded
 
 New 0.36.0-core encounters enable the boxed `damaging_stats` state. Missing saved state defaults disabled; 0.35.0-core remains accepted with its previous M3 behavior. Protocol 45 carries the new state. App version is 0.44.0.
 
-**The whole move catalog is not complete.** The 103 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
+**The whole move catalog is not complete.** The 102 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
 
 
 ### MOVE-A01 verification (1 November 2026)
@@ -551,3 +551,8 @@ Validation covers public Support/attack paths, preservation through Howl and Cha
 Failed Accuracy for Jump Kick or Supercell Slam requires four typeless crash dice; High Jump Kick requires five. The existing owned crash phase blocks further actions until resolved, ignores defenses and saves the exact pool. The UI displays that saved pool. Successful Accuracy does not crash even when the recipient is immune. Legacy Axe Kick records without pool metadata retain four dice.
 
 Validation covers all three public misses, exact pools, defenses, phase locking, unauthorized attempts, save/load, undo, successful immune hits, five-die failed Clash, historical gating and the old Axe Kick four-die fallback. All 154 completion tests, adjacent crash/move regressions, bindings, route inventory, 77 frontend tests, 54 script checks, TypeScript and formatting passed. Full Rust regression: 973 passed, one ignored inventory; that inventory passed separately. Bindings were normalized and TypeScript/format/diff checks passed afterward. App 0.86.0, engine 0.78.0-core, protocol 87.
+
+
+### MOVE-A44: Order Up
+
+Order Up snapshots the exact covered Tatsugiri form at declaration. Curly grants Strength, Droopy Defense and Stretchy Dexterity after a non-immune hit. Cover ending during declaration does not erase the snapshot. The move uses existing stat stacking, Simple/Contrary and historical adoption rules. Five focused public-command tests cover exact forms, repeated use, saved casts, knockout, immunity, misses and historical state.

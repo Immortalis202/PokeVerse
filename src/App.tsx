@@ -1296,7 +1296,7 @@ export default function App() {
           <span>
             <span className="dot online" /> Your library stays with you.
           </span>
-          <span>POKEROLE 3.0 · v0.86.0</span>
+          <span>POKEROLE 3.0 · v0.87.0</span>
         </footer>
       </div>
       {editor && (

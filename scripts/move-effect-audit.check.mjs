@@ -47,6 +47,8 @@ test("completion blocks retain exact source identities, printed decisions and ex
           );
           assert.equal(related.effect, source.Effect);
           if (related.name) assert.equal(related.name, source.Name);
+          if (related.description)
+            assert.equal(related.description, source.DexDescription);
         } else {
           assert.equal(related.sha256, byName.get(related.name).sha256);
           assert.equal(related.effect, byName.get(related.name).effect);

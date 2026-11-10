@@ -6904,3 +6904,169 @@ fn completion_a43_historical_misses_do_not_add_new_crash_rules() {
         .crashes
         .is_empty());
 }
+fn order_up_cover_case(form: &str) -> (Campaign, String, String, String) {
+    let (mut c, a, foe) = setup("Order Up");
+    let ally = reserve(&mut c, &a);
+    pm(&mut c, &ally).deployed = true;
+    pm(&mut c, &ally).field_slot = Some(1);
+    c.battle.as_mut().unwrap().slots_per_side = 2;
+    set_species(&mut c, &ally, &format!("Tatsugiri ({form} Form)"));
+    refresh_field(&mut c);
+    super::sequencing_tests::loyal(&mut c, &a, 3);
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .tactics
+        .enabled = true;
+    c = detection_attack(&c, &foe, &ally, "Tackle");
+    c = roll(
+        &c,
+        "gm",
+        &Action::CoverAlly {
+            combatant_id: a.clone(),
+            ally_id: ally.clone(),
+            reason: "Cover exact source Tatsugiri form".into(),
+        },
+        6,
+    );
+    while c.battle.as_ref().unwrap().flow.as_ref().unwrap().window {
+        c = pass(&c);
+    }
+    c = roll(&c, "gm", &damage_command(&c), 1);
+    assert_eq!(
+        c.battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .covers
+            .get(&ally),
+        Some(&a)
+    );
+    turn(&mut c, &a, "Order Up");
+    (c, a, foe, ally)
+}
+#[test]
+fn completion_a44_public_cover_grants_exact_color_stat_and_does_not_stack() {
+    for (form, key) in [
+        ("Curly", "Strength"),
+        ("Droopy", "Defense"),
+        ("Stretchy", "Dexterity"),
+    ] {
+        let (c, a, t, ally) = order_up_cover_case(form);
+        let c = pending(&c, &a, &t, "Order Up");
+        assert!(!c
+            .battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .covers
+            .contains_key(&ally));
+        let mut c = resolve(&c);
+        assert_eq!(stat(&c, &a, key), 1, "{form}");
+        for other in ["Strength", "Defense", "Dexterity"] {
+            if other != key {
+                assert_eq!(stat(&c, &a, other), 0);
+            }
+        }
+        c.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .covers
+            .insert(ally, a.clone());
+        turn(&mut c, &a, "Order Up");
+        let c = resolve(&pending(&c, &a, &t, "Order Up"));
+        assert_eq!(stat(&c, &a, key), 1);
+    }
+}
+#[test]
+fn completion_a44_saved_cast_preserves_declared_color_and_applies_after_knockout() {
+    let (mut c, a, t, ally) = order_up_cover_case("Curly");
+    pm(&mut c, &t).hp = 1;
+    let c = ordinary_accuracy(&c, &a, &t, "Order Up");
+    let mut c = roll(&c, "gm", &damage_command(&c), 6);
+    assert_eq!(p(&c, &t).hp, 0);
+    c = serde_json::from_str(&serde_json::to_string(&c).unwrap()).unwrap();
+    set_species(&mut c, &ally, "Tatsugiri (Droopy Form)");
+    let c = resolve(&c);
+    assert_eq!(stat(&c, &a, "Strength"), 1);
+    assert_eq!(stat(&c, &a, "Defense"), 0);
+    assert!(c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .special
+        .effects
+        .iter()
+        .all(|e| !e.slot.starts_with("order-up-cast:")));
+}
+#[test]
+fn completion_a44_simple_contrary_and_immune_targets_keep_existing_stat_rules() {
+    for (ability, expected) in [("Simple", 2), ("Contrary", -1)] {
+        let (mut c, a, t, _) = order_up_cover_case("Curly");
+        pm(&mut c, &a).selected_ability = ability.into();
+        let c = resolve(&pending(&c, &a, &t, "Order Up"));
+        assert_eq!(stat(&c, &a, "Strength"), expected);
+    }
+    let (mut c, a, t, _) = order_up_cover_case("Curly");
+    set_species(&mut c, &t, "Sylveon");
+    refresh_field(&mut c);
+    let c = resolve(&pending(&c, &a, &t, "Order Up"));
+    assert_eq!(stat(&c, &a, "Strength"), 0);
+}
+#[test]
+fn completion_a44_without_tatsugiri_cover_and_historical_states_have_no_new_bonus() {
+    let (c, a, t) = setup("Order Up");
+    let c = resolve(&pending(&c, &a, &t, "Order Up"));
+    assert_eq!(stat(&c, &a, "Strength"), 0);
+    let (mut c, a, t, ally) = order_up_cover_case("Curly");
+    set_species(&mut c, &ally, "Eevee");
+    let c = resolve(&pending(&c, &a, &t, "Order Up"));
+    assert_eq!(stat(&c, &a, "Strength"), 0);
+    let (mut c, a, t, _) = order_up_cover_case("Curly");
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .completion
+        .blocks
+        .remove("MOVE-A44");
+    let c = pending(&c, &a, &t, "Order Up");
+    assert!(battle::transition(&c, "gm", &cmd(&c), vec![], &catalog()).is_err());
+}
+#[test]
+fn completion_a44_miss_discards_the_cover_snapshot_without_a_bonus() {
+    let (c, a, t, _) = order_up_cover_case("Curly");
+    let c = roll(
+        &c,
+        "gm",
+        &super::targeting_tests::attack(&a, vec![t], "Order Up"),
+        1,
+    );
+    assert_eq!(stat(&c, &a, "Strength"), 0);
+    assert!(c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .special
+        .effects
+        .iter()
+        .all(|e| !e.slot.starts_with("order-up-cast:")));
+}
