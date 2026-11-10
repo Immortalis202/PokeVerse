@@ -1,5 +1,5 @@
 {
-  "engine": "0.79.0-core",
+  "engine": "0.80.0-core",
   "moves": [
     {
       "catalog_attributes": {},
@@ -10078,13 +10078,13 @@
       "name": "Hold Hands",
       "scenarios": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
+          "code": "battle",
+          "message": "Hold Hands requires the saved target resistance and GM ruling workflow",
           "result": "route_error"
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
+          "code": "battle",
+          "message": "Hold Hands requires the saved target resistance and GM ruling workflow",
           "result": "route_error"
         }
       }
@@ -25313,7 +25313,7 @@
       }
     }
   ],
-  "release": "0.87.0",
+  "release": "0.88.0",
   "scenario": "baseline and synthetic Burn2/Poison/Paralysis/Sleep profiles; effect phase only; wounded participants; no abilities, shields or decoys; all chance dice six; no GM selections/history; current gates enabled",
   "warning": "A resolved route is not proof that every card clause is implemented. Errors may be legitimate input requirements."
 }

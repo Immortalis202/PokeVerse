@@ -387,7 +387,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def"],
+                "Stats": [
+                  "Def"
+                ],
                 "Stages": 2,
                 "Affects": "User"
               }
@@ -656,7 +658,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Special"],
+                "Stats": [
+                  "Special"
+                ],
                 "Stages": -2,
                 "Affects": "Targets"
               }
@@ -786,7 +790,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["SpDef"],
+                "Stats": [
+                  "SpDef"
+                ],
                 "Stages": -1,
                 "ChanceDice": 1,
                 "Affects": "Targets"
@@ -1599,7 +1605,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Dexterity"],
+                "Stats": [
+                  "Dexterity"
+                ],
                 "Stages": 2,
                 "Affects": "User"
               }
@@ -2041,8 +2049,12 @@
       "existing_scopes_to_verify": [],
       "printed_review": {
         "name": "Alluring Voice",
-        "printed_pages": [455],
-        "pdf_pages": [322],
+        "printed_pages": [
+          455
+        ],
+        "pdf_pages": [
+          322
+        ],
         "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
       },
       "catalog_differences": {},
@@ -2560,7 +2572,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["SpDef"],
+                "Stats": [
+                  "SpDef"
+                ],
                 "Stages": 2,
                 "Affects": "User"
               }
@@ -2843,7 +2857,13 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength", "Dexterity", "Special", "Def", "SpDef"],
+                "Stats": [
+                  "Strength",
+                  "Dexterity",
+                  "Special",
+                  "Def",
+                  "SpDef"
+                ],
                 "Stages": 1,
                 "ChanceDice": 1,
                 "Affects": "User"
@@ -2974,7 +2994,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["SpDef"],
+                "Stats": [
+                  "SpDef"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -3534,7 +3556,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Dexterity"],
+                "Stats": [
+                  "Dexterity"
+                ],
                 "Stages": 1,
                 "Affects": "User"
               }
@@ -3931,7 +3955,10 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def", "SpDef"],
+                "Stats": [
+                  "Def",
+                  "SpDef"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -4195,7 +4222,10 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def", "SpDef"],
+                "Stats": [
+                  "Def",
+                  "SpDef"
+                ],
                 "Stages": 1,
                 "Affects": "Targets"
               }
@@ -4893,8 +4923,12 @@
       "existing_scopes_to_verify": [],
       "printed_review": {
         "name": "Attract",
-        "printed_pages": [487],
-        "pdf_pages": [354],
+        "printed_pages": [
+          487
+        ],
+        "pdf_pages": [
+          354
+        ],
         "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
       },
       "catalog_differences": {},
@@ -5271,7 +5305,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Dexterity"],
+                "Stats": [
+                  "Dexterity"
+                ],
                 "Stages": 1,
                 "Affects": "User"
               }
@@ -5401,7 +5437,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength"],
+                "Stats": [
+                  "Strength"
+                ],
                 "Stages": -1,
                 "ChanceDice": 1,
                 "Affects": "Targets"
@@ -5690,7 +5728,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Dexterity"],
+                "Stats": [
+                  "Dexterity"
+                ],
                 "Stages": 2,
                 "Affects": "User"
               }
@@ -6115,7 +6155,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength"],
+                "Stats": [
+                  "Strength"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -6847,7 +6889,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def"],
+                "Stats": [
+                  "Def"
+                ],
                 "Stages": 2,
                 "Affects": "User"
               }
@@ -7857,7 +7901,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength"],
+                "Stats": [
+                  "Strength"
+                ],
                 "Stages": 3,
                 "Affects": "User"
               }
@@ -8014,7 +8060,9 @@
           "status": "partial",
           "scope": "Ambiguous printed User/Target damage basis requires a recorded GM choice; then tracks two incoming attacks and releases the chosen literal basis.",
           "page": 488,
-          "dependencies": ["manual-wording-decision"]
+          "dependencies": [
+            "manual-wording-decision"
+          ]
         }
       ],
       "printed_review": null,
@@ -11982,7 +12030,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength"],
+                "Stats": [
+                  "Strength"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -12607,7 +12657,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Dexterity"],
+                "Stats": [
+                  "Dexterity"
+                ],
                 "Stages": -1,
                 "ChanceDice": 1,
                 "Affects": "Targets"
@@ -12738,7 +12790,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Dexterity"],
+                "Stats": [
+                  "Dexterity"
+                ],
                 "Stages": -1,
                 "ChanceDice": 1,
                 "Affects": "Targets"
@@ -13008,7 +13062,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["SpDef"],
+                "Stats": [
+                  "SpDef"
+                ],
                 "Stages": -1,
                 "ChanceDice": 1,
                 "Affects": "Targets"
@@ -13139,7 +13195,10 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength", "Def"],
+                "Stats": [
+                  "Strength",
+                  "Def"
+                ],
                 "Stages": 1,
                 "Affects": "User"
               }
@@ -13269,7 +13328,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Dexterity"],
+                "Stats": [
+                  "Dexterity"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -14277,7 +14338,10 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Special", "SpDef"],
+                "Stats": [
+                  "Special",
+                  "SpDef"
+                ],
                 "Stages": 1,
                 "Affects": "User"
               }
@@ -14522,7 +14586,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Special"],
+                "Stats": [
+                  "Special"
+                ],
                 "Stages": -2,
                 "Affects": "Targets"
               }
@@ -14822,7 +14888,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Special"],
+                "Stats": [
+                  "Special"
+                ],
                 "Stages": 1,
                 "ChanceDice": 5,
                 "Affects": "User"
@@ -15082,7 +15150,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength"],
+                "Stats": [
+                  "Strength"
+                ],
                 "Stages": -2,
                 "Affects": "Targets"
               }
@@ -15354,7 +15424,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength"],
+                "Stats": [
+                  "Strength"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -16248,7 +16320,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def"],
+                "Stats": [
+                  "Def"
+                ],
                 "Stages": -1,
                 "Affects": "User"
               }
@@ -16388,7 +16462,13 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength", "Dexterity", "Special", "Def", "SpDef"],
+                "Stats": [
+                  "Strength",
+                  "Dexterity",
+                  "Special",
+                  "Def",
+                  "SpDef"
+                ],
                 "Stages": 1,
                 "Affects": "User"
               }
@@ -16799,7 +16879,10 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def", "SpDef"],
+                "Stats": [
+                  "Def",
+                  "SpDef"
+                ],
                 "Stages": -1,
                 "Affects": "User"
               }
@@ -17061,7 +17144,11 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength", "Def", "Accuracy"],
+                "Stats": [
+                  "Strength",
+                  "Def",
+                  "Accuracy"
+                ],
                 "Stages": 1,
                 "Affects": "User"
               }
@@ -17759,7 +17846,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Special"],
+                "Stats": [
+                  "Special"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -17783,8 +17872,12 @@
       "existing_scopes_to_verify": [],
       "printed_review": {
         "name": "Confuse Ray",
-        "printed_pages": [472],
-        "pdf_pages": [339],
+        "printed_pages": [
+          472
+        ],
+        "pdf_pages": [
+          339
+        ],
         "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
       },
       "catalog_differences": {},
@@ -18149,7 +18242,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Dex"],
+                "Stats": [
+                  "Dex"
+                ],
                 "Stages": -1,
                 "ChanceDice": 1,
                 "Affects": "Targets"
@@ -19226,7 +19321,10 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def", "SpDef"],
+                "Stats": [
+                  "Def",
+                  "SpDef"
+                ],
                 "Stages": 1,
                 "Affects": "User"
               }
@@ -19356,7 +19454,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def"],
+                "Stats": [
+                  "Def"
+                ],
                 "Stages": 3,
                 "Affects": "User"
               }
@@ -19498,7 +19598,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Dexterity"],
+                "Stats": [
+                  "Dexterity"
+                ],
                 "Stages": -2,
                 "Affects": "Targets"
               }
@@ -20765,7 +20867,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def"],
+                "Stats": [
+                  "Def"
+                ],
                 "Stages": -1,
                 "ChanceDice": 1,
                 "Affects": "Targets"
@@ -20896,7 +21000,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def"],
+                "Stats": [
+                  "Def"
+                ],
                 "Stages": -2,
                 "ChanceDice": 5,
                 "Affects": "Targets"
@@ -21633,8 +21739,12 @@
       "existing_scopes_to_verify": [],
       "printed_review": {
         "name": "Dark Void",
-        "printed_pages": [444],
-        "pdf_pages": [311],
+        "printed_pages": [
+          444
+        ],
+        "pdf_pages": [
+          311
+        ],
         "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
       },
       "catalog_differences": {},
@@ -22112,7 +22222,10 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength", "Special"],
+                "Stats": [
+                  "Strength",
+                  "Special"
+                ],
                 "Stages": 2,
                 "Affects": "Targets"
               }
@@ -22242,7 +22355,10 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Defense", "SpDef"],
+                "Stats": [
+                  "Defense",
+                  "SpDef"
+                ],
                 "Stages": 1,
                 "Affects": "Targets"
               }
@@ -22375,7 +22491,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def"],
+                "Stats": [
+                  "Def"
+                ],
                 "Stages": 1,
                 "Affects": "User"
               }
@@ -23057,7 +23175,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def"],
+                "Stats": [
+                  "Def"
+                ],
                 "Stages": 2,
                 "ChanceDice": 5,
                 "Affects": "User"
@@ -25561,7 +25681,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Special"],
+                "Stats": [
+                  "Special"
+                ],
                 "Stages": -2,
                 "Affects": "User"
               }
@@ -25716,7 +25838,10 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def", "SpDef"],
+                "Stats": [
+                  "Def",
+                  "SpDef"
+                ],
                 "Stages": -1,
                 "Affects": "User"
               }
@@ -26215,7 +26340,10 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength", "Dexterity"],
+                "Stats": [
+                  "Strength",
+                  "Dexterity"
+                ],
                 "Stages": 1,
                 "Affects": "User"
               }
@@ -27950,7 +28078,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Dexterity"],
+                "Stats": [
+                  "Dexterity"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -28373,8 +28503,12 @@
       "existing_scopes_to_verify": [],
       "printed_review": {
         "name": "Dynamic Punch",
-        "printed_pages": [460],
-        "pdf_pages": [327],
+        "printed_pages": [
+          460
+        ],
+        "pdf_pages": [
+          327
+        ],
         "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
       },
       "catalog_differences": {},
@@ -28629,7 +28763,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["SpDef"],
+                "Stats": [
+                  "SpDef"
+                ],
                 "Stages": -1,
                 "ChanceDice": 1,
                 "Affects": "Targets"
@@ -29060,7 +29196,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Special"],
+                "Stats": [
+                  "Special"
+                ],
                 "Stages": -2,
                 "Affects": "Targets"
               }
@@ -30200,7 +30338,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Dexterity"],
+                "Stats": [
+                  "Dexterity"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -31112,7 +31252,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["SpDef"],
+                "Stats": [
+                  "SpDef"
+                ],
                 "Stages": -1,
                 "ChanceDice": 1,
                 "Affects": "Targets"
@@ -31559,7 +31701,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Dexterity"],
+                "Stats": [
+                  "Dexterity"
+                ],
                 "Stages": 1,
                 "Affects": "User"
               }
@@ -33076,7 +33220,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["SpDef"],
+                "Stats": [
+                  "SpDef"
+                ],
                 "Stages": -2,
                 "Affects": "Targets"
               }
@@ -33464,7 +33610,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength"],
+                "Stats": [
+                  "Strength"
+                ],
                 "Stages": -2,
                 "Affects": "Targets"
               }
@@ -33859,7 +34007,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength"],
+                "Stats": [
+                  "Strength"
+                ],
                 "Stages": 2,
                 "Affects": "User"
               }
@@ -34101,7 +34251,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Special"],
+                "Stats": [
+                  "Special"
+                ],
                 "Stages": 1,
                 "ChanceDice": 5,
                 "Affects": "User"
@@ -34953,7 +35105,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def"],
+                "Stats": [
+                  "Def"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -36218,7 +36372,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Dexterity"],
+                "Stats": [
+                  "Dexterity"
+                ],
                 "Stages": 1,
                 "Affects": "User"
               }
@@ -36751,7 +36907,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["SpDef"],
+                "Stats": [
+                  "SpDef"
+                ],
                 "Stages": -1,
                 "ChanceDice": 1,
                 "Affects": "Targets"
@@ -37021,7 +37179,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Special"],
+                "Stats": [
+                  "Special"
+                ],
                 "Stages": 1,
                 "Affects": "Targets"
               }
@@ -37193,7 +37353,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Special"],
+                "Stats": [
+                  "Special"
+                ],
                 "Stages": -2,
                 "Affects": "User"
               }
@@ -38450,7 +38612,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["SpDef"],
+                "Stats": [
+                  "SpDef"
+                ],
                 "Stages": -1,
                 "ChanceDice": 1,
                 "Affects": "Targets"
@@ -41651,7 +41815,10 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength", "Special"],
+                "Stats": [
+                  "Strength",
+                  "Special"
+                ],
                 "Stages": 1,
                 "Affects": "Targets"
               }
@@ -42659,7 +42826,9 @@
             ],
             "StatChanges": [
               {
-                "Stats": ["Dexterity"],
+                "Stats": [
+                  "Dexterity"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -42812,8 +42981,12 @@
       "existing_scopes_to_verify": [],
       "printed_review": {
         "name": "Glare",
-        "printed_pages": [493],
-        "pdf_pages": [360],
+        "printed_pages": [
+          493
+        ],
+        "pdf_pages": [
+          360
+        ],
         "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
       },
       "catalog_differences": {},
@@ -43497,7 +43670,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Dexterity"],
+                "Stats": [
+                  "Dexterity"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -43521,8 +43696,12 @@
       "existing_scopes_to_verify": [],
       "printed_review": {
         "name": "Grass Whistle",
-        "printed_pages": [476],
-        "pdf_pages": [343],
+        "printed_pages": [
+          476
+        ],
+        "pdf_pages": [
+          343
+        ],
         "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
       },
       "catalog_differences": {},
@@ -44070,7 +44249,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def"],
+                "Stats": [
+                  "Def"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -44357,7 +44538,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength"],
+                "Stats": [
+                  "Strength"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -44497,7 +44680,10 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength", "Special"],
+                "Stats": [
+                  "Strength",
+                  "Special"
+                ],
                 "Stages": 1,
                 "Affects": "User"
               }
@@ -45747,7 +45933,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Dexterity"],
+                "Stats": [
+                  "Dexterity"
+                ],
                 "Stages": -1,
                 "Affects": "User"
               }
@@ -46012,7 +46200,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def"],
+                "Stats": [
+                  "Def"
+                ],
                 "Stages": 1,
                 "Affects": "User"
               }
@@ -46667,7 +46857,10 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["SpDef", "Def"],
+                "Stats": [
+                  "SpDef",
+                  "Def"
+                ],
                 "Stages": -1,
                 "Affects": "User"
               }
@@ -46808,7 +47001,9 @@
           "id": "metadata:AddedEffects",
           "field": "AddedEffects",
           "value": {
-            "AilmentHeal": ["All"]
+            "AilmentHeal": [
+              "All"
+            ]
           },
           "status": "pending",
           "batch": 11,
@@ -47275,8 +47470,12 @@
       ],
       "printed_review": {
         "name": "Healing Wish",
-        "printed_pages": [512],
-        "pdf_pages": [379],
+        "printed_pages": [
+          512
+        ],
+        "pdf_pages": [
+          379
+        ],
         "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
       },
       "catalog_differences": {},
@@ -47399,7 +47598,9 @@
           "id": "metadata:AddedEffects",
           "field": "AddedEffects",
           "value": {
-            "AilmentHeal": ["All"],
+            "AilmentHeal": [
+              "All"
+            ],
             "Heal": {
               "Type": "Complete",
               "WillPointCost": 1,
@@ -48904,7 +49105,14 @@
       "excluded_clauses": [
         "Outside-battle narrative clauses are outside this battle audit"
       ],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A45: Saved optional target Will resistance followed by a GM battle-ending decision. Successful resistance prevents ending; accepted ending uses normal persistence, transformations, equipment cleanup and rollback. Outside-battle narrative remains excluded.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -48914,9 +49122,30 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 1,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a45",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a45_hold_hands_declining_resistance_ends_through_normal_persistence_and_undo"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a45",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a45_hold_hands_will_score_tie_resists_without_spending_and_cannot_reroll"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a45",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a45_hold_hands_requires_target_response_gm_authority_and_current_sequence"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a45",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a45_hold_hands_protection_and_reflection_choose_the_actual_recipient"
+            }
+          ]
         },
         {
           "id": "effect:15-67",
@@ -48924,9 +49153,30 @@
           "value": "The battle may end at the Storyteller's discretion. ",
           "start": 15,
           "end": 67,
-          "status": "pending",
+          "status": "gm-decision-supported",
           "batch": 1,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a45",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a45_hold_hands_declining_resistance_ends_through_normal_persistence_and_undo"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a45",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a45_hold_hands_will_score_tie_resists_without_spending_and_cannot_reroll"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a45",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a45_hold_hands_requires_target_response_gm_authority_and_current_sequence"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a45",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a45_hold_hands_protection_and_reflection_choose_the_actual_recipient"
+            }
+          ]
         },
         {
           "id": "effect:67-145",
@@ -48934,9 +49184,30 @@
           "value": "Target may resist rolling their Will Score against the Accuracy of this Move. ",
           "start": 67,
           "end": 145,
-          "status": "pending",
+          "status": "automated",
           "batch": 1,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a45",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a45_hold_hands_declining_resistance_ends_through_normal_persistence_and_undo"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a45",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a45_hold_hands_will_score_tie_resists_without_spending_and_cannot_reroll"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a45",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a45_hold_hands_requires_target_response_gm_authority_and_current_sequence"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a45",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a45_hold_hands_protection_and_reflection_choose_the_actual_recipient"
+            }
+          ]
         },
         {
           "id": "effect:145-189",
@@ -48944,9 +49215,10 @@
           "value": "Out of battle, aid to reduce hostile intent.",
           "start": 145,
           "end": 189,
-          "status": "pending",
+          "status": "excluded",
           "batch": 1,
-          "evidence": []
+          "evidence": [],
+          "exclusion": "Outside-battle narrative automation remains excluded by user decision."
         },
         {
           "id": "metadata:Type",
@@ -49148,7 +49420,10 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength", "Accuracy"],
+                "Stats": [
+                  "Strength",
+                  "Accuracy"
+                ],
                 "Stages": 1,
                 "Affects": "User"
               }
@@ -49672,7 +49947,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength"],
+                "Stats": [
+                  "Strength"
+                ],
                 "Stages": 1,
                 "Affects": "User"
               }
@@ -51081,7 +51358,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def"],
+                "Stats": [
+                  "Def"
+                ],
                 "Stages": -1,
                 "Affects": "User"
               }
@@ -52178,7 +52457,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Dexterity"],
+                "Stats": [
+                  "Dexterity"
+                ],
                 "Stages": -1,
                 "Affects": "User"
               }
@@ -53007,7 +53288,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Dexterity"],
+                "Stats": [
+                  "Dexterity"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -53568,8 +53851,12 @@
       "existing_scopes_to_verify": [],
       "printed_review": {
         "name": "Inferno",
-        "printed_pages": [467],
-        "pdf_pages": [334],
+        "printed_pages": [
+          467
+        ],
+        "pdf_pages": [
+          334
+        ],
         "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
       },
       "catalog_differences": {},
@@ -54435,7 +54722,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def"],
+                "Stats": [
+                  "Def"
+                ],
                 "Stages": 2,
                 "Affects": "User"
               }
@@ -54707,7 +54996,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def"],
+                "Stats": [
+                  "Def"
+                ],
                 "Stages": -1,
                 "ChanceDice": 3,
                 "Affects": "Targets"
@@ -55842,7 +56133,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Accuracy"],
+                "Stats": [
+                  "Accuracy"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -56006,7 +56299,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength"],
+                "Stats": [
+                  "Strength"
+                ],
                 "Stages": -2,
                 "Affects": "Targets"
               }
@@ -57330,7 +57625,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Special"],
+                "Stats": [
+                  "Special"
+                ],
                 "Stages": -2,
                 "Affects": "User"
               }
@@ -57472,7 +57769,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Accuracy"],
+                "Stats": [
+                  "Accuracy"
+                ],
                 "Stages": -1,
                 "ChanceDice": 5,
                 "Affects": "Targets"
@@ -58038,7 +58337,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def"],
+                "Stats": [
+                  "Def"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -58779,7 +59080,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def"],
+                "Stats": [
+                  "Def"
+                ],
                 "Stages": -1,
                 "ChanceDice": 2,
                 "Affects": "Targets"
@@ -59304,7 +59607,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Dexterity"],
+                "Stats": [
+                  "Dexterity"
+                ],
                 "Stages": -2,
                 "Affects": "Targets"
               }
@@ -59601,7 +59906,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["SpDef"],
+                "Stats": [
+                  "SpDef"
+                ],
                 "Stages": -2,
                 "Affects": "Targets"
               }
@@ -59780,7 +60087,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Accuracy"],
+                "Stats": [
+                  "Accuracy"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -60066,7 +60375,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength"],
+                "Stats": [
+                  "Strength"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -60218,7 +60529,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["SpDef"],
+                "Stats": [
+                  "SpDef"
+                ],
                 "Stages": -1,
                 "ChanceDice": 5,
                 "Affects": "Targets"
@@ -61643,7 +61956,10 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def", "SpDef"],
+                "Stats": [
+                  "Def",
+                  "SpDef"
+                ],
                 "Stages": 1,
                 "Affects": "User"
               }
@@ -61924,7 +62240,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Special"],
+                "Stats": [
+                  "Special"
+                ],
                 "Stages": -2,
                 "Affects": "User"
               }
@@ -63062,7 +63380,9 @@
           "status": "manual",
           "scope": "Out of scope: Dynamax, Max Moves including Max Guard, and Z-Moves are explicitly excluded.",
           "page": null,
-          "dependencies": ["out-of-scope-dynamax"]
+          "dependencies": [
+            "out-of-scope-dynamax"
+          ]
         }
       ],
       "printed_review": null,
@@ -65359,7 +65679,10 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength", "SpDef"],
+                "Stats": [
+                  "Strength",
+                  "SpDef"
+                ],
                 "Stages": 1,
                 "Affects": "User"
               }
@@ -66040,7 +66363,13 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength", "Dexterity", "Special", "Def", "SpDef"],
+                "Stats": [
+                  "Strength",
+                  "Dexterity",
+                  "Special",
+                  "Def",
+                  "SpDef"
+                ],
                 "Stages": -2,
                 "Affects": "Targets"
               }
@@ -66338,7 +66667,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength"],
+                "Stats": [
+                  "Strength"
+                ],
                 "Stages": 1,
                 "ChanceDice": 1,
                 "Affects": "User"
@@ -66481,7 +66812,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["SpDef"],
+                "Stats": [
+                  "SpDef"
+                ],
                 "Stages": -2,
                 "Affects": "Targets"
               }
@@ -66773,7 +67106,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Spec"],
+                "Stats": [
+                  "Spec"
+                ],
                 "Stages": 1,
                 "Affects": "User"
               }
@@ -66926,7 +67261,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength"],
+                "Stats": [
+                  "Strength"
+                ],
                 "Stages": 1,
                 "ChanceDice": 2,
                 "Affects": "User"
@@ -68647,7 +68984,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Special"],
+                "Stats": [
+                  "Special"
+                ],
                 "Stages": -1,
                 "ChanceDice": 5,
                 "Affects": "Targets"
@@ -69206,7 +69545,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Special"],
+                "Stats": [
+                  "Special"
+                ],
                 "Stages": -1,
                 "ChanceDice": 3,
                 "Affects": "Targets"
@@ -70114,7 +70455,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Accuracy"],
+                "Stats": [
+                  "Accuracy"
+                ],
                 "Stages": -1,
                 "ChanceDice": 3,
                 "Affects": "Targets"
@@ -70245,7 +70588,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Dexterity"],
+                "Stats": [
+                  "Dexterity"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -70375,7 +70720,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Accuracy"],
+                "Stats": [
+                  "Accuracy"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -70663,7 +71010,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Accuracy"],
+                "Stats": [
+                  "Accuracy"
+                ],
                 "Stages": -1,
                 "ChanceDice": 3,
                 "Affects": "Targets"
@@ -70928,7 +71277,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Special"],
+                "Stats": [
+                  "Special"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -71193,7 +71544,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Special"],
+                "Stats": [
+                  "Special"
+                ],
                 "Stages": 2,
                 "Affects": "User"
               }
@@ -72035,7 +72388,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Accuracy"],
+                "Stats": [
+                  "Accuracy"
+                ],
                 "Stages": -1,
                 "ChanceDice": 4,
                 "Affects": "Targets"
@@ -72610,7 +72965,13 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength", "Dexterity", "Special", "Def", "SpDef"],
+                "Stats": [
+                  "Strength",
+                  "Dexterity",
+                  "Special",
+                  "Def",
+                  "SpDef"
+                ],
                 "Stages": 1,
                 "Affects": "User"
               }
@@ -72758,7 +73119,10 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength", "Special"],
+                "Stats": [
+                  "Strength",
+                  "Special"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -72929,8 +73293,12 @@
       "existing_scopes_to_verify": [],
       "printed_review": {
         "name": "Nuzzle",
-        "printed_pages": [453],
-        "pdf_pages": [320],
+        "printed_pages": [
+          453
+        ],
+        "pdf_pages": [
+          320
+        ],
         "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
       },
       "catalog_differences": {},
@@ -73344,7 +73712,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def"],
+                "Stats": [
+                  "Def"
+                ],
                 "Stages": -2,
                 "Affects": "Targets"
               }
@@ -73497,7 +73867,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Accuracy"],
+                "Stats": [
+                  "Accuracy"
+                ],
                 "Stages": -1,
                 "ChanceDice": 5,
                 "Affects": "Targets"
@@ -73646,7 +74018,10 @@
             ],
             "StatChanges": [
               {
-                "Stats": ["Def", "SpDef"],
+                "Stats": [
+                  "Def",
+                  "SpDef"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -73939,7 +74314,13 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength", "Dexterity", "Special", "Def", "SpDef"],
+                "Stats": [
+                  "Strength",
+                  "Dexterity",
+                  "Special",
+                  "Def",
+                  "SpDef"
+                ],
                 "Stages": 1,
                 "ChanceDice": 1,
                 "Affects": "User"
@@ -74666,7 +75047,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Special"],
+                "Stats": [
+                  "Special"
+                ],
                 "Stages": -2,
                 "Affects": "User"
               }
@@ -75102,7 +75485,10 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength", "Special"],
+                "Stats": [
+                  "Strength",
+                  "Special"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -76765,7 +77151,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength"],
+                "Stats": [
+                  "Strength"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -76907,7 +77295,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength"],
+                "Stats": [
+                  "Strength"
+                ],
                 "Stages": -1,
                 "ChanceDice": 1,
                 "Affects": "Targets"
@@ -77199,8 +77589,12 @@
       "existing_scopes_to_verify": [],
       "printed_review": {
         "name": "Poison Gas",
-        "printed_pages": [508],
-        "pdf_pages": [375],
+        "printed_pages": [
+          508
+        ],
+        "pdf_pages": [
+          375
+        ],
         "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
       },
       "catalog_differences": {},
@@ -77468,8 +77862,12 @@
       "existing_scopes_to_verify": [],
       "printed_review": {
         "name": "Poison Powder",
-        "printed_pages": [508],
-        "pdf_pages": [375],
+        "printed_pages": [
+          508
+        ],
+        "pdf_pages": [
+          375
+        ],
         "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
       },
       "catalog_differences": {},
@@ -78423,7 +78821,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Dexterity"],
+                "Stats": [
+                  "Dexterity"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -79792,7 +80192,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength"],
+                "Stats": [
+                  "Strength"
+                ],
                 "Stages": 1,
                 "Affects": "User"
               }
@@ -81334,7 +81736,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["SpDef"],
+                "Stats": [
+                  "SpDef"
+                ],
                 "Stages": -1,
                 "ChanceDice": 1,
                 "Affects": "Targets"
@@ -81501,7 +81905,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Special"],
+                "Stats": [
+                  "Special"
+                ],
                 "Stages": -2,
                 "Affects": "User"
               }
@@ -81911,7 +82317,10 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def", "SpDef"],
+                "Stats": [
+                  "Def",
+                  "SpDef"
+                ],
                 "Stages": 1,
                 "ChanceDice": 3,
                 "Affects": "User"
@@ -82587,7 +82996,9 @@
           "id": "metadata:AddedEffects",
           "field": "AddedEffects",
           "value": {
-            "AilmentHeal": ["All"]
+            "AilmentHeal": [
+              "All"
+            ]
           },
           "status": "pending",
           "batch": 11,
@@ -83435,7 +83846,11 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Dexterity", "Special", "SpDef"],
+                "Stats": [
+                  "Dexterity",
+                  "Special",
+                  "SpDef"
+                ],
                 "Stages": 1,
                 "Affects": "Targets"
               }
@@ -84406,7 +84821,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Dexterity"],
+                "Stats": [
+                  "Dexterity"
+                ],
                 "Stages": 1,
                 "Affects": "User"
               }
@@ -84695,7 +85112,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def"],
+                "Stats": [
+                  "Def"
+                ],
                 "Stages": -1,
                 "ChanceDice": 1,
                 "Affects": "Targets"
@@ -87573,7 +87992,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Dexterity"],
+                "Stats": [
+                  "Dexterity"
+                ],
                 "Stages": 2,
                 "Affects": "User"
               }
@@ -87856,7 +88277,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def"],
+                "Stats": [
+                  "Def"
+                ],
                 "Stages": -1,
                 "ChanceDice": 5,
                 "Affects": "Targets"
@@ -88147,7 +88570,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Dexterity"],
+                "Stats": [
+                  "Dexterity"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -89839,8 +90264,12 @@
       ],
       "printed_review": {
         "name": "Safeguard",
-        "printed_pages": [499],
-        "pdf_pages": [366],
+        "printed_pages": [
+          499
+        ],
+        "pdf_pages": [
+          366
+        ],
         "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
       },
       "catalog_differences": {},
@@ -90260,7 +90689,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Accuracy"],
+                "Stats": [
+                  "Accuracy"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -91514,7 +91945,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Dexterity"],
+                "Stats": [
+                  "Dexterity"
+                ],
                 "Stages": -2,
                 "Affects": "Targets"
               }
@@ -91898,7 +92331,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def"],
+                "Stats": [
+                  "Def"
+                ],
                 "Stages": -2,
                 "Affects": "Targets"
               }
@@ -92611,7 +93046,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["SpDef"],
+                "Stats": [
+                  "SpDef"
+                ],
                 "Stages": -2,
                 "ChanceDice": 4,
                 "Affects": "Targets"
@@ -93038,7 +93475,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["SpDef"],
+                "Stats": [
+                  "SpDef"
+                ],
                 "Stages": -1,
                 "ChanceDice": 1,
                 "Affects": "Targets"
@@ -93169,7 +93608,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def"],
+                "Stats": [
+                  "Def"
+                ],
                 "Stages": -1,
                 "ChanceDice": 2,
                 "Affects": "Targets"
@@ -93336,7 +93777,9 @@
           "status": "partial",
           "scope": "Charge, range/barrier bypass and encounter HP healing debt are automated. Enforcing the 24-hour debt after leaving the encounter needs persistent recovery tracking and remains manual.",
           "page": 474,
-          "dependencies": ["persistent-recovery-restrictions"]
+          "dependencies": [
+            "persistent-recovery-restrictions"
+          ]
         }
       ],
       "printed_review": null,
@@ -93894,7 +94337,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength"],
+                "Stats": [
+                  "Strength"
+                ],
                 "Stages": 1,
                 "Affects": "User"
               }
@@ -94619,12 +95064,19 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength", "Special", "Dexterity"],
+                "Stats": [
+                  "Strength",
+                  "Special",
+                  "Dexterity"
+                ],
                 "Stages": 2,
                 "Affects": "User"
               },
               {
-                "Stats": ["Def", "SpDef"],
+                "Stats": [
+                  "Def",
+                  "SpDef"
+                ],
                 "Stages": -2,
                 "Affects": "User"
               }
@@ -94904,12 +95356,17 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["SpDef", "Def"],
+                "Stats": [
+                  "SpDef",
+                  "Def"
+                ],
                 "Stages": 1,
                 "Affects": "User"
               },
               {
-                "Stats": ["Accuracy"],
+                "Stats": [
+                  "Accuracy"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -95039,12 +95496,16 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength"],
+                "Stats": [
+                  "Strength"
+                ],
                 "Stages": 1,
                 "Affects": "Targets"
               },
               {
-                "Stats": ["Dexterity"],
+                "Stats": [
+                  "Dexterity"
+                ],
                 "Stages": 2,
                 "Affects": "Targets"
               }
@@ -95740,7 +96201,13 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength", "Dexterity", "Special", "Def", "SpDef"],
+                "Stats": [
+                  "Strength",
+                  "Dexterity",
+                  "Special",
+                  "Def",
+                  "SpDef"
+                ],
                 "Stages": 1,
                 "ChanceDice": 1,
                 "Affects": "User"
@@ -95918,8 +96385,12 @@
       "existing_scopes_to_verify": [],
       "printed_review": {
         "name": "Sing",
-        "printed_pages": [500],
-        "pdf_pages": [367],
+        "printed_pages": [
+          500
+        ],
+        "pdf_pages": [
+          367
+        ],
         "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
       },
       "catalog_differences": {},
@@ -96615,7 +97086,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["SpDef"],
+                "Stats": [
+                  "SpDef"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -96758,7 +97231,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def"],
+                "Stats": [
+                  "Def"
+                ],
                 "Stages": 1,
                 "Affects": "User"
               }
@@ -97691,8 +98166,12 @@
       "existing_scopes_to_verify": [],
       "printed_review": {
         "name": "Sleep Powder",
-        "printed_pages": [479],
-        "pdf_pages": [346],
+        "printed_pages": [
+          479
+        ],
+        "pdf_pages": [
+          346
+        ],
         "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
       },
       "catalog_differences": {},
@@ -99052,7 +99531,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Accuracy"],
+                "Stats": [
+                  "Accuracy"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -99342,7 +99823,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Special"],
+                "Stats": [
+                  "Special"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -99369,7 +99852,9 @@
           "status": "partial",
           "scope": "Transfers supported move and ability attribute/defense increases and reductions, shields, healing targeting and typed side effects. Ability snapshots retain provenance; stolen conditional modifiers remain removed until their condition clears. Decoys transfer remaining HP and reset defenses to the user. Unmodelled effects remain manual.",
           "page": 447,
-          "dependencies": ["unmodelled-effects"]
+          "dependencies": [
+            "unmodelled-effects"
+          ]
         }
       ],
       "printed_review": null,
@@ -100953,8 +101438,12 @@
       ],
       "printed_review": {
         "name": "Sparkling Aria",
-        "printed_pages": [526],
-        "pdf_pages": [393],
+        "printed_pages": [
+          526
+        ],
+        "pdf_pages": [
+          393
+        ],
         "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
       },
       "catalog_differences": {},
@@ -101212,7 +101701,9 @@
           "id": "metadata:AddedEffects",
           "field": "AddedEffects",
           "value": {
-            "AilmentHeal": ["All"]
+            "AilmentHeal": [
+              "All"
+            ]
           },
           "status": "pending",
           "batch": 11,
@@ -101611,12 +102102,16 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength"],
+                "Stats": [
+                  "Strength"
+                ],
                 "Stages": 2,
                 "Affects": "Targets"
               },
               {
-                "Stats": ["Def"],
+                "Stats": [
+                  "Def"
+                ],
                 "Stages": -2,
                 "Affects": "Targets"
               }
@@ -102381,7 +102876,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Dexterity"],
+                "Stats": [
+                  "Dexterity"
+                ],
                 "Stages": -2,
                 "Affects": "User"
               }
@@ -102511,7 +103008,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Special"],
+                "Stats": [
+                  "Special"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -103197,8 +103696,12 @@
       "existing_scopes_to_verify": [],
       "printed_review": {
         "name": "Spore",
-        "printed_pages": [479],
-        "pdf_pages": [346],
+        "printed_pages": [
+          479
+        ],
+        "pdf_pages": [
+          346
+        ],
         "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
       },
       "catalog_differences": {},
@@ -104608,7 +105111,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def"],
+                "Stats": [
+                  "Def"
+                ],
                 "Stages": 1,
                 "ChanceDice": 1,
                 "Affects": "User"
@@ -104761,7 +105266,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Dexterity"],
+                "Stats": [
+                  "Dexterity"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -104902,7 +105409,10 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def", "SpDef"],
+                "Stats": [
+                  "Def",
+                  "SpDef"
+                ],
                 "Stages": 1,
                 "Affects": "User"
               }
@@ -106051,7 +106561,9 @@
             },
             "StatChanges": [
               {
-                "Stats": ["Strength"],
+                "Stats": [
+                  "Strength"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -106305,7 +106817,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Dexterity"],
+                "Stats": [
+                  "Dexterity"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -106645,7 +107159,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Special"],
+                "Stats": [
+                  "Special"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -106883,7 +107399,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def"],
+                "Stats": [
+                  "Def"
+                ],
                 "Stages": 2,
                 "Affects": "User"
               }
@@ -106907,8 +107425,12 @@
       "existing_scopes_to_verify": [],
       "printed_review": {
         "name": "Stun Spore",
-        "printed_pages": [480],
-        "pdf_pages": [347],
+        "printed_pages": [
+          480
+        ],
+        "pdf_pages": [
+          347
+        ],
         "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
       },
       "catalog_differences": {},
@@ -108332,7 +108854,10 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength", "Def"],
+                "Stats": [
+                  "Strength",
+                  "Def"
+                ],
                 "Stages": -1,
                 "Affects": "User"
               }
@@ -108485,8 +109010,12 @@
       "existing_scopes_to_verify": [],
       "printed_review": {
         "name": "Supersonic",
-        "printed_pages": [503],
-        "pdf_pages": [370],
+        "printed_pages": [
+          503
+        ],
+        "pdf_pages": [
+          370
+        ],
         "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
       },
       "catalog_differences": {},
@@ -109033,7 +109562,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength"],
+                "Stats": [
+                  "Strength"
+                ],
                 "Stages": 2,
                 "Affects": "Targets"
               }
@@ -109212,8 +109743,12 @@
       "existing_scopes_to_verify": [],
       "printed_review": {
         "name": "Sweet Kiss",
-        "printed_pages": [458],
-        "pdf_pages": [325],
+        "printed_pages": [
+          458
+        ],
+        "pdf_pages": [
+          325
+        ],
         "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
       },
       "catalog_differences": {},
@@ -109833,7 +110368,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength"],
+                "Stats": [
+                  "Strength"
+                ],
                 "Stages": 2,
                 "Affects": "User"
               }
@@ -110685,7 +111222,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Special"],
+                "Stats": [
+                  "Special"
+                ],
                 "Stages": 3,
                 "Affects": "User"
               }
@@ -110951,7 +111490,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def"],
+                "Stats": [
+                  "Def"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -111380,7 +111921,10 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Special", "SpDef"],
+                "Stats": [
+                  "Special",
+                  "SpDef"
+                ],
                 "Stages": 1,
                 "Affects": "User"
               }
@@ -111520,7 +112064,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Dexterity"],
+                "Stats": [
+                  "Dexterity"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -111795,7 +112341,10 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength", "Special"],
+                "Stats": [
+                  "Strength",
+                  "Special"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -112202,8 +112751,12 @@
       "existing_scopes_to_verify": [],
       "printed_review": {
         "name": "Teeter Dance",
-        "printed_pages": [504],
-        "pdf_pages": [371],
+        "printed_pages": [
+          504
+        ],
+        "pdf_pages": [
+          371
+        ],
         "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
       },
       "catalog_differences": {},
@@ -114458,8 +115011,12 @@
       "existing_scopes_to_verify": [],
       "printed_review": {
         "name": "Thunder Wave",
-        "printed_pages": [454],
-        "pdf_pages": [321],
+        "printed_pages": [
+          454
+        ],
+        "pdf_pages": [
+          321
+        ],
         "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
       },
       "catalog_differences": {},
@@ -115139,7 +115696,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def"],
+                "Stats": [
+                  "Def"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -115269,7 +115828,10 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength", "Def"],
+                "Stats": [
+                  "Strength",
+                  "Def"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -115659,7 +116221,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Special"],
+                "Stats": [
+                  "Special"
+                ],
                 "Stages": 1,
                 "Affects": "User"
               }
@@ -115831,8 +116395,12 @@
       ],
       "printed_review": {
         "name": "Toxic Spikes",
-        "printed_pages": [509],
-        "pdf_pages": [376],
+        "printed_pages": [
+          509
+        ],
+        "pdf_pages": [
+          376
+        ],
         "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
       },
       "catalog_differences": {},
@@ -116099,7 +116667,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Dexterity"],
+                "Stats": [
+                  "Dexterity"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -116129,8 +116699,12 @@
       "existing_scopes_to_verify": [],
       "printed_review": {
         "name": "Toxic",
-        "printed_pages": [509],
-        "pdf_pages": [376],
+        "printed_pages": [
+          509
+        ],
+        "pdf_pages": [
+          376
+        ],
         "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
       },
       "catalog_differences": {},
@@ -116374,7 +116948,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Dexterity"],
+                "Stats": [
+                  "Dexterity"
+                ],
                 "Stages": 1,
                 "Affects": "User"
               }
@@ -117784,7 +118360,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength"],
+                "Stats": [
+                  "Strength"
+                ],
                 "Stages": -1,
                 "Affects": "Targets"
               }
@@ -118774,8 +119352,12 @@
       ],
       "printed_review": {
         "name": "Uproar",
-        "printed_pages": [505],
-        "pdf_pages": [372],
+        "printed_pages": [
+          505
+        ],
+        "pdf_pages": [
+          372
+        ],
         "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
       },
       "catalog_differences": {},
@@ -119035,7 +119617,11 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Dexterity", "Def", "SpDef"],
+                "Stats": [
+                  "Dexterity",
+                  "Def",
+                  "SpDef"
+                ],
                 "Stages": -1,
                 "Affects": "User"
               }
@@ -119803,7 +120389,10 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength", "Def"],
+                "Stats": [
+                  "Strength",
+                  "Def"
+                ],
                 "Stages": 1,
                 "Affects": "User"
               }
@@ -121530,7 +122119,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Dex"],
+                "Stats": [
+                  "Dex"
+                ],
                 "Stages": -1,
                 "Affects": "User"
               }
@@ -122516,8 +123107,12 @@
       ],
       "printed_review": {
         "name": "Wild Charge",
-        "printed_pages": [455],
-        "pdf_pages": [322],
+        "printed_pages": [
+          455
+        ],
+        "pdf_pages": [
+          322
+        ],
         "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
       },
       "catalog_differences": {},
@@ -122822,8 +123417,12 @@
       "existing_scopes_to_verify": [],
       "printed_review": {
         "name": "Will-O-Wisp",
-        "printed_pages": [468],
-        "pdf_pages": [335],
+        "printed_pages": [
+          468
+        ],
+        "pdf_pages": [
+          335
+        ],
         "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
       },
       "catalog_differences": {},
@@ -123348,7 +123947,9 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Def"],
+                "Stats": [
+                  "Def"
+                ],
                 "Stages": 1,
                 "Affects": "User"
               }
@@ -123745,7 +124346,10 @@
           "value": {
             "StatChanges": [
               {
-                "Stats": ["Strength", "Special"],
+                "Stats": [
+                  "Strength",
+                  "Special"
+                ],
                 "Stages": 1,
                 "Affects": "User"
               }
@@ -124498,8 +125102,12 @@
       "existing_scopes_to_verify": [],
       "printed_review": {
         "name": "Zap Cannon",
-        "printed_pages": [455],
-        "pdf_pages": [322],
+        "printed_pages": [
+          455
+        ],
+        "pdf_pages": [
+          322
+        ],
         "method": "Exact case-insensitive move-title line in extracted printed move-card pages; source prose compared for the queued status clause. Not a full layout or every-clause certification."
       },
       "catalog_differences": {},

@@ -40,13 +40,48 @@ test("whole-card ledger accounts for every source identity without route-based c
           clause.evidence.length > 0,
           `${card.name}: missing semantic evidence`,
         );
+        for (const evidence of clause.evidence) {
+          assert.equal(typeof evidence.command, "string");
+          assert.equal(typeof evidence.file, "string");
+          assert.equal(typeof evidence.test, "string");
+          assert.ok(
+            readFileSync(evidence.file, "utf8").includes(evidence.test),
+            `${card.name}: stale test evidence`,
+          );
+        }
       }
+      if (clause.status === "excluded")
+        assert.ok(
+          clause.exclusion,
+          `${card.name}: missing clause exclusion reason`,
+        );
     }
   }
 });
 
 test("ledger regenerates from actual source bytes and preserves reviewed decisions", () => {
   assert.deepEqual(buildLedger(audit, ledger, resolve("..")), ledger);
+});
+
+test("source drift rejects stale audits and invalidates prior semantic evidence", () => {
+  const stale = structuredClone(audit);
+  stale.moves[0].sha256 = "outdated-source";
+  assert.throws(
+    () => buildLedger(stale, ledger, resolve("..")),
+    /Source drift/,
+  );
+  const old = structuredClone(ledger);
+  const card = old.moves.find((m) => m.name === "Hold Hands");
+  card.sha256 = "outdated-source";
+  card.semantic_review_complete = true;
+  const refreshed = buildLedger(audit, old, resolve(".."));
+  const result = refreshed.moves.find((m) => m.name === "Hold Hands");
+  assert.equal(result.semantic_review_complete, false);
+  assert.ok(
+    result.clauses.every(
+      (c) => c.status === "pending" && c.evidence.length === 0,
+    ),
+  );
 });
 
 test("review units retain every effect character and all combat metadata", () => {

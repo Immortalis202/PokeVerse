@@ -52,6 +52,7 @@ The live source of remaining route work is `rules/move-effect-audit.json`. Its f
 | MOVE-A44 | Order Up covered Tatsugiri form bonus | Implemented; verification recorded below |
 | Stat reset ruling | Preserve active passive bonuses; clear applied move and triggered-ability changes, confirmed 6 November 2026 | Adopted by MOVE-A33 |
 | First Impression ruling | First eligible action round, confirmed by the user on 5 November 2026 | Implemented in MOVE-A24 |
+| MOVE-A45 | Saved Hold Hands resistance and GM battle-ending workflow | Complete |
 | Later blocks | Ordinary attacks with existing attributes; remaining stat changes, resets and swaps; type/damage conversions; field changes; conditional damage; timing/action restrictions; items; copy/selection effects | Open |
 
 New block adoption is persisted in `TurnFlow.completion.blocks`. Every release records its engine in `rules/move-completion.json`; historical saves adopt no additional blocks automatically. The shared special-effect state is boxed while preserving its JSON shape to keep transition stack usage bounded.
@@ -71,3 +72,8 @@ MOVE-A44 baseline verification on 10 November: 978 Rust tests passed, one invent
 
 
 Inventory implementation: `npm run moves:inventory` verifies actual source SHA256 values and regenerates all 892 cards, preserving reviewed decisions only for unchanged source and matching clauses. The checklist contains 11,833 sentence/metadata review units, including Power, typing, damage/accuracy stats and structured effects. `npm run test:moves:inventory` checks regeneration, exact prose reconstruction, metadata preservation and assignments. These units are not counts of distinct mechanics or completed clauses. Whole-card semantic certification remains pending.
+
+
+### MOVE-A45: saved Hold Hands decisions
+
+See [the move-decision workflow](battle-move-decisions.md). Target resistance, reflected recipients, GM rulings, persistence and atomic battle-end rollback are implemented. Whole-card semantic review of the catalog remains open; the supported effect clauses have source-linked test evidence in the ledger.

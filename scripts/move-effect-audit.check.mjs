@@ -56,7 +56,11 @@ test("completion blocks retain exact source identities, printed decisions and ex
       }
       assert.equal(
         m.route,
-        d.requires_input ? "input-required" : "executable-scope",
+        d.gm_decision
+          ? "gm-choice"
+          : d.requires_input
+            ? "input-required"
+            : "executable-scope",
         name,
       );
       assert.ok(

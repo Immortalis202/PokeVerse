@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "date": "2026-11-06",
-  "release": "0.87.0",
-  "engine": "0.79.0-core",
+  "date": "2026-11-10",
+  "release": "0.88.0",
+  "engine": "0.80.0-core",
   "scope": "892-card effect-route inventory; focused semantic review of status infliction, cure and protection clauses. M2-A through M2-E battle status clauses and MOVE-A01 damaging attribute clauses plus MOVE-A02 entry hazards delivered; see scoped registries and retained choices.",
   "limits": [
     "An executable route is not full card coverage.",
@@ -18760,17 +18760,24 @@
       "excluded_clauses": [
         "Outside-battle narrative clauses are outside this battle audit"
       ],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A45: Saved optional target Will resistance followed by a GM battle-ending decision. Successful resistance prevents ending; accepted ending uses normal persistence, transformations, equipment cleanup and rollback. Outside-battle narrative remains excluded.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
+          "code": "battle",
+          "message": "Hold Hands requires the saved target resistance and GM ruling workflow",
           "result": "route_error"
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
+          "code": "battle",
+          "message": "Hold Hands requires the saved target resistance and GM ruling workflow",
           "result": "route_error"
         }
       }

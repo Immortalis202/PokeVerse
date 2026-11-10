@@ -1,6 +1,6 @@
 # Move-effect audit: milestone 1
 
-Snapshot refreshed: 6 November 2026, app **0.87.0**, engine **0.79.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
+Snapshot refreshed: 10 November 2026, app **0.88.0**, engine **0.80.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
 
 ## Deliverables and limits
 
@@ -24,7 +24,7 @@ The diagnostic deliberately bypasses accuracy, damage, targeting expansion, acti
 | gm-choice | 1 | Hold Hands: narrative battle-ending decision remains with the storyteller. |
 | excluded | 38 | Supplied Max/Z cards and the user-excluded Sappy Seed. |
 
-These totals sum to 892. **102 manual-effect-route results remain after MOVE-A44. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
+These totals sum to 892. **102 manual-effect-route results remain after MOVE-A45. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
 
 | Focused status result | Cards |
 | --- | ---: |
@@ -556,3 +556,10 @@ Validation covers all three public misses, exact pools, defenses, phase locking,
 ### MOVE-A44: Order Up
 
 Order Up snapshots the exact covered Tatsugiri form at declaration. Curly grants Strength, Droopy Defense and Stretchy Dexterity after a non-immune hit. Cover ending during declaration does not erase the snapshot. The move uses existing stat stacking, Simple/Contrary and historical adoption rules. Five focused public-command tests cover exact forms, repeated use, saved casts, knockout, immunity, misses and historical state.
+
+
+### MOVE-A45: saved Hold Hands resistance and storyteller ruling (10 November 2026)
+
+The actual recipient chooses optional Will-score resistance after protection/reflection. The saved roll spends no Will; a tie or greater resists. A GM reason is required to continue or end the battle, and successful resistance prevents this move from ending it. An accepted ending uses normal EndBattle resource persistence, temporary-form and equipment cleanup, finished history and atomic rollback. Older saved blocks retain manual behavior. Outside-battle narrative remains excluded. See [saved move decisions](battle-move-decisions.md).
+
+Validation: 984 Rust tests passed with localhost networking, with the ignored move inventory passed separately; 164 completion tests and adjacent move regressions passed. All 81 frontend and 59 script checks, TypeScript, formatting and diff checks passed. App 0.88.0, engine 0.80.0-core, protocol 89. Whole-catalog semantic review remains unfinished.

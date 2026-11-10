@@ -155,7 +155,14 @@ export function buildLedger(audit, previous, sourceRoot) {
               definition.field,
             )),
         evidence: saved?.evidence ?? [],
-        ...(excluded ? { exclusion: move.exclusion } : {}),
+        ...(excluded
+          ? { exclusion: move.exclusion }
+          : saved?.exclusion
+            ? { exclusion: saved.exclusion }
+            : {}),
+        ...(saved?.interpretation
+          ? { interpretation: saved.interpretation }
+          : {}),
       };
     });
     return {

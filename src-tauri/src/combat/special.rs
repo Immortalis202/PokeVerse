@@ -110,6 +110,17 @@ pub struct Series {
 #[serde(tag = "kind")]
 #[ts(export, export_to = "../../src/bindings/")]
 pub enum SpecialCommand {
+    PrepareHoldHands {
+        sequence: u32,
+    },
+    ResistHoldHands {
+        sequence: u32,
+        resist: bool,
+    },
+    RuleHoldHands {
+        sequence: u32,
+        end_battle: bool,
+    },
     GrudgeCheck {
         target_id: String,
     },
@@ -207,6 +218,9 @@ pub fn dice(c: &Campaign, cmd: &SpecialCommand, cat: &Catalog) -> Result<u32> {
         return Err(error("Upgrade special-move rules between battles"));
     }
     Ok(match cmd {
+        SpecialCommand::PrepareHoldHands { .. }
+        | SpecialCommand::ResistHoldHands { .. }
+        | SpecialCommand::RuleHoldHands { .. } => choices::dice(c, cmd)?,
         SpecialCommand::Successive {
             combatant_id,
             target_id,
@@ -305,6 +319,11 @@ pub fn command(
         ));
     }
     match cmd {
+        SpecialCommand::PrepareHoldHands { .. }
+        | SpecialCommand::ResistHoldHands { .. }
+        | SpecialCommand::RuleHoldHands { .. } => {
+            return choices::command(c, actor, cmd, faces, r, cat)
+        }
         SpecialCommand::GrudgeCheck { target_id } => {
             return Ok(format!("{}. {r}", will::check(c, actor, target_id, faces)?));
         }

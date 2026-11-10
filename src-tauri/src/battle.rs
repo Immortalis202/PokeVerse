@@ -10,6 +10,7 @@ pub fn transition(
 ) -> Result<(Campaign, String)> {
     if [
         ENGINE,
+        ORDER_UP_ENGINE,
         CRASH_MOVES_ENGINE,
         ELECTRIFY_ENGINE,
         NORMAL_ELECTRIC_ENGINE,
@@ -443,6 +444,7 @@ pub fn transition(
             }
             if ![
                 ENGINE,
+                ORDER_UP_ENGINE,
                 CRASH_MOVES_ENGINE,
                 ELECTRIFY_ENGINE,
                 NORMAL_ELECTRIC_ENGINE,

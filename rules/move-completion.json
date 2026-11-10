@@ -1804,6 +1804,20 @@
           ]
         }
       }
+    },
+    "MOVE-A45": {
+      "engine": "0.80.0-core",
+      "kind": "hold-hands",
+      "scope": "Saved optional target Will resistance followed by a GM battle-ending decision. Successful resistance prevents ending; accepted ending uses normal persistence, transformations, equipment cleanup and rollback. Outside-battle narrative remains excluded.",
+      "moves": {
+        "Hold Hands": {
+          "source": "Pokerole-Data/v3.0/Moves/Hold Hands.json",
+          "sha256": "b8d149810cd53479d952064217135a4408c8e67b04c56bfffa5789fdf697b07a",
+          "effect": "Single Target. The battle may end at the Storyteller's discretion. Target may resist rolling their Will Score against the Accuracy of this Move. Out of battle, aid to reduce hostile intent.",
+          "requires_input": true,
+          "gm_decision": true
+        }
+      }
     }
   },
   "printed_review": {

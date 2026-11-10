@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.79.0-core",
-  "release": "0.87.0",
-  "protocol": 88,
+  "engine": "0.80.0-core",
+  "release": "0.88.0",
+  "protocol": 89,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -1160,6 +1160,19 @@
         "completion_a44_miss_discards_the_cover_snapshot_without_a_bonus"
       ],
       "scope": "Order Up captures the covered conscious allied Tatsugiri current exact form when the attack is declared, before taking the action clears Cover. After a successful non-immune attack, grant the user one Strength (orange/Curly), Defense (red/Droopy) or Dexterity (yellow/Stretchy). No extra species restriction on the user. Apply existing non-stacking stat channels and Simple/Contrary. Saved cast markers preserve the selected stat; fixed-damage Clash retains its established effect rules."
+    },
+    {
+      "id": "move-completion-a45",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A45",
+      "fixtures": [
+        "completion_a45_hold_hands_declining_resistance_ends_through_normal_persistence_and_undo",
+        "completion_a45_hold_hands_will_score_tie_resists_without_spending_and_cannot_reroll",
+        "completion_a45_hold_hands_requires_target_response_gm_authority_and_current_sequence",
+        "completion_a45_hold_hands_failed_resistance_still_requires_gm_choice_and_old_saves_stay_manual",
+        "completion_a45_hold_hands_protection_and_reflection_choose_the_actual_recipient"
+      ],
+      "scope": "Saved optional target Will resistance followed by a GM battle-ending decision. Successful resistance prevents ending; accepted ending uses normal persistence, transformations, equipment cleanup and rollback. Outside-battle narrative remains excluded."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -1176,5 +1189,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "2323fb029b3e7fda049f7252d6ba9409dd5104c857797554b0ebafd47d9603d4"
+  "move_completion_registry_hash": "942c88cacbd1e71602fac228b1fc6f31cc054b4c268989329423365b564c9766"
 }

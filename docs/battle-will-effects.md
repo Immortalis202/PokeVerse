@@ -4,7 +4,7 @@ Application **0.36.0**, engine **0.29.0-core**, protocol **37**, schema **4**.
 
 ## Sources and scope
 
-Compared the exact supplied v3.0 move JSON cards with executable move handlers. The 34 relevant cards, their unchanged prose and AddedEffects, source paths and SHA256 values are recorded in `rules/will-moves-review.json`. Will in an accuracy pool does not itself spend Will. Quash's grammatical “Target's will go last” is not a resource effect. Hold Hands uses a resisted Will score and remains a narrative decision, outside this spending audit. Automatic Will recovery remains excluded.
+Compared the exact supplied v3.0 move JSON cards with executable move handlers. The 34 relevant cards, their unchanged prose and AddedEffects, source paths and SHA256 values are recorded in `rules/will-moves-review.json`. Will in an accuracy pool does not itself spend Will. Quash's grammatical “Target's will go last” is not a resource effect. Hold Hands uses a resisted Will score without spending Will. MOVE-A45 provides its saved target response and GM battle-ending workflow; it remains outside this spending audit. Automatic Will recovery remains excluded.
 
 Also checked the MASTER printed cards: Spite p.474 (PDF 341), Grudge p.472 (PDF 339), Eerie Spell p.511 (PDF 378), and Sappy Seed p.479 (PDF 346). Spite's printed Support card specifies Will + Intimidate, one foe, no damage, reducing Will to 1 and resetting spending effects. Eerie Spell specifies three Will without benefit and says it does not stack. Grudge additionally faints the user, drains to zero and requires escalating end-of-round Loyalty checks. These are distinct effects.
 

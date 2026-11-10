@@ -7070,3 +7070,333 @@ fn completion_a44_miss_discards_the_cover_snapshot_without_a_bonus() {
         .iter()
         .all(|e| !e.slot.starts_with("order-up-cast:")));
 }
+
+fn hold_decision(command: special::SpecialCommand) -> Action {
+    Action::SpecialMove {
+        command,
+        reason: "Source-backed Hold Hands decision".into(),
+    }
+}
+fn hold_prepare() -> (Campaign, String, String, u32) {
+    let (c, a, t) = setup("Hold Hands");
+    let c = pending(&c, &a, &t, "Hold Hands");
+    let sequence = q(&c).sequence;
+    let c = roll(
+        &c,
+        "gm",
+        &hold_decision(special::SpecialCommand::PrepareHoldHands { sequence }),
+        6,
+    );
+    (c, a, t, sequence)
+}
+#[test]
+fn completion_a45_hold_hands_declining_resistance_ends_through_normal_persistence_and_undo() {
+    let (c, a, t, sequence) = hold_prepare();
+    let before_will = p(&c, &t).runtime.will;
+    let c = roll(
+        &c,
+        "other",
+        &hold_decision(special::SpecialCommand::ResistHoldHands {
+            sequence,
+            resist: false,
+        }),
+        6,
+    );
+    assert_eq!(p(&c, &t).runtime.will, before_will);
+    let saved: Campaign = serde_json::from_str(&serde_json::to_string(&c).unwrap()).unwrap();
+    let ended = roll(
+        &saved,
+        "gm",
+        &hold_decision(special::SpecialCommand::RuleHoldHands {
+            sequence,
+            end_battle: true,
+        }),
+        6,
+    );
+    assert!(!ended.battle.as_ref().unwrap().active);
+    assert_eq!(
+        ended.finished_battles.len(),
+        saved.finished_battles.len() + 1
+    );
+    assert_eq!(
+        ended.sheets[&p(&saved, &a).sheet_id].hp,
+        p(&saved, &a)
+            .hp
+            .min(ended.sheets[&p(&saved, &a).sheet_id].max_hp)
+    );
+    assert_eq!(
+        ended
+            .battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .completion
+            .hold_hands[&sequence]
+            .end_battle,
+        Some(true)
+    );
+    let checkpoint = ended.battle_undo.last().unwrap().event_sequence;
+    let restored = roll(
+        &ended,
+        "gm",
+        &Action::RollbackBattle {
+            event_sequence: checkpoint,
+            reason: "Undo Hold Hands ending".into(),
+        },
+        6,
+    );
+    assert!(restored.battle.as_ref().unwrap().active);
+    assert_eq!(q(&restored).sequence, sequence);
+    assert_eq!(
+        restored.finished_battles.len(),
+        saved.finished_battles.len()
+    );
+    assert_eq!(
+        restored
+            .battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .completion
+            .hold_hands[&sequence]
+            .end_battle,
+        None
+    );
+}
+#[test]
+fn completion_a45_hold_hands_will_score_tie_resists_without_spending_and_cannot_reroll() {
+    let (mut c, _, t, sequence) = hold_prepare();
+    let will = c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .completion
+        .hold_hands[&sequence]
+        .will_dice;
+    assert!(will > 0);
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .completion
+        .hold_hands
+        .get_mut(&sequence)
+        .unwrap()
+        .accuracy = will as i32;
+    pm(&mut c, &t).runtime.will = 1;
+    let resist = hold_decision(special::SpecialCommand::ResistHoldHands {
+        sequence,
+        resist: true,
+    });
+    assert_eq!(rules::dice_count(&c, &resist, &catalog()).unwrap(), will);
+    let c = roll(&c, "other", &resist, 6);
+    assert_eq!(p(&c, &t).runtime.will, 1);
+    let d = &c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .completion
+        .hold_hands[&sequence];
+    assert_eq!(d.resisted, Some(true));
+    assert_eq!(d.faces.len(), will as usize);
+    assert!(battle::transition(&c, "other", &resist, vec![6; will as usize], &catalog()).is_err());
+    let end = hold_decision(special::SpecialCommand::RuleHoldHands {
+        sequence,
+        end_battle: true,
+    });
+    assert!(battle::transition(&c, "gm", &end, vec![], &catalog()).is_err());
+    let c = roll(
+        &c,
+        "gm",
+        &hold_decision(special::SpecialCommand::RuleHoldHands {
+            sequence,
+            end_battle: false,
+        }),
+        6,
+    );
+    assert!(c.battle.as_ref().unwrap().active);
+    assert!(c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .queue
+        .is_empty());
+}
+#[test]
+fn completion_a45_hold_hands_requires_target_response_gm_authority_and_current_sequence() {
+    let (c, _, _, sequence) = hold_prepare();
+    let end = hold_decision(special::SpecialCommand::RuleHoldHands {
+        sequence,
+        end_battle: true,
+    });
+    assert!(battle::transition(&c, "gm", &end, vec![], &catalog()).is_err());
+    let resist = hold_decision(special::SpecialCommand::ResistHoldHands {
+        sequence,
+        resist: false,
+    });
+    assert!(battle::transition(&c, "player", &resist, vec![], &catalog()).is_err());
+    let c = roll(&c, "other", &resist, 1);
+    assert!(battle::transition(&c, "other", &end, vec![], &catalog()).is_err());
+    let stale = hold_decision(special::SpecialCommand::RuleHoldHands {
+        sequence: sequence + 1,
+        end_battle: true,
+    });
+    assert!(battle::transition(&c, "gm", &stale, vec![], &catalog()).is_err());
+    let c = roll(
+        &c,
+        "gm",
+        &hold_decision(special::SpecialCommand::RuleHoldHands {
+            sequence,
+            end_battle: false,
+        }),
+        6,
+    );
+    assert!(battle::transition(&c, "gm", &end, vec![], &catalog()).is_err());
+}
+#[test]
+fn completion_a45_hold_hands_failed_resistance_still_requires_gm_choice_and_old_saves_stay_manual()
+{
+    let (c, _, _, sequence) = hold_prepare();
+    let c = roll(
+        &c,
+        "other",
+        &hold_decision(special::SpecialCommand::ResistHoldHands {
+            sequence,
+            resist: true,
+        }),
+        1,
+    );
+    assert!(c.battle.as_ref().unwrap().active);
+    assert_eq!(
+        c.battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .completion
+            .hold_hands[&sequence]
+            .resisted,
+        Some(false)
+    );
+    let mut disabled = c.clone();
+    disabled
+        .battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .special
+        .enabled = false;
+    assert!(battle::transition(
+        &disabled,
+        "gm",
+        &hold_decision(special::SpecialCommand::RuleHoldHands {
+            sequence,
+            end_battle: true
+        }),
+        vec![],
+        &catalog()
+    )
+    .is_err());
+    let mut old = c.clone();
+    old.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .completion
+        .blocks
+        .remove("MOVE-A45");
+    assert!(rules::dice_count(
+        &old,
+        &hold_decision(special::SpecialCommand::RuleHoldHands {
+            sequence,
+            end_battle: true
+        }),
+        &catalog()
+    )
+    .is_err());
+    let c = roll(
+        &c,
+        "gm",
+        &hold_decision(special::SpecialCommand::RuleHoldHands {
+            sequence,
+            end_battle: false,
+        }),
+        6,
+    );
+    assert!(c.battle.as_ref().unwrap().active);
+}
+#[test]
+fn completion_a45_hold_hands_protection_and_reflection_choose_the_actual_recipient() {
+    let (mut c, a, t) = setup("Hold Hands");
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .tactics
+        .enabled = true;
+    pm(&mut c, &t).selected_ability = "Magic Bounce".into();
+    let c = pending(&c, &a, &t, "Hold Hands");
+    let sequence = q(&c).sequence;
+    let c = roll(
+        &c,
+        "gm",
+        &hold_decision(special::SpecialCommand::PrepareHoldHands { sequence }),
+        6,
+    );
+    assert_eq!(
+        c.battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .completion
+            .hold_hands[&sequence]
+            .target_id,
+        a
+    );
+    let (mut c, a, t) = setup("Hold Hands");
+    pm(&mut c, &t).selected_ability = "Good As Gold".into();
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .tactics
+        .enabled = true;
+    let c = pending(&c, &a, &t, "Hold Hands");
+    let sequence = q(&c).sequence;
+    assert!(battle::transition(
+        &c,
+        "gm",
+        &hold_decision(special::SpecialCommand::PrepareHoldHands { sequence }),
+        vec![],
+        &catalog()
+    )
+    .is_err());
+    let c = resolve(&c);
+    assert!(c.battle.as_ref().unwrap().active);
+}

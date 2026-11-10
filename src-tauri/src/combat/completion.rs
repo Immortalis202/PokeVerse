@@ -5,6 +5,7 @@ use super::*;
 #[serde(default)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct MoveCompletionState {
+    pub hold_hands: BTreeMap<u32, choices::HoldHandsDecision>,
     pub blocks: BTreeSet<String>,
     pub uses: Vec<CompletionMoveUse>,
     pub entered: BTreeMap<String, u32>,
@@ -32,6 +33,7 @@ pub fn initial(engine: &str) -> MoveCompletionState {
         return MoveCompletionState::default();
     };
     MoveCompletionState {
+        hold_hands: BTreeMap::new(),
         blocks: blocks.keys().filter(|id| *id <= last).cloned().collect(),
         ..Default::default()
     }
@@ -90,7 +92,7 @@ pub fn effect_dice(c: &Campaign, q: &QueuedAction) -> Result<Option<u32>> {
     }
     Ok(definition(c, &q.move_name).map(|_| 0))
 }
-fn immune_target(c: &Campaign, q: &QueuedAction, cat: &Catalog) -> Result<bool> {
+pub(super) fn immune_target(c: &Campaign, q: &QueuedAction, cat: &Catalog) -> Result<bool> {
     immune_target_with_fainted(c, q, cat, false)
 }
 fn immune_target_with_fainted(
@@ -175,6 +177,13 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
         return Ok(false);
     };
     match kind {
+        "hold-hands" => {
+            if !immune_target(c, q, cat)? {
+                return Err(error(
+                    "Hold Hands requires the saved target resistance and GM ruling workflow",
+                ));
+            }
+        }
         "ordinary" | "damage-rules" | "damage-context" => {}
         "history-gated" => {
             history_effect(c, q, d, cat)?;
