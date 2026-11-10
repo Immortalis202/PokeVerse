@@ -49,7 +49,7 @@ The live source of remaining route work is `rules/move-effect-audit.json`. Its f
 | MOVE-A41 | Ion Deluge and Plasma Fists type conversion | Complete |
 | MOVE-A42 | Electrify next damaging cast | Complete |
 | MOVE-A43 | Jump Kick, High Jump Kick and Supercell Slam crash damage | Complete |
-| MOVE-A44 | Order Up covered Tatsugiri form bonus | Next |
+| MOVE-A44 | Order Up covered Tatsugiri form bonus | Implemented; verification recorded below |
 | Stat reset ruling | Preserve active passive bonuses; clear applied move and triggered-ability changes, confirmed 6 November 2026 | Adopted by MOVE-A33 |
 | First Impression ruling | First eligible action round, confirmed by the user on 5 November 2026 | Implemented in MOVE-A24 |
 | Later blocks | Ordinary attacks with existing attributes; remaining stat changes, resets and swaps; type/damage conversions; field changes; conditional damage; timing/action restrictions; items; copy/selection effects | Open |
@@ -57,3 +57,14 @@ The live source of remaining route work is `rules/move-effect-audit.json`. Its f
 New block adoption is persisted in `TurnFlow.completion.blocks`. Every release records its engine in `rules/move-completion.json`; historical saves adopt no additional blocks automatically. The shared special-effect state is boxed while preserving its JSON shape to keep transition stack usage bounded.
 
 No native packages, Clippy, native UI or physical LAN/VPN testing is scheduled automatically.
+
+
+## Final whole-card completion project (10 November 2026)
+
+The authorized final project covers all 892 source cards, preserving the existing exclusions. `rules/move-card-completion.json` is the provisional ledger; its source paths distinguish colliding catalog IDs. Existing route scopes are review inputs, never semantic certification. All in-scope clauses remain pending until reviewed and evidenced. Batch 12 initially owns inventory review; executable tasks must be assigned to batches 1–11 before implementation.
+
+Ordered batches: (1) resolution inputs/GM choices; (2) stats/traits; (3) types/category/damage; (4) history/conditional attacks; (5) initiative/reactions/maneuvers; (6) allied contributions; (7) delayed/triggers; (8) fields/protection; (9) items/berries; (10) copying/selection; (11) compound effects/rewards; (12) whole-catalog closure. Each batch requires verification and a separate commit.
+
+`npm run test:moves:closure` deliberately fails until semantic review is complete and every pending clause is resolved. The ordinary ledger integrity check does not assert completion.
+
+MOVE-A44 baseline verification on 10 November: 978 Rust tests passed, one inventory ignored by the normal suite; 77 frontend and 54 script tests passed, as did TypeScript. Native/physical networking acceptance remains separate.

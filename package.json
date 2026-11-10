@@ -10,13 +10,14 @@
     "tauri": "tauri",
     "desktop": "tauri dev",
     "package": "tauri build",
-    "test": "vitest run && node --test scripts/catalog-preview.check.mjs scripts/habitats.check.mjs scripts/compendium.check.mjs scripts/catalog-review.check.mjs scripts/acceptance-data.check.mjs scripts/move-effect-audit.check.mjs scripts/m3-review.check.mjs scripts/m4-review.check.mjs scripts/species-fidelity.check.mjs scripts/species-assets.check.mjs",
+    "test": "vitest run && node --test scripts/catalog-preview.check.mjs scripts/habitats.check.mjs scripts/compendium.check.mjs scripts/catalog-review.check.mjs scripts/acceptance-data.check.mjs scripts/move-effect-audit.check.mjs scripts/m3-review.check.mjs scripts/m4-review.check.mjs scripts/species-fidelity.check.mjs scripts/species-assets.check.mjs scripts/move-card-completion.check.mjs",
     "test:3v3": "cargo test --manifest-path src-tauri/Cargo.toml scenario_3v3 --lib -- --nocapture",
     "test:rust": "npm run catalog && cargo test --manifest-path src-tauri/Cargo.toml --lib",
     "bindings": "npm run catalog && cargo test --manifest-path src-tauri/Cargo.toml export_bindings",
     "format": "prettier --write src scripts package.json tsconfig.json vite.config.ts index.html README.md && cargo fmt --manifest-path src-tauri/Cargo.toml",
     "build:bundled": "tsc --noEmit && vite build",
-    "package:linux": "tauri build --config src-tauri/tauri.linux.conf.json"
+    "package:linux": "tauri build --config src-tauri/tauri.linux.conf.json",
+    "test:moves:closure": "node scripts/move-card-completion.check.mjs --closure"
   },
   "dependencies": {
     "@tauri-apps/api": "^2.0.0",
