@@ -13,3 +13,17 @@ The typed SpecialCommand variants are PrepareHoldHands, ResistHoldHands and Rule
 Outside-battle reduction of hostile intent remains narrative. Automatic Will recovery, lethal wounds, Max/Z/Dynamax and Sappy Seed remain excluded.
 
 Verification references: completion_a45 public-command tests and MoveDecisionControls.test.tsx. The source checklist records the implemented effect clauses separately from the remaining whole-catalog semantic review; this delivery does not certify all moves.
+
+## Metronome (MOVE-A46)
+
+App 0.89.0 / engine 0.81.0-core / protocol 90 adds a committed copied-cast workflow. The Metronome card requires category and Power dice but prints no category lookup table. The GM therefore records which die faces mean Physical before rolling; the other faces mean Special. No table is silently assumed. The saved table includes a reason and cannot change during a committed move.
+
+The owner rolls two host dice before Accuracy. The category follows the saved table, and the second die face is base Power. The saved draw includes both faces and the exact matching catalog templates. The GM chooses a matching Physical/Special card with a reason; Unique, Max/Z and Sappy Seed templates are excluded from copying. A template whose mechanics are still pending elsewhere in the ledger remains visible: the engine never silently replaces or resamples it.
+
+The source owner casts the selected template against one foe using Metronome's Insight + Perform. Normal template damage, added effects, protections, immunities, costs and prerequisites are dispatched through their existing handlers. Double/successive-action templates expose the normal attempt count and action budget. Charge casts and saved pending damage retain their copied context. The temporary template grant never modifies the permanent move list. Used-move bookkeeping, Gorilla Tactics and Choice-item comparisons retain the Metronome origin.
+
+A pending draw prevents unrelated actions. Required environment, alignment, weight/night and Natural Gift berry-profile inputs, plus pending ability/field resolutions, remain available with their usual permissions. Invalid targets or missing prerequisites preserve the draw. The GM may record the attempt as failed, spending one action; the owner cannot discard it to reroll. Normal GM rollback restores the previous saved choice and resources.
+
+The Metronome controls provide category-table setup, draw, exact template choice, target, successive count, Accuracy preview and failure recording. New SpecialCommand variants are MetronomeTable, DrawMetronome, SelectMetronome, CastMetronome and DiscardMetronome. Older encounters retain their existing completion blocks.
+
+This delivers the saved resolution workflow and shared copied-cast foundation. Whole-card certification of Metronome and every eligible template remains subject to the exhaustive ledger and final copy-interaction audit; unsupported template clauses are not converted into discretionary GM rules.

@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "engine": "0.80.0-core",
-  "release": "0.88.0",
-  "protocol": 89,
+  "engine": "0.81.0-core",
+  "release": "0.89.0",
+  "protocol": 90,
   "schema": 4,
   "sources": "Printed PDF page numbers; MASTER PDF page = printed page - 133",
   "entries": [
@@ -1173,6 +1173,23 @@
         "completion_a45_hold_hands_protection_and_reflection_choose_the_actual_recipient"
       ],
       "scope": "Saved optional target Will resistance followed by a GM battle-ending decision. Successful resistance prevents ending; accepted ending uses normal persistence, transformations, equipment cleanup and rollback. Outside-battle narrative remains excluded."
+    },
+    {
+      "id": "move-completion-a46",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A46",
+      "fixtures": [
+        "completion_a46_metronome_draw_is_saved_cannot_resample_and_matches_every_power",
+        "completion_a46_metronome_copies_unlearned_effect_with_original_accuracy_and_one_action",
+        "completion_a46_metronome_selection_is_gm_owned_exact_and_immutable",
+        "completion_a46_metronome_discard_spends_action_and_undo_restores_committed_choice",
+        "completion_a46_metronome_requires_recorded_category_table_and_preserves_historical_rules",
+        "completion_a46_metronome_copied_special_status_and_cast_undo_preserve_the_draw",
+        "completion_a46_metronome_keeps_the_single_target_for_area_templates_and_charge_context",
+        "completion_a46_metronome_keeps_wrapper_identity_for_gorilla_and_choice_scarf",
+        "completion_a46_metronome_copied_successive_actions_keep_original_accuracy_for_every_hit"
+      ],
+      "scope": "Committed Metronome category/Power dice using a saved GM category table, exact non-Unique template selection and a single-target copied cast retaining Insight + Perform. Shared template damage, added effects, charges, successive actions, normal costs and defenses are reused; wrapper identity is preserved for Gorilla Tactics and Choice items. No silent resampling. Unsupported template mechanics remain tracked by the full-card ledger."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -1189,5 +1206,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "942c88cacbd1e71602fac228b1fc6f31cc054b4c268989329423365b564c9766"
+  "move_completion_registry_hash": "6257f93e62c9ca3bd6d39726c9f1a2fc4e80061feb52b93123b70f39e5b31498"
 }

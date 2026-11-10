@@ -110,6 +110,25 @@ pub struct Series {
 #[serde(tag = "kind")]
 #[ts(export, export_to = "../../src/bindings/")]
 pub enum SpecialCommand {
+    MetronomeTable {
+        physical_faces: Vec<u8>,
+    },
+    DrawMetronome {
+        combatant_id: String,
+    },
+    SelectMetronome {
+        token: u32,
+        move_name: String,
+    },
+    CastMetronome {
+        token: u32,
+        target_id: String,
+        #[serde(default)]
+        attempts: Option<u32>,
+    },
+    DiscardMetronome {
+        token: u32,
+    },
     PrepareHoldHands {
         sequence: u32,
     },
@@ -178,6 +197,9 @@ pub fn preparing(c: &Campaign) -> bool {
     enabled(c) && state(c).series.as_ref().is_some_and(|s| s.preparing)
 }
 pub fn repeat(c: &Campaign, id: &str, name: &str) -> bool {
+    if copies::matches(c, id, name) {
+        return true;
+    }
     if recurring::copy_matches(c, id, name) {
         return true;
     }
@@ -218,6 +240,11 @@ pub fn dice(c: &Campaign, cmd: &SpecialCommand, cat: &Catalog) -> Result<u32> {
         return Err(error("Upgrade special-move rules between battles"));
     }
     Ok(match cmd {
+        SpecialCommand::MetronomeTable { .. }
+        | SpecialCommand::DrawMetronome { .. }
+        | SpecialCommand::SelectMetronome { .. }
+        | SpecialCommand::CastMetronome { .. }
+        | SpecialCommand::DiscardMetronome { .. } => copies::dice(c, cmd, cat)?,
         SpecialCommand::PrepareHoldHands { .. }
         | SpecialCommand::ResistHoldHands { .. }
         | SpecialCommand::RuleHoldHands { .. } => choices::dice(c, cmd)?,
@@ -319,6 +346,18 @@ pub fn command(
         ));
     }
     match cmd {
+        SpecialCommand::MetronomeTable { .. }
+        | SpecialCommand::DrawMetronome { .. }
+        | SpecialCommand::SelectMetronome { .. }
+        | SpecialCommand::CastMetronome { .. }
+        | SpecialCommand::DiscardMetronome { .. } => {
+            if matches!(cmd, SpecialCommand::CastMetronome { .. }) {
+                return Err(error("Copied casts require the authoritative transition"));
+            }
+            let (next, log) = copies::transition(c, actor, cmd, r, faces, cat)?;
+            *c = next;
+            return Ok(log);
+        }
         SpecialCommand::PrepareHoldHands { .. }
         | SpecialCommand::ResistHoldHands { .. }
         | SpecialCommand::RuleHoldHands { .. } => {

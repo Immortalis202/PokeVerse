@@ -1818,6 +1818,20 @@
           "gm_decision": true
         }
       }
+    },
+    "MOVE-A46": {
+      "engine": "0.81.0-core",
+      "kind": "metronome",
+      "scope": "Committed Metronome category/Power dice using a saved GM category table, exact non-Unique template selection and a single-target copied cast retaining Insight + Perform. Shared template damage, added effects, charges, successive actions, normal costs and defenses are reused; wrapper identity is preserved for Gorilla Tactics and Choice items. No silent resampling. Unsupported template mechanics remain tracked by the full-card ledger.",
+      "moves": {
+        "Metronome": {
+          "source": "Pokerole-Data/v3.0/Moves/Metronome.json",
+          "sha256": "25b69687084cbaa2c96dc09a3aef06b327beb0630a5b324c64ef47710e27b84e",
+          "effect": "Single Target. Copy Move. Roll a die to determine Physical or Special category, roll a die to determine this Move's Power. The appearance, Type and added effects of this Move becomes the same of a Physical or Special Move of the same Power at Storyteller's Discretion.",
+          "requires_input": true,
+          "core_rule": "RULING Copying Moves: original Accuracy is retained; Unique moves cannot be copied. The category die mapping is unspecified and requires a saved GM interpretation before rolling."
+        }
+      }
     }
   },
   "printed_review": {

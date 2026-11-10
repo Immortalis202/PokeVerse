@@ -7400,3 +7400,642 @@ fn completion_a45_hold_hands_protection_and_reflection_choose_the_actual_recipie
     let c = resolve(&c);
     assert!(c.battle.as_ref().unwrap().active);
 }
+
+fn metronome_cmd(command: special::SpecialCommand) -> Action {
+    Action::SpecialMove {
+        command,
+        reason: "Reviewed Metronome draw and copy".into(),
+    }
+}
+fn metronome_case(category_face: u8, power: u8) -> (Campaign, String, String, u32) {
+    let (mut c, a, t) = setup("Metronome");
+    let f = c.battle.as_mut().unwrap().flow.as_mut().unwrap();
+    f.damaging_stats.enabled = true;
+    f.chance_status = true;
+    let c = roll(
+        &c,
+        "gm",
+        &metronome_cmd(special::SpecialCommand::MetronomeTable {
+            physical_faces: vec![1, 2, 3],
+        }),
+        6,
+    );
+    let c = battle::transition(
+        &c,
+        "player",
+        &metronome_cmd(special::SpecialCommand::DrawMetronome {
+            combatant_id: a.clone(),
+        }),
+        vec![category_face, power],
+        &catalog(),
+    )
+    .unwrap()
+    .0;
+    let token = c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .completion
+        .metronome_draw
+        .as_ref()
+        .unwrap()
+        .token;
+    (c, a, t, token)
+}
+fn metronome_select(c: &Campaign, token: u32, name: &str) -> Campaign {
+    roll(
+        c,
+        "gm",
+        &metronome_cmd(special::SpecialCommand::SelectMetronome {
+            token,
+            move_name: name.into(),
+        }),
+        6,
+    )
+}
+#[test]
+fn completion_a46_metronome_draw_is_saved_cannot_resample_and_matches_every_power() {
+    for face in 1..=6 {
+        let (c, a, _, token) = metronome_case(if face % 2 == 0 { 6 } else { 1 }, face);
+        let d = c
+            .battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .completion
+            .metronome_draw
+            .as_ref()
+            .unwrap();
+        assert_eq!(d.power, face as i32);
+        assert_eq!(
+            d.category,
+            if face % 2 == 0 { "Special" } else { "Physical" }
+        );
+        assert_eq!(p(&c, &a).actions, 0);
+        for name in &d.candidates {
+            let m = catalog().find("moves", "Name", name).unwrap();
+            assert_eq!(m["Power"], face);
+            assert_eq!(m["Category"], d.category);
+            assert_ne!(m["Attributes"]["Unique"], true);
+            assert_ne!(name, "Sappy Seed");
+        }
+        if face == 1 {
+            let configured = roll(
+                &c,
+                "gm",
+                &metronome_cmd(special::SpecialCommand::Parameters {
+                    combatant_id: a.clone(),
+                    weight_kg: Some(10.0),
+                    lift_kg: None,
+                    night_override: None,
+                    night: false,
+                }),
+                6,
+            );
+            assert_eq!(
+                configured
+                    .battle
+                    .as_ref()
+                    .unwrap()
+                    .flow
+                    .as_ref()
+                    .unwrap()
+                    .completion
+                    .metronome_draw
+                    .as_ref()
+                    .unwrap()
+                    .faces,
+                d.faces
+            );
+            assert_eq!(p(&configured, &a).actions, 0);
+        }
+        let saved: Campaign = serde_json::from_str(&serde_json::to_string(&c).unwrap()).unwrap();
+        assert_eq!(
+            saved
+                .battle
+                .as_ref()
+                .unwrap()
+                .flow
+                .as_ref()
+                .unwrap()
+                .completion
+                .metronome_draw
+                .as_ref()
+                .unwrap()
+                .faces,
+            d.faces
+        );
+        assert!(battle::transition(
+            &saved,
+            "player",
+            &metronome_cmd(special::SpecialCommand::DrawMetronome {
+                combatant_id: a.clone()
+            }),
+            vec![1, 1],
+            &catalog()
+        )
+        .is_err());
+        assert!(battle::transition(
+            &saved,
+            "player",
+            &Action::PassTurn {
+                combatant_id: a,
+                reason: "Cannot escape committed draw".into()
+            },
+            vec![],
+            &catalog()
+        )
+        .is_err());
+        assert!(battle::transition(
+            &saved,
+            "gm",
+            &metronome_cmd(special::SpecialCommand::SelectMetronome {
+                token: token + 1,
+                move_name: "Tackle".into()
+            }),
+            vec![],
+            &catalog()
+        )
+        .is_err());
+    }
+}
+#[test]
+fn completion_a46_metronome_copies_unlearned_effect_with_original_accuracy_and_one_action() {
+    let (mut c, a, t, token) = metronome_case(1, 2);
+    let sid = p(&c, &a).sheet_id.clone();
+    c.sheets
+        .get_mut(&sid)
+        .unwrap()
+        .stats
+        .insert("Dexterity".into(), 1);
+    assert!(!c.sheets[&sid].moves.contains(&"Flame Charge".into()));
+    let sheets = serde_json::to_value(&c.sheets).unwrap();
+    let c = metronome_select(&c, token, "Flame Charge");
+    let cast = metronome_cmd(special::SpecialCommand::CastMetronome {
+        attempts: None,
+        token,
+        target_id: t.clone(),
+    });
+    assert_eq!(rules::dice_count(&c, &cast, &catalog()).unwrap(), 9);
+    assert!(battle::transition(&c, "other", &cast, vec![6; 9], &catalog()).is_err());
+    let mut c = roll(&c, "player", &cast, 6);
+    assert_eq!(q(&c).move_name, "Flame Charge");
+    assert_eq!(p(&c, &a).actions, 1);
+    assert!(p(&c, &a).used_moves.contains(&"Metronome".into()));
+    assert!(!p(&c, &a).used_moves.contains(&"Flame Charge".into()));
+    c = serde_json::from_str(&serde_json::to_string(&c).unwrap()).unwrap();
+    while c.battle.as_ref().unwrap().flow.as_ref().unwrap().window {
+        c = pass(&c);
+    }
+    c = roll(&c, "gm", &damage_command(&c), 1);
+    let c = resolve(&c);
+    assert_eq!(stat(&c, &a, "Dexterity"), 1);
+    assert_eq!(serde_json::to_value(&c.sheets).unwrap(), sheets);
+    assert!(c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .completion
+        .copied_cast
+        .is_none());
+    assert!(!rules::effective_sheet(&c, p(&c, &a))
+        .unwrap()
+        .moves
+        .contains(&"Flame Charge".into()));
+}
+#[test]
+fn completion_a46_metronome_selection_is_gm_owned_exact_and_immutable() {
+    let (c, _, t, token) = metronome_case(1, 2);
+    let good = metronome_cmd(special::SpecialCommand::SelectMetronome {
+        token,
+        move_name: "Flame Charge".into(),
+    });
+    assert!(battle::transition(&c, "player", &good, vec![], &catalog()).is_err());
+    for name in ["Ember", "Judgment", "Sappy Seed", "Metronome", "Hyper Beam"] {
+        assert!(
+            battle::transition(
+                &c,
+                "gm",
+                &metronome_cmd(special::SpecialCommand::SelectMetronome {
+                    token,
+                    move_name: name.into()
+                }),
+                vec![],
+                &catalog()
+            )
+            .is_err(),
+            "{name}"
+        );
+    }
+    let c = metronome_select(&c, token, "Flame Charge");
+    assert!(battle::transition(&c, "gm", &good, vec![], &catalog()).is_err());
+    assert!(battle::transition(
+        &c,
+        "player",
+        &metronome_cmd(special::SpecialCommand::CastMetronome {
+            attempts: None,
+            token,
+            target_id: "missing".into()
+        }),
+        vec![6; 9],
+        &catalog()
+    )
+    .is_err());
+    assert!(c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .completion
+        .metronome_draw
+        .is_some());
+    let c = roll(
+        &c,
+        "player",
+        &metronome_cmd(special::SpecialCommand::CastMetronome {
+            attempts: None,
+            token,
+            target_id: t,
+        }),
+        1,
+    );
+    assert_eq!(c.battle.as_ref().unwrap().combatants[0].actions, 1);
+    assert!(c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .completion
+        .copied_cast
+        .is_none());
+}
+#[test]
+fn completion_a46_metronome_discard_spends_action_and_undo_restores_committed_choice() {
+    let (c, a, _, token) = metronome_case(1, 2);
+    let discard = metronome_cmd(special::SpecialCommand::DiscardMetronome { token });
+    assert!(battle::transition(&c, "player", &discard, vec![], &catalog()).is_err());
+    let done = roll(&c, "gm", &discard, 6);
+    assert_eq!(p(&done, &a).actions, 1);
+    assert!(done
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .completion
+        .metronome_draw
+        .is_none());
+    let event_sequence = done.battle_undo.last().unwrap().event_sequence;
+    let restored = roll(
+        &done,
+        "gm",
+        &Action::RollbackBattle {
+            event_sequence,
+            reason: "Restore committed random result".into(),
+        },
+        6,
+    );
+    assert_eq!(p(&restored, &a).actions, 0);
+    assert_eq!(
+        restored
+            .battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .completion
+            .metronome_draw
+            .as_ref()
+            .unwrap()
+            .token,
+        token
+    );
+}
+#[test]
+fn completion_a46_metronome_requires_recorded_category_table_and_preserves_historical_rules() {
+    let (c, a, t) = setup("Metronome");
+    let draw = metronome_cmd(special::SpecialCommand::DrawMetronome {
+        combatant_id: a.clone(),
+    });
+    assert!(rules::dice_count(&c, &draw, &catalog()).is_err());
+    assert!(rules::dice_count(
+        &c,
+        &super::targeting_tests::attack(&a, vec![t], "Metronome"),
+        &catalog()
+    )
+    .is_err());
+    for physical_faces in [vec![], vec![1, 1], vec![0, 2], vec![1, 2, 3, 4, 5, 6]] {
+        assert!(battle::transition(
+            &c,
+            "gm",
+            &metronome_cmd(special::SpecialCommand::MetronomeTable { physical_faces }),
+            vec![],
+            &catalog()
+        )
+        .is_err());
+    }
+    assert!(battle::transition(
+        &c,
+        "player",
+        &metronome_cmd(special::SpecialCommand::MetronomeTable {
+            physical_faces: vec![1, 2, 3]
+        }),
+        vec![],
+        &catalog()
+    )
+    .is_err());
+    let mut old = c;
+    old.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .completion
+        .blocks
+        .remove("MOVE-A46");
+    assert!(rules::dice_count(&old, &draw, &catalog()).is_err());
+}
+
+#[test]
+fn completion_a46_metronome_copied_special_status_and_cast_undo_preserve_the_draw() {
+    let (c, a, t, token) = metronome_case(6, 2);
+    let c = metronome_select(&c, token, "Ember");
+    let mut cast = roll(
+        &c,
+        "player",
+        &metronome_cmd(special::SpecialCommand::CastMetronome {
+            attempts: None,
+            token,
+            target_id: t.clone(),
+        }),
+        6,
+    );
+    let event_sequence = cast.battle_undo.last().unwrap().event_sequence;
+    let undone = roll(
+        &cast,
+        "gm",
+        &Action::RollbackBattle {
+            event_sequence,
+            reason: "Restore copied cast for retry".into(),
+        },
+        6,
+    );
+    assert_eq!(p(&undone, &a).actions, 0);
+    assert_eq!(
+        undone
+            .battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .completion
+            .metronome_draw
+            .as_ref()
+            .unwrap()
+            .selected
+            .as_deref(),
+        Some("Ember")
+    );
+    while cast.battle.as_ref().unwrap().flow.as_ref().unwrap().window {
+        cast = pass(&cast);
+    }
+    cast = serde_json::from_str(&serde_json::to_string(&cast).unwrap()).unwrap();
+    cast = roll(&cast, "gm", &damage_command(&cast), 1);
+    let cast = resolve(&cast);
+    assert!(p(&cast, &t)
+        .runtime
+        .statuses
+        .iter()
+        .any(|s| s.kind.starts_with("Burn")));
+}
+#[test]
+fn completion_a46_metronome_keeps_the_single_target_for_area_templates_and_charge_context() {
+    let (c, _, t, token) = metronome_case(6, 3);
+    let c = metronome_select(&c, token, "Heat Wave");
+    let cast = roll(
+        &c,
+        "player",
+        &metronome_cmd(special::SpecialCommand::CastMetronome {
+            attempts: None,
+            token,
+            target_id: t.clone(),
+        }),
+        6,
+    );
+    assert_eq!(q(&cast).target_id, t);
+    assert!(q(&cast).targets.len() <= 1);
+    let (c, a, t, token) = metronome_case(6, 6);
+    let c = metronome_select(&c, token, "Solar Beam");
+    let mut cast = roll(
+        &c,
+        "player",
+        &metronome_cmd(special::SpecialCommand::CastMetronome {
+            attempts: None,
+            token,
+            target_id: t,
+        }),
+        6,
+    );
+    assert!(cast
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .special
+        .charges
+        .contains_key(&a));
+    assert!(cast
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .completion
+        .copied_cast
+        .is_some());
+    cast = serde_json::from_str(&serde_json::to_string(&cast).unwrap()).unwrap();
+    turn(&mut cast, &a, "Metronome");
+    cast = roll(
+        &cast,
+        "player",
+        &metronome_cmd(special::SpecialCommand::Release { combatant_id: a }),
+        6,
+    );
+    while cast.battle.as_ref().unwrap().flow.as_ref().unwrap().window {
+        cast = pass(&cast);
+    }
+    cast = roll(&cast, "gm", &damage_command(&cast), 1);
+    let cast = resolve(&cast);
+    assert!(cast
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .completion
+        .copied_cast
+        .is_none());
+}
+
+#[test]
+fn completion_a46_metronome_keeps_wrapper_identity_for_gorilla_and_choice_scarf() {
+    let (mut c, a, t, token) = metronome_case(1, 2);
+    pm(&mut c, &a).selected_ability = "Gorilla Tactics".into();
+    let f = c.battle.as_mut().unwrap().flow.as_mut().unwrap();
+    f.sequencing.enabled = true;
+    f.sequencing.gorilla.insert(a.clone(), "Metronome".into());
+    let mut c = metronome_select(&c, token, "Flame Charge");
+    let events = c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .ability_events
+        .clone();
+    for event in events {
+        if event.kind == "sequence-gorilla" {
+            c = roll(
+                &c,
+                "player",
+                &Action::ResolveAbility {
+                    event_id: event.id,
+                    choice: "Metronome".into(),
+                    reason: "Use Metronome as Gorilla Tactics entry move".into(),
+                },
+                6,
+            );
+        }
+    }
+
+    let c = roll(
+        &c,
+        "player",
+        &metronome_cmd(special::SpecialCommand::CastMetronome {
+            attempts: None,
+            token,
+            target_id: t,
+        }),
+        6,
+    );
+    assert_eq!(q(&c).move_name, "Flame Charge");
+    assert_eq!(
+        p(&c, &a).used_moves.last().map(String::as_str),
+        Some("Metronome")
+    );
+    let (mut c, a, t, token) = metronome_case(1, 2);
+    let sid = p(&c, &a).sheet_id.clone();
+    c.sheets
+        .get_mut(&sid)
+        .unwrap()
+        .inventory
+        .insert("Choice Scarf".into(), 1);
+    let equipped =
+        crate::combat::items::equip(&c.sheets[&sid], "Choice Scarf", "copy-scarf", &catalog())
+            .unwrap();
+    c.sheets.insert(sid, equipped);
+    let f = c.battle.as_mut().unwrap().flow.as_mut().unwrap();
+    f.items.enabled = true;
+    f.items.completion.enabled = true;
+    crate::combat::items::initialize(&mut c, &catalog()).unwrap();
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .items
+        .completion
+        .choices
+        .insert("copy-scarf".into(), "Metronome".into());
+    let c = metronome_select(&c, token, "Flame Charge");
+    let c = roll(
+        &c,
+        "player",
+        &metronome_cmd(special::SpecialCommand::CastMetronome {
+            attempts: None,
+            token,
+            target_id: t,
+        }),
+        6,
+    );
+    let m = crate::combat::field::move_data(
+        &c,
+        p(&c, &a),
+        &catalog().find("moves", "Name", "Flame Charge").unwrap(),
+    );
+    assert_eq!(m["Attributes"]["Reaction"], "5");
+    assert_eq!(
+        crate::combat::items::completion::damage_bonus(&c, p(&c, &a), &m),
+        0
+    );
+}
+
+#[test]
+fn completion_a46_metronome_copied_successive_actions_keep_original_accuracy_for_every_hit() {
+    let (c, a, t, token) = metronome_case(1, 2);
+    let c = metronome_select(&c, token, "Double Kick");
+    let cast = metronome_cmd(special::SpecialCommand::CastMetronome {
+        token,
+        target_id: t,
+        attempts: Some(2),
+    });
+    assert_eq!(rules::dice_count(&c, &cast, &catalog()).unwrap(), 18);
+    let mut c = roll(&c, "player", &cast, 6);
+    assert_eq!(p(&c, &a).actions, 2);
+    let mut hits = 0;
+    while !c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .queue
+        .is_empty()
+    {
+        while c.battle.as_ref().unwrap().flow.as_ref().unwrap().window {
+            c = pass(&c);
+        }
+        c = roll(&c, "gm", &damage_command(&c), 1);
+        c = resolve(&c);
+        hits += 1;
+        assert!(hits <= 2);
+    }
+    assert_eq!(hits, 2);
+    assert_eq!(
+        p(&c, &a).used_moves.last().map(String::as_str),
+        Some("Metronome")
+    );
+    assert!(c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .completion
+        .copied_cast
+        .is_none());
+}

@@ -1990,6 +1990,7 @@ fn apply_terrain(c: &mut Campaign, t: &TerrainSource) {
 /// Resolve context-sensitive catalog fields before every accuracy/damage calculation.
 pub fn move_data(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> serde_json::Value {
     let mut m = m.clone();
+    copies::move_data(c, p, &mut m);
     items::move_data(c, p, &mut m);
     forms::move_data(c, p, &mut m);
     if !enabled(c) {

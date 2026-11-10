@@ -1,8 +1,8 @@
 {
   "version": 1,
   "date": "2026-11-10",
-  "release": "0.88.0",
-  "engine": "0.80.0-core",
+  "release": "0.89.0",
+  "engine": "0.81.0-core",
   "scope": "892-card effect-route inventory; focused semantic review of status infliction, cure and protection clauses. M2-A through M2-E battle status clauses and MOVE-A01 damaging attribute clauses plus MOVE-A02 entry hazards delivered; see scoped registries and retained choices.",
   "limits": [
     "An executable route is not full card coverage.",
@@ -21,8 +21,8 @@
       "excluded": 38,
       "executable-scope": 735,
       "gm-choice": 1,
-      "input-required": 16,
-      "manual-effect-route": 102
+      "input-required": 17,
+      "manual-effect-route": 101
     },
     "status_clauses": {
       "excluded": 6,
@@ -25324,21 +25324,28 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "input-required",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A46: Committed Metronome category/Power dice using a saved GM category table, exact non-Unique template selection and a single-target copied cast retaining Insight + Perform. Shared template damage, added effects, charges, successive actions, normal costs and defenses are reused; wrapper identity is preserved for Gorilla Tactics and Choice items. No silent resampling. Unsupported template mechanics remain tracked by the full-card ledger.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
+          "code": "battle",
+          "message": "Metronome requires a committed category/Power draw and GM template selection before casting",
           "result": "route_error"
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
+          "code": "battle",
+          "message": "Metronome requires a committed category/Power draw and GM template selection before casting",
           "result": "route_error"
         }
       }

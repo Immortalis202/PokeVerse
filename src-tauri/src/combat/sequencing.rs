@@ -124,6 +124,7 @@ pub fn move_guard(c: &Campaign, id: &str, name: Option<&str>) -> Result<()> {
         .gorilla
         .get(id)
         .ok_or_else(|| error("Choose Gorilla Tactics' entry move first"))?;
+    let name = name.map(|name| copies::identity(c, id, name));
     if name != Some(selected.as_str()) {
         return Err(error("Gorilla Tactics permits only its recorded entry move; holding or passing remains available"));
     }

@@ -20,6 +20,16 @@ pub struct Catalog {
     pub source_hash: String,
 }
 impl Catalog {
+    pub fn damage_templates(&self, category: &str, power: i32) -> Result<Vec<Value>> {
+        let db = self.lock()?;
+        let mut statement = db.connection.prepare_cached("SELECT data FROM entries WHERE kind='moves' AND json_extract(data,'$.Category')=?1 AND json_extract(data,'$.Power')=?2 ORDER BY name")?;
+        let rows = statement
+            .query_map(params![category, power], |row| row.get::<_, String>(0))?
+            .collect::<std::result::Result<Vec<_>, _>>()?;
+        rows.into_iter()
+            .map(|text| Ok(serde_json::from_str(&text)?))
+            .collect()
+    }
     pub fn habitats(&self) -> Result<Vec<Value>> {
         let db = self.lock()?;
         let mut stmt = db

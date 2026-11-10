@@ -217,7 +217,10 @@ pub fn guard(c: &Campaign, id: &str, m: &serde_json::Value) -> Result<()> {
         }
         if u.name == "Choice Scarf"
             && !house::enabled(c)
-            && state(c).choices.get(&u.id).is_some_and(|n| m["Name"] == *n)
+            && state(c)
+                .choices
+                .get(&u.id)
+                .is_some_and(|n| copies::identity(c, id, m["Name"].as_str().unwrap_or("")) == n)
             && !m["Attributes"]["LateReaction"].is_null()
             && !state(c).rulings.contains_key(&format!("scarf:{}", u.id))
         {
@@ -228,7 +231,11 @@ pub fn guard(c: &Campaign, id: &str, m: &serde_json::Value) -> Result<()> {
 }
 pub fn move_data(c: &Campaign, p: &Combatant, m: &mut serde_json::Value) {
     for u in units(c, &p.id) {
-        if u.name == "Choice Scarf" && state(c).choices.get(&u.id).is_some_and(|n| m["Name"] == *n)
+        if u.name == "Choice Scarf"
+            && state(c)
+                .choices
+                .get(&u.id)
+                .is_some_and(|n| copies::identity(c, &p.id, m["Name"].as_str().unwrap_or("")) == n)
         {
             let mode = if house::enabled(c) {
                 Some("item")
@@ -255,7 +262,7 @@ pub fn damage_bonus(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> i32 {
     if m["Category"] == "Support" {
         return 0;
     }
-    let name = m["Name"].as_str().unwrap_or("");
+    let name = copies::identity(c, &p.id, m["Name"].as_str().unwrap_or(""));
     let mut n = 0;
     for u in units(c, &p.id) {
         if ["Choice Band", "Choice Specs", "Choice Scarf"].contains(&u.name.as_str()) {

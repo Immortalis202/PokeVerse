@@ -20,6 +20,7 @@ pub fn pain(hp: i32, max_hp: i32) -> i32 {
 pub fn effective_sheet(c: &Campaign, p: &Combatant) -> Result<Sheet> {
     let mut s = base_sheet(c, p)?;
     crate::combat::apply_stats(c, p, &mut s);
+    crate::combat::copies::grant(c, p, &mut s);
     crate::combat::field::stats(c, p, &mut s);
     crate::combat::sequencing::apply_stats(c, p, &mut s);
     for key in crate::creation::ATTRS {
@@ -224,6 +225,7 @@ pub fn accuracy(
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
     if [
         ENGINE,
+        HOLD_HANDS_ENGINE,
         ORDER_UP_ENGINE,
         CRASH_MOVES_ENGINE,
         ELECTRIFY_ENGINE,

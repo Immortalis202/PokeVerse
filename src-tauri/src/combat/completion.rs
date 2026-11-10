@@ -5,6 +5,9 @@ use super::*;
 #[serde(default)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct MoveCompletionState {
+    pub metronome_table: Option<copies::MetronomeTable>,
+    pub metronome_draw: Option<copies::MetronomeDraw>,
+    pub copied_cast: Option<copies::CopiedCast>,
     pub hold_hands: BTreeMap<u32, choices::HoldHandsDecision>,
     pub blocks: BTreeSet<String>,
     pub uses: Vec<CompletionMoveUse>,
@@ -177,6 +180,7 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
         return Ok(false);
     };
     match kind {
+        "metronome" => return Err(error("Metronome requires a committed category/Power draw and GM template selection before casting")),
         "hold-hands" => {
             if !immune_target(c, q, cat)? {
                 return Err(error(

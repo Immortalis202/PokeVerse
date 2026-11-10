@@ -53,6 +53,7 @@ The live source of remaining route work is `rules/move-effect-audit.json`. Its f
 | Stat reset ruling | Preserve active passive bonuses; clear applied move and triggered-ability changes, confirmed 6 November 2026 | Adopted by MOVE-A33 |
 | First Impression ruling | First eligible action round, confirmed by the user on 5 November 2026 | Implemented in MOVE-A24 |
 | MOVE-A45 | Saved Hold Hands resistance and GM battle-ending workflow | Complete |
+| MOVE-A46 | Metronome saved draw, matching template and shared copied cast | Delivered workflow; template closure open |
 | Later blocks | Ordinary attacks with existing attributes; remaining stat changes, resets and swaps; type/damage conversions; field changes; conditional damage; timing/action restrictions; items; copy/selection effects | Open |
 
 New block adoption is persisted in `TurnFlow.completion.blocks`. Every release records its engine in `rules/move-completion.json`; historical saves adopt no additional blocks automatically. The shared special-effect state is boxed while preserving its JSON shape to keep transition stack usage bounded.
@@ -77,3 +78,8 @@ Inventory implementation: `npm run moves:inventory` verifies actual source SHA25
 ### MOVE-A45: saved Hold Hands decisions
 
 See [the move-decision workflow](battle-move-decisions.md). Target resistance, reflected recipients, GM rulings, persistence and atomic battle-end rollback are implemented. Whole-card semantic review of the catalog remains open; the supported effect clauses have source-linked test evidence in the ledger.
+
+
+### MOVE-A46: committed Metronome and copied casts
+
+[Saved move decisions](battle-move-decisions.md) describes the explicit category table, fixed draw, template choice, original Accuracy, normal template execution, successive/charge support, wrapper identity, permissions and rollback. Targeting and committed-draw clauses have ledger evidence; complete template/copy semantic closure remains open. Validation passed 996 Rust tests plus the separate inventory, 86 frontend tests, 59 script checks, TypeScript and formatting.
