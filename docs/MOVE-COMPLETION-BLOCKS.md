@@ -61,10 +61,13 @@ No native packages, Clippy, native UI or physical LAN/VPN testing is scheduled a
 
 ## Final whole-card completion project (10 November 2026)
 
-The authorized final project covers all 892 source cards, preserving the existing exclusions. `rules/move-card-completion.json` is the provisional ledger; its source paths distinguish colliding catalog IDs. Existing route scopes are review inputs, never semantic certification. All in-scope clauses remain pending until reviewed and evidenced. Batch 12 initially owns inventory review; executable tasks must be assigned to batches 1–11 before implementation.
+The authorized final project covers all 892 source cards, preserving the existing exclusions. `rules/move-card-completion.json` is the provisional ledger; its source paths distinguish colliding catalog IDs. Existing route scopes are review inputs, never semantic certification. All in-scope clauses remain pending until reviewed and evidenced. The reproducible ledger assigns all pending review units to implementation batches 1–11. Sentence boundaries are review aids; compound sentences still require complete semantic review.
 
 Ordered batches: (1) resolution inputs/GM choices; (2) stats/traits; (3) types/category/damage; (4) history/conditional attacks; (5) initiative/reactions/maneuvers; (6) allied contributions; (7) delayed/triggers; (8) fields/protection; (9) items/berries; (10) copying/selection; (11) compound effects/rewards; (12) whole-catalog closure. Each batch requires verification and a separate commit.
 
 `npm run test:moves:closure` deliberately fails until semantic review is complete and every pending clause is resolved. The ordinary ledger integrity check does not assert completion.
 
 MOVE-A44 baseline verification on 10 November: 978 Rust tests passed, one inventory ignored by the normal suite; 77 frontend and 54 script tests passed, as did TypeScript. Native/physical networking acceptance remains separate.
+
+
+Inventory implementation: `npm run moves:inventory` verifies actual source SHA256 values and regenerates all 892 cards, preserving reviewed decisions only for unchanged source and matching clauses. The checklist contains 11,833 sentence/metadata review units, including Power, typing, damage/accuracy stats and structured effects. `npm run test:moves:inventory` checks regeneration, exact prose reconstruction, metadata preservation and assignments. These units are not counts of distinct mechanics or completed clauses. Whole-card semantic certification remains pending.

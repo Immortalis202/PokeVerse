@@ -17,7 +17,9 @@
     "format": "prettier --write src scripts package.json tsconfig.json vite.config.ts index.html README.md && cargo fmt --manifest-path src-tauri/Cargo.toml",
     "build:bundled": "tsc --noEmit && vite build",
     "package:linux": "tauri build --config src-tauri/tauri.linux.conf.json",
-    "test:moves:closure": "node scripts/move-card-completion.check.mjs --closure"
+    "test:moves:closure": "node scripts/move-card-completion.check.mjs --closure",
+    "moves:inventory": "node scripts/move-card-completion.mjs",
+    "test:moves:inventory": "node scripts/move-card-completion.mjs --check && node --test scripts/move-card-completion.check.mjs"
   },
   "dependencies": {
     "@tauri-apps/api": "^2.0.0",

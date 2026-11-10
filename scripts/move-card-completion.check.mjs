@@ -1,6 +1,12 @@
 import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
 import { test } from "node:test";
+import { resolve } from "node:path";
+import {
+  buildLedger,
+  effectSegments,
+  batchFor,
+} from "./move-card-completion.mjs";
 
 const read = (name) => JSON.parse(readFileSync(name, "utf8"));
 const ledger = read("rules/move-card-completion.json");
@@ -27,7 +33,7 @@ test("whole-card ledger accounts for every source identity without route-based c
         assert.ok(
           Number.isInteger(clause.batch) &&
             clause.batch >= 1 &&
-            clause.batch <= 12,
+            clause.batch <= 11,
         );
       if (["automated", "gm-decision-supported"].includes(clause.status)) {
         assert.ok(
@@ -39,7 +45,76 @@ test("whole-card ledger accounts for every source identity without route-based c
   }
 });
 
+test("ledger regenerates from actual source bytes and preserves reviewed decisions", () => {
+  assert.deepEqual(buildLedger(audit, ledger, resolve("..")), ledger);
+});
+
+test("review units retain every effect character and all combat metadata", () => {
+  for (const card of ledger.moves) {
+    const source = read(resolve("..", card.source));
+    const effects = card.clauses.filter((c) => c.field === "Effect");
+    assert.equal(
+      effects.map((c) => c.value).join(""),
+      source.Effect ?? "",
+      card.name,
+    );
+    let offset = 0;
+    for (const clause of effects) {
+      assert.equal(clause.start, offset);
+      assert.equal(clause.value, source.Effect.slice(clause.start, clause.end));
+      offset = clause.end;
+    }
+    for (const field of [
+      "Type",
+      "Category",
+      "Power",
+      "Damage1",
+      "Damage2",
+      "Accuracy1",
+      "Accuracy2",
+      "Target",
+      "Attributes",
+      "AddedEffects",
+    ]) {
+      if (Object.hasOwn(source, field))
+        assert.deepEqual(
+          card.clauses.find((c) => c.field === field)?.value,
+          source[field],
+          `${card.name}: ${field}`,
+        );
+    }
+    if (card.exclusion) {
+      assert.ok(
+        card.clauses.every(
+          (c) => c.status === "excluded" && c.exclusion === card.exclusion,
+        ),
+      );
+    }
+  }
+});
+
+test("segmentation preserves abbreviations, decimal values and compound source prose", () => {
+  const text =
+    "Increase Sp. Defense by 1. Add 0.5 damage. Whole Scene Duration.";
+  assert.deepEqual(
+    effectSegments(text).map((c) => c.text),
+    [
+      "Increase Sp. Defense by 1. ",
+      "Add 0.5 damage. ",
+      "Whole Scene Duration.",
+    ],
+  );
+  assert.equal(batchFor("Judgment", "Ignore Defenses.", "Effect"), 1);
+  assert.equal(batchFor("Spectral Thief", "Single Target.", "Effect"), 2);
+  assert.equal(batchFor("Sketch", "Permanent Duration.", "Effect"), 10);
+});
+
 if (process.argv.includes("--closure")) {
+  assert.deepEqual(
+    buildLedger(audit, ledger, resolve("..")),
+    ledger,
+    "Source drift or stale review ledger",
+  );
   assert.equal(
     ledger.state,
     "complete",
@@ -51,4 +126,10 @@ if (process.argv.includes("--closure")) {
       .map((clause) => `${card.name}:${clause.id}`),
   );
   assert.deepEqual(pending, [], "Unfinished clauses prevent move completion");
+  assert.ok(
+    ledger.moves.every(
+      (card) => card.exclusion || card.semantic_review_complete === true,
+    ),
+    "Every in-scope card needs a full semantic review",
+  );
 }
