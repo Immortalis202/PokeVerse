@@ -902,7 +902,8 @@ pub fn chance_dice(c: &Campaign, q: &QueuedAction, cat: &Catalog) -> Result<u32>
             source.has_ability("Serene Grace")
         } else {
             fighter(c, &q.actor_id)?.has_ability("Serene Grace")
-        });
+        })
+        + field_ops::water_pledge(c);
     let wonder = 2 * u32::from(!extreme && target.has_ability("Wonder Skin"));
     let native = special::chance(&q.move_name)
         .or_else(|| chance_effect(&q.move_name))
@@ -960,7 +961,8 @@ pub fn native_item_flinch_dice(c: &Campaign, q: &QueuedAction, cat: &Catalog) ->
             source.has_ability("Serene Grace")
         } else {
             fighter(c, &q.actor_id)?.has_ability("Serene Grace")
-        });
+        })
+        + field_ops::water_pledge(c);
     let wonder = 2 * u32::from(fighter(c, &q.target_id)?.has_ability("Wonder Skin"));
     Ok((native + serene).saturating_sub(wonder))
 }

@@ -10644,3 +10644,157 @@ fn completion_a55_flame_burst_splashes_up_to_two_other_foes() {
     let c = a48_pending(&old, &a, vec![t], "Powder");
     assert!(a48_effect(&c, vec![]).is_err());
 }
+
+fn a56_rules(c: &Campaign, kind: &str) -> Vec<String> {
+    a52_flow(c)
+        .battlefield
+        .rules
+        .iter()
+        .filter(|r| r.kind == kind)
+        .map(|r| r.scope.clone())
+        .collect()
+}
+
+#[test]
+fn completion_a56_fire_and_water_pledge_affect_the_whole_battlefield() {
+    let (c, a, t) = setup("Fire Pledge");
+    let c = resolve(&pending(&c, &a, &t, "Fire Pledge"));
+    assert_eq!(a56_rules(&c, "Fire Pledge"), vec!["all".to_string()]);
+    let burns: Vec<_> = a52_flow(&c)
+        .special
+        .effects
+        .iter()
+        .filter(|e| e.name == "ongoing:Fire Pledge")
+        .cloned()
+        .collect();
+    assert_eq!(burns.len(), 2, "both grounded combatants burn");
+    let mine = burns.iter().find(|e| e.target == a).unwrap().clone();
+    assert_eq!(completion::tick_dice(&c, &mine), Some(2));
+    let mut burned = c.clone();
+    completion::tick(&mut burned, &mine, &[6, 6], &catalog()).unwrap();
+    assert_eq!(
+        p(&burned, &a).hp,
+        p(&c, &a).hp - 2,
+        "Fire against Normal, defenses ignored"
+    );
+
+    let (c, a, t) = setup("Water Pledge");
+    let ember = |c: &Campaign| {
+        let mut c = c.clone();
+        let sid = p(&c, &a).sheet_id.clone();
+        c.sheets.get_mut(&sid).unwrap().moves.push("Ember".into());
+        turn(&mut c, &a, "Ember");
+        let hit = ordinary_accuracy(&c, &a, &t, "Ember");
+        let hit = roll(&hit, "gm", &damage_command(&hit), 6);
+        rules::dice_count(&hit, &cmd(&hit), &catalog()).unwrap()
+    };
+    let plain = ember(&c);
+    let pledged = resolve(&pending(&c, &a, &t, "Water Pledge"));
+    assert_eq!(ember(&pledged), plain + 2);
+}
+#[test]
+fn completion_a56_grass_pledge_slows_targets_and_entrants() {
+    let (mut c, a, t) = setup("Grass Pledge");
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .entry_hazards = true;
+    let incoming = reserve(&mut c, &t);
+    let c = resolve(&pending(&c, &a, &t, "Grass Pledge"));
+    assert_eq!(stat(&c, &t, "Dexterity"), -1);
+    let side = p(&c, &a).side.clone();
+    assert_eq!(
+        a56_rules(&c, "Grass Pledge"),
+        vec![format!("opponents-of:{side}")]
+    );
+    let entered = spider_switch(&c, &t, &incoming, false);
+    assert_eq!(stat(&entered, &incoming, "Dexterity"), -1, "entry hazard");
+}
+#[test]
+fn completion_a56_mist_and_lucky_chant_protect_the_users_side() {
+    let (c, a, t) = setup("Mist");
+    let mut misted = support_cast(&c, &a, vec![a.clone()], "Mist");
+    crate::combat::extra::change_stat(&mut misted, &t, &a, "Strength", -1).unwrap();
+    assert_eq!(stat(&misted, &a, "Strength"), 0, "foes cannot lower it");
+    crate::combat::extra::change_stat(&mut misted, &a, &t, "Strength", -1).unwrap();
+    assert_eq!(
+        stat(&misted, &t, "Strength"),
+        -1,
+        "the other side is unprotected"
+    );
+
+    let (c, a, t) = setup("Lucky Chant");
+    let plain = a53_accuracy_dice(&c, &a, &t, "Tackle");
+    let chanted = support_cast(&c, &a, vec![a.clone()], "Lucky Chant");
+    assert!(crate::combat::field_ops::reroll(&chanted, p(&chanted, &a)));
+    assert!(!crate::combat::field_ops::reroll(&chanted, p(&chanted, &t)));
+    assert_eq!(
+        a53_accuracy_dice(&chanted, &a, &t, "Tackle"),
+        plain + 1,
+        "one reroll die"
+    );
+    let critical_pool = |c: &Campaign| {
+        let mut hit = a50_hit(c, &t, &a, "Tackle");
+        hit.battle.as_mut().unwrap().flow.as_mut().unwrap().queue[0].critical = true;
+        queued_damage_pool(&hit).critical
+    };
+    assert!(critical_pool(&c) > 0);
+    assert_eq!(
+        critical_pool(&chanted),
+        0,
+        "no critical bonus dice against Lucky Chant targets"
+    );
+}
+#[test]
+fn completion_a56_court_change_swaps_side_effects_and_hazards() {
+    let (mut c, a, t) = setup("Court Change");
+    let (mine, theirs) = (p(&c, &a).side.clone(), p(&c, &t).side.clone());
+    saved_field_rule(
+        &mut c,
+        "Reflect",
+        &format!("field-user:{a}"),
+        &format!("side:{mine}"),
+        Some(3),
+        1,
+    );
+    saved_field_rule(
+        &mut c,
+        "Spikes",
+        &format!("hazard:{t}"),
+        &format!("opponents-of:{theirs}"),
+        None,
+        0,
+    );
+    saved_field_rule(
+        &mut c,
+        "Gravity",
+        &format!("field-user:{t}"),
+        "all",
+        Some(2),
+        0,
+    );
+    let c = support_cast(&c, &a, vec![], "Court Change");
+    assert_eq!(a56_rules(&c, "Reflect"), vec![format!("side:{theirs}")]);
+    assert_eq!(
+        a56_rules(&c, "Spikes"),
+        vec![format!("opponents-of:{mine}")]
+    );
+    assert_eq!(a56_rules(&c, "Gravity"), vec!["all".to_string()]);
+
+    let (mut old, a, t) = setup("Mist");
+    old.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .completion
+        .blocks
+        .remove("MOVE-A56");
+    let _ = t;
+    let c = a48_pending(&old, &a, vec![a.clone()], "Mist");
+    assert!(a48_effect(&c, vec![]).is_err());
+}

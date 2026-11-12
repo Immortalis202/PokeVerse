@@ -63,6 +63,7 @@ The live source of remaining route work is `rules/move-effect-audit.json`. Its f
 | MOVE-A53 | Helping Hand, Help Another, Beat Up, Round | Complete |
 | MOVE-A54 | Future Sight, Doom Desire, Rage, Destiny Bond, Pursuit, Glaive Rush | Complete |
 | MOVE-A55 | Shell Trap, Powder, Curse, Flame Burst | Complete |
+| MOVE-A56 | Fire Pledge, Water Pledge, Grass Pledge, Mist, Lucky Chant, Court Change | Complete (Mist traits and Lucky Chant damage rerolls open) |
 | Later blocks | Ordinary attacks with existing attributes; remaining stat changes, resets and swaps; type/damage conversions; field changes; conditional damage; timing/action restrictions; items; copy/selection effects | Open |
 
 New block adoption is persisted in `TurnFlow.completion.blocks`. Every release records its engine in `rules/move-completion.json`; historical saves adopt no additional blocks automatically. The shared special-effect state is boxed while preserving its JSON shape to keep transition stack usage bounded.
@@ -137,3 +138,8 @@ See [delayed and triggered moves](battle-delayed-moves.md). Next-round delayed d
 ### MOVE-A55: trigger moves
 
 See [trigger moves](battle-delayed-moves.md#trigger-moves-move-a55). Shell Trap's late reaction to a landed non-ranged Physical hit, Powder's owed Fire-move damage, Curse's self-cost and success loss, and Flame Burst's chosen splash.
+
+
+### MOVE-A56: battlefield moves
+
+See [battlefield moves](battle-field-moves.md). Fire Pledge round-end ticks, Water Pledge Chance dice, Grass Pledge hazard, Mist protection, Lucky Chant rerolls and critical immunity, and Court Change side swaps.

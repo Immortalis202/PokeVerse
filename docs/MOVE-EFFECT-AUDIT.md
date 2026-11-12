@@ -1,6 +1,6 @@
 # Move-effect audit: milestone 1
 
-Snapshot refreshed: 12 November 2026, app **0.98.0**, engine **0.90.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
+Snapshot refreshed: 12 November 2026, app **0.99.0**, engine **0.91.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
 
 ## Deliverables and limits
 
@@ -18,13 +18,13 @@ The diagnostic deliberately bypasses accuracy, damage, targeting expansion, acti
 
 | Effect-route result | Cards | Meaning |
 | --- | ---: | --- |
-| executable-scope | 796 | At least one probe resolves; only recorded scopes are asserted. |
+| executable-scope | 802 | At least one probe resolves; only recorded scopes are asserted. |
 | input-required | 19 | Existing handler requests a selection, resource, weather or other legitimate prerequisite. |
-| manual-effect-route | 38 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
+| manual-effect-route | 32 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
 | gm-choice | 1 | Hold Hands: narrative battle-ending decision remains with the storyteller. |
 | excluded | 38 | Supplied Max/Z cards and the user-excluded Sappy Seed. |
 
-These totals sum to 892. **38 manual-effect-route results remain after MOVE-A55. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
+These totals sum to 892. **32 manual-effect-route results remain after MOVE-A56. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
 
 | Focused status result | Cards |
 | --- | ---: |
@@ -193,7 +193,7 @@ A six triggers the single printed Chance pool. Serene Grace, Wonder Skin, Loaded
 
 New 0.36.0-core encounters enable the boxed `damaging_stats` state. Missing saved state defaults disabled; 0.35.0-core remains accepted with its previous M3 behavior. Protocol 45 carries the new state. App version is 0.44.0.
 
-**The whole move catalog is not complete.** The 38 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
+**The whole move catalog is not complete.** The 32 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
 
 
 ### MOVE-A01 verification (1 November 2026)
@@ -615,3 +615,8 @@ Future Sight, Doom Desire, Rage, Destiny Bond, Pursuit and Glaive Rush now resol
 ### MOVE-A55: trigger moves (12 November 2026)
 
 Shell Trap, Powder, Curse and Flame Burst now resolve automatically. Validation: four completion_a55 public-command tests and the full Rust suite pass except the seven encounter-generation tests that need the real habitat-review data; 93 frontend tests, TypeScript and the move ledger/audit checks pass.
+
+
+### MOVE-A56: battlefield moves (12 November 2026)
+
+Fire Pledge, Water Pledge, Grass Pledge, Mist, Lucky Chant and Court Change now resolve automatically; Mist's Trait protection and Lucky Chant's damage-roll rerolls remain open. Validation: four completion_a56 public-command tests and the full Rust suite pass except the seven encounter-generation tests that need the real habitat-review data; 93 frontend tests, TypeScript and the move ledger/audit checks pass.

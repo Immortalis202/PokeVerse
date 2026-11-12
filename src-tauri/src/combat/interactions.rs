@@ -112,7 +112,8 @@ pub fn effect_dice(c: &Campaign, q: &QueuedAction) -> Result<Option<u32>> {
     let bypass = source.side != target.side && reviewed::extreme(c, &source);
     let n = effect.dice
         + items::completion::loaded(c, &q.actor_id)
-        + 2 * u32::from(source.has_ability("Serene Grace"));
+        + 2 * u32::from(source.has_ability("Serene Grace"))
+        + field_ops::water_pledge(c);
     Ok(Some(n.saturating_sub(
         2 * u32::from(!bypass && target.has_ability("Wonder Skin")),
     )))

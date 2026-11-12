@@ -2403,6 +2403,51 @@
           "op": "flame-burst"
         }
       }
+    },
+    "MOVE-A56": {
+      "engine": "0.91.0-core",
+      "kind": "field-op",
+      "scope": "Six battlefield cards. Fire Pledge (4 rounds, not refreshed while active): every grounded combatant on the battlefield, including entrants, receives the round-end ongoing roll of 2 Fire-type dice ignoring defenses (existing tick workflow). Water Pledge (4 rounds): every Chance pool gains 2 dice, as Serene Grace does. Grass Pledge lowers the Dexterity of those it affects by 1 and installs a non-stacking foe-side entry hazard that lowers grounded entrants' Dexterity by 1, like Sticky Web. Mist (4 rounds, user's side): other combatants cannot reduce the Attributes of its targets; earlier reductions remain; Screen Cleaner removes it. Lucky Chant (scene, user's side): one failed die of each Accuracy, reaction and check roll may be rerolled, sharing the Chance reroll (not additive with it), and critical hits grant no bonus dice against its targets; damage rolls are unchanged. Court Change swaps every side-scoped battlefield rule and entry hazard between the two sides, keeping durations; battles with more than two sides need GM adjudication.",
+      "moves": {
+        "Fire Pledge": {
+          "source": "Pokerole-Data/v3.0/Moves/Fire Pledge.json",
+          "sha256": "aaad8c62225de3d116613ba9414de4154087b41ef6d17d11dcbdaf65b9c7e08e",
+          "effect": "Area Move. This Effect Targets the Battle Field: At the End of the Round, Roll 2 Dice of Fire-Type Damage to everyone without immunity to Ground on the field ignoring defenses. Duration 4 Rounds.",
+          "op": "fire-pledge",
+          "dice": 2,
+          "damage_type": "Fire"
+        },
+        "Water Pledge": {
+          "source": "Pokerole-Data/v3.0/Moves/Water Pledge.json",
+          "sha256": "7e3ece22cba21b5a1bbd3e34c865aa385dce4b1067bf3056b299152816485c6e",
+          "effect": "Area Move. This Effect Targets the Battlefield: Add 2 Dice to all Chance Dice rolls of everyone in the field. Duration 4 Rounds.",
+          "op": "water-pledge"
+        },
+        "Grass Pledge": {
+          "source": "Pokerole-Data/v3.0/Moves/Grass Pledge.json",
+          "sha256": "fd75e345a3325ec955ce4c1ff6c9a860fbe13c26f68fce5e6fae6387d86fab2b",
+          "effect": "Area Move. Reduce by 1 the Dexterity of those affected. This Effect Targets the Battle Field: Entry Hazard. Reduce by 1 the Dexterity of Target's that enter the battlefield. Pokemon with Immunity to Ground are not affected.",
+          "op": "grass-pledge"
+        },
+        "Mist": {
+          "source": "Pokerole-Data/v3.0/Moves/Mist.json",
+          "sha256": "993096ca43cd9fc86d750a54cb8f50661d2612515c1a531c46b2c2be17aab91e",
+          "effect": "Target User and Allies in Range. Targets cannot have their Attributes or Traits Reduced. Previously Reduced Attributes and Traits remain. Duration 4 Rounds.",
+          "op": "mist"
+        },
+        "Lucky Chant": {
+          "source": "Pokerole-Data/v3.0/Moves/Lucky Chant.json",
+          "sha256": "222103c326abc97a2228aa1410fc4baf9fe96da32ec5a50165cc984fd0eda345",
+          "effect": "Target User and Allies in Range. Unique. Targets can Re-roll one un-successful die from all their rolls. Critical Hits do not grant Bonus dice against the Targets. Whole Scene Duration. Out of battle, good things happen at Storyteller's Discretion.",
+          "op": "lucky-chant"
+        },
+        "Court Change": {
+          "source": "Pokerole-Data/v3.0/Moves/Court Change.json",
+          "sha256": "1c20b43a59c9203d6591348579220bb2bc4ad4169935208cf18cfa39cc554f57",
+          "effect": "Target Battlefield. Swap any Force Fields, Entry Hazards and Effects on the Foe's side of the field (ie Tailwind, Grassy Terrain healing, Fire Pledge.) for those on the User's side.",
+          "op": "court-change"
+        }
+      }
     }
   },
   "printed_review": {

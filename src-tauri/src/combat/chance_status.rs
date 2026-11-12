@@ -50,6 +50,7 @@ pub fn effect_dice(c: &Campaign, q: &QueuedAction, cat: &Catalog) -> Result<Opti
     let n = effect.dice
         + items::completion::loaded(c, &q.actor_id)
         + 2 * u32::from(source.has_ability("Serene Grace"))
+        + field_ops::water_pledge(c)
         + u32::from(
             effect.status == "Frozen Solid"
                 && matches!(

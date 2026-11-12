@@ -358,11 +358,7 @@ pub fn reaction_dice(
     let base = reaction_pool(c, id, "move", name, cat)?;
     let m = field::move_data(c, fighter(c, id)?, &move_entry(cat, name)?);
     reaction_targets(c, id, &m, selected, cat)?;
-    Ok(base
-        + u32::from(
-            fighter(c, id)?.runtime.chance_round == battle(c)?.round
-                && !fighter(c, id)?.runtime.chance_cancelled,
-        ))
+    Ok(base + u32::from(field_ops::reroll(c, fighter(c, id)?)))
 }
 #[allow(clippy::too_many_arguments)]
 pub fn react(
@@ -383,8 +379,7 @@ pub fn react(
     let p = fighter(c, id)?.clone();
     let m = field::move_data(c, &p, &move_entry(cat, name)?);
     let (targets, scope) = reaction_targets(c, id, &m, selected, cat)?;
-    let base = count
-        - u32::from(p.runtime.chance_round == battle(c)?.round && !p.runtime.chance_cancelled);
+    let base = count - u32::from(field_ops::reroll(c, &p));
     let penalty = shield_attempt(c, id, &m)?;
     let saved = p.runtime.pain_ignored;
     if pain_exempt(&before, &p, &m)? {

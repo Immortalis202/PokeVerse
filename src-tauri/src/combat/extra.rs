@@ -145,7 +145,8 @@ fn protected(c: &Campaign, p: &Combatant, key: &str) -> bool {
             && (p.has_any_ability(&["Clear Body", "Full Metal Body", "White Smoke"])
                 || (key == "Strength" && p.has_any_ability(&["Hyper Cutter", "Guard Dog"]))
                 || (key == "Defense" && p.has_ability("Big Pecks"))
-                || field::aura(c, p, "Flower Veil", true)))
+                || field::aura(c, p, "Flower Veil", true)
+                || field_ops::misted(c, p)))
 }
 pub fn attribute_channel(c: &Campaign, p: &Combatant, key: &str) -> (i32, i32) {
     let intimidated = flow(c).is_ok_and(|f| f.intimidate.values().any(|ids| ids.contains(&p.id)));

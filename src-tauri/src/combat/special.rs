@@ -365,12 +365,7 @@ pub fn dice(c: &Campaign, cmd: &SpecialCommand, cat: &Catalog) -> Result<u32> {
                 rules::accuracy(&old(c), combatant_id, move_name, 0, cat)?.0
             };
             base.checked_add(sequencing::successive_loyalty(c, combatant_id)?)
-                .and_then(|n| {
-                    n.checked_add(u32::from(
-                        p.runtime.chance_round == battle(c).unwrap().round
-                            && !p.runtime.chance_cancelled,
-                    ))
-                })
+                .and_then(|n| n.checked_add(u32::from(field_ops::reroll(c, p))))
                 .and_then(|n| n.checked_mul(*attempts))
                 .ok_or_else(|| error("Successive pool overflow"))?
         }
@@ -2027,7 +2022,8 @@ fn chance_dice(c: &Campaign, q: &QueuedAction) -> Result<u32> {
     Ok(chance(&q.move_name).map_or(0, |(_, n)| {
         let n = n
             + items::completion::loaded(c, &q.actor_id)
-            + 2 * u32::from(fighter(c, &q.actor_id).is_ok_and(|p| p.has_ability("Serene Grace")));
+            + 2 * u32::from(fighter(c, &q.actor_id).is_ok_and(|p| p.has_ability("Serene Grace")))
+            + field_ops::water_pledge(c);
         n.saturating_sub(
             2 * u32::from(fighter(c, &q.target_id).is_ok_and(|p| p.has_ability("Wonder Skin"))),
         )
@@ -2075,7 +2071,8 @@ pub fn effect_dice(c: &Campaign, q: &QueuedAction, cat: &Catalog) -> Result<Opti
     if let Some((_, n)) = chance(&q.move_name) {
         let n = n
             + items::completion::loaded(c, &q.actor_id)
-            + 2 * u32::from(fighter(c, &q.actor_id)?.has_ability("Serene Grace"));
+            + 2 * u32::from(fighter(c, &q.actor_id)?.has_ability("Serene Grace"))
+            + field_ops::water_pledge(c);
         return Ok(Some(n.saturating_sub(
             2 * u32::from(fighter(c, &q.target_id)?.has_ability("Wonder Skin")),
         )));

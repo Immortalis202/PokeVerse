@@ -22,6 +22,7 @@ pub(crate) mod entry_hazards;
 pub(crate) mod events;
 pub(crate) mod extra;
 pub(crate) mod field;
+pub(crate) mod field_ops;
 pub(crate) mod forms;
 pub(crate) mod house;
 pub(crate) mod information;
@@ -500,7 +501,7 @@ fn check_count(dice: &[u8], count: u32) -> Result<()> {
 }
 fn action_success(c: &mut Campaign, id: &str, dice: &[u8], base: u32) -> i32 {
     let p = fighter(c, id).unwrap();
-    let chance = p.runtime.chance_round == battle(c).unwrap().round && !p.runtime.chance_cancelled;
+    let chance = field_ops::reroll(c, p);
     let raw = rules::successes(&dice[..base as usize])
         + i32::from(
             chance
@@ -1095,12 +1096,11 @@ fn base_dice_count(c: &Campaign, a: &Action, cat: &Catalog) -> Result<u32> {
         } if ["sleep", "burn"].contains(&kind.as_str()) => Some(combatant_id),
         _ => None,
     };
-    Ok(base
-        + u32::from(id.is_some_and(|id| {
-            fighter(c, id).is_ok_and(|p| {
-                p.runtime.chance_round == battle(c).unwrap().round && !p.runtime.chance_cancelled
-            })
-        })))
+    Ok(
+        base + u32::from(
+            id.is_some_and(|id| fighter(c, id).is_ok_and(|p| field_ops::reroll(c, p))),
+        ),
+    )
 }
 fn holding_back(c: &Campaign, q: &QueuedAction) -> bool {
     let Ok(p) = fighter(c, &q.actor_id) else {
@@ -1196,6 +1196,7 @@ pub fn transition(
     if let Some(setup) = field::start_setup(a) {
         if ![
             ENGINE,
+            TRIGGER_OPS_ENGINE,
             DELAYED_OPS_ENGINE,
             ALLIED_OPS_ENGINE,
             INITIATIVE_OPS_ENGINE,
@@ -1274,6 +1275,7 @@ pub fn transition(
             setup,
             [
                 ENGINE,
+                TRIGGER_OPS_ENGINE,
                 DELAYED_OPS_ENGINE,
                 ALLIED_OPS_ENGINE,
                 INITIATIVE_OPS_ENGINE,
@@ -3230,8 +3232,7 @@ fn transition_inner(
                 return Err(error("A fainted Pokemon cannot check conditions"));
             }
             let net = if ["burn", "sleep"].contains(&kind.as_str()) {
-                let base = dice_count(c, a, cat)?
-                    - u32::from(p.runtime.chance_round == b.round && !p.runtime.chance_cancelled);
+                let base = dice_count(c, a, cat)? - u32::from(field_ops::reroll(c, p));
                 action_success(&mut next, combatant_id, &dice, base)
                     + i32::from(p.runtime.fate_pending)
             } else {
@@ -3425,6 +3426,7 @@ fn transition_inner(
                 b.flow = Some(TurnFlow {
                     identity_moves: [
                         ENGINE,
+                        TRIGGER_OPS_ENGINE,
                         DELAYED_OPS_ENGINE,
                         ALLIED_OPS_ENGINE,
                         INITIATIVE_OPS_ENGINE,
@@ -3493,6 +3495,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     status_escalation: [
                         ENGINE,
+                        TRIGGER_OPS_ENGINE,
                         DELAYED_OPS_ENGINE,
                         ALLIED_OPS_ENGINE,
                         INITIATIVE_OPS_ENGINE,
@@ -3560,6 +3563,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     spite: [
                         ENGINE,
+                        TRIGGER_OPS_ENGINE,
                         DELAYED_OPS_ENGINE,
                         ALLIED_OPS_ENGINE,
                         INITIATIVE_OPS_ENGINE,
@@ -3626,6 +3630,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     will_drains: [
                         ENGINE,
+                        TRIGGER_OPS_ENGINE,
                         DELAYED_OPS_ENGINE,
                         ALLIED_OPS_ENGINE,
                         INITIATIVE_OPS_ENGINE,
@@ -3691,6 +3696,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     direct_status: [
                         ENGINE,
+                        TRIGGER_OPS_ENGINE,
                         DELAYED_OPS_ENGINE,
                         ALLIED_OPS_ENGINE,
                         INITIATIVE_OPS_ENGINE,
@@ -3755,6 +3761,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     chance_status: [
                         ENGINE,
+                        TRIGGER_OPS_ENGINE,
                         DELAYED_OPS_ENGINE,
                         ALLIED_OPS_ENGINE,
                         INITIATIVE_OPS_ENGINE,
@@ -3818,6 +3825,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     battlefield_review: [
                         ENGINE,
+                        TRIGGER_OPS_ENGINE,
                         DELAYED_OPS_ENGINE,
                         ALLIED_OPS_ENGINE,
                         INITIATIVE_OPS_ENGINE,
@@ -3877,6 +3885,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     entry_hazards: [
                         ENGINE,
+                        TRIGGER_OPS_ENGINE,
                         DELAYED_OPS_ENGINE,
                         ALLIED_OPS_ENGINE,
                         INITIATIVE_OPS_ENGINE,
@@ -3936,6 +3945,7 @@ fn transition_inner(
                     damaging_stats: Box::new(damaging_stats::StatMoveState {
                         enabled: [
                             ENGINE,
+                            TRIGGER_OPS_ENGINE,
                             DELAYED_OPS_ENGINE,
                             ALLIED_OPS_ENGINE,
                             INITIATIVE_OPS_ENGINE,
@@ -3996,6 +4006,7 @@ fn transition_inner(
                     }),
                     cure_protection: [
                         ENGINE,
+                        TRIGGER_OPS_ENGINE,
                         DELAYED_OPS_ENGINE,
                         ALLIED_OPS_ENGINE,
                         INITIATIVE_OPS_ENGINE,
@@ -4057,6 +4068,7 @@ fn transition_inner(
                     recurring: Box::new(recurring::RecurringState {
                         enabled: [
                             ENGINE,
+                            TRIGGER_OPS_ENGINE,
                             DELAYED_OPS_ENGINE,
                             ALLIED_OPS_ENGINE,
                             INITIATIVE_OPS_ENGINE,
@@ -4121,6 +4133,7 @@ fn transition_inner(
                     compound: compound::CompoundState {
                         enabled: [
                             ENGINE,
+                            TRIGGER_OPS_ENGINE,
                             DELAYED_OPS_ENGINE,
                             ALLIED_OPS_ENGINE,
                             INITIATIVE_OPS_ENGINE,
@@ -4185,6 +4198,7 @@ fn transition_inner(
                     },
                     house_rules: [
                         ENGINE,
+                        TRIGGER_OPS_ENGINE,
                         DELAYED_OPS_ENGINE,
                         ALLIED_OPS_ENGINE,
                         INITIATIVE_OPS_ENGINE,
@@ -4255,6 +4269,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     interaction_rules: [
                         ENGINE,
+                        TRIGGER_OPS_ENGINE,
                         DELAYED_OPS_ENGINE,
                         ALLIED_OPS_ENGINE,
                         INITIATIVE_OPS_ENGINE,
@@ -4328,6 +4343,7 @@ fn transition_inner(
                     standalone: standalone::StandaloneState {
                         enabled: [
                             ENGINE,
+                            TRIGGER_OPS_ENGINE,
                             DELAYED_OPS_ENGINE,
                             ALLIED_OPS_ENGINE,
                             INITIATIVE_OPS_ENGINE,
@@ -4404,6 +4420,7 @@ fn transition_inner(
                     information: information::InformationState {
                         enabled: [
                             ENGINE,
+                            TRIGGER_OPS_ENGINE,
                             DELAYED_OPS_ENGINE,
                             ALLIED_OPS_ENGINE,
                             INITIATIVE_OPS_ENGINE,
@@ -4481,6 +4498,7 @@ fn transition_inner(
                     forms: forms::FormState {
                         enabled: [
                             ENGINE,
+                            TRIGGER_OPS_ENGINE,
                             DELAYED_OPS_ENGINE,
                             ALLIED_OPS_ENGINE,
                             INITIATIVE_OPS_ENGINE,
@@ -4560,6 +4578,7 @@ fn transition_inner(
                         completion: items::completion::CompletionState {
                             enabled: [
                                 ENGINE,
+                                TRIGGER_OPS_ENGINE,
                                 DELAYED_OPS_ENGINE,
                                 ALLIED_OPS_ENGINE,
                                 INITIATIVE_OPS_ENGINE,
@@ -4633,6 +4652,7 @@ fn transition_inner(
                         },
                         enabled: [
                             ENGINE,
+                            TRIGGER_OPS_ENGINE,
                             DELAYED_OPS_ENGINE,
                             ALLIED_OPS_ENGINE,
                             INITIATIVE_OPS_ENGINE,
@@ -4712,6 +4732,7 @@ fn transition_inner(
                     events: events::EventState {
                         enabled: [
                             ENGINE,
+                            TRIGGER_OPS_ENGINE,
                             DELAYED_OPS_ENGINE,
                             ALLIED_OPS_ENGINE,
                             INITIATIVE_OPS_ENGINE,
@@ -4791,6 +4812,7 @@ fn transition_inner(
                     },
                     provenance_rules: [
                         ENGINE,
+                        TRIGGER_OPS_ENGINE,
                         DELAYED_OPS_ENGINE,
                         ALLIED_OPS_ENGINE,
                         INITIATIVE_OPS_ENGINE,
@@ -4870,6 +4892,7 @@ fn transition_inner(
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            TRIGGER_OPS_ENGINE,
                             DELAYED_OPS_ENGINE,
                             ALLIED_OPS_ENGINE,
                             INITIATIVE_OPS_ENGINE,
@@ -4952,6 +4975,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            TRIGGER_OPS_ENGINE,
                             DELAYED_OPS_ENGINE,
                             ALLIED_OPS_ENGINE,
                             INITIATIVE_OPS_ENGINE,
@@ -5034,6 +5058,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        TRIGGER_OPS_ENGINE,
                         DELAYED_OPS_ENGINE,
                         ALLIED_OPS_ENGINE,
                         INITIATIVE_OPS_ENGINE,
@@ -5116,6 +5141,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            TRIGGER_OPS_ENGINE,
                             DELAYED_OPS_ENGINE,
                             ALLIED_OPS_ENGINE,
                             INITIATIVE_OPS_ENGINE,
@@ -5201,6 +5227,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            TRIGGER_OPS_ENGINE,
                             DELAYED_OPS_ENGINE,
                             ALLIED_OPS_ENGINE,
                             INITIATIVE_OPS_ENGINE,
@@ -5287,6 +5314,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            TRIGGER_OPS_ENGINE,
                             DELAYED_OPS_ENGINE,
                             ALLIED_OPS_ENGINE,
                             INITIATIVE_OPS_ENGINE,
@@ -5374,6 +5402,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            TRIGGER_OPS_ENGINE,
                             DELAYED_OPS_ENGINE,
                             ALLIED_OPS_ENGINE,
                             INITIATIVE_OPS_ENGINE,
@@ -5462,6 +5491,7 @@ fn transition_inner(
                     special: Box::new(special::SpecialState {
                         enabled: [
                             ENGINE,
+                            TRIGGER_OPS_ENGINE,
                             DELAYED_OPS_ENGINE,
                             ALLIED_OPS_ENGINE,
                             INITIATIVE_OPS_ENGINE,
@@ -5550,6 +5580,7 @@ fn transition_inner(
                     }),
                     ability_rules: [
                         ENGINE,
+                        TRIGGER_OPS_ENGINE,
                         DELAYED_OPS_ENGINE,
                         ALLIED_OPS_ENGINE,
                         INITIATIVE_OPS_ENGINE,
@@ -5640,6 +5671,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            TRIGGER_OPS_ENGINE,
                             DELAYED_OPS_ENGINE,
                             ALLIED_OPS_ENGINE,
                             INITIATIVE_OPS_ENGINE,
@@ -5730,6 +5762,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            TRIGGER_OPS_ENGINE,
                             DELAYED_OPS_ENGINE,
                             ALLIED_OPS_ENGINE,
                             INITIATIVE_OPS_ENGINE,
@@ -6423,6 +6456,7 @@ fn base_effect_dice(c: &Campaign, q: &QueuedAction, _cat: &Catalog) -> Result<u3
                 if fighter(c, &q.actor_id).is_ok_and(|p| p.has_ability("Serene Grace")) {
                     n += 2;
                 }
+                n += field_ops::water_pledge(c);
                 if fighter(c, &q.target_id).is_ok_and(|p| p.has_ability("Wonder Skin")) {
                     n = n.saturating_sub(2);
                 }

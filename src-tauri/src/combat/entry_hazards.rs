@@ -58,7 +58,12 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
         .collect();
     for id in entrants {
         let spider = completion::definition(c, "Spider Web").is_some();
-        for name in NAMES.into_iter().chain(spider.then_some("Spider Web")) {
+        let grass = completion::definition(c, "Grass Pledge").is_some();
+        for name in NAMES
+            .into_iter()
+            .chain(spider.then_some("Spider Web"))
+            .chain(grass.then_some("Grass Pledge"))
+        {
             let p = fighter(c, &id)?;
             if p.hp == 0
                 || !field::has(c, name, p)
@@ -98,7 +103,7 @@ pub fn lifecycle(before: &Campaign, c: &mut Campaign, cat: &Catalog) -> Result<(
                     special::registered(c, &source)?;
                     completion::install_named(c, name, &source, &id)?;
                 }
-                "Sticky Web" => {
+                "Sticky Web" | "Grass Pledge" => {
                     // Overlapping scopes still apply once. Keep the first installed
                     // matching source for the same non-stacking hazard.
                     let rule = flow(c)?

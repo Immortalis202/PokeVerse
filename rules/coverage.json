@@ -1311,6 +1311,18 @@
         "completion_a55_shell_trap_answers_only_a_landed_non_ranged_physical_hit"
       ],
       "scope": "Four trigger cards. Shell Trap is only a Late Reaction to a non-ranged Physical attack against its user; its damage can be rolled only after that attack damaged the user this round (otherwise the GM cancels it). Powder marks a target until it leaves battle: when it next declares a Fire move, it owes typeless damage dice equal to that move's Power, rolled with Resolve Powder (no defenses); the Fire move proceeds. Curse rolls half the user's current HP as typeless self-damage dice and gives the target a lasting Accuracy-success loss of 1 (shared strongest-loss channel) and one fewer damage success. Flame Burst: after it deals damage, the caster's owner may save up to two other foes; each takes one Fire-type die (1 damage on a success, adjusted by type matchup), ignoring defenses."
+    },
+    {
+      "id": "move-completion-a56",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A56",
+      "fixtures": [
+        "completion_a56_court_change_swaps_side_effects_and_hazards",
+        "completion_a56_fire_and_water_pledge_affect_the_whole_battlefield",
+        "completion_a56_grass_pledge_slows_targets_and_entrants",
+        "completion_a56_mist_and_lucky_chant_protect_the_users_side"
+      ],
+      "scope": "Six battlefield cards. Fire Pledge (4 rounds, not refreshed while active): every grounded combatant on the battlefield, including entrants, receives the round-end ongoing roll of 2 Fire-type dice ignoring defenses (existing tick workflow). Water Pledge (4 rounds): every Chance pool gains 2 dice, as Serene Grace does. Grass Pledge lowers the Dexterity of those it affects by 1 and installs a non-stacking foe-side entry hazard that lowers grounded entrants' Dexterity by 1, like Sticky Web. Mist (4 rounds, user's side): other combatants cannot reduce the Attributes of its targets; earlier reductions remain; Screen Cleaner removes it. Lucky Chant (scene, user's side): one failed die of each Accuracy, reaction and check roll may be rerolled, sharing the Chance reroll (not additive with it), and critical hits grant no bonus dice against its targets; damage rolls are unchanged. Court Change swaps every side-scoped battlefield rule and entry hazard between the two sides, keeping durations; battles with more than two sides need GM adjudication."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -1327,5 +1339,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "e07b8913af620e3f5263a4e94c5c6636592f08dc228db31b1bf8c0e9b4f66a55"
+  "move_completion_registry_hash": "e385e6080e9fb0abfd26b87212eb65d5e69e16c7c296b9d2a1b0e02a2efd895d"
 }

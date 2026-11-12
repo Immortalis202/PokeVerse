@@ -19891,10 +19891,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Court Change.json",
       "sha256": "1c20b43a59c9203d6591348579220bb2bc4ad4169935208cf18cfa39cc554f57",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A56: Six battlefield cards. Fire Pledge (4 rounds, not refreshed while active): every grounded combatant on the battlefield, including entrants, receives the round-end ongoing roll of 2 Fire-type dice ignoring defenses (existing tick workflow). Water Pledge (4 rounds): every Chance pool gains 2 dice, as Serene Grace does. Grass Pledge lowers the Dexterity of those it affects by 1 and installs a non-stacking foe-side entry hazard that lowers grounded entrants' Dexterity by 1, like Sticky Web. Mist (4 rounds, user's side): other combatants cannot reduce the Attributes of its targets; earlier reductions remain; Screen Cleaner removes it. Lucky Chant (scene, user's side): one failed die of each Accuracy, reaction and check roll may be rerolled, sharing the Chance reroll (not additive with it), and critical hits grant no bonus dice against its targets; damage rolls are unchanged. Court Change swaps every side-scoped battlefield rule and entry hazard between the two sides, keeping durations; battles with more than two sides need GM adjudication.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -19904,9 +19911,15 @@
           "value": "Target Battlefield. ",
           "start": 0,
           "end": 20,
-          "status": "pending",
+          "status": "automated",
           "batch": 8,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a56",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a56_court_change_swaps_side_effects_and_hazards"
+            }
+          ]
         },
         {
           "id": "effect:20-181",
@@ -19914,9 +19927,15 @@
           "value": "Swap any Force Fields, Entry Hazards and Effects on the Foe's side of the field (ie Tailwind, Grassy Terrain healing, Fire Pledge.) for those on the User's side.",
           "start": 20,
           "end": 181,
-          "status": "pending",
+          "status": "automated",
           "batch": 8,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a56",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a56_court_change_swaps_side_effects_and_hazards"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -35334,10 +35353,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Fire Pledge.json",
       "sha256": "aaad8c62225de3d116613ba9414de4154087b41ef6d17d11dcbdaf65b9c7e08e",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A56: Six battlefield cards. Fire Pledge (4 rounds, not refreshed while active): every grounded combatant on the battlefield, including entrants, receives the round-end ongoing roll of 2 Fire-type dice ignoring defenses (existing tick workflow). Water Pledge (4 rounds): every Chance pool gains 2 dice, as Serene Grace does. Grass Pledge lowers the Dexterity of those it affects by 1 and installs a non-stacking foe-side entry hazard that lowers grounded entrants' Dexterity by 1, like Sticky Web. Mist (4 rounds, user's side): other combatants cannot reduce the Attributes of its targets; earlier reductions remain; Screen Cleaner removes it. Lucky Chant (scene, user's side): one failed die of each Accuracy, reaction and check roll may be rerolled, sharing the Chance reroll (not additive with it), and critical hits grant no bonus dice against its targets; damage rolls are unchanged. Court Change swaps every side-scoped battlefield rule and entry hazard between the two sides, keeping durations; battles with more than two sides need GM adjudication.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -35347,9 +35373,15 @@
           "value": "Area Move. ",
           "start": 0,
           "end": 11,
-          "status": "pending",
+          "status": "automated",
           "batch": 8,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a56",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a56_fire_and_water_pledge_affect_the_whole_battlefield"
+            }
+          ]
         },
         {
           "id": "effect:11-177",
@@ -35357,9 +35389,15 @@
           "value": "This Effect Targets the Battle Field: At the End of the Round, Roll 2 Dice of Fire-Type Damage to everyone without immunity to Ground on the field ignoring defenses. ",
           "start": 11,
           "end": 177,
-          "status": "pending",
+          "status": "automated",
           "batch": 8,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a56",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a56_fire_and_water_pledge_affect_the_whole_battlefield"
+            }
+          ]
         },
         {
           "id": "effect:177-195",
@@ -35367,9 +35405,15 @@
           "value": "Duration 4 Rounds.",
           "start": 177,
           "end": 195,
-          "status": "pending",
+          "status": "automated",
           "batch": 8,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a56",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a56_fire_and_water_pledge_affect_the_whole_battlefield"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -43861,10 +43905,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Grass Pledge.json",
       "sha256": "fd75e345a3325ec955ce4c1ff6c9a860fbe13c26f68fce5e6fae6387d86fab2b",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A56: Six battlefield cards. Fire Pledge (4 rounds, not refreshed while active): every grounded combatant on the battlefield, including entrants, receives the round-end ongoing roll of 2 Fire-type dice ignoring defenses (existing tick workflow). Water Pledge (4 rounds): every Chance pool gains 2 dice, as Serene Grace does. Grass Pledge lowers the Dexterity of those it affects by 1 and installs a non-stacking foe-side entry hazard that lowers grounded entrants' Dexterity by 1, like Sticky Web. Mist (4 rounds, user's side): other combatants cannot reduce the Attributes of its targets; earlier reductions remain; Screen Cleaner removes it. Lucky Chant (scene, user's side): one failed die of each Accuracy, reaction and check roll may be rerolled, sharing the Chance reroll (not additive with it), and critical hits grant no bonus dice against its targets; damage rolls are unchanged. Court Change swaps every side-scoped battlefield rule and entry hazard between the two sides, keeping durations; battles with more than two sides need GM adjudication.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -43874,9 +43925,15 @@
           "value": "Area Move. ",
           "start": 0,
           "end": 11,
-          "status": "pending",
+          "status": "automated",
           "batch": 8,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a56",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a56_grass_pledge_slows_targets_and_entrants"
+            }
+          ]
         },
         {
           "id": "effect:11-56",
@@ -43884,9 +43941,15 @@
           "value": "Reduce by 1 the Dexterity of those affected. ",
           "start": 11,
           "end": 56,
-          "status": "pending",
+          "status": "automated",
           "batch": 8,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a56",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a56_grass_pledge_slows_targets_and_entrants"
+            }
+          ]
         },
         {
           "id": "effect:56-108",
@@ -43894,9 +43957,15 @@
           "value": "This Effect Targets the Battle Field: Entry Hazard. ",
           "start": 56,
           "end": 108,
-          "status": "pending",
+          "status": "automated",
           "batch": 8,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a56",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a56_grass_pledge_slows_targets_and_entrants"
+            }
+          ]
         },
         {
           "id": "effect:108-174",
@@ -43904,9 +43973,15 @@
           "value": "Reduce by 1 the Dexterity of Target's that enter the battlefield. ",
           "start": 108,
           "end": 174,
-          "status": "pending",
+          "status": "automated",
           "batch": 8,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a56",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a56_grass_pledge_slows_targets_and_entrants"
+            }
+          ]
         },
         {
           "id": "effect:174-223",
@@ -43914,9 +43989,15 @@
           "value": "Pokemon with Immunity to Ground are not affected.",
           "start": 174,
           "end": 223,
-          "status": "pending",
+          "status": "automated",
           "batch": 8,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a56",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a56_grass_pledge_slows_targets_and_entrants"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -60204,12 +60285,19 @@
       "source": "Pokerole-Data/v3.0/Moves/Lucky Chant.json",
       "sha256": "222103c326abc97a2228aa1410fc4baf9fe96da32ec5a50165cc984fd0eda345",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [
         "Outside-battle narrative clauses are outside this battle audit"
       ],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A56: Six battlefield cards. Fire Pledge (4 rounds, not refreshed while active): every grounded combatant on the battlefield, including entrants, receives the round-end ongoing roll of 2 Fire-type dice ignoring defenses (existing tick workflow). Water Pledge (4 rounds): every Chance pool gains 2 dice, as Serene Grace does. Grass Pledge lowers the Dexterity of those it affects by 1 and installs a non-stacking foe-side entry hazard that lowers grounded entrants' Dexterity by 1, like Sticky Web. Mist (4 rounds, user's side): other combatants cannot reduce the Attributes of its targets; earlier reductions remain; Screen Cleaner removes it. Lucky Chant (scene, user's side): one failed die of each Accuracy, reaction and check roll may be rerolled, sharing the Chance reroll (not additive with it), and critical hits grant no bonus dice against its targets; damage rolls are unchanged. Court Change swaps every side-scoped battlefield rule and entry hazard between the two sides, keeping durations; battles with more than two sides need GM adjudication.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -60219,9 +60307,15 @@
           "value": "Target User and Allies in Range. ",
           "start": 0,
           "end": 33,
-          "status": "pending",
+          "status": "automated",
           "batch": 8,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a56",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a56_mist_and_lucky_chant_protect_the_users_side"
+            }
+          ]
         },
         {
           "id": "effect:33-41",
@@ -60249,9 +60343,15 @@
           "value": "Critical Hits do not grant Bonus dice against the Targets. ",
           "start": 105,
           "end": 164,
-          "status": "pending",
+          "status": "automated",
           "batch": 8,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a56",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a56_mist_and_lucky_chant_protect_the_users_side"
+            }
+          ]
         },
         {
           "id": "effect:164-186",
@@ -60259,9 +60359,15 @@
           "value": "Whole Scene Duration. ",
           "start": 164,
           "end": 186,
-          "status": "pending",
+          "status": "automated",
           "batch": 8,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a56",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a56_mist_and_lucky_chant_protect_the_users_side"
+            }
+          ]
         },
         {
           "id": "effect:186-248",
@@ -69668,10 +69774,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Mist.json",
       "sha256": "993096ca43cd9fc86d750a54cb8f50661d2612515c1a531c46b2c2be17aab91e",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A56: Six battlefield cards. Fire Pledge (4 rounds, not refreshed while active): every grounded combatant on the battlefield, including entrants, receives the round-end ongoing roll of 2 Fire-type dice ignoring defenses (existing tick workflow). Water Pledge (4 rounds): every Chance pool gains 2 dice, as Serene Grace does. Grass Pledge lowers the Dexterity of those it affects by 1 and installs a non-stacking foe-side entry hazard that lowers grounded entrants' Dexterity by 1, like Sticky Web. Mist (4 rounds, user's side): other combatants cannot reduce the Attributes of its targets; earlier reductions remain; Screen Cleaner removes it. Lucky Chant (scene, user's side): one failed die of each Accuracy, reaction and check roll may be rerolled, sharing the Chance reroll (not additive with it), and critical hits grant no bonus dice against its targets; damage rolls are unchanged. Court Change swaps every side-scoped battlefield rule and entry hazard between the two sides, keeping durations; battles with more than two sides need GM adjudication.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -69681,9 +69794,15 @@
           "value": "Target User and Allies in Range. ",
           "start": 0,
           "end": 33,
-          "status": "pending",
+          "status": "automated",
           "batch": 8,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a56",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a56_mist_and_lucky_chant_protect_the_users_side"
+            }
+          ]
         },
         {
           "id": "effect:33-89",
@@ -69701,9 +69820,15 @@
           "value": "Previously Reduced Attributes and Traits remain. ",
           "start": 89,
           "end": 138,
-          "status": "pending",
+          "status": "automated",
           "batch": 8,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a56",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a56_mist_and_lucky_chant_protect_the_users_side"
+            }
+          ]
         },
         {
           "id": "effect:138-156",
@@ -69711,9 +69836,15 @@
           "value": "Duration 4 Rounds.",
           "start": 138,
           "end": 156,
-          "status": "pending",
+          "status": "automated",
           "batch": 8,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a56",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a56_mist_and_lucky_chant_protect_the_users_side"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -122344,10 +122475,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Water Pledge.json",
       "sha256": "7e3ece22cba21b5a1bbd3e34c865aa385dce4b1067bf3056b299152816485c6e",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A56: Six battlefield cards. Fire Pledge (4 rounds, not refreshed while active): every grounded combatant on the battlefield, including entrants, receives the round-end ongoing roll of 2 Fire-type dice ignoring defenses (existing tick workflow). Water Pledge (4 rounds): every Chance pool gains 2 dice, as Serene Grace does. Grass Pledge lowers the Dexterity of those it affects by 1 and installs a non-stacking foe-side entry hazard that lowers grounded entrants' Dexterity by 1, like Sticky Web. Mist (4 rounds, user's side): other combatants cannot reduce the Attributes of its targets; earlier reductions remain; Screen Cleaner removes it. Lucky Chant (scene, user's side): one failed die of each Accuracy, reaction and check roll may be rerolled, sharing the Chance reroll (not additive with it), and critical hits grant no bonus dice against its targets; damage rolls are unchanged. Court Change swaps every side-scoped battlefield rule and entry hazard between the two sides, keeping durations; battles with more than two sides need GM adjudication.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -122357,9 +122495,15 @@
           "value": "Area Move. ",
           "start": 0,
           "end": 11,
-          "status": "pending",
+          "status": "automated",
           "batch": 8,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a56",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a56_fire_and_water_pledge_affect_the_whole_battlefield"
+            }
+          ]
         },
         {
           "id": "effect:11-110",
@@ -122367,9 +122511,15 @@
           "value": "This Effect Targets the Battlefield: Add 2 Dice to all Chance Dice rolls of everyone in the field. ",
           "start": 11,
           "end": 110,
-          "status": "pending",
+          "status": "automated",
           "batch": 8,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a56",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a56_fire_and_water_pledge_affect_the_whole_battlefield"
+            }
+          ]
         },
         {
           "id": "effect:110-128",
@@ -122377,9 +122527,15 @@
           "value": "Duration 4 Rounds.",
           "start": 110,
           "end": 128,
-          "status": "pending",
+          "status": "automated",
           "batch": 8,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a56",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a56_fire_and_water_pledge_affect_the_whole_battlefield"
+            }
+          ]
         },
         {
           "id": "metadata:Type",

@@ -277,6 +277,7 @@ fn adjusted(c: &Campaign, q: &QueuedAction, p: &Pool) -> Result<u32> {
     let n = p.dice
         + items::completion::loaded(c, &q.actor_id)
         + 2 * u32::from(source.has_ability("Serene Grace"))
+        + field_ops::water_pledge(c)
         + u32::from(
             (p.kind == "Frozen Solid"
                 || (p.kind == "environment" && secret(c, &q.actor_id)? == "Frozen Solid"))

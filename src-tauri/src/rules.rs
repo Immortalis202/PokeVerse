@@ -238,6 +238,7 @@ pub fn accuracy(
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
     if [
         ENGINE,
+        TRIGGER_OPS_ENGINE,
         DELAYED_OPS_ENGINE,
         ALLIED_OPS_ENGINE,
         INITIATIVE_OPS_ENGINE,
@@ -569,7 +570,9 @@ pub fn damage_pool(
             .iter()
             .any(|t| t == move_type),
     );
-    let critical = if hit.critical
+    let critical = if crate::combat::field_ops::lucky(c, target) {
+        0
+    } else if hit.critical
         || (crate::combat::extra::enabled(c)
             && attacker.has_ability("Merciless")
             && target

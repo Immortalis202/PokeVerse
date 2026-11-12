@@ -149,7 +149,8 @@ pub fn effect_dice(c: &Campaign, q: &QueuedAction) -> Result<Option<u32>> {
         let bypass = source.side != target.side && reviewed::extreme(c, &source);
         return Ok(Some(
             (n + items::completion::loaded(c, &q.actor_id)
-                + 2 * u32::from(source.has_ability("Serene Grace")))
+                + 2 * u32::from(source.has_ability("Serene Grace"))
+                + field_ops::water_pledge(c))
             .saturating_sub(2 * u32::from(!bypass && target.has_ability("Wonder Skin"))),
         ));
     }
@@ -476,6 +477,9 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
         "trigger-op" => {
             trigger_ops::effect(c, q, _dice, cat)?;
         }
+        "field-op" => {
+            field_ops::effect(c, q, cat)?;
+        }
         "stat" => {
             return damaging_stats::effect(c, q, _dice, cat);
         }
@@ -692,6 +696,9 @@ pub fn blocked(c: &Campaign, id: &str) -> bool {
 
 pub fn tick_dice(c: &Campaign, e: &special::TimedEffect) -> Option<u32> {
     let name = e.name.strip_prefix("ongoing:")?;
+    if let Some(d) = field_ops::tick_definition(c, name) {
+        return d["dice"].as_u64().map(|n| n as u32);
+    }
     let (kind, d) = definition(c, name)?;
     (kind == "ongoing").then(|| d["dice"].as_u64().unwrap() as u32)
 }
@@ -705,7 +712,7 @@ pub fn tick(
         return Ok(false);
     }
     let name = e.name.strip_prefix("ongoing:").unwrap();
-    let (_, d) = definition(c, name).unwrap();
+    let d = field_ops::tick_definition(c, name).unwrap_or_else(|| definition(c, name).unwrap().1);
     let before = fighter(c, &e.target)?.hp;
     let damage_type = d["damage_type"].as_str().unwrap();
     let target = fighter(c, &e.target)?;
@@ -1297,6 +1304,11 @@ pub fn observe(before: &Campaign, next: &mut Campaign, cat: &Catalog) -> Result<
         && battle(next).is_ok_and(|b| b.active)
     {
         trigger_ops::lifecycle(next)?;
+    }
+    if flow(next).is_ok_and(|f| f.completion.blocks.contains("MOVE-A56"))
+        && battle(next).is_ok_and(|b| b.active)
+    {
+        field_ops::lifecycle(next, cat)?;
     }
     if definition(next, "Charge").is_some() {
         let sequences: BTreeSet<_> = flow(next)?
