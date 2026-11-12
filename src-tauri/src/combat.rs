@@ -23,6 +23,7 @@ pub(crate) mod house;
 pub(crate) mod information;
 pub(crate) mod interactions;
 pub(crate) mod items;
+pub(crate) mod judgment;
 pub(crate) mod provenance;
 pub(crate) mod recurring;
 pub(crate) mod reviewed;
@@ -641,6 +642,9 @@ fn reaction_pool(c: &Campaign, id: &str, kind: &str, name: &str, cat: &Catalog) 
         &move_entry(cat, &incoming.move_name)?,
     );
     if kind == "evade" || kind == "clash" {
+        if kind == "clash" && judgment::active(c, &m) {
+            return Err(error("Judgment cannot be Clashed"));
+        }
         if incoming.timing == "after" || incoming.priority >= 6 {
             return Err(error(
                 "Reaction 6 cannot answer a late or higher/equal reaction",
@@ -673,6 +677,9 @@ fn reaction_pool(c: &Campaign, id: &str, kind: &str, name: &str, cat: &Catalog) 
             "Dexterity"
         } else {
             let cm = move_entry(cat, name)?;
+            if judgment::active(c, &cm) {
+                return Err(error("Judgment cannot participate in a Clash"));
+            }
             if m["Target"] == "Area" && cm["Target"] != "Area" {
                 return Err(error("Area attacks can only be Clashed with an Area move"));
             }
@@ -1171,6 +1178,7 @@ pub fn transition(
     if let Some(setup) = field::start_setup(a) {
         if ![
             ENGINE,
+            METRONOME_ENGINE,
             HOLD_HANDS_ENGINE,
             ORDER_UP_ENGINE,
             CRASH_MOVES_ENGINE,
@@ -1240,6 +1248,7 @@ pub fn transition(
             setup,
             [
                 ENGINE,
+                METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
                 CRASH_MOVES_ENGINE,
@@ -1429,6 +1438,7 @@ pub fn preview(c: &Campaign, a: &Action, cat: &Catalog) -> Result<ActionPreview>
                 combatant_id,
                 ids,
                 (house::enabled(c) && move_name == "Bide")
+                    || judgment::active(c, &m)
                     || interactions::cover_bypass(c, combatant_id, &m)
                     || m["Attributes"]["SoundMove"] == true
                     || ["Phantom Force", "Shadow Force"].contains(&move_name.as_str()),
@@ -1672,7 +1682,7 @@ fn transition_inner(
             if !extra::enabled(c) {
                 return Err(error("Upgrade ability rules between battles"));
             }
-            if !flow(c)?.queue.is_empty() {
+            if !flow(c)?.queue.is_empty() && !judgment::awaiting(c) {
                 return Err(error("Resolve the pending attack before a stat ruling"));
             }
             extra::change_stat(&mut next, source_id, combatant_id, stat, *change)?;
@@ -2009,6 +2019,7 @@ fn transition_inner(
                 targets,
                 (house::enabled(c) && move_name == "Bide")
                     || interactions::cover_bypass(c, combatant_id, &m)
+                    || judgment::active(c, &m)
                     || m["Attributes"]["SoundMove"] == true
                     || ["Phantom Force", "Shadow Force"].contains(&move_name.as_str()),
             );
@@ -2833,15 +2844,16 @@ fn transition_inner(
                 q.sequence,
                 fighter(c, &q.actor_id)?,
             );
+            let move_data = field::move_data(c, &source_snapshot, &move_entry(cat, &q.move_name)?);
+            let defensive_target = judgment::retained_target(c, &q.actor_id, target, &move_data);
             let mut thick_fat = i32::from(
-                target.has_ability("Thick Fat")
+                defensive_target.has_ability("Thick Fat")
                     && ["Fire", "Ice"].contains(
                         &move_entry(cat, &q.move_name)?["Type"]
                             .as_str()
                             .unwrap_or(""),
                     ),
             );
-            let move_data = field::move_data(c, &source_snapshot, &move_entry(cat, &q.move_name)?);
             if abilities::enabled(c) {
                 let mut pool_campaign = old(c);
                 install_pending(&mut pool_campaign, &q);
@@ -2857,14 +2869,14 @@ fn transition_inner(
                 )?;
                 thick_fat = abilities::reduction(
                     c,
-                    &decoys::damage_subject(c, &q.actor_id, target, &move_data),
+                    &decoys::damage_subject(c, &q.actor_id, &defensive_target, &move_data),
                     &move_data,
                     pool.effectiveness,
                     &q.actor_id,
                 );
             }
             let field_reduction = field::reduction(c, fighter(c, &q.actor_id)?, target, &move_data);
-            let raw_amount = if field::enabled(c) {
+            let mut raw_amount = if field::enabled(c) {
                 let Action::Damage {
                     pool_modifier,
                     success_modifier,
@@ -2903,6 +2915,13 @@ fn transition_inner(
                 cat,
             )?;
             let immune = item_pool.immune;
+            if judgment::active(c, &move_data)
+                && !immune
+                && !forms::tera_shell(c, &defensive_target, &move_data)
+                && matches!(a, Action::Damage { damage_modifier, .. } if *damage_modifier >= 0)
+            {
+                raw_amount = raw_amount.max(1);
+            }
             let item_damage = items::extra_damage(
                 c,
                 &q.actor_id,
@@ -2924,7 +2943,11 @@ fn transition_inner(
                 }
             }
             if holding_back(c, &q) {
+                let before_holding = damage;
                 damage /= 2;
+                if judgment::active(c, &move_data) && before_holding > 0 {
+                    damage = damage.max(1);
+                }
             }
             damage = special::before_damage(&mut done, &q, &move_data, damage, cat)?;
             let decoy_hit = decoys::damage(&mut done, &q, &move_data, damage);
@@ -2932,9 +2955,13 @@ fn transition_inner(
                 && !abilities::damage_immune_from(c, fighter(c, combatant_id)?, target, &move_data)
             {
                 damage = completion::non_fainting_damage(&done, &q.move_name, before, damage);
-                damage = abilities::sturdy(&mut done, &q.target_id, damage, before)?;
+                damage = if judgment::active(c, &move_data) {
+                    judgment::survival(&mut done, &q, &move_data, target, damage)?
+                } else {
+                    abilities::sturdy(&mut done, &q.target_id, damage, before)?
+                };
             }
-            if !decoy_hit {
+            if !decoy_hit && !judgment::active(c, &move_data) {
                 damage = items::completion::survive(&mut done, &q, before, damage);
             }
             fighter_mut(&mut done, &q.target_id)?.hp = if decoy_hit {
@@ -3003,6 +3030,11 @@ fn transition_inner(
             if q.field_scope.is_some() && matches!(a, Action::AdjudicateEffect { .. }) {
                 return Err(error(
                     "Use the field-effect ruling to preserve its scope and duration",
+                ));
+            }
+            if q.move_name == "Judgment" && completion::definition(c, "Judgment").is_some() {
+                return Err(error(
+                    "Use Judgment's saved GM ruling controls to finish its effects",
                 ));
             }
             if matches!(a, Action::AdjudicateEffect { .. }) {
@@ -3307,6 +3339,7 @@ fn transition_inner(
                 b.flow = Some(TurnFlow {
                     identity_moves: [
                         ENGINE,
+                        METRONOME_ENGINE,
                         HOLD_HANDS_ENGINE,
                         ORDER_UP_ENGINE,
                         CRASH_MOVES_ENGINE,
@@ -3366,6 +3399,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     status_escalation: [
                         ENGINE,
+                        METRONOME_ENGINE,
                         HOLD_HANDS_ENGINE,
                         ORDER_UP_ENGINE,
                         CRASH_MOVES_ENGINE,
@@ -3424,6 +3458,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     spite: [
                         ENGINE,
+                        METRONOME_ENGINE,
                         HOLD_HANDS_ENGINE,
                         ORDER_UP_ENGINE,
                         CRASH_MOVES_ENGINE,
@@ -3481,6 +3516,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     will_drains: [
                         ENGINE,
+                        METRONOME_ENGINE,
                         HOLD_HANDS_ENGINE,
                         ORDER_UP_ENGINE,
                         CRASH_MOVES_ENGINE,
@@ -3537,6 +3573,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     direct_status: [
                         ENGINE,
+                        METRONOME_ENGINE,
                         HOLD_HANDS_ENGINE,
                         ORDER_UP_ENGINE,
                         CRASH_MOVES_ENGINE,
@@ -3592,6 +3629,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     chance_status: [
                         ENGINE,
+                        METRONOME_ENGINE,
                         HOLD_HANDS_ENGINE,
                         ORDER_UP_ENGINE,
                         CRASH_MOVES_ENGINE,
@@ -3646,6 +3684,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     battlefield_review: [
                         ENGINE,
+                        METRONOME_ENGINE,
                         HOLD_HANDS_ENGINE,
                         ORDER_UP_ENGINE,
                         CRASH_MOVES_ENGINE,
@@ -3696,6 +3735,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     entry_hazards: [
                         ENGINE,
+                        METRONOME_ENGINE,
                         HOLD_HANDS_ENGINE,
                         ORDER_UP_ENGINE,
                         CRASH_MOVES_ENGINE,
@@ -3746,6 +3786,7 @@ fn transition_inner(
                     damaging_stats: Box::new(damaging_stats::StatMoveState {
                         enabled: [
                             ENGINE,
+                            METRONOME_ENGINE,
                             HOLD_HANDS_ENGINE,
                             ORDER_UP_ENGINE,
                             CRASH_MOVES_ENGINE,
@@ -3797,6 +3838,7 @@ fn transition_inner(
                     }),
                     cure_protection: [
                         ENGINE,
+                        METRONOME_ENGINE,
                         HOLD_HANDS_ENGINE,
                         ORDER_UP_ENGINE,
                         CRASH_MOVES_ENGINE,
@@ -3849,6 +3891,7 @@ fn transition_inner(
                     recurring: Box::new(recurring::RecurringState {
                         enabled: [
                             ENGINE,
+                            METRONOME_ENGINE,
                             HOLD_HANDS_ENGINE,
                             ORDER_UP_ENGINE,
                             CRASH_MOVES_ENGINE,
@@ -3904,6 +3947,7 @@ fn transition_inner(
                     compound: compound::CompoundState {
                         enabled: [
                             ENGINE,
+                            METRONOME_ENGINE,
                             HOLD_HANDS_ENGINE,
                             ORDER_UP_ENGINE,
                             CRASH_MOVES_ENGINE,
@@ -3959,6 +4003,7 @@ fn transition_inner(
                     },
                     house_rules: [
                         ENGINE,
+                        METRONOME_ENGINE,
                         HOLD_HANDS_ENGINE,
                         ORDER_UP_ENGINE,
                         CRASH_MOVES_ENGINE,
@@ -4020,6 +4065,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     interaction_rules: [
                         ENGINE,
+                        METRONOME_ENGINE,
                         HOLD_HANDS_ENGINE,
                         ORDER_UP_ENGINE,
                         CRASH_MOVES_ENGINE,
@@ -4084,6 +4130,7 @@ fn transition_inner(
                     standalone: standalone::StandaloneState {
                         enabled: [
                             ENGINE,
+                            METRONOME_ENGINE,
                             HOLD_HANDS_ENGINE,
                             ORDER_UP_ENGINE,
                             CRASH_MOVES_ENGINE,
@@ -4151,6 +4198,7 @@ fn transition_inner(
                     information: information::InformationState {
                         enabled: [
                             ENGINE,
+                            METRONOME_ENGINE,
                             HOLD_HANDS_ENGINE,
                             ORDER_UP_ENGINE,
                             CRASH_MOVES_ENGINE,
@@ -4219,6 +4267,7 @@ fn transition_inner(
                     forms: forms::FormState {
                         enabled: [
                             ENGINE,
+                            METRONOME_ENGINE,
                             HOLD_HANDS_ENGINE,
                             ORDER_UP_ENGINE,
                             CRASH_MOVES_ENGINE,
@@ -4289,6 +4338,7 @@ fn transition_inner(
                         completion: items::completion::CompletionState {
                             enabled: [
                                 ENGINE,
+                                METRONOME_ENGINE,
                                 HOLD_HANDS_ENGINE,
                                 ORDER_UP_ENGINE,
                                 CRASH_MOVES_ENGINE,
@@ -4353,6 +4403,7 @@ fn transition_inner(
                         },
                         enabled: [
                             ENGINE,
+                            METRONOME_ENGINE,
                             HOLD_HANDS_ENGINE,
                             ORDER_UP_ENGINE,
                             CRASH_MOVES_ENGINE,
@@ -4423,6 +4474,7 @@ fn transition_inner(
                     events: events::EventState {
                         enabled: [
                             ENGINE,
+                            METRONOME_ENGINE,
                             HOLD_HANDS_ENGINE,
                             ORDER_UP_ENGINE,
                             CRASH_MOVES_ENGINE,
@@ -4493,6 +4545,7 @@ fn transition_inner(
                     },
                     provenance_rules: [
                         ENGINE,
+                        METRONOME_ENGINE,
                         HOLD_HANDS_ENGINE,
                         ORDER_UP_ENGINE,
                         CRASH_MOVES_ENGINE,
@@ -4563,6 +4616,7 @@ fn transition_inner(
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            METRONOME_ENGINE,
                             HOLD_HANDS_ENGINE,
                             ORDER_UP_ENGINE,
                             CRASH_MOVES_ENGINE,
@@ -4636,6 +4690,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            METRONOME_ENGINE,
                             HOLD_HANDS_ENGINE,
                             ORDER_UP_ENGINE,
                             CRASH_MOVES_ENGINE,
@@ -4709,6 +4764,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        METRONOME_ENGINE,
                         HOLD_HANDS_ENGINE,
                         ORDER_UP_ENGINE,
                         CRASH_MOVES_ENGINE,
@@ -4782,6 +4838,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            METRONOME_ENGINE,
                             HOLD_HANDS_ENGINE,
                             ORDER_UP_ENGINE,
                             CRASH_MOVES_ENGINE,
@@ -4858,6 +4915,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            METRONOME_ENGINE,
                             HOLD_HANDS_ENGINE,
                             ORDER_UP_ENGINE,
                             CRASH_MOVES_ENGINE,
@@ -4935,6 +4993,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            METRONOME_ENGINE,
                             HOLD_HANDS_ENGINE,
                             ORDER_UP_ENGINE,
                             CRASH_MOVES_ENGINE,
@@ -5013,6 +5072,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            METRONOME_ENGINE,
                             HOLD_HANDS_ENGINE,
                             ORDER_UP_ENGINE,
                             CRASH_MOVES_ENGINE,
@@ -5092,6 +5152,7 @@ fn transition_inner(
                     special: Box::new(special::SpecialState {
                         enabled: [
                             ENGINE,
+                            METRONOME_ENGINE,
                             HOLD_HANDS_ENGINE,
                             ORDER_UP_ENGINE,
                             CRASH_MOVES_ENGINE,
@@ -5171,6 +5232,7 @@ fn transition_inner(
                     }),
                     ability_rules: [
                         ENGINE,
+                        METRONOME_ENGINE,
                         HOLD_HANDS_ENGINE,
                         ORDER_UP_ENGINE,
                         CRASH_MOVES_ENGINE,
@@ -5252,6 +5314,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            METRONOME_ENGINE,
                             HOLD_HANDS_ENGINE,
                             ORDER_UP_ENGINE,
                             CRASH_MOVES_ENGINE,
@@ -5333,6 +5396,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            METRONOME_ENGINE,
                             HOLD_HANDS_ENGINE,
                             ORDER_UP_ENGINE,
                             CRASH_MOVES_ENGINE,

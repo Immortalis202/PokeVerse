@@ -5,6 +5,8 @@ use super::*;
 #[serde(default)]
 #[ts(export, export_to = "../../src/bindings/")]
 pub struct MoveCompletionState {
+    pub judgment_prepared: BTreeMap<String, judgment::JudgmentProfile>,
+    pub judgment_casts: BTreeMap<u32, judgment::JudgmentCast>,
     pub metronome_table: Option<copies::MetronomeTable>,
     pub metronome_draw: Option<copies::MetronomeDraw>,
     pub copied_cast: Option<copies::CopiedCast>,
@@ -180,6 +182,7 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
         return Ok(false);
     };
     match kind {
+        "judgment" => return Err(error("Judgment requires its saved GM added-effect ruling after damage")),
         "metronome" => return Err(error("Metronome requires a committed category/Power draw and GM template selection before casting")),
         "hold-hands" => {
             if !immune_target(c, q, cat)? {

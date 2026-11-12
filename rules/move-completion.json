@@ -191,8 +191,14 @@
           "damage_type": "Neutral",
           "block": false,
           "both": false,
-          "super_effective_types": ["Steel", "Water"],
-          "extra_tick_types": ["Steel", "Water"]
+          "super_effective_types": [
+            "Steel",
+            "Water"
+          ],
+          "extra_tick_types": [
+            "Steel",
+            "Water"
+          ]
         }
       }
     },
@@ -554,7 +560,9 @@
           "effect": "Single Target. Low Accuracy 1. Reduce the User's Special by 2.",
           "dice": 0,
           "user": true,
-          "keys": ["Special"],
+          "keys": [
+            "Special"
+          ],
           "amount": -2
         },
         "Liquidation": {
@@ -563,7 +571,9 @@
           "effect": "Single Target. Lethal. Roll 2 Chance Dice to Reduce the Target's Defense by 1.",
           "dice": 2,
           "user": false,
-          "keys": ["Defense"],
+          "keys": [
+            "Defense"
+          ],
           "amount": -1
         },
         "Low Sweep": {
@@ -572,7 +582,9 @@
           "effect": "Single Target. Reduce the Target's Dexterity by 2.",
           "dice": 0,
           "user": false,
-          "keys": ["Dexterity"],
+          "keys": [
+            "Dexterity"
+          ],
           "amount": -2
         },
         "Lumina Crash": {
@@ -581,7 +593,9 @@
           "effect": "Single Target. Reduce the Foe's Sp. Defense by 2.",
           "dice": 0,
           "user": false,
-          "keys": ["SpecialDefense"],
+          "keys": [
+            "SpecialDefense"
+          ],
           "amount": -2
         },
         "Lunge": {
@@ -590,7 +604,9 @@
           "effect": "Single Target. Reduce Target's Strength by 1.",
           "dice": 0,
           "user": false,
-          "keys": ["Strength"],
+          "keys": [
+            "Strength"
+          ],
           "amount": -1
         },
         "Metal Claw": {
@@ -599,7 +615,9 @@
           "effect": "Single Target. Low Accuracy 1. Roll 1 Chance Die to Increase the User's Strength by 1.",
           "dice": 1,
           "user": true,
-          "keys": ["Strength"],
+          "keys": [
+            "Strength"
+          ],
           "amount": 1
         },
         "Meteor Mash": {
@@ -608,7 +626,9 @@
           "effect": "Single Target. Low Accuracy 1. Fist Move. Roll 2 Chance Dice to increase the User's Strength by 1.",
           "dice": 2,
           "user": true,
-          "keys": ["Strength"],
+          "keys": [
+            "Strength"
+          ],
           "amount": 1
         },
         "Moonblast": {
@@ -617,7 +637,9 @@
           "effect": "Single Target. Roll 3 Chance Dice to Reduce Target's Special by 1.",
           "dice": 3,
           "user": false,
-          "keys": ["Special"],
+          "keys": [
+            "Special"
+          ],
           "amount": -1
         },
         "Mud Shot": {
@@ -626,7 +648,9 @@
           "effect": "Single Target. Reduce the Target's Dexterity by 1.",
           "dice": 0,
           "user": false,
-          "keys": ["Dexterity"],
+          "keys": [
+            "Dexterity"
+          ],
           "amount": -1
         },
         "Mystical Fire": {
@@ -635,7 +659,9 @@
           "effect": "Single Target. Reduce Target's Special by 1.",
           "dice": 0,
           "user": false,
-          "keys": ["Special"],
+          "keys": [
+            "Special"
+          ],
           "amount": -1
         }
       }
@@ -672,7 +698,10 @@
             "Strength": 1,
             "Special": 1
           },
-          "types": ["Steel", "Electric"]
+          "types": [
+            "Steel",
+            "Electric"
+          ]
         },
         "Magnetic Flux": {
           "source": "Pokerole-Data/v3.0/Moves/Magnetic Flux.json",
@@ -682,7 +711,10 @@
             "Defense": 1,
             "SpecialDefense": 1
           },
-          "types": ["Steel", "Electric"]
+          "types": [
+            "Steel",
+            "Electric"
+          ]
         },
         "Flower Shield": {
           "source": "Pokerole-Data/v3.0/Moves/Flower Shield.json",
@@ -691,7 +723,9 @@
           "changes": {
             "Defense": 1
           },
-          "types": ["Grass"],
+          "types": [
+            "Grass"
+          ],
           "field": true
         },
         "Rototiller": {
@@ -702,7 +736,9 @@
             "Strength": 1,
             "Special": 1
           },
-          "types": ["Grass"],
+          "types": [
+            "Grass"
+          ],
           "field": true
         },
         "Curse (Non-Ghost)": {
@@ -900,7 +936,9 @@
           "effect": "Target Self. Increase the User's Strength by 1. *This effect can stack up to 3 times.",
           "dice": 0,
           "user": true,
-          "keys": ["Strength"],
+          "keys": [
+            "Strength"
+          ],
           "amount": 1
         },
         "Syrup Bomb": {
@@ -909,7 +947,9 @@
           "effect": "Single Target. Low Accuracy 1. Projectile Move. Reduce the Target's Dexterity by 1. *This effect can stack up to 3 Times.",
           "dice": 0,
           "user": false,
-          "keys": ["Dexterity"],
+          "keys": [
+            "Dexterity"
+          ],
           "amount": -1
         },
         "Luster Purge": {
@@ -918,7 +958,9 @@
           "effect": "Single Target. Unique. Roll 5 Chance Dice to Reduce Sp. Defense by 1. *This effect can stack up to 3 times per Target.",
           "dice": 5,
           "user": false,
-          "keys": ["SpecialDefense"],
+          "keys": [
+            "SpecialDefense"
+          ],
           "amount": -1
         },
         "Mist Ball": {
@@ -927,7 +969,9 @@
           "effect": "Single Target. Unique. Projectile Move. Roll 5 Chance Dice to Reduce the Target's Special by 1. *This Effect can be stacked up to 3 times per target.",
           "dice": 5,
           "user": false,
-          "keys": ["Special"],
+          "keys": [
+            "Special"
+          ],
           "amount": -1
         }
       }
@@ -1182,33 +1226,51 @@
           "source": "Pokerole-Data/v3.0/Moves/Earthquake.json",
           "sha256": "3c47cb55c5c0cf72c945cfbb005c4b8571cc3eaf7ae8934ba05f872805e41633",
           "effect": "Area Move. Ranged. If the Target is out of range due to using the Move \"Dig\" this Move hits anyways.",
-          "hidden": ["Dig"]
+          "hidden": [
+            "Dig"
+          ]
         },
         "Gust": {
           "source": "Pokerole-Data/v3.0/Moves/Gust.json",
           "sha256": "67466926ffa26cdb64f8acd98ecdac4bcf772abcce9272a2a039fe43efbc04be",
           "effect": "Single Target. Wind Move. If the Target is Out of Range due to using \"Fly\", \"Bounce\" or \"Sky Drop\", this Move hits anyway.",
-          "hidden": ["Fly", "Bounce", "Sky Drop"]
+          "hidden": [
+            "Fly",
+            "Bounce",
+            "Sky Drop"
+          ]
         },
         "Sky Uppercut": {
           "source": "Pokerole-Data/v3.0/Moves/Sky Uppercut.json",
           "sha256": "fa1a679501cd32ea3bc057e5e8efda10e022ae956600d95ab4ddfdca19d2cf9c",
           "effect": "Single Target. Fist Move. Low Accuracy 1. If the Target is Out of Range due to using \"Fly\", \"Bounce\" or \"Sky Drop\" this Move hits anyways.",
-          "hidden": ["Fly", "Bounce", "Sky Drop"]
+          "hidden": [
+            "Fly",
+            "Bounce",
+            "Sky Drop"
+          ]
         },
         "Surf": {
           "source": "Pokerole-Data/v3.0/Moves/Surf.json",
           "sha256": "6b04a8f16b5542ef8c9964d532dc4dbe71e2f3ea731eedb1ed69f3b207591f43",
           "effect": "Area Move. If a Target is out of range due to the Move \"Dive\", this Move hits anyways. Out of battle, allows the Pokemon to travel the sea for long distances.",
-          "hidden": ["Dive"]
+          "hidden": [
+            "Dive"
+          ]
         },
         "Freeze Dry": {
           "source": "Pokerole-Data/v3.0/Moves/Freeze Dry.json",
           "sha256": "972fe335c99dc16289ade0de43a10d63c10114631ad28e1a115e8e8afd3d29ac",
           "effect": "Single Target. Water-Type Pokemon receive Super-Effective Damage from this Move. If a Target is out of range due to using the Move \"Dive\" this Move hits anyways.",
-          "hidden": ["Dive"],
-          "vulnerable_hidden": ["Dive"],
-          "super_effective_types": ["Water"],
+          "hidden": [
+            "Dive"
+          ],
+          "vulnerable_hidden": [
+            "Dive"
+          ],
+          "super_effective_types": [
+            "Water"
+          ],
           "related_sources": [
             {
               "name": "Dive",
@@ -1235,7 +1297,11 @@
           "source": "Pokerole-Data/v3.0/Moves/Smack Down.json",
           "sha256": "93149abb4ec5fae92369d08d49e7f575ff929b5e16abcbceb862ebdeeb768d33",
           "effect": "Single Target. Ranged. Remove the Target's immunity to Ground-Type Moves. If the Target is Out of Range due to using \"Fly\", \"Bounce\" or \"Sky Drop\", this Move hits anyways.",
-          "hidden": ["Fly", "Bounce", "Sky Drop"],
+          "hidden": [
+            "Fly",
+            "Bounce",
+            "Sky Drop"
+          ],
           "grounding": true
         },
         "Thousand Arrows": {
@@ -1265,7 +1331,9 @@
           "effect": "Single Target. Out of battle, double the Pokemon's lifting capacity.",
           "mode": "ordinary",
           "requires_input": false,
-          "runtime_names": ["Strength"],
+          "runtime_names": [
+            "Strength"
+          ],
           "reference_review": "strength-name"
         },
         "Fling": {
@@ -1412,7 +1480,9 @@
           "effect": "Single Target. Increase the user's Dexterity by 1. If the user of this Move is in \"Hangry Form\" this Move is considered Dark-Type.",
           "dice": 0,
           "user": true,
-          "keys": ["Dexterity"],
+          "keys": [
+            "Dexterity"
+          ],
           "amount": 1
         }
       }
@@ -1519,7 +1589,9 @@
             "Strength": 1,
             "Special": 1
           },
-          "stat_types": ["Dragon"],
+          "stat_types": [
+            "Dragon"
+          ],
           "auxiliary": true
         }
       }
@@ -1832,13 +1904,32 @@
           "core_rule": "RULING Copying Moves: original Accuracy is retained; Unique moves cannot be copied. The category die mapping is unspecified and requires a saved GM interpretation before rolling."
         }
       }
+    },
+    "MOVE-A47": {
+      "engine": "0.82.0-core",
+      "kind": "judgment",
+      "scope": "Saved GM Type, Power and Unique target-ability ruling; Ignore Defenses, damage-immunity/shield/field/decoy bypass and no Clash. Added effects are applied with normal GM battle commands and recorded as mechanical consequences, or explicitly declared absent. Accuracy, action eligibility and the existing range model remain.",
+      "moves": {
+        "Judgment": {
+          "source": "Pokerole-Data/v3.0/Moves/Judgment.json",
+          "sha256": "99e7bbd4bd317f34e0edbdfbadfe667b1b3684d1fb06d02eaf84719ba8026926",
+          "effect": "Single Target. Unique. Ignore Defenses. This Move's Type, Power and extra Added Effects are decided by Storyteller. If something would prevent this Move from dealing Damage, ignore it. This Move can't be Clashed.",
+          "requires_input": true,
+          "force_field": true
+        }
+      }
     }
   },
   "printed_review": {
     "ruling": {
       "source": "Pokerole-Data/POKEROLE COREBOOK 3.0 RULING.pdf",
       "sha256": "f50014b330cc00db83906cf232ba432855f4f624684a84c3c494b47390284d74",
-      "pages": [76, 77, 80, 81],
+      "pages": [
+        76,
+        77,
+        80,
+        81
+      ],
       "review": "Extracted definitions: Blocking prevents escape/recall/switching and Switcher effects; ongoing damage is 2 typeless dice, first source only. Duration p.77: round-duration effects cannot restart their counter while active; entry hazards affect new entrants only. Duration p.77: scene effects end when the affected Pokemon leaves battle. Powder p.81: Grass Pokemon take no damage or ill effects from Powder moves; MOVE-A39 applies this to Magic Powder."
     },
     "snap_trap": {

@@ -41,6 +41,9 @@ pub fn protected_subject(c: &Campaign, source: &str, target: &str, m: &serde_jso
     enabled(c) && state(c).active.contains_key(target) && !bypass_data(c, source, m)
 }
 fn bypass_data(c: &Campaign, source: &str, m: &serde_json::Value) -> bool {
+    if judgment::active(c, m) {
+        return true;
+    }
     fighter(c, source).is_ok_and(|p| reviewed::extreme(c, p))
         || m["Attributes"]["SoundMove"] == true
         || fighter(c, source).is_ok_and(|p| {

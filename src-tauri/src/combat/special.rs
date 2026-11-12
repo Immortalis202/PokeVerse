@@ -110,6 +110,19 @@ pub struct Series {
 #[serde(tag = "kind")]
 #[ts(export, export_to = "../../src/bindings/")]
 pub enum SpecialCommand {
+    PrepareJudgment {
+        combatant_id: String,
+        move_type: String,
+        power: i32,
+        bypass_unique: bool,
+    },
+    BeginJudgmentEffects {
+        sequence: u32,
+    },
+    RuleJudgment {
+        sequence: u32,
+        no_extra_effects: bool,
+    },
     MetronomeTable {
         physical_faces: Vec<u8>,
     },
@@ -240,6 +253,9 @@ pub fn dice(c: &Campaign, cmd: &SpecialCommand, cat: &Catalog) -> Result<u32> {
         return Err(error("Upgrade special-move rules between battles"));
     }
     Ok(match cmd {
+        SpecialCommand::PrepareJudgment { .. }
+        | SpecialCommand::BeginJudgmentEffects { .. }
+        | SpecialCommand::RuleJudgment { .. } => judgment::dice(c, cmd)?,
         SpecialCommand::MetronomeTable { .. }
         | SpecialCommand::DrawMetronome { .. }
         | SpecialCommand::SelectMetronome { .. }
@@ -346,6 +362,9 @@ pub fn command(
         ));
     }
     match cmd {
+        SpecialCommand::PrepareJudgment { .. }
+        | SpecialCommand::BeginJudgmentEffects { .. }
+        | SpecialCommand::RuleJudgment { .. } => return judgment::command(c, actor, cmd, r, cat),
         SpecialCommand::MetronomeTable { .. }
         | SpecialCommand::DrawMetronome { .. }
         | SpecialCommand::SelectMetronome { .. }
@@ -1951,6 +1970,9 @@ fn recoil_immune(c: &Campaign, p: &Combatant) -> bool {
     }
 }
 fn bypass(c: &Campaign, q: &QueuedAction, m: &serde_json::Value) -> bool {
+    if judgment::active(c, m) {
+        return true;
+    }
     if fighter(c, &q.actor_id).is_ok_and(|p| interactions::unseen(c, p, m)) {
         return true;
     }
@@ -2857,6 +2879,9 @@ pub fn vulnerable(c: &Campaign, id: &str, name: &str) -> bool {
     })
 }
 pub fn target_guard(c: &Campaign, source: &str, id: &str, m: &serde_json::Value) -> Result<()> {
+    if judgment::active(c, m) {
+        return Ok(());
+    }
     completion::target_guard(c, id, m)?;
     if !enabled(c) {
         return Ok(());
@@ -3169,6 +3194,10 @@ pub fn preview_notes(c: &Campaign, a: &Action, cat: &Catalog) -> Result<Vec<Stri
     }
     let mut notes = vec![];
     match a {
+        Action::Accuracy { combatant_id, move_name, .. } | Action::AccuracyTargets { combatant_id, move_name, .. } if move_name == "Judgment" => {
+            if let Some(note) = judgment::preview_note(c, combatant_id) { notes.push(note); }
+        }
+
         Action::SpecialMove{command:SpecialCommand::Successive{attempts,..},..}=>notes.push(format!("Commit {attempts} actions and independent accuracy rolls now. All hits retain one turn and one Evasion/reaction slot; each incoming attack may still be Clashed.")),
         Action::Accuracy{combatant_id,move_name,..}|Action::AccuracyTargets{combatant_id,move_name,..}=>{let m=move_entry(cat,move_name)?;if m["Attributes"]["Charge"]==true{notes.push("Charge accuracy is stored. Release spends another action on a later user turn; reactions open only on release. Reviewed weather may skip or extend preparation.".into());}
  if m["Attributes"]["Rampage"]==true{notes.push("Rampage permits up to three uses this round. Ending it inflicts Confusion; Evasion requires ending it first.".into());}

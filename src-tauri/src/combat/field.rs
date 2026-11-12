@@ -879,16 +879,19 @@ pub fn low_accuracy(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> i32 {
     }
 }
 pub fn guard_move(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> Result<()> {
+    judgment::guard(c, p, m)?;
     completion::guard_move(c, p, m)?;
     extra::reaction(c, p, "move", Some(m))?;
     if !enabled(c) {
         return Ok(());
     }
     let t = m["Type"].as_str().unwrap_or("");
-    if matches!(
-        (weather(c, Some(p)), t),
-        (Some(Weather::Desolate), "Water") | (Some(Weather::Typhoon), "Fire")
-    ) {
+    if !judgment::active(c, m)
+        && matches!(
+            (weather(c, Some(p)), t),
+            (Some(Weather::Desolate), "Water") | (Some(Weather::Typhoon), "Fire")
+        )
+    {
         return Err(error("The active weather prevents this move"));
     }
     let n = m["Name"].as_str().unwrap_or("");
@@ -998,7 +1001,11 @@ pub fn reduction(
             .max()
             .unwrap_or(0);
     }
-    n
+    if judgment::active(c, m) {
+        n.min(0)
+    } else {
+        n
+    }
 }
 pub(super) fn force_field_bypass(
     c: &Campaign,
@@ -1990,6 +1997,7 @@ fn apply_terrain(c: &mut Campaign, t: &TerrainSource) {
 /// Resolve context-sensitive catalog fields before every accuracy/damage calculation.
 pub fn move_data(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> serde_json::Value {
     let mut m = m.clone();
+    judgment::move_data(c, p, &mut m);
     copies::move_data(c, p, &mut m);
     items::move_data(c, p, &mut m);
     forms::move_data(c, p, &mut m);

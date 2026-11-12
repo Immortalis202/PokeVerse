@@ -8039,3 +8039,615 @@ fn completion_a46_metronome_copied_successive_actions_keep_original_accuracy_for
         .copied_cast
         .is_none());
 }
+
+fn judgment_cmd(command: special::SpecialCommand) -> Action {
+    Action::SpecialMove {
+        command,
+        reason: "GM Judgment interpretation and mechanical outcome".into(),
+    }
+}
+fn judgment_case(move_type: &str, power: i32, bypass_unique: bool) -> (Campaign, String, String) {
+    let (mut c, a, t) = setup("Judgment");
+    let sid = p(&c, &a).sheet_id.clone();
+    c.sheets
+        .get_mut(&sid)
+        .unwrap()
+        .skills
+        .insert("Intimidate".into(), 3);
+    let c = roll(
+        &c,
+        "gm",
+        &judgment_cmd(special::SpecialCommand::PrepareJudgment {
+            combatant_id: a.clone(),
+            move_type: move_type.into(),
+            power,
+            bypass_unique,
+        }),
+        6,
+    );
+    (c, a, t)
+}
+#[test]
+fn completion_a47_judgment_requires_typed_gm_parameters_and_preserves_old_encounters() {
+    let (c, a, t) = setup("Judgment");
+    let attack = super::targeting_tests::attack(&a, vec![t], "Judgment");
+    assert!(rules::dice_count(&c, &attack, &catalog()).is_err());
+    let prepare = judgment_cmd(special::SpecialCommand::PrepareJudgment {
+        combatant_id: a.clone(),
+        move_type: "Normal".into(),
+        power: 2,
+        bypass_unique: false,
+    });
+    assert!(battle::transition(&c, "player", &prepare, vec![], &catalog()).is_err());
+    for (move_type, power) in [("Unknown", 2), ("Fire", -1), ("Fire", 101)] {
+        assert!(battle::transition(
+            &c,
+            "gm",
+            &judgment_cmd(special::SpecialCommand::PrepareJudgment {
+                combatant_id: a.clone(),
+                move_type: move_type.into(),
+                power,
+                bypass_unique: true
+            }),
+            vec![],
+            &catalog()
+        )
+        .is_err());
+    }
+    let mut old = c.clone();
+    old.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .completion
+        .blocks
+        .remove("MOVE-A47");
+    assert!(battle::transition(&old, "gm", &prepare, vec![], &catalog()).is_err());
+    let c = roll(&c, "gm", &prepare, 6);
+    let preview = crate::combat::preview(&c, &attack, &catalog()).unwrap();
+    assert!(preview
+        .warnings
+        .iter()
+        .any(|s| s.contains("Power 2") && s.contains("preserved")));
+}
+#[test]
+fn completion_a47_judgment_power_zero_and_type_immunity_use_saved_real_damage_pools() {
+    for power in [0, 4] {
+        let (mut c, a, t) = judgment_case("Normal", power, true);
+        set_species(&mut c, &t, "Gengar");
+        refresh_field(&mut c);
+        let c = ordinary_accuracy(&c, &a, &t, "Judgment");
+        let pool = queued_damage_pool(&c);
+        assert_eq!(pool.power, power);
+        assert_eq!(pool.defense, 0);
+        assert!(!pool.immune);
+        let c: Campaign = serde_json::from_str(&serde_json::to_string(&c).unwrap()).unwrap();
+        let before = p(&c, &t).hp;
+        let c = roll(&c, "gm", &damage_command(&c), 1);
+        assert!(p(&c, &t).hp < before);
+        let sequence = q(&c).sequence;
+        assert!(c
+            .battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .completion
+            .judgment_prepared
+            .is_empty());
+        let c = roll(
+            &c,
+            "gm",
+            &judgment_cmd(special::SpecialCommand::RuleJudgment {
+                sequence,
+                no_extra_effects: true,
+            }),
+            6,
+        );
+        assert!(c
+            .battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .queue
+            .is_empty());
+    }
+}
+#[test]
+fn completion_a47_judgment_bypasses_shields_decoys_weather_and_ordinary_abilities_only_for_itself()
+{
+    let (mut c, a, t) = judgment_case("Fire", 2, false);
+    pm(&mut c, &t).selected_ability = "Thick Fat".into();
+    let c = roll(
+        &c,
+        "gm",
+        &Action::Battlefield {
+            command: crate::combat::field::FieldCommand::Environment {
+                weather: Some(crate::combat::field::Weather::Rain),
+                indoors: false,
+                sunlight: true,
+            },
+            reason: "Rain damage-reduction fixture".into(),
+        },
+        6,
+    );
+    let mut c = roll(
+        &c,
+        "gm",
+        &Action::Battlefield {
+            command: crate::combat::field::FieldCommand::Preset {
+                name: "Light Screen".into(),
+                scope: "side:Opponents".into(),
+                rounds: Some(4),
+                parameter: 1,
+            },
+            reason: "Defensive field fixture".into(),
+        },
+        6,
+    );
+    let round = c.battle.as_ref().unwrap().round;
+    let f = c.battle.as_mut().unwrap().flow.as_mut().unwrap();
+    f.decoys.enabled = true;
+    f.decoys.active.insert(
+        t.clone(),
+        decoys::Decoy {
+            hp: 3,
+            defenses: [9, 9],
+            source: t.clone(),
+            move_name: "Substitute".into(),
+        },
+    );
+    f.special.shields.insert(
+        t.clone(),
+        special::Shield {
+            name: "Protect".into(),
+            source: t.clone(),
+            round,
+            armed_turn: 0,
+            available: true,
+        },
+    );
+    let c = pending(&c, &a, &t, "Judgment");
+    assert_eq!(q(&c).damage, 1);
+    assert_eq!(
+        c.battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .decoys
+            .active[&t]
+            .hp,
+        3
+    );
+    assert!(
+        c.battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .special
+            .shields[&t]
+            .available
+    );
+    assert_eq!(p(&c, &t).selected_ability, "Thick Fat");
+    let sequence = q(&c).sequence;
+    let mut c = roll(
+        &c,
+        "gm",
+        &judgment_cmd(special::SpecialCommand::RuleJudgment {
+            sequence,
+            no_extra_effects: true,
+        }),
+        6,
+    );
+    turn(&mut c, &a, "Tackle");
+    let before = p(&c, &t).hp;
+    let c = pending(&c, &a, &t, "Tackle");
+    assert_eq!(p(&c, &t).hp, before);
+}
+#[test]
+fn completion_a47_judgment_unique_protection_has_an_explicit_saved_gm_outcome() {
+    for ability in ["Wonder Guard", "Disguise", "Shadow Shield"] {
+        for bypass_unique in [false, true] {
+            let (mut c, a, t) = judgment_case("Normal", 2, bypass_unique);
+            pm(&mut c, &t).selected_ability = ability.into();
+            let c = pending(&c, &a, &t, "Judgment");
+            assert_eq!(q(&c).damage > 0, bypass_unique, "{ability}");
+            assert_eq!(p(&c, &t).selected_ability, ability);
+            if ability == "Disguise" {
+                assert_eq!(
+                    p(&c, &t).runtime.ability.flags.contains("Disguise"),
+                    !bypass_unique
+                );
+            }
+        }
+    }
+}
+#[test]
+fn completion_a47_judgment_no_clash_but_ordinary_accuracy_and_evasion_still_apply() {
+    let (c, a, t) = judgment_case("Fire", 2, true);
+    let incoming = roll(
+        &c,
+        "player",
+        &super::targeting_tests::attack(&a, vec![t.clone()], "Judgment"),
+        6,
+    );
+    let clash = Action::React {
+        combatant_id: t.clone(),
+        kind: "clash".into(),
+        move_name: "Tackle".into(),
+        reason: "Judgment cannot be clashed".into(),
+    };
+    assert!(rules::dice_count(&incoming, &clash, &catalog()).is_err());
+    let evade = Action::React {
+        combatant_id: t.clone(),
+        kind: "evade".into(),
+        move_name: String::new(),
+        reason: "Ordinary Evasion remains legal".into(),
+    };
+    assert!(rules::dice_count(&incoming, &evade, &catalog()).is_ok());
+    let missed = roll(
+        &c,
+        "player",
+        &super::targeting_tests::attack(&a, vec![t], "Judgment"),
+        1,
+    );
+    assert_eq!(p(&missed, &a).actions, 1);
+    assert!(missed
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .completion
+        .judgment_prepared
+        .is_empty());
+    assert!(missed
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .queue
+        .is_empty());
+}
+#[test]
+fn completion_a47_judgment_ignores_cover_and_ability_redirection() {
+    let (mut c, a, t) = judgment_case("Electric", 2, true);
+    let rod = reserve(&mut c, &t);
+    pm(&mut c, &rod).deployed = true;
+    pm(&mut c, &rod).field_slot = Some(1);
+    pm(&mut c, &rod).selected_ability = "Lightning Rod".into();
+    c.battle.as_mut().unwrap().slots_per_side = 2;
+    let f = c.battle.as_mut().unwrap().flow.as_mut().unwrap();
+    f.tactics.enabled = true;
+    f.covers.insert(t.clone(), rod.clone());
+    let c = ordinary_accuracy(&c, &a, &t, "Judgment");
+    assert_eq!(q(&c).target_id, t);
+    assert!(!queued_damage_pool(&c).immune);
+    let c = roll(&c, "gm", &damage_command(&c), 1);
+    assert!(q(&c).damage > 0);
+    assert_eq!(p(&c, &rod).hp, 100);
+}
+#[test]
+fn completion_a47_judgment_requires_applied_mechanics_or_explicit_none_and_rejects_noops() {
+    let (c, a, t) = judgment_case("Fire", 2, true);
+    let c = pending(&c, &a, &t, "Judgment");
+    let sequence = q(&c).sequence;
+    let begin = judgment_cmd(special::SpecialCommand::BeginJudgmentEffects { sequence });
+    let finish = judgment_cmd(special::SpecialCommand::RuleJudgment {
+        sequence,
+        no_extra_effects: false,
+    });
+    assert!(battle::transition(&c, "player", &begin, vec![], &catalog()).is_err());
+    assert!(battle::transition(&c, "gm", &finish, vec![], &catalog()).is_err());
+    assert!(battle::transition(&c, "gm", &cmd(&c), vec![], &catalog()).is_err());
+    let mut c = roll(&c, "gm", &begin, 6);
+    c = roll(
+        &c,
+        "gm",
+        &Action::BattleStat {
+            source_id: a.clone(),
+            combatant_id: t.clone(),
+            stat: "Special".into(),
+            change: 0,
+            reason: "A note with no stat change is insufficient".into(),
+        },
+        6,
+    );
+    assert!(c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .completion
+        .judgment_casts[&sequence]
+        .consequences
+        .is_empty());
+    assert!(battle::transition(&c, "gm", &finish, vec![], &catalog()).is_err());
+    c = roll(
+        &c,
+        "gm",
+        &Action::BattleStat {
+            source_id: a,
+            combatant_id: t.clone(),
+            stat: "Special".into(),
+            change: -1,
+            reason: "Judgment removes one Special".into(),
+        },
+        6,
+    );
+    assert_eq!(stat(&c, &t, "Special"), -1);
+    assert_eq!(
+        c.battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .completion
+            .judgment_casts[&sequence]
+            .consequences
+            .len(),
+        1
+    );
+    assert!(battle::transition(
+        &c,
+        "gm",
+        &judgment_cmd(special::SpecialCommand::RuleJudgment {
+            sequence,
+            no_extra_effects: true
+        }),
+        vec![],
+        &catalog()
+    )
+    .is_err());
+    let c: Campaign = serde_json::from_str(&serde_json::to_string(&c).unwrap()).unwrap();
+    let c = roll(&c, "gm", &finish, 6);
+    assert!(
+        c.battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .completion
+            .judgment_casts[&sequence]
+            .complete
+    );
+    assert!(c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .queue
+        .is_empty());
+}
+#[test]
+fn completion_a47_judgment_consequence_undo_and_profile_freezing_restore_the_right_stage() {
+    let (c, a, t) = judgment_case("Fire", 4, true);
+    let mut c = ordinary_accuracy(&c, &a, &t, "Judgment");
+    let sequence = q(&c).sequence;
+    let change = judgment_cmd(special::SpecialCommand::PrepareJudgment {
+        combatant_id: a.clone(),
+        move_type: "Water".into(),
+        power: 1,
+        bypass_unique: false,
+    });
+    assert!(battle::transition(&c, "gm", &change, vec![], &catalog()).is_err());
+    pm(&mut c, &a).hp = 0;
+    c = serde_json::from_str(&serde_json::to_string(&c).unwrap()).unwrap();
+    assert_eq!(queued_damage_pool(&c).power, 4);
+    c = roll(&c, "gm", &damage_command(&c), 1);
+    c = roll(
+        &c,
+        "gm",
+        &judgment_cmd(special::SpecialCommand::BeginJudgmentEffects { sequence }),
+        6,
+    );
+    let before = serde_json::to_value(&c.battle).unwrap();
+    let changed = roll(
+        &c,
+        "gm",
+        &Action::SetStatus {
+            combatant_id: t,
+            kind: "Poison".into(),
+            detail: String::new(),
+            rounds: None,
+            remove: false,
+            reason: "GM chooses Poison as Judgment consequence".into(),
+        },
+        6,
+    );
+    assert_eq!(
+        changed
+            .battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .completion
+            .judgment_casts[&sequence]
+            .consequences
+            .len(),
+        1
+    );
+    let event_sequence = changed.battle_undo.last().unwrap().event_sequence;
+    let restored = roll(
+        &changed,
+        "gm",
+        &Action::RollbackBattle {
+            event_sequence,
+            reason: "Undo Judgment's chosen Poison consequence".into(),
+        },
+        6,
+    );
+    assert_eq!(serde_json::to_value(&restored.battle).unwrap(), before);
+}
+
+#[test]
+fn completion_a47_judgment_equipment_receipts_are_mechanical_and_private() {
+    let (mut c, a, t) = judgment_case("Fire", 2, true);
+    let sid = p(&c, &t).sheet_id.clone();
+    c.sheets
+        .get_mut(&sid)
+        .unwrap()
+        .inventory
+        .insert("Oran Berry".into(), 1);
+    let equipped = crate::combat::items::equip(
+        &c.sheets[&sid],
+        "Oran Berry",
+        "judgment-private-unit",
+        &catalog(),
+    )
+    .unwrap();
+    c.sheets.insert(sid, equipped);
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .items
+        .enabled = true;
+    crate::combat::items::initialize(&mut c, &catalog()).unwrap();
+    let c = pending(&c, &a, &t, "Judgment");
+    let sequence = q(&c).sequence;
+    let c = roll(
+        &c,
+        "gm",
+        &judgment_cmd(special::SpecialCommand::BeginJudgmentEffects { sequence }),
+        6,
+    );
+    let c = roll(
+        &c,
+        "gm",
+        &Action::HeldItem {
+            command: crate::combat::items::ItemCommand::Lose {
+                combatant_id: t,
+                unit_id: "judgment-private-unit".into(),
+                override_sticky_hold: false,
+            },
+            reason: "Judgment removes the held item".into(),
+        },
+        6,
+    );
+    let consequences = &c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .completion
+        .judgment_casts[&sequence]
+        .consequences;
+    assert_eq!(consequences.len(), 1);
+    let text = serde_json::to_string(consequences).unwrap();
+    assert!(!text.contains("Oran Berry"));
+    assert!(!text.contains("judgment-private-unit"));
+    let view = crate::privacy::for_player(&c, "player");
+    assert!(view
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .completion
+        .judgment_casts[&sequence]
+        .consequences
+        .is_empty());
+    let gm = crate::privacy::for_player(&c, "gm");
+    assert_eq!(
+        gm.battle
+            .as_ref()
+            .unwrap()
+            .flow
+            .as_ref()
+            .unwrap()
+            .completion
+            .judgment_casts[&sequence]
+            .consequences
+            .len(),
+        1
+    );
+    let c = roll(
+        &c,
+        "gm",
+        &judgment_cmd(special::SpecialCommand::RuleJudgment {
+            sequence,
+            no_extra_effects: false,
+        }),
+        6,
+    );
+    assert!(c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .queue
+        .is_empty());
+}
+#[test]
+fn completion_a47_judgment_bypasses_ordinary_survival_without_consuming_sash() {
+    for ability in ["Sturdy", ""] {
+        let (mut c, a, t) = judgment_case("Fire", 2, true);
+        pm(&mut c, &t).selected_ability = ability.into();
+        pm(&mut c, &t).hp = 1;
+        pm(&mut c, &t).max_hp = 1;
+        if ability.is_empty() {
+            let sid = p(&c, &t).sheet_id.clone();
+            c.sheets
+                .get_mut(&sid)
+                .unwrap()
+                .inventory
+                .insert("Focus Sash".into(), 1);
+            let equipped = crate::combat::items::equip(
+                &c.sheets[&sid],
+                "Focus Sash",
+                "judgment-sash",
+                &catalog(),
+            )
+            .unwrap();
+            c.sheets.insert(sid, equipped);
+            let f = c.battle.as_mut().unwrap().flow.as_mut().unwrap();
+            f.items.enabled = true;
+            f.items.completion.enabled = true;
+            crate::combat::items::initialize(&mut c, &catalog()).unwrap();
+        }
+        let c = pending(&c, &a, &t, "Judgment");
+        assert_eq!(p(&c, &t).hp, 0);
+        if ability.is_empty() {
+            assert_eq!(
+                c.battle
+                    .as_ref()
+                    .unwrap()
+                    .flow
+                    .as_ref()
+                    .unwrap()
+                    .items
+                    .units["judgment-sash"]
+                    .state,
+                "held"
+            );
+        }
+    }
+}

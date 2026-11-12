@@ -38,6 +38,16 @@ fn battle_view(battle: &mut Battle, player: &str, owned_sheets: &BTreeSet<String
         .filter(|p| p.owner_id == player)
         .map(|p| p.id.clone())
         .collect();
+    // Item consequences must not reveal private equipment activity through a
+    // second, otherwise unredacted history embedded in Judgment's saved state.
+    for cast in flow.completion.judgment_casts.values_mut() {
+        cast.consequences.retain(|receipt| {
+            !matches!(
+                &receipt.kind,
+                crate::combat::judgment::JudgmentConsequenceKind::Equipment
+            )
+        });
+    }
     if flow.information.enabled {
         flow.information.offers.clear();
         flow.information.active.clear();

@@ -225,6 +225,7 @@ pub fn accuracy(
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
     if [
         ENGINE,
+        METRONOME_ENGINE,
         HOLD_HANDS_ENGINE,
         ORDER_UP_ENGINE,
         CRASH_MOVES_ENGINE,
@@ -436,7 +437,11 @@ pub fn damage_pool(
     let attribute_source = m["Damage1"].as_str().unwrap_or_default();
     if !m["Damage2"].as_str().unwrap_or_default().is_empty()
         || m["Power"].as_i64().is_none_or(|p| {
-            p < 0 || p > 100 || (p == 0 && !crate::combat::completion::sport(c, &m))
+            p < 0
+                || p > 100
+                || (p == 0
+                    && !crate::combat::completion::sport(c, &m)
+                    && !crate::combat::judgment::active(c, &m))
         })
     {
         return Err(AppError::new(
@@ -552,11 +557,14 @@ pub fn damage_pool(
     let (mut effectiveness, mut immune) = type_matchup(c, attacker, target, move_type, catalog)?;
     effectiveness =
         crate::combat::completion::effectiveness(c, &m, target, catalog, effectiveness)?;
-    if crate::combat::forms::tera_shell(c, target, &m) {
+    let defensive_target = crate::combat::judgment::retained_target(c, key, target, &m);
+    if crate::combat::forms::tera_shell(c, &defensive_target, &m) {
         effectiveness = -1;
         immune = false;
     }
-    crate::combat::reviewed::unique_damage_guard(c, attacker, target, effectiveness)?;
+    if !crate::combat::judgment::active(c, &m) {
+        crate::combat::reviewed::unique_damage_guard(c, attacker, target, effectiveness)?;
+    }
     if crate::combat::field::weather(c, Some(target))
         == Some(crate::combat::field::Weather::StrongWinds)
         && crate::combat::field::types(c, target, catalog)?
@@ -577,6 +585,11 @@ pub fn damage_pool(
         || crate::combat::completion::target_immunity_removed(c, target, &m)
     {
         immune = false;
+    }
+    if crate::combat::judgment::active(c, &m) {
+        immune = defensive_target.has_ability("Wonder Guard")
+            && effectiveness <= 0
+            && !crate::combat::house::ring(c, &defensive_target);
     }
     let ability_bonus = if conditional
         && !(crate::combat::standalone::enabled(c)

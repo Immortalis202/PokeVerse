@@ -10,6 +10,7 @@ pub fn transition(
 ) -> Result<(Campaign, String)> {
     if [
         ENGINE,
+        METRONOME_ENGINE,
         HOLD_HANDS_ENGINE,
         ORDER_UP_ENGINE,
         CRASH_MOVES_ENGINE,
@@ -91,7 +92,9 @@ pub fn transition(
     ]
     .contains(&current.engine.as_str())
     {
-        return crate::combat::transition(current, actor, action, dice, catalog);
+        let (mut next, log) = crate::combat::transition(current, actor, action, dice, catalog)?;
+        crate::combat::judgment::observe(current, &mut next, actor, action, &log, catalog)?;
+        return Ok((next, log));
     }
     if crate::combat::field::start_setup(action).is_some() {
         return Err(AppError::new(
@@ -445,6 +448,7 @@ pub fn transition(
             }
             if ![
                 ENGINE,
+                METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
                 CRASH_MOVES_ENGINE,

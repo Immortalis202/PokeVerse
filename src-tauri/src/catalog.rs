@@ -20,6 +20,14 @@ pub struct Catalog {
     pub source_hash: String,
 }
 impl Catalog {
+    pub fn unique_ability_names(&self) -> Result<Vec<String>> {
+        let db = self.lock()?;
+        let mut statement = db.connection.prepare_cached("SELECT name FROM entries WHERE kind='abilities' AND instr(lower(json_extract(data,'$.Effect')),'unique ability')>0 ORDER BY name")?;
+        let names = statement
+            .query_map([], |row| row.get::<_, String>(0))?
+            .collect::<std::result::Result<Vec<_>, _>>()?;
+        Ok(names)
+    }
     pub fn damage_templates(&self, category: &str, power: i32) -> Result<Vec<Value>> {
         let db = self.lock()?;
         let mut statement = db.connection.prepare_cached("SELECT data FROM entries WHERE kind='moves' AND json_extract(data,'$.Category')=?1 AND json_extract(data,'$.Power')=?2 ORDER BY name")?;

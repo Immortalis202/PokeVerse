@@ -229,6 +229,9 @@ pub fn redirect_move(
     m: &serde_json::Value,
     cat: &Catalog,
 ) -> Result<Vec<String>> {
+    if judgment::active(c, m) {
+        return Ok(ids);
+    }
     if !enabled(c) {
         return Ok(ids);
     }
