@@ -129,3 +129,18 @@ Validation passed **555 Rust checks**: 94 serial binding exports and 461 behavio
 Native startup/interaction, installed upgrade/data preservation, trusted signing and physical LAN acceptance were not tested. Executable and installer are not launched by the build checks. Gluttony's adverse ingestion and unreviewed medicines remain partial; Ripen healing amounts and simultaneous-donor/cycle cases retain explicit recorded GM rulings. Transformation/type-changing item exceptions remain part of batch 2.
 
 Windows NSIS packaging passed and produced `src-tauri/target/release/bundle/nsis/PokeVerse_0.25.0_x64-setup.exe` (**214.08 MiB**). The initial sandboxed bundle attempt could not download NSIS; the network-enabled rerun succeeded. Executable metadata confirms 0.25.0. Neither executable nor installer was launched. Inventory consistency also passed for all 305 ability rows and 236 unique item rows.
+
+## Held-item moves (MOVE-A57)
+
+App 0.100.0 / engine 0.92.0-core / protocol 101. Older encounters keep their saved blocks and these cards stay manual there.
+
+Every transfer uses the battle item units: final equipment is validated for both holders, the change is recorded in item history, and Unburden/Symbiosis follow-ups run for whoever lost an item. Sticky Hold blocks theft, exchange and removal.
+
+- **Thief / Covet:** after damaging the target, take its held item if the user's hand is empty.
+- **Bestow:** the user must hold an item and gives it to a target that can hold it. The printed "can't be used if Target is not holding an Item" contradicts handing over an item, so the coherent reading is used.
+- **Trick / Switcheroo:** exchange held items, or hand over the only one.
+- **Knock Off:** +2 damage dice against an item holder; the item is knocked to the ground (unusable this battle, recovered afterwards). **Corrosive Gas** and **Embargo** remove held items the same way; Embargo also blocks items (such as medicine) being used on the target for the scene.
+- **Incinerate:** destroys the held items of those it damages.
+- **Bug Bite / Pluck:** eat a damaged target's berry and give its reviewed effect to the user; Pluck also adds 1 damage die against a berry holder. Berries without a reviewed effect still ask the GM.
+- **Stuff Cheeks:** applies the held berry's effect without consuming it, then raises Defense by 2.
+- **Teatime:** those affected eat their held berries with no effect. Berries in the Trainer's bag are not changed.

@@ -1,8 +1,8 @@
 {
   "version": 1,
   "date": "2026-11-10",
-  "release": "0.99.0",
-  "engine": "0.91.0-core",
+  "release": "0.100.0",
+  "engine": "0.92.0-core",
   "scope": "892-card effect-route inventory; focused semantic review of status infliction, cure and protection clauses. M2-A through M2-E battle status clauses and MOVE-A01 damaging attribute clauses plus MOVE-A02 entry hazards delivered; see scoped registries and retained choices.",
   "limits": [
     "An executable route is not full card coverage.",
@@ -19,10 +19,10 @@
   "counts": {
     "routes": {
       "excluded": 38,
-      "executable-scope": 802,
+      "executable-scope": 815,
       "gm-choice": 1,
       "input-required": 19,
-      "manual-effect-route": 32
+      "manual-effect-route": 19
     },
     "status_clauses": {
       "excluded": 6,
@@ -3155,22 +3155,39 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A57: Thirteen held-item cards, using battle item units, final equipment validation, Unburden/Symbiosis follow-ups and Sticky Hold (which blocks theft, exchange and removal). Thief and Covet take the target's held item after damaging it if the user's hand is empty. Bestow gives the user's held item to a target that can hold it (the printed 'cannot be used if the Target is not holding an Item' contradicts giving it, so the coherent reading is applied: the target must be able to receive). Trick and Switcheroo exchange held items, or hand over the only one. Knock Off adds 2 damage dice against an item holder and knocks the item to the ground (recoverable after battle); Corrosive Gas and Embargo also remove held items that way, and Embargo stops items being used on the target for the scene. Incinerate destroys held items of those it damages. Bug Bite and Pluck eat a damaged target's berry and give its reviewed effect to the user; Pluck also adds 1 damage die against a berry holder. Stuff Cheeks applies its held berry's effect without consuming it, then raises Defense by 2. Teatime makes those affected eat their held berries without effect; berries in the Trainer's bag are not changed.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -5081,22 +5098,39 @@
       },
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A57: Thirteen held-item cards, using battle item units, final equipment validation, Unburden/Symbiosis follow-ups and Sticky Hold (which blocks theft, exchange and removal). Thief and Covet take the target's held item after damaging it if the user's hand is empty. Bestow gives the user's held item to a target that can hold it (the printed 'cannot be used if the Target is not holding an Item' contradicts giving it, so the coherent reading is applied: the target must be able to receive). Trick and Switcheroo exchange held items, or hand over the only one. Knock Off adds 2 damage dice against an item holder and knocks the item to the ground (recoverable after battle); Corrosive Gas and Embargo also remove held items that way, and Embargo stops items being used on the target for the scene. Incinerate destroys held items of those it damages. Bug Bite and Pluck eat a damaged target's berry and give its reviewed effect to the user; Pluck also adds 1 damage die against a berry holder. Stuff Cheeks applies its held berry's effect without consuming it, then raises Defense by 2. Teatime makes those affected eat their held berries without effect; berries in the Trainer's bag are not changed.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -7480,22 +7514,39 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A57: Thirteen held-item cards, using battle item units, final equipment validation, Unburden/Symbiosis follow-ups and Sticky Hold (which blocks theft, exchange and removal). Thief and Covet take the target's held item after damaging it if the user's hand is empty. Bestow gives the user's held item to a target that can hold it (the printed 'cannot be used if the Target is not holding an Item' contradicts giving it, so the coherent reading is applied: the target must be able to receive). Trick and Switcheroo exchange held items, or hand over the only one. Knock Off adds 2 damage dice against an item holder and knocks the item to the ground (recoverable after battle); Corrosive Gas and Embargo also remove held items that way, and Embargo stops items being used on the target for the scene. Incinerate destroys held items of those it damages. Bug Bite and Pluck eat a damaged target's berry and give its reviewed effect to the user; Pluck also adds 1 damage die against a berry holder. Stuff Cheeks applies its held berry's effect without consuming it, then raises Defense by 2. Teatime makes those affected eat their held berries without effect; berries in the Trainer's bag are not changed.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -7821,22 +7872,39 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A57: Thirteen held-item cards, using battle item units, final equipment validation, Unburden/Symbiosis follow-ups and Sticky Hold (which blocks theft, exchange and removal). Thief and Covet take the target's held item after damaging it if the user's hand is empty. Bestow gives the user's held item to a target that can hold it (the printed 'cannot be used if the Target is not holding an Item' contradicts giving it, so the coherent reading is applied: the target must be able to receive). Trick and Switcheroo exchange held items, or hand over the only one. Knock Off adds 2 damage dice against an item holder and knocks the item to the ground (recoverable after battle); Corrosive Gas and Embargo also remove held items that way, and Embargo stops items being used on the target for the scene. Incinerate destroys held items of those it damages. Bug Bite and Pluck eat a damaged target's berry and give its reviewed effect to the user; Pluck also adds 1 damage die against a berry holder. Stuff Cheeks applies its held berry's effect without consuming it, then raises Defense by 2. Teatime makes those affected eat their held berries without effect; berries in the Trainer's bag are not changed.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -11874,22 +11942,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A57: Thirteen held-item cards, using battle item units, final equipment validation, Unburden/Symbiosis follow-ups and Sticky Hold (which blocks theft, exchange and removal). Thief and Covet take the target's held item after damaging it if the user's hand is empty. Bestow gives the user's held item to a target that can hold it (the printed 'cannot be used if the Target is not holding an Item' contradicts giving it, so the coherent reading is applied: the target must be able to receive). Trick and Switcheroo exchange held items, or hand over the only one. Knock Off adds 2 damage dice against an item holder and knocks the item to the ground (recoverable after battle); Corrosive Gas and Embargo also remove held items that way, and Embargo stops items being used on the target for the scene. Incinerate destroys held items of those it damages. Bug Bite and Pluck eat a damaged target's berry and give its reviewed effect to the user; Pluck also adds 1 damage die against a berry holder. Stuff Cheeks applies its held berry's effect without consuming it, then raises Defense by 2. Teatime makes those affected eat their held berries without effect; berries in the Trainer's bag are not changed.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -20918,22 +21003,39 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A57: Thirteen held-item cards, using battle item units, final equipment validation, Unburden/Symbiosis follow-ups and Sticky Hold (which blocks theft, exchange and removal). Thief and Covet take the target's held item after damaging it if the user's hand is empty. Bestow gives the user's held item to a target that can hold it (the printed 'cannot be used if the Target is not holding an Item' contradicts giving it, so the coherent reading is applied: the target must be able to receive). Trick and Switcheroo exchange held items, or hand over the only one. Knock Off adds 2 damage dice against an item holder and knocks the item to the ground (recoverable after battle); Corrosive Gas and Embargo also remove held items that way, and Embargo stops items being used on the target for the scene. Incinerate destroys held items of those it damages. Bug Bite and Pluck eat a damaged target's berry and give its reviewed effect to the user; Pluck also adds 1 damage die against a berry holder. Stuff Cheeks applies its held berry's effect without consuming it, then raises Defense by 2. Teatime makes those affected eat their held berries without effect; berries in the Trainer's bag are not changed.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -22002,22 +22104,39 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A57: Thirteen held-item cards, using battle item units, final equipment validation, Unburden/Symbiosis follow-ups and Sticky Hold (which blocks theft, exchange and removal). Thief and Covet take the target's held item after damaging it if the user's hand is empty. Bestow gives the user's held item to a target that can hold it (the printed 'cannot be used if the Target is not holding an Item' contradicts giving it, so the coherent reading is applied: the target must be able to receive). Trick and Switcheroo exchange held items, or hand over the only one. Knock Off adds 2 damage dice against an item holder and knocks the item to the ground (recoverable after battle); Corrosive Gas and Embargo also remove held items that way, and Embargo stops items being used on the target for the scene. Incinerate destroys held items of those it damages. Bug Bite and Pluck eat a damaged target's berry and give its reviewed effect to the user; Pluck also adds 1 damage die against a berry holder. Stuff Cheeks applies its held berry's effect without consuming it, then raises Defense by 2. Teatime makes those affected eat their held berries without effect; berries in the Trainer's bag are not changed.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -29715,22 +29834,39 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A57: Thirteen held-item cards, using battle item units, final equipment validation, Unburden/Symbiosis follow-ups and Sticky Hold (which blocks theft, exchange and removal). Thief and Covet take the target's held item after damaging it if the user's hand is empty. Bestow gives the user's held item to a target that can hold it (the printed 'cannot be used if the Target is not holding an Item' contradicts giving it, so the coherent reading is applied: the target must be able to receive). Trick and Switcheroo exchange held items, or hand over the only one. Knock Off adds 2 damage dice against an item holder and knocks the item to the ground (recoverable after battle); Corrosive Gas and Embargo also remove held items that way, and Embargo stops items being used on the target for the scene. Incinerate destroys held items of those it damages. Bug Bite and Pluck eat a damaged target's berry and give its reviewed effect to the user; Pluck also adds 1 damage die against a berry holder. Stuff Cheeks applies its held berry's effect without consuming it, then raises Defense by 2. Teatime makes those affected eat their held berries without effect; berries in the Trainer's bag are not changed.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -41388,22 +41524,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A57: Thirteen held-item cards, using battle item units, final equipment validation, Unburden/Symbiosis follow-ups and Sticky Hold (which blocks theft, exchange and removal). Thief and Covet take the target's held item after damaging it if the user's hand is empty. Bestow gives the user's held item to a target that can hold it (the printed 'cannot be used if the Target is not holding an Item' contradicts giving it, so the coherent reading is applied: the target must be able to receive). Trick and Switcheroo exchange held items, or hand over the only one. Knock Off adds 2 damage dice against an item holder and knocks the item to the ground (recoverable after battle); Corrosive Gas and Embargo also remove held items that way, and Embargo stops items being used on the target for the scene. Incinerate destroys held items of those it damages. Bug Bite and Pluck eat a damaged target's berry and give its reviewed effect to the user; Pluck also adds 1 damage die against a berry holder. Stuff Cheeks applies its held berry's effect without consuming it, then raises Defense by 2. Teatime makes those affected eat their held berries without effect; berries in the Trainer's bag are not changed.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -42446,22 +42599,39 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A57: Thirteen held-item cards, using battle item units, final equipment validation, Unburden/Symbiosis follow-ups and Sticky Hold (which blocks theft, exchange and removal). Thief and Covet take the target's held item after damaging it if the user's hand is empty. Bestow gives the user's held item to a target that can hold it (the printed 'cannot be used if the Target is not holding an Item' contradicts giving it, so the coherent reading is applied: the target must be able to receive). Trick and Switcheroo exchange held items, or hand over the only one. Knock Off adds 2 damage dice against an item holder and knocks the item to the ground (recoverable after battle); Corrosive Gas and Embargo also remove held items that way, and Embargo stops items being used on the target for the scene. Incinerate destroys held items of those it damages. Bug Bite and Pluck eat a damaged target's berry and give its reviewed effect to the user; Pluck also adds 1 damage die against a berry holder. Stuff Cheeks applies its held berry's effect without consuming it, then raises Defense by 2. Teatime makes those affected eat their held berries without effect; berries in the Trainer's bag are not changed.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -43279,22 +43449,39 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A57: Thirteen held-item cards, using battle item units, final equipment validation, Unburden/Symbiosis follow-ups and Sticky Hold (which blocks theft, exchange and removal). Thief and Covet take the target's held item after damaging it if the user's hand is empty. Bestow gives the user's held item to a target that can hold it (the printed 'cannot be used if the Target is not holding an Item' contradicts giving it, so the coherent reading is applied: the target must be able to receive). Trick and Switcheroo exchange held items, or hand over the only one. Knock Off adds 2 damage dice against an item holder and knocks the item to the ground (recoverable after battle); Corrosive Gas and Embargo also remove held items that way, and Embargo stops items being used on the target for the scene. Incinerate destroys held items of those it damages. Bug Bite and Pluck eat a damaged target's berry and give its reviewed effect to the user; Pluck also adds 1 damage die against a berry holder. Stuff Cheeks applies its held berry's effect without consuming it, then raises Defense by 2. Teatime makes those affected eat their held berries without effect; berries in the Trainer's bag are not changed.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -43768,22 +43955,39 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A57: Thirteen held-item cards, using battle item units, final equipment validation, Unburden/Symbiosis follow-ups and Sticky Hold (which blocks theft, exchange and removal). Thief and Covet take the target's held item after damaging it if the user's hand is empty. Bestow gives the user's held item to a target that can hold it (the printed 'cannot be used if the Target is not holding an Item' contradicts giving it, so the coherent reading is applied: the target must be able to receive). Trick and Switcheroo exchange held items, or hand over the only one. Knock Off adds 2 damage dice against an item holder and knocks the item to the ground (recoverable after battle); Corrosive Gas and Embargo also remove held items that way, and Embargo stops items being used on the target for the scene. Incinerate destroys held items of those it damages. Bug Bite and Pluck eat a damaged target's berry and give its reviewed effect to the user; Pluck also adds 1 damage die against a berry holder. Stuff Cheeks applies its held berry's effect without consuming it, then raises Defense by 2. Teatime makes those affected eat their held berries without effect; berries in the Trainer's bag are not changed.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -45270,22 +45474,39 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A57: Thirteen held-item cards, using battle item units, final equipment validation, Unburden/Symbiosis follow-ups and Sticky Hold (which blocks theft, exchange and removal). Thief and Covet take the target's held item after damaging it if the user's hand is empty. Bestow gives the user's held item to a target that can hold it (the printed 'cannot be used if the Target is not holding an Item' contradicts giving it, so the coherent reading is applied: the target must be able to receive). Trick and Switcheroo exchange held items, or hand over the only one. Knock Off adds 2 damage dice against an item holder and knocks the item to the ground (recoverable after battle); Corrosive Gas and Embargo also remove held items that way, and Embargo stops items being used on the target for the scene. Incinerate destroys held items of those it damages. Bug Bite and Pluck eat a damaged target's berry and give its reviewed effect to the user; Pluck also adds 1 damage die against a berry holder. Stuff Cheeks applies its held berry's effect without consuming it, then raises Defense by 2. Teatime makes those affected eat their held berries without effect; berries in the Trainer's bag are not changed.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },

@@ -64,6 +64,7 @@ The live source of remaining route work is `rules/move-effect-audit.json`. Its f
 | MOVE-A54 | Future Sight, Doom Desire, Rage, Destiny Bond, Pursuit, Glaive Rush | Complete |
 | MOVE-A55 | Shell Trap, Powder, Curse, Flame Burst | Complete |
 | MOVE-A56 | Fire Pledge, Water Pledge, Grass Pledge, Mist, Lucky Chant, Court Change | Complete (Mist traits and Lucky Chant damage rerolls open) |
+| MOVE-A57 | Thief, Covet, Bestow, Trick, Switcheroo, Knock Off, Corrosive Gas, Incinerate, Embargo, Bug Bite, Pluck, Stuff Cheeks, Teatime | Complete (Teatime bag berries open) |
 | Later blocks | Ordinary attacks with existing attributes; remaining stat changes, resets and swaps; type/damage conversions; field changes; conditional damage; timing/action restrictions; items; copy/selection effects | Open |
 
 New block adoption is persisted in `TurnFlow.completion.blocks`. Every release records its engine in `rules/move-completion.json`; historical saves adopt no additional blocks automatically. The shared special-effect state is boxed while preserving its JSON shape to keep transition stack usage bounded.
@@ -143,3 +144,8 @@ See [trigger moves](battle-delayed-moves.md#trigger-moves-move-a55). Shell Trap'
 ### MOVE-A56: battlefield moves
 
 See [battlefield moves](battle-field-moves.md). Fire Pledge round-end ticks, Water Pledge Chance dice, Grass Pledge hazard, Mist protection, Lucky Chant rerolls and critical immunity, and Court Change side swaps.
+
+
+### MOVE-A57: held-item moves
+
+See [held items](battle-held-items.md#held-item-moves-move-a57). Theft, gifts, exchanges, removal to the ground, destruction, berry eating and sharing, Embargo's item block and Knock Off/Pluck damage dice.

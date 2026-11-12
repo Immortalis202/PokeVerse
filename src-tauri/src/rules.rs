@@ -238,6 +238,7 @@ pub fn accuracy(
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
     if [
         ENGINE,
+        FIELD_OPS_ENGINE,
         TRIGGER_OPS_ENGINE,
         DELAYED_OPS_ENGINE,
         ALLIED_OPS_ENGINE,
@@ -675,6 +676,7 @@ pub fn damage_pool(
             crate::combat::special::bonus(c, attacker, target, &m, catalog)?
         }
         + crate::combat::field::target_bonus(c, target, &m)
+        + crate::combat::item_ops::damage_bonus(c, target, &m, catalog)
         + context.map_or_else(
             || crate::combat::field::bonus(c, attacker, &m),
             |ctx| ctx.field_bonus,

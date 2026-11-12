@@ -10798,3 +10798,162 @@ fn completion_a56_court_change_swaps_side_effects_and_hazards() {
     let c = a48_pending(&old, &a, vec![a.clone()], "Mist");
     assert!(a48_effect(&c, vec![]).is_err());
 }
+
+/// Equip `items` (combatant, item) and initialize battle item units once.
+fn a57_items(c: &mut Campaign, items: &[(&str, &str)]) {
+    for (id, name) in items {
+        let sid = p(c, id).sheet_id.clone();
+        c.sheets
+            .get_mut(&sid)
+            .unwrap()
+            .inventory
+            .insert((*name).into(), 1);
+        let equipped = crate::combat::items::equip(
+            &c.sheets[&sid],
+            name,
+            &format!("unit-{id}-{name}"),
+            &catalog(),
+        )
+        .unwrap();
+        c.sheets.insert(sid, equipped);
+    }
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .items
+        .enabled = true;
+    crate::combat::items::initialize(c, &catalog()).unwrap();
+}
+fn a57_held(c: &Campaign, id: &str) -> Vec<String> {
+    crate::combat::items::held(c, id)
+        .into_iter()
+        .map(|u| u.name)
+        .collect()
+}
+
+#[test]
+fn completion_a57_thief_trick_and_bestow_move_held_items() {
+    let (mut c, a, t) = setup("Thief");
+    a57_items(&mut c, &[(&t, "Leftovers")]);
+    let done = a54_hit(&c, &a, &t, "Thief");
+    assert_eq!(a57_held(&done, &a), vec!["Leftovers"]);
+    assert!(a57_held(&done, &t).is_empty());
+    let mut sticky = c.clone();
+    pm(&mut sticky, &t).selected_ability = "Sticky Hold".into();
+    let kept = a54_hit(&sticky, &a, &t, "Thief");
+    assert_eq!(a57_held(&kept, &t), vec!["Leftovers"], "Sticky Hold");
+
+    let (mut c, a, t) = setup("Covet");
+    a57_items(&mut c, &[(&a, "Life Orb"), (&t, "Leftovers")]);
+    let done = a54_hit(&c, &a, &t, "Covet");
+    assert_eq!(
+        a57_held(&done, &t),
+        vec!["Leftovers"],
+        "a full hand cannot steal"
+    );
+
+    for name in ["Trick", "Switcheroo"] {
+        let (mut c, a, t) = setup(name);
+        a57_items(&mut c, &[(&a, "Life Orb"), (&t, "Leftovers")]);
+        let done = support_cast(&c, &a, vec![t.clone()], name);
+        assert_eq!(a57_held(&done, &a), vec!["Leftovers"], "{name}");
+        assert_eq!(a57_held(&done, &t), vec!["Life Orb"], "{name}");
+    }
+    let (mut c, a, t) = setup("Bestow");
+    assert!(a51_attack(&c, &a, &t, "Bestow").is_err(), "nothing to give");
+    a57_items(&mut c, &[(&a, "Life Orb")]);
+    let done = support_cast(&c, &a, vec![t.clone()], "Bestow");
+    assert_eq!(a57_held(&done, &t), vec!["Life Orb"]);
+    assert!(a57_held(&done, &a).is_empty());
+}
+#[test]
+fn completion_a57_knock_off_incinerate_corrosive_gas_and_embargo_remove_items() {
+    let (mut c, a, t) = setup("Knock Off");
+    let plain = queued_damage_pool(&ordinary_accuracy(&c, &a, &t, "Knock Off")).dice;
+    a57_items(&mut c, &[(&t, "Leftovers")]);
+    assert_eq!(
+        queued_damage_pool(&ordinary_accuracy(&c, &a, &t, "Knock Off")).dice,
+        plain + 2
+    );
+    let done = a54_hit(&c, &a, &t, "Knock Off");
+    assert!(a57_held(&done, &t).is_empty());
+    let unit = crate::combat::items::state(&done)
+        .units
+        .values()
+        .find(|u| u.unit.name == "Leftovers")
+        .unwrap()
+        .state
+        .clone();
+    assert_eq!(unit, "ground", "recoverable after battle");
+
+    let (mut c, a, t) = setup("Incinerate");
+    a57_items(&mut c, &[(&t, "Leftovers")]);
+    let done = a54_hit(&c, &a, &t, "Incinerate");
+    let unit = crate::combat::items::state(&done)
+        .units
+        .values()
+        .find(|u| u.unit.name == "Leftovers")
+        .unwrap()
+        .state
+        .clone();
+    assert_eq!(unit, "consumed", "destroyed");
+
+    for name in ["Corrosive Gas", "Embargo"] {
+        let (mut c, a, t) = setup(name);
+        a57_items(&mut c, &[(&t, "Leftovers")]);
+        let done = support_cast(&c, &a, vec![t.clone()], name);
+        assert!(a57_held(&done, &t).is_empty(), "{name}");
+        assert_eq!(
+            crate::combat::item_ops::embargoed(&done, &t),
+            name == "Embargo"
+        );
+    }
+}
+#[test]
+fn completion_a57_berry_moves_eat_share_or_waste_berries() {
+    for name in ["Bug Bite", "Pluck"] {
+        let (mut c, a, t) = setup(name);
+        let plain = queued_damage_pool(&ordinary_accuracy(&c, &a, &t, name)).dice;
+        a57_items(&mut c, &[(&t, "Oran Berry")]);
+        let bonus = queued_damage_pool(&ordinary_accuracy(&c, &a, &t, name)).dice - plain;
+        assert_eq!(bonus, u32::from(name == "Pluck"), "{name}");
+        pm(&mut c, &a).hp = 50;
+        let done = a54_hit(&c, &a, &t, name);
+        assert!(a57_held(&done, &t).is_empty(), "{name}");
+        assert_eq!(p(&done, &a).hp, 51, "{name}: the user gains the Oran Berry");
+    }
+    let (mut c, a, _t) = setup("Stuff Cheeks");
+    a57_items(&mut c, &[(&a, "Oran Berry")]);
+    pm(&mut c, &a).hp = 50;
+    let done = support_cast(&c, &a, vec![a.clone()], "Stuff Cheeks");
+    assert_eq!(p(&done, &a).hp, 51);
+    assert_eq!(
+        a57_held(&done, &a),
+        vec!["Oran Berry"],
+        "the berry can still be used"
+    );
+    assert_eq!(stat(&done, &a, "Defense"), 2);
+
+    let (mut c, a, t) = setup("Teatime");
+    a57_items(&mut c, &[(&t, "Oran Berry")]);
+    pm(&mut c, &t).hp = 50;
+    let done = support_cast(&c, &a, vec![t.clone()], "Teatime");
+    assert!(a57_held(&done, &t).is_empty());
+    assert_eq!(p(&done, &t).hp, 50, "eaten without effect");
+
+    let (mut old, a, t) = setup("Thief");
+    old.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .completion
+        .blocks
+        .remove("MOVE-A57");
+    let c = pending(&old, &a, &t, "Thief");
+    assert!(a48_effect(&c, vec![]).is_err());
+}

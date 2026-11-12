@@ -1323,6 +1323,17 @@
         "completion_a56_mist_and_lucky_chant_protect_the_users_side"
       ],
       "scope": "Six battlefield cards. Fire Pledge (4 rounds, not refreshed while active): every grounded combatant on the battlefield, including entrants, receives the round-end ongoing roll of 2 Fire-type dice ignoring defenses (existing tick workflow). Water Pledge (4 rounds): every Chance pool gains 2 dice, as Serene Grace does. Grass Pledge lowers the Dexterity of those it affects by 1 and installs a non-stacking foe-side entry hazard that lowers grounded entrants' Dexterity by 1, like Sticky Web. Mist (4 rounds, user's side): other combatants cannot reduce the Attributes of its targets; earlier reductions remain; Screen Cleaner removes it. Lucky Chant (scene, user's side): one failed die of each Accuracy, reaction and check roll may be rerolled, sharing the Chance reroll (not additive with it), and critical hits grant no bonus dice against its targets; damage rolls are unchanged. Court Change swaps every side-scoped battlefield rule and entry hazard between the two sides, keeping durations; battles with more than two sides need GM adjudication."
+    },
+    {
+      "id": "move-completion-a57",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A57",
+      "fixtures": [
+        "completion_a57_berry_moves_eat_share_or_waste_berries",
+        "completion_a57_knock_off_incinerate_corrosive_gas_and_embargo_remove_items",
+        "completion_a57_thief_trick_and_bestow_move_held_items"
+      ],
+      "scope": "Thirteen held-item cards, using battle item units, final equipment validation, Unburden/Symbiosis follow-ups and Sticky Hold (which blocks theft, exchange and removal). Thief and Covet take the target's held item after damaging it if the user's hand is empty. Bestow gives the user's held item to a target that can hold it (the printed 'cannot be used if the Target is not holding an Item' contradicts giving it, so the coherent reading is applied: the target must be able to receive). Trick and Switcheroo exchange held items, or hand over the only one. Knock Off adds 2 damage dice against an item holder and knocks the item to the ground (recoverable after battle); Corrosive Gas and Embargo also remove held items that way, and Embargo stops items being used on the target for the scene. Incinerate destroys held items of those it damages. Bug Bite and Pluck eat a damaged target's berry and give its reviewed effect to the user; Pluck also adds 1 damage die against a berry holder. Stuff Cheeks applies its held berry's effect without consuming it, then raises Defense by 2. Teatime makes those affected eat their held berries without effect; berries in the Trainer's bag are not changed."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -1339,5 +1350,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "e385e6080e9fb0abfd26b87212eb65d5e69e16c7c296b9d2a1b0e02a2efd895d"
+  "move_completion_registry_hash": "cf1627be19258aca09d0235cd7f696d6bed0af1f243de373612a4542a266bf00"
 }

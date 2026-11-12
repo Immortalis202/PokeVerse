@@ -69,6 +69,8 @@ pub struct MoveCompletionState {
     /// Powdered combatants, and Powder damage dice owed after declaring a Fire move.
     pub powdered: BTreeSet<String>,
     pub powder_due: BTreeMap<String, u32>,
+    /// Embargoed combatants: no items may be used on them this scene.
+    pub embargoed: BTreeSet<String>,
     pub blocks: BTreeSet<String>,
     pub uses: Vec<CompletionMoveUse>,
     pub entered: BTreeMap<String, u32>,
@@ -479,6 +481,9 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
         }
         "field-op" => {
             field_ops::effect(c, q, cat)?;
+        }
+        "item-op" => {
+            item_ops::effect(c, q, cat)?;
         }
         "stat" => {
             return damaging_stats::effect(c, q, _dice, cat);
@@ -1097,6 +1102,7 @@ pub fn guard_move(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> Result<
     condition_ops::guard(c, p, m)?;
     allied_ops::guard(c, m)?;
     delayed_ops::guard(c, p, m)?;
+    item_ops::guard(c, p, m)?;
     if definition(c, m["Name"].as_str().unwrap_or(""))
         .is_some_and(|(_, d)| d["requires_terrain"] == true)
         && !flow(c)?

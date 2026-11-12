@@ -338,7 +338,7 @@ pub fn enabled(c: &Campaign) -> bool {
 pub(crate) fn state(c: &Campaign) -> &ItemState {
     &c.battle.as_ref().unwrap().flow.as_ref().unwrap().items
 }
-fn state_mut(c: &mut Campaign) -> &mut ItemState {
+pub(crate) fn state_mut(c: &mut Campaign) -> &mut ItemState {
     &mut flow_mut(c).items
 }
 
@@ -1160,7 +1160,14 @@ pub fn initiative_bonus(c: &Campaign, id: &str) -> i32 {
         }
 }
 
-fn record(c: &mut Campaign, unit_id: &str, from: &str, to: Option<String>, kind: &str, why: &str) {
+pub(crate) fn record(
+    c: &mut Campaign,
+    unit_id: &str,
+    from: &str,
+    to: Option<String>,
+    kind: &str,
+    why: &str,
+) {
     let round = c.battle.as_ref().unwrap().round;
     state_mut(c).history.push(ItemEvent {
         unit_id: unit_id.into(),
@@ -1172,7 +1179,7 @@ fn record(c: &mut Campaign, unit_id: &str, from: &str, to: Option<String>, kind:
     });
 }
 
-fn after_loss(c: &mut Campaign, id: &str, cat: &Catalog) -> Result<()> {
+pub(crate) fn after_loss(c: &mut Campaign, id: &str, cat: &Catalog) -> Result<()> {
     let p = fighter(c, id)?;
     if p.hp > 0
         && p.has_ability("Unburden")
@@ -2283,7 +2290,7 @@ fn active_effects(c: &Campaign, id: &str) -> Result<bool> {
     Ok(!p.has_ability("Klutz") && !field::has(c, "Magic Room", p))
 }
 
-fn grant_chew(c: &mut Campaign, id: &str, unit: &HeldItem, source: &str) -> Result<()> {
+pub(crate) fn grant_chew(c: &mut Campaign, id: &str, unit: &HeldItem, source: &str) -> Result<()> {
     if !fighter(c, id)?.has_ability("Cud Chew") {
         return Ok(());
     }
@@ -2303,7 +2310,7 @@ fn grant_chew(c: &mut Campaign, id: &str, unit: &HeldItem, source: &str) -> Resu
     Ok(())
 }
 
-fn consumable_effects(
+pub(crate) fn consumable_effects(
     c: &mut Campaign,
     id: &str,
     recipient: &str,
@@ -2963,7 +2970,7 @@ pub fn transition(
     Ok((next, log))
 }
 
-fn definition(cat: &Catalog, unit: &HeldItem) -> Result<serde_json::Value> {
+pub(crate) fn definition(cat: &Catalog, unit: &HeldItem) -> Result<serde_json::Value> {
     let item = cat
         .find("items", "AppId", &unit.item_id)
         .ok_or_else(|| error("Held item has no exact catalog identity"))?;

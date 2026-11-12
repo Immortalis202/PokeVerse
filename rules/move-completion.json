@@ -2448,6 +2448,91 @@
           "op": "court-change"
         }
       }
+    },
+    "MOVE-A57": {
+      "engine": "0.92.0-core",
+      "kind": "item-op",
+      "scope": "Thirteen held-item cards, using battle item units, final equipment validation, Unburden/Symbiosis follow-ups and Sticky Hold (which blocks theft, exchange and removal). Thief and Covet take the target's held item after damaging it if the user's hand is empty. Bestow gives the user's held item to a target that can hold it (the printed 'cannot be used if the Target is not holding an Item' contradicts giving it, so the coherent reading is applied: the target must be able to receive). Trick and Switcheroo exchange held items, or hand over the only one. Knock Off adds 2 damage dice against an item holder and knocks the item to the ground (recoverable after battle); Corrosive Gas and Embargo also remove held items that way, and Embargo stops items being used on the target for the scene. Incinerate destroys held items of those it damages. Bug Bite and Pluck eat a damaged target's berry and give its reviewed effect to the user; Pluck also adds 1 damage die against a berry holder. Stuff Cheeks applies its held berry's effect without consuming it, then raises Defense by 2. Teatime makes those affected eat their held berries without effect; berries in the Trainer's bag are not changed.",
+      "moves": {
+        "Thief": {
+          "source": "Pokerole-Data/v3.0/Moves/Thief.json",
+          "sha256": "0f696217914075fad526c1f8439a38f4ca6dfa595ca87eeb9f1d3c82072704fc",
+          "effect": "Single Target. The User steals the Target's Held Item. If the User already has a Held Item, this effect fails.",
+          "op": "steal"
+        },
+        "Covet": {
+          "source": "Pokerole-Data/v3.0/Moves/Covet.json",
+          "sha256": "cd26624182c2574cc4e991ecd5d02c4cc4fb62a9a5d4e49acb6e95e897918255",
+          "effect": "Single Target. The User steals the Target's Held Item. If the User already has a Held Item, this effect fails.",
+          "op": "steal"
+        },
+        "Bestow": {
+          "source": "Pokerole-Data/v3.0/Moves/Bestow.json",
+          "sha256": "1fca0cb93e4deaf043d728b83de4eb9d0a3d00e5dca1ca37d56cbbeef145b73b",
+          "effect": "Single Target. Can't be used if Target is not holding an Item. The User gives its Held Item to the Target.",
+          "op": "bestow"
+        },
+        "Trick": {
+          "source": "Pokerole-Data/v3.0/Moves/Trick.json",
+          "sha256": "da23bec0690c5b77fb03592b2ac1221f6e5b353ce2449a7aa1d964ac3a71c0bf",
+          "effect": "Single Target. The User and the Target switch their Held Item. If only one Pokemon is holding an Item, it gives it away.",
+          "op": "trick"
+        },
+        "Switcheroo": {
+          "source": "Pokerole-Data/v3.0/Moves/Switcheroo.json",
+          "sha256": "c322ebc272460ca3a2ae913cfc378e8273880793fd918b42ec9d4c5fd48f7e29",
+          "effect": "Single Target. The User and the Target switch their Held Item. If only one Pokemon is holding an Item, it gives it away.",
+          "op": "trick"
+        },
+        "Knock Off": {
+          "source": "Pokerole-Data/v3.0/Moves/Knock Off.json",
+          "sha256": "f3adbe4750611773cf4371200db152eaccb1725dbe5271ad6ab4dd0aeb058087",
+          "effect": "Single Target. *If the Target is holding an Item, Add 2 Dice to the Damage pool of this Move. The Target loses its Held Item afterwards.",
+          "op": "knock-off"
+        },
+        "Corrosive Gas": {
+          "source": "Pokerole-Data/v3.0/Moves/Corrosive Gas.json",
+          "sha256": "356a20ef1b611ca6a060219ddf32c6b5983ab0ceafc0cfe7991dea1dbc2f97c4",
+          "effect": "Area Attack. Those affected lose their held item.",
+          "op": "corrosive-gas"
+        },
+        "Incinerate": {
+          "source": "Pokerole-Data/v3.0/Moves/Incinerate.json",
+          "sha256": "6b315e6541e9d538c0e9af78d20d3c9143c876947e016853f52fd1a88c0220e9",
+          "effect": "Single Target. All Foes in Range. Destroy the held item of those affected.",
+          "op": "incinerate"
+        },
+        "Embargo": {
+          "source": "Pokerole-Data/v3.0/Moves/Embargo.json",
+          "sha256": "95e52522de243d6eff38ae40a79d700f43abbb658749c1702cb354e2884c8961",
+          "effect": "Single Target. The Target loses its Held Item. Target's Trainer & Partners can't use Items on the Target. Whole Scene Duration.",
+          "op": "embargo"
+        },
+        "Bug Bite": {
+          "source": "Pokerole-Data/v3.0/Moves/Bug Bite.json",
+          "sha256": "10b53265495eff90dd15f854a8149c4641192a6a1f7b6b27a31c1a4498aefa5d",
+          "effect": "Single Target. Bite Move. If the target Pokemon is holding a berry, the User eats it and gains its effects.",
+          "op": "eat-berry"
+        },
+        "Pluck": {
+          "source": "Pokerole-Data/v3.0/Moves/Pluck.json",
+          "sha256": "09e8833ccdd8819ee0fc21a0b268acbbebcb29f66091580b7ccaf7d1fb342baf",
+          "effect": "Single Target. *If the Target is holding a Berry, Add 1 Die to the Damage pool of this Move. The User also eats the berry and gains its effects.",
+          "op": "pluck"
+        },
+        "Stuff Cheeks": {
+          "source": "Pokerole-Data/v3.0/Moves/Stuff Cheeks.json",
+          "sha256": "5f2e9accbdd711854bad6803bf9340d6fc071db64624edbc06e1f7aede888f6a",
+          "effect": "Target Self. If the user has a held Berry, it gains its effects, afterwards, Increase User's Defense by 2. The Held berry can still be used as normal.",
+          "op": "stuff-cheeks"
+        },
+        "Teatime": {
+          "source": "Pokerole-Data/v3.0/Moves/Teatime.json",
+          "sha256": "f57a3a98354f0e82cccd4f4c8da3e3e11fc228a1abed8ef27c51d39aa4bee4eb",
+          "effect": "Area Move. Those Affected will eat their held berries and berries on their Trainer's Bag without gaining their effects. Outside of battle, it will diffuse violent intentions for a few minutes.",
+          "op": "teatime"
+        }
+      }
     }
   },
   "printed_review": {

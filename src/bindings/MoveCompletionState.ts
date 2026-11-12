@@ -130,6 +130,10 @@ export type MoveCompletionState = {
    */
   powdered: Array<string>;
   powder_due: { [key in string]?: number };
+  /**
+   * Embargoed combatants: no items may be used on them this scene.
+   */
+  embargoed: Array<string>;
   blocks: Array<string>;
   uses: Array<CompletionMoveUse>;
   entered: { [key in string]?: number };

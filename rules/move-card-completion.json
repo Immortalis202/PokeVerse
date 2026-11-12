@@ -8005,10 +8005,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Bestow.json",
       "sha256": "1fca0cb93e4deaf043d728b83de4eb9d0a3d00e5dca1ca37d56cbbeef145b73b",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A57: Thirteen held-item cards, using battle item units, final equipment validation, Unburden/Symbiosis follow-ups and Sticky Hold (which blocks theft, exchange and removal). Thief and Covet take the target's held item after damaging it if the user's hand is empty. Bestow gives the user's held item to a target that can hold it (the printed 'cannot be used if the Target is not holding an Item' contradicts giving it, so the coherent reading is applied: the target must be able to receive). Trick and Switcheroo exchange held items, or hand over the only one. Knock Off adds 2 damage dice against an item holder and knocks the item to the ground (recoverable after battle); Corrosive Gas and Embargo also remove held items that way, and Embargo stops items being used on the target for the scene. Incinerate destroys held items of those it damages. Bug Bite and Pluck eat a damaged target's berry and give its reviewed effect to the user; Pluck also adds 1 damage die against a berry holder. Stuff Cheeks applies its held berry's effect without consuming it, then raises Defense by 2. Teatime makes those affected eat their held berries without effect; berries in the Trainer's bag are not changed.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -8018,9 +8025,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 9,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a57",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a57_thief_trick_and_bestow_move_held_items"
+            }
+          ]
         },
         {
           "id": "effect:15-63",
@@ -8038,9 +8051,15 @@
           "value": "The User gives its Held Item to the Target.",
           "start": 63,
           "end": 106,
-          "status": "pending",
+          "status": "automated",
           "batch": 9,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a57",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a57_thief_trick_and_bestow_move_held_items"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -12882,10 +12901,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Bug Bite.json",
       "sha256": "10b53265495eff90dd15f854a8149c4641192a6a1f7b6b27a31c1a4498aefa5d",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A57: Thirteen held-item cards, using battle item units, final equipment validation, Unburden/Symbiosis follow-ups and Sticky Hold (which blocks theft, exchange and removal). Thief and Covet take the target's held item after damaging it if the user's hand is empty. Bestow gives the user's held item to a target that can hold it (the printed 'cannot be used if the Target is not holding an Item' contradicts giving it, so the coherent reading is applied: the target must be able to receive). Trick and Switcheroo exchange held items, or hand over the only one. Knock Off adds 2 damage dice against an item holder and knocks the item to the ground (recoverable after battle); Corrosive Gas and Embargo also remove held items that way, and Embargo stops items being used on the target for the scene. Incinerate destroys held items of those it damages. Bug Bite and Pluck eat a damaged target's berry and give its reviewed effect to the user; Pluck also adds 1 damage die against a berry holder. Stuff Cheeks applies its held berry's effect without consuming it, then raises Defense by 2. Teatime makes those affected eat their held berries without effect; berries in the Trainer's bag are not changed.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -12895,9 +12921,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 9,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a57",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a57_berry_moves_eat_share_or_waste_berries"
+            }
+          ]
         },
         {
           "id": "effect:15-26",
@@ -12915,9 +12947,15 @@
           "value": "If the target Pokemon is holding a berry, the User eats it and gains its effects.",
           "start": 26,
           "end": 107,
-          "status": "pending",
+          "status": "automated",
           "batch": 9,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a57",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a57_berry_moves_eat_share_or_waste_berries"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -19218,10 +19256,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Corrosive Gas.json",
       "sha256": "356a20ef1b611ca6a060219ddf32c6b5983ab0ceafc0cfe7991dea1dbc2f97c4",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A57: Thirteen held-item cards, using battle item units, final equipment validation, Unburden/Symbiosis follow-ups and Sticky Hold (which blocks theft, exchange and removal). Thief and Covet take the target's held item after damaging it if the user's hand is empty. Bestow gives the user's held item to a target that can hold it (the printed 'cannot be used if the Target is not holding an Item' contradicts giving it, so the coherent reading is applied: the target must be able to receive). Trick and Switcheroo exchange held items, or hand over the only one. Knock Off adds 2 damage dice against an item holder and knocks the item to the ground (recoverable after battle); Corrosive Gas and Embargo also remove held items that way, and Embargo stops items being used on the target for the scene. Incinerate destroys held items of those it damages. Bug Bite and Pluck eat a damaged target's berry and give its reviewed effect to the user; Pluck also adds 1 damage die against a berry holder. Stuff Cheeks applies its held berry's effect without consuming it, then raises Defense by 2. Teatime makes those affected eat their held berries without effect; berries in the Trainer's bag are not changed.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -19231,9 +19276,15 @@
           "value": "Area Attack. ",
           "start": 0,
           "end": 13,
-          "status": "pending",
+          "status": "automated",
           "batch": 9,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a57",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a57_knock_off_incinerate_corrosive_gas_and_embargo_remove_items"
+            }
+          ]
         },
         {
           "id": "effect:13-49",
@@ -19241,9 +19292,15 @@
           "value": "Those affected lose their held item.",
           "start": 13,
           "end": 49,
-          "status": "pending",
+          "status": "automated",
           "batch": 9,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a57",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a57_knock_off_incinerate_corrosive_gas_and_embargo_remove_items"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -20172,10 +20229,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Covet.json",
       "sha256": "cd26624182c2574cc4e991ecd5d02c4cc4fb62a9a5d4e49acb6e95e897918255",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A57: Thirteen held-item cards, using battle item units, final equipment validation, Unburden/Symbiosis follow-ups and Sticky Hold (which blocks theft, exchange and removal). Thief and Covet take the target's held item after damaging it if the user's hand is empty. Bestow gives the user's held item to a target that can hold it (the printed 'cannot be used if the Target is not holding an Item' contradicts giving it, so the coherent reading is applied: the target must be able to receive). Trick and Switcheroo exchange held items, or hand over the only one. Knock Off adds 2 damage dice against an item holder and knocks the item to the ground (recoverable after battle); Corrosive Gas and Embargo also remove held items that way, and Embargo stops items being used on the target for the scene. Incinerate destroys held items of those it damages. Bug Bite and Pluck eat a damaged target's berry and give its reviewed effect to the user; Pluck also adds 1 damage die against a berry holder. Stuff Cheeks applies its held berry's effect without consuming it, then raises Defense by 2. Teatime makes those affected eat their held berries without effect; berries in the Trainer's bag are not changed.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -20185,9 +20249,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 9,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a57",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a57_thief_trick_and_bestow_move_held_items"
+            }
+          ]
         },
         {
           "id": "effect:15-55",
@@ -20195,9 +20265,15 @@
           "value": "The User steals the Target's Held Item. ",
           "start": 15,
           "end": 55,
-          "status": "pending",
+          "status": "automated",
           "batch": 9,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a57",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a57_thief_trick_and_bestow_move_held_items"
+            }
+          ]
         },
         {
           "id": "effect:55-110",
@@ -20205,9 +20281,15 @@
           "value": "If the User already has a Held Item, this effect fails.",
           "start": 55,
           "end": 110,
-          "status": "pending",
+          "status": "automated",
           "batch": 9,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a57",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a57_thief_trick_and_bestow_move_held_items"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -30550,10 +30632,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Embargo.json",
       "sha256": "95e52522de243d6eff38ae40a79d700f43abbb658749c1702cb354e2884c8961",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A57: Thirteen held-item cards, using battle item units, final equipment validation, Unburden/Symbiosis follow-ups and Sticky Hold (which blocks theft, exchange and removal). Thief and Covet take the target's held item after damaging it if the user's hand is empty. Bestow gives the user's held item to a target that can hold it (the printed 'cannot be used if the Target is not holding an Item' contradicts giving it, so the coherent reading is applied: the target must be able to receive). Trick and Switcheroo exchange held items, or hand over the only one. Knock Off adds 2 damage dice against an item holder and knocks the item to the ground (recoverable after battle); Corrosive Gas and Embargo also remove held items that way, and Embargo stops items being used on the target for the scene. Incinerate destroys held items of those it damages. Bug Bite and Pluck eat a damaged target's berry and give its reviewed effect to the user; Pluck also adds 1 damage die against a berry holder. Stuff Cheeks applies its held berry's effect without consuming it, then raises Defense by 2. Teatime makes those affected eat their held berries without effect; berries in the Trainer's bag are not changed.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -30563,9 +30652,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 9,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a57",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a57_knock_off_incinerate_corrosive_gas_and_embargo_remove_items"
+            }
+          ]
         },
         {
           "id": "effect:15-47",
@@ -30573,9 +30668,15 @@
           "value": "The Target loses its Held Item. ",
           "start": 15,
           "end": 47,
-          "status": "pending",
+          "status": "automated",
           "batch": 9,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a57",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a57_knock_off_incinerate_corrosive_gas_and_embargo_remove_items"
+            }
+          ]
         },
         {
           "id": "effect:47-106",
@@ -54000,10 +54101,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Incinerate.json",
       "sha256": "6b315e6541e9d538c0e9af78d20d3c9143c876947e016853f52fd1a88c0220e9",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A57: Thirteen held-item cards, using battle item units, final equipment validation, Unburden/Symbiosis follow-ups and Sticky Hold (which blocks theft, exchange and removal). Thief and Covet take the target's held item after damaging it if the user's hand is empty. Bestow gives the user's held item to a target that can hold it (the printed 'cannot be used if the Target is not holding an Item' contradicts giving it, so the coherent reading is applied: the target must be able to receive). Trick and Switcheroo exchange held items, or hand over the only one. Knock Off adds 2 damage dice against an item holder and knocks the item to the ground (recoverable after battle); Corrosive Gas and Embargo also remove held items that way, and Embargo stops items being used on the target for the scene. Incinerate destroys held items of those it damages. Bug Bite and Pluck eat a damaged target's berry and give its reviewed effect to the user; Pluck also adds 1 damage die against a berry holder. Stuff Cheeks applies its held berry's effect without consuming it, then raises Defense by 2. Teatime makes those affected eat their held berries without effect; berries in the Trainer's bag are not changed.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -54013,9 +54121,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 9,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a57",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a57_knock_off_incinerate_corrosive_gas_and_embargo_remove_items"
+            }
+          ]
         },
         {
           "id": "effect:15-34",
@@ -54033,9 +54147,15 @@
           "value": "Destroy the held item of those affected.",
           "start": 34,
           "end": 74,
-          "status": "pending",
+          "status": "automated",
           "batch": 9,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a57",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a57_knock_off_incinerate_corrosive_gas_and_embargo_remove_items"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -56930,10 +57050,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Knock Off.json",
       "sha256": "f3adbe4750611773cf4371200db152eaccb1725dbe5271ad6ab4dd0aeb058087",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A57: Thirteen held-item cards, using battle item units, final equipment validation, Unburden/Symbiosis follow-ups and Sticky Hold (which blocks theft, exchange and removal). Thief and Covet take the target's held item after damaging it if the user's hand is empty. Bestow gives the user's held item to a target that can hold it (the printed 'cannot be used if the Target is not holding an Item' contradicts giving it, so the coherent reading is applied: the target must be able to receive). Trick and Switcheroo exchange held items, or hand over the only one. Knock Off adds 2 damage dice against an item holder and knocks the item to the ground (recoverable after battle); Corrosive Gas and Embargo also remove held items that way, and Embargo stops items being used on the target for the scene. Incinerate destroys held items of those it damages. Bug Bite and Pluck eat a damaged target's berry and give its reviewed effect to the user; Pluck also adds 1 damage die against a berry holder. Stuff Cheeks applies its held berry's effect without consuming it, then raises Defense by 2. Teatime makes those affected eat their held berries without effect; berries in the Trainer's bag are not changed.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -56943,9 +57070,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 9,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a57",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a57_knock_off_incinerate_corrosive_gas_and_embargo_remove_items"
+            }
+          ]
         },
         {
           "id": "effect:15-94",
@@ -56953,9 +57086,15 @@
           "value": "*If the Target is holding an Item, Add 2 Dice to the Damage pool of this Move. ",
           "start": 15,
           "end": 94,
-          "status": "pending",
+          "status": "automated",
           "batch": 9,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a57",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a57_knock_off_incinerate_corrosive_gas_and_embargo_remove_items"
+            }
+          ]
         },
         {
           "id": "effect:94-136",
@@ -56963,9 +57102,15 @@
           "value": "The Target loses its Held Item afterwards.",
           "start": 94,
           "end": 136,
-          "status": "pending",
+          "status": "automated",
           "batch": 9,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a57",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a57_knock_off_incinerate_corrosive_gas_and_embargo_remove_items"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -78140,10 +78285,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Pluck.json",
       "sha256": "09e8833ccdd8819ee0fc21a0b268acbbebcb29f66091580b7ccaf7d1fb342baf",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A57: Thirteen held-item cards, using battle item units, final equipment validation, Unburden/Symbiosis follow-ups and Sticky Hold (which blocks theft, exchange and removal). Thief and Covet take the target's held item after damaging it if the user's hand is empty. Bestow gives the user's held item to a target that can hold it (the printed 'cannot be used if the Target is not holding an Item' contradicts giving it, so the coherent reading is applied: the target must be able to receive). Trick and Switcheroo exchange held items, or hand over the only one. Knock Off adds 2 damage dice against an item holder and knocks the item to the ground (recoverable after battle); Corrosive Gas and Embargo also remove held items that way, and Embargo stops items being used on the target for the scene. Incinerate destroys held items of those it damages. Bug Bite and Pluck eat a damaged target's berry and give its reviewed effect to the user; Pluck also adds 1 damage die against a berry holder. Stuff Cheeks applies its held berry's effect without consuming it, then raises Defense by 2. Teatime makes those affected eat their held berries without effect; berries in the Trainer's bag are not changed.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -78153,9 +78305,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 9,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a57",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a57_berry_moves_eat_share_or_waste_berries"
+            }
+          ]
         },
         {
           "id": "effect:15-93",
@@ -78163,9 +78321,15 @@
           "value": "*If the Target is holding a Berry, Add 1 Die to the Damage pool of this Move. ",
           "start": 15,
           "end": 93,
-          "status": "pending",
+          "status": "automated",
           "batch": 9,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a57",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a57_berry_moves_eat_share_or_waste_berries"
+            }
+          ]
         },
         {
           "id": "effect:93-144",
@@ -78173,9 +78337,15 @@
           "value": "The User also eats the berry and gains its effects.",
           "start": 93,
           "end": 144,
-          "status": "pending",
+          "status": "automated",
           "batch": 9,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a57",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a57_berry_moves_eat_share_or_waste_berries"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -108480,10 +108650,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Stuff Cheeks.json",
       "sha256": "5f2e9accbdd711854bad6803bf9340d6fc071db64624edbc06e1f7aede888f6a",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A57: Thirteen held-item cards, using battle item units, final equipment validation, Unburden/Symbiosis follow-ups and Sticky Hold (which blocks theft, exchange and removal). Thief and Covet take the target's held item after damaging it if the user's hand is empty. Bestow gives the user's held item to a target that can hold it (the printed 'cannot be used if the Target is not holding an Item' contradicts giving it, so the coherent reading is applied: the target must be able to receive). Trick and Switcheroo exchange held items, or hand over the only one. Knock Off adds 2 damage dice against an item holder and knocks the item to the ground (recoverable after battle); Corrosive Gas and Embargo also remove held items that way, and Embargo stops items being used on the target for the scene. Incinerate destroys held items of those it damages. Bug Bite and Pluck eat a damaged target's berry and give its reviewed effect to the user; Pluck also adds 1 damage die against a berry holder. Stuff Cheeks applies its held berry's effect without consuming it, then raises Defense by 2. Teatime makes those affected eat their held berries without effect; berries in the Trainer's bag are not changed.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -108493,9 +108670,15 @@
           "value": "Target Self. ",
           "start": 0,
           "end": 13,
-          "status": "pending",
+          "status": "automated",
           "batch": 9,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a57",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a57_berry_moves_eat_share_or_waste_berries"
+            }
+          ]
         },
         {
           "id": "effect:13-107",
@@ -108503,9 +108686,15 @@
           "value": "If the user has a held Berry, it gains its effects, afterwards, Increase User's Defense by 2. ",
           "start": 13,
           "end": 107,
-          "status": "pending",
+          "status": "automated",
           "batch": 9,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a57",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a57_berry_moves_eat_share_or_waste_berries"
+            }
+          ]
         },
         {
           "id": "effect:107-150",
@@ -108513,9 +108702,15 @@
           "value": "The Held berry can still be used as normal.",
           "start": 107,
           "end": 150,
-          "status": "pending",
+          "status": "automated",
           "batch": 9,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a57",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a57_berry_moves_eat_share_or_waste_berries"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -111377,10 +111572,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Switcheroo.json",
       "sha256": "c322ebc272460ca3a2ae913cfc378e8273880793fd918b42ec9d4c5fd48f7e29",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A57: Thirteen held-item cards, using battle item units, final equipment validation, Unburden/Symbiosis follow-ups and Sticky Hold (which blocks theft, exchange and removal). Thief and Covet take the target's held item after damaging it if the user's hand is empty. Bestow gives the user's held item to a target that can hold it (the printed 'cannot be used if the Target is not holding an Item' contradicts giving it, so the coherent reading is applied: the target must be able to receive). Trick and Switcheroo exchange held items, or hand over the only one. Knock Off adds 2 damage dice against an item holder and knocks the item to the ground (recoverable after battle); Corrosive Gas and Embargo also remove held items that way, and Embargo stops items being used on the target for the scene. Incinerate destroys held items of those it damages. Bug Bite and Pluck eat a damaged target's berry and give its reviewed effect to the user; Pluck also adds 1 damage die against a berry holder. Stuff Cheeks applies its held berry's effect without consuming it, then raises Defense by 2. Teatime makes those affected eat their held berries without effect; berries in the Trainer's bag are not changed.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -111390,9 +111592,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 9,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a57",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a57_thief_trick_and_bestow_move_held_items"
+            }
+          ]
         },
         {
           "id": "effect:15-63",
@@ -111400,9 +111608,15 @@
           "value": "The User and the Target switch their Held Item. ",
           "start": 15,
           "end": 63,
-          "status": "pending",
+          "status": "automated",
           "batch": 9,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a57",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a57_thief_trick_and_bestow_move_held_items"
+            }
+          ]
         },
         {
           "id": "effect:63-120",
@@ -111410,9 +111624,15 @@
           "value": "If only one Pokemon is holding an Item, it gives it away.",
           "start": 63,
           "end": 120,
-          "status": "pending",
+          "status": "automated",
           "batch": 9,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a57",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a57_thief_trick_and_bestow_move_held_items"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -113587,10 +113807,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Teatime.json",
       "sha256": "f57a3a98354f0e82cccd4f4c8da3e3e11fc228a1abed8ef27c51d39aa4bee4eb",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A57: Thirteen held-item cards, using battle item units, final equipment validation, Unburden/Symbiosis follow-ups and Sticky Hold (which blocks theft, exchange and removal). Thief and Covet take the target's held item after damaging it if the user's hand is empty. Bestow gives the user's held item to a target that can hold it (the printed 'cannot be used if the Target is not holding an Item' contradicts giving it, so the coherent reading is applied: the target must be able to receive). Trick and Switcheroo exchange held items, or hand over the only one. Knock Off adds 2 damage dice against an item holder and knocks the item to the ground (recoverable after battle); Corrosive Gas and Embargo also remove held items that way, and Embargo stops items being used on the target for the scene. Incinerate destroys held items of those it damages. Bug Bite and Pluck eat a damaged target's berry and give its reviewed effect to the user; Pluck also adds 1 damage die against a berry holder. Stuff Cheeks applies its held berry's effect without consuming it, then raises Defense by 2. Teatime makes those affected eat their held berries without effect; berries in the Trainer's bag are not changed.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -113600,9 +113827,15 @@
           "value": "Area Move. ",
           "start": 0,
           "end": 11,
-          "status": "pending",
+          "status": "automated",
           "batch": 9,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a57",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a57_berry_moves_eat_share_or_waste_berries"
+            }
+          ]
         },
         {
           "id": "effect:11-120",
@@ -114962,10 +115195,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Thief.json",
       "sha256": "0f696217914075fad526c1f8439a38f4ca6dfa595ca87eeb9f1d3c82072704fc",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A57: Thirteen held-item cards, using battle item units, final equipment validation, Unburden/Symbiosis follow-ups and Sticky Hold (which blocks theft, exchange and removal). Thief and Covet take the target's held item after damaging it if the user's hand is empty. Bestow gives the user's held item to a target that can hold it (the printed 'cannot be used if the Target is not holding an Item' contradicts giving it, so the coherent reading is applied: the target must be able to receive). Trick and Switcheroo exchange held items, or hand over the only one. Knock Off adds 2 damage dice against an item holder and knocks the item to the ground (recoverable after battle); Corrosive Gas and Embargo also remove held items that way, and Embargo stops items being used on the target for the scene. Incinerate destroys held items of those it damages. Bug Bite and Pluck eat a damaged target's berry and give its reviewed effect to the user; Pluck also adds 1 damage die against a berry holder. Stuff Cheeks applies its held berry's effect without consuming it, then raises Defense by 2. Teatime makes those affected eat their held berries without effect; berries in the Trainer's bag are not changed.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -114975,9 +115215,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 9,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a57",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a57_thief_trick_and_bestow_move_held_items"
+            }
+          ]
         },
         {
           "id": "effect:15-55",
@@ -114985,9 +115231,15 @@
           "value": "The User steals the Target's Held Item. ",
           "start": 15,
           "end": 55,
-          "status": "pending",
+          "status": "automated",
           "batch": 9,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a57",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a57_thief_trick_and_bestow_move_held_items"
+            }
+          ]
         },
         {
           "id": "effect:55-110",
@@ -114995,9 +115247,15 @@
           "value": "If the User already has a Held Item, this effect fails.",
           "start": 55,
           "end": 110,
-          "status": "pending",
+          "status": "automated",
           "batch": 9,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a57",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a57_thief_trick_and_bestow_move_held_items"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -118836,10 +119094,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Trick.json",
       "sha256": "da23bec0690c5b77fb03592b2ac1221f6e5b353ce2449a7aa1d964ac3a71c0bf",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A57: Thirteen held-item cards, using battle item units, final equipment validation, Unburden/Symbiosis follow-ups and Sticky Hold (which blocks theft, exchange and removal). Thief and Covet take the target's held item after damaging it if the user's hand is empty. Bestow gives the user's held item to a target that can hold it (the printed 'cannot be used if the Target is not holding an Item' contradicts giving it, so the coherent reading is applied: the target must be able to receive). Trick and Switcheroo exchange held items, or hand over the only one. Knock Off adds 2 damage dice against an item holder and knocks the item to the ground (recoverable after battle); Corrosive Gas and Embargo also remove held items that way, and Embargo stops items being used on the target for the scene. Incinerate destroys held items of those it damages. Bug Bite and Pluck eat a damaged target's berry and give its reviewed effect to the user; Pluck also adds 1 damage die against a berry holder. Stuff Cheeks applies its held berry's effect without consuming it, then raises Defense by 2. Teatime makes those affected eat their held berries without effect; berries in the Trainer's bag are not changed.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -118849,9 +119114,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 9,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a57",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a57_thief_trick_and_bestow_move_held_items"
+            }
+          ]
         },
         {
           "id": "effect:15-63",
@@ -118859,9 +119130,15 @@
           "value": "The User and the Target switch their Held Item. ",
           "start": 15,
           "end": 63,
-          "status": "pending",
+          "status": "automated",
           "batch": 9,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a57",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a57_thief_trick_and_bestow_move_held_items"
+            }
+          ]
         },
         {
           "id": "effect:63-120",
@@ -118869,9 +119146,15 @@
           "value": "If only one Pokemon is holding an Item, it gives it away.",
           "start": 63,
           "end": 120,
-          "status": "pending",
+          "status": "automated",
           "batch": 9,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a57",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a57_thief_trick_and_bestow_move_held_items"
+            }
+          ]
         },
         {
           "id": "metadata:Type",

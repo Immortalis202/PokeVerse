@@ -685,6 +685,9 @@ fn medicine(c: &mut Campaign, actor: &str, cmd: &CompletionCommand, cat: &Catalo
     }
     let payer = fighter(c, combatant_id)?.clone();
     let target = special::registered(c, target_id)?.clone();
+    if crate::combat::item_ops::embargoed(c, target_id) {
+        return Err(error("Embargo prevents using items on this Pokemon"));
+    }
     if target.deployed
         && target_id != combatant_id
         && flow(c)?
