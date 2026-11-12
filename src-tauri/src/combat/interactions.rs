@@ -82,7 +82,8 @@ pub fn trait_value(c: &Campaign, p: &Combatant, key: &str) -> i32 {
         .get(key)
         .copied()
         .into_iter()
-        .chain(stat_channels::move_values(c, p, key));
+        .chain(stat_channels::move_values(c, p, key))
+        .chain(completion::stack_values(c, p, key));
     values.max().unwrap_or(0).max(0)
 }
 

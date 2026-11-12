@@ -145,6 +145,11 @@ pub enum SpecialCommand {
     PrepareHoldHands {
         sequence: u32,
     },
+    /// Save the owner's choice for the current cast before its effect resolves.
+    ChooseMoveOption {
+        sequence: u32,
+        option: String,
+    },
     ResistHoldHands {
         sequence: u32,
         resist: bool,
@@ -264,6 +269,10 @@ pub fn dice(c: &Campaign, cmd: &SpecialCommand, cat: &Catalog) -> Result<u32> {
         SpecialCommand::PrepareHoldHands { .. }
         | SpecialCommand::ResistHoldHands { .. }
         | SpecialCommand::RuleHoldHands { .. } => choices::dice(c, cmd)?,
+        SpecialCommand::ChooseMoveOption { sequence, option } => {
+            choices::move_option(c, *sequence, option)?;
+            0
+        }
         SpecialCommand::Successive {
             combatant_id,
             target_id,
@@ -381,6 +390,19 @@ pub fn command(
         | SpecialCommand::ResistHoldHands { .. }
         | SpecialCommand::RuleHoldHands { .. } => {
             return choices::command(c, actor, cmd, faces, r, cat)
+        }
+        SpecialCommand::ChooseMoveOption { sequence, option } => {
+            let q = choices::move_option(c, *sequence, option)?;
+            owner(c, actor, &q.actor_id)?;
+            reason(r)?;
+            flow_mut(c)
+                .completion
+                .move_options
+                .insert(*sequence, option.clone());
+            return Ok(format!(
+                "{} option for #{sequence}: {option}. {r}",
+                q.move_name
+            ));
         }
         SpecialCommand::GrudgeCheck { target_id } => {
             return Ok(format!("{}. {r}", will::check(c, actor, target_id, faces)?));

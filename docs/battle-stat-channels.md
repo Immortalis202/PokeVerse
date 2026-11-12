@@ -27,3 +27,15 @@ The host calculates copies during command transitions. Costar choices use frozen
 ## Verification
 
 The full Rust suite passed 396 tests, with a subsequent focused 19-test recheck after the final Snatch event-counter adjustment. Frontend tests (31), catalog checks (12), production build and warnings-denied Clippy passed. Windows NSIS packaging produced `PokeVerse_0.21.0_x64-setup.exe` (213.67 MiB); the executable and installer were not launched. Automated coverage includes separate channels, source lifetime, conditional theft/reactivation, permanent sheets, stale/unauthorized choices, reciprocal Opportunists, full Baton Pass/Snatch transitions and rollback. Native interaction and physical LAN acceptance remain separate backlog items.
+
+## Stat operations (MOVE-A48)
+
+App 0.91.0 / engine 0.83.0-core / protocol 92 completes thirteen stat-operation cards. Older encounters keep their saved blocks and these cards stay manual there.
+
+**Scene bases.** Guard Split, Power Split, Guard Swap, Power Swap and Speed Swap replace scene base values for the user and the target; Power Trick and Power Shift trade the user's own Strength with Defense and Special with Sp. Defense (recasting trades back). Strength, Dexterity and Special replace the base-sheet score before battle modifiers; Defense and Sp. Defense replace the derived defense (Vitality/Insight plus any rank bonus), so Vitality and Insight themselves are unchanged. Splits average current bases rounded down. Increases and reductions stay with their owner. A replacement lasts for the scene or until its owner leaves battle; the permanent sheet never changes.
+
+**Transfers.** Psych Up copies the target's increases and reductions onto the user (replacing the user's own), Heart Swap exchanges them, Topsy-Turvy turns the target's increases into equal reductions and vice versa, and Spectral Thief steals the target's Attribute and defense increases while its reductions remain. These act on applied move, stacking and copied changes and triggered-ability counters (Speed Boost, Moxie and similar), including Accuracy and Evasion pools; passive ability and field bonuses are not moved. Results are saved as move-channel grants, so the usual non-stacking rule applies. Spectral Thief steals once its reactions close and before the damage pool is rolled, so stolen Strength counts for that hit; misses, shields and immunities steal nothing.
+
+**Chosen increases.** Acupressure rolls two host dice for an unbiased choice among Strength, Dexterity, Special, Defense, Sp. Defense, Accuracy and Evasion pools; a double six is rerolled. Its +1 replaces its previous increase. Mystical Power raises the lowest of the five Attributes by 2 unless that score is already 6 or more. When Attributes tie for lowest, the caster's owner (or the GM) saves a choice with the ChooseMoveOption command, shown in the battle controls as "Save choice"; the open options are listed in TurnFlow.completion.open_options.
+
+Ordinary Support protection, immunities and decoys apply to the targeted cards. Verification references: completion_a48 public-command tests and MoveOptionControls.test.tsx.

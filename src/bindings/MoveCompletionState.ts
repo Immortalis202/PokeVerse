@@ -14,6 +14,22 @@ export type MoveCompletionState = {
   metronome_draw: MetronomeDraw | null;
   copied_cast: CopiedCast | null;
   hold_hands: { [key in number]?: HoldHandsDecision };
+  /**
+   * Scene base replacements from splits and swaps, by combatant and key.
+   */
+  stat_bases: { [key in string]?: { [key in string]?: number } };
+  /**
+   * Saved owner choices for the current cast, by queue sequence.
+   */
+  move_options: { [key in number]?: string };
+  /**
+   * Choices the current cast still offers, refreshed after every transition.
+   */
+  open_options: { [key in number]?: Array<string> };
+  /**
+   * Spectral Thief casts that already stole before damage.
+   */
+  stolen: Array<number>;
   blocks: Array<string>;
   uses: Array<CompletionMoveUse>;
   entered: { [key in string]?: number };

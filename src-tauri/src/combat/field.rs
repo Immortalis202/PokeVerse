@@ -180,9 +180,9 @@ pub fn snapshot(c: &Campaign, cat: &Catalog) -> Result<FieldSnapshot> {
         .iter()
         .filter(|p| p.deployed && c.sheets[&p.sheet_id].kind == "pokemon")
     {
-        let stats = crate::creation::profile_stats(&rules::effective_sheet(c, p)?);
+        let stats = stat_ops::profile(c, p, &rules::effective_sheet(c, p)?);
         if provenance::enabled(c) {
-            let base = crate::creation::profile_stats(&rules::base_sheet(c, p)?);
+            let base = stat_ops::profile(c, p, &rules::base_sheet(c, p)?);
             base_attribute_defenses.insert(
                 p.id.clone(),
                 [

@@ -29,6 +29,7 @@ pub fn effective_sheet(c: &Campaign, p: &Combatant) -> Result<Sheet> {
         }
     }
     crate::combat::items::completion::apply_stats(c, p, &mut s);
+    crate::combat::stat_ops::apply_sheet(c, p, &mut s);
     Ok(s)
 }
 /// Permanent attributes plus explicit GM overrides, before battle modifiers.
@@ -40,6 +41,7 @@ pub fn base_sheet(c: &Campaign, p: &Combatant) -> Result<Sheet> {
         .ok_or_else(|| AppError::new("missing", "Missing combatant sheet"))?;
     crate::combat::forms::sheet(c, p, &mut s);
     s.stats.extend(p.stat_overrides.clone());
+    crate::combat::stat_ops::apply_base(c, p, &mut s);
     s.skills.extend(p.skill_overrides.clone());
     s.ability = p.selected_ability.clone();
     if let Some(b) = s.workflow.as_mut() {
@@ -225,6 +227,7 @@ pub fn accuracy(
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
     if [
         ENGINE,
+        JUDGMENT_ENGINE,
         METRONOME_ENGINE,
         HOLD_HANDS_ENGINE,
         ORDER_UP_ENGINE,
@@ -492,11 +495,12 @@ pub fn damage_pool(
     } else {
         m["Power"].as_i64().unwrap() as i32
     };
-    let defense = crate::creation::profile_stats(&defender)[if defense_source == "Vitality" {
-        "Defense"
-    } else {
-        "SpecialDefense"
-    }] + crate::combat::abilities::defense(c, target, defense_source == "Vitality");
+    let defense =
+        crate::combat::stat_ops::profile(c, target, &defender)[if defense_source == "Vitality" {
+            "Defense"
+        } else {
+            "SpecialDefense"
+        }] + crate::combat::abilities::defense(c, target, defense_source == "Vitality");
     let defense = crate::combat::field::damage_defense(
         c,
         target,

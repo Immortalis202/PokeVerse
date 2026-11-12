@@ -8,6 +8,7 @@ import RecurringMoveControls from "./RecurringMoveControls";
 import CompoundMoveControls from "./CompoundMoveControls";
 import MoveCompletionControls from "./MoveCompletionControls";
 import MoveDecisionControls from "./MoveDecisionControls";
+import MoveOptionControls from "./MoveOptionControls";
 import MetronomeControls from "./MetronomeControls";
 import JudgmentControls from "./JudgmentControls";
 
@@ -89,7 +90,12 @@ export default function SpecialMoveControls({
   return (
     <section className="panel" aria-label="Special move automation">
       <h3>Special moves</h3>
-      <JudgmentControls campaign={campaign} playerId={playerId} execute={execute} disabled={disabled} />
+      <JudgmentControls
+        campaign={campaign}
+        playerId={playerId}
+        execute={execute}
+        disabled={disabled}
+      />
       <MetronomeControls
         campaign={campaign}
         playerId={playerId}
@@ -97,6 +103,12 @@ export default function SpecialMoveControls({
         disabled={disabled}
       />
       <MoveDecisionControls
+        campaign={campaign}
+        playerId={playerId}
+        execute={execute}
+        disabled={disabled}
+      />
+      <MoveOptionControls
         campaign={campaign}
         playerId={playerId}
         execute={execute}

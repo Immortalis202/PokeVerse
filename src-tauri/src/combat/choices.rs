@@ -193,3 +193,19 @@ pub fn end(
     checkpoint(c, &mut next, &log);
     Ok((next, log))
 }
+
+/// Validate a saved owner option against the current cast's open choices.
+pub fn move_option(c: &Campaign, sequence: u32, option: &str) -> Result<QueuedAction> {
+    let q = current(c)?;
+    if q.sequence != sequence {
+        return Err(error("Choose an option for the current cast"));
+    }
+    let options = completion::options(c, q)?;
+    if options.is_empty() {
+        return Err(error("This cast has no open choice"));
+    }
+    if !options.iter().any(|o| o == option) {
+        return Err(error(&format!("Choose one of: {}", options.join(", "))));
+    }
+    Ok(q.clone())
+}

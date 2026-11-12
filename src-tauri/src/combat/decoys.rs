@@ -88,7 +88,7 @@ pub fn blocks_effects(c: &Campaign, q: &QueuedAction, m: &serde_json::Value) -> 
 }
 fn defenses(c: &Campaign, id: &str, cat: &Catalog) -> Result<[i32; 2]> {
     let p = fighter(c, id)?;
-    let stats = crate::creation::profile_stats(&rules::effective_sheet(c, p)?);
+    let stats = stat_ops::profile(c, p, &rules::effective_sheet(c, p)?);
     Ok([
         field::defense(
             c,

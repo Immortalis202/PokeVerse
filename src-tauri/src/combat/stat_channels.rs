@@ -178,7 +178,7 @@ fn snapshot(
     }
     grants
 }
-fn apply(c: &mut Campaign, grants: Vec<StatGrant>) -> Result<()> {
+pub(crate) fn apply(c: &mut Campaign, grants: Vec<StatGrant>) -> Result<()> {
     for g in grants {
         if g.cause == "Baton Pass"
             && special::registered(c, &g.target)?.has_ability("Clear Body")

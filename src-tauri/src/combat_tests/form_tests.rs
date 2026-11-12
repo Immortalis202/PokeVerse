@@ -901,6 +901,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
     let ended = decision(&c, "gm", Action::EndBattle);
     for engine in [
         ENGINE,
+        JUDGMENT_ENGINE,
         METRONOME_ENGINE,
         HOLD_HANDS_ENGINE,
         ORDER_UP_ENGINE,
@@ -983,6 +984,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.entry_hazards,
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1032,25 +1034,37 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             .contains(&engine)
         );
         assert_eq!(
-            flow.completion.blocks.contains("MOVE-A47"),
+            flow.completion.blocks.contains("MOVE-A48"),
             engine == ENGINE
         );
         assert_eq!(
+            flow.completion.blocks.contains("MOVE-A47"),
+            [ENGINE, JUDGMENT_ENGINE].contains(&engine)
+        );
+        assert_eq!(
             flow.completion.blocks.contains("MOVE-A46"),
-            [ENGINE, METRONOME_ENGINE].contains(&engine)
+            [ENGINE, JUDGMENT_ENGINE, METRONOME_ENGINE].contains(&engine)
         );
         assert_eq!(
             flow.completion.blocks.contains("MOVE-A45"),
-            [ENGINE, METRONOME_ENGINE, HOLD_HANDS_ENGINE].contains(&engine)
+            [ENGINE, JUDGMENT_ENGINE, METRONOME_ENGINE, HOLD_HANDS_ENGINE].contains(&engine)
         );
         assert_eq!(
             flow.completion.blocks.contains("MOVE-A44"),
-            [ENGINE, METRONOME_ENGINE, HOLD_HANDS_ENGINE, ORDER_UP_ENGINE].contains(&engine)
+            [
+                ENGINE,
+                JUDGMENT_ENGINE,
+                METRONOME_ENGINE,
+                HOLD_HANDS_ENGINE,
+                ORDER_UP_ENGINE
+            ]
+            .contains(&engine)
         );
         assert_eq!(
             flow.completion.blocks.contains("MOVE-A43"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1062,6 +1076,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A42"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1074,6 +1089,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A41"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1087,6 +1103,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A40"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1101,6 +1118,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A39"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1116,6 +1134,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A38"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1132,6 +1151,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A37"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1149,6 +1169,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A36"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1167,6 +1188,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A35"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1186,6 +1208,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A34"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1206,6 +1229,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A33"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1227,6 +1251,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A32"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1249,6 +1274,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A31"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1272,6 +1298,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A30"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1296,6 +1323,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A29"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1321,6 +1349,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A28"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1347,6 +1376,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A27"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1374,6 +1404,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A26"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1402,6 +1433,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A25"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1431,6 +1463,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A24"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1461,6 +1494,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A23"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1492,6 +1526,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A22"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1524,6 +1559,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A21"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1557,6 +1593,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A20"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1591,6 +1628,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A19"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1626,6 +1664,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A18"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1662,6 +1701,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A17"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1699,6 +1739,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A16"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1737,6 +1778,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A15"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1776,6 +1818,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A14"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1816,6 +1859,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A13"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1857,6 +1901,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A12"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1899,6 +1944,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A11"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1942,6 +1988,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A10"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -1986,6 +2033,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A09"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -2031,6 +2079,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A08"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -2077,6 +2126,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A07"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -2124,6 +2174,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A06"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -2172,6 +2223,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A05"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -2221,6 +2273,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A04"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -2271,6 +2324,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A03"),
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -2322,6 +2376,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.damaging_stats.enabled,
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -2375,6 +2430,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.battlefield_review,
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -2429,6 +2485,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.direct_status,
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -2488,6 +2545,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.chance_status,
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -2546,6 +2604,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.compound.enabled,
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -2603,6 +2662,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.recurring.enabled,
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -2659,6 +2719,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.battlefield_review,
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -2713,6 +2774,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.cure_protection,
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -2768,6 +2830,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.spite,
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -2829,6 +2892,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.will_drains,
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -2889,6 +2953,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.status_escalation,
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -2951,6 +3016,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.identity_moves,
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -3014,6 +3080,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.interaction_rules,
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -3081,6 +3148,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.items.completion.enabled,
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -3147,6 +3215,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.house_rules,
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -3212,6 +3281,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.forms.enabled,
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -3282,6 +3352,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.information.enabled,
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,
@@ -3351,6 +3422,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.standalone.enabled,
             [
                 ENGINE,
+                JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
                 ORDER_UP_ENGINE,

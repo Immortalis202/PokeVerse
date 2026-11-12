@@ -11,6 +11,14 @@ pub struct MoveCompletionState {
     pub metronome_draw: Option<copies::MetronomeDraw>,
     pub copied_cast: Option<copies::CopiedCast>,
     pub hold_hands: BTreeMap<u32, choices::HoldHandsDecision>,
+    /// Scene base replacements from splits and swaps, by combatant and key.
+    pub stat_bases: BTreeMap<String, BTreeMap<String, i32>>,
+    /// Saved owner choices for the current cast, by queue sequence.
+    pub move_options: BTreeMap<u32, String>,
+    /// Choices the current cast still offers, refreshed after every transition.
+    pub open_options: BTreeMap<u32, Vec<String>>,
+    /// Spectral Thief casts that already stole before damage.
+    pub stolen: BTreeSet<u32>,
     pub blocks: BTreeSet<String>,
     pub uses: Vec<CompletionMoveUse>,
     pub entered: BTreeMap<String, u32>,
@@ -95,7 +103,14 @@ pub fn effect_dice(c: &Campaign, q: &QueuedAction) -> Result<Option<u32>> {
             .saturating_sub(2 * u32::from(!bypass && target.has_ability("Wonder Skin"))),
         ));
     }
+    if let Some(n) = stat_ops::effect_dice(c, q) {
+        return Ok(Some(n));
+    }
     Ok(definition(c, &q.move_name).map(|_| 0))
+}
+/// Owner choices the current cast needs before its effect resolves.
+pub fn options(c: &Campaign, q: &QueuedAction) -> Result<Vec<String>> {
+    stat_ops::options(c, q)
 }
 pub(super) fn immune_target(c: &Campaign, q: &QueuedAction, cat: &Catalog) -> Result<bool> {
     immune_target_with_fainted(c, q, cat, false)
@@ -375,6 +390,9 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
         }
         "support-stat" => {
             support_stat(c, q, d, cat)?;
+        }
+        "stat-op" => {
+            stat_ops::effect(c, q, _dice, d, cat)?;
         }
         "stat" => {
             return damaging_stats::effect(c, q, _dice, cat);
@@ -1150,6 +1168,12 @@ pub fn observe(before: &Campaign, next: &mut Campaign, cat: &Catalog) -> Result<
     if !flow(next).is_ok_and(|f| f.completion.blocks.contains("MOVE-A16")) {
         return Ok(());
     }
+    if flow(next).is_ok_and(|f| f.completion.blocks.contains("MOVE-A48"))
+        && battle(next).is_ok_and(|b| b.active)
+    {
+        stat_ops::lifecycle(next)?;
+        stat_ops::before_damage(next, cat)?;
+    }
     if definition(next, "Charge").is_some() {
         let sequences: BTreeSet<_> = flow(next)?
             .queue
@@ -1562,9 +1586,20 @@ pub(super) fn reset_stats(c: &mut Campaign, id: &str, traits: bool) -> Result<()
             "AccuracyPool",
             "AccuracySuccess",
             "Evasion",
+            "EvasionPool",
             "Will",
         ]);
     }
+    reset_keys(c, id, &keys, traits)
+}
+/// Clear applied move, stacking, copied and triggered-ability changes for `keys`.
+/// Passive ability and field bonuses are preserved; `traits` also clears Accuracy losses.
+pub(super) fn reset_keys(
+    c: &mut Campaign,
+    id: &str,
+    keys: &BTreeSet<&str>,
+    traits: bool,
+) -> Result<()> {
     flow_mut(c).special.effects.retain(|e| {
         if e.target != id {
             return true;

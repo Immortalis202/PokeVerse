@@ -27,6 +27,7 @@ pub struct FieldEffect {
 pub(super) fn require_targeting(c: &Campaign) -> Result<()> {
     if ![
         ENGINE,
+        JUDGMENT_ENGINE,
         METRONOME_ENGINE,
         HOLD_HANDS_ENGINE,
         ORDER_UP_ENGINE,
@@ -317,7 +318,7 @@ pub(super) fn plan(
     };
     ids.sort_by_key(|key| {
         let score = rules::effective_sheet(c, fighter(c, key).unwrap())
-            .map(|s| crate::creation::profile_stats(&s)[defense_key])
+            .map(|s| stat_ops::profile(c, fighter(c, key).unwrap(), &s)[defense_key])
             .unwrap_or(0);
         (-score, key.clone())
     });
@@ -433,7 +434,7 @@ pub(super) fn prepare_targets(c: &mut Campaign) {
             let score = fighter(c, &t.target_id)
                 .and_then(|p| rules::effective_sheet(c, p))
                 .map(|s| {
-                    crate::creation::profile_stats(&s)
+                    stat_ops::profile(c, fighter(c, &t.target_id).unwrap(), &s)
                         .get(&q.defense_key)
                         .copied()
                         .unwrap_or(0)

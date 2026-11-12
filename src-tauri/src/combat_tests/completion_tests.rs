@@ -8652,3 +8652,416 @@ fn completion_a47_judgment_bypasses_ordinary_survival_without_consuming_sash() {
         }
     }
 }
+
+fn a48_stats(c: &mut Campaign, id: &str, values: &[(&str, i32)]) {
+    let sid = p(c, id).sheet_id.clone();
+    for (key, value) in values {
+        c.sheets
+            .get_mut(&sid)
+            .unwrap()
+            .stats
+            .insert((*key).into(), *value);
+    }
+}
+/// Current-engine encounters enable stat channels; the shared fixture predates them.
+fn a48_setup(name: &str) -> (Campaign, String, String) {
+    let (mut c, a, t) = setup(name);
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .stat_channels
+        .enabled = true;
+    (c, a, t)
+}
+fn a48_sheet(c: &Campaign, id: &str, key: &str) -> i32 {
+    rules::effective_sheet(c, p(c, id)).unwrap().stats[key]
+}
+fn a48_defenses(c: &Campaign, id: &str) -> [i32; 2] {
+    let s = rules::effective_sheet(c, p(c, id)).unwrap();
+    let m = crate::combat::stat_ops::profile(c, p(c, id), &s);
+    [m["Defense"], m["SpecialDefense"]]
+}
+/// Declare a Support cast and close its reaction window, leaving the effect pending.
+fn a48_pending(c: &Campaign, a: &str, targets: Vec<String>, name: &str) -> Campaign {
+    let action = super::targeting_tests::attack(a, targets, name);
+    let mut c = roll(c, &p(c, a).owner_id, &action, 6);
+    while c.battle.as_ref().unwrap().flow.as_ref().unwrap().window {
+        c = pass(&c);
+    }
+    c
+}
+fn a48_effect(c: &Campaign, dice: Vec<u8>) -> Result<Campaign> {
+    battle::transition(c, "gm", &cmd(c), dice, &catalog()).map(|v| v.0)
+}
+fn a48_option(c: &Campaign, actor: &str, option: &str) -> Result<Campaign> {
+    battle::transition(
+        c,
+        actor,
+        &Action::SpecialMove {
+            command: special::SpecialCommand::ChooseMoveOption {
+                sequence: q(c).sequence,
+                option: option.into(),
+            },
+            reason: "Owner chooses the tied Attribute".into(),
+        },
+        vec![],
+        &catalog(),
+    )
+    .map(|v| v.0)
+}
+
+#[test]
+fn completion_a48_splits_and_swaps_replace_scene_bases_and_keep_changes() {
+    let cases: [(&str, &[&str], fn(i32, i32) -> (i32, i32)); 3] = [
+        ("Power Swap", &["Strength", "Special"], |a, t| (t, a)),
+        ("Power Split", &["Strength", "Special"], |a, t| {
+            ((a + t) / 2, (a + t) / 2)
+        }),
+        ("Speed Swap", &["Dexterity"], |a, t| (t, a)),
+    ];
+    for (name, keys, expect) in cases {
+        let (mut c, a, t) = setup(name);
+        a48_stats(
+            &mut c,
+            &a,
+            &[("Strength", 2), ("Special", 5), ("Dexterity", 1)],
+        );
+        a48_stats(
+            &mut c,
+            &t,
+            &[("Strength", 5), ("Special", 2), ("Dexterity", 6)],
+        );
+        crate::combat::extra::change_stat(&mut c, &a, &a, "Strength", 1).unwrap();
+        let before: Vec<_> = keys
+            .iter()
+            .map(|k| {
+                (
+                    rules::base_sheet(&c, p(&c, &a)).unwrap().stats[*k],
+                    rules::base_sheet(&c, p(&c, &t)).unwrap().stats[*k],
+                )
+            })
+            .collect();
+        let c = support_cast(&c, &a, vec![t.clone()], name);
+        for (key, (va, vt)) in keys.iter().zip(before) {
+            let (na, nt) = expect(va, vt);
+            let bonus = i32::from(*key == "Strength");
+            assert_eq!(a48_sheet(&c, &a, key), na + bonus, "{name} user {key}");
+            assert_eq!(a48_sheet(&c, &t, key), nt, "{name} target {key}");
+        }
+        assert_eq!(
+            stat(&c, &a, "Strength"),
+            1,
+            "{name}: increases stay with their owner"
+        );
+        let saved: Campaign = serde_json::from_str(&serde_json::to_string(&c).unwrap()).unwrap();
+        for key in keys {
+            assert_eq!(
+                a48_sheet(&saved, &a, key),
+                a48_sheet(&c, &a, key),
+                "{name} saved"
+            );
+            assert_eq!(
+                a48_sheet(&saved, &t, key),
+                a48_sheet(&c, &t, key),
+                "{name} saved"
+            );
+        }
+    }
+    for (name, split) in [("Guard Swap", false), ("Guard Split", true)] {
+        let (mut c, a, t) = setup(name);
+        a48_stats(&mut c, &a, &[("Vitality", 2), ("Insight", 6)]);
+        a48_stats(&mut c, &t, &[("Vitality", 5), ("Insight", 1)]);
+        let c = support_cast(&c, &a, vec![t.clone()], name);
+        let (ua, ut) = if split {
+            ([3, 3], [3, 3])
+        } else {
+            ([5, 1], [2, 6])
+        };
+        assert_eq!(a48_defenses(&c, &a), ua, "{name}");
+        assert_eq!(a48_defenses(&c, &t), ut, "{name}");
+        assert_eq!(
+            a48_sheet(&c, &a, "Vitality"),
+            2,
+            "{name}: Vitality itself is unchanged"
+        );
+    }
+    for name in ["Power Trick", "Power Shift"] {
+        let (mut c, a, _t) = setup(name);
+        a48_stats(
+            &mut c,
+            &a,
+            &[
+                ("Strength", 2),
+                ("Vitality", 5),
+                ("Special", 3),
+                ("Insight", 6),
+            ],
+        );
+        let mut c = support_cast(&c, &a, vec![a.clone()], name);
+        assert_eq!(a48_sheet(&c, &a, "Strength"), 5, "{name}");
+        assert_eq!(a48_sheet(&c, &a, "Special"), 6, "{name}");
+        assert_eq!(a48_defenses(&c, &a), [2, 3], "{name}");
+        turn(&mut c, &a, name);
+        let c = support_cast(&c, &a, vec![a.clone()], name);
+        assert_eq!(
+            a48_sheet(&c, &a, "Strength"),
+            2,
+            "{name}: recasting trades back"
+        );
+        assert_eq!(a48_defenses(&c, &a), [5, 6], "{name}");
+    }
+}
+#[test]
+fn completion_a48_scene_bases_end_when_the_owner_leaves_battle_and_old_encounters_stay_manual() {
+    let (mut c, a, t) = setup("Power Swap");
+    a48_stats(&mut c, &a, &[("Strength", 2)]);
+    a48_stats(&mut c, &t, &[("Strength", 6)]);
+    let incoming = reserve(&mut c, &t);
+    let c = support_cast(&c, &a, vec![t.clone()], "Power Swap");
+    assert_eq!(a48_sheet(&c, &a, "Strength"), 6);
+    let gone = spider_switch(&c, &t, &incoming, false);
+    assert!(!gone
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .completion
+        .stat_bases
+        .contains_key(&t));
+    assert_eq!(
+        a48_sheet(&gone, &a, "Strength"),
+        6,
+        "the user keeps its swapped base"
+    );
+    let mut faint = c.clone();
+    pm(&mut faint, &a).hp = 0;
+    let faint = round_end(&faint);
+    assert!(!faint
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .completion
+        .stat_bases
+        .contains_key(&a));
+    let (mut old, a, t) = setup("Power Swap");
+    old.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .completion
+        .blocks
+        .remove("MOVE-A48");
+    let c = a48_pending(&old, &a, vec![t], "Power Swap");
+    assert!(a48_effect(&c, vec![]).is_err());
+}
+#[test]
+fn completion_a48_psych_up_heart_swap_and_topsy_turvy_move_only_applied_changes() {
+    let prepare = |name: &str| {
+        let (mut c, a, t) = a48_setup(name);
+        crate::combat::extra::change_stat(&mut c, &t, &t, "Strength", 2).unwrap();
+        crate::combat::extra::change_stat(&mut c, &a, &t, "Defense", -1).unwrap();
+        crate::combat::extra::change_stat(&mut c, &a, &a, "Special", 1).unwrap();
+        (c, a, t)
+    };
+    let (c, a, t) = prepare("Psych Up");
+    let c = support_cast(&c, &a, vec![t.clone()], "Psych Up");
+    assert_eq!(stat(&c, &a, "Strength"), 2);
+    assert_eq!(stat(&c, &a, "Defense"), -1);
+    assert_eq!(
+        stat(&c, &a, "Special"),
+        0,
+        "copying replaces the user's own changes"
+    );
+    assert_eq!(stat(&c, &t, "Strength"), 2, "the target keeps its changes");
+    assert_eq!(a48_sheet(&c, &a, "Strength"), 6);
+
+    let (c, a, t) = prepare("Heart Swap");
+    let c = support_cast(&c, &a, vec![t.clone()], "Heart Swap");
+    assert_eq!(
+        [
+            stat(&c, &a, "Strength"),
+            stat(&c, &a, "Defense"),
+            stat(&c, &a, "Special")
+        ],
+        [2, -1, 0]
+    );
+    assert_eq!(
+        [
+            stat(&c, &t, "Strength"),
+            stat(&c, &t, "Defense"),
+            stat(&c, &t, "Special")
+        ],
+        [0, 0, 1]
+    );
+
+    let (c, a, t) = prepare("Topsy-Turvy");
+    let c = support_cast(&c, &a, vec![t.clone()], "Topsy-Turvy");
+    assert_eq!(stat(&c, &t, "Strength"), -2);
+    assert_eq!(stat(&c, &t, "Defense"), 1);
+    assert_eq!(stat(&c, &a, "Special"), 1, "the user is unaffected");
+
+    let (mut c, a, t) = prepare("Psych Up");
+    let round = c.battle.as_ref().unwrap().round;
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .special
+        .shields
+        .insert(
+            t.clone(),
+            special::Shield {
+                name: "Protect".into(),
+                source: t.clone(),
+                round,
+                armed_turn: 0,
+                available: true,
+            },
+        );
+    let c = support_cast(&c, &a, vec![t.clone()], "Psych Up");
+    assert_eq!(
+        stat(&c, &a, "Strength"),
+        0,
+        "an ordinary shield stops the copy"
+    );
+}
+#[test]
+fn completion_a48_spectral_thief_steals_increases_before_damage_and_keeps_reductions() {
+    let (mut c, a, t) = a48_setup("Spectral Thief");
+    crate::combat::extra::change_stat(&mut c, &t, &t, "Strength", 2).unwrap();
+    crate::combat::extra::change_stat(&mut c, &a, &t, "Dexterity", -1).unwrap();
+    let before = queued_pool_for(&c, &a, &t);
+    let c = ordinary_accuracy(&c, &a, &t, "Spectral Thief");
+    assert!(!q(&c).damage_done);
+    assert_eq!(stat(&c, &a, "Strength"), 2, "stolen before the damage roll");
+    assert_eq!(stat(&c, &t, "Strength"), 0);
+    assert_eq!(
+        stat(&c, &t, "Dexterity"),
+        -1,
+        "reductions stay on the target"
+    );
+    assert_eq!(queued_damage_pool(&c).dice, before + 2);
+    let c = roll(&c, "gm", &damage_command(&c), 1);
+    let c = resolve(&c);
+    assert!(c
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .queue
+        .is_empty());
+    assert_eq!(
+        stat(&c, &a, "Strength"),
+        2,
+        "the effect step does not steal twice"
+    );
+}
+fn queued_pool_for(c: &Campaign, a: &str, t: &str) -> u32 {
+    let c = ordinary_accuracy(c, a, t, "Tackle");
+    queued_damage_pool(&c).dice
+}
+#[test]
+fn completion_a48_acupressure_draws_seven_even_outcomes_and_replaces_its_previous_increase() {
+    let (c, a, _t) = setup("Acupressure");
+    let pending = a48_pending(&c, &a, vec![a.clone()], "Acupressure");
+    assert_eq!(
+        rules::dice_count(&pending, &cmd(&pending), &catalog()).unwrap(),
+        2
+    );
+    assert!(
+        a48_effect(&pending, vec![6, 6]).is_err(),
+        "double six is rerolled"
+    );
+    let strength = a48_effect(&pending, vec![1, 1]).unwrap();
+    assert_eq!(stat(&strength, &a, "Strength"), 1);
+    assert_eq!(a48_sheet(&strength, &a, "Strength"), 5);
+    let mut again = strength.clone();
+    turn(&mut again, &a, "Acupressure");
+    let again = a48_pending(&again, &a, vec![a.clone()], "Acupressure");
+    let dexterity = a48_effect(&again, vec![1, 2]).unwrap();
+    assert_eq!(
+        stat(&dexterity, &a, "Strength"),
+        0,
+        "the previous increase is removed"
+    );
+    assert_eq!(stat(&dexterity, &a, "Dexterity"), 1);
+    let accuracy = a48_effect(&pending, vec![1, 6]).unwrap();
+    assert_eq!(
+        crate::combat::interactions::trait_value(&accuracy, p(&accuracy, &a), "AccuracyPool"),
+        1
+    );
+    let evasion = a48_effect(&pending, vec![2, 1]).unwrap();
+    let base = rules::effective_sheet(&c, p(&c, &a))
+        .unwrap()
+        .skills
+        .get("Evasion")
+        .copied()
+        .unwrap_or(0);
+    assert_eq!(
+        rules::effective_sheet(&evasion, p(&evasion, &a))
+            .unwrap()
+            .skills["Evasion"],
+        base + 1
+    );
+    let defense = a48_effect(&pending, vec![1, 4]).unwrap();
+    assert_eq!(stat(&defense, &a, "Defense"), 1);
+}
+#[test]
+fn completion_a48_mystical_power_raises_the_lowest_with_owner_choice_and_six_limit() {
+    let (mut c, a, _t) = setup("Mystical Power");
+    a48_stats(
+        &mut c,
+        &a,
+        &[
+            ("Strength", 3),
+            ("Dexterity", 2),
+            ("Vitality", 2),
+            ("Special", 4),
+            ("Insight", 5),
+        ],
+    );
+    let pending = a48_pending(&c, &a, vec![a.clone()], "Mystical Power");
+    assert!(
+        a48_effect(&pending, vec![]).is_err(),
+        "a tie needs the owner's choice"
+    );
+    assert!(a48_option(&pending, &p(&c, &a).owner_id, "Strength").is_err());
+    assert!(a48_option(&pending, "intruder", "Vitality").is_err());
+    let chosen = a48_option(&pending, &p(&c, &a).owner_id, "Vitality").unwrap();
+    let done = a48_effect(&chosen, vec![]).unwrap();
+    assert_eq!(stat(&done, &a, "Vitality"), 2);
+    assert_eq!(stat(&done, &a, "Dexterity"), 0);
+
+    let (mut c, a, _t) = setup("Mystical Power");
+    a48_stats(&mut c, &a, &[("Strength", 3)]);
+    let c = support_cast(&c, &a, vec![a.clone()], "Mystical Power");
+    assert_eq!(
+        stat(&c, &a, "Strength"),
+        2,
+        "a single lowest needs no choice"
+    );
+
+    let (mut c, a, _t) = setup("Mystical Power");
+    for key in ["Strength", "Dexterity", "Vitality", "Special", "Insight"] {
+        a48_stats(&mut c, &a, &[(key, 6)]);
+    }
+    a48_stats(&mut c, &a, &[("Insight", 6)]);
+    let pending = a48_pending(&c, &a, vec![a.clone()], "Mystical Power");
+    let chosen = a48_option(&pending, &p(&c, &a).owner_id, "Strength").unwrap();
+    let done = a48_effect(&chosen, vec![]).unwrap();
+    assert_eq!(stat(&done, &a, "Strength"), 0, "a score of 6 or more fails");
+}

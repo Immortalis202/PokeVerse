@@ -1,8 +1,8 @@
 {
   "version": 1,
   "date": "2026-11-10",
-  "release": "0.90.0",
-  "engine": "0.82.0-core",
+  "release": "0.91.0",
+  "engine": "0.83.0-core",
   "scope": "892-card effect-route inventory; focused semantic review of status infliction, cure and protection clauses. M2-A through M2-E battle status clauses and MOVE-A01 damaging attribute clauses plus MOVE-A02 entry hazards delivered; see scoped registries and retained choices.",
   "limits": [
     "An executable route is not full card coverage.",
@@ -19,10 +19,10 @@
   "counts": {
     "routes": {
       "excluded": 38,
-      "executable-scope": 735,
+      "executable-scope": 747,
       "gm-choice": 1,
-      "input-required": 18,
-      "manual-effect-route": 100
+      "input-required": 19,
+      "manual-effect-route": 87
     },
     "status_clauses": {
       "excluded": 6,
@@ -407,21 +407,28 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "input-required",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A48: Thirteen stat operations. Splits and swaps replace scene base values (Strength, Dexterity, Special from the base sheet; Defense and Sp. Defense from the derived defenses), computed from current bases and rounded down for averages, until the scene ends or the combatant leaves battle; increases and reductions stay with their owner. Power Trick and Power Shift trade the user's own Strength/Defense and Special/Sp. Defense. Psych Up, Heart Swap, Topsy-Turvy and Spectral Thief act on applied move/stacking/copied changes and triggered-ability counters, not passive or field bonuses. Acupressure rolls two host dice for an unbiased draw among Strength, Dexterity, Special, Defense, Sp. Defense, Accuracy and Evasion pools (the one biased face pair is rerolled) and replaces its previous increase. Mystical Power raises the lowest of the five Attributes by 2 unless that score is already 6 or more; tied lowest Attributes require a saved owner choice. Spectral Thief steals target increases after reactions close and before damage. Ordinary Support protection, immunities and decoys apply to targeted cards.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
+          "code": "battle",
+          "message": "Acupressure rerolls a double six so all seven outcomes stay equally likely; roll the effect again",
           "result": "route_error"
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
+          "code": "battle",
+          "message": "Acupressure rerolls a double six so all seven outcomes stay equally likely; roll the effect again",
           "result": "route_error"
         }
       }
@@ -17159,22 +17166,39 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A48: Thirteen stat operations. Splits and swaps replace scene base values (Strength, Dexterity, Special from the base sheet; Defense and Sp. Defense from the derived defenses), computed from current bases and rounded down for averages, until the scene ends or the combatant leaves battle; increases and reductions stay with their owner. Power Trick and Power Shift trade the user's own Strength/Defense and Special/Sp. Defense. Psych Up, Heart Swap, Topsy-Turvy and Spectral Thief act on applied move/stacking/copied changes and triggered-ability counters, not passive or field bonuses. Acupressure rolls two host dice for an unbiased draw among Strength, Dexterity, Special, Defense, Sp. Defense, Accuracy and Evasion pools (the one biased face pair is rerolled) and replaces its previous increase. Mystical Power raises the lowest of the five Attributes by 2 unless that score is already 6 or more; tied lowest Attributes require a saved owner choice. Spectral Thief steals target increases after reactions close and before damage. Ordinary Support protection, immunities and decoys apply to targeted cards.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -17190,22 +17214,39 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A48: Thirteen stat operations. Splits and swaps replace scene base values (Strength, Dexterity, Special from the base sheet; Defense and Sp. Defense from the derived defenses), computed from current bases and rounded down for averages, until the scene ends or the combatant leaves battle; increases and reductions stay with their owner. Power Trick and Power Shift trade the user's own Strength/Defense and Special/Sp. Defense. Psych Up, Heart Swap, Topsy-Turvy and Spectral Thief act on applied move/stacking/copied changes and triggered-ability counters, not passive or field bonuses. Acupressure rolls two host dice for an unbiased draw among Strength, Dexterity, Special, Defense, Sp. Defense, Accuracy and Evasion pools (the one biased face pair is rerolled) and replaces its previous increase. Mystical Power raises the lowest of the five Attributes by 2 unless that score is already 6 or more; tied lowest Attributes require a saved owner choice. Spectral Thief steals target increases after reactions close and before damage. Ordinary Support protection, immunities and decoys apply to targeted cards.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -18306,22 +18347,39 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A48: Thirteen stat operations. Splits and swaps replace scene base values (Strength, Dexterity, Special from the base sheet; Defense and Sp. Defense from the derived defenses), computed from current bases and rounded down for averages, until the scene ends or the combatant leaves battle; increases and reductions stay with their owner. Power Trick and Power Shift trade the user's own Strength/Defense and Special/Sp. Defense. Psych Up, Heart Swap, Topsy-Turvy and Spectral Thief act on applied move/stacking/copied changes and triggered-ability counters, not passive or field bonuses. Acupressure rolls two host dice for an unbiased draw among Strength, Dexterity, Special, Defense, Sp. Defense, Accuracy and Evasion pools (the one biased face pair is rerolled) and replaces its previous increase. Mystical Power raises the lowest of the five Attributes by 2 unless that score is already 6 or more; tied lowest Attributes require a saved owner choice. Spectral Thief steals target increases after reactions close and before damage. Ordinary Support protection, immunities and decoys apply to targeted cards.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -26767,21 +26825,38 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A48: Thirteen stat operations. Splits and swaps replace scene base values (Strength, Dexterity, Special from the base sheet; Defense and Sp. Defense from the derived defenses), computed from current bases and rounded down for averages, until the scene ends or the combatant leaves battle; increases and reductions stay with their owner. Power Trick and Power Shift trade the user's own Strength/Defense and Special/Sp. Defense. Psych Up, Heart Swap, Topsy-Turvy and Spectral Thief act on applied move/stacking/copied changes and triggered-ability counters, not passive or field bonuses. Acupressure rolls two host dice for an unbiased draw among Strength, Dexterity, Special, Defense, Sp. Defense, Accuracy and Evasion pools (the one biased face pair is rerolled) and replaces its previous increase. Mystical Power raises the lowest of the five Attributes by 2 unless that score is already 6 or more; tied lowest Attributes require a saved owner choice. Spectral Thief steals target increases after reactions close and before damage. Ordinary Support protection, immunities and decoys apply to targeted cards.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
+          "code": "battle",
+          "message": "Choose which tied lowest Attribute Mystical Power raises",
           "result": "route_error"
         }
       }
@@ -29850,22 +29925,39 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A48: Thirteen stat operations. Splits and swaps replace scene base values (Strength, Dexterity, Special from the base sheet; Defense and Sp. Defense from the derived defenses), computed from current bases and rounded down for averages, until the scene ends or the combatant leaves battle; increases and reductions stay with their owner. Power Trick and Power Shift trade the user's own Strength/Defense and Special/Sp. Defense. Psych Up, Heart Swap, Topsy-Turvy and Spectral Thief act on applied move/stacking/copied changes and triggered-ability counters, not passive or field bonuses. Acupressure rolls two host dice for an unbiased draw among Strength, Dexterity, Special, Defense, Sp. Defense, Accuracy and Evasion pools (the one biased face pair is rerolled) and replaces its previous increase. Mystical Power raises the lowest of the five Attributes by 2 unless that score is already 6 or more; tied lowest Attributes require a saved owner choice. Spectral Thief steals target increases after reactions close and before damage. Ordinary Support protection, immunities and decoys apply to targeted cards.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -29892,22 +29984,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A48: Thirteen stat operations. Splits and swaps replace scene base values (Strength, Dexterity, Special from the base sheet; Defense and Sp. Defense from the derived defenses), computed from current bases and rounded down for averages, until the scene ends or the combatant leaves battle; increases and reductions stay with their owner. Power Trick and Power Shift trade the user's own Strength/Defense and Special/Sp. Defense. Psych Up, Heart Swap, Topsy-Turvy and Spectral Thief act on applied move/stacking/copied changes and triggered-ability counters, not passive or field bonuses. Acupressure rolls two host dice for an unbiased draw among Strength, Dexterity, Special, Defense, Sp. Defense, Accuracy and Evasion pools (the one biased face pair is rerolled) and replaces its previous increase. Mystical Power raises the lowest of the five Attributes by 2 unless that score is already 6 or more; tied lowest Attributes require a saved owner choice. Spectral Thief steals target increases after reactions close and before damage. Ordinary Support protection, immunities and decoys apply to targeted cards.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -29934,22 +30043,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A48: Thirteen stat operations. Splits and swaps replace scene base values (Strength, Dexterity, Special from the base sheet; Defense and Sp. Defense from the derived defenses), computed from current bases and rounded down for averages, until the scene ends or the combatant leaves battle; increases and reductions stay with their owner. Power Trick and Power Shift trade the user's own Strength/Defense and Special/Sp. Defense. Psych Up, Heart Swap, Topsy-Turvy and Spectral Thief act on applied move/stacking/copied changes and triggered-ability counters, not passive or field bonuses. Acupressure rolls two host dice for an unbiased draw among Strength, Dexterity, Special, Defense, Sp. Defense, Accuracy and Evasion pools (the one biased face pair is rerolled) and replaces its previous increase. Mystical Power raises the lowest of the five Attributes by 2 unless that score is already 6 or more; tied lowest Attributes require a saved owner choice. Spectral Thief steals target increases after reactions close and before damage. Ordinary Support protection, immunities and decoys apply to targeted cards.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -29972,22 +30098,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A48: Thirteen stat operations. Splits and swaps replace scene base values (Strength, Dexterity, Special from the base sheet; Defense and Sp. Defense from the derived defenses), computed from current bases and rounded down for averages, until the scene ends or the combatant leaves battle; increases and reductions stay with their owner. Power Trick and Power Shift trade the user's own Strength/Defense and Special/Sp. Defense. Psych Up, Heart Swap, Topsy-Turvy and Spectral Thief act on applied move/stacking/copied changes and triggered-ability counters, not passive or field bonuses. Acupressure rolls two host dice for an unbiased draw among Strength, Dexterity, Special, Defense, Sp. Defense, Accuracy and Evasion pools (the one biased face pair is rerolled) and replaces its previous increase. Mystical Power raises the lowest of the five Attributes by 2 unless that score is already 6 or more; tied lowest Attributes require a saved owner choice. Spectral Thief steals target increases after reactions close and before damage. Ordinary Support protection, immunities and decoys apply to targeted cards.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -30481,22 +30624,39 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A48: Thirteen stat operations. Splits and swaps replace scene base values (Strength, Dexterity, Special from the base sheet; Defense and Sp. Defense from the derived defenses), computed from current bases and rounded down for averages, until the scene ends or the combatant leaves battle; increases and reductions stay with their owner. Power Trick and Power Shift trade the user's own Strength/Defense and Special/Sp. Defense. Psych Up, Heart Swap, Topsy-Turvy and Spectral Thief act on applied move/stacking/copied changes and triggered-ability counters, not passive or field bonuses. Acupressure rolls two host dice for an unbiased draw among Strength, Dexterity, Special, Defense, Sp. Defense, Accuracy and Evasion pools (the one biased face pair is rerolled) and replaces its previous increase. Mystical Power raises the lowest of the five Attributes by 2 unless that score is already 6 or more; tied lowest Attributes require a saved owner choice. Spectral Thief steals target increases after reactions close and before damage. Ordinary Support protection, immunities and decoys apply to targeted cards.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -38248,22 +38408,39 @@
       },
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A48: Thirteen stat operations. Splits and swaps replace scene base values (Strength, Dexterity, Special from the base sheet; Defense and Sp. Defense from the derived defenses), computed from current bases and rounded down for averages, until the scene ends or the combatant leaves battle; increases and reductions stay with their owner. Power Trick and Power Shift trade the user's own Strength/Defense and Special/Sp. Defense. Psych Up, Heart Swap, Topsy-Turvy and Spectral Thief act on applied move/stacking/copied changes and triggered-ability counters, not passive or field bonuses. Acupressure rolls two host dice for an unbiased draw among Strength, Dexterity, Special, Defense, Sp. Defense, Accuracy and Evasion pools (the one biased face pair is rerolled) and replaces its previous increase. Mystical Power raises the lowest of the five Attributes by 2 unless that score is already 6 or more; tied lowest Attributes require a saved owner choice. Spectral Thief steals target increases after reactions close and before damage. Ordinary Support protection, immunities and decoys apply to targeted cards.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -38290,22 +38467,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A48: Thirteen stat operations. Splits and swaps replace scene base values (Strength, Dexterity, Special from the base sheet; Defense and Sp. Defense from the derived defenses), computed from current bases and rounded down for averages, until the scene ends or the combatant leaves battle; increases and reductions stay with their owner. Power Trick and Power Shift trade the user's own Strength/Defense and Special/Sp. Defense. Psych Up, Heart Swap, Topsy-Turvy and Spectral Thief act on applied move/stacking/copied changes and triggered-ability counters, not passive or field bonuses. Acupressure rolls two host dice for an unbiased draw among Strength, Dexterity, Special, Defense, Sp. Defense, Accuracy and Evasion pools (the one biased face pair is rerolled) and replaces its previous increase. Mystical Power raises the lowest of the five Attributes by 2 unless that score is already 6 or more; tied lowest Attributes require a saved owner choice. Spectral Thief steals target increases after reactions close and before damage. Ordinary Support protection, immunities and decoys apply to targeted cards.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -43533,22 +43727,39 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A48: Thirteen stat operations. Splits and swaps replace scene base values (Strength, Dexterity, Special from the base sheet; Defense and Sp. Defense from the derived defenses), computed from current bases and rounded down for averages, until the scene ends or the combatant leaves battle; increases and reductions stay with their owner. Power Trick and Power Shift trade the user's own Strength/Defense and Special/Sp. Defense. Psych Up, Heart Swap, Topsy-Turvy and Spectral Thief act on applied move/stacking/copied changes and triggered-ability counters, not passive or field bonuses. Acupressure rolls two host dice for an unbiased draw among Strength, Dexterity, Special, Defense, Sp. Defense, Accuracy and Evasion pools (the one biased face pair is rerolled) and replaces its previous increase. Mystical Power raises the lowest of the five Attributes by 2 unless that score is already 6 or more; tied lowest Attributes require a saved owner choice. Spectral Thief steals target increases after reactions close and before damage. Ordinary Support protection, immunities and decoys apply to targeted cards.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },

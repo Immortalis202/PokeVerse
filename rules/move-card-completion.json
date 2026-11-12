@@ -927,10 +927,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Acupressure.json",
       "sha256": "87d876ee564d04ca8426d8bf4cda49244447a5f8738ab4ab298cfa5fcdeb9cb9",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "input-required",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A48: Thirteen stat operations. Splits and swaps replace scene base values (Strength, Dexterity, Special from the base sheet; Defense and Sp. Defense from the derived defenses), computed from current bases and rounded down for averages, until the scene ends or the combatant leaves battle; increases and reductions stay with their owner. Power Trick and Power Shift trade the user's own Strength/Defense and Special/Sp. Defense. Psych Up, Heart Swap, Topsy-Turvy and Spectral Thief act on applied move/stacking/copied changes and triggered-ability counters, not passive or field bonuses. Acupressure rolls two host dice for an unbiased draw among Strength, Dexterity, Special, Defense, Sp. Defense, Accuracy and Evasion pools (the one biased face pair is rerolled) and replaces its previous increase. Mystical Power raises the lowest of the five Attributes by 2 unless that score is already 6 or more; tied lowest Attributes require a saved owner choice. Spectral Thief steals target increases after reactions close and before damage. Ordinary Support protection, immunities and decoys apply to targeted cards.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -940,9 +947,15 @@
           "value": "Target Self. ",
           "start": 0,
           "end": 13,
-          "status": "pending",
+          "status": "automated",
           "batch": 2,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_acupressure_draws_seven_even_outcomes_and_replaces_its_previous_increase"
+            }
+          ]
         },
         {
           "id": "effect:13-149",
@@ -950,9 +963,15 @@
           "value": "Increase by 1 one of the User's Attributes or Traits at Random (Strength, Dexterity, Special, Defense, Sp. Defense, Accuracy, Evasion). ",
           "start": 13,
           "end": 149,
-          "status": "pending",
+          "status": "automated",
           "batch": 2,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_acupressure_draws_seven_even_outcomes_and_replaces_its_previous_increase"
+            }
+          ]
         },
         {
           "id": "effect:149-220",
@@ -960,9 +979,15 @@
           "value": "If this Move is used again, the previous Attribute increase is removed.",
           "start": 149,
           "end": 220,
-          "status": "pending",
+          "status": "automated",
           "batch": 2,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_acupressure_draws_seven_even_outcomes_and_replaces_its_previous_increase"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -44669,10 +44694,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Guard Split.json",
       "sha256": "3b8d9d114b984686ef4bbe501668bf22187e41d2656e2e2e1a96715855698d23",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A48: Thirteen stat operations. Splits and swaps replace scene base values (Strength, Dexterity, Special from the base sheet; Defense and Sp. Defense from the derived defenses), computed from current bases and rounded down for averages, until the scene ends or the combatant leaves battle; increases and reductions stay with their owner. Power Trick and Power Shift trade the user's own Strength/Defense and Special/Sp. Defense. Psych Up, Heart Swap, Topsy-Turvy and Spectral Thief act on applied move/stacking/copied changes and triggered-ability counters, not passive or field bonuses. Acupressure rolls two host dice for an unbiased draw among Strength, Dexterity, Special, Defense, Sp. Defense, Accuracy and Evasion pools (the one biased face pair is rerolled) and replaces its previous increase. Mystical Power raises the lowest of the five Attributes by 2 unless that score is already 6 or more; tied lowest Attributes require a saved owner choice. Spectral Thief steals target increases after reactions close and before damage. Ordinary Support protection, immunities and decoys apply to targeted cards.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -44682,9 +44714,20 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 2,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_splits_and_swaps_replace_scene_bases_and_keep_changes"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_scene_bases_end_when_the_owner_leaves_battle_and_old_encounters_stay_manual"
+            }
+          ]
         },
         {
           "id": "effect:15-90",
@@ -44692,9 +44735,20 @@
           "value": "Average the User's Defense and Sp. Defense with the Target's, rounded down.",
           "start": 15,
           "end": 90,
-          "status": "pending",
+          "status": "automated",
           "batch": 2,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_splits_and_swaps_replace_scene_bases_and_keep_changes"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_scene_bases_end_when_the_owner_leaves_battle_and_old_encounters_stay_manual"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -44784,10 +44838,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Guard Swap.json",
       "sha256": "ac9c928f8393360c45452f12173c4b11243f7d54465da9e73e03d5d77110f5e3",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A48: Thirteen stat operations. Splits and swaps replace scene base values (Strength, Dexterity, Special from the base sheet; Defense and Sp. Defense from the derived defenses), computed from current bases and rounded down for averages, until the scene ends or the combatant leaves battle; increases and reductions stay with their owner. Power Trick and Power Shift trade the user's own Strength/Defense and Special/Sp. Defense. Psych Up, Heart Swap, Topsy-Turvy and Spectral Thief act on applied move/stacking/copied changes and triggered-ability counters, not passive or field bonuses. Acupressure rolls two host dice for an unbiased draw among Strength, Dexterity, Special, Defense, Sp. Defense, Accuracy and Evasion pools (the one biased face pair is rerolled) and replaces its previous increase. Mystical Power raises the lowest of the five Attributes by 2 unless that score is already 6 or more; tied lowest Attributes require a saved owner choice. Spectral Thief steals target increases after reactions close and before damage. Ordinary Support protection, immunities and decoys apply to targeted cards.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -44797,9 +44858,20 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 2,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_splits_and_swaps_replace_scene_bases_and_keep_changes"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_scene_bases_end_when_the_owner_leaves_battle_and_old_encounters_stay_manual"
+            }
+          ]
         },
         {
           "id": "effect:15-37",
@@ -44807,9 +44879,20 @@
           "value": "Whole Scene Duration. ",
           "start": 15,
           "end": 37,
-          "status": "pending",
+          "status": "automated",
           "batch": 2,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_splits_and_swaps_replace_scene_bases_and_keep_changes"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_scene_bases_end_when_the_owner_leaves_battle_and_old_encounters_stay_manual"
+            }
+          ]
         },
         {
           "id": "effect:37-97",
@@ -44817,9 +44900,20 @@
           "value": "Switch the User's Defense and Sp. Defense with the Target's.",
           "start": 37,
           "end": 97,
-          "status": "pending",
+          "status": "automated",
           "batch": 2,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_splits_and_swaps_replace_scene_bases_and_keep_changes"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_scene_bases_end_when_the_owner_leaves_battle_and_old_encounters_stay_manual"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -47548,10 +47642,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Heart Swap.json",
       "sha256": "df5cb06392f45aa9856c875261464fca63e96c1e3afb7b527d1a53fa1ec3ea4f",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A48: Thirteen stat operations. Splits and swaps replace scene base values (Strength, Dexterity, Special from the base sheet; Defense and Sp. Defense from the derived defenses), computed from current bases and rounded down for averages, until the scene ends or the combatant leaves battle; increases and reductions stay with their owner. Power Trick and Power Shift trade the user's own Strength/Defense and Special/Sp. Defense. Psych Up, Heart Swap, Topsy-Turvy and Spectral Thief act on applied move/stacking/copied changes and triggered-ability counters, not passive or field bonuses. Acupressure rolls two host dice for an unbiased draw among Strength, Dexterity, Special, Defense, Sp. Defense, Accuracy and Evasion pools (the one biased face pair is rerolled) and replaces its previous increase. Mystical Power raises the lowest of the five Attributes by 2 unless that score is already 6 or more; tied lowest Attributes require a saved owner choice. Spectral Thief steals target increases after reactions close and before damage. Ordinary Support protection, immunities and decoys apply to targeted cards.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -47561,9 +47662,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 2,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_psych_up_heart_swap_and_topsy_turvy_move_only_applied_changes"
+            }
+          ]
         },
         {
           "id": "effect:15-105",
@@ -47571,9 +47678,15 @@
           "value": "Switch the User's Trait and Attribute Increases and Reductions with those on the Target's.",
           "start": 15,
           "end": 105,
-          "status": "pending",
+          "status": "automated",
           "batch": 2,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_psych_up_heart_swap_and_topsy_turvy_move_only_applied_changes"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -71116,10 +71229,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Mystical Power.json",
       "sha256": "8d99aaba9768f959e064913125283818fe156b595536b4ea7cacc6f3c2710dc9",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A48: Thirteen stat operations. Splits and swaps replace scene base values (Strength, Dexterity, Special from the base sheet; Defense and Sp. Defense from the derived defenses), computed from current bases and rounded down for averages, until the scene ends or the combatant leaves battle; increases and reductions stay with their owner. Power Trick and Power Shift trade the user's own Strength/Defense and Special/Sp. Defense. Psych Up, Heart Swap, Topsy-Turvy and Spectral Thief act on applied move/stacking/copied changes and triggered-ability counters, not passive or field bonuses. Acupressure rolls two host dice for an unbiased draw among Strength, Dexterity, Special, Defense, Sp. Defense, Accuracy and Evasion pools (the one biased face pair is rerolled) and replaces its previous increase. Mystical Power raises the lowest of the five Attributes by 2 unless that score is already 6 or more; tied lowest Attributes require a saved owner choice. Spectral Thief steals target increases after reactions close and before damage. Ordinary Support protection, immunities and decoys apply to targeted cards.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -71129,9 +71249,15 @@
           "value": "Target Self. ",
           "start": 0,
           "end": 13,
-          "status": "pending",
+          "status": "automated",
           "batch": 2,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_mystical_power_raises_the_lowest_with_owner_choice_and_six_limit"
+            }
+          ]
         },
         {
           "id": "effect:13-62",
@@ -71139,9 +71265,15 @@
           "value": "Increase by 2 the User's lowest Attribute/Trait. ",
           "start": 13,
           "end": 62,
-          "status": "pending",
+          "status": "automated",
           "batch": 2,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_mystical_power_raises_the_lowest_with_owner_choice_and_six_limit"
+            }
+          ]
         },
         {
           "id": "effect:62-123",
@@ -71149,9 +71281,15 @@
           "value": "If an Attribute/Trait Score is 6 or More, this effect fails. ",
           "start": 62,
           "end": 123,
-          "status": "pending",
+          "status": "automated",
           "batch": 2,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_mystical_power_raises_the_lowest_with_owner_choice_and_six_limit"
+            }
+          ]
         },
         {
           "id": "effect:123-177",
@@ -71159,9 +71297,15 @@
           "value": "Different Attributes/Traits may be increased this way.",
           "start": 123,
           "end": 177,
-          "status": "pending",
+          "status": "automated",
           "batch": 2,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_mystical_power_raises_the_lowest_with_owner_choice_and_six_limit"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -79092,10 +79236,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Power Shift.json",
       "sha256": "c01981e909b46e0b552f5c45cc35f673c205e0a893ae8a063ea4a03be22cd685",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A48: Thirteen stat operations. Splits and swaps replace scene base values (Strength, Dexterity, Special from the base sheet; Defense and Sp. Defense from the derived defenses), computed from current bases and rounded down for averages, until the scene ends or the combatant leaves battle; increases and reductions stay with their owner. Power Trick and Power Shift trade the user's own Strength/Defense and Special/Sp. Defense. Psych Up, Heart Swap, Topsy-Turvy and Spectral Thief act on applied move/stacking/copied changes and triggered-ability counters, not passive or field bonuses. Acupressure rolls two host dice for an unbiased draw among Strength, Dexterity, Special, Defense, Sp. Defense, Accuracy and Evasion pools (the one biased face pair is rerolled) and replaces its previous increase. Mystical Power raises the lowest of the five Attributes by 2 unless that score is already 6 or more; tied lowest Attributes require a saved owner choice. Spectral Thief steals target increases after reactions close and before damage. Ordinary Support protection, immunities and decoys apply to targeted cards.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -79105,9 +79256,20 @@
           "value": "Target Self. ",
           "start": 0,
           "end": 13,
-          "status": "pending",
+          "status": "automated",
           "batch": 2,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_splits_and_swaps_replace_scene_bases_and_keep_changes"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_scene_bases_end_when_the_owner_leaves_battle_and_old_encounters_stay_manual"
+            }
+          ]
         },
         {
           "id": "effect:13-94",
@@ -79115,9 +79277,20 @@
           "value": "Switch the User's Strength with its Defense and its Special with its Sp. Defense.",
           "start": 13,
           "end": 94,
-          "status": "pending",
+          "status": "automated",
           "batch": 2,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_splits_and_swaps_replace_scene_bases_and_keep_changes"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_scene_bases_end_when_the_owner_leaves_battle_and_old_encounters_stay_manual"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -79207,10 +79380,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Power Split.json",
       "sha256": "6e8444718ec0f612c307df33a6e273d8547f8c0473e7f09cc389bc114020101b",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A48: Thirteen stat operations. Splits and swaps replace scene base values (Strength, Dexterity, Special from the base sheet; Defense and Sp. Defense from the derived defenses), computed from current bases and rounded down for averages, until the scene ends or the combatant leaves battle; increases and reductions stay with their owner. Power Trick and Power Shift trade the user's own Strength/Defense and Special/Sp. Defense. Psych Up, Heart Swap, Topsy-Turvy and Spectral Thief act on applied move/stacking/copied changes and triggered-ability counters, not passive or field bonuses. Acupressure rolls two host dice for an unbiased draw among Strength, Dexterity, Special, Defense, Sp. Defense, Accuracy and Evasion pools (the one biased face pair is rerolled) and replaces its previous increase. Mystical Power raises the lowest of the five Attributes by 2 unless that score is already 6 or more; tied lowest Attributes require a saved owner choice. Spectral Thief steals target increases after reactions close and before damage. Ordinary Support protection, immunities and decoys apply to targeted cards.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -79220,9 +79400,20 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 2,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_splits_and_swaps_replace_scene_bases_and_keep_changes"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_scene_bases_end_when_the_owner_leaves_battle_and_old_encounters_stay_manual"
+            }
+          ]
         },
         {
           "id": "effect:15-87",
@@ -79230,9 +79421,20 @@
           "value": "Average the User's Strength and Special with the Target's, rounded down.",
           "start": 15,
           "end": 87,
-          "status": "pending",
+          "status": "automated",
           "batch": 2,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_splits_and_swaps_replace_scene_bases_and_keep_changes"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_scene_bases_end_when_the_owner_leaves_battle_and_old_encounters_stay_manual"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -79333,10 +79535,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Power Swap.json",
       "sha256": "4b280c60113816fcd03be3ba96fb83a55e5167426b1ecb2007baea06b85465d4",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A48: Thirteen stat operations. Splits and swaps replace scene base values (Strength, Dexterity, Special from the base sheet; Defense and Sp. Defense from the derived defenses), computed from current bases and rounded down for averages, until the scene ends or the combatant leaves battle; increases and reductions stay with their owner. Power Trick and Power Shift trade the user's own Strength/Defense and Special/Sp. Defense. Psych Up, Heart Swap, Topsy-Turvy and Spectral Thief act on applied move/stacking/copied changes and triggered-ability counters, not passive or field bonuses. Acupressure rolls two host dice for an unbiased draw among Strength, Dexterity, Special, Defense, Sp. Defense, Accuracy and Evasion pools (the one biased face pair is rerolled) and replaces its previous increase. Mystical Power raises the lowest of the five Attributes by 2 unless that score is already 6 or more; tied lowest Attributes require a saved owner choice. Spectral Thief steals target increases after reactions close and before damage. Ordinary Support protection, immunities and decoys apply to targeted cards.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -79346,9 +79555,20 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 2,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_splits_and_swaps_replace_scene_bases_and_keep_changes"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_scene_bases_end_when_the_owner_leaves_battle_and_old_encounters_stay_manual"
+            }
+          ]
         },
         {
           "id": "effect:15-37",
@@ -79356,9 +79576,20 @@
           "value": "Whole Scene Duration. ",
           "start": 15,
           "end": 37,
-          "status": "pending",
+          "status": "automated",
           "batch": 2,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_splits_and_swaps_replace_scene_bases_and_keep_changes"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_scene_bases_end_when_the_owner_leaves_battle_and_old_encounters_stay_manual"
+            }
+          ]
         },
         {
           "id": "effect:37-94",
@@ -79366,9 +79597,20 @@
           "value": "Switch the User's Strength and Special with the Target's.",
           "start": 37,
           "end": 94,
-          "status": "pending",
+          "status": "automated",
           "batch": 2,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_splits_and_swaps_replace_scene_bases_and_keep_changes"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_scene_bases_end_when_the_owner_leaves_battle_and_old_encounters_stay_manual"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -79469,10 +79711,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Power Trick.json",
       "sha256": "effcc5fb15d9542536c30aa3237f1eeba96b3444f11255fec7c634bba1060788",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A48: Thirteen stat operations. Splits and swaps replace scene base values (Strength, Dexterity, Special from the base sheet; Defense and Sp. Defense from the derived defenses), computed from current bases and rounded down for averages, until the scene ends or the combatant leaves battle; increases and reductions stay with their owner. Power Trick and Power Shift trade the user's own Strength/Defense and Special/Sp. Defense. Psych Up, Heart Swap, Topsy-Turvy and Spectral Thief act on applied move/stacking/copied changes and triggered-ability counters, not passive or field bonuses. Acupressure rolls two host dice for an unbiased draw among Strength, Dexterity, Special, Defense, Sp. Defense, Accuracy and Evasion pools (the one biased face pair is rerolled) and replaces its previous increase. Mystical Power raises the lowest of the five Attributes by 2 unless that score is already 6 or more; tied lowest Attributes require a saved owner choice. Spectral Thief steals target increases after reactions close and before damage. Ordinary Support protection, immunities and decoys apply to targeted cards.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -79482,9 +79731,20 @@
           "value": "Target Self. ",
           "start": 0,
           "end": 13,
-          "status": "pending",
+          "status": "automated",
           "batch": 2,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_splits_and_swaps_replace_scene_bases_and_keep_changes"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_scene_bases_end_when_the_owner_leaves_battle_and_old_encounters_stay_manual"
+            }
+          ]
         },
         {
           "id": "effect:13-94",
@@ -79492,9 +79752,20 @@
           "value": "Switch the User's Strength with their Defense and Special with their Sp. Defense.",
           "start": 13,
           "end": 94,
-          "status": "pending",
+          "status": "automated",
           "batch": 2,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_splits_and_swaps_replace_scene_bases_and_keep_changes"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_scene_bases_end_when_the_owner_leaves_battle_and_old_encounters_stay_manual"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -80877,10 +81148,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Psych Up.json",
       "sha256": "ff4c56bef6925969b6cd3791455db8043cd4c62548e20afaa4f81c3bfff0da25",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A48: Thirteen stat operations. Splits and swaps replace scene base values (Strength, Dexterity, Special from the base sheet; Defense and Sp. Defense from the derived defenses), computed from current bases and rounded down for averages, until the scene ends or the combatant leaves battle; increases and reductions stay with their owner. Power Trick and Power Shift trade the user's own Strength/Defense and Special/Sp. Defense. Psych Up, Heart Swap, Topsy-Turvy and Spectral Thief act on applied move/stacking/copied changes and triggered-ability counters, not passive or field bonuses. Acupressure rolls two host dice for an unbiased draw among Strength, Dexterity, Special, Defense, Sp. Defense, Accuracy and Evasion pools (the one biased face pair is rerolled) and replaces its previous increase. Mystical Power raises the lowest of the five Attributes by 2 unless that score is already 6 or more; tied lowest Attributes require a saved owner choice. Spectral Thief steals target increases after reactions close and before damage. Ordinary Support protection, immunities and decoys apply to targeted cards.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -80890,9 +81168,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 2,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_psych_up_heart_swap_and_topsy_turvy_move_only_applied_changes"
+            }
+          ]
         },
         {
           "id": "effect:15-94",
@@ -80900,9 +81184,15 @@
           "value": "The User gets the same Attribute/Trait Increases and Reductions the Target has.",
           "start": 15,
           "end": 94,
-          "status": "pending",
+          "status": "automated",
           "batch": 2,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_psych_up_heart_swap_and_topsy_turvy_move_only_applied_changes"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -101396,10 +101686,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Spectral Thief.json",
       "sha256": "799bdd5f5fed7ff24066163fb374ba01cf427441bafff98e3257718a41d64f52",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A48: Thirteen stat operations. Splits and swaps replace scene base values (Strength, Dexterity, Special from the base sheet; Defense and Sp. Defense from the derived defenses), computed from current bases and rounded down for averages, until the scene ends or the combatant leaves battle; increases and reductions stay with their owner. Power Trick and Power Shift trade the user's own Strength/Defense and Special/Sp. Defense. Psych Up, Heart Swap, Topsy-Turvy and Spectral Thief act on applied move/stacking/copied changes and triggered-ability counters, not passive or field bonuses. Acupressure rolls two host dice for an unbiased draw among Strength, Dexterity, Special, Defense, Sp. Defense, Accuracy and Evasion pools (the one biased face pair is rerolled) and replaces its previous increase. Mystical Power raises the lowest of the five Attributes by 2 unless that score is already 6 or more; tied lowest Attributes require a saved owner choice. Spectral Thief steals target increases after reactions close and before damage. Ordinary Support protection, immunities and decoys apply to targeted cards.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -101409,9 +101706,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 2,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_spectral_thief_steals_increases_before_damage_and_keeps_reductions"
+            }
+          ]
         },
         {
           "id": "effect:15-23",
@@ -101429,9 +101732,15 @@
           "value": "Before the User deals damage with this Move, steal all Attribute Increases the Target may have. ",
           "start": 23,
           "end": 119,
-          "status": "pending",
+          "status": "automated",
           "batch": 2,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_spectral_thief_steals_increases_before_damage_and_keeps_reductions"
+            }
+          ]
         },
         {
           "id": "effect:119-159",
@@ -101439,9 +101748,15 @@
           "value": "Reduced Attributes on the Target remain.",
           "start": 119,
           "end": 159,
-          "status": "pending",
+          "status": "automated",
           "batch": 2,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_spectral_thief_steals_increases_before_damage_and_keeps_reductions"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -101533,10 +101848,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Speed Swap.json",
       "sha256": "ae9f265f5bd4953a87127fef01f7f0ae008d917eda77c477b0eefe3b556f989f",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A48: Thirteen stat operations. Splits and swaps replace scene base values (Strength, Dexterity, Special from the base sheet; Defense and Sp. Defense from the derived defenses), computed from current bases and rounded down for averages, until the scene ends or the combatant leaves battle; increases and reductions stay with their owner. Power Trick and Power Shift trade the user's own Strength/Defense and Special/Sp. Defense. Psych Up, Heart Swap, Topsy-Turvy and Spectral Thief act on applied move/stacking/copied changes and triggered-ability counters, not passive or field bonuses. Acupressure rolls two host dice for an unbiased draw among Strength, Dexterity, Special, Defense, Sp. Defense, Accuracy and Evasion pools (the one biased face pair is rerolled) and replaces its previous increase. Mystical Power raises the lowest of the five Attributes by 2 unless that score is already 6 or more; tied lowest Attributes require a saved owner choice. Spectral Thief steals target increases after reactions close and before damage. Ordinary Support protection, immunities and decoys apply to targeted cards.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -101546,9 +101868,20 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 2,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_splits_and_swaps_replace_scene_bases_and_keep_changes"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_scene_bases_end_when_the_owner_leaves_battle_and_old_encounters_stay_manual"
+            }
+          ]
         },
         {
           "id": "effect:15-61",
@@ -101556,9 +101889,20 @@
           "value": "Switch the User's Dexterity with the Target's.",
           "start": 15,
           "end": 61,
-          "status": "pending",
+          "status": "automated",
           "batch": 2,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_splits_and_swaps_replace_scene_bases_and_keep_changes"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_scene_bases_end_when_the_owner_leaves_battle_and_old_encounters_stay_manual"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -115590,10 +115934,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Topsy-Turvy.json",
       "sha256": "e96a400379e7a2e493f753ddc170ad6f3773eb22a4bec1816bf988dca8a01702",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A48: Thirteen stat operations. Splits and swaps replace scene base values (Strength, Dexterity, Special from the base sheet; Defense and Sp. Defense from the derived defenses), computed from current bases and rounded down for averages, until the scene ends or the combatant leaves battle; increases and reductions stay with their owner. Power Trick and Power Shift trade the user's own Strength/Defense and Special/Sp. Defense. Psych Up, Heart Swap, Topsy-Turvy and Spectral Thief act on applied move/stacking/copied changes and triggered-ability counters, not passive or field bonuses. Acupressure rolls two host dice for an unbiased draw among Strength, Dexterity, Special, Defense, Sp. Defense, Accuracy and Evasion pools (the one biased face pair is rerolled) and replaces its previous increase. Mystical Power raises the lowest of the five Attributes by 2 unless that score is already 6 or more; tied lowest Attributes require a saved owner choice. Spectral Thief steals target increases after reactions close and before damage. Ordinary Support protection, immunities and decoys apply to targeted cards.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -115603,9 +115954,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 2,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_psych_up_heart_swap_and_topsy_turvy_move_only_applied_changes"
+            }
+          ]
         },
         {
           "id": "effect:15-91",
@@ -115613,9 +115970,15 @@
           "value": "Increased Attributes on the Target become Reductions instead and vice versa.",
           "start": 15,
           "end": 91,
-          "status": "pending",
+          "status": "automated",
           "batch": 2,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a48",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a48_psych_up_heart_swap_and_topsy_turvy_move_only_applied_changes"
+            }
+          ]
         },
         {
           "id": "metadata:Type",

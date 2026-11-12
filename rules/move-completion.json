@@ -1918,6 +1918,133 @@
           "force_field": true
         }
       }
+    },
+    "MOVE-A48": {
+      "engine": "0.83.0-core",
+      "kind": "stat-op",
+      "scope": "Thirteen stat operations. Splits and swaps replace scene base values (Strength, Dexterity, Special from the base sheet; Defense and Sp. Defense from the derived defenses), computed from current bases and rounded down for averages, until the scene ends or the combatant leaves battle; increases and reductions stay with their owner. Power Trick and Power Shift trade the user's own Strength/Defense and Special/Sp. Defense. Psych Up, Heart Swap, Topsy-Turvy and Spectral Thief act on applied move/stacking/copied changes and triggered-ability counters, not passive or field bonuses. Acupressure rolls two host dice for an unbiased draw among Strength, Dexterity, Special, Defense, Sp. Defense, Accuracy and Evasion pools (the one biased face pair is rerolled) and replaces its previous increase. Mystical Power raises the lowest of the five Attributes by 2 unless that score is already 6 or more; tied lowest Attributes require a saved owner choice. Spectral Thief steals target increases after reactions close and before damage. Ordinary Support protection, immunities and decoys apply to targeted cards.",
+      "moves": {
+        "Acupressure": {
+          "source": "Pokerole-Data/v3.0/Moves/Acupressure.json",
+          "sha256": "87d876ee564d04ca8426d8bf4cda49244447a5f8738ab4ab298cfa5fcdeb9cb9",
+          "effect": "Target Self. Increase by 1 one of the User's Attributes or Traits at Random (Strength, Dexterity, Special, Defense, Sp. Defense, Accuracy, Evasion). If this Move is used again, the previous Attribute increase is removed.",
+          "op": "acupressure",
+          "requires_input": true
+        },
+        "Mystical Power": {
+          "source": "Pokerole-Data/v3.0/Moves/Mystical Power.json",
+          "sha256": "8d99aaba9768f959e064913125283818fe156b595536b4ea7cacc6f3c2710dc9",
+          "effect": "Target Self. Increase by 2 the User's lowest Attribute/Trait. If an Attribute/Trait Score is 6 or More, this effect fails. Different Attributes/Traits may be increased this way.",
+          "op": "lowest",
+          "amount": 2,
+          "limit": 6
+        },
+        "Guard Split": {
+          "source": "Pokerole-Data/v3.0/Moves/Guard Split.json",
+          "sha256": "3b8d9d114b984686ef4bbe501668bf22187e41d2656e2e2e1a96715855698d23",
+          "effect": "Single Target. Average the User's Defense and Sp. Defense with the Target's, rounded down.",
+          "op": "split",
+          "keys": [
+            "Defense",
+            "SpecialDefense"
+          ]
+        },
+        "Power Split": {
+          "source": "Pokerole-Data/v3.0/Moves/Power Split.json",
+          "sha256": "6e8444718ec0f612c307df33a6e273d8547f8c0473e7f09cc389bc114020101b",
+          "effect": "Single Target. Average the User's Strength and Special with the Target's, rounded down.",
+          "op": "split",
+          "keys": [
+            "Strength",
+            "Special"
+          ]
+        },
+        "Guard Swap": {
+          "source": "Pokerole-Data/v3.0/Moves/Guard Swap.json",
+          "sha256": "ac9c928f8393360c45452f12173c4b11243f7d54465da9e73e03d5d77110f5e3",
+          "effect": "Single Target. Whole Scene Duration. Switch the User's Defense and Sp. Defense with the Target's.",
+          "op": "swap",
+          "keys": [
+            "Defense",
+            "SpecialDefense"
+          ]
+        },
+        "Power Swap": {
+          "source": "Pokerole-Data/v3.0/Moves/Power Swap.json",
+          "sha256": "4b280c60113816fcd03be3ba96fb83a55e5167426b1ecb2007baea06b85465d4",
+          "effect": "Single Target. Whole Scene Duration. Switch the User's Strength and Special with the Target's.",
+          "op": "swap",
+          "keys": [
+            "Strength",
+            "Special"
+          ]
+        },
+        "Speed Swap": {
+          "source": "Pokerole-Data/v3.0/Moves/Speed Swap.json",
+          "sha256": "ae9f265f5bd4953a87127fef01f7f0ae008d917eda77c477b0eefe3b556f989f",
+          "effect": "Single Target. Switch the User's Dexterity with the Target's.",
+          "op": "swap",
+          "keys": [
+            "Dexterity"
+          ]
+        },
+        "Power Trick": {
+          "source": "Pokerole-Data/v3.0/Moves/Power Trick.json",
+          "sha256": "effcc5fb15d9542536c30aa3237f1eeba96b3444f11255fec7c634bba1060788",
+          "effect": "Target Self. Switch the User's Strength with their Defense and Special with their Sp. Defense.",
+          "op": "trade",
+          "pairs": [
+            [
+              "Strength",
+              "Defense"
+            ],
+            [
+              "Special",
+              "SpecialDefense"
+            ]
+          ]
+        },
+        "Power Shift": {
+          "source": "Pokerole-Data/v3.0/Moves/Power Shift.json",
+          "sha256": "c01981e909b46e0b552f5c45cc35f673c205e0a893ae8a063ea4a03be22cd685",
+          "effect": "Target Self. Switch the User's Strength with its Defense and its Special with its Sp. Defense.",
+          "op": "trade",
+          "pairs": [
+            [
+              "Strength",
+              "Defense"
+            ],
+            [
+              "Special",
+              "SpecialDefense"
+            ]
+          ]
+        },
+        "Psych Up": {
+          "source": "Pokerole-Data/v3.0/Moves/Psych Up.json",
+          "sha256": "ff4c56bef6925969b6cd3791455db8043cd4c62548e20afaa4f81c3bfff0da25",
+          "effect": "Single Target. The User gets the same Attribute/Trait Increases and Reductions the Target has.",
+          "op": "copy"
+        },
+        "Heart Swap": {
+          "source": "Pokerole-Data/v3.0/Moves/Heart Swap.json",
+          "sha256": "df5cb06392f45aa9856c875261464fca63e96c1e3afb7b527d1a53fa1ec3ea4f",
+          "effect": "Single Target. Switch the User's Trait and Attribute Increases and Reductions with those on the Target's.",
+          "op": "exchange"
+        },
+        "Topsy-Turvy": {
+          "source": "Pokerole-Data/v3.0/Moves/Topsy-Turvy.json",
+          "sha256": "e96a400379e7a2e493f753ddc170ad6f3773eb22a4bec1816bf988dca8a01702",
+          "effect": "Single Target. Increased Attributes on the Target become Reductions instead and vice versa.",
+          "op": "invert"
+        },
+        "Spectral Thief": {
+          "source": "Pokerole-Data/v3.0/Moves/Spectral Thief.json",
+          "sha256": "799bdd5f5fed7ff24066163fb374ba01cf427441bafff98e3257718a41d64f52",
+          "effect": "Single Target. Unique. Before the User deals damage with this Move, steal all Attribute Increases the Target may have. Reduced Attributes on the Target remain.",
+          "op": "steal"
+        }
+      }
     }
   },
   "printed_review": {
