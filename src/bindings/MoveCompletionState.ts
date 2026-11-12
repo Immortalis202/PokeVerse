@@ -10,6 +10,7 @@ import type { JudgmentProfile } from "./JudgmentProfile";
 import type { LoggedMove } from "./LoggedMove";
 import type { MetronomeDraw } from "./MetronomeDraw";
 import type { MetronomeTable } from "./MetronomeTable";
+import type { MoneyAward } from "./MoneyAward";
 
 export type MoveCompletionState = {
   judgment_prepared: { [key in string]?: JudgmentProfile };
@@ -134,6 +135,14 @@ export type MoveCompletionState = {
    * Embargoed combatants: no items may be used on them this scene.
    */
   embargoed: Array<string>;
+  /**
+   * Memento reductions that persist across switching, by target.
+   */
+  memento: { [key in string]?: Array<string> };
+  /**
+   * Pay Day / Make It Rain money owed at battle end.
+   */
+  money: Array<MoneyAward>;
   blocks: Array<string>;
   uses: Array<CompletionMoveUse>;
   entered: { [key in string]?: number };

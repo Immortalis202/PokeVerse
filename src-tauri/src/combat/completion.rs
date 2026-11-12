@@ -71,6 +71,10 @@ pub struct MoveCompletionState {
     pub powder_due: BTreeMap<String, u32>,
     /// Embargoed combatants: no items may be used on them this scene.
     pub embargoed: BTreeSet<String>,
+    /// Memento reductions that persist across switching, by target.
+    pub memento: BTreeMap<String, Vec<String>>,
+    /// Pay Day / Make It Rain money owed at battle end.
+    pub money: Vec<scene_ops::MoneyAward>,
     pub blocks: BTreeSet<String>,
     pub uses: Vec<CompletionMoveUse>,
     pub entered: BTreeMap<String, u32>,
@@ -160,6 +164,7 @@ pub fn effect_dice(c: &Campaign, q: &QueuedAction) -> Result<Option<u32>> {
         .or_else(|| type_ops::effect_dice(c, q))
         .or_else(|| damage_ops::effect_dice(c, q))
         .or_else(|| trigger_ops::effect_dice(c, q))
+        .or_else(|| scene_ops::effect_dice(c, q))
     {
         return Ok(Some(n));
     }
@@ -174,6 +179,7 @@ pub fn options(c: &Campaign, q: &QueuedAction) -> Result<Vec<String>> {
     options.extend(type_ops::options(c, q)?);
     options.extend(damage_ops::options(c, q)?);
     options.extend(trigger_ops::options(c, q)?);
+    options.extend(scene_ops::options(c, q)?);
     Ok(options)
 }
 pub(super) fn immune_target(c: &Campaign, q: &QueuedAction, cat: &Catalog) -> Result<bool> {
@@ -484,6 +490,9 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
         }
         "item-op" => {
             item_ops::effect(c, q, cat)?;
+        }
+        "scene-op" => {
+            scene_ops::effect(c, q, _dice, cat)?;
         }
         "stat" => {
             return damaging_stats::effect(c, q, _dice, cat);
@@ -974,6 +983,7 @@ pub fn physical_defense(c: &Campaign, m: &serde_json::Value) -> bool {
 pub fn move_data(c: &Campaign, p: &Combatant, m: &mut serde_json::Value) {
     damage_ops::move_data(c, p, m);
     initiative_ops::move_data(c, p, m);
+    scene_ops::move_data(c, p, m);
     if ["Physical", "Special"].contains(&m["Category"].as_str().unwrap_or(""))
         && self_support(c, p, "Dragon Cheer")
     {
@@ -1091,6 +1101,7 @@ pub fn stack_values(c: &Campaign, p: &Combatant, key: &str) -> Vec<i32> {
                     "Simple" => 2 * e.amount,
                     _ => e.amount,
                 })
+                .chain(scene_ops::memento_values(c, &p.id, key))
                 .collect()
         },
     )

@@ -34,6 +34,7 @@ pub(crate) mod judgment;
 pub(crate) mod provenance;
 pub(crate) mod recurring;
 pub(crate) mod reviewed;
+pub(crate) mod scene_ops;
 pub(crate) mod sequencing;
 pub(crate) mod special;
 pub(crate) mod standalone;
@@ -1197,6 +1198,7 @@ pub fn transition(
     if let Some(setup) = field::start_setup(a) {
         if ![
             ENGINE,
+            ITEM_OPS_ENGINE,
             FIELD_OPS_ENGINE,
             TRIGGER_OPS_ENGINE,
             DELAYED_OPS_ENGINE,
@@ -1277,6 +1279,7 @@ pub fn transition(
             setup,
             [
                 ENGINE,
+                ITEM_OPS_ENGINE,
                 FIELD_OPS_ENGINE,
                 TRIGGER_OPS_ENGINE,
                 DELAYED_OPS_ENGINE,
@@ -1345,7 +1348,16 @@ pub fn transition(
     if matches!(a, Action::EndBattle) && forms::enabled(c) {
         forms::before_end(input.to_mut())?;
     }
+    let money = if matches!(a, Action::EndBattle) {
+        scene_ops::end_log(c)
+    } else {
+        None
+    };
     let (mut next, log) = sequencing::transition(&input, actor, a, dice, cat)?;
+    let log = match money {
+        Some(money) => format!("{log} {money}"),
+        None => log,
+    };
     if !matches!(a, Action::RollbackBattle { .. }) {
         provenance::tag_actions(c, &mut next, cat)?;
     }
@@ -2266,6 +2278,7 @@ fn transition_inner(
             provenance::tag_actions(c, &mut next, cat)?;
             special::after_accuracy(&mut next, combatant_id, &m, net >= required as i32, cat)?;
             condition_ops::accuracy(&mut next, combatant_id, move_name, net >= required as i32)?;
+            scene_ops::accuracy(&mut next, combatant_id, move_name, net >= required as i32)?;
             items::commit_item_move(c, &mut next, combatant_id, move_name, c.revision + 1, cat)?;
             format!("{move_name}: host dice {dice:?}, {net} successes, requires {required}. {r}")
         }
@@ -3429,6 +3442,7 @@ fn transition_inner(
                 b.flow = Some(TurnFlow {
                     identity_moves: [
                         ENGINE,
+                        ITEM_OPS_ENGINE,
                         FIELD_OPS_ENGINE,
                         TRIGGER_OPS_ENGINE,
                         DELAYED_OPS_ENGINE,
@@ -3499,6 +3513,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     status_escalation: [
                         ENGINE,
+                        ITEM_OPS_ENGINE,
                         FIELD_OPS_ENGINE,
                         TRIGGER_OPS_ENGINE,
                         DELAYED_OPS_ENGINE,
@@ -3568,6 +3583,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     spite: [
                         ENGINE,
+                        ITEM_OPS_ENGINE,
                         FIELD_OPS_ENGINE,
                         TRIGGER_OPS_ENGINE,
                         DELAYED_OPS_ENGINE,
@@ -3636,6 +3652,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     will_drains: [
                         ENGINE,
+                        ITEM_OPS_ENGINE,
                         FIELD_OPS_ENGINE,
                         TRIGGER_OPS_ENGINE,
                         DELAYED_OPS_ENGINE,
@@ -3703,6 +3720,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     direct_status: [
                         ENGINE,
+                        ITEM_OPS_ENGINE,
                         FIELD_OPS_ENGINE,
                         TRIGGER_OPS_ENGINE,
                         DELAYED_OPS_ENGINE,
@@ -3769,6 +3787,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     chance_status: [
                         ENGINE,
+                        ITEM_OPS_ENGINE,
                         FIELD_OPS_ENGINE,
                         TRIGGER_OPS_ENGINE,
                         DELAYED_OPS_ENGINE,
@@ -3834,6 +3853,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     battlefield_review: [
                         ENGINE,
+                        ITEM_OPS_ENGINE,
                         FIELD_OPS_ENGINE,
                         TRIGGER_OPS_ENGINE,
                         DELAYED_OPS_ENGINE,
@@ -3895,6 +3915,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     entry_hazards: [
                         ENGINE,
+                        ITEM_OPS_ENGINE,
                         FIELD_OPS_ENGINE,
                         TRIGGER_OPS_ENGINE,
                         DELAYED_OPS_ENGINE,
@@ -3956,6 +3977,7 @@ fn transition_inner(
                     damaging_stats: Box::new(damaging_stats::StatMoveState {
                         enabled: [
                             ENGINE,
+                            ITEM_OPS_ENGINE,
                             FIELD_OPS_ENGINE,
                             TRIGGER_OPS_ENGINE,
                             DELAYED_OPS_ENGINE,
@@ -4018,6 +4040,7 @@ fn transition_inner(
                     }),
                     cure_protection: [
                         ENGINE,
+                        ITEM_OPS_ENGINE,
                         FIELD_OPS_ENGINE,
                         TRIGGER_OPS_ENGINE,
                         DELAYED_OPS_ENGINE,
@@ -4081,6 +4104,7 @@ fn transition_inner(
                     recurring: Box::new(recurring::RecurringState {
                         enabled: [
                             ENGINE,
+                            ITEM_OPS_ENGINE,
                             FIELD_OPS_ENGINE,
                             TRIGGER_OPS_ENGINE,
                             DELAYED_OPS_ENGINE,
@@ -4147,6 +4171,7 @@ fn transition_inner(
                     compound: compound::CompoundState {
                         enabled: [
                             ENGINE,
+                            ITEM_OPS_ENGINE,
                             FIELD_OPS_ENGINE,
                             TRIGGER_OPS_ENGINE,
                             DELAYED_OPS_ENGINE,
@@ -4213,6 +4238,7 @@ fn transition_inner(
                     },
                     house_rules: [
                         ENGINE,
+                        ITEM_OPS_ENGINE,
                         FIELD_OPS_ENGINE,
                         TRIGGER_OPS_ENGINE,
                         DELAYED_OPS_ENGINE,
@@ -4285,6 +4311,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     interaction_rules: [
                         ENGINE,
+                        ITEM_OPS_ENGINE,
                         FIELD_OPS_ENGINE,
                         TRIGGER_OPS_ENGINE,
                         DELAYED_OPS_ENGINE,
@@ -4360,6 +4387,7 @@ fn transition_inner(
                     standalone: standalone::StandaloneState {
                         enabled: [
                             ENGINE,
+                            ITEM_OPS_ENGINE,
                             FIELD_OPS_ENGINE,
                             TRIGGER_OPS_ENGINE,
                             DELAYED_OPS_ENGINE,
@@ -4438,6 +4466,7 @@ fn transition_inner(
                     information: information::InformationState {
                         enabled: [
                             ENGINE,
+                            ITEM_OPS_ENGINE,
                             FIELD_OPS_ENGINE,
                             TRIGGER_OPS_ENGINE,
                             DELAYED_OPS_ENGINE,
@@ -4517,6 +4546,7 @@ fn transition_inner(
                     forms: forms::FormState {
                         enabled: [
                             ENGINE,
+                            ITEM_OPS_ENGINE,
                             FIELD_OPS_ENGINE,
                             TRIGGER_OPS_ENGINE,
                             DELAYED_OPS_ENGINE,
@@ -4598,6 +4628,7 @@ fn transition_inner(
                         completion: items::completion::CompletionState {
                             enabled: [
                                 ENGINE,
+                                ITEM_OPS_ENGINE,
                                 FIELD_OPS_ENGINE,
                                 TRIGGER_OPS_ENGINE,
                                 DELAYED_OPS_ENGINE,
@@ -4673,6 +4704,7 @@ fn transition_inner(
                         },
                         enabled: [
                             ENGINE,
+                            ITEM_OPS_ENGINE,
                             FIELD_OPS_ENGINE,
                             TRIGGER_OPS_ENGINE,
                             DELAYED_OPS_ENGINE,
@@ -4754,6 +4786,7 @@ fn transition_inner(
                     events: events::EventState {
                         enabled: [
                             ENGINE,
+                            ITEM_OPS_ENGINE,
                             FIELD_OPS_ENGINE,
                             TRIGGER_OPS_ENGINE,
                             DELAYED_OPS_ENGINE,
@@ -4835,6 +4868,7 @@ fn transition_inner(
                     },
                     provenance_rules: [
                         ENGINE,
+                        ITEM_OPS_ENGINE,
                         FIELD_OPS_ENGINE,
                         TRIGGER_OPS_ENGINE,
                         DELAYED_OPS_ENGINE,
@@ -4916,6 +4950,7 @@ fn transition_inner(
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            ITEM_OPS_ENGINE,
                             FIELD_OPS_ENGINE,
                             TRIGGER_OPS_ENGINE,
                             DELAYED_OPS_ENGINE,
@@ -5000,6 +5035,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            ITEM_OPS_ENGINE,
                             FIELD_OPS_ENGINE,
                             TRIGGER_OPS_ENGINE,
                             DELAYED_OPS_ENGINE,
@@ -5084,6 +5120,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        ITEM_OPS_ENGINE,
                         FIELD_OPS_ENGINE,
                         TRIGGER_OPS_ENGINE,
                         DELAYED_OPS_ENGINE,
@@ -5168,6 +5205,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            ITEM_OPS_ENGINE,
                             FIELD_OPS_ENGINE,
                             TRIGGER_OPS_ENGINE,
                             DELAYED_OPS_ENGINE,
@@ -5255,6 +5293,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            ITEM_OPS_ENGINE,
                             FIELD_OPS_ENGINE,
                             TRIGGER_OPS_ENGINE,
                             DELAYED_OPS_ENGINE,
@@ -5343,6 +5382,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            ITEM_OPS_ENGINE,
                             FIELD_OPS_ENGINE,
                             TRIGGER_OPS_ENGINE,
                             DELAYED_OPS_ENGINE,
@@ -5432,6 +5472,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            ITEM_OPS_ENGINE,
                             FIELD_OPS_ENGINE,
                             TRIGGER_OPS_ENGINE,
                             DELAYED_OPS_ENGINE,
@@ -5522,6 +5563,7 @@ fn transition_inner(
                     special: Box::new(special::SpecialState {
                         enabled: [
                             ENGINE,
+                            ITEM_OPS_ENGINE,
                             FIELD_OPS_ENGINE,
                             TRIGGER_OPS_ENGINE,
                             DELAYED_OPS_ENGINE,
@@ -5612,6 +5654,7 @@ fn transition_inner(
                     }),
                     ability_rules: [
                         ENGINE,
+                        ITEM_OPS_ENGINE,
                         FIELD_OPS_ENGINE,
                         TRIGGER_OPS_ENGINE,
                         DELAYED_OPS_ENGINE,
@@ -5704,6 +5747,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            ITEM_OPS_ENGINE,
                             FIELD_OPS_ENGINE,
                             TRIGGER_OPS_ENGINE,
                             DELAYED_OPS_ENGINE,
@@ -5796,6 +5840,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            ITEM_OPS_ENGINE,
                             FIELD_OPS_ENGINE,
                             TRIGGER_OPS_ENGINE,
                             DELAYED_OPS_ENGINE,

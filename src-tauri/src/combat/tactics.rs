@@ -432,6 +432,7 @@ pub fn react(
     break_cover(c, id);
     extra::accuracy_attempt(c, id, &m, cat, p.actions + 1)?;
     condition_ops::accuracy(c, id, name, net >= (p.actions + 1) as i32)?;
+    scene_ops::accuracy(c, id, name, net >= (p.actions + 1) as i32)?;
     initiative_ops::log_move(c, id, name, &targets);
     trigger_ops::declared(c, id, &m);
     if net >= (p.actions + 1) as i32 {

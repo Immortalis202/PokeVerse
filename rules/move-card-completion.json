@@ -14458,10 +14458,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Camouflage.json",
       "sha256": "6dddbb43bdbd821fb8ac21a06081559301e3e66333bf4b9085839e0f71c20647",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "input-required",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A58: Seven scene and consequence cards. Memento: the user faints (also when its Accuracy fails); the target's Strength, Dexterity, Special, Defense and Sp. Defense drop by 2 through ordinary stat protection, and the reductions that apply persist across switching for the scene. Springtide Storm: the owner saves 'Raise the user' (+1 Strength, Dexterity, Special, Defense, Sp. Defense) or 'Lower the targets' (Defense and Sp. Defense -2); three Chance dice (plus Serene Grace and Water Pledge) apply it on a 6. Synchronoise: the owner saves one type before damage and only targets with that type are affected. Nature Power takes its type, and Camouflage the user's type for the scene, from the surroundings recorded for Secret Power plus active terrains, using the printed energy table (p.530); when several types are possible the owner saves one. Pay Day and Make It Rain record money by trainer rank (Starter/Rookie 100, Standard 250, Advanced 500, Ace or more 1000): Pay Day for the user's trainer per hit, Make It Rain once for the user's and each hit Pokemon's trainer, and Make It Rain lowers the user's Special by 2. The app does not track money, so the totals are listed in the battle-end log.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -14471,9 +14478,15 @@
           "value": "Target Self. ",
           "start": 0,
           "end": 13,
-          "status": "pending",
+          "status": "automated",
           "batch": 1,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a58",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a58_nature_power_and_camouflage_follow_the_surroundings"
+            }
+          ]
         },
         {
           "id": "effect:13-161",
@@ -14481,9 +14494,15 @@
           "value": "For the rest of the scene the User changes type to one that fits the terrain/ environment it is in (ie User is in a rocky cave, becoming rock type).",
           "start": 13,
           "end": 161,
-          "status": "pending",
+          "status": "automated",
           "batch": 1,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a58",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a58_nature_power_and_camouflage_follow_the_surroundings"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -62940,10 +62959,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Make It Rain.json",
       "sha256": "b1306ced423ff11ad375c0e7b814e34f1ac3c29317e49b7f7343298c23d98924",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A58: Seven scene and consequence cards. Memento: the user faints (also when its Accuracy fails); the target's Strength, Dexterity, Special, Defense and Sp. Defense drop by 2 through ordinary stat protection, and the reductions that apply persist across switching for the scene. Springtide Storm: the owner saves 'Raise the user' (+1 Strength, Dexterity, Special, Defense, Sp. Defense) or 'Lower the targets' (Defense and Sp. Defense -2); three Chance dice (plus Serene Grace and Water Pledge) apply it on a 6. Synchronoise: the owner saves one type before damage and only targets with that type are affected. Nature Power takes its type, and Camouflage the user's type for the scene, from the surroundings recorded for Secret Power plus active terrains, using the printed energy table (p.530); when several types are possible the owner saves one. Pay Day and Make It Rain record money by trainer rank (Starter/Rookie 100, Standard 250, Advanced 500, Ace or more 1000): Pay Day for the user's trainer per hit, Make It Rain once for the user's and each hit Pokemon's trainer, and Make It Rain lowers the user's Special by 2. The app does not track money, so the totals are listed in the battle-end log.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -62953,9 +62979,15 @@
           "value": "Area Move. ",
           "start": 0,
           "end": 11,
-          "status": "pending",
+          "status": "automated",
           "batch": 11,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a58",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a58_pay_day_and_make_it_rain_report_money_at_battle_end"
+            }
+          ]
         },
         {
           "id": "effect:11-43",
@@ -62963,9 +62995,15 @@
           "value": "Reduce the User's Special by 2. ",
           "start": 11,
           "end": 43,
-          "status": "pending",
+          "status": "automated",
           "batch": 11,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a58",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a58_pay_day_and_make_it_rain_report_money_at_battle_end"
+            }
+          ]
         },
         {
           "id": "effect:43-219",
@@ -62973,9 +63011,15 @@
           "value": "At the end of the battle give the User and every Trainer whose Pokemon was hit, Money equal to their Rank: Starter/Rookie - 100 Standard - 250 Advanced - 500 Ace or more - 1000",
           "start": 43,
           "end": 219,
-          "status": "pending",
+          "status": "gm-decision-supported",
           "batch": 11,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a58",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a58_pay_day_and_make_it_rain_report_money_at_battle_end"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -67035,10 +67079,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Memento.json",
       "sha256": "b83eb8a11766720271e56e73b923db2466febc6344e4bebca2ad50f9087687d4",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A58: Seven scene and consequence cards. Memento: the user faints (also when its Accuracy fails); the target's Strength, Dexterity, Special, Defense and Sp. Defense drop by 2 through ordinary stat protection, and the reductions that apply persist across switching for the scene. Springtide Storm: the owner saves 'Raise the user' (+1 Strength, Dexterity, Special, Defense, Sp. Defense) or 'Lower the targets' (Defense and Sp. Defense -2); three Chance dice (plus Serene Grace and Water Pledge) apply it on a 6. Synchronoise: the owner saves one type before damage and only targets with that type are affected. Nature Power takes its type, and Camouflage the user's type for the scene, from the surroundings recorded for Secret Power plus active terrains, using the printed energy table (p.530); when several types are possible the owner saves one. Pay Day and Make It Rain record money by trainer rank (Starter/Rookie 100, Standard 250, Advanced 500, Ace or more 1000): Pay Day for the user's trainer per hit, Make It Rain once for the user's and each hit Pokemon's trainer, and Make It Rain lowers the user's Special by 2. The app does not track money, so the totals are listed in the battle-end log.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -67048,9 +67099,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 11,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a58",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a58_memento_faints_the_user_and_its_reductions_survive_switching"
+            }
+          ]
         },
         {
           "id": "effect:15-32",
@@ -67058,9 +67115,15 @@
           "value": "The User faints. ",
           "start": 15,
           "end": 32,
-          "status": "pending",
+          "status": "automated",
           "batch": 11,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a58",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a58_memento_faints_the_user_and_its_reductions_survive_switching"
+            }
+          ]
         },
         {
           "id": "effect:32-110",
@@ -67068,9 +67131,15 @@
           "value": "Reduce by 2 the foe's Strength, Dexterity, Special, Defense, and Sp. Defense. ",
           "start": 32,
           "end": 110,
-          "status": "pending",
+          "status": "automated",
           "batch": 11,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a58",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a58_memento_faints_the_user_and_its_reductions_survive_switching"
+            }
+          ]
         },
         {
           "id": "effect:110-132",
@@ -67078,9 +67147,15 @@
           "value": "Whole Scene Duration. ",
           "start": 110,
           "end": 132,
-          "status": "pending",
+          "status": "automated",
           "batch": 11,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a58",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a58_memento_faints_the_user_and_its_reductions_survive_switching"
+            }
+          ]
         },
         {
           "id": "effect:132-195",
@@ -67088,9 +67163,15 @@
           "value": "This effect does not end by switching out the affected Pokemon.",
           "start": 132,
           "end": 195,
-          "status": "pending",
+          "status": "automated",
           "batch": 11,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a58",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a58_memento_faints_the_user_and_its_reductions_survive_switching"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -72700,10 +72781,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Nature Power.json",
       "sha256": "838cd7fee7cd36e523438d4145b237ae4a632b24efa063678f4d51088a0cc8b2",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A58: Seven scene and consequence cards. Memento: the user faints (also when its Accuracy fails); the target's Strength, Dexterity, Special, Defense and Sp. Defense drop by 2 through ordinary stat protection, and the reductions that apply persist across switching for the scene. Springtide Storm: the owner saves 'Raise the user' (+1 Strength, Dexterity, Special, Defense, Sp. Defense) or 'Lower the targets' (Defense and Sp. Defense -2); three Chance dice (plus Serene Grace and Water Pledge) apply it on a 6. Synchronoise: the owner saves one type before damage and only targets with that type are affected. Nature Power takes its type, and Camouflage the user's type for the scene, from the surroundings recorded for Secret Power plus active terrains, using the printed energy table (p.530); when several types are possible the owner saves one. Pay Day and Make It Rain record money by trainer rank (Starter/Rookie 100, Standard 250, Advanced 500, Ace or more 1000): Pay Day for the user's trainer per hit, Make It Rain once for the user's and each hit Pokemon's trainer, and Make It Rain lowers the user's Special by 2. The app does not track money, so the totals are listed in the battle-end log.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -72713,9 +72801,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 1,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a58",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a58_nature_power_and_camouflage_follow_the_surroundings"
+            }
+          ]
         },
         {
           "id": "effect:15-90",
@@ -72723,9 +72817,15 @@
           "value": "*The Type of this Move is determined by the environment or active Terrain. ",
           "start": 15,
           "end": 90,
-          "status": "pending",
+          "status": "automated",
           "batch": 1,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a58",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a58_nature_power_and_camouflage_follow_the_surroundings"
+            }
+          ]
         },
         {
           "id": "effect:90-108",
@@ -72733,9 +72833,15 @@
           "value": "See more on p. 530",
           "start": 90,
           "end": 108,
-          "status": "pending",
+          "status": "automated",
           "batch": 1,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a58",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a58_nature_power_and_camouflage_follow_the_surroundings"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -76454,10 +76560,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Pay Day.json",
       "sha256": "0c0b2567d592460497c9372409752db9c2fba0baf7fbd44925f45179cc8bde98",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A58: Seven scene and consequence cards. Memento: the user faints (also when its Accuracy fails); the target's Strength, Dexterity, Special, Defense and Sp. Defense drop by 2 through ordinary stat protection, and the reductions that apply persist across switching for the scene. Springtide Storm: the owner saves 'Raise the user' (+1 Strength, Dexterity, Special, Defense, Sp. Defense) or 'Lower the targets' (Defense and Sp. Defense -2); three Chance dice (plus Serene Grace and Water Pledge) apply it on a 6. Synchronoise: the owner saves one type before damage and only targets with that type are affected. Nature Power takes its type, and Camouflage the user's type for the scene, from the surroundings recorded for Secret Power plus active terrains, using the printed energy table (p.530); when several types are possible the owner saves one. Pay Day and Make It Rain record money by trainer rank (Starter/Rookie 100, Standard 250, Advanced 500, Ace or more 1000): Pay Day for the user's trainer per hit, Make It Rain once for the user's and each hit Pokemon's trainer, and Make It Rain lowers the user's Special by 2. The app does not track money, so the totals are listed in the battle-end log.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -76467,9 +76580,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 11,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a58",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a58_pay_day_and_make_it_rain_report_money_at_battle_end"
+            }
+          ]
         },
         {
           "id": "effect:15-23",
@@ -76487,9 +76606,15 @@
           "value": "At the end of the battle give Money to your Trainer Equal to their Rank: Starter/Rookie - 100 Standard - 250 Advanced - 500 Ace or more - 1000",
           "start": 23,
           "end": 165,
-          "status": "pending",
+          "status": "gm-decision-supported",
           "batch": 11,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a58",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a58_pay_day_and_make_it_rain_report_money_at_battle_end"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -105346,12 +105471,19 @@
       "source": "Pokerole-Data/v3.0/Moves/Springtide Storm.json",
       "sha256": "78377a8dded96377acb665a819b0299897aaa684305b6212ecb1276bda55cb70",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "input-required",
       "exclusion": null,
       "excluded_clauses": [
         "Optional lethal wounds are excluded; ordinary damage remains separate"
       ],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A58: Seven scene and consequence cards. Memento: the user faints (also when its Accuracy fails); the target's Strength, Dexterity, Special, Defense and Sp. Defense drop by 2 through ordinary stat protection, and the reductions that apply persist across switching for the scene. Springtide Storm: the owner saves 'Raise the user' (+1 Strength, Dexterity, Special, Defense, Sp. Defense) or 'Lower the targets' (Defense and Sp. Defense -2); three Chance dice (plus Serene Grace and Water Pledge) apply it on a 6. Synchronoise: the owner saves one type before damage and only targets with that type are affected. Nature Power takes its type, and Camouflage the user's type for the scene, from the surroundings recorded for Secret Power plus active terrains, using the printed energy table (p.530); when several types are possible the owner saves one. Pay Day and Make It Rain record money by trainer rank (Starter/Rookie 100, Standard 250, Advanced 500, Ace or more 1000): Pay Day for the user's trainer per hit, Make It Rain once for the user's and each hit Pokemon's trainer, and Make It Rain lowers the user's Special by 2. The app does not track money, so the totals are listed in the battle-end log.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -105361,9 +105493,15 @@
           "value": "Area Move. ",
           "start": 0,
           "end": 11,
-          "status": "pending",
+          "status": "automated",
           "batch": 11,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a58",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a58_springtide_storm_and_synchronoise_use_saved_choices"
+            }
+          ]
         },
         {
           "id": "effect:11-19",
@@ -105391,9 +105529,15 @@
           "value": "*Choose one: Roll 3 Chance Dice to increase by 1 the User's Strength, Special, Dexterity, Defense & Sp. Defense. ",
           "start": 35,
           "end": 148,
-          "status": "pending",
+          "status": "automated",
           "batch": 11,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a58",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a58_springtide_storm_and_synchronoise_use_saved_choices"
+            }
+          ]
         },
         {
           "id": "effect:148-221",
@@ -105401,9 +105545,15 @@
           "value": "Or, Roll 3 Chance dice to Reduce by 2 the affected Defense & Sp. Defense.",
           "start": 148,
           "end": 221,
-          "status": "pending",
+          "status": "automated",
           "batch": 11,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a58",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a58_springtide_storm_and_synchronoise_use_saved_choices"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -111845,10 +111995,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Synchronoise.json",
       "sha256": "4cafd5de3e0989d0e5c0a5ebeb29e556349e2424686c0201eb846424897c70a4",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A58: Seven scene and consequence cards. Memento: the user faints (also when its Accuracy fails); the target's Strength, Dexterity, Special, Defense and Sp. Defense drop by 2 through ordinary stat protection, and the reductions that apply persist across switching for the scene. Springtide Storm: the owner saves 'Raise the user' (+1 Strength, Dexterity, Special, Defense, Sp. Defense) or 'Lower the targets' (Defense and Sp. Defense -2); three Chance dice (plus Serene Grace and Water Pledge) apply it on a 6. Synchronoise: the owner saves one type before damage and only targets with that type are affected. Nature Power takes its type, and Camouflage the user's type for the scene, from the surroundings recorded for Secret Power plus active terrains, using the printed energy table (p.530); when several types are possible the owner saves one. Pay Day and Make It Rain record money by trainer rank (Starter/Rookie 100, Standard 250, Advanced 500, Ace or more 1000): Pay Day for the user's trainer per hit, Make It Rain once for the user's and each hit Pokemon's trainer, and Make It Rain lowers the user's Special by 2. The app does not track money, so the totals are listed in the battle-end log.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -111858,9 +112015,15 @@
           "value": "Area Move. ",
           "start": 0,
           "end": 11,
-          "status": "pending",
+          "status": "automated",
           "batch": 11,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a58",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a58_springtide_storm_and_synchronoise_use_saved_choices"
+            }
+          ]
         },
         {
           "id": "effect:11-23",
@@ -111878,9 +112041,15 @@
           "value": "Choose one Type (Fire, Poison, Steel, etc.). ",
           "start": 23,
           "end": 68,
-          "status": "pending",
+          "status": "automated",
           "batch": 11,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a58",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a58_springtide_storm_and_synchronoise_use_saved_choices"
+            }
+          ]
         },
         {
           "id": "effect:68-112",
@@ -111888,9 +112057,15 @@
           "value": "This move only affects those with that Type.",
           "start": 68,
           "end": 112,
-          "status": "pending",
+          "status": "automated",
           "batch": 11,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a58",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a58_springtide_storm_and_synchronoise_use_saved_choices"
+            }
+          ]
         },
         {
           "id": "metadata:Type",

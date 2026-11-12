@@ -1,8 +1,8 @@
 {
   "version": 1,
   "date": "2026-11-10",
-  "release": "0.100.0",
-  "engine": "0.92.0-core",
+  "release": "0.101.0",
+  "engine": "0.93.0-core",
   "scope": "892-card effect-route inventory; focused semantic review of status infliction, cure and protection clauses. M2-A through M2-E battle status clauses and MOVE-A01 damaging attribute clauses plus MOVE-A02 entry hazards delivered; see scoped registries and retained choices.",
   "limits": [
     "An executable route is not full card coverage.",
@@ -19,10 +19,10 @@
   "counts": {
     "routes": {
       "excluded": 38,
-      "executable-scope": 815,
+      "executable-scope": 820,
       "gm-choice": 1,
-      "input-required": 19,
-      "manual-effect-route": 19
+      "input-required": 21,
+      "manual-effect-route": 12
     },
     "status_clauses": {
       "excluded": 6,
@@ -5712,21 +5712,28 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "input-required",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A58: Seven scene and consequence cards. Memento: the user faints (also when its Accuracy fails); the target's Strength, Dexterity, Special, Defense and Sp. Defense drop by 2 through ordinary stat protection, and the reductions that apply persist across switching for the scene. Springtide Storm: the owner saves 'Raise the user' (+1 Strength, Dexterity, Special, Defense, Sp. Defense) or 'Lower the targets' (Defense and Sp. Defense -2); three Chance dice (plus Serene Grace and Water Pledge) apply it on a 6. Synchronoise: the owner saves one type before damage and only targets with that type are affected. Nature Power takes its type, and Camouflage the user's type for the scene, from the surroundings recorded for Secret Power plus active terrains, using the printed energy table (p.530); when several types are possible the owner saves one. Pay Day and Make It Rain record money by trainer rank (Starter/Rookie 100, Standard 250, Advanced 500, Ace or more 1000): Pay Day for the user's trainer per hit, Make It Rain once for the user's and each hit Pokemon's trainer, and Make It Rain lowers the user's Special by 2. The app does not track money, so the totals are listed in the battle-end log.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
           "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
+          "message": "Camouflage needs the GM to record the surroundings (or an active Terrain)",
           "result": "route_error"
         },
         "baseline": {
           "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
+          "message": "Camouflage needs the GM to record the surroundings (or an active Terrain)",
           "result": "route_error"
         }
       }
@@ -24408,22 +24415,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A58: Seven scene and consequence cards. Memento: the user faints (also when its Accuracy fails); the target's Strength, Dexterity, Special, Defense and Sp. Defense drop by 2 through ordinary stat protection, and the reductions that apply persist across switching for the scene. Springtide Storm: the owner saves 'Raise the user' (+1 Strength, Dexterity, Special, Defense, Sp. Defense) or 'Lower the targets' (Defense and Sp. Defense -2); three Chance dice (plus Serene Grace and Water Pledge) apply it on a 6. Synchronoise: the owner saves one type before damage and only targets with that type are affected. Nature Power takes its type, and Camouflage the user's type for the scene, from the surroundings recorded for Secret Power plus active terrains, using the printed energy table (p.530); when several types are possible the owner saves one. Pay Day and Make It Rain record money by trainer rank (Starter/Rookie 100, Standard 250, Advanced 500, Ace or more 1000): Pay Day for the user's trainer per hit, Make It Rain once for the user's and each hit Pokemon's trainer, and Make It Rain lowers the user's Special by 2. The app does not track money, so the totals are listed in the battle-end log.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -25626,22 +25650,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A58: Seven scene and consequence cards. Memento: the user faints (also when its Accuracy fails); the target's Strength, Dexterity, Special, Defense and Sp. Defense drop by 2 through ordinary stat protection, and the reductions that apply persist across switching for the scene. Springtide Storm: the owner saves 'Raise the user' (+1 Strength, Dexterity, Special, Defense, Sp. Defense) or 'Lower the targets' (Defense and Sp. Defense -2); three Chance dice (plus Serene Grace and Water Pledge) apply it on a 6. Synchronoise: the owner saves one type before damage and only targets with that type are affected. Nature Power takes its type, and Camouflage the user's type for the scene, from the surroundings recorded for Secret Power plus active terrains, using the printed energy table (p.530); when several types are possible the owner saves one. Pay Day and Make It Rain record money by trainer rank (Starter/Rookie 100, Standard 250, Advanced 500, Ace or more 1000): Pay Day for the user's trainer per hit, Make It Rain once for the user's and each hit Pokemon's trainer, and Make It Rain lowers the user's Special by 2. The app does not track money, so the totals are listed in the battle-end log.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -27676,22 +27717,39 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A58: Seven scene and consequence cards. Memento: the user faints (also when its Accuracy fails); the target's Strength, Dexterity, Special, Defense and Sp. Defense drop by 2 through ordinary stat protection, and the reductions that apply persist across switching for the scene. Springtide Storm: the owner saves 'Raise the user' (+1 Strength, Dexterity, Special, Defense, Sp. Defense) or 'Lower the targets' (Defense and Sp. Defense -2); three Chance dice (plus Serene Grace and Water Pledge) apply it on a 6. Synchronoise: the owner saves one type before damage and only targets with that type are affected. Nature Power takes its type, and Camouflage the user's type for the scene, from the surroundings recorded for Secret Power plus active terrains, using the printed energy table (p.530); when several types are possible the owner saves one. Pay Day and Make It Rain record money by trainer rank (Starter/Rookie 100, Standard 250, Advanced 500, Ace or more 1000): Pay Day for the user's trainer per hit, Make It Rain once for the user's and each hit Pokemon's trainer, and Make It Rain lowers the user's Special by 2. The app does not track money, so the totals are listed in the battle-end log.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -29154,22 +29212,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A58: Seven scene and consequence cards. Memento: the user faints (also when its Accuracy fails); the target's Strength, Dexterity, Special, Defense and Sp. Defense drop by 2 through ordinary stat protection, and the reductions that apply persist across switching for the scene. Springtide Storm: the owner saves 'Raise the user' (+1 Strength, Dexterity, Special, Defense, Sp. Defense) or 'Lower the targets' (Defense and Sp. Defense -2); three Chance dice (plus Serene Grace and Water Pledge) apply it on a 6. Synchronoise: the owner saves one type before damage and only targets with that type are affected. Nature Power takes its type, and Camouflage the user's type for the scene, from the surroundings recorded for Secret Power plus active terrains, using the printed energy table (p.530); when several types are possible the owner saves one. Pay Day and Make It Rain record money by trainer rank (Starter/Rookie 100, Standard 250, Advanced 500, Ace or more 1000): Pay Day for the user's trainer per hit, Make It Rain once for the user's and each hit Pokemon's trainer, and Make It Rain lowers the user's Special by 2. The app does not track money, so the totals are listed in the battle-end log.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -40227,23 +40302,30 @@
       },
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "input-required",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [
         "Optional lethal wounds are excluded; ordinary damage remains separate"
       ],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A58: Seven scene and consequence cards. Memento: the user faints (also when its Accuracy fails); the target's Strength, Dexterity, Special, Defense and Sp. Defense drop by 2 through ordinary stat protection, and the reductions that apply persist across switching for the scene. Springtide Storm: the owner saves 'Raise the user' (+1 Strength, Dexterity, Special, Defense, Sp. Defense) or 'Lower the targets' (Defense and Sp. Defense -2); three Chance dice (plus Serene Grace and Water Pledge) apply it on a 6. Synchronoise: the owner saves one type before damage and only targets with that type are affected. Nature Power takes its type, and Camouflage the user's type for the scene, from the surroundings recorded for Secret Power plus active terrains, using the printed energy table (p.530); when several types are possible the owner saves one. Pay Day and Make It Rain record money by trainer rank (Starter/Rookie 100, Standard 250, Advanced 500, Ace or more 1000): Pay Day for the user's trainer per hit, Make It Rain once for the user's and each hit Pokemon's trainer, and Make It Rain lowers the user's Special by 2. The app does not track money, so the totals are listed in the battle-end log.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
+          "code": "battle",
+          "message": "Choose whether Springtide Storm raises the user or lowers the targets",
           "result": "route_error"
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
+          "code": "battle",
+          "message": "Choose whether Springtide Storm raises the user or lowers the targets",
           "result": "route_error"
         }
       }
@@ -42700,22 +42782,39 @@
       },
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A58: Seven scene and consequence cards. Memento: the user faints (also when its Accuracy fails); the target's Strength, Dexterity, Special, Defense and Sp. Defense drop by 2 through ordinary stat protection, and the reductions that apply persist across switching for the scene. Springtide Storm: the owner saves 'Raise the user' (+1 Strength, Dexterity, Special, Defense, Sp. Defense) or 'Lower the targets' (Defense and Sp. Defense -2); three Chance dice (plus Serene Grace and Water Pledge) apply it on a 6. Synchronoise: the owner saves one type before damage and only targets with that type are affected. Nature Power takes its type, and Camouflage the user's type for the scene, from the surroundings recorded for Secret Power plus active terrains, using the printed energy table (p.530); when several types are possible the owner saves one. Pay Day and Make It Rain record money by trainer rank (Starter/Rookie 100, Standard 250, Advanced 500, Ace or more 1000): Pay Day for the user's trainer per hit, Make It Rain once for the user's and each hit Pokemon's trainer, and Make It Rain lowers the user's Special by 2. The app does not track money, so the totals are listed in the battle-end log.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },

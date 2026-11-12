@@ -2533,6 +2533,57 @@
           "op": "teatime"
         }
       }
+    },
+    "MOVE-A58": {
+      "engine": "0.93.0-core",
+      "kind": "scene-op",
+      "scope": "Seven scene and consequence cards. Memento: the user faints (also when its Accuracy fails); the target's Strength, Dexterity, Special, Defense and Sp. Defense drop by 2 through ordinary stat protection, and the reductions that apply persist across switching for the scene. Springtide Storm: the owner saves 'Raise the user' (+1 Strength, Dexterity, Special, Defense, Sp. Defense) or 'Lower the targets' (Defense and Sp. Defense -2); three Chance dice (plus Serene Grace and Water Pledge) apply it on a 6. Synchronoise: the owner saves one type before damage and only targets with that type are affected. Nature Power takes its type, and Camouflage the user's type for the scene, from the surroundings recorded for Secret Power plus active terrains, using the printed energy table (p.530); when several types are possible the owner saves one. Pay Day and Make It Rain record money by trainer rank (Starter/Rookie 100, Standard 250, Advanced 500, Ace or more 1000): Pay Day for the user's trainer per hit, Make It Rain once for the user's and each hit Pokemon's trainer, and Make It Rain lowers the user's Special by 2. The app does not track money, so the totals are listed in the battle-end log.",
+      "moves": {
+        "Memento": {
+          "source": "Pokerole-Data/v3.0/Moves/Memento.json",
+          "sha256": "b83eb8a11766720271e56e73b923db2466febc6344e4bebca2ad50f9087687d4",
+          "effect": "Single Target. The User faints. Reduce by 2 the foe's Strength, Dexterity, Special, Defense, and Sp. Defense. Whole Scene Duration. This effect does not end by switching out the affected Pokemon.",
+          "op": "memento"
+        },
+        "Springtide Storm": {
+          "source": "Pokerole-Data/v3.0/Moves/Springtide Storm.json",
+          "sha256": "78377a8dded96377acb665a819b0299897aaa684305b6212ecb1276bda55cb70",
+          "effect": "Area Move. Lethal. Low Accuracy 2. *Choose one: Roll 3 Chance Dice to increase by 1 the User's Strength, Special, Dexterity, Defense & Sp. Defense. Or, Roll 3 Chance dice to Reduce by 2 the affected Defense & Sp. Defense.",
+          "op": "springtide",
+          "requires_input": true
+        },
+        "Synchronoise": {
+          "source": "Pokerole-Data/v3.0/Moves/Synchronoise.json",
+          "sha256": "4cafd5de3e0989d0e5c0a5ebeb29e556349e2424686c0201eb846424897c70a4",
+          "effect": "Area Move. Sound Move. Choose one Type (Fire, Poison, Steel, etc.). This move only affects those with that Type.",
+          "op": "synchronoise"
+        },
+        "Nature Power": {
+          "source": "Pokerole-Data/v3.0/Moves/Nature Power.json",
+          "sha256": "838cd7fee7cd36e523438d4145b237ae4a632b24efa063678f4d51088a0cc8b2",
+          "effect": "Single Target. *The Type of this Move is determined by the environment or active Terrain. See more on p. 530",
+          "op": "nature-power"
+        },
+        "Camouflage": {
+          "source": "Pokerole-Data/v3.0/Moves/Camouflage.json",
+          "sha256": "6dddbb43bdbd821fb8ac21a06081559301e3e66333bf4b9085839e0f71c20647",
+          "effect": "Target Self. For the rest of the scene the User changes type to one that fits the terrain/ environment it is in (ie User is in a rocky cave, becoming rock type).",
+          "op": "camouflage",
+          "requires_input": true
+        },
+        "Pay Day": {
+          "source": "Pokerole-Data/v3.0/Moves/Pay Day.json",
+          "sha256": "0c0b2567d592460497c9372409752db9c2fba0baf7fbd44925f45179cc8bde98",
+          "effect": "Single Target. Ranged. At the end of the battle give Money to your Trainer Equal to their Rank: Starter/Rookie - 100 Standard - 250 Advanced - 500 Ace or more - 1000",
+          "op": "pay-day"
+        },
+        "Make It Rain": {
+          "source": "Pokerole-Data/v3.0/Moves/Make It Rain.json",
+          "sha256": "b1306ced423ff11ad375c0e7b814e34f1ac3c29317e49b7f7343298c23d98924",
+          "effect": "Area Move. Reduce the User's Special by 2. At the end of the battle give the User and every Trainer whose Pokemon was hit, Money equal to their Rank: Starter/Rookie - 100 Standard - 250 Advanced - 500 Ace or more - 1000",
+          "op": "make-it-rain"
+        }
+      }
     }
   },
   "printed_review": {

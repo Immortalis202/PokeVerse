@@ -1334,6 +1334,19 @@
         "completion_a57_thief_trick_and_bestow_move_held_items"
       ],
       "scope": "Thirteen held-item cards, using battle item units, final equipment validation, Unburden/Symbiosis follow-ups and Sticky Hold (which blocks theft, exchange and removal). Thief and Covet take the target's held item after damaging it if the user's hand is empty. Bestow gives the user's held item to a target that can hold it (the printed 'cannot be used if the Target is not holding an Item' contradicts giving it, so the coherent reading is applied: the target must be able to receive). Trick and Switcheroo exchange held items, or hand over the only one. Knock Off adds 2 damage dice against an item holder and knocks the item to the ground (recoverable after battle); Corrosive Gas and Embargo also remove held items that way, and Embargo stops items being used on the target for the scene. Incinerate destroys held items of those it damages. Bug Bite and Pluck eat a damaged target's berry and give its reviewed effect to the user; Pluck also adds 1 damage die against a berry holder. Stuff Cheeks applies its held berry's effect without consuming it, then raises Defense by 2. Teatime makes those affected eat their held berries without effect; berries in the Trainer's bag are not changed."
+    },
+    {
+      "id": "move-completion-a58",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A58",
+      "fixtures": [
+        "completion_a58_ending_a_battle_with_stat_changes_does_not_crash",
+        "completion_a58_memento_faints_the_user_and_its_reductions_survive_switching",
+        "completion_a58_nature_power_and_camouflage_follow_the_surroundings",
+        "completion_a58_pay_day_and_make_it_rain_report_money_at_battle_end",
+        "completion_a58_springtide_storm_and_synchronoise_use_saved_choices"
+      ],
+      "scope": "Seven scene and consequence cards. Memento: the user faints (also when its Accuracy fails); the target's Strength, Dexterity, Special, Defense and Sp. Defense drop by 2 through ordinary stat protection, and the reductions that apply persist across switching for the scene. Springtide Storm: the owner saves 'Raise the user' (+1 Strength, Dexterity, Special, Defense, Sp. Defense) or 'Lower the targets' (Defense and Sp. Defense -2); three Chance dice (plus Serene Grace and Water Pledge) apply it on a 6. Synchronoise: the owner saves one type before damage and only targets with that type are affected. Nature Power takes its type, and Camouflage the user's type for the scene, from the surroundings recorded for Secret Power plus active terrains, using the printed energy table (p.530); when several types are possible the owner saves one. Pay Day and Make It Rain record money by trainer rank (Starter/Rookie 100, Standard 250, Advanced 500, Ace or more 1000): Pay Day for the user's trainer per hit, Make It Rain once for the user's and each hit Pokemon's trainer, and Make It Rain lowers the user's Special by 2. The app does not track money, so the totals are listed in the battle-end log."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -1350,5 +1363,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "cf1627be19258aca09d0235cd7f696d6bed0af1f243de373612a4542a266bf00"
+  "move_completion_registry_hash": "da6bd43c6590c1a8ab237832f7565757c77cfe288436a2ad4dbefbe7ee58a038"
 }

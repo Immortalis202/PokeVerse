@@ -214,6 +214,11 @@ pub fn apply_stats(c: &Campaign, p: &Combatant, s: &mut Sheet) {
             }
         }
     }
+    for key in stat_channels::KEYS {
+        if !scene_ops::memento_values(c, &p.id, key).is_empty() {
+            modifiers.entry(key.into()).or_insert(0);
+        }
+    }
     for (key, amount) in &modifiers {
         let n = special::modifier(c, p, key).unwrap_or_else(|| {
             match p.ability_for(&["Contrary", "Simple"]) {

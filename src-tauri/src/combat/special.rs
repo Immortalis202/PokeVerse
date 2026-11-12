@@ -239,8 +239,13 @@ pub fn enabled(c: &Campaign) -> bool {
 pub fn history(c: &Campaign) -> &[Hit] {
     &state(c).history
 }
+/// Reads the saved flow even after the battle ends (EndBattle still refreshes sheets).
 fn state(c: &Campaign) -> &SpecialState {
-    &flow(c).unwrap().special
+    &c.battle
+        .as_ref()
+        .and_then(|b| b.flow.as_ref())
+        .expect("special-move state requires a battle flow")
+        .special
 }
 fn state_mut(c: &mut Campaign) -> &mut SpecialState {
     &mut flow_mut(c).special

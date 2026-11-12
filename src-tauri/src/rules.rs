@@ -238,6 +238,7 @@ pub fn accuracy(
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
     if [
         ENGINE,
+        ITEM_OPS_ENGINE,
         FIELD_OPS_ENGINE,
         TRIGGER_OPS_ENGINE,
         DELAYED_OPS_ENGINE,
@@ -436,6 +437,7 @@ pub fn damage_pool(
     let m = crate::combat::field::move_data(c, attacker, &m);
     crate::combat::damage_ops::damage_guard(c, &m)?;
     crate::combat::trigger_ops::damage_guard(c, key, sequence, &m)?;
+    crate::combat::scene_ops::damage_guard(c, key, sequence, &m)?;
     if let Some(mut pool) =
         crate::combat::special::formula(c, attacker, target, &m, sequence, modifier, catalog)?
     {
@@ -623,6 +625,7 @@ pub fn damage_pool(
     {
         immune = false;
     }
+    immune |= crate::combat::scene_ops::synchronoise_immune(c, sequence, target, &m, catalog);
     if crate::combat::judgment::active(c, &m) {
         immune = defensive_target.has_ability("Wonder Guard")
             && effectiveness <= 0

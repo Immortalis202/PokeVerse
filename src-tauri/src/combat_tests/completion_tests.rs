@@ -10957,3 +10957,220 @@ fn completion_a57_berry_moves_eat_share_or_waste_berries() {
     let c = pending(&old, &a, &t, "Thief");
     assert!(a48_effect(&c, vec![]).is_err());
 }
+
+fn a58_environment(c: &Campaign, sources: &[&str]) -> Campaign {
+    let action = Action::CompoundMove {
+        command: crate::combat::compound::CompoundCommand::Environment {
+            sources: sources.iter().map(|s| s.to_string()).collect(),
+        },
+        reason: "GM records the surroundings".into(),
+    };
+    battle::transition(c, "gm", &action, vec![], &catalog())
+        .unwrap()
+        .0
+}
+fn a58_trainer(c: &mut Campaign, pokemon: &str, rank: &str) -> String {
+    let sid = p(c, pokemon).sheet_id.clone();
+    let mut trainer = c.sheets[&sid].clone();
+    trainer.id = id();
+    trainer.kind = "trainer".into();
+    trainer.rank = rank.into();
+    trainer.name = format!("Trainer of {pokemon}");
+    let tid = trainer.id.clone();
+    c.sheets.insert(tid.clone(), trainer);
+    c.sheets.get_mut(&sid).unwrap().trainer_id = Some(tid.clone());
+    tid
+}
+
+#[test]
+fn completion_a58_memento_faints_the_user_and_its_reductions_survive_switching() {
+    let (mut c, a, t) = setup("Memento");
+    let incoming = reserve(&mut c, &t);
+    let c = support_cast(&c, &a, vec![t.clone()], "Memento");
+    assert_eq!(p(&c, &a).hp, 0);
+    for key in [
+        "Strength",
+        "Dexterity",
+        "Special",
+        "Defense",
+        "SpecialDefense",
+    ] {
+        assert_eq!(stat(&c, &t, key), -2, "{key}");
+    }
+    let away = spider_switch(&c, &t, &incoming, false);
+    let back = spider_switch(&away, &incoming, &t, false);
+    assert_eq!(stat(&back, &t, "Strength"), -2, "persists across switching");
+    assert_eq!(a48_sheet(&back, &t, "Strength"), 2);
+
+    let (c, a, t) = setup("Memento");
+    let action = super::targeting_tests::attack(&a, vec![t.clone()], "Memento");
+    let missed = roll(&c, &p(&c, &a).owner_id, &action, 1);
+    assert_eq!(p(&missed, &a).hp, 0, "the user faints even on a miss");
+}
+#[test]
+fn completion_a58_springtide_storm_and_synchronoise_use_saved_choices() {
+    let (c, a, t) = setup("Springtide Storm");
+    let hit = roll(
+        &ordinary_accuracy(&c, &a, &t, "Springtide Storm"),
+        "gm",
+        &damage_command(&ordinary_accuracy(&c, &a, &t, "Springtide Storm")),
+        6,
+    );
+    assert_eq!(rules::dice_count(&hit, &cmd(&hit), &catalog()).unwrap(), 3);
+    assert!(
+        a48_effect(&hit, vec![6, 1, 1]).is_err(),
+        "a choice is required"
+    );
+    let owner = p(&c, &a).owner_id.clone();
+    let raise = a48_effect(
+        &a48_option(&hit, &owner, "Raise the user").unwrap(),
+        vec![6, 1, 1],
+    )
+    .unwrap();
+    assert_eq!(stat(&raise, &a, "Dexterity"), 1);
+    assert_eq!(stat(&raise, &t, "Defense"), 0);
+    let lower = a48_effect(
+        &a48_option(&hit, &owner, "Lower the targets").unwrap(),
+        vec![6, 1, 1],
+    )
+    .unwrap();
+    assert_eq!(stat(&lower, &t, "Defense"), -2);
+    assert_eq!(stat(&lower, &t, "SpecialDefense"), -2);
+    let nothing = a48_effect(
+        &a48_option(&hit, &owner, "Raise the user").unwrap(),
+        vec![5, 5, 5],
+    )
+    .unwrap();
+    assert_eq!(stat(&nothing, &a, "Dexterity"), 0, "needs a six");
+
+    let (c, a, t) = setup("Synchronoise");
+    let hit = ordinary_accuracy(&c, &a, &t, "Synchronoise");
+    assert!(a50_pool(&hit).is_err(), "the type must be chosen");
+    let owner = p(&c, &a).owner_id.clone();
+    assert!(
+        !a50_pool(&a48_option(&hit, &owner, "Bug").unwrap())
+            .unwrap()
+            .immune,
+        "Shuckle is Bug"
+    );
+    assert!(
+        a50_pool(&a48_option(&hit, &owner, "Fire").unwrap())
+            .unwrap()
+            .immune
+    );
+}
+#[test]
+fn completion_a58_nature_power_and_camouflage_follow_the_surroundings() {
+    let (mut c, a, t) = setup("Nature Power");
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .compound
+        .enabled = true;
+    let hit = ordinary_accuracy(&c, &a, &t, "Nature Power");
+    assert!(a50_pool(&hit).is_err(), "surroundings must be recorded");
+    let lake = a58_environment(&c, &["Lake/River/Sea"]);
+    let hit = ordinary_accuracy(&lake, &a, &t, "Nature Power");
+    assert!(a50_pool(&hit).is_ok());
+    let m = crate::combat::field::move_data(
+        &hit,
+        p(&hit, &a),
+        &catalog().find("moves", "Name", "Nature Power").unwrap(),
+    );
+    assert_eq!(m["Type"], "Water");
+    let city = a58_environment(&c, &["City/Building"]);
+    let hit = ordinary_accuracy(&city, &a, &t, "Nature Power");
+    assert!(a50_pool(&hit).is_err(), "Electric or Steel must be chosen");
+    let steel = a48_option(&hit, &p(&c, &a).owner_id, "Steel").unwrap();
+    let m = crate::combat::field::move_data(
+        &steel,
+        p(&steel, &a),
+        &catalog().find("moves", "Name", "Nature Power").unwrap(),
+    );
+    assert_eq!(m["Type"], "Steel");
+
+    let (mut c, a, _t) = setup("Camouflage");
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .compound
+        .enabled = true;
+    let pending_cast = a48_pending(&c, &a, vec![a.clone()], "Camouflage");
+    assert!(
+        a48_effect(&pending_cast, vec![]).is_err(),
+        "no surroundings"
+    );
+    let forest = a58_environment(&c, &["Forest/Jungle"]);
+    let pending_cast = a48_pending(&forest, &a, vec![a.clone()], "Camouflage");
+    let chosen = a48_option(&pending_cast, &p(&c, &a).owner_id, "Poison").unwrap();
+    let done = a48_effect(&chosen, vec![]).unwrap();
+    assert_eq!(a49_types(&done, &a), vec!["Poison"]);
+}
+#[test]
+fn completion_a58_pay_day_and_make_it_rain_report_money_at_battle_end() {
+    let (mut c, a, t) = setup("Pay Day");
+    let mine = a58_trainer(&mut c, &a, "Advanced");
+    let theirs = a58_trainer(&mut c, &t, "Rookie");
+    let paid = a54_hit(&c, &a, &t, "Pay Day");
+    let money = &a52_flow(&paid).completion.money;
+    assert_eq!(money.len(), 1);
+    assert_eq!(
+        (money[0].trainer_sheet.as_str(), money[0].amount),
+        (mine.as_str(), 500)
+    );
+    let mut rain = paid.clone();
+    let sid = p(&rain, &a).sheet_id.clone();
+    rain.sheets
+        .get_mut(&sid)
+        .unwrap()
+        .moves
+        .push("Make It Rain".into());
+    let rain = a54_hit(&rain, &a, &t, "Make It Rain");
+    let money = &a52_flow(&rain).completion.money;
+    assert!(money
+        .iter()
+        .any(|m| m.trainer_sheet == theirs && m.amount == 100));
+    assert_eq!(stat(&rain, &a, "Special"), -2);
+    let mut ended = rain.clone();
+    ended
+        .battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .queue
+        .clear();
+    let (_, log) =
+        battle::transition(&ended, "gm", &Action::EndBattle, vec![], &catalog()).unwrap();
+    assert!(log.contains("Money from Pay Day/Make It Rain"), "{log}");
+    assert!(
+        log.contains("1000"),
+        "500 from Pay Day plus 500 from Make It Rain: {log}"
+    );
+
+    let (mut old, a, t) = setup("Memento");
+    old.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .completion
+        .blocks
+        .remove("MOVE-A58");
+    let c = a48_pending(&old, &a, vec![t], "Memento");
+    assert!(a48_effect(&c, vec![]).is_err());
+}
+#[test]
+fn completion_a58_ending_a_battle_with_stat_changes_does_not_crash() {
+    let (mut c, a, _t) = setup("Tackle");
+    crate::combat::extra::change_stat(&mut c, &a, &a, "Special", -2).unwrap();
+    assert!(battle::transition(&c, "gm", &Action::EndBattle, vec![], &catalog()).is_ok());
+}
