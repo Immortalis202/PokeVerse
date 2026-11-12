@@ -659,3 +659,10 @@ pub fn move_data(c: &Campaign, p: &Combatant, m: &mut serde_json::Value) {
         m["Damage2"] = "".into();
     }
 }
+
+/// Record Minimize for Stomp when the move resolves through its reviewed definition.
+pub fn mark_minimized(c: &mut Campaign, id: &str) {
+    if enabled(c) && !state(c).minimized.iter().any(|s| s == id) {
+        state_mut(c).minimized.push(id.into());
+    }
+}

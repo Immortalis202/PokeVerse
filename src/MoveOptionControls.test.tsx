@@ -15,6 +15,7 @@ function view(
       combatants: [{ id: "a", name: "Caster", owner_id: "owner" }],
       flow: {
         window: false,
+        special: { effects: [] },
         queue: [{ sequence: 4, move_name: "Mystical Power", actor_id: "a" }],
         completion: {
           open_options: { 4: options },
@@ -59,5 +60,44 @@ describe("saved move choices", () => {
     expect(view("other", [], { a: ["Rock"] })).toContain(
       '<button disabled="">Change type</button>',
     );
+  });
+  it("offers Grapple release and reaction timing after MOVE-A52", () => {
+    const campaign = {
+      gm_id: "gm",
+      sheets: { s: { moves: ["Sucker Punch"] } },
+      battle: {
+        active: true,
+        combatants: [
+          {
+            id: "a",
+            name: "Caster",
+            owner_id: "owner",
+            sheet_id: "s",
+            deployed: true,
+            hp: 5,
+          },
+        ],
+        flow: {
+          window: false,
+          queue: [],
+          special: { effects: [{ source: "a", target: "b", slot: "grapple" }] },
+          completion: {
+            blocks: ["MOVE-A52"],
+            reaction_timing: { "a:Sucker Punch": "late" },
+          },
+        },
+      },
+    } as unknown as Campaign;
+    const html = renderToStaticMarkup(
+      <MoveOptionControls
+        campaign={campaign}
+        playerId="owner"
+        execute={async () => true}
+        disabled={false}
+      />,
+    );
+    expect(html).toContain("<button>Release Grapple</button>");
+    expect(html).toContain("Sucker Punch reacts late");
+    expect(html).toContain("<button>React early</button>");
   });
 });

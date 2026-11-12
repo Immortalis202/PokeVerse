@@ -155,6 +155,16 @@ pub enum SpecialCommand {
         combatant_id: String,
         type_name: String,
     },
+    /// Sucker Punch/Thunderclap: react early (Reaction 6) or late (Late Reaction 1).
+    ReactionTiming {
+        combatant_id: String,
+        move_name: String,
+        late: bool,
+    },
+    /// End the user's Grapple; releasing costs no action.
+    ReleaseGrapple {
+        combatant_id: String,
+    },
     ResistHoldHands {
         sequence: u32,
         resist: bool,
@@ -278,6 +288,7 @@ pub fn dice(c: &Campaign, cmd: &SpecialCommand, cat: &Catalog) -> Result<u32> {
             choices::move_option(c, *sequence, option)?;
             0
         }
+        SpecialCommand::ReactionTiming { .. } | SpecialCommand::ReleaseGrapple { .. } => 0,
         SpecialCommand::ConvertType { combatant_id, .. } => {
             if !flow(c)?
                 .completion
@@ -418,6 +429,29 @@ pub fn command(
                 "{} option for #{sequence}: {option}. {r}",
                 q.move_name
             ));
+        }
+        SpecialCommand::ReactionTiming {
+            combatant_id,
+            move_name,
+            late,
+        } => {
+            owner(c, actor, combatant_id)?;
+            reason(r)?;
+            initiative_ops::set_timing(c, combatant_id, move_name, *late)?;
+            return Ok(format!(
+                "{move_name} will react {}. {r}",
+                if *late {
+                    "late (Late Reaction 1)"
+                } else {
+                    "early (Reaction 6)"
+                }
+            ));
+        }
+        SpecialCommand::ReleaseGrapple { combatant_id } => {
+            owner(c, actor, combatant_id)?;
+            reason(r)?;
+            initiative_ops::release(c, combatant_id)?;
+            return Ok(format!("Grapple released. {r}"));
         }
         SpecialCommand::ConvertType {
             combatant_id,

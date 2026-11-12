@@ -436,6 +436,7 @@ pub fn react(
     break_cover(c, id);
     extra::accuracy_attempt(c, id, &m, cat, p.actions + 1)?;
     condition_ops::accuracy(c, id, name, net >= (p.actions + 1) as i32)?;
+    initiative_ops::log_move(c, id, name, &targets);
     if net >= (p.actions + 1) as i32 {
         let (timing, priority) = number(&m, "Reaction")
             .map(|n| ("before", n))

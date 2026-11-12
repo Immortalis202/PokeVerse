@@ -1670,6 +1670,7 @@ fn reorder_start(c: &mut Campaign) -> Result<()> {
     ids.sort_by_key(|id| {
         let p = fighter(c, id).unwrap();
         (
+            initiative_ops::rank(c, &p.id),
             order_group(c, p),
             -p.initiative,
             -crate::creation::profile_stats(&rules::effective_sheet(c, p).unwrap())["Initiative"],

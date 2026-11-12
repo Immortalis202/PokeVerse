@@ -9826,3 +9826,365 @@ fn completion_a51_chilly_reception_rolls_missing_cool_and_activates_snow() {
     let c = support_cast(&c, &a, vec![], "Chilly Reception");
     assert_eq!(field::weather(&c, None), Some(field::Weather::Snow));
 }
+
+fn a52_flow(c: &Campaign) -> &crate::combat::TurnFlow {
+    c.battle.as_ref().unwrap().flow.as_ref().unwrap()
+}
+fn a52_tactics(c: &mut Campaign) {
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .tactics
+        .enabled = true;
+}
+fn a52_special(c: &Campaign, actor: &str, command: special::SpecialCommand) -> Result<Campaign> {
+    let action = Action::SpecialMove {
+        command,
+        reason: "Owner decision".into(),
+    };
+    let n = rules::dice_count(c, &action, &catalog())?;
+    battle::transition(c, actor, &action, vec![6; n as usize], &catalog()).map(|v| v.0)
+}
+fn a52_react(c: &Campaign, id: &str, name: &str, targets: Vec<String>) -> Result<Campaign> {
+    let action = Action::Tactics {
+        command: crate::combat::tactics::TacticsCommand::Reaction {
+            combatant_id: id.into(),
+            move_name: name.into(),
+            target_ids: targets,
+        },
+        reason: "Reaction move".into(),
+    };
+    let n = rules::dice_count(c, &action, &catalog())?;
+    battle::transition(c, "gm", &action, vec![6; n as usize], &catalog()).map(|v| v.0)
+}
+fn a52_evade(c: &Campaign, id: &str) -> Result<u32> {
+    rules::dice_count(
+        c,
+        &Action::React {
+            combatant_id: id.into(),
+            kind: "evade".into(),
+            move_name: "Evasion".into(),
+            reason: "Evade".into(),
+        },
+        &catalog(),
+    )
+}
+
+#[test]
+fn completion_a52_after_you_and_quash_reorder_initiative_for_the_scene() {
+    use crate::combat::initiative_ops;
+    let (mut c, a, t) = setup("After You");
+    let ally = a49_second(&mut c, &a);
+    let c = support_cast(&c, &a, vec![ally.clone()], "After You");
+    let mut c = c;
+    turn(&mut c, &a, "Quash");
+    let c = support_cast(&c, &a, vec![t.clone()], "Quash");
+    assert_eq!(initiative_ops::rank(&c, &ally), 0);
+    assert_eq!(initiative_ops::rank(&c, &t), 2);
+    assert_eq!(initiative_ops::rank(&c, &a), 1);
+    let b = c.battle.as_ref().unwrap();
+    let mut order: Vec<&Combatant> = [&t, &a, &ally]
+        .iter()
+        .map(|id| b.combatants.iter().find(|p| p.id == **id).unwrap())
+        .collect();
+    initiative_ops::order(&c, &mut order);
+    assert_eq!(
+        order.iter().map(|p| p.id.clone()).collect::<Vec<_>>(),
+        vec![ally.clone(), a.clone(), t.clone()]
+    );
+    // After You ends when its target leaves; Quash persists across switching.
+    let mut gone = c.clone();
+    pm(&mut gone, &ally).hp = 0;
+    pm(&mut gone, &t).deployed = false;
+    let gone = round_end(&gone);
+    assert_eq!(initiative_ops::rank(&gone, &ally), 1);
+    assert_eq!(initiative_ops::rank(&gone, &t), 2);
+}
+#[test]
+fn completion_a52_ambush_grants_one_surprise_action_the_target_cannot_answer() {
+    use crate::combat::initiative_ops;
+    let (mut c, a, t) = setup("Ambush");
+    a52_tactics(&mut c);
+    {
+        let f = c.battle.as_mut().unwrap().flow.as_mut().unwrap();
+        f.started = false;
+        f.turn = 0;
+        f.order.clear();
+    }
+    let pending = a48_pending(&c, &a, vec![t.clone()], "Ambush");
+    let resist = rules::dice_count(&pending, &cmd(&pending), &catalog()).unwrap();
+    let sheet = rules::effective_sheet(&pending, p(&pending, &t)).unwrap();
+    let expected = sheet.stats["Insight"] + sheet.skills.get("Alert").copied().unwrap_or(0);
+    assert_eq!(resist as i32, expected, "Insight + Alert");
+    assert!(
+        q(&pending).successes <= resist as i32,
+        "the fixture lets the target resist"
+    );
+    let resisted = a48_effect(&pending, vec![6; resist as usize]).unwrap();
+    assert!(a52_flow(&resisted).completion.ambush.is_empty());
+    let ambushed = a48_effect(&pending, vec![1; resist as usize]).unwrap();
+    assert_eq!(a52_flow(&ambushed).completion.ambush[&a].target, t);
+    let declare = |c: &Campaign, id: &str, target: &str| {
+        let action = super::targeting_tests::attack(id, vec![target.into()], "Tackle");
+        let n = rules::dice_count(c, &action, &catalog())?;
+        battle::transition(
+            c,
+            &p(c, id).owner_id,
+            &action,
+            vec![6; n as usize],
+            &catalog(),
+        )
+        .map(|v| v.0)
+    };
+    let surprise = declare(&ambushed, &a, &t).unwrap();
+    assert!(a52_flow(&surprise).completion.ambush[&a].used);
+    assert!(
+        a52_evade(&surprise, &t).is_err(),
+        "the target cannot Evade the surprise action"
+    );
+    assert!(
+        declare(&ambushed, &t, &a).is_err(),
+        "only the ambusher acts early"
+    );
+    let mut twice = surprise.clone();
+    twice
+        .battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .queue
+        .clear();
+    assert!(declare(&twice, &a, &t).is_err(), "one surprise action");
+    let mut started = surprise.clone();
+    started
+        .battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .queue
+        .clear();
+    initiative_ops::start_turns(&mut started).unwrap();
+    assert_eq!(
+        p(&started, &a).actions,
+        0,
+        "pre-initiative actions are refunded"
+    );
+    assert!(a52_flow(&started).completion.ambush.is_empty());
+}
+#[test]
+fn completion_a52_encore_repeats_the_previous_round_and_cannot_be_used_twice_in_a_row() {
+    let (mut c, a, t) = setup("Encore");
+    let sid = p(&c, &t).sheet_id.clone();
+    c.sheets.get_mut(&sid).unwrap().moves.push("Tackle".into());
+    let mut c = a51_attack(&c, &t, &a, "Tackle").unwrap();
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .queue
+        .clear();
+    let mut c = round_end(&c);
+    turn(&mut c, &a, "Encore");
+    let c = support_cast(&c, &a, vec![t.clone()], "Encore");
+    let now = c.battle.as_ref().unwrap().round;
+    assert_eq!(a52_flow(&c).completion.encored[&t], now);
+    assert!(
+        a51_attack(&c, &t, &a, "Protect").is_err(),
+        "only the repeated move is allowed"
+    );
+    let first = a51_attack(&c, &t, &a, "Tackle").unwrap();
+    let mut again = first.clone();
+    again
+        .battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .queue
+        .clear();
+    assert!(
+        a51_attack(&again, &t, &a, "Tackle").is_err(),
+        "the sequence is depleted"
+    );
+    let mut next = round_end(&again);
+    turn(&mut next, &a, "Encore");
+    let encore = super::targeting_tests::attack(&a, vec![t.clone()], "Encore");
+    assert!(
+        rules::dice_count(&next, &encore, &catalog()).is_err(),
+        "not in consecutive rounds"
+    );
+}
+#[test]
+fn completion_a52_sucker_punch_and_thunderclap_only_react_to_damaging_moves() {
+    for name in ["Sucker Punch", "Thunderclap"] {
+        let (mut c, a, t) = setup(name);
+        a52_tactics(&mut c);
+        let sid = p(&c, &t).sheet_id.clone();
+        c.sheets
+            .get_mut(&sid)
+            .unwrap()
+            .moves
+            .extend([name.to_string(), "Growl".into()]);
+        assert!(
+            a51_attack(&c, &a, &t, name).is_err(),
+            "{name} is not an ordinary action"
+        );
+        let tackle = detection_attack(&c, &a, &t, "Tackle");
+        assert!(
+            a52_react(&tackle, &t, name, vec![a.clone()]).is_ok(),
+            "{name}"
+        );
+        let growl = detection_attack(&c, &a, &t, "Growl");
+        if a52_flow(&growl).window {
+            assert!(
+                a52_react(&growl, &t, name, vec![a.clone()]).is_err(),
+                "{name} vs Support"
+            );
+        }
+        let late = a52_special(
+            &c,
+            &p(&c, &t).owner_id,
+            special::SpecialCommand::ReactionTiming {
+                combatant_id: t.clone(),
+                move_name: name.into(),
+                late: true,
+            },
+        )
+        .unwrap();
+        let m = crate::combat::field::move_data(
+            &late,
+            p(&late, &t),
+            &catalog().find("moves", "Name", name).unwrap(),
+        );
+        assert_eq!(m["Attributes"]["LateReaction"], "1");
+        assert!(m["Attributes"]["Reaction"].is_null());
+        let m = crate::combat::field::move_data(
+            &c,
+            p(&c, &t),
+            &catalog().find("moves", "Name", name).unwrap(),
+        );
+        assert_eq!(m["Attributes"]["Reaction"], "6");
+    }
+}
+#[test]
+fn completion_a52_grapple_blocks_the_target_until_the_user_releases() {
+    let (mut c, a, t) = setup("Grapple");
+    a48_stats(&mut c, &t, &[("Strength", 3), ("Dexterity", 10)]);
+    let pending = a48_pending(&c, &a, vec![t.clone()], "Grapple");
+    let n = rules::dice_count(&pending, &cmd(&pending), &catalog()).unwrap();
+    assert_eq!(n, 10, "the target's better of Strength and Dexterity");
+    let resisted = a48_effect(&pending, vec![6; n as usize]).unwrap();
+    assert!(!completion::blocked(&resisted, &t));
+    let held = a48_effect(&pending, vec![1; n as usize]).unwrap();
+    assert!(completion::blocked(&held, &t));
+    assert!(
+        a51_attack(&held, &a, &t, "Tackle").is_err(),
+        "the user cannot act while Grappling"
+    );
+    assert!(a52_special(
+        &held,
+        "intruder",
+        special::SpecialCommand::ReleaseGrapple {
+            combatant_id: a.clone()
+        }
+    )
+    .is_err());
+    let released = a52_special(
+        &held,
+        &p(&c, &a).owner_id,
+        special::SpecialCommand::ReleaseGrapple {
+            combatant_id: a.clone(),
+        },
+    )
+    .unwrap();
+    assert!(!completion::blocked(&released, &t));
+    assert!(a51_attack(&released, &a, &t, "Tackle").is_ok());
+}
+#[test]
+fn completion_a52_double_team_minimize_and_chip_away_control_extra_evasions() {
+    let (c, a, t) = setup("Double Team");
+    let c = support_cast(&c, &a, vec![a.clone()], "Double Team");
+    let incoming = detection_attack(&c, &t, &a, "Tackle");
+    let mut spent = incoming.clone();
+    spent
+        .battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .reacted
+        .insert(a.clone());
+    assert!(
+        a52_evade(&spent, &a).is_ok(),
+        "the once-per-turn slot no longer limits Evasion"
+    );
+    let round = c.battle.as_ref().unwrap().round;
+    spent
+        .battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .completion
+        .evasions
+        .insert(a.clone(), (round, 5));
+    assert!(a52_evade(&spent, &a).is_err(), "five per round");
+    let (plain, a2, t2) = setup("Double Team");
+    let mut plain = detection_attack(&plain, &t2, &a2, "Tackle");
+    plain
+        .battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .reacted
+        .insert(a2.clone());
+    assert!(
+        a52_evade(&plain, &a2).is_err(),
+        "ordinary users keep one Evasion per turn"
+    );
+
+    let (c, a, t) = setup("Minimize");
+    let before = completion::weight(&c, p(&c, &a), 10.0);
+    let c = support_cast(&c, &a, vec![a.clone()], "Minimize");
+    assert_eq!(completion::weight(&c, p(&c, &a), 10.0), before / 2.0);
+    assert!(
+        crate::combat::compound::minimized(&c, &a, "Stomp")
+            || !crate::combat::compound::enabled(&c)
+    );
+
+    let (mut c, a, t2) = setup("Chip Away");
+    turn(&mut c, &t2, "Double Team");
+    let c = support_cast(&c, &t2, vec![t2.clone()], "Double Team");
+    let marked = |c: &Campaign| {
+        a52_flow(c)
+            .special
+            .effects
+            .iter()
+            .any(|e| e.target == t2 && e.slot == "evasion-actions")
+    };
+    assert!(marked(&c));
+    let mut c = c;
+    turn(&mut c, &a, "Chip Away");
+    let done = resolve(&roll(
+        &ordinary_accuracy(&c, &a, &t2, "Chip Away"),
+        "gm",
+        &damage_command(&ordinary_accuracy(&c, &a, &t2, "Chip Away")),
+        6,
+    ));
+    assert!(!marked(&done));
+    let _ = t;
+}

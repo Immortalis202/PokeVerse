@@ -901,6 +901,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
     let ended = decision(&c, "gm", Action::EndBattle);
     for engine in [
         ENGINE,
+        CONDITION_OPS_ENGINE,
         DAMAGE_OPS_ENGINE,
         TYPE_OPS_ENGINE,
         STAT_OPS_ENGINE,
@@ -987,6 +988,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.entry_hazards,
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1040,25 +1042,43 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             .contains(&engine)
         );
         assert_eq!(
-            flow.completion.blocks.contains("MOVE-A51"),
+            flow.completion.blocks.contains("MOVE-A52"),
             engine == ENGINE
         );
         assert_eq!(
+            flow.completion.blocks.contains("MOVE-A51"),
+            [ENGINE, CONDITION_OPS_ENGINE].contains(&engine)
+        );
+        assert_eq!(
             flow.completion.blocks.contains("MOVE-A50"),
-            [ENGINE, DAMAGE_OPS_ENGINE].contains(&engine)
+            [ENGINE, CONDITION_OPS_ENGINE, DAMAGE_OPS_ENGINE].contains(&engine)
         );
         assert_eq!(
             flow.completion.blocks.contains("MOVE-A49"),
-            [ENGINE, DAMAGE_OPS_ENGINE, TYPE_OPS_ENGINE].contains(&engine)
+            [
+                ENGINE,
+                CONDITION_OPS_ENGINE,
+                DAMAGE_OPS_ENGINE,
+                TYPE_OPS_ENGINE
+            ]
+            .contains(&engine)
         );
         assert_eq!(
             flow.completion.blocks.contains("MOVE-A48"),
-            [ENGINE, DAMAGE_OPS_ENGINE, TYPE_OPS_ENGINE, STAT_OPS_ENGINE].contains(&engine)
+            [
+                ENGINE,
+                CONDITION_OPS_ENGINE,
+                DAMAGE_OPS_ENGINE,
+                TYPE_OPS_ENGINE,
+                STAT_OPS_ENGINE
+            ]
+            .contains(&engine)
         );
         assert_eq!(
             flow.completion.blocks.contains("MOVE-A47"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1070,6 +1090,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A46"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1082,6 +1103,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A45"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1095,6 +1117,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A44"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1109,6 +1132,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A43"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1124,6 +1148,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A42"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1140,6 +1165,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A41"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1157,6 +1183,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A40"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1175,6 +1202,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A39"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1194,6 +1222,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A38"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1214,6 +1243,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A37"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1235,6 +1265,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A36"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1257,6 +1288,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A35"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1280,6 +1312,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A34"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1304,6 +1337,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A33"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1329,6 +1363,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A32"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1355,6 +1390,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A31"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1382,6 +1418,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A30"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1410,6 +1447,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A29"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1439,6 +1477,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A28"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1469,6 +1508,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A27"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1500,6 +1540,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A26"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1532,6 +1573,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A25"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1565,6 +1607,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A24"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1599,6 +1642,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A23"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1634,6 +1678,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A22"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1670,6 +1715,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A21"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1707,6 +1753,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A20"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1745,6 +1792,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A19"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1784,6 +1832,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A18"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1824,6 +1873,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A17"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1865,6 +1915,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A16"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1907,6 +1958,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A15"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1950,6 +2002,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A14"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1994,6 +2047,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A13"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -2039,6 +2093,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A12"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -2085,6 +2140,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A11"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -2132,6 +2188,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A10"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -2180,6 +2237,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A09"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -2229,6 +2287,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A08"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -2279,6 +2338,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A07"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -2330,6 +2390,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A06"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -2382,6 +2443,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A05"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -2435,6 +2497,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A04"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -2489,6 +2552,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.completion.blocks.contains("MOVE-A03"),
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -2544,6 +2608,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.damaging_stats.enabled,
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -2601,6 +2666,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.battlefield_review,
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -2659,6 +2725,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.direct_status,
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -2722,6 +2789,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.chance_status,
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -2784,6 +2852,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.compound.enabled,
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -2845,6 +2914,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.recurring.enabled,
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -2905,6 +2975,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.battlefield_review,
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -2963,6 +3034,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.cure_protection,
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -3022,6 +3094,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.spite,
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -3087,6 +3160,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.will_drains,
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -3151,6 +3225,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.status_escalation,
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -3217,6 +3292,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.identity_moves,
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -3284,6 +3360,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.interaction_rules,
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -3355,6 +3432,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.items.completion.enabled,
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -3425,6 +3503,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.house_rules,
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -3494,6 +3573,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.forms.enabled,
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -3568,6 +3648,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.information.enabled,
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -3641,6 +3722,7 @@ fn forms_new_battle_gates_preserve_item_and_event_engines_and_missing_state() {
             flow.standalone.enabled,
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,

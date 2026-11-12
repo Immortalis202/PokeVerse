@@ -2231,6 +2231,73 @@
           "op": "fell-stinger"
         }
       }
+    },
+    "MOVE-A52": {
+      "engine": "0.87.0-core",
+      "kind": "initiative-op",
+      "scope": "Ten initiative, reaction and maneuver cards. After You moves its ally to the front and Quash its target to the back of the initiative order from the next round's start, for the scene; recasting by the same user moves its mark, Quash persists across switching and After You ends when its target leaves. Ambush can be cast before the first round's turns start: the target resists with Insight + Alert against the user's successes; otherwise the user takes one surprise action before turns start that the target cannot Evade or Clash, and these pre-initiative actions are refunded when turns start. Encore (not usable in consecutive rounds) makes a target that acted last round repeat that round's moves in order and on the same targets for the rest of the round, refusing other moves and anything beyond the sequence; repeated Evasions/Clashes are not forced. Sucker Punch and Thunderclap can only react to a Physical or Special move, with an owner-saved early (Reaction 6, default) or late (Late Reaction 1) timing. Grapple: the target resists with its better of Strength/Dexterity against the user's successes; otherwise it is Blocked and the user cannot act or react until it releases (free) or either leaves. Double Team and Minimize allow up to five Evasions per round instead of one per turn; Minimize also halves weight and makes the user vulnerable to Stomp. Chip Away removes those evasion effects from a target it damages.",
+      "moves": {
+        "After You": {
+          "source": "Pokerole-Data/v3.0/Moves/After You.json",
+          "sha256": "c14424f26b21164227f6e3277185b49e6db907d3fd397d9454bb2d21a60ce1be",
+          "effect": "Target One Ally. Reaction 1. The Target will go First in the Initiative Order. If used again, the previous target reverts to their original Initiative order. Whole Scene Duration.",
+          "op": "first"
+        },
+        "Quash": {
+          "source": "Pokerole-Data/v3.0/Moves/Quash.json",
+          "sha256": "db9bb88b27d8237e0dc7a49db55f92f94c81462674de0af91c283fbc9b12b3f6",
+          "effect": "Single Target. Target's will go last in the Initiative Order. Whole Scene Duration. This effect does not end by switching out the affected Pokemon. If used again, the previous Target has their order in the initiative restored.",
+          "op": "last"
+        },
+        "Ambush": {
+          "source": "Pokerole-Data/v3.0/Moves/Ambush.json",
+          "sha256": "12fba925111ed2ca5c402910a76b91ac57a7aa8d12b9e075c9fb0788fb642a05",
+          "effect": "Single Target. Before the Battle starts, Target may resist by rolling: Insight + Alert and scoring the same or more Successes. The User has 1 Action before Initiatives are rolled in which the Target can't act. Other foes can still Evade or Clash during this time.",
+          "op": "ambush"
+        },
+        "Encore": {
+          "source": "Pokerole-Data/v3.0/Moves/Encore.json",
+          "sha256": "ec36cfdaf91b1c0d56d9d062db4d0affa2d95528d391bc3d11ff35eda912f87e",
+          "effect": "Single Target. Reaction 3. The Target will repeat the exact same action sequence it had last Round. Target must have had an action sequence. Duration 1 Round. If used on the previous Round, this move fails. See more on p. 529.",
+          "op": "encore"
+        },
+        "Sucker Punch": {
+          "source": "Pokerole-Data/v3.0/Moves/Sucker Punch.json",
+          "sha256": "50842260b78b8c11695552765179402e5e45feb91019b7f75c6152311c9dc7b2",
+          "effect": "Single Target. Reaction 6. Late Reaction 1. This Move may be used as a Reaction or as a Late Reaction at convenience of the User. *If this Move is not used to react against a Physical or Special Move it will fail.",
+          "op": "reaction-only"
+        },
+        "Thunderclap": {
+          "source": "Pokerole-Data/v3.0/Moves/Thunderclap.json",
+          "sha256": "f98322d7cf87f5e1a953949ab447b289b4936663c8f267038e86b606c9a4d428",
+          "effect": "Single Target. Reaction 6. Late Reaction 1. This Move may be used as a Reaction or as a Late Reaction at convenience of the User. *If this Move is not used to react against a Physical or Special Move it will fail.",
+          "op": "reaction-only"
+        },
+        "Grapple": {
+          "source": "Pokerole-Data/v3.0/Moves/Grapple.json",
+          "sha256": "4a774d839aa122dd381f756fa119fda26a79bc3eb6d26b27a6081c2c59eb7ff8",
+          "effect": "Single Target. Blocks. The Target may resist this Maneuver by rolling Strength or Dexterity and scoring the same or more Successes than the User. The User can't Act while Grappling. The User can release the Grapple at any point to act.",
+          "op": "grapple"
+        },
+        "Double Team": {
+          "source": "Pokerole-Data/v3.0/Moves/Double Team.json",
+          "sha256": "6c46f2f7f256e1e5069e0d43653980f9a793650b8686b9db28a178f6136e5591",
+          "effect": "Target Self. The User can now make up to 5 Evasions per Round.",
+          "op": "evasions"
+        },
+        "Minimize": {
+          "source": "Pokerole-Data/v3.0/Moves/Minimize.json",
+          "sha256": "904a0ae47df2cbfd05db09866297524bc79fa53f3f96182c6daf613b2d9fca2d",
+          "effect": "Target Self. The User can now make up to 5 Evasions per Round. Reduce the User's Height and Weight in half. The user is now Vulernable to: Stomp. Whole Scene Duration.",
+          "op": "evasions"
+        },
+        "Chip Away": {
+          "source": "Pokerole-Data/v3.0/Moves/Chip Away.json",
+          "sha256": "ead559d0972d47cf2ecadc46c5afdb183ea1d52122e8eefa5d6b943bd82b09f0",
+          "effect": "Single Target. Ignore Cover & Substitute decoys. Ignore Defenses. Remove effects that increase Evasion Actions from the Target (ie Moves like: Double Team, Minimize. Abilities like: Sand Veil) ",
+          "op": "chip-away"
+        }
+      }
     }
   },
   "printed_review": {

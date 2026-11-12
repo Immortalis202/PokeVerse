@@ -1263,6 +1263,20 @@
         "completion_a51_ruination_rolls_target_hp_once_per_target"
       ],
       "scope": "Nine history-dependent cards. Belch is refused unless the user ate a berry this round (recorded berry consumption or berry hits); its Beauty forfeit/restore clauses are outside battle. Last Resort is refused until every other known move has had a successful Accuracy roll in this battle. Poltergeist is refused unless the target holds an item or an item was consumed, used as medicine, recycled or harvested on the target's side. Ruination rolls damage dice equal to the target's total HP, ignoring defenses (formula pool, effectiveness kept) and is refused against a target it already damaged this battle. Lash Out adds 3 dice if one of the user's Attributes or Traits was lowered this round; Revenge adds 2 dice if the user lost HP earlier this round; Temper Flare and Stomping Tantrum add 2 dice when the user's previous move failed its Accuracy roll (Stomping Tantrum's Dig clause is the existing range rule). Fell Stinger raises the user's Strength by 2 when its damage faints the target; targeting an already fainted Pokemon is not possible in the engine. Missing<Social>Points Accuracy pools (Belch, Chilly Reception) count the social points given up: the social cap (5, or 7 for Champions) minus the current score. Chilly Reception also activates Snowy Weather for 4 rounds before its Switcher effect; its Cool forfeit clause is outside battle."
+    },
+    {
+      "id": "move-completion-a52",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A52",
+      "fixtures": [
+        "completion_a52_after_you_and_quash_reorder_initiative_for_the_scene",
+        "completion_a52_ambush_grants_one_surprise_action_the_target_cannot_answer",
+        "completion_a52_double_team_minimize_and_chip_away_control_extra_evasions",
+        "completion_a52_encore_repeats_the_previous_round_and_cannot_be_used_twice_in_a_row",
+        "completion_a52_grapple_blocks_the_target_until_the_user_releases",
+        "completion_a52_sucker_punch_and_thunderclap_only_react_to_damaging_moves"
+      ],
+      "scope": "Ten initiative, reaction and maneuver cards. After You moves its ally to the front and Quash its target to the back of the initiative order from the next round's start, for the scene; recasting by the same user moves its mark, Quash persists across switching and After You ends when its target leaves. Ambush can be cast before the first round's turns start: the target resists with Insight + Alert against the user's successes; otherwise the user takes one surprise action before turns start that the target cannot Evade or Clash, and these pre-initiative actions are refunded when turns start. Encore (not usable in consecutive rounds) makes a target that acted last round repeat that round's moves in order and on the same targets for the rest of the round, refusing other moves and anything beyond the sequence; repeated Evasions/Clashes are not forced. Sucker Punch and Thunderclap can only react to a Physical or Special move, with an owner-saved early (Reaction 6, default) or late (Late Reaction 1) timing. Grapple: the target resists with its better of Strength/Dexterity against the user's successes; otherwise it is Blocked and the user cannot act or react until it releases (free) or either leaves. Double Team and Minimize allow up to five Evasions per round instead of one per turn; Minimize also halves weight and makes the user vulnerable to Stomp. Chip Away removes those evasion effects from a target it damages."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -1279,5 +1293,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "16474392c97a3de82af29e0464a882bfdf39403a91a2189d07c0d00b2da8cea9"
+  "move_completion_registry_hash": "1b332f65fe3402ca647c65c50d9d20c43bcd555217fa852f62c8f15998fe1dff"
 }

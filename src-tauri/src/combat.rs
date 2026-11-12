@@ -23,6 +23,7 @@ pub(crate) mod field;
 pub(crate) mod forms;
 pub(crate) mod house;
 pub(crate) mod information;
+pub(crate) mod initiative_ops;
 pub(crate) mod interactions;
 pub(crate) mod items;
 pub(crate) mod judgment;
@@ -624,7 +625,7 @@ fn reaction_pool(c: &Campaign, id: &str, kind: &str, name: &str, cat: &Catalog) 
     let f = flow(c)?;
     // Table rules: Evasion shares the turn's reaction slot with reaction moves.
     // Clash can answer each eligible incoming attack independently of that slot.
-    if kind != "clash" && f.reacted.contains(id) {
+    if kind != "clash" && f.reacted.contains(id) && !initiative_ops::extra_evasion(c, id, kind) {
         return Err(error(if kind == "evade" {
             "Evasion is limited to once per turn and shares the reaction slot with reaction moves"
         } else {
@@ -645,6 +646,7 @@ fn reaction_pool(c: &Campaign, id: &str, kind: &str, name: &str, cat: &Catalog) 
         fighter(c, &incoming.actor_id)?,
         &move_entry(cat, &incoming.move_name)?,
     );
+    initiative_ops::reaction_guard(c, id, kind, name, incoming, &m)?;
     if kind == "evade" || kind == "clash" {
         if kind == "clash" && judgment::active(c, &m) {
             return Err(error("Judgment cannot be Clashed"));
@@ -983,7 +985,10 @@ fn base_dice_count(c: &Campaign, a: &Action, cat: &Catalog) -> Result<u32> {
                 _ => unreachable!(),
             };
             special::ready_move(c, combatant_id, name)?;
-            turn(c, combatant_id)?;
+            if !initiative_ops::pre_start(c, combatant_id, name) {
+                turn(c, combatant_id)?;
+            }
+            initiative_ops::action_guard(c, combatant_id, name)?;
             if matches!(a, Action::AccuracyTargets { .. }) {
                 plan(
                     c,
@@ -1185,6 +1190,7 @@ pub fn transition(
     if let Some(setup) = field::start_setup(a) {
         if ![
             ENGINE,
+            CONDITION_OPS_ENGINE,
             DAMAGE_OPS_ENGINE,
             TYPE_OPS_ENGINE,
             STAT_OPS_ENGINE,
@@ -1259,6 +1265,7 @@ pub fn transition(
             setup,
             [
                 ENGINE,
+                CONDITION_OPS_ENGINE,
                 DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
@@ -1951,11 +1958,13 @@ fn transition_inner(
                 order.reverse();
             }
             extra::order(c, &mut order);
+            initiative_ops::order(c, &mut order);
             let f = flow_mut(&mut next);
             f.order = order.iter().map(|p| p.id.clone()).collect();
             f.started = true;
             f.turn += 1;
             f.cursor = 0;
+            initiative_ops::start_turns(&mut next)?;
             field::start(&mut next, cat)?;
             extra::round_start(&mut next)?;
             "Initiative order confirmed; turns started".into()
@@ -2009,7 +2018,10 @@ fn transition_inner(
             ..
         } => {
             owner(c, actor, combatant_id)?;
-            turn(c, combatant_id)?;
+            if !initiative_ops::pre_start(c, combatant_id, move_name) {
+                turn(c, combatant_id)?;
+            }
+            initiative_ops::action_guard(c, combatant_id, move_name)?;
             special::ready_move(c, combatant_id, move_name)?;
             reason(r)?;
             if actor != c.gm_id && (*pool_modifier != 0 || *success_modifier != 0) {
@@ -2041,6 +2053,8 @@ fn transition_inner(
                     || ["Phantom Force", "Shadow Force"].contains(&move_name.as_str()),
             );
             let targets = tactics::redirect_move(c, combatant_id, targets, &m, cat)?;
+            initiative_ops::encore_guard(c, combatant_id, move_name, &targets)?;
+            initiative_ops::log_move(&mut next, combatant_id, move_name, &targets);
             if reviewed::enabled(c)
                 && completion::definition(c, "Shelter").is_none()
                 && !events::enabled(c)
@@ -2313,6 +2327,7 @@ fn transition_inner(
             fighter_mut(&mut next, combatant_id)?.runtime.pain_ignored = saved_pain;
             fighter_mut(&mut next, combatant_id)?.actions += 1;
             fighter_mut(&mut next, combatant_id)?.reactions += 1;
+            initiative_ops::evaded(&mut next, combatant_id, kind);
             if kind != "clash" {
                 flow_mut(&mut next).reacted.insert(combatant_id.clone());
             }
@@ -3388,6 +3403,7 @@ fn transition_inner(
                 b.flow = Some(TurnFlow {
                     identity_moves: [
                         ENGINE,
+                        CONDITION_OPS_ENGINE,
                         DAMAGE_OPS_ENGINE,
                         TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
@@ -3452,6 +3468,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     status_escalation: [
                         ENGINE,
+                        CONDITION_OPS_ENGINE,
                         DAMAGE_OPS_ENGINE,
                         TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
@@ -3515,6 +3532,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     spite: [
                         ENGINE,
+                        CONDITION_OPS_ENGINE,
                         DAMAGE_OPS_ENGINE,
                         TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
@@ -3577,6 +3595,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     will_drains: [
                         ENGINE,
+                        CONDITION_OPS_ENGINE,
                         DAMAGE_OPS_ENGINE,
                         TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
@@ -3638,6 +3657,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     direct_status: [
                         ENGINE,
+                        CONDITION_OPS_ENGINE,
                         DAMAGE_OPS_ENGINE,
                         TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
@@ -3698,6 +3718,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     chance_status: [
                         ENGINE,
+                        CONDITION_OPS_ENGINE,
                         DAMAGE_OPS_ENGINE,
                         TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
@@ -3757,6 +3778,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     battlefield_review: [
                         ENGINE,
+                        CONDITION_OPS_ENGINE,
                         DAMAGE_OPS_ENGINE,
                         TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
@@ -3812,6 +3834,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     entry_hazards: [
                         ENGINE,
+                        CONDITION_OPS_ENGINE,
                         DAMAGE_OPS_ENGINE,
                         TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
@@ -3867,6 +3890,7 @@ fn transition_inner(
                     damaging_stats: Box::new(damaging_stats::StatMoveState {
                         enabled: [
                             ENGINE,
+                            CONDITION_OPS_ENGINE,
                             DAMAGE_OPS_ENGINE,
                             TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
@@ -3923,6 +3947,7 @@ fn transition_inner(
                     }),
                     cure_protection: [
                         ENGINE,
+                        CONDITION_OPS_ENGINE,
                         DAMAGE_OPS_ENGINE,
                         TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
@@ -3980,6 +4005,7 @@ fn transition_inner(
                     recurring: Box::new(recurring::RecurringState {
                         enabled: [
                             ENGINE,
+                            CONDITION_OPS_ENGINE,
                             DAMAGE_OPS_ENGINE,
                             TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
@@ -4040,6 +4066,7 @@ fn transition_inner(
                     compound: compound::CompoundState {
                         enabled: [
                             ENGINE,
+                            CONDITION_OPS_ENGINE,
                             DAMAGE_OPS_ENGINE,
                             TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
@@ -4100,6 +4127,7 @@ fn transition_inner(
                     },
                     house_rules: [
                         ENGINE,
+                        CONDITION_OPS_ENGINE,
                         DAMAGE_OPS_ENGINE,
                         TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
@@ -4166,6 +4194,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     interaction_rules: [
                         ENGINE,
+                        CONDITION_OPS_ENGINE,
                         DAMAGE_OPS_ENGINE,
                         TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
@@ -4235,6 +4264,7 @@ fn transition_inner(
                     standalone: standalone::StandaloneState {
                         enabled: [
                             ENGINE,
+                            CONDITION_OPS_ENGINE,
                             DAMAGE_OPS_ENGINE,
                             TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
@@ -4307,6 +4337,7 @@ fn transition_inner(
                     information: information::InformationState {
                         enabled: [
                             ENGINE,
+                            CONDITION_OPS_ENGINE,
                             DAMAGE_OPS_ENGINE,
                             TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
@@ -4380,6 +4411,7 @@ fn transition_inner(
                     forms: forms::FormState {
                         enabled: [
                             ENGINE,
+                            CONDITION_OPS_ENGINE,
                             DAMAGE_OPS_ENGINE,
                             TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
@@ -4455,6 +4487,7 @@ fn transition_inner(
                         completion: items::completion::CompletionState {
                             enabled: [
                                 ENGINE,
+                                CONDITION_OPS_ENGINE,
                                 DAMAGE_OPS_ENGINE,
                                 TYPE_OPS_ENGINE,
                                 STAT_OPS_ENGINE,
@@ -4524,6 +4557,7 @@ fn transition_inner(
                         },
                         enabled: [
                             ENGINE,
+                            CONDITION_OPS_ENGINE,
                             DAMAGE_OPS_ENGINE,
                             TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
@@ -4599,6 +4633,7 @@ fn transition_inner(
                     events: events::EventState {
                         enabled: [
                             ENGINE,
+                            CONDITION_OPS_ENGINE,
                             DAMAGE_OPS_ENGINE,
                             TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
@@ -4674,6 +4709,7 @@ fn transition_inner(
                     },
                     provenance_rules: [
                         ENGINE,
+                        CONDITION_OPS_ENGINE,
                         DAMAGE_OPS_ENGINE,
                         TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
@@ -4749,6 +4785,7 @@ fn transition_inner(
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            CONDITION_OPS_ENGINE,
                             DAMAGE_OPS_ENGINE,
                             TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
@@ -4827,6 +4864,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            CONDITION_OPS_ENGINE,
                             DAMAGE_OPS_ENGINE,
                             TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
@@ -4905,6 +4943,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        CONDITION_OPS_ENGINE,
                         DAMAGE_OPS_ENGINE,
                         TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
@@ -4983,6 +5022,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            CONDITION_OPS_ENGINE,
                             DAMAGE_OPS_ENGINE,
                             TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
@@ -5064,6 +5104,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            CONDITION_OPS_ENGINE,
                             DAMAGE_OPS_ENGINE,
                             TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
@@ -5146,6 +5187,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            CONDITION_OPS_ENGINE,
                             DAMAGE_OPS_ENGINE,
                             TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
@@ -5229,6 +5271,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            CONDITION_OPS_ENGINE,
                             DAMAGE_OPS_ENGINE,
                             TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
@@ -5313,6 +5356,7 @@ fn transition_inner(
                     special: Box::new(special::SpecialState {
                         enabled: [
                             ENGINE,
+                            CONDITION_OPS_ENGINE,
                             DAMAGE_OPS_ENGINE,
                             TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
@@ -5397,6 +5441,7 @@ fn transition_inner(
                     }),
                     ability_rules: [
                         ENGINE,
+                        CONDITION_OPS_ENGINE,
                         DAMAGE_OPS_ENGINE,
                         TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
@@ -5483,6 +5528,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            CONDITION_OPS_ENGINE,
                             DAMAGE_OPS_ENGINE,
                             TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
@@ -5569,6 +5615,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            CONDITION_OPS_ENGINE,
                             DAMAGE_OPS_ENGINE,
                             TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,

@@ -22,7 +22,32 @@ export default function MoveOptionControls({
   if (!b?.active || !f) return null;
   const options = q ? f.completion?.open_options?.[q.sequence] : undefined;
   const conversions = Object.entries(f.completion?.conversion_choices ?? {});
-  if (!options?.length && !conversions.length) return null;
+  const adopted = f.completion?.blocks?.includes("MOVE-A52");
+  const grapplers = adopted
+    ? [
+        ...new Set(
+          f.special.effects
+            .filter((e) => e.slot === "grapple")
+            .map((e) => e.source),
+        ),
+      ]
+    : [];
+  const timed = adopted
+    ? b.combatants.flatMap((p) =>
+        p.deployed && p.hp > 0
+          ? (campaign.sheets[p.sheet_id]?.moves ?? [])
+              .filter((m) => m === "Sucker Punch" || m === "Thunderclap")
+              .map((m) => ({ id: p.id, move: m }))
+          : [],
+      )
+    : [];
+  if (
+    !options?.length &&
+    !conversions.length &&
+    !grapplers.length &&
+    !timed.length
+  )
+    return null;
   const owns = (id: string) =>
     campaign.gm_id === playerId ||
     b.combatants.some((p) => p.id === id && p.owner_id === playerId);
@@ -66,6 +91,51 @@ export default function MoveOptionControls({
           </button>
         </section>
       ) : null}
+      {grapplers.map((id) => (
+        <section key={`grapple-${id}`} aria-label="Grapple">
+          <p>{label(id)} is Grappling and cannot act.</p>
+          <button
+            disabled={disabled || !owns(id)}
+            onClick={() =>
+              execute({
+                type: "special_move",
+                command: { kind: "ReleaseGrapple", combatant_id: id },
+                reason: "Release the Grapple to act",
+              })
+            }
+          >
+            Release Grapple
+          </button>
+        </section>
+      ))}
+      {timed.map(({ id, move }) => {
+        const late = f.completion.reaction_timing?.[`${id}:${move}`] === "late";
+        return (
+          <section key={`timing-${id}-${move}`} aria-label={`${move} timing`}>
+            <p>
+              {label(id)}: {move} reacts{" "}
+              {late ? "late (Late Reaction 1)" : "early (Reaction 6)"}.
+            </p>
+            <button
+              disabled={disabled || !owns(id)}
+              onClick={() =>
+                execute({
+                  type: "special_move",
+                  command: {
+                    kind: "ReactionTiming",
+                    combatant_id: id,
+                    move_name: move,
+                    late: !late,
+                  },
+                  reason: `${move} reacts ${late ? "early" : "late"}`,
+                })
+              }
+            >
+              {late ? "React early" : "React late"}
+            </button>
+          </section>
+        );
+      })}
       {conversions.map(([id, list]) => {
         const picked =
           types[id] && list?.includes(types[id]) ? types[id] : list?.[0];

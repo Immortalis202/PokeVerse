@@ -33,6 +33,20 @@ pub struct MoveCompletionState {
     pub ruined: BTreeSet<String>,
     /// Temper Flare/Stomping Tantrum casts following a failed Accuracy roll.
     pub tantrum: BTreeSet<u32>,
+    /// After You (first) and Quash (last) initiative marks, by target.
+    pub initiative: BTreeMap<String, initiative_ops::InitiativeMark>,
+    /// Successful Ambushes awaiting or having taken their surprise action, by user.
+    pub ambush: BTreeMap<String, initiative_ops::AmbushState>,
+    /// Moves declared this round and last round, for Encore.
+    pub move_log: BTreeMap<String, Vec<initiative_ops::LoggedMove>>,
+    /// Round in which each Encored combatant must repeat its previous round.
+    pub encored: BTreeMap<String, u32>,
+    /// Round in which each user last cast Encore.
+    pub encore_casts: BTreeMap<String, u32>,
+    /// Sucker Punch/Thunderclap timing choices ("early"/"late"), by "combatant:move".
+    pub reaction_timing: BTreeMap<String, String>,
+    /// Evasions taken this round by Double Team/Minimize users: (round, count).
+    pub evasions: BTreeMap<String, (u32, u32)>,
     pub blocks: BTreeSet<String>,
     pub uses: Vec<CompletionMoveUse>,
     pub entered: BTreeMap<String, u32>,
@@ -121,6 +135,9 @@ pub fn effect_dice(c: &Campaign, q: &QueuedAction) -> Result<Option<u32>> {
         .or_else(|| type_ops::effect_dice(c, q))
         .or_else(|| damage_ops::effect_dice(c, q))
     {
+        return Ok(Some(n));
+    }
+    if let Some(n) = initiative_ops::effect_dice(c, q)? {
         return Ok(Some(n));
     }
     Ok(definition(c, &q.move_name).map(|_| 0))
@@ -422,6 +439,9 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
         }
         "condition-op" => {
             condition_ops::effect(c, q)?;
+        }
+        "initiative-op" => {
+            initiative_ops::effect(c, q, _dice, cat)?;
         }
         "stat" => {
             return damaging_stats::effect(c, q, _dice, cat);
@@ -908,6 +928,7 @@ pub fn physical_defense(c: &Campaign, m: &serde_json::Value) -> bool {
 }
 pub fn move_data(c: &Campaign, p: &Combatant, m: &mut serde_json::Value) {
     damage_ops::move_data(c, p, m);
+    initiative_ops::move_data(c, p, m);
     if ["Physical", "Special"].contains(&m["Category"].as_str().unwrap_or(""))
         && self_support(c, p, "Dragon Cheer")
     {
@@ -1220,6 +1241,11 @@ pub fn observe(before: &Campaign, next: &mut Campaign, cat: &Catalog) -> Result<
     if flow(next).is_ok_and(|f| f.completion.blocks.contains("MOVE-A51")) {
         condition_ops::observe(before, next)?;
     }
+    if flow(next).is_ok_and(|f| f.completion.blocks.contains("MOVE-A52"))
+        && battle(next).is_ok_and(|b| b.active)
+    {
+        initiative_ops::lifecycle(next)?;
+    }
     if definition(next, "Charge").is_some() {
         let sequences: BTreeSet<_> = flow(next)?
             .queue
@@ -1519,7 +1545,12 @@ fn self_support(c: &Campaign, p: &Combatant, name: &str) -> bool {
         })
 }
 pub fn weight(c: &Campaign, p: &Combatant, n: f64) -> f64 {
-    if self_support(c, p, "Autotomize") {
+    let n = if self_support(c, p, "Autotomize") {
+        n / 2.0
+    } else {
+        n
+    };
+    if initiative_ops::minimized(c, &p.id) {
         n / 2.0
     } else {
         n
