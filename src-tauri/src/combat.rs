@@ -9,6 +9,7 @@ pub(crate) mod chance_status;
 pub(crate) mod choices;
 pub(crate) mod completion;
 pub(crate) mod compound;
+pub(crate) mod condition_ops;
 pub(crate) mod copies;
 pub(crate) mod cure_protection;
 pub(crate) mod damage_ops;
@@ -1184,6 +1185,7 @@ pub fn transition(
     if let Some(setup) = field::start_setup(a) {
         if ![
             ENGINE,
+            DAMAGE_OPS_ENGINE,
             TYPE_OPS_ENGINE,
             STAT_OPS_ENGINE,
             JUDGMENT_ENGINE,
@@ -1257,6 +1259,7 @@ pub fn transition(
             setup,
             [
                 ENGINE,
+                DAMAGE_OPS_ENGINE,
                 TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
                 JUDGMENT_ENGINE,
@@ -2228,6 +2231,7 @@ fn transition_inner(
             }
             provenance::tag_actions(c, &mut next, cat)?;
             special::after_accuracy(&mut next, combatant_id, &m, net >= required as i32, cat)?;
+            condition_ops::accuracy(&mut next, combatant_id, move_name, net >= required as i32)?;
             items::commit_item_move(c, &mut next, combatant_id, move_name, c.revision + 1, cat)?;
             format!("{move_name}: host dice {dice:?}, {net} successes, requires {required}. {r}")
         }
@@ -2764,7 +2768,10 @@ fn transition_inner(
                 }
             }
             if special::enabled(c) && special::formula_name(&q.move_name) {
+                let before_hp = fighter(c, &q.target_id)?.hp;
                 let log = special::resolve_formula(&mut next, actor, &q, a, &dice, cat)?;
+                let dealt = before_hp - fighter(&next, &q.target_id).map_or(before_hp, |p| p.hp);
+                condition_ops::after_damage(&mut next, &q, dealt);
                 ability_changes::lifecycle(c, &mut next, cat)?;
                 tactics::lifecycle(c, &mut next, cat)?;
                 field::lifecycle(c, &mut next, cat)?;
@@ -3019,6 +3026,7 @@ fn transition_inner(
             }
             let actual_damage = (before - fighter(&done, &q.target_id)?.hp).max(0);
             damage_ops::after_damage(&mut done, &q.target_id, &move_data, actual_damage)?;
+            condition_ops::after_damage(&mut done, &q, actual_damage);
             special::hit(
                 &mut done,
                 &q,
@@ -3380,6 +3388,7 @@ fn transition_inner(
                 b.flow = Some(TurnFlow {
                     identity_moves: [
                         ENGINE,
+                        DAMAGE_OPS_ENGINE,
                         TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
@@ -3443,6 +3452,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     status_escalation: [
                         ENGINE,
+                        DAMAGE_OPS_ENGINE,
                         TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
@@ -3505,6 +3515,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     spite: [
                         ENGINE,
+                        DAMAGE_OPS_ENGINE,
                         TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
@@ -3566,6 +3577,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     will_drains: [
                         ENGINE,
+                        DAMAGE_OPS_ENGINE,
                         TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
@@ -3626,6 +3638,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     direct_status: [
                         ENGINE,
+                        DAMAGE_OPS_ENGINE,
                         TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
@@ -3685,6 +3698,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     chance_status: [
                         ENGINE,
+                        DAMAGE_OPS_ENGINE,
                         TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
@@ -3743,6 +3757,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     battlefield_review: [
                         ENGINE,
+                        DAMAGE_OPS_ENGINE,
                         TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
@@ -3797,6 +3812,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     entry_hazards: [
                         ENGINE,
+                        DAMAGE_OPS_ENGINE,
                         TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
@@ -3851,6 +3867,7 @@ fn transition_inner(
                     damaging_stats: Box::new(damaging_stats::StatMoveState {
                         enabled: [
                             ENGINE,
+                            DAMAGE_OPS_ENGINE,
                             TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
@@ -3906,6 +3923,7 @@ fn transition_inner(
                     }),
                     cure_protection: [
                         ENGINE,
+                        DAMAGE_OPS_ENGINE,
                         TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
@@ -3962,6 +3980,7 @@ fn transition_inner(
                     recurring: Box::new(recurring::RecurringState {
                         enabled: [
                             ENGINE,
+                            DAMAGE_OPS_ENGINE,
                             TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
@@ -4021,6 +4040,7 @@ fn transition_inner(
                     compound: compound::CompoundState {
                         enabled: [
                             ENGINE,
+                            DAMAGE_OPS_ENGINE,
                             TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
@@ -4080,6 +4100,7 @@ fn transition_inner(
                     },
                     house_rules: [
                         ENGINE,
+                        DAMAGE_OPS_ENGINE,
                         TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
@@ -4145,6 +4166,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     interaction_rules: [
                         ENGINE,
+                        DAMAGE_OPS_ENGINE,
                         TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
@@ -4213,6 +4235,7 @@ fn transition_inner(
                     standalone: standalone::StandaloneState {
                         enabled: [
                             ENGINE,
+                            DAMAGE_OPS_ENGINE,
                             TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
@@ -4284,6 +4307,7 @@ fn transition_inner(
                     information: information::InformationState {
                         enabled: [
                             ENGINE,
+                            DAMAGE_OPS_ENGINE,
                             TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
@@ -4356,6 +4380,7 @@ fn transition_inner(
                     forms: forms::FormState {
                         enabled: [
                             ENGINE,
+                            DAMAGE_OPS_ENGINE,
                             TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
@@ -4430,6 +4455,7 @@ fn transition_inner(
                         completion: items::completion::CompletionState {
                             enabled: [
                                 ENGINE,
+                                DAMAGE_OPS_ENGINE,
                                 TYPE_OPS_ENGINE,
                                 STAT_OPS_ENGINE,
                                 JUDGMENT_ENGINE,
@@ -4498,6 +4524,7 @@ fn transition_inner(
                         },
                         enabled: [
                             ENGINE,
+                            DAMAGE_OPS_ENGINE,
                             TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
@@ -4572,6 +4599,7 @@ fn transition_inner(
                     events: events::EventState {
                         enabled: [
                             ENGINE,
+                            DAMAGE_OPS_ENGINE,
                             TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
@@ -4646,6 +4674,7 @@ fn transition_inner(
                     },
                     provenance_rules: [
                         ENGINE,
+                        DAMAGE_OPS_ENGINE,
                         TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
@@ -4720,6 +4749,7 @@ fn transition_inner(
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            DAMAGE_OPS_ENGINE,
                             TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
@@ -4797,6 +4827,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            DAMAGE_OPS_ENGINE,
                             TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
@@ -4874,6 +4905,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        DAMAGE_OPS_ENGINE,
                         TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
@@ -4951,6 +4983,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            DAMAGE_OPS_ENGINE,
                             TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
@@ -5031,6 +5064,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            DAMAGE_OPS_ENGINE,
                             TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
@@ -5112,6 +5146,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            DAMAGE_OPS_ENGINE,
                             TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
@@ -5194,6 +5229,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            DAMAGE_OPS_ENGINE,
                             TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
@@ -5277,6 +5313,7 @@ fn transition_inner(
                     special: Box::new(special::SpecialState {
                         enabled: [
                             ENGINE,
+                            DAMAGE_OPS_ENGINE,
                             TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
@@ -5360,6 +5397,7 @@ fn transition_inner(
                     }),
                     ability_rules: [
                         ENGINE,
+                        DAMAGE_OPS_ENGINE,
                         TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
@@ -5445,6 +5483,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            DAMAGE_OPS_ENGINE,
                             TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
@@ -5530,6 +5569,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            DAMAGE_OPS_ENGINE,
                             TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,

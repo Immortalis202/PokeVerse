@@ -1,8 +1,8 @@
 {
   "version": 1,
   "date": "2026-11-10",
-  "release": "0.93.0",
-  "engine": "0.85.0-core",
+  "release": "0.94.0",
+  "engine": "0.86.0-core",
   "scope": "892-card effect-route inventory; focused semantic review of status infliction, cure and protection clauses. M2-A through M2-E battle status clauses and MOVE-A01 damaging attribute clauses plus MOVE-A02 entry hazards delivered; see scoped registries and retained choices.",
   "limits": [
     "An executable route is not full card coverage.",
@@ -19,10 +19,10 @@
   "counts": {
     "routes": {
       "excluded": 38,
-      "executable-scope": 763,
+      "executable-scope": 772,
       "gm-choice": 1,
       "input-required": 19,
-      "manual-effect-route": 71
+      "manual-effect-route": 62
     },
     "status_clauses": {
       "excluded": 6,
@@ -2993,22 +2993,39 @@
       },
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A51: Nine history-dependent cards. Belch is refused unless the user ate a berry this round (recorded berry consumption or berry hits); its Beauty forfeit/restore clauses are outside battle. Last Resort is refused until every other known move has had a successful Accuracy roll in this battle. Poltergeist is refused unless the target holds an item or an item was consumed, used as medicine, recycled or harvested on the target's side. Ruination rolls damage dice equal to the target's total HP, ignoring defenses (formula pool, effectiveness kept) and is refused against a target it already damaged this battle. Lash Out adds 3 dice if one of the user's Attributes or Traits was lowered this round; Revenge adds 2 dice if the user lost HP earlier this round; Temper Flare and Stomping Tantrum add 2 dice when the user's previous move failed its Accuracy roll (Stomping Tantrum's Dig clause is the existing range rule). Fell Stinger raises the user's Strength by 2 when its damage faints the target; targeting an already fainted Pokemon is not possible in the engine. Missing<Social>Points Accuracy pools (Belch, Chilly Reception) count the social points given up: the social cap (5, or 7 for Champions) minus the current score. Chilly Reception also activates Snowy Weather for 4 rounds before its Switcher effect; its Cool forfeit clause is outside battle.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -6058,7 +6075,14 @@
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A51: Nine history-dependent cards. Belch is refused unless the user ate a berry this round (recorded berry consumption or berry hits); its Beauty forfeit/restore clauses are outside battle. Last Resort is refused until every other known move has had a successful Accuracy roll in this battle. Poltergeist is refused unless the target holds an item or an item was consumed, used as medicine, recycled or harvested on the target's side. Ruination rolls damage dice equal to the target's total HP, ignoring defenses (formula pool, effectiveness kept) and is refused against a target it already damaged this battle. Lash Out adds 3 dice if one of the user's Attributes or Traits was lowered this round; Revenge adds 2 dice if the user lost HP earlier this round; Temper Flare and Stomping Tantrum add 2 dice when the user's previous move failed its Accuracy roll (Stomping Tantrum's Dig clause is the existing range rule). Fell Stinger raises the user's Strength by 2 when its damage faints the target; targeting an already fainted Pokemon is not possible in the engine. Missing<Social>Points Accuracy pools (Belch, Chilly Reception) count the social points given up: the social cap (5, or 7 for Champions) minus the current score. Chilly Reception also activates Snowy Weather for 4 rounds before its Switcher effect; its Cool forfeit clause is outside battle.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
@@ -13011,22 +13035,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A51: Nine history-dependent cards. Belch is refused unless the user ate a berry this round (recorded berry consumption or berry hits); its Beauty forfeit/restore clauses are outside battle. Last Resort is refused until every other known move has had a successful Accuracy roll in this battle. Poltergeist is refused unless the target holds an item or an item was consumed, used as medicine, recycled or harvested on the target's side. Ruination rolls damage dice equal to the target's total HP, ignoring defenses (formula pool, effectiveness kept) and is refused against a target it already damaged this battle. Lash Out adds 3 dice if one of the user's Attributes or Traits was lowered this round; Revenge adds 2 dice if the user lost HP earlier this round; Temper Flare and Stomping Tantrum add 2 dice when the user's previous move failed its Accuracy roll (Stomping Tantrum's Dig clause is the existing range rule). Fell Stinger raises the user's Strength by 2 when its damage faints the target; targeting an already fainted Pokemon is not possible in the engine. Missing<Social>Points Accuracy pools (Belch, Chilly Reception) count the social points given up: the social cap (5, or 7 for Champions) minus the current score. Chilly Reception also activates Snowy Weather for 4 rounds before its Switcher effect; its Cool forfeit clause is outside battle.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -21850,22 +21891,39 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A51: Nine history-dependent cards. Belch is refused unless the user ate a berry this round (recorded berry consumption or berry hits); its Beauty forfeit/restore clauses are outside battle. Last Resort is refused until every other known move has had a successful Accuracy roll in this battle. Poltergeist is refused unless the target holds an item or an item was consumed, used as medicine, recycled or harvested on the target's side. Ruination rolls damage dice equal to the target's total HP, ignoring defenses (formula pool, effectiveness kept) and is refused against a target it already damaged this battle. Lash Out adds 3 dice if one of the user's Attributes or Traits was lowered this round; Revenge adds 2 dice if the user lost HP earlier this round; Temper Flare and Stomping Tantrum add 2 dice when the user's previous move failed its Accuracy roll (Stomping Tantrum's Dig clause is the existing range rule). Fell Stinger raises the user's Strength by 2 when its damage faints the target; targeting an already fainted Pokemon is not possible in the engine. Missing<Social>Points Accuracy pools (Belch, Chilly Reception) count the social points given up: the social cap (5, or 7 for Champions) minus the current score. Chilly Reception also activates Snowy Weather for 4 rounds before its Switcher effect; its Cool forfeit clause is outside battle.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -21881,22 +21939,39 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A51: Nine history-dependent cards. Belch is refused unless the user ate a berry this round (recorded berry consumption or berry hits); its Beauty forfeit/restore clauses are outside battle. Last Resort is refused until every other known move has had a successful Accuracy roll in this battle. Poltergeist is refused unless the target holds an item or an item was consumed, used as medicine, recycled or harvested on the target's side. Ruination rolls damage dice equal to the target's total HP, ignoring defenses (formula pool, effectiveness kept) and is refused against a target it already damaged this battle. Lash Out adds 3 dice if one of the user's Attributes or Traits was lowered this round; Revenge adds 2 dice if the user lost HP earlier this round; Temper Flare and Stomping Tantrum add 2 dice when the user's previous move failed its Accuracy roll (Stomping Tantrum's Dig clause is the existing range rule). Fell Stinger raises the user's Strength by 2 when its damage faints the target; targeting an already fainted Pokemon is not possible in the engine. Missing<Social>Points Accuracy pools (Belch, Chilly Reception) count the social points given up: the social cap (5, or 7 for Champions) minus the current score. Chilly Reception also activates Snowy Weather for 4 rounds before its Switcher effect; its Cool forfeit clause is outside battle.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -29761,22 +29836,39 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A51: Nine history-dependent cards. Belch is refused unless the user ate a berry this round (recorded berry consumption or berry hits); its Beauty forfeit/restore clauses are outside battle. Last Resort is refused until every other known move has had a successful Accuracy roll in this battle. Poltergeist is refused unless the target holds an item or an item was consumed, used as medicine, recycled or harvested on the target's side. Ruination rolls damage dice equal to the target's total HP, ignoring defenses (formula pool, effectiveness kept) and is refused against a target it already damaged this battle. Lash Out adds 3 dice if one of the user's Attributes or Traits was lowered this round; Revenge adds 2 dice if the user lost HP earlier this round; Temper Flare and Stomping Tantrum add 2 dice when the user's previous move failed its Accuracy roll (Stomping Tantrum's Dig clause is the existing range rule). Fell Stinger raises the user's Strength by 2 when its damage faints the target; targeting an already fainted Pokemon is not possible in the engine. Missing<Social>Points Accuracy pools (Belch, Chilly Reception) count the social points given up: the social cap (5, or 7 for Champions) minus the current score. Chilly Reception also activates Snowy Weather for 4 rounds before its Switcher effect; its Cool forfeit clause is outside battle.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -32870,22 +32962,39 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A51: Nine history-dependent cards. Belch is refused unless the user ate a berry this round (recorded berry consumption or berry hits); its Beauty forfeit/restore clauses are outside battle. Last Resort is refused until every other known move has had a successful Accuracy roll in this battle. Poltergeist is refused unless the target holds an item or an item was consumed, used as medicine, recycled or harvested on the target's side. Ruination rolls damage dice equal to the target's total HP, ignoring defenses (formula pool, effectiveness kept) and is refused against a target it already damaged this battle. Lash Out adds 3 dice if one of the user's Attributes or Traits was lowered this round; Revenge adds 2 dice if the user lost HP earlier this round; Temper Flare and Stomping Tantrum add 2 dice when the user's previous move failed its Accuracy roll (Stomping Tantrum's Dig clause is the existing range rule). Fell Stinger raises the user's Strength by 2 when its damage faints the target; targeting an already fainted Pokemon is not possible in the engine. Missing<Social>Points Accuracy pools (Belch, Chilly Reception) count the social points given up: the social cap (5, or 7 for Champions) minus the current score. Chilly Reception also activates Snowy Weather for 4 rounds before its Switcher effect; its Cool forfeit clause is outside battle.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -33974,24 +34083,41 @@
       },
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [
         "Optional lethal wounds are excluded; ordinary damage remains separate"
       ],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A51: Nine history-dependent cards. Belch is refused unless the user ate a berry this round (recorded berry consumption or berry hits); its Beauty forfeit/restore clauses are outside battle. Last Resort is refused until every other known move has had a successful Accuracy roll in this battle. Poltergeist is refused unless the target holds an item or an item was consumed, used as medicine, recycled or harvested on the target's side. Ruination rolls damage dice equal to the target's total HP, ignoring defenses (formula pool, effectiveness kept) and is refused against a target it already damaged this battle. Lash Out adds 3 dice if one of the user's Attributes or Traits was lowered this round; Revenge adds 2 dice if the user lost HP earlier this round; Temper Flare and Stomping Tantrum add 2 dice when the user's previous move failed its Accuracy roll (Stomping Tantrum's Dig clause is the existing range rule). Fell Stinger raises the user's Strength by 2 when its damage faints the target; targeting an already fainted Pokemon is not possible in the engine. Missing<Social>Points Accuracy pools (Belch, Chilly Reception) count the social points given up: the social cap (5, or 7 for Champions) minus the current score. Chilly Reception also activates Snowy Weather for 4 rounds before its Switcher effect; its Cool forfeit clause is outside battle.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -40112,22 +40238,39 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A51: Nine history-dependent cards. Belch is refused unless the user ate a berry this round (recorded berry consumption or berry hits); its Beauty forfeit/restore clauses are outside battle. Last Resort is refused until every other known move has had a successful Accuracy roll in this battle. Poltergeist is refused unless the target holds an item or an item was consumed, used as medicine, recycled or harvested on the target's side. Ruination rolls damage dice equal to the target's total HP, ignoring defenses (formula pool, effectiveness kept) and is refused against a target it already damaged this battle. Lash Out adds 3 dice if one of the user's Attributes or Traits was lowered this round; Revenge adds 2 dice if the user lost HP earlier this round; Temper Flare and Stomping Tantrum add 2 dice when the user's previous move failed its Accuracy roll (Stomping Tantrum's Dig clause is the existing range rule). Fell Stinger raises the user's Strength by 2 when its damage faints the target; targeting an already fainted Pokemon is not possible in the engine. Missing<Social>Points Accuracy pools (Belch, Chilly Reception) count the social points given up: the social cap (5, or 7 for Champions) minus the current score. Chilly Reception also activates Snowy Weather for 4 rounds before its Switcher effect; its Cool forfeit clause is outside battle.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -42955,22 +43098,39 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A51: Nine history-dependent cards. Belch is refused unless the user ate a berry this round (recorded berry consumption or berry hits); its Beauty forfeit/restore clauses are outside battle. Last Resort is refused until every other known move has had a successful Accuracy roll in this battle. Poltergeist is refused unless the target holds an item or an item was consumed, used as medicine, recycled or harvested on the target's side. Ruination rolls damage dice equal to the target's total HP, ignoring defenses (formula pool, effectiveness kept) and is refused against a target it already damaged this battle. Lash Out adds 3 dice if one of the user's Attributes or Traits was lowered this round; Revenge adds 2 dice if the user lost HP earlier this round; Temper Flare and Stomping Tantrum add 2 dice when the user's previous move failed its Accuracy roll (Stomping Tantrum's Dig clause is the existing range rule). Fell Stinger raises the user's Strength by 2 when its damage faints the target; targeting an already fainted Pokemon is not possible in the engine. Missing<Social>Points Accuracy pools (Belch, Chilly Reception) count the social points given up: the social cap (5, or 7 for Champions) minus the current score. Chilly Reception also activates Snowy Weather for 4 rounds before its Switcher effect; its Cool forfeit clause is outside battle.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },

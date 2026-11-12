@@ -58,6 +58,7 @@ The live source of remaining route work is `rules/move-effect-audit.json`. Its f
 | MOVE-A48 | Thirteen stat operations: splits, swaps, transfers, Acupressure and Mystical Power | Complete |
 | MOVE-A49 | Conversion, Reflect Type, Lock-On, Mind Reader, Miracle Eye, Snipe Shot, Moongeist Beam, Sunsteel Strike | Complete |
 | MOVE-A50 | Hidden Power, Photon Geyser, Tera Blast, Tera Starstorm, Flying Press, Foul Play, Techno Blast, Conversion 2 | Complete (Tera types and Drives not modelled) |
+| MOVE-A51 | Belch, Last Resort, Lash Out, Revenge, Temper Flare, Stomping Tantrum, Poltergeist, Fell Stinger, Ruination; Chilly Reception fix | Complete |
 | Later blocks | Ordinary attacks with existing attributes; remaining stat changes, resets and swaps; type/damage conversions; field changes; conditional damage; timing/action restrictions; items; copy/selection effects | Open |
 
 New block adoption is persisted in `TurnFlow.completion.blocks`. Every release records its engine in `rules/move-completion.json`; historical saves adopt no additional blocks automatically. The shared special-effect state is boxed while preserving its JSON shape to keep transition stack usage bounded.
@@ -107,3 +108,8 @@ See [typing, accuracy and targeting moves](battle-type-accuracy-moves.md). Even 
 ### MOVE-A50: damage-calculation moves
 
 See [damage-calculation moves](battle-type-accuracy-moves.md#damage-calculation-moves-move-a50). Saved Hidden Power type and Physical/Special category; always-super-effective Hidden Power with Unown repeats; Flying Press dual matchup; Foul Play's borrowed attribute; Techno Blast Drives; Tera Starstorm's random retyping; Conversion 2's post-hit resisting type. Terastallization is not modelled.
+
+
+### MOVE-A51: history and condition moves
+
+See [history and condition moves](battle-condition-moves.md). Use guards from battle history (berries, successful moves, items, earlier Ruination hits), round-history damage dice, Ruination's HP-sized pool, Fell Stinger's knockout increase, Missing<Social>Points Accuracy pools, and Chilly Reception's previously skipped Snowy Weather.

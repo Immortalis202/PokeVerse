@@ -910,6 +910,9 @@ fn apply_stat_context(
         key.into(),
         reviewed.unwrap_or_else(|| (old + n).clamp(-3, 3)),
     );
+    if n < 0 {
+        condition_ops::lowered(c, id);
+    }
     if n < 0 && p.has_ability("Defiant") {
         once(c, id, "Defiant", &[("Strength", 2)])?;
     }
@@ -1725,6 +1728,9 @@ pub(super) fn ability_drop(c: &mut Campaign, id: &str, key: &str, n: i32) -> Res
         _ => ("debuff", n),
     };
     let k = format!("{prefix}:{key}");
+    if prefix == "debuff" {
+        condition_ops::lowered(c, id);
+    }
     let old = *p.runtime.ability.counters.get(&k).unwrap_or(&0);
     fighter_mut(c, id)?.runtime.ability.counters.insert(
         k,

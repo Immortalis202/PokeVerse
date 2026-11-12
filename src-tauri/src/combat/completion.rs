@@ -21,6 +21,18 @@ pub struct MoveCompletionState {
     pub stolen: BTreeSet<u32>,
     /// Conversion 2 types each combatant may still choose after being hit.
     pub conversion_choices: BTreeMap<String, Vec<String>>,
+    /// Moves each combatant has performed with a successful Accuracy roll this battle.
+    pub performed: BTreeMap<String, BTreeSet<String>>,
+    /// Whether each combatant's last move Accuracy roll succeeded.
+    pub last_accuracy: BTreeMap<String, bool>,
+    /// Round in which each combatant last had an Attribute or Trait lowered.
+    pub lowered: BTreeMap<String, u32>,
+    /// Round in which each combatant last lost HP.
+    pub damaged: BTreeMap<String, u32>,
+    /// Targets already hit by Ruination this battle.
+    pub ruined: BTreeSet<String>,
+    /// Temper Flare/Stomping Tantrum casts following a failed Accuracy roll.
+    pub tantrum: BTreeSet<u32>,
     pub blocks: BTreeSet<String>,
     pub uses: Vec<CompletionMoveUse>,
     pub entered: BTreeMap<String, u32>,
@@ -407,6 +419,9 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
         }
         "damage-op" => {
             damage_ops::effect(c, q, _dice, cat)?;
+        }
+        "condition-op" => {
+            condition_ops::effect(c, q)?;
         }
         "stat" => {
             return damaging_stats::effect(c, q, _dice, cat);
@@ -1018,6 +1033,7 @@ pub fn stack_values(c: &Campaign, p: &Combatant, key: &str) -> Vec<i32> {
 pub fn guard_move(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> Result<()> {
     restriction_guard(c, p, m)?;
     history_guard(c, p, m)?;
+    condition_ops::guard(c, p, m)?;
     if definition(c, m["Name"].as_str().unwrap_or(""))
         .is_some_and(|(_, d)| d["requires_terrain"] == true)
         && !flow(c)?
@@ -1068,7 +1084,8 @@ fn contextual_type(c: &Campaign, p: &Combatant, m: &mut serde_json::Value) {
     }
 }
 pub fn damage_bonus(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> i32 {
-    let mut n = i32::from(abilities::contact(m) && self_support(c, p, "Victory Dance"));
+    let mut n = i32::from(abilities::contact(m) && self_support(c, p, "Victory Dance"))
+        + condition_ops::damage_bonus(c, p, m);
     if m["Type"] == "Electric"
         && ["Physical", "Special"].contains(&m["Category"].as_str().unwrap_or(""))
         && definition(c, "Charge").is_some()
@@ -1200,6 +1217,9 @@ pub fn observe(before: &Campaign, next: &mut Campaign, cat: &Catalog) -> Result<
     {
         damage_ops::lifecycle(next)?;
     }
+    if flow(next).is_ok_and(|f| f.completion.blocks.contains("MOVE-A51")) {
+        condition_ops::observe(before, next)?;
+    }
     if definition(next, "Charge").is_some() {
         let sequences: BTreeSet<_> = flow(next)?
             .queue
@@ -1307,7 +1327,7 @@ pub fn target_guard(c: &Campaign, id: &str, m: &serde_json::Value) -> Result<()>
             "Disable requires a previously performed Pokemon move",
         ));
     }
-    Ok(())
+    condition_ops::target_guard(c, id, m)
 }
 fn history_effect(
     c: &mut Campaign,

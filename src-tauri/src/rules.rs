@@ -165,8 +165,17 @@ pub fn accuracy(
     crate::combat::special::guard(c, key, &m, catalog)?;
     let m = crate::combat::field::move_data(c, p, &m);
     crate::combat::standalone::torrent(c, p, &m, p.hp, None)?;
-    let first = if crate::combat::compound::enabled(c) && name == "Lovely Kiss" {
-        ((if s.rank == "Champion" { 7 } else { 5 }) - score(&s, "Beauty")?).max(0)
+    // "Missing<Social>Points" pools count the social points given up (cap minus score).
+    let missing = m["Accuracy1"]
+        .as_str()
+        .and_then(|k| k.strip_prefix("Missing")?.strip_suffix("Points"))
+        .filter(|social| crate::creation::SOCIALS.contains(social))
+        .filter(|_| {
+            (crate::combat::compound::enabled(c) && name == "Lovely Kiss")
+                || crate::combat::completion::definition(c, "Belch").is_some()
+        });
+    let first = if let Some(social) = missing {
+        ((if s.rank == "Champion" { 7 } else { 5 }) - score(&s, social)?).max(0)
     } else {
         score(&s, m["Accuracy1"].as_str().unwrap_or_default())?
     };
@@ -228,6 +237,7 @@ pub fn accuracy(
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
     if [
         ENGINE,
+        DAMAGE_OPS_ENGINE,
         TYPE_OPS_ENGINE,
         STAT_OPS_ENGINE,
         JUDGMENT_ENGINE,

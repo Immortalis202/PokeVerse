@@ -34,6 +34,30 @@ export type MoveCompletionState = {
    * Conversion 2 types each combatant may still choose after being hit.
    */
   conversion_choices: { [key in string]?: Array<string> };
+  /**
+   * Moves each combatant has performed with a successful Accuracy roll this battle.
+   */
+  performed: { [key in string]?: Array<string> };
+  /**
+   * Whether each combatant's last move Accuracy roll succeeded.
+   */
+  last_accuracy: { [key in string]?: boolean };
+  /**
+   * Round in which each combatant last had an Attribute or Trait lowered.
+   */
+  lowered: { [key in string]?: number };
+  /**
+   * Round in which each combatant last lost HP.
+   */
+  damaged: { [key in string]?: number };
+  /**
+   * Targets already hit by Ruination this battle.
+   */
+  ruined: Array<string>;
+  /**
+   * Temper Flare/Stomping Tantrum casts following a failed Accuracy roll.
+   */
+  tantrum: Array<number>;
   blocks: Array<string>;
   uses: Array<CompletionMoveUse>;
   entered: { [key in string]?: number };

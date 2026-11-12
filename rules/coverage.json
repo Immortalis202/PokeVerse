@@ -1250,6 +1250,19 @@
         "completion_a50_tera_starstorm_retypes_damaged_targets_evenly"
       ],
       "scope": "Eight damage-calculation cards. Hidden Power's printed Type is Varies: the caster's owner saves its type per cast; it is always super-effective and ignores type immunity, and Unown may repeat it within a round (p.530). Photon Geyser, Tera Blast and Tera Starstorm print a Physical/Special category: the owner saves Physical (Strength vs Defense) or Special (Special vs Sp. Defense) per cast. Terastallization and Tera Types are not modelled, so the Tera type clauses never apply; Tera Starstorm still rolls two host dice per damaged target to replace its typing with one of the 18 types evenly. Flying Press adds the Flying matchup to its Fighting effectiveness. Foul Play uses the target's higher Strength/Special and the user's STAB. Techno Blast takes Fire, Ice, Water or Electric when a Genesect holds the matching Drive (no Drive items exist in the current catalog). Conversion 2 marks the user for the scene; each time Physical or Special damage reaches it, its owner may choose a type resisting that move, which replaces the main type (secondary kept)."
+    },
+    {
+      "id": "move-completion-a51",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A51",
+      "fixtures": [
+        "completion_a51_belch_last_resort_and_poltergeist_guard_their_use",
+        "completion_a51_chilly_reception_rolls_missing_cool_and_activates_snow",
+        "completion_a51_fell_stinger_raises_strength_only_when_it_faints_the_target",
+        "completion_a51_round_history_adds_damage_dice",
+        "completion_a51_ruination_rolls_target_hp_once_per_target"
+      ],
+      "scope": "Nine history-dependent cards. Belch is refused unless the user ate a berry this round (recorded berry consumption or berry hits); its Beauty forfeit/restore clauses are outside battle. Last Resort is refused until every other known move has had a successful Accuracy roll in this battle. Poltergeist is refused unless the target holds an item or an item was consumed, used as medicine, recycled or harvested on the target's side. Ruination rolls damage dice equal to the target's total HP, ignoring defenses (formula pool, effectiveness kept) and is refused against a target it already damaged this battle. Lash Out adds 3 dice if one of the user's Attributes or Traits was lowered this round; Revenge adds 2 dice if the user lost HP earlier this round; Temper Flare and Stomping Tantrum add 2 dice when the user's previous move failed its Accuracy roll (Stomping Tantrum's Dig clause is the existing range rule). Fell Stinger raises the user's Strength by 2 when its damage faints the target; targeting an already fainted Pokemon is not possible in the engine. Missing<Social>Points Accuracy pools (Belch, Chilly Reception) count the social points given up: the social cap (5, or 7 for Champions) minus the current score. Chilly Reception also activates Snowy Weather for 4 rounds before its Switcher effect; its Cool forfeit clause is outside battle."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -1266,5 +1279,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "8babc79f844711fe8542db3d8ced89257386c699b903e9310a61369099d2a47a"
+  "move_completion_registry_hash": "16474392c97a3de82af29e0464a882bfdf39403a91a2189d07c0d00b2da8cea9"
 }

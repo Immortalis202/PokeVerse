@@ -1091,7 +1091,7 @@ pub(super) fn hurt(c: &mut Campaign, id: &str, n: i32, t: &str, cat: &Catalog) -
     p.hp = (p.hp - amount.max(0)).max(0);
     Ok(())
 }
-fn set_weather(c: &mut Campaign, w: WeatherSource) -> Result<()> {
+pub(crate) fn set_weather(c: &mut Campaign, w: WeatherSource) -> Result<()> {
     if battle(c)?
         .combatants
         .iter()

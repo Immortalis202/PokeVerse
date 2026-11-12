@@ -2160,6 +2160,77 @@
           "op": "conversion-2"
         }
       }
+    },
+    "MOVE-A51": {
+      "engine": "0.86.0-core",
+      "kind": "condition-op",
+      "scope": "Nine history-dependent cards. Belch is refused unless the user ate a berry this round (recorded berry consumption or berry hits); its Beauty forfeit/restore clauses are outside battle. Last Resort is refused until every other known move has had a successful Accuracy roll in this battle. Poltergeist is refused unless the target holds an item or an item was consumed, used as medicine, recycled or harvested on the target's side. Ruination rolls damage dice equal to the target's total HP, ignoring defenses (formula pool, effectiveness kept) and is refused against a target it already damaged this battle. Lash Out adds 3 dice if one of the user's Attributes or Traits was lowered this round; Revenge adds 2 dice if the user lost HP earlier this round; Temper Flare and Stomping Tantrum add 2 dice when the user's previous move failed its Accuracy roll (Stomping Tantrum's Dig clause is the existing range rule). Fell Stinger raises the user's Strength by 2 when its damage faints the target; targeting an already fainted Pokemon is not possible in the engine. Missing<Social>Points Accuracy pools (Belch, Chilly Reception) count the social points given up: the social cap (5, or 7 for Champions) minus the current score. Chilly Reception also activates Snowy Weather for 4 rounds before its Switcher effect; its Cool forfeit clause is outside battle.",
+      "moves": {
+        "Belch": {
+          "source": "Pokerole-Data/v3.0/Moves/Belch.json",
+          "sha256": "816e8f0aee8dfccd76b7ca95d55975df11b7bf36d0f853cf628180e878684998",
+          "effect": "Single Target. Low Accuracy 1. Sound Move. This Move can only be used if the User has eaten a berry/food during the same Round. Pokemon with this Move may forfeit their Beauty score completely. If the Pokemon forgets this Move, restore 1 Point to their Beauty Score.",
+          "op": "belch"
+        },
+        "Last Resort": {
+          "source": "Pokerole-Data/v3.0/Moves/Last Resort.json",
+          "sha256": "e120a186d857b5e4cd7f01ed670bcf51ea705d4f95a9d4bb60fc4811244b4060",
+          "effect": "Single Target. This Move will fail if the User has not successfully performed all of its known Moves at least once during the battle.",
+          "op": "last-resort"
+        },
+        "Poltergeist": {
+          "source": "Pokerole-Data/v3.0/Moves/Poltergeist.json",
+          "sha256": "6ff4ee6f14a5035223c0ff2a39747a068a219334f3955d30f05f33d41cad81a5",
+          "effect": "Single Target. Can only be used if the Target is Holding an Item or if Items have been used on the Target's side of the field.",
+          "op": "poltergeist"
+        },
+        "Ruination": {
+          "source": "Pokerole-Data/v3.0/Moves/Ruination.json",
+          "sha256": "d3ec5aa7cc011619539325fe6d11d4d1958b77ba3a29c2a7e44d5376985ffe29",
+          "effect": "Single Target. Unique. Lethal. Roll Damage dice equal to the Target's Total HP. Ignore Defenses. This move will fail if the Target has been previously hit with this Move during the Battle.",
+          "op": "ruination"
+        },
+        "Lash Out": {
+          "source": "Pokerole-Data/v3.0/Moves/Lash Out.json",
+          "sha256": "e10be977b11a2a07ded088dba5ff89ca90f03cc63b236fbf5c6a727b55d8897d",
+          "effect": "Single Target. *Add 3 Extra Dice to the Damage Pool of this Move if any of the user's Attributes/Traits was lowered this Round.",
+          "op": "lash-out",
+          "dice": 3
+        },
+        "Revenge": {
+          "source": "Pokerole-Data/v3.0/Moves/Revenge.json",
+          "sha256": "4e93b2fb1109c29329e16c2a3a02280dc76951eaff672db83a7ec36deb655606",
+          "effect": "Single Target. *If the User has already received Damage this Round, add 2 Extra Dice to the Damage Pool.",
+          "op": "revenge",
+          "dice": 2
+        },
+        "Temper Flare": {
+          "source": "Pokerole-Data/v3.0/Moves/Temper Flare.json",
+          "sha256": "d8998e4b07f961123ed493130fc0d8c7157f25674e4d14b672cb7c4fefa49b0e",
+          "effect": "Single Target. *Add 2 Extra Dice to the Damage Pool of this Move is the User failed the Accuracy roll of the last Move it performed.",
+          "op": "tantrum",
+          "dice": 2
+        },
+        "Stomping Tantrum": {
+          "source": "Pokerole-Data/v3.0/Moves/Stomping Tantrum.json",
+          "sha256": "797e8d66a276f33b876d17fecb46ba7bcb27736108b4219f763f05752d6854ff",
+          "effect": "Single Target. *Add 2 Extra Dice to the Damage Pool of this Move if the User failed the Accuracy roll of the last Move it performed. If the Target is out of range due to using the Move \"Dig\", this Move hits anyways.",
+          "op": "tantrum",
+          "dice": 2
+        },
+        "Chilly Reception": {
+          "source": "Pokerole-Data/v3.0/Moves/Chilly Reception.json",
+          "sha256": "58a5964b2b3f51c0bf102a3f76ab3ff958068f34d75a361d33f1560148c94022",
+          "effect": "Target Battlefield. Switcher Move For the User. Activate Snowy Weather. Duration 4 Rounds. Pokemon with this Move may forfeit their Cool score completely. If the Pokemon forgets this Move, restore 1 Point to their Cool Score.",
+          "op": "chilly"
+        },
+        "Fell Stinger": {
+          "source": "Pokerole-Data/v3.0/Moves/Fell Stinger.json",
+          "sha256": "29042a3a6fe6badf5e3819233c7f51251c01795351c26363e0d2912acf513a3a",
+          "effect": "Single Target. *If used against a fainted Target ot if the Target faints due to damage from this Move, Increase the User’s Strength by 2.",
+          "op": "fell-stinger"
+        }
+      }
     }
   },
   "printed_review": {

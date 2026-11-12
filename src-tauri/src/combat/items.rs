@@ -335,7 +335,7 @@ pub fn enabled(c: &Campaign) -> bool {
         .and_then(|b| b.flow.as_ref())
         .is_some_and(|f| f.items.enabled)
 }
-fn state(c: &Campaign) -> &ItemState {
+pub(crate) fn state(c: &Campaign) -> &ItemState {
     &c.battle.as_ref().unwrap().flow.as_ref().unwrap().items
 }
 fn state_mut(c: &mut Campaign) -> &mut ItemState {

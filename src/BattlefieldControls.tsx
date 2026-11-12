@@ -312,6 +312,7 @@ export default function BattlefieldControls({
               </label>
             </div>
             {[
+              "0.86.0-core",
               "0.85.0-core",
               "0.84.0-core",
               "0.83.0-core",

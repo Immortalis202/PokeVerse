@@ -435,6 +435,7 @@ pub fn react(
     completion::order_up_attempt(c, id, &m, cat)?;
     break_cover(c, id);
     extra::accuracy_attempt(c, id, &m, cat, p.actions + 1)?;
+    condition_ops::accuracy(c, id, name, net >= (p.actions + 1) as i32)?;
     if net >= (p.actions + 1) as i32 {
         let (timing, priority) = number(&m, "Reaction")
             .map(|n| ("before", n))
@@ -1063,6 +1064,7 @@ pub fn move_effect(c: &mut Campaign, q: &QueuedAction, cat: &Catalog) -> Result<
     if switcher.is_null() || switcher == false {
         return Ok(false);
     }
+    condition_ops::switcher_weather(c, q)?;
     if q.move_name == "Shed Tail" && !decoys::enabled(c) {
         return Err(AppError::new(
             "manual_rule",

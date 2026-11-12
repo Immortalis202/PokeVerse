@@ -2136,6 +2136,7 @@ pub fn before_damage(
 }
 pub fn formula_name(name: &str) -> bool {
     [
+        "Ruination",
         "Bide",
         "Sonic Boom",
         "Dragon Rage",
@@ -2244,6 +2245,7 @@ pub fn formula(
             n
         }
         "Final Gambit" => t.hp + 4,
+        "Ruination" => condition_ops::ruination_dice(c, t)?,
         "Counter" | "Mirror Coat" | "Metal Burst" | "Comeuppance" => {
             let h = state(c)
                 .history

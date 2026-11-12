@@ -9589,3 +9589,240 @@ fn completion_a50_techno_blast_completes_and_old_encounters_stay_manual() {
     let c = a48_pending(&old, &a, vec![a.clone()], "Conversion 2");
     assert!(a48_effect(&c, vec![]).is_err());
 }
+
+fn a51_attack(c: &Campaign, a: &str, t: &str, name: &str) -> Result<Campaign> {
+    let mut c = c.clone();
+    turn(&mut c, a, name);
+    let action = super::targeting_tests::attack(a, vec![t.into()], name);
+    let n = rules::dice_count(&c, &action, &catalog())?;
+    battle::transition(
+        &c,
+        &p(&c, a).owner_id,
+        &action,
+        vec![6; n as usize],
+        &catalog(),
+    )
+    .map(|v| v.0)
+}
+fn a51_item_event(c: &mut Campaign, from: &str, kind: &str, round: u32) {
+    let f = c.battle.as_mut().unwrap().flow.as_mut().unwrap();
+    f.items.enabled = true;
+    f.items.history.push(crate::combat::items::ItemEvent {
+        unit_id: "test-unit".into(),
+        from: from.into(),
+        to: None,
+        kind: kind.into(),
+        reason: "Fixture item use".into(),
+        round,
+    });
+}
+fn a51_completion(c: &mut Campaign) -> &mut crate::combat::completion::MoveCompletionState {
+    &mut c.battle.as_mut().unwrap().flow.as_mut().unwrap().completion
+}
+
+#[test]
+fn completion_a51_belch_last_resort_and_poltergeist_guard_their_use() {
+    let (c, a, t) = setup("Belch");
+    assert!(a51_attack(&c, &a, &t, "Belch").is_err(), "no berry eaten");
+    let round = c.battle.as_ref().unwrap().round;
+    let mut stale = c.clone();
+    a51_item_event(&mut stale, &a, "consume_berry", round.saturating_sub(1));
+    assert!(
+        round == 0 || a51_attack(&stale, &a, &t, "Belch").is_err(),
+        "a berry from an earlier round"
+    );
+    let mut fed = c.clone();
+    a51_item_event(&mut fed, &a, "consume_berry", round);
+    assert!(a51_attack(&fed, &a, &t, "Belch").is_ok());
+
+    let (mut c, a, t) = setup("Last Resort");
+    assert!(a51_attack(&c, &a, &t, "Last Resort").is_err());
+    let known = rules::effective_sheet(&c, p(&c, &a)).unwrap().moves;
+    let others: std::collections::BTreeSet<String> = known
+        .into_iter()
+        .filter(|m| m != "Last Resort" && m != "Tackle")
+        .collect();
+    a51_completion(&mut c).performed.insert(a.clone(), others);
+    assert!(
+        a51_attack(&c, &a, &t, "Last Resort").is_err(),
+        "Tackle has not succeeded yet"
+    );
+    let tackled = a51_attack(&c, &a, &t, "Tackle").unwrap();
+    assert!(tackled
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .completion
+        .performed[&a]
+        .contains("Tackle"));
+    assert!(a51_attack(&tackled, &a, &t, "Last Resort").is_ok());
+
+    let (c, a, t) = setup("Poltergeist");
+    assert!(
+        a51_attack(&c, &a, &t, "Poltergeist").is_err(),
+        "no item anywhere"
+    );
+    let mut used = c.clone();
+    a51_item_event(&mut used, &t, "consume_berry", 0);
+    assert!(
+        a51_attack(&used, &a, &t, "Poltergeist").is_ok(),
+        "an item used on the target's side"
+    );
+    let mut own = c.clone();
+    a51_item_event(&mut own, &a, "consume_berry", 0);
+    assert!(
+        a51_attack(&own, &a, &t, "Poltergeist").is_err(),
+        "the user's side does not count"
+    );
+}
+#[test]
+fn completion_a51_ruination_rolls_target_hp_once_per_target() {
+    let (mut c, a, t) = setup("Ruination");
+    pm(&mut c, &t).max_hp = 12;
+    pm(&mut c, &t).hp = 12;
+    let hit = ordinary_accuracy(&c, &a, &t, "Ruination");
+    let pool = queued_damage_pool(&hit);
+    assert_eq!((pool.dice, pool.defense), (12, 0));
+    let mut done = roll(&hit, "gm", &damage_command(&hit), 6);
+    if !done
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .queue
+        .is_empty()
+    {
+        done = resolve(&done);
+    }
+    assert!(done
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .completion
+        .ruined
+        .contains(&t));
+    pm(&mut done, &t).hp = 12;
+    assert!(
+        a51_attack(&done, &a, &t, "Ruination").is_err(),
+        "already hit this battle"
+    );
+}
+#[test]
+fn completion_a51_round_history_adds_damage_dice() {
+    let (mut c, a, t) = setup("Lash Out");
+    let sid = p(&c, &a).sheet_id.clone();
+    for name in ["Revenge", "Temper Flare", "Stomping Tantrum", "Tackle"] {
+        c.sheets.get_mut(&sid).unwrap().moves.push(name.into());
+    }
+    let dice =
+        |c: &Campaign, name: &str| queued_damage_pool(&ordinary_accuracy(c, &a, &t, name)).dice;
+    let base = dice(&c, "Lash Out");
+    let mut lowered = c.clone();
+    crate::combat::extra::change_stat(&mut lowered, &t, &a, "Dexterity", -1).unwrap();
+    assert_eq!(dice(&lowered, "Lash Out"), base + 3);
+
+    let revenge = dice(&c, "Revenge");
+    let mut hurt = c.clone();
+    turn(&mut hurt, &t, "Tackle");
+    let hit = ordinary_accuracy(&hurt, &t, &a, "Tackle");
+    let hurt = roll(&hit, "gm", &damage_command(&hit), 6);
+    assert!(p(&hurt, &a).hp < 100);
+    let mut hurt = hurt;
+    turn(&mut hurt, &a, "Revenge");
+    assert_eq!(dice(&hurt, "Revenge"), revenge + 2);
+
+    for name in ["Temper Flare", "Stomping Tantrum"] {
+        let plain = dice(&c, name);
+        let mut missed = c.clone();
+        turn(&mut missed, &a, "Tackle");
+        let action = super::targeting_tests::attack(&a, vec![t.clone()], "Tackle");
+        missed = roll(&missed, &p(&c, &a).owner_id, &action, 1);
+        assert_eq!(
+            missed
+                .battle
+                .as_ref()
+                .unwrap()
+                .flow
+                .as_ref()
+                .unwrap()
+                .completion
+                .last_accuracy[&a],
+            false
+        );
+        turn(&mut missed, &a, name);
+        assert_eq!(dice(&missed, name), plain + 2, "{name} after a miss");
+        let ok = a51_attack(&c, &a, &t, "Tackle").unwrap();
+        let mut ok = ok;
+        ok.battle
+            .as_mut()
+            .unwrap()
+            .flow
+            .as_mut()
+            .unwrap()
+            .queue
+            .clear();
+        turn(&mut ok, &a, name);
+        assert_eq!(dice(&ok, name), plain, "{name} after a success");
+    }
+}
+#[test]
+fn completion_a51_fell_stinger_raises_strength_only_when_it_faints_the_target() {
+    let (mut c, a, t) = setup("Fell Stinger");
+    pm(&mut c, &t).hp = 1;
+    let hit = ordinary_accuracy(&c, &a, &t, "Fell Stinger");
+    let damaged = roll(&hit, "gm", &damage_command(&hit), 6);
+    assert_eq!(p(&damaged, &t).hp, 0);
+    let done = resolve(&damaged);
+    assert_eq!(stat(&done, &a, "Strength"), 2);
+
+    let (c, a, t) = setup("Fell Stinger");
+    let done = resolve(&pending(&c, &a, &t, "Fell Stinger"));
+    assert!(p(&done, &t).hp > 0);
+    assert_eq!(stat(&done, &a, "Strength"), 0);
+
+    let (mut old, a, t) = setup("Fell Stinger");
+    old.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .completion
+        .blocks
+        .remove("MOVE-A51");
+    let c = pending(&old, &a, &t, "Fell Stinger");
+    assert!(a48_effect(&c, vec![]).is_err());
+}
+#[test]
+fn completion_a51_chilly_reception_rolls_missing_cool_and_activates_snow() {
+    use crate::combat::field;
+    let (mut c, a, _t) = setup("Chilly Reception");
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .tactics
+        .enabled = true;
+    let _incoming = reserve(&mut c, &a);
+    a48_stats(&mut c, &a, &[("Cool", 2)]);
+    let action = super::targeting_tests::attack(&a, vec![], "Chilly Reception");
+    let base = rules::dice_count(&c, &action, &catalog()).unwrap();
+    a48_stats(&mut c, &a, &[("Cool", 4)]);
+    assert_eq!(
+        rules::dice_count(&c, &action, &catalog()).unwrap(),
+        base - 2,
+        "Accuracy counts Cool points given up below 5"
+    );
+    let c = support_cast(&c, &a, vec![], "Chilly Reception");
+    assert_eq!(field::weather(&c, None), Some(field::Weather::Snow));
+}
