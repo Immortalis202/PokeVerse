@@ -78,6 +78,7 @@ pub fn pre_start(c: &Campaign, id: &str, name: &str) -> bool {
 }
 /// Grappling users cannot act; reaction-only cards cannot be declared as actions.
 pub fn action_guard(c: &Campaign, id: &str, name: &str) -> Result<()> {
+    trigger_ops::action_guard(c, name)?;
     if grappling(c, id) {
         return Err(error("Release the Grapple before acting"));
     }

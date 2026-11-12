@@ -40,6 +40,7 @@ pub(crate) mod stat_ops;
 pub(crate) mod tactics;
 mod targeting;
 pub(crate) mod transfers;
+pub(crate) mod trigger_ops;
 pub(crate) mod type_ops;
 pub(crate) mod will;
 use targeting::*;
@@ -649,6 +650,9 @@ fn reaction_pool(c: &Campaign, id: &str, kind: &str, name: &str, cat: &Catalog) 
         &move_entry(cat, &incoming.move_name)?,
     );
     initiative_ops::reaction_guard(c, id, kind, name, incoming, &m)?;
+    if kind == "move" {
+        trigger_ops::reaction_guard(c, id, name, incoming, &m)?;
+    }
     if kind == "evade" || kind == "clash" {
         if kind == "clash" && judgment::active(c, &m) {
             return Err(error("Judgment cannot be Clashed"));
@@ -1192,6 +1196,7 @@ pub fn transition(
     if let Some(setup) = field::start_setup(a) {
         if ![
             ENGINE,
+            DELAYED_OPS_ENGINE,
             ALLIED_OPS_ENGINE,
             INITIATIVE_OPS_ENGINE,
             CONDITION_OPS_ENGINE,
@@ -1269,6 +1274,7 @@ pub fn transition(
             setup,
             [
                 ENGINE,
+                DELAYED_OPS_ENGINE,
                 ALLIED_OPS_ENGINE,
                 INITIATIVE_OPS_ENGINE,
                 CONDITION_OPS_ENGINE,
@@ -2062,6 +2068,7 @@ fn transition_inner(
             let targets = tactics::redirect_move(c, combatant_id, targets, &m, cat)?;
             initiative_ops::encore_guard(c, combatant_id, move_name, &targets)?;
             initiative_ops::log_move(&mut next, combatant_id, move_name, &targets);
+            trigger_ops::declared(&mut next, combatant_id, &m);
             if reviewed::enabled(c)
                 && completion::definition(c, "Shelter").is_none()
                 && !events::enabled(c)
@@ -2957,7 +2964,9 @@ fn transition_inner(
                     unreachable!()
                 };
                 let pool = rules::damage_pool(&temp, &q.actor_id, q.sequence, *pool_modifier, cat)?;
-                let net = (raw_damage_successes as i32 - pool.pain + success_modifier).max(0);
+                let net = (raw_damage_successes as i32 - pool.pain + success_modifier
+                    - trigger_ops::curse_loss(c, &q.actor_id))
+                .max(0);
                 if pool.immune {
                     0
                 } else {
@@ -3416,6 +3425,7 @@ fn transition_inner(
                 b.flow = Some(TurnFlow {
                     identity_moves: [
                         ENGINE,
+                        DELAYED_OPS_ENGINE,
                         ALLIED_OPS_ENGINE,
                         INITIATIVE_OPS_ENGINE,
                         CONDITION_OPS_ENGINE,
@@ -3483,6 +3493,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     status_escalation: [
                         ENGINE,
+                        DELAYED_OPS_ENGINE,
                         ALLIED_OPS_ENGINE,
                         INITIATIVE_OPS_ENGINE,
                         CONDITION_OPS_ENGINE,
@@ -3549,6 +3560,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     spite: [
                         ENGINE,
+                        DELAYED_OPS_ENGINE,
                         ALLIED_OPS_ENGINE,
                         INITIATIVE_OPS_ENGINE,
                         CONDITION_OPS_ENGINE,
@@ -3614,6 +3626,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     will_drains: [
                         ENGINE,
+                        DELAYED_OPS_ENGINE,
                         ALLIED_OPS_ENGINE,
                         INITIATIVE_OPS_ENGINE,
                         CONDITION_OPS_ENGINE,
@@ -3678,6 +3691,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     direct_status: [
                         ENGINE,
+                        DELAYED_OPS_ENGINE,
                         ALLIED_OPS_ENGINE,
                         INITIATIVE_OPS_ENGINE,
                         CONDITION_OPS_ENGINE,
@@ -3741,6 +3755,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     chance_status: [
                         ENGINE,
+                        DELAYED_OPS_ENGINE,
                         ALLIED_OPS_ENGINE,
                         INITIATIVE_OPS_ENGINE,
                         CONDITION_OPS_ENGINE,
@@ -3803,6 +3818,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     battlefield_review: [
                         ENGINE,
+                        DELAYED_OPS_ENGINE,
                         ALLIED_OPS_ENGINE,
                         INITIATIVE_OPS_ENGINE,
                         CONDITION_OPS_ENGINE,
@@ -3861,6 +3877,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     entry_hazards: [
                         ENGINE,
+                        DELAYED_OPS_ENGINE,
                         ALLIED_OPS_ENGINE,
                         INITIATIVE_OPS_ENGINE,
                         CONDITION_OPS_ENGINE,
@@ -3919,6 +3936,7 @@ fn transition_inner(
                     damaging_stats: Box::new(damaging_stats::StatMoveState {
                         enabled: [
                             ENGINE,
+                            DELAYED_OPS_ENGINE,
                             ALLIED_OPS_ENGINE,
                             INITIATIVE_OPS_ENGINE,
                             CONDITION_OPS_ENGINE,
@@ -3978,6 +3996,7 @@ fn transition_inner(
                     }),
                     cure_protection: [
                         ENGINE,
+                        DELAYED_OPS_ENGINE,
                         ALLIED_OPS_ENGINE,
                         INITIATIVE_OPS_ENGINE,
                         CONDITION_OPS_ENGINE,
@@ -4038,6 +4057,7 @@ fn transition_inner(
                     recurring: Box::new(recurring::RecurringState {
                         enabled: [
                             ENGINE,
+                            DELAYED_OPS_ENGINE,
                             ALLIED_OPS_ENGINE,
                             INITIATIVE_OPS_ENGINE,
                             CONDITION_OPS_ENGINE,
@@ -4101,6 +4121,7 @@ fn transition_inner(
                     compound: compound::CompoundState {
                         enabled: [
                             ENGINE,
+                            DELAYED_OPS_ENGINE,
                             ALLIED_OPS_ENGINE,
                             INITIATIVE_OPS_ENGINE,
                             CONDITION_OPS_ENGINE,
@@ -4164,6 +4185,7 @@ fn transition_inner(
                     },
                     house_rules: [
                         ENGINE,
+                        DELAYED_OPS_ENGINE,
                         ALLIED_OPS_ENGINE,
                         INITIATIVE_OPS_ENGINE,
                         CONDITION_OPS_ENGINE,
@@ -4233,6 +4255,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     interaction_rules: [
                         ENGINE,
+                        DELAYED_OPS_ENGINE,
                         ALLIED_OPS_ENGINE,
                         INITIATIVE_OPS_ENGINE,
                         CONDITION_OPS_ENGINE,
@@ -4305,6 +4328,7 @@ fn transition_inner(
                     standalone: standalone::StandaloneState {
                         enabled: [
                             ENGINE,
+                            DELAYED_OPS_ENGINE,
                             ALLIED_OPS_ENGINE,
                             INITIATIVE_OPS_ENGINE,
                             CONDITION_OPS_ENGINE,
@@ -4380,6 +4404,7 @@ fn transition_inner(
                     information: information::InformationState {
                         enabled: [
                             ENGINE,
+                            DELAYED_OPS_ENGINE,
                             ALLIED_OPS_ENGINE,
                             INITIATIVE_OPS_ENGINE,
                             CONDITION_OPS_ENGINE,
@@ -4456,6 +4481,7 @@ fn transition_inner(
                     forms: forms::FormState {
                         enabled: [
                             ENGINE,
+                            DELAYED_OPS_ENGINE,
                             ALLIED_OPS_ENGINE,
                             INITIATIVE_OPS_ENGINE,
                             CONDITION_OPS_ENGINE,
@@ -4534,6 +4560,7 @@ fn transition_inner(
                         completion: items::completion::CompletionState {
                             enabled: [
                                 ENGINE,
+                                DELAYED_OPS_ENGINE,
                                 ALLIED_OPS_ENGINE,
                                 INITIATIVE_OPS_ENGINE,
                                 CONDITION_OPS_ENGINE,
@@ -4606,6 +4633,7 @@ fn transition_inner(
                         },
                         enabled: [
                             ENGINE,
+                            DELAYED_OPS_ENGINE,
                             ALLIED_OPS_ENGINE,
                             INITIATIVE_OPS_ENGINE,
                             CONDITION_OPS_ENGINE,
@@ -4684,6 +4712,7 @@ fn transition_inner(
                     events: events::EventState {
                         enabled: [
                             ENGINE,
+                            DELAYED_OPS_ENGINE,
                             ALLIED_OPS_ENGINE,
                             INITIATIVE_OPS_ENGINE,
                             CONDITION_OPS_ENGINE,
@@ -4762,6 +4791,7 @@ fn transition_inner(
                     },
                     provenance_rules: [
                         ENGINE,
+                        DELAYED_OPS_ENGINE,
                         ALLIED_OPS_ENGINE,
                         INITIATIVE_OPS_ENGINE,
                         CONDITION_OPS_ENGINE,
@@ -4840,6 +4870,7 @@ fn transition_inner(
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            DELAYED_OPS_ENGINE,
                             ALLIED_OPS_ENGINE,
                             INITIATIVE_OPS_ENGINE,
                             CONDITION_OPS_ENGINE,
@@ -4921,6 +4952,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            DELAYED_OPS_ENGINE,
                             ALLIED_OPS_ENGINE,
                             INITIATIVE_OPS_ENGINE,
                             CONDITION_OPS_ENGINE,
@@ -5002,6 +5034,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        DELAYED_OPS_ENGINE,
                         ALLIED_OPS_ENGINE,
                         INITIATIVE_OPS_ENGINE,
                         CONDITION_OPS_ENGINE,
@@ -5083,6 +5116,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            DELAYED_OPS_ENGINE,
                             ALLIED_OPS_ENGINE,
                             INITIATIVE_OPS_ENGINE,
                             CONDITION_OPS_ENGINE,
@@ -5167,6 +5201,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            DELAYED_OPS_ENGINE,
                             ALLIED_OPS_ENGINE,
                             INITIATIVE_OPS_ENGINE,
                             CONDITION_OPS_ENGINE,
@@ -5252,6 +5287,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            DELAYED_OPS_ENGINE,
                             ALLIED_OPS_ENGINE,
                             INITIATIVE_OPS_ENGINE,
                             CONDITION_OPS_ENGINE,
@@ -5338,6 +5374,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            DELAYED_OPS_ENGINE,
                             ALLIED_OPS_ENGINE,
                             INITIATIVE_OPS_ENGINE,
                             CONDITION_OPS_ENGINE,
@@ -5425,6 +5462,7 @@ fn transition_inner(
                     special: Box::new(special::SpecialState {
                         enabled: [
                             ENGINE,
+                            DELAYED_OPS_ENGINE,
                             ALLIED_OPS_ENGINE,
                             INITIATIVE_OPS_ENGINE,
                             CONDITION_OPS_ENGINE,
@@ -5512,6 +5550,7 @@ fn transition_inner(
                     }),
                     ability_rules: [
                         ENGINE,
+                        DELAYED_OPS_ENGINE,
                         ALLIED_OPS_ENGINE,
                         INITIATIVE_OPS_ENGINE,
                         CONDITION_OPS_ENGINE,
@@ -5601,6 +5640,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            DELAYED_OPS_ENGINE,
                             ALLIED_OPS_ENGINE,
                             INITIATIVE_OPS_ENGINE,
                             CONDITION_OPS_ENGINE,
@@ -5690,6 +5730,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            DELAYED_OPS_ENGINE,
                             ALLIED_OPS_ENGINE,
                             INITIATIVE_OPS_ENGINE,
                             CONDITION_OPS_ENGINE,

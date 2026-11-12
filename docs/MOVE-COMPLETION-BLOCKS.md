@@ -62,6 +62,7 @@ The live source of remaining route work is `rules/move-effect-audit.json`. Its f
 | MOVE-A52 | After You, Quash, Ambush, Encore, Sucker Punch, Thunderclap, Grapple, Double Team, Minimize, Chip Away | Complete |
 | MOVE-A53 | Helping Hand, Help Another, Beat Up, Round | Complete |
 | MOVE-A54 | Future Sight, Doom Desire, Rage, Destiny Bond, Pursuit, Glaive Rush | Complete |
+| MOVE-A55 | Shell Trap, Powder, Curse, Flame Burst | Complete |
 | Later blocks | Ordinary attacks with existing attributes; remaining stat changes, resets and swaps; type/damage conversions; field changes; conditional damage; timing/action restrictions; items; copy/selection effects | Open |
 
 New block adoption is persisted in `TurnFlow.completion.blocks`. Every release records its engine in `rules/move-completion.json`; historical saves adopt no additional blocks automatically. The shared special-effect state is boxed while preserving its JSON shape to keep transition stack usage bounded.
@@ -131,3 +132,8 @@ See [allied contribution moves](battle-allied-moves.md). Non-stacking Helping Ha
 ### MOVE-A54: delayed and triggered moves
 
 See [delayed and triggered moves](battle-delayed-moves.md). Next-round delayed damage with replacement targets, Rage stacking, Destiny Bond knockout, Pursuit departure damage and Glaive Rush vulnerability.
+
+
+### MOVE-A55: trigger moves
+
+See [trigger moves](battle-delayed-moves.md#trigger-moves-move-a55). Shell Trap's late reaction to a landed non-ranged Physical hit, Powder's owed Fire-move damage, Curse's self-cost and success loss, and Flame Burst's chosen splash.

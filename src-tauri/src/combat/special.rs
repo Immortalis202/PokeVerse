@@ -176,6 +176,10 @@ pub enum SpecialCommand {
         combatant_id: String,
         sequence: u32,
     },
+    /// Powder: roll the typeless damage owed after declaring a Fire move.
+    ResolvePowder {
+        combatant_id: String,
+    },
     ResistHoldHands {
         sequence: u32,
         resist: bool,
@@ -230,6 +234,10 @@ pub fn enabled(c: &Campaign) -> bool {
         .as_ref()
         .and_then(|b| b.flow.as_ref())
         .is_some_and(|f| f.special.enabled)
+}
+/// Recorded damage pools, oldest first.
+pub fn history(c: &Campaign) -> &[Hit] {
+    &state(c).history
 }
 fn state(c: &Campaign) -> &SpecialState {
     &flow(c).unwrap().special
@@ -302,6 +310,9 @@ pub fn dice(c: &Campaign, cmd: &SpecialCommand, cat: &Catalog) -> Result<u32> {
         SpecialCommand::ReactionTiming { .. }
         | SpecialCommand::ReleaseGrapple { .. }
         | SpecialCommand::JoinMove { .. } => 0,
+        SpecialCommand::ResolvePowder { combatant_id } => {
+            trigger_ops::powder_dice(c, combatant_id)?
+        }
         SpecialCommand::HelpAnother {
             combatant_id,
             ally_id,
@@ -485,6 +496,18 @@ pub fn command(
             let added = allied_ops::help(c, combatant_id, ally_id, faces)?;
             return Ok(format!(
                 "Help Another rolled {faces:?}: +{added} Accuracy dice for {move_name}. {r}"
+            ));
+        }
+        SpecialCommand::ResolvePowder { combatant_id } => {
+            owner(c, actor, combatant_id)?;
+            reason(r)?;
+            let n = trigger_ops::powder_dice(c, combatant_id)?;
+            if faces.len() != n as usize || faces.iter().any(|d| !(1..=6).contains(d)) {
+                return Err(error("Invalid host dice results"));
+            }
+            let damage = trigger_ops::powder(c, combatant_id, faces)?;
+            return Ok(format!(
+                "Powder explodes: {faces:?}, {damage} typeless damage. {r}"
             ));
         }
         SpecialCommand::JoinMove {

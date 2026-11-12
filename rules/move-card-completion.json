@@ -21434,10 +21434,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Curse.json",
       "sha256": "e03d3138d1096ab290fef0c813e17f534d0c27d92a5c3615f3fc6eb1894bd8ea",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A55: Four trigger cards. Shell Trap is only a Late Reaction to a non-ranged Physical attack against its user; its damage can be rolled only after that attack damaged the user this round (otherwise the GM cancels it). Powder marks a target until it leaves battle: when it next declares a Fire move, it owes typeless damage dice equal to that move's Power, rolled with Resolve Powder (no defenses); the Fire move proceeds. Curse rolls half the user's current HP as typeless self-damage dice and gives the target a lasting Accuracy-success loss of 1 (shared strongest-loss channel) and one fewer damage success. Flame Burst: after it deals damage, the caster's owner may save up to two other foes; each takes one Fire-type die (1 damage on a success, adjusted by type matchup), ignoring defenses.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -21447,9 +21454,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 7,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a55",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a55_curse_costs_half_hp_dice_and_removes_a_success"
+            }
+          ]
         },
         {
           "id": "effect:15-96",
@@ -21457,9 +21470,15 @@
           "value": "Roll half of the User's HP as Typeless Damage Dice to itself, ignoring defenses. ",
           "start": 15,
           "end": 96,
-          "status": "pending",
+          "status": "automated",
           "batch": 7,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a55",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a55_curse_costs_half_hp_dice_and_removes_a_success"
+            }
+          ]
         },
         {
           "id": "effect:96-179",
@@ -21467,9 +21486,15 @@
           "value": "The Target will remove 1 success from all of their Rolls until the Curse if lifted.",
           "start": 96,
           "end": 179,
-          "status": "pending",
+          "status": "automated",
           "batch": 7,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a55",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a55_curse_costs_half_hp_dice_and_removes_a_success"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -36329,10 +36354,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Flame Burst.json",
       "sha256": "2f9642b1546339c43b995b3fa21328b7d223b1a61ffc2dc398e78443f041f6eb",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A55: Four trigger cards. Shell Trap is only a Late Reaction to a non-ranged Physical attack against its user; its damage can be rolled only after that attack damaged the user this round (otherwise the GM cancels it). Powder marks a target until it leaves battle: when it next declares a Fire move, it owes typeless damage dice equal to that move's Power, rolled with Resolve Powder (no defenses); the Fire move proceeds. Curse rolls half the user's current HP as typeless self-damage dice and gives the target a lasting Accuracy-success loss of 1 (shared strongest-loss channel) and one fewer damage success. Flame Burst: after it deals damage, the caster's owner may save up to two other foes; each takes one Fire-type die (1 damage on a success, adjusted by type matchup), ignoring defenses.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -36342,9 +36374,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 7,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a55",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a55_flame_burst_splashes_up_to_two_other_foes"
+            }
+          ]
         },
         {
           "id": "effect:15-126",
@@ -36352,9 +36390,15 @@
           "value": "After dealing damage, the User may roll 1 die of Fire-Type Damage against two other targets, ignoring defenses.",
           "start": 15,
           "end": 126,
-          "status": "pending",
+          "status": "automated",
           "batch": 7,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a55",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a55_flame_burst_splashes_up_to_two_other_foes"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -79734,10 +79778,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Powder.json",
       "sha256": "3ab663962e8962c427407ac0014d812a42816280eb575a22faa7b8f57af31d9a",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A55: Four trigger cards. Shell Trap is only a Late Reaction to a non-ranged Physical attack against its user; its damage can be rolled only after that attack damaged the user this round (otherwise the GM cancels it). Powder marks a target until it leaves battle: when it next declares a Fire move, it owes typeless damage dice equal to that move's Power, rolled with Resolve Powder (no defenses); the Fire move proceeds. Curse rolls half the user's current HP as typeless self-damage dice and gives the target a lasting Accuracy-success loss of 1 (shared strongest-loss channel) and one fewer damage success. Flame Burst: after it deals damage, the caster's owner may save up to two other foes; each takes one Fire-type die (1 damage on a success, adjusted by type matchup), ignoring defenses.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -79747,9 +79798,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 7,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a55",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a55_powder_charges_the_next_fire_move_its_power"
+            }
+          ]
         },
         {
           "id": "effect:15-28",
@@ -79767,9 +79824,15 @@
           "value": "The next time the Target uses a Fire-Type Move, Roll Typeless Damage Dice equal to that Move's power, ignore defenses.",
           "start": 28,
           "end": 146,
-          "status": "pending",
+          "status": "automated",
           "batch": 7,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a55",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a55_powder_charges_the_next_fire_move_its_power"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -96043,12 +96106,19 @@
       "source": "Pokerole-Data/v3.0/Moves/Shell Trap.json",
       "sha256": "283205e12d0490db581323c5660fff3cb6521194633e6e13f432b29172647cd3",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [
         "Optional lethal wounds are excluded; ordinary damage remains separate"
       ],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A55: Four trigger cards. Shell Trap is only a Late Reaction to a non-ranged Physical attack against its user; its damage can be rolled only after that attack damaged the user this round (otherwise the GM cancels it). Powder marks a target until it leaves battle: when it next declares a Fire move, it owes typeless damage dice equal to that move's Power, rolled with Resolve Powder (no defenses); the Fire move proceeds. Curse rolls half the user's current HP as typeless self-damage dice and gives the target a lasting Accuracy-success loss of 1 (shared strongest-loss channel) and one fewer damage success. Flame Burst: after it deals damage, the caster's owner may save up to two other foes; each takes one Fire-type die (1 damage on a success, adjusted by type matchup), ignoring defenses.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -96058,9 +96128,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 7,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a55",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a55_shell_trap_answers_only_a_landed_non_ranged_physical_hit"
+            }
+          ]
         },
         {
           "id": "effect:15-23",
@@ -96078,9 +96154,15 @@
           "value": "Late Reaction 3. ",
           "start": 23,
           "end": 40,
-          "status": "pending",
+          "status": "automated",
           "batch": 7,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a55",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a55_shell_trap_answers_only_a_landed_non_ranged_physical_hit"
+            }
+          ]
         },
         {
           "id": "effect:40-138",
@@ -96088,9 +96170,15 @@
           "value": "This Move's damage is only rolled the next time the User is hit with a Non-Ranged Physical attack.",
           "start": 40,
           "end": 138,
-          "status": "pending",
+          "status": "automated",
           "batch": 7,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a55",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a55_shell_trap_answers_only_a_landed_non_ranged_physical_hit"
+            }
+          ]
         },
         {
           "id": "metadata:Type",

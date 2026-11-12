@@ -438,6 +438,7 @@ pub fn react(
     extra::accuracy_attempt(c, id, &m, cat, p.actions + 1)?;
     condition_ops::accuracy(c, id, name, net >= (p.actions + 1) as i32)?;
     initiative_ops::log_move(c, id, name, &targets);
+    trigger_ops::declared(c, id, &m);
     if net >= (p.actions + 1) as i32 {
         let (timing, priority) = number(&m, "Reaction")
             .map(|n| ("before", n))
@@ -446,6 +447,7 @@ pub fn react(
         let target = targets.first().cloned().unwrap_or_else(|| id.into());
         flow_mut(c).queue.push(QueuedAction {
             response_to: if (house::enabled(&before) && name == "Mirror Coat")
+                || trigger_ops::responds(&before, name)
                 || (compound::enabled(&before)
                     && name == "Upper Hand"
                     && incoming(&before)?.timing != "main")

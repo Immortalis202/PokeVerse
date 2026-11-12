@@ -1299,6 +1299,18 @@
         "completion_a54_rage_and_destiny_bond_answer_damage_this_round"
       ],
       "scope": "Six delayed and damage-triggered cards. Future Sight and Doom Desire roll damage normally (existing shield, force-field and decoy bypass kept) but deal it when turns start next round; if the target has left, the combatant now in its slot, otherwise an active ally (by identity order), takes it. Doom Desire's discretionary extra effects stay with the GM. Rage: for the rest of the round, each Physical/Special hit by a foe raises the user's Strength by 1, stacking to 3. Destiny Bond: if the user faints to Physical/Special damage this round, the attacker's HP drops to 0; it fails when used in consecutive rounds. Pursuit marks a target it damages; if that target is later recalled, switched out (including by a Switcher) or uses Run Away, it takes 2 typeless damage once. Glaive Rush makes its user Vulnerable (existing +2 damage and barrier/Cover bypass) until the next Physical/Special move hits it."
+    },
+    {
+      "id": "move-completion-a55",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A55",
+      "fixtures": [
+        "completion_a55_curse_costs_half_hp_dice_and_removes_a_success",
+        "completion_a55_flame_burst_splashes_up_to_two_other_foes",
+        "completion_a55_powder_charges_the_next_fire_move_its_power",
+        "completion_a55_shell_trap_answers_only_a_landed_non_ranged_physical_hit"
+      ],
+      "scope": "Four trigger cards. Shell Trap is only a Late Reaction to a non-ranged Physical attack against its user; its damage can be rolled only after that attack damaged the user this round (otherwise the GM cancels it). Powder marks a target until it leaves battle: when it next declares a Fire move, it owes typeless damage dice equal to that move's Power, rolled with Resolve Powder (no defenses); the Fire move proceeds. Curse rolls half the user's current HP as typeless self-damage dice and gives the target a lasting Accuracy-success loss of 1 (shared strongest-loss channel) and one fewer damage success. Flame Burst: after it deals damage, the caster's owner may save up to two other foes; each takes one Fire-type die (1 damage on a success, adjusted by type matchup), ignoring defenses."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -1315,5 +1327,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "50e9ddfd58d7bc830cd4540bf995224317960a42f5e53f6439ceef02510ff7d3"
+  "move_completion_registry_hash": "e07b8913af620e3f5263a4e94c5c6636592f08dc228db31b1bf8c0e9b4f66a55"
 }

@@ -66,6 +66,9 @@ pub struct MoveCompletionState {
     pub pursued: BTreeMap<String, String>,
     /// Glaive Rush users vulnerable to the next damaging move.
     pub glaive: BTreeSet<String>,
+    /// Powdered combatants, and Powder damage dice owed after declaring a Fire move.
+    pub powdered: BTreeSet<String>,
+    pub powder_due: BTreeMap<String, u32>,
     pub blocks: BTreeSet<String>,
     pub uses: Vec<CompletionMoveUse>,
     pub entered: BTreeMap<String, u32>,
@@ -153,6 +156,7 @@ pub fn effect_dice(c: &Campaign, q: &QueuedAction) -> Result<Option<u32>> {
     if let Some(n) = stat_ops::effect_dice(c, q)
         .or_else(|| type_ops::effect_dice(c, q))
         .or_else(|| damage_ops::effect_dice(c, q))
+        .or_else(|| trigger_ops::effect_dice(c, q))
     {
         return Ok(Some(n));
     }
@@ -166,6 +170,7 @@ pub fn options(c: &Campaign, q: &QueuedAction) -> Result<Vec<String>> {
     let mut options = stat_ops::options(c, q)?;
     options.extend(type_ops::options(c, q)?);
     options.extend(damage_ops::options(c, q)?);
+    options.extend(trigger_ops::options(c, q)?);
     Ok(options)
 }
 pub(super) fn immune_target(c: &Campaign, q: &QueuedAction, cat: &Catalog) -> Result<bool> {
@@ -467,6 +472,9 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
         }
         "delayed-op" => {
             delayed_ops::effect(c, q)?;
+        }
+        "trigger-op" => {
+            trigger_ops::effect(c, q, _dice, cat)?;
         }
         "stat" => {
             return damaging_stats::effect(c, q, _dice, cat);
@@ -1284,6 +1292,11 @@ pub fn observe(before: &Campaign, next: &mut Campaign, cat: &Catalog) -> Result<
     {
         delayed_ops::observe(before, next)?;
         delayed_ops::lifecycle(next)?;
+    }
+    if flow(next).is_ok_and(|f| f.completion.blocks.contains("MOVE-A55"))
+        && battle(next).is_ok_and(|b| b.active)
+    {
+        trigger_ops::lifecycle(next)?;
     }
     if definition(next, "Charge").is_some() {
         let sequences: BTreeSet<_> = flow(next)?

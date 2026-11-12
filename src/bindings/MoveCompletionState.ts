@@ -125,6 +125,11 @@ export type MoveCompletionState = {
    * Glaive Rush users vulnerable to the next damaging move.
    */
   glaive: Array<string>;
+  /**
+   * Powdered combatants, and Powder damage dice owed after declaring a Fire move.
+   */
+  powdered: Array<string>;
+  powder_due: { [key in string]?: number };
   blocks: Array<string>;
   uses: Array<CompletionMoveUse>;
   entered: { [key in string]?: number };

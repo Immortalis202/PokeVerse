@@ -238,6 +238,7 @@ pub fn accuracy(
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
     if [
         ENGINE,
+        DELAYED_OPS_ENGINE,
         ALLIED_OPS_ENGINE,
         INITIATIVE_OPS_ENGINE,
         CONDITION_OPS_ENGINE,
@@ -432,6 +433,7 @@ pub fn damage_pool(
         .ok_or_else(|| AppError::new("missing", "Unknown move"))?;
     let m = crate::combat::field::move_data(c, attacker, &m);
     crate::combat::damage_ops::damage_guard(c, &m)?;
+    crate::combat::trigger_ops::damage_guard(c, key, sequence, &m)?;
     if let Some(mut pool) =
         crate::combat::special::formula(c, attacker, target, &m, sequence, modifier, catalog)?
     {

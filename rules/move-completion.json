@@ -2372,6 +2372,37 @@
           "op": "glaive"
         }
       }
+    },
+    "MOVE-A55": {
+      "engine": "0.90.0-core",
+      "kind": "trigger-op",
+      "scope": "Four trigger cards. Shell Trap is only a Late Reaction to a non-ranged Physical attack against its user; its damage can be rolled only after that attack damaged the user this round (otherwise the GM cancels it). Powder marks a target until it leaves battle: when it next declares a Fire move, it owes typeless damage dice equal to that move's Power, rolled with Resolve Powder (no defenses); the Fire move proceeds. Curse rolls half the user's current HP as typeless self-damage dice and gives the target a lasting Accuracy-success loss of 1 (shared strongest-loss channel) and one fewer damage success. Flame Burst: after it deals damage, the caster's owner may save up to two other foes; each takes one Fire-type die (1 damage on a success, adjusted by type matchup), ignoring defenses.",
+      "moves": {
+        "Shell Trap": {
+          "source": "Pokerole-Data/v3.0/Moves/Shell Trap.json",
+          "sha256": "283205e12d0490db581323c5660fff3cb6521194633e6e13f432b29172647cd3",
+          "effect": "Single Target. Lethal. Late Reaction 3. This Move's damage is only rolled the next time the User is hit with a Non-Ranged Physical attack.",
+          "op": "shell-trap"
+        },
+        "Powder": {
+          "source": "Pokerole-Data/v3.0/Moves/Powder.json",
+          "sha256": "3ab663962e8962c427407ac0014d812a42816280eb575a22faa7b8f57af31d9a",
+          "effect": "Single Target. Powder Move. The next time the Target uses a Fire-Type Move, Roll Typeless Damage Dice equal to that Move's power, ignore defenses.",
+          "op": "powder"
+        },
+        "Curse": {
+          "source": "Pokerole-Data/v3.0/Moves/Curse.json",
+          "sha256": "e03d3138d1096ab290fef0c813e17f534d0c27d92a5c3615f3fc6eb1894bd8ea",
+          "effect": "Single Target. Roll half of the User's HP as Typeless Damage Dice to itself, ignoring defenses. The Target will remove 1 success from all of their Rolls until the Curse if lifted.",
+          "op": "curse"
+        },
+        "Flame Burst": {
+          "source": "Pokerole-Data/v3.0/Moves/Flame Burst.json",
+          "sha256": "2f9642b1546339c43b995b3fa21328b7d223b1a61ffc2dc398e78443f041f6eb",
+          "effect": "Single Target. After dealing damage, the User may roll 1 die of Fire-Type Damage against two other targets, ignoring defenses.",
+          "op": "flame-burst"
+        }
+      }
     }
   },
   "printed_review": {

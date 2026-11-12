@@ -155,4 +155,31 @@ describe("saved move choices", () => {
     expect(html).toContain("Friend: join Beat Up");
     expect(html).toContain("<button>Roll help</button>");
   });
+  it("offers the owed Powder roll", () => {
+    expect(view("owner", [], {})).toBe("");
+    const campaign = {
+      gm_id: "gm",
+      sheets: {},
+      battle: {
+        active: true,
+        combatants: [{ id: "a", name: "Caster", owner_id: "owner" }],
+        flow: {
+          window: false,
+          queue: [],
+          special: { effects: [] },
+          completion: { powder_due: { a: 2 } },
+        },
+      },
+    } as unknown as Campaign;
+    const html = renderToStaticMarkup(
+      <MoveOptionControls
+        campaign={campaign}
+        playerId="owner"
+        execute={async () => true}
+        disabled={false}
+      />,
+    );
+    expect(html).toContain("owes 2 Powder damage dice");
+    expect(html).toContain("<button>Roll Powder damage</button>");
+  });
 });

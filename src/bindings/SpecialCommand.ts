@@ -37,6 +37,7 @@ export type SpecialCommand =
       move_name: string;
     }
   | { kind: "JoinMove"; combatant_id: string; sequence: number }
+  | { kind: "ResolvePowder"; combatant_id: string }
   | { kind: "ResistHoldHands"; sequence: number; resist: boolean }
   | { kind: "RuleHoldHands"; sequence: number; end_battle: boolean }
   | { kind: "GrudgeCheck"; target_id: string }

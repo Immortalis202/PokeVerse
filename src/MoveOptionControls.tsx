@@ -43,6 +43,7 @@ export default function MoveOptionControls({
       )
     : [];
   const allied = f.completion?.blocks?.includes("MOVE-A53");
+  const powder = Object.entries(f.completion?.powder_due ?? {});
   const active = b.combatants.filter((p) => p.deployed && p.hp > 0);
   const caster = q ? active.find((p) => p.id === q.actor_id) : undefined;
   const joiners =
@@ -72,6 +73,7 @@ export default function MoveOptionControls({
     !grapplers.length &&
     !timed.length &&
     !joiners.length &&
+    !powder.length &&
     !(helper && ally && move)
   )
     return null;
@@ -194,6 +196,25 @@ export default function MoveOptionControls({
           </button>
         </section>
       )}
+      {powder.map(([id, dice]) => (
+        <section key={`powder-${id}`} aria-label="Powder">
+          <p>
+            {label(id)} owes {dice} Powder damage dice (typeless, no defenses).
+          </p>
+          <button
+            disabled={disabled || !owns(id)}
+            onClick={() =>
+              execute({
+                type: "special_move",
+                command: { kind: "ResolvePowder", combatant_id: id },
+                reason: "Powder explodes on the Fire move",
+              })
+            }
+          >
+            Roll Powder damage
+          </button>
+        </section>
+      ))}
       {grapplers.map((id) => (
         <section key={`grapple-${id}`} aria-label="Grapple">
           <p>{label(id)} is Grappling and cannot act.</p>

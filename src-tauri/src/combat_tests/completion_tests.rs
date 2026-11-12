@@ -10500,3 +10500,147 @@ fn completion_a54_pursuit_and_glaive_rush_mark_their_targets() {
     let c = pending(&old, &a, &t, "Rage");
     assert!(a48_effect(&c, vec![]).is_err());
 }
+
+#[test]
+fn completion_a55_shell_trap_answers_only_a_landed_non_ranged_physical_hit() {
+    let (mut c, a, t) = setup("Shell Trap");
+    a52_tactics(&mut c);
+    let sid = p(&c, &t).sheet_id.clone();
+    c.sheets
+        .get_mut(&sid)
+        .unwrap()
+        .moves
+        .extend(["Water Gun".to_string(), "Tackle".into()]);
+    assert!(
+        a51_attack(&c, &a, &t, "Shell Trap").is_err(),
+        "not an ordinary action"
+    );
+    let special = detection_attack(&c, &t, &a, "Water Gun");
+    assert!(
+        a52_react(&special, &a, "Shell Trap", vec![t.clone()]).is_err(),
+        "Special attacks do not trigger it"
+    );
+    let tackle = detection_attack(&c, &t, &a, "Tackle");
+    let trapped = a52_react(&tackle, &a, "Shell Trap", vec![t.clone()]).unwrap();
+    let shell = a52_flow(&trapped)
+        .queue
+        .iter()
+        .find(|q| q.move_name == "Shell Trap")
+        .unwrap()
+        .clone();
+    assert!(shell.response_to.is_some());
+    let mut c = trapped;
+    let mut guard = 0;
+    while a52_flow(&c)
+        .queue
+        .first()
+        .is_some_and(|q| q.move_name != "Shell Trap")
+    {
+        if a52_flow(&c).window {
+            c = pass(&c);
+        } else if !q(&c).damage_done {
+            c = roll(&c, "gm", &damage_command(&c), 6);
+        } else {
+            c = resolve(&c);
+        }
+        guard += 1;
+        assert!(guard < 10);
+    }
+    while a52_flow(&c).window {
+        c = pass(&c);
+    }
+    assert!(p(&c, &a).hp < 100, "Tackle hit the Shell Trap user");
+    let before = p(&c, &t).hp;
+    let c = roll(&c, "gm", &damage_command(&c), 6);
+    assert!(p(&c, &t).hp < before, "the trap's damage is rolled");
+}
+#[test]
+fn completion_a55_powder_charges_the_next_fire_move_its_power() {
+    let (c, a, t) = setup("Powder");
+    let c = support_cast(&c, &a, vec![t.clone()], "Powder");
+    assert!(a52_flow(&c).completion.powdered.contains(&t));
+    let sid = p(&c, &t).sheet_id.clone();
+    let mut c = c;
+    c.sheets.get_mut(&sid).unwrap().moves.push("Ember".into());
+    let declared = a51_attack(&c, &t, &a, "Ember").unwrap();
+    let power = catalog().find("moves", "Name", "Ember").unwrap()["Power"]
+        .as_i64()
+        .unwrap() as u32;
+    assert_eq!(a52_flow(&declared).completion.powder_due[&t], power);
+    assert!(
+        !a52_flow(&declared).completion.powdered.contains(&t),
+        "only the next Fire move"
+    );
+    let hp = p(&declared, &t).hp;
+    let paid = a52_special(
+        &declared,
+        &p(&declared, &t).owner_id,
+        special::SpecialCommand::ResolvePowder {
+            combatant_id: t.clone(),
+        },
+    )
+    .unwrap();
+    assert_eq!(p(&paid, &t).hp, hp - power as i32);
+    assert!(a52_flow(&paid).completion.powder_due.is_empty());
+}
+#[test]
+fn completion_a55_curse_costs_half_hp_dice_and_removes_a_success() {
+    let (c, a, t) = setup("Curse");
+    let damage_to_a = |c: &Campaign| {
+        let mut c = c.clone();
+        let sid = p(&c, &t).sheet_id.clone();
+        c.sheets.get_mut(&sid).unwrap().moves.push("Tackle".into());
+        let hit = a50_hit(&c, &t, &a, "Tackle");
+        let before = p(&hit, &a).hp;
+        before - p(&roll(&hit, "gm", &damage_command(&hit), 6), &a).hp
+    };
+    let plain = damage_to_a(&c);
+    let pending = a48_pending(&c, &a, vec![t.clone()], "Curse");
+    assert_eq!(
+        rules::dice_count(&pending, &cmd(&pending), &catalog()).unwrap(),
+        50
+    );
+    let cursed = a48_effect(&pending, vec![6; 50]).unwrap();
+    assert_eq!(p(&cursed, &a).hp, 50);
+    assert_eq!(completion::accuracy_loss(&cursed, &t), 1);
+    let mut later = round_end(&cursed);
+    pm(&mut later, &a).hp = 100;
+    assert_eq!(completion::accuracy_loss(&later, &t), 1, "the Curse lasts");
+    assert_eq!(damage_to_a(&later), plain - 1, "one fewer damage success");
+}
+#[test]
+fn completion_a55_flame_burst_splashes_up_to_two_other_foes() {
+    let (mut c, a, t) = setup("Flame Burst");
+    let other = a49_second(&mut c, &t);
+    let hit = ordinary_accuracy(&c, &a, &t, "Flame Burst");
+    let hit = roll(&hit, "gm", &damage_command(&hit), 6);
+    let open = a52_flow(&hit).completion.open_options[&q(&hit).sequence].clone();
+    assert_eq!(open, vec!["none".to_string(), other.clone()]);
+    assert_eq!(
+        rules::dice_count(&hit, &cmd(&hit), &catalog()).unwrap(),
+        0,
+        "no splash by default"
+    );
+    let chosen = a48_option(&hit, &p(&c, &a).owner_id, &other).unwrap();
+    assert_eq!(
+        rules::dice_count(&chosen, &cmd(&chosen), &catalog()).unwrap(),
+        1
+    );
+    let done = a48_effect(&chosen, vec![6]).unwrap();
+    assert_eq!(p(&done, &other).hp, 99);
+    let missed = a48_effect(&chosen, vec![1]).unwrap();
+    assert_eq!(p(&missed, &other).hp, 100);
+
+    let (mut old, a, t) = setup("Powder");
+    old.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .completion
+        .blocks
+        .remove("MOVE-A55");
+    let c = a48_pending(&old, &a, vec![t], "Powder");
+    assert!(a48_effect(&c, vec![]).is_err());
+}
