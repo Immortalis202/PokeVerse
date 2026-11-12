@@ -54,6 +54,7 @@ The live source of remaining route work is `rules/move-effect-audit.json`. Its f
 | First Impression ruling | First eligible action round, confirmed by the user on 5 November 2026 | Implemented in MOVE-A24 |
 | MOVE-A45 | Saved Hold Hands resistance and GM battle-ending workflow | Complete |
 | MOVE-A46 | Metronome saved draw, matching template and shared copied cast | Delivered workflow; template closure open |
+| MOVE-A47 | Judgment saved GM Type/Power/Unique ruling and recorded consequences | Complete |
 | Later blocks | Ordinary attacks with existing attributes; remaining stat changes, resets and swaps; type/damage conversions; field changes; conditional damage; timing/action restrictions; items; copy/selection effects | Open |
 
 New block adoption is persisted in `TurnFlow.completion.blocks`. Every release records its engine in `rules/move-completion.json`; historical saves adopt no additional blocks automatically. The shared special-effect state is boxed while preserving its JSON shape to keep transition stack usage bounded.
@@ -83,3 +84,8 @@ See [the move-decision workflow](battle-move-decisions.md). Target resistance, r
 ### MOVE-A46: committed Metronome and copied casts
 
 [Saved move decisions](battle-move-decisions.md) describes the explicit category table, fixed draw, template choice, original Accuracy, normal template execution, successive/charge support, wrapper identity, permissions and rollback. Targeting and committed-draw clauses have ledger evidence; complete template/copy semantic closure remains open. Validation passed 996 Rust tests plus the separate inventory, 86 frontend tests, 59 script checks, TypeScript and formatting.
+
+
+### MOVE-A47: saved Judgment resolution
+
+See [saved move decisions](battle-move-decisions.md#judgment-move-a47). Saved GM Type, Power and Unique-protection ruling; defense, immunity, shield, field, decoy and ordinary-ability bypass; no Clash; GM consequences recorded through normal battle controls or explicitly declared absent. Shadow Shield's unignorable reduction follows the saved Unique ruling.

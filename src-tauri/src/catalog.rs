@@ -20,9 +20,11 @@ pub struct Catalog {
     pub source_hash: String,
 }
 impl Catalog {
+    /// Unique abilities plus abilities whose source text says they cannot be ignored
+    /// (Shadow Shield); Judgment's saved GM ruling decides whether these still apply.
     pub fn unique_ability_names(&self) -> Result<Vec<String>> {
         let db = self.lock()?;
-        let mut statement = db.connection.prepare_cached("SELECT name FROM entries WHERE kind='abilities' AND instr(lower(json_extract(data,'$.Effect')),'unique ability')>0 ORDER BY name")?;
+        let mut statement = db.connection.prepare_cached("SELECT name FROM entries WHERE kind='abilities' AND (instr(lower(json_extract(data,'$.Effect')),'unique ability')>0 OR instr(lower(json_extract(data,'$.Effect')),'cannot be ignored')>0) ORDER BY name")?;
         let names = statement
             .query_map([], |row| row.get::<_, String>(0))?
             .collect::<std::result::Result<Vec<_>, _>>()?;

@@ -55220,10 +55220,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Judgment.json",
       "sha256": "99e7bbd4bd317f34e0edbdfbadfe667b1b3684d1fb06d02eaf84719ba8026926",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "input-required",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A47: Saved GM Type, Power and Unique target-ability ruling; Ignore Defenses, damage-immunity/shield/field/decoy bypass and no Clash. Added effects are applied with normal GM battle commands and recorded as mechanical consequences, or explicitly declared absent. Accuracy, action eligibility and the existing range model remain.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -55233,9 +55240,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 1,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a47",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a47_judgment_ignores_cover_and_ability_redirection"
+            }
+          ]
         },
         {
           "id": "effect:15-23",
@@ -55253,9 +55266,20 @@
           "value": "Ignore Defenses. ",
           "start": 23,
           "end": 40,
-          "status": "pending",
+          "status": "automated",
           "batch": 1,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a47",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a47_judgment_bypasses_shields_decoys_weather_and_ordinary_abilities_only_for_itself"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a47",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a47_judgment_power_zero_and_type_immunity_use_saved_real_damage_pools"
+            }
+          ]
         },
         {
           "id": "effect:40-116",
@@ -55263,9 +55287,30 @@
           "value": "This Move's Type, Power and extra Added Effects are decided by Storyteller. ",
           "start": 40,
           "end": 116,
-          "status": "pending",
+          "status": "gm-decision-supported",
           "batch": 1,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a47",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a47_judgment_requires_typed_gm_parameters_and_preserves_old_encounters"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a47",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a47_judgment_requires_applied_mechanics_or_explicit_none_and_rejects_noops"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a47",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a47_judgment_consequence_undo_and_profile_freezing_restore_the_right_stage"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a47",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a47_judgment_equipment_receipts_are_mechanical_and_private"
+            }
+          ]
         },
         {
           "id": "effect:116-185",
@@ -55273,9 +55318,30 @@
           "value": "If something would prevent this Move from dealing Damage, ignore it. ",
           "start": 116,
           "end": 185,
-          "status": "pending",
+          "status": "automated",
           "batch": 1,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a47",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a47_judgment_bypasses_shields_decoys_weather_and_ordinary_abilities_only_for_itself"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a47",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a47_judgment_power_zero_and_type_immunity_use_saved_real_damage_pools"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a47",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a47_judgment_bypasses_ordinary_survival_without_consuming_sash"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a47",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a47_judgment_unique_protection_has_an_explicit_saved_gm_outcome"
+            }
+          ]
         },
         {
           "id": "effect:185-212",
@@ -55283,9 +55349,15 @@
           "value": "This Move can't be Clashed.",
           "start": 185,
           "end": 212,
-          "status": "pending",
+          "status": "automated",
           "batch": 1,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a47",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a47_judgment_no_clash_but_ordinary_accuracy_and_evasion_still_apply"
+            }
+          ]
         },
         {
           "id": "metadata:Type",

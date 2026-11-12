@@ -1190,6 +1190,24 @@
         "completion_a46_metronome_copied_successive_actions_keep_original_accuracy_for_every_hit"
       ],
       "scope": "Committed Metronome category/Power dice using a saved GM category table, exact non-Unique template selection and a single-target copied cast retaining Insight + Perform. Shared template damage, added effects, charges, successive actions, normal costs and defenses are reused; wrapper identity is preserved for Gorilla Tactics and Choice items. No silent resampling. Unsupported template mechanics remain tracked by the full-card ledger."
+    },
+    {
+      "id": "move-completion-a47",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A47",
+      "fixtures": [
+        "completion_a47_judgment_bypasses_ordinary_survival_without_consuming_sash",
+        "completion_a47_judgment_bypasses_shields_decoys_weather_and_ordinary_abilities_only_for_itself",
+        "completion_a47_judgment_consequence_undo_and_profile_freezing_restore_the_right_stage",
+        "completion_a47_judgment_equipment_receipts_are_mechanical_and_private",
+        "completion_a47_judgment_ignores_cover_and_ability_redirection",
+        "completion_a47_judgment_no_clash_but_ordinary_accuracy_and_evasion_still_apply",
+        "completion_a47_judgment_power_zero_and_type_immunity_use_saved_real_damage_pools",
+        "completion_a47_judgment_requires_applied_mechanics_or_explicit_none_and_rejects_noops",
+        "completion_a47_judgment_requires_typed_gm_parameters_and_preserves_old_encounters",
+        "completion_a47_judgment_unique_protection_has_an_explicit_saved_gm_outcome"
+      ],
+      "scope": "Saved GM Type, Power and Unique target-ability ruling; Ignore Defenses, damage-immunity/shield/field/decoy bypass and no Clash. Added effects are applied with normal GM battle commands and recorded as mechanical consequences, or explicitly declared absent. Accuracy, action eligibility and the existing range model remain."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -1206,5 +1224,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "6257f93e62c9ca3bd6d39726c9f1a2fc4e80061feb52b93123b70f39e5b31498"
+  "move_completion_registry_hash": "9ab40aed35b25acfc75bc05b8ef5b151ac4744d2ff162d20b4531710853e99c6"
 }

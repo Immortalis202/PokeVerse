@@ -8176,20 +8176,10 @@ fn completion_a47_judgment_bypasses_shields_decoys_weather_and_ordinary_abilitie
         },
         6,
     );
-    let mut c = roll(
-        &c,
-        "gm",
-        &Action::Battlefield {
-            command: crate::combat::field::FieldCommand::Preset {
-                name: "Light Screen".into(),
-                scope: "side:Opponents".into(),
-                rounds: Some(4),
-                parameter: 1,
-            },
-            reason: "Defensive field fixture".into(),
-        },
-        6,
-    );
+    let mut c = c;
+    let scope = format!("side:{}", p(&c, &t).side);
+    let source = format!("field-user:{t}");
+    saved_field_rule(&mut c, "Light Screen", &source, &scope, Some(4), 1);
     let round = c.battle.as_ref().unwrap().round;
     let f = c.battle.as_mut().unwrap().flow.as_mut().unwrap();
     f.decoys.enabled = true;
@@ -8353,7 +8343,7 @@ fn completion_a47_judgment_requires_applied_mechanics_or_explicit_none_and_rejec
     assert!(battle::transition(&c, "gm", &finish, vec![], &catalog()).is_err());
     assert!(battle::transition(&c, "gm", &cmd(&c), vec![], &catalog()).is_err());
     let mut c = roll(&c, "gm", &begin, 6);
-    c = roll(
+    assert!(battle::transition(
         &c,
         "gm",
         &Action::BattleStat {
@@ -8363,8 +8353,10 @@ fn completion_a47_judgment_requires_applied_mechanics_or_explicit_none_and_rejec
             change: 0,
             reason: "A note with no stat change is insufficient".into(),
         },
-        6,
-    );
+        vec![],
+        &catalog()
+    )
+    .is_err());
     assert!(c
         .battle
         .as_ref()
@@ -8449,7 +8441,16 @@ fn completion_a47_judgment_consequence_undo_and_profile_freezing_restore_the_rig
         bypass_unique: false,
     });
     assert!(battle::transition(&c, "gm", &change, vec![], &catalog()).is_err());
-    pm(&mut c, &a).hp = 0;
+    // The in-flight cast keeps its saved profile even after the prepared ruling is gone.
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .completion
+        .judgment_prepared
+        .remove(&a);
     c = serde_json::from_str(&serde_json::to_string(&c).unwrap()).unwrap();
     assert_eq!(queued_damage_pool(&c).power, 4);
     c = roll(&c, "gm", &damage_command(&c), 1);

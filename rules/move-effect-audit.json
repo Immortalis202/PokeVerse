@@ -1,8 +1,8 @@
 {
   "version": 1,
   "date": "2026-11-10",
-  "release": "0.89.0",
-  "engine": "0.81.0-core",
+  "release": "0.90.0",
+  "engine": "0.82.0-core",
   "scope": "892-card effect-route inventory; focused semantic review of status infliction, cure and protection clauses. M2-A through M2-E battle status clauses and MOVE-A01 damaging attribute clauses plus MOVE-A02 entry hazards delivered; see scoped registries and retained choices.",
   "limits": [
     "An executable route is not full card coverage.",
@@ -21,8 +21,8 @@
       "excluded": 38,
       "executable-scope": 735,
       "gm-choice": 1,
-      "input-required": 17,
-      "manual-effect-route": 101
+      "input-required": 18,
+      "manual-effect-route": 100
     },
     "status_clauses": {
       "excluded": 6,
@@ -21185,21 +21185,28 @@
       },
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "input-required",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A47: Saved GM Type, Power and Unique target-ability ruling; Ignore Defenses, damage-immunity/shield/field/decoy bypass and no Clash. Added effects are applied with normal GM battle commands and recorded as mechanical consequences, or explicitly declared absent. Accuracy, action eligibility and the existing range model remain.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
+          "code": "battle",
+          "message": "Judgment requires its saved GM added-effect ruling after damage",
           "result": "route_error"
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
+          "code": "battle",
+          "message": "Judgment requires its saved GM added-effect ruling after damage",
           "result": "route_error"
         }
       }

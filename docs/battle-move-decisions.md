@@ -27,3 +27,13 @@ A pending draw prevents unrelated actions. Required environment, alignment, weig
 The Metronome controls provide category-table setup, draw, exact template choice, target, successive count, Accuracy preview and failure recording. New SpecialCommand variants are MetronomeTable, DrawMetronome, SelectMetronome, CastMetronome and DiscardMetronome. Older encounters retain their existing completion blocks.
 
 This delivers the saved resolution workflow and shared copied-cast foundation. Whole-card certification of Metronome and every eligible template remains subject to the exhaustive ledger and final copy-interaction audit; unsupported template clauses are not converted into discretionary GM rules.
+
+## Judgment (MOVE-A47)
+
+App 0.90.0 / engine 0.82.0-core / protocol 91. Before the cast, the GM prepares Judgment's Type, Power (0–100) and a saved ruling on Unique protection, with a reason, for the current turn. The prepared profile is frozen onto the cast at Accuracy, so an in-flight Judgment cannot be re-ruled and keeps its saved Type and Power even if the prepared ruling is later cleared.
+
+Judgment ignores defenses and anything that would prevent its damage: damage immunities, shields, force fields, decoys, weather reductions, cover/redirection and ordinary damage-reducing abilities. It cannot be Clashed; ordinary Accuracy, Evasion and action eligibility still apply. Unique abilities, and abilities whose source text says they cannot be ignored (Shadow Shield), follow the saved GM ruling: preserved or bypassed.
+
+After damage the GM either begins recording consequences, applies them through the normal battle controls (stat, condition, field, equipment, Will or combatant-state changes, each saved as a receipt and undoable with the normal rollback) and then finishes, or explicitly declares that there are no extra effects. Rejected or no-op commands do not count as consequences. The typed SpecialCommand variants are PrepareJudgment, BeginJudgmentEffects and RuleJudgment.
+
+Verification references: completion_a47 public-command tests. The card's Unique clause and metadata remain under the whole-catalog review.

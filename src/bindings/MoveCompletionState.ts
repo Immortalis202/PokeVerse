@@ -2,10 +2,14 @@
 import type { CompletionMoveUse } from "./CompletionMoveUse";
 import type { CopiedCast } from "./CopiedCast";
 import type { HoldHandsDecision } from "./HoldHandsDecision";
+import type { JudgmentCast } from "./JudgmentCast";
+import type { JudgmentProfile } from "./JudgmentProfile";
 import type { MetronomeDraw } from "./MetronomeDraw";
 import type { MetronomeTable } from "./MetronomeTable";
 
 export type MoveCompletionState = {
+  judgment_prepared: { [key in string]?: JudgmentProfile };
+  judgment_casts: { [key in number]?: JudgmentCast };
   metronome_table: MetronomeTable | null;
   metronome_draw: MetronomeDraw | null;
   copied_cast: CopiedCast | null;
