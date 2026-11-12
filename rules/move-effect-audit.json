@@ -1,8 +1,8 @@
 {
   "version": 1,
   "date": "2026-11-10",
-  "release": "0.92.0",
-  "engine": "0.84.0-core",
+  "release": "0.93.0",
+  "engine": "0.85.0-core",
   "scope": "892-card effect-route inventory; focused semantic review of status infliction, cure and protection clauses. M2-A through M2-E battle status clauses and MOVE-A01 damaging attribute clauses plus MOVE-A02 entry hazards delivered; see scoped registries and retained choices.",
   "limits": [
     "An executable route is not full card coverage.",
@@ -19,10 +19,10 @@
   "counts": {
     "routes": {
       "excluded": 38,
-      "executable-scope": 755,
+      "executable-scope": 763,
       "gm-choice": 1,
       "input-required": 19,
-      "manual-effect-route": 79
+      "manual-effect-route": 71
     },
     "status_clauses": {
       "excluded": 6,
@@ -7164,22 +7164,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A50: Eight damage-calculation cards. Hidden Power's printed Type is Varies: the caster's owner saves its type per cast; it is always super-effective and ignores type immunity, and Unown may repeat it within a round (p.530). Photon Geyser, Tera Blast and Tera Starstorm print a Physical/Special category: the owner saves Physical (Strength vs Defense) or Special (Special vs Sp. Defense) per cast. Terastallization and Tera Types are not modelled, so the Tera type clauses never apply; Tera Starstorm still rolls two host dice per damaged target to replace its typing with one of the 18 types evenly. Flying Press adds the Flying matchup to its Fighting effectiveness. Foul Play uses the target's higher Strength/Special and the user's STAB. Techno Blast takes Fire, Ice, Water or Electric when a Genesect holds the matching Drive (no Drive items exist in the current catalog). Conversion 2 marks the user for the scene; each time Physical or Special damage reaches it, its owner may choose a type resisting that move, which replaces the main type (secondary kept).",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -14748,22 +14765,39 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A50: Eight damage-calculation cards. Hidden Power's printed Type is Varies: the caster's owner saves its type per cast; it is always super-effective and ignores type immunity, and Unown may repeat it within a round (p.530). Photon Geyser, Tera Blast and Tera Starstorm print a Physical/Special category: the owner saves Physical (Strength vs Defense) or Special (Special vs Sp. Defense) per cast. Terastallization and Tera Types are not modelled, so the Tera type clauses never apply; Tera Starstorm still rolls two host dice per damaged target to replace its typing with one of the 18 types evenly. Flying Press adds the Flying matchup to its Fighting effectiveness. Foul Play uses the target's higher Strength/Special and the user's STAB. Techno Blast takes Fire, Ice, Water or Electric when a Genesect holds the matching Drive (no Drive items exist in the current catalog). Conversion 2 marks the user for the scene; each time Physical or Special damage reaches it, its owner may choose a type resisting that move, which replaces the main type (secondary kept).",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -15176,22 +15210,39 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A50: Eight damage-calculation cards. Hidden Power's printed Type is Varies: the caster's owner saves its type per cast; it is always super-effective and ignores type immunity, and Unown may repeat it within a round (p.530). Photon Geyser, Tera Blast and Tera Starstorm print a Physical/Special category: the owner saves Physical (Strength vs Defense) or Special (Special vs Sp. Defense) per cast. Terastallization and Tera Types are not modelled, so the Tera type clauses never apply; Tera Starstorm still rolls two host dice per damaged target to replace its typing with one of the 18 types evenly. Flying Press adds the Flying matchup to its Fighting effectiveness. Foul Play uses the target's higher Strength/Special and the user's STAB. Techno Blast takes Fire, Ice, Water or Electric when a Genesect holds the matching Drive (no Drive items exist in the current catalog). Conversion 2 marks the user for the scene; each time Physical or Special damage reaches it, its owner may choose a type resisting that move, which replaces the main type (secondary kept).",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -18698,22 +18749,39 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A50: Eight damage-calculation cards. Hidden Power's printed Type is Varies: the caster's owner saves its type per cast; it is always super-effective and ignores type immunity, and Unown may repeat it within a round (p.530). Photon Geyser, Tera Blast and Tera Starstorm print a Physical/Special category: the owner saves Physical (Strength vs Defense) or Special (Special vs Sp. Defense) per cast. Terastallization and Tera Types are not modelled, so the Tera type clauses never apply; Tera Starstorm still rolls two host dice per damaged target to replace its typing with one of the 18 types evenly. Flying Press adds the Flying matchup to its Fighting effectiveness. Foul Play uses the target's higher Strength/Special and the user's STAB. Techno Blast takes Fire, Ice, Water or Electric when a Genesect holds the matching Drive (no Drive items exist in the current catalog). Conversion 2 marks the user for the scene; each time Physical or Special damage reaches it, its owner may choose a type resisting that move, which replaces the main type (secondary kept).",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -28886,24 +28954,41 @@
       },
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [
         "Optional lethal wounds are excluded; ordinary damage remains separate"
       ],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A50: Eight damage-calculation cards. Hidden Power's printed Type is Varies: the caster's owner saves its type per cast; it is always super-effective and ignores type immunity, and Unown may repeat it within a round (p.530). Photon Geyser, Tera Blast and Tera Starstorm print a Physical/Special category: the owner saves Physical (Strength vs Defense) or Special (Special vs Sp. Defense) per cast. Terastallization and Tera Types are not modelled, so the Tera type clauses never apply; Tera Starstorm still rolls two host dice per damaged target to replace its typing with one of the 18 types evenly. Flying Press adds the Flying matchup to its Fighting effectiveness. Foul Play uses the target's higher Strength/Special and the user's STAB. Techno Blast takes Fire, Ice, Water or Electric when a Genesect holds the matching Drive (no Drive items exist in the current catalog). Conversion 2 marks the user for the scene; each time Physical or Special damage reaches it, its owner may choose a type resisting that move, which replaces the main type (secondary kept).",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -42608,24 +42693,41 @@
       },
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [
         "Optional lethal wounds are excluded; ordinary damage remains separate"
       ],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A50: Eight damage-calculation cards. Hidden Power's printed Type is Varies: the caster's owner saves its type per cast; it is always super-effective and ignores type immunity, and Unown may repeat it within a round (p.530). Photon Geyser, Tera Blast and Tera Starstorm print a Physical/Special category: the owner saves Physical (Strength vs Defense) or Special (Special vs Sp. Defense) per cast. Terastallization and Tera Types are not modelled, so the Tera type clauses never apply; Tera Starstorm still rolls two host dice per damaged target to replace its typing with one of the 18 types evenly. Flying Press adds the Flying matchup to its Fighting effectiveness. Foul Play uses the target's higher Strength/Special and the user's STAB. Techno Blast takes Fire, Ice, Water or Electric when a Genesect holds the matching Drive (no Drive items exist in the current catalog). Conversion 2 marks the user for the scene; each time Physical or Special damage reaches it, its owner may choose a type resisting that move, which replaces the main type (secondary kept).",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -42884,22 +42986,39 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A50: Eight damage-calculation cards. Hidden Power's printed Type is Varies: the caster's owner saves its type per cast; it is always super-effective and ignores type immunity, and Unown may repeat it within a round (p.530). Photon Geyser, Tera Blast and Tera Starstorm print a Physical/Special category: the owner saves Physical (Strength vs Defense) or Special (Special vs Sp. Defense) per cast. Terastallization and Tera Types are not modelled, so the Tera type clauses never apply; Tera Starstorm still rolls two host dice per damaged target to replace its typing with one of the 18 types evenly. Flying Press adds the Flying matchup to its Fighting effectiveness. Foul Play uses the target's higher Strength/Special and the user's STAB. Techno Blast takes Fire, Ice, Water or Electric when a Genesect holds the matching Drive (no Drive items exist in the current catalog). Conversion 2 marks the user for the scene; each time Physical or Special damage reaches it, its owner may choose a type resisting that move, which replaces the main type (secondary kept).",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -42917,22 +43036,39 @@
       },
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A50: Eight damage-calculation cards. Hidden Power's printed Type is Varies: the caster's owner saves its type per cast; it is always super-effective and ignores type immunity, and Unown may repeat it within a round (p.530). Photon Geyser, Tera Blast and Tera Starstorm print a Physical/Special category: the owner saves Physical (Strength vs Defense) or Special (Special vs Sp. Defense) per cast. Terastallization and Tera Types are not modelled, so the Tera type clauses never apply; Tera Starstorm still rolls two host dice per damaged target to replace its typing with one of the 18 types evenly. Flying Press adds the Flying matchup to its Fighting effectiveness. Foul Play uses the target's higher Strength/Special and the user's STAB. Techno Blast takes Fire, Ice, Water or Electric when a Genesect holds the matching Drive (no Drive items exist in the current catalog). Conversion 2 marks the user for the scene; each time Physical or Special damage reaches it, its owner may choose a type resisting that move, which replaces the main type (secondary kept).",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },

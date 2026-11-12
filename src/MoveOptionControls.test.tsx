@@ -3,7 +3,11 @@ import { renderToStaticMarkup } from "react-dom/server";
 import MoveOptionControls from "./MoveOptionControls";
 import type { Campaign } from "./bindings/Campaign";
 
-function view(playerId: string, options: string[] = ["Dexterity", "Vitality"]) {
+function view(
+  playerId: string,
+  options: string[] = ["Dexterity", "Vitality"],
+  conversion: Record<string, string[]> = {},
+) {
   const campaign = {
     gm_id: "gm",
     battle: {
@@ -12,7 +16,11 @@ function view(playerId: string, options: string[] = ["Dexterity", "Vitality"]) {
       flow: {
         window: false,
         queue: [{ sequence: 4, move_name: "Mystical Power", actor_id: "a" }],
-        completion: { open_options: { 4: options }, move_options: {} },
+        completion: {
+          open_options: { 4: options },
+          move_options: {},
+          conversion_choices: conversion,
+        },
       },
     },
   } as unknown as Campaign;
@@ -42,6 +50,14 @@ describe("saved move choices", () => {
     expect(view("owner", ["a", "Fire"])).toContain(">Caster</option>");
     expect(view("owner", ["a", "Fire"])).toContain(
       '<option value="Fire">Fire</option>',
+    );
+  });
+  it("offers Conversion 2 types to the hit combatant's owner", () => {
+    const html = view("owner", [], { a: ["Rock", "Steel"] });
+    expect(html).toContain("Conversion 2: Caster");
+    expect(html).toContain("<button>Change type</button>");
+    expect(view("other", [], { a: ["Rock"] })).toContain(
+      '<button disabled="">Change type</button>',
     );
   });
 });

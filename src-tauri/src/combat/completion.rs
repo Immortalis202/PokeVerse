@@ -19,6 +19,8 @@ pub struct MoveCompletionState {
     pub open_options: BTreeMap<u32, Vec<String>>,
     /// Spectral Thief casts that already stole before damage.
     pub stolen: BTreeSet<u32>,
+    /// Conversion 2 types each combatant may still choose after being hit.
+    pub conversion_choices: BTreeMap<String, Vec<String>>,
     pub blocks: BTreeSet<String>,
     pub uses: Vec<CompletionMoveUse>,
     pub entered: BTreeMap<String, u32>,
@@ -103,7 +105,10 @@ pub fn effect_dice(c: &Campaign, q: &QueuedAction) -> Result<Option<u32>> {
             .saturating_sub(2 * u32::from(!bypass && target.has_ability("Wonder Skin"))),
         ));
     }
-    if let Some(n) = stat_ops::effect_dice(c, q).or_else(|| type_ops::effect_dice(c, q)) {
+    if let Some(n) = stat_ops::effect_dice(c, q)
+        .or_else(|| type_ops::effect_dice(c, q))
+        .or_else(|| damage_ops::effect_dice(c, q))
+    {
         return Ok(Some(n));
     }
     Ok(definition(c, &q.move_name).map(|_| 0))
@@ -112,6 +117,7 @@ pub fn effect_dice(c: &Campaign, q: &QueuedAction) -> Result<Option<u32>> {
 pub fn options(c: &Campaign, q: &QueuedAction) -> Result<Vec<String>> {
     let mut options = stat_ops::options(c, q)?;
     options.extend(type_ops::options(c, q)?);
+    options.extend(damage_ops::options(c, q)?);
     Ok(options)
 }
 pub(super) fn immune_target(c: &Campaign, q: &QueuedAction, cat: &Catalog) -> Result<bool> {
@@ -399,6 +405,9 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
         "type-op" => {
             type_ops::effect(c, q, _dice, cat)?;
         }
+        "damage-op" => {
+            damage_ops::effect(c, q, _dice, cat)?;
+        }
         "stat" => {
             return damaging_stats::effect(c, q, _dice, cat);
         }
@@ -682,6 +691,7 @@ pub fn effectiveness(
     } else {
         base
     };
+    let n = damage_ops::effectiveness(c, m, target, cat, n)?;
     Ok(sport_effectiveness(
         c,
         m,
@@ -882,6 +892,7 @@ pub fn physical_defense(c: &Campaign, m: &serde_json::Value) -> bool {
         .is_some_and(|(_, d)| d["physical_defense"] == true)
 }
 pub fn move_data(c: &Campaign, p: &Combatant, m: &mut serde_json::Value) {
+    damage_ops::move_data(c, p, m);
     if ["Physical", "Special"].contains(&m["Category"].as_str().unwrap_or(""))
         && self_support(c, p, "Dragon Cheer")
     {
@@ -1183,6 +1194,11 @@ pub fn observe(before: &Campaign, next: &mut Campaign, cat: &Catalog) -> Result<
         && battle(next).is_ok_and(|b| b.active)
     {
         type_ops::lifecycle(next)?;
+    }
+    if flow(next).is_ok_and(|f| f.completion.blocks.contains("MOVE-A50"))
+        && battle(next).is_ok_and(|b| b.active)
+    {
+        damage_ops::lifecycle(next)?;
     }
     if definition(next, "Charge").is_some() {
         let sequences: BTreeSet<_> = flow(next)?

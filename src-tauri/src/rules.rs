@@ -139,6 +139,7 @@ pub fn accuracy(
     if automatic
         && p.used_moves.iter().any(|m| m == name)
         && !crate::combat::special::repeat(c, key, name)
+        && !crate::combat::damage_ops::repeat(c, key, name)
         && !crate::combat::sequencing::repeat(c, key, name)
     {
         return Err(AppError::new(
@@ -227,6 +228,7 @@ pub fn accuracy(
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
     if [
         ENGINE,
+        TYPE_OPS_ENGINE,
         STAT_OPS_ENGINE,
         JUDGMENT_ENGINE,
         METRONOME_ENGINE,
@@ -415,6 +417,7 @@ pub fn damage_pool(
         .find("moves", "Name", &hit.move_name)
         .ok_or_else(|| AppError::new("missing", "Unknown move"))?;
     let m = crate::combat::field::move_data(c, attacker, &m);
+    crate::combat::damage_ops::damage_guard(c, &m)?;
     if let Some(mut pool) =
         crate::combat::special::formula(c, attacker, target, &m, sequence, modifier, catalog)?
     {
@@ -470,7 +473,11 @@ pub fn damage_pool(
         )?;
         rivalry_source.stats.insert("Strength".into(), base + delta);
     }
-    let attribute = score(&rivalry_source, attribute_source)?;
+    let attribute = if crate::combat::damage_ops::borrowed_attribute(c, &m) {
+        score(&defender, attribute_source.trim_start_matches("Target's"))?
+    } else {
+        score(&rivalry_source, attribute_source)?
+    };
     if (source.rank == "Champion" && source.workflow.is_none())
         || (defender.rank == "Champion" && defender.workflow.is_none())
     {
@@ -591,7 +598,9 @@ pub fn damage_pool(
     {
         immune = false;
     }
-    if crate::combat::type_ops::unstoppable(c, &m) {
+    if crate::combat::type_ops::unstoppable(c, &m)
+        || crate::combat::damage_ops::ignores_immunity(c, &m)
+    {
         immune = false;
     }
     if crate::combat::judgment::active(c, &m) {

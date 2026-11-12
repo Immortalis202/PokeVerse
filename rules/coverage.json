@@ -1236,6 +1236,20 @@
         "completion_a49_snipe_shot_ignores_redirection"
       ],
       "scope": "Eight typing, accuracy and targeting cards. Conversion rolls two host dice for an even draw over the 18 types and replaces the user's main type (secondary kept) for the scene or until it leaves battle; Reflect Type copies a foe's current types, with a saved owner choice when several foes are active. Lock-On adds two automatic Accuracy successes to the user's next move; Mind Reader adds two unremovable successes to the user's next Accuracy or Evasion roll against its target. Miracle Eye lets the user's Psychic moves hit Dark types, prevents foes from Evading the user's moves and stops move, item and ability Accuracy reductions on the user for the scene; printed Low Accuracy and field effects still apply. Snipe Shot ignores redirection and cover. Moongeist Beam and Sunsteel Strike ignore type and ability immunities, shields, weather prevention and force-field reductions, and cannot be Clashed; defenses, cover, decoys and survival effects still apply. Sunsteel Strike's printed Single Target overrides its Foe's Battlefield metadata."
+    },
+    {
+      "id": "move-completion-a50",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A50",
+      "fixtures": [
+        "completion_a50_conversion_2_offers_resisting_types_after_damage",
+        "completion_a50_flying_press_and_foul_play_change_the_damage_pool",
+        "completion_a50_hidden_power_needs_a_saved_type_and_is_always_super_effective",
+        "completion_a50_physical_special_cards_use_the_saved_category",
+        "completion_a50_techno_blast_completes_and_old_encounters_stay_manual",
+        "completion_a50_tera_starstorm_retypes_damaged_targets_evenly"
+      ],
+      "scope": "Eight damage-calculation cards. Hidden Power's printed Type is Varies: the caster's owner saves its type per cast; it is always super-effective and ignores type immunity, and Unown may repeat it within a round (p.530). Photon Geyser, Tera Blast and Tera Starstorm print a Physical/Special category: the owner saves Physical (Strength vs Defense) or Special (Special vs Sp. Defense) per cast. Terastallization and Tera Types are not modelled, so the Tera type clauses never apply; Tera Starstorm still rolls two host dice per damaged target to replace its typing with one of the 18 types evenly. Flying Press adds the Flying matchup to its Fighting effectiveness. Foul Play uses the target's higher Strength/Special and the user's STAB. Techno Blast takes Fire, Ice, Water or Electric when a Genesect holds the matching Drive (no Drive items exist in the current catalog). Conversion 2 marks the user for the scene; each time Physical or Special damage reaches it, its owner may choose a type resisting that move, which replaces the main type (secondary kept)."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -1252,5 +1266,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "2de211a66fad9d507d1d46799fbcc307d420031faffead6cd5618391608bf5a5"
+  "move_completion_registry_hash": "8babc79f844711fe8542db3d8ced89257386c699b903e9310a61369099d2a47a"
 }

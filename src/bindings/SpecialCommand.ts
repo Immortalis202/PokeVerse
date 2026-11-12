@@ -22,6 +22,7 @@ export type SpecialCommand =
   | { kind: "DiscardMetronome"; token: number }
   | { kind: "PrepareHoldHands"; sequence: number }
   | { kind: "ChooseMoveOption"; sequence: number; option: string }
+  | { kind: "ConvertType"; combatant_id: string; type_name: string }
   | { kind: "ResistHoldHands"; sequence: number; resist: boolean }
   | { kind: "RuleHoldHands"; sequence: number; end_battle: boolean }
   | { kind: "GrudgeCheck"; target_id: string }

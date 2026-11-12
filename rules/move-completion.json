@@ -2101,6 +2101,65 @@
           "target_override": "Foe"
         }
       }
+    },
+    "MOVE-A50": {
+      "engine": "0.85.0-core",
+      "kind": "damage-op",
+      "scope": "Eight damage-calculation cards. Hidden Power's printed Type is Varies: the caster's owner saves its type per cast; it is always super-effective and ignores type immunity, and Unown may repeat it within a round (p.530). Photon Geyser, Tera Blast and Tera Starstorm print a Physical/Special category: the owner saves Physical (Strength vs Defense) or Special (Special vs Sp. Defense) per cast. Terastallization and Tera Types are not modelled, so the Tera type clauses never apply; Tera Starstorm still rolls two host dice per damaged target to replace its typing with one of the 18 types evenly. Flying Press adds the Flying matchup to its Fighting effectiveness. Foul Play uses the target's higher Strength/Special and the user's STAB. Techno Blast takes Fire, Ice, Water or Electric when a Genesect holds the matching Drive (no Drive items exist in the current catalog). Conversion 2 marks the user for the scene; each time Physical or Special damage reaches it, its owner may choose a type resisting that move, which replaces the main type (secondary kept).",
+      "moves": {
+        "Hidden Power": {
+          "source": "Pokerole-Data/v3.0/Moves/Hidden Power.json",
+          "sha256": "947b667ed91029a306dc2645db234363e2ef784886291cda3c3c4a7547eb588d",
+          "effect": "Single Target. This Move will always deal Super-Effective Damage against the Target. If used by the Pokemon #201 Unown. See p. 530",
+          "op": "hidden-power"
+        },
+        "Photon Geyser": {
+          "source": "Pokerole-Data/v3.0/Moves/Photon Geyser.json",
+          "sha256": "d3f3ebb237453a23e7b5905e229f4b7e065384fa56edb292ac9b0498a0b03cd9",
+          "effect": "Single Target. Lethal. Unique. This Move's Damage Pool, can be rolled with either Strength or Special Attribute, dealing Physical or Special Damage respectively. Choose whatever is most convenient for the user.",
+          "op": "category",
+          "category_choice": true
+        },
+        "Tera Blast": {
+          "source": "Pokerole-Data/v3.0/Moves/Tera Blast.json",
+          "sha256": "b44fc9627ab2f446ef88d084aaa008fcf4eae901a538240ccf01b3e214035104",
+          "effect": "Single Target. *If the User is actively Terastallized, the Type of this Move changes to match that of the Tera-Type. This affects Weaknesses, Resistances and STAB accordingly.",
+          "op": "category",
+          "category_choice": true
+        },
+        "Tera Starstorm": {
+          "source": "Pokerole-Data/v3.0/Moves/Tera Starstorm.json",
+          "sha256": "c2583ca07195437603877f8fe0aa0006ed6ea4b4e6ac9079925c4b64b3ee25bf",
+          "effect": "Target All Foes in Range. Unique Move. *If the User is actively Terastallized, the Type of this Move changes to match that of the Tera-Type, this affects Weaknesses, Resistances and STAB accordingly. Change the type of those affected at random.",
+          "op": "retype",
+          "category_choice": true
+        },
+        "Flying Press": {
+          "source": "Pokerole-Data/v3.0/Moves/Flying Press.json",
+          "sha256": "9aaecb5ff9909e4c9ee6ce226f1381a3b9e6672510a048cbda6804c18770184b",
+          "effect": "Single Target. This move deals damage as if it was also Flying-Type.",
+          "op": "dual-type",
+          "DualType": "Flying"
+        },
+        "Foul Play": {
+          "source": "Pokerole-Data/v3.0/Moves/Foul Play.json",
+          "sha256": "64ed1bf7e69c6ca73f11f3c4ce8c2f1afae4dd7f11cb644146b1e65a848b7623",
+          "effect": "Single Target. S.T.A.B. of the User and the Strength/Special of the foe are used for this Move's Damage Pool.",
+          "op": "foul-play"
+        },
+        "Techno Blast": {
+          "source": "Pokerole-Data/v3.0/Moves/Techno Blast.json",
+          "sha256": "7998ced2bfbeff9341ae7b24a75fefbca26ee1a806f90426d2e9558d917a326d",
+          "effect": "Single Target. Lethal. *If Genesect is performing this Move, this Move's type may change to: Fire, Ice, Water, or Electric depending on the Driver it has as Held Item.",
+          "op": "techno-blast"
+        },
+        "Conversion 2": {
+          "source": "Pokerole-Data/v3.0/Moves/Conversion 2.json",
+          "sha256": "ad2cfa29d47f46993a041783e7baf90637424d643433263d3ed51108cf7d99bc",
+          "effect": "Target Self. Unique. After being dealt damage by a Physical or Special Move, change the User's Main Type to a Type resistant to that Move. Whole Scene Duration.",
+          "op": "conversion-2"
+        }
+      }
     }
   },
   "printed_review": {

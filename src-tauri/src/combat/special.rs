@@ -150,6 +150,11 @@ pub enum SpecialCommand {
         sequence: u32,
         option: String,
     },
+    /// Conversion 2: choose the resisting type after being hit.
+    ConvertType {
+        combatant_id: String,
+        type_name: String,
+    },
     ResistHoldHands {
         sequence: u32,
         resist: bool,
@@ -271,6 +276,16 @@ pub fn dice(c: &Campaign, cmd: &SpecialCommand, cat: &Catalog) -> Result<u32> {
         | SpecialCommand::RuleHoldHands { .. } => choices::dice(c, cmd)?,
         SpecialCommand::ChooseMoveOption { sequence, option } => {
             choices::move_option(c, *sequence, option)?;
+            0
+        }
+        SpecialCommand::ConvertType { combatant_id, .. } => {
+            if !flow(c)?
+                .completion
+                .conversion_choices
+                .contains_key(combatant_id)
+            {
+                return Err(error("No pending Conversion 2 choice for this combatant"));
+            }
             0
         }
         SpecialCommand::Successive {
@@ -403,6 +418,15 @@ pub fn command(
                 "{} option for #{sequence}: {option}. {r}",
                 q.move_name
             ));
+        }
+        SpecialCommand::ConvertType {
+            combatant_id,
+            type_name,
+        } => {
+            owner(c, actor, combatant_id)?;
+            reason(r)?;
+            damage_ops::convert(c, combatant_id, type_name, cat)?;
+            return Ok(format!("Conversion 2: main type becomes {type_name}. {r}"));
         }
         SpecialCommand::GrudgeCheck { target_id } => {
             return Ok(format!("{}. {r}", will::check(c, actor, target_id, faces)?));

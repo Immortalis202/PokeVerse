@@ -57,6 +57,7 @@ The live source of remaining route work is `rules/move-effect-audit.json`. Its f
 | MOVE-A47 | Judgment saved GM Type/Power/Unique ruling and recorded consequences | Complete |
 | MOVE-A48 | Thirteen stat operations: splits, swaps, transfers, Acupressure and Mystical Power | Complete |
 | MOVE-A49 | Conversion, Reflect Type, Lock-On, Mind Reader, Miracle Eye, Snipe Shot, Moongeist Beam, Sunsteel Strike | Complete |
+| MOVE-A50 | Hidden Power, Photon Geyser, Tera Blast, Tera Starstorm, Flying Press, Foul Play, Techno Blast, Conversion 2 | Complete (Tera types and Drives not modelled) |
 | Later blocks | Ordinary attacks with existing attributes; remaining stat changes, resets and swaps; type/damage conversions; field changes; conditional damage; timing/action restrictions; items; copy/selection effects | Open |
 
 New block adoption is persisted in `TurnFlow.completion.blocks`. Every release records its engine in `rules/move-completion.json`; historical saves adopt no additional blocks automatically. The shared special-effect state is boxed while preserving its JSON shape to keep transition stack usage bounded.
@@ -101,3 +102,8 @@ See [stat channels](battle-stat-channels.md#stat-operations-move-a48). Scene bas
 ### MOVE-A49: typing, accuracy and targeting
 
 See [typing, accuracy and targeting moves](battle-type-accuracy-moves.md). Even two-die type draw; foe type copy with saved choice; two-success Lock-On/Mind Reader gains; Miracle Eye's Dark hits, no-Evade and reduction immunity; Snipe Shot redirection bypass; Moongeist/Sunsteel immunity, shield, weather and force-field bypass without Clash; Sunsteel single-target correction.
+
+
+### MOVE-A50: damage-calculation moves
+
+See [damage-calculation moves](battle-type-accuracy-moves.md#damage-calculation-moves-move-a50). Saved Hidden Power type and Physical/Special category; always-super-effective Hidden Power with Unown repeats; Flying Press dual matchup; Foul Play's borrowed attribute; Techno Blast Drives; Tera Starstorm's random retyping; Conversion 2's post-hit resisting type. Terastallization is not modelled.

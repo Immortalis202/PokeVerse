@@ -11,6 +11,7 @@ pub(crate) mod completion;
 pub(crate) mod compound;
 pub(crate) mod copies;
 pub(crate) mod cure_protection;
+pub(crate) mod damage_ops;
 pub(crate) mod damaging_stats;
 pub(crate) mod decoys;
 pub(crate) mod direct_status;
@@ -1183,6 +1184,7 @@ pub fn transition(
     if let Some(setup) = field::start_setup(a) {
         if ![
             ENGINE,
+            TYPE_OPS_ENGINE,
             STAT_OPS_ENGINE,
             JUDGMENT_ENGINE,
             METRONOME_ENGINE,
@@ -1255,6 +1257,7 @@ pub fn transition(
             setup,
             [
                 ENGINE,
+                TYPE_OPS_ENGINE,
                 STAT_OPS_ENGINE,
                 JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
@@ -3015,6 +3018,7 @@ fn transition_inner(
                 abilities::hit(&mut done, &q, before, &move_data, cat)?;
             }
             let actual_damage = (before - fighter(&done, &q.target_id)?.hp).max(0);
+            damage_ops::after_damage(&mut done, &q.target_id, &move_data, actual_damage)?;
             special::hit(
                 &mut done,
                 &q,
@@ -3376,6 +3380,7 @@ fn transition_inner(
                 b.flow = Some(TurnFlow {
                     identity_moves: [
                         ENGINE,
+                        TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
                         METRONOME_ENGINE,
@@ -3438,6 +3443,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     status_escalation: [
                         ENGINE,
+                        TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
                         METRONOME_ENGINE,
@@ -3499,6 +3505,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     spite: [
                         ENGINE,
+                        TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
                         METRONOME_ENGINE,
@@ -3559,6 +3566,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     will_drains: [
                         ENGINE,
+                        TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
                         METRONOME_ENGINE,
@@ -3618,6 +3626,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     direct_status: [
                         ENGINE,
+                        TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
                         METRONOME_ENGINE,
@@ -3676,6 +3685,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     chance_status: [
                         ENGINE,
+                        TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
                         METRONOME_ENGINE,
@@ -3733,6 +3743,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     battlefield_review: [
                         ENGINE,
+                        TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
                         METRONOME_ENGINE,
@@ -3786,6 +3797,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     entry_hazards: [
                         ENGINE,
+                        TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
                         METRONOME_ENGINE,
@@ -3839,6 +3851,7 @@ fn transition_inner(
                     damaging_stats: Box::new(damaging_stats::StatMoveState {
                         enabled: [
                             ENGINE,
+                            TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
                             METRONOME_ENGINE,
@@ -3893,6 +3906,7 @@ fn transition_inner(
                     }),
                     cure_protection: [
                         ENGINE,
+                        TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
                         METRONOME_ENGINE,
@@ -3948,6 +3962,7 @@ fn transition_inner(
                     recurring: Box::new(recurring::RecurringState {
                         enabled: [
                             ENGINE,
+                            TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
                             METRONOME_ENGINE,
@@ -4006,6 +4021,7 @@ fn transition_inner(
                     compound: compound::CompoundState {
                         enabled: [
                             ENGINE,
+                            TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
                             METRONOME_ENGINE,
@@ -4064,6 +4080,7 @@ fn transition_inner(
                     },
                     house_rules: [
                         ENGINE,
+                        TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
                         METRONOME_ENGINE,
@@ -4128,6 +4145,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     interaction_rules: [
                         ENGINE,
+                        TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
                         METRONOME_ENGINE,
@@ -4195,6 +4213,7 @@ fn transition_inner(
                     standalone: standalone::StandaloneState {
                         enabled: [
                             ENGINE,
+                            TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
                             METRONOME_ENGINE,
@@ -4265,6 +4284,7 @@ fn transition_inner(
                     information: information::InformationState {
                         enabled: [
                             ENGINE,
+                            TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
                             METRONOME_ENGINE,
@@ -4336,6 +4356,7 @@ fn transition_inner(
                     forms: forms::FormState {
                         enabled: [
                             ENGINE,
+                            TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
                             METRONOME_ENGINE,
@@ -4409,6 +4430,7 @@ fn transition_inner(
                         completion: items::completion::CompletionState {
                             enabled: [
                                 ENGINE,
+                                TYPE_OPS_ENGINE,
                                 STAT_OPS_ENGINE,
                                 JUDGMENT_ENGINE,
                                 METRONOME_ENGINE,
@@ -4476,6 +4498,7 @@ fn transition_inner(
                         },
                         enabled: [
                             ENGINE,
+                            TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
                             METRONOME_ENGINE,
@@ -4549,6 +4572,7 @@ fn transition_inner(
                     events: events::EventState {
                         enabled: [
                             ENGINE,
+                            TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
                             METRONOME_ENGINE,
@@ -4622,6 +4646,7 @@ fn transition_inner(
                     },
                     provenance_rules: [
                         ENGINE,
+                        TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
                         METRONOME_ENGINE,
@@ -4695,6 +4720,7 @@ fn transition_inner(
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
                             METRONOME_ENGINE,
@@ -4771,6 +4797,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
                             METRONOME_ENGINE,
@@ -4847,6 +4874,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
                         METRONOME_ENGINE,
@@ -4923,6 +4951,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
                             METRONOME_ENGINE,
@@ -5002,6 +5031,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
                             METRONOME_ENGINE,
@@ -5082,6 +5112,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
                             METRONOME_ENGINE,
@@ -5163,6 +5194,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
                             METRONOME_ENGINE,
@@ -5245,6 +5277,7 @@ fn transition_inner(
                     special: Box::new(special::SpecialState {
                         enabled: [
                             ENGINE,
+                            TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
                             METRONOME_ENGINE,
@@ -5327,6 +5360,7 @@ fn transition_inner(
                     }),
                     ability_rules: [
                         ENGINE,
+                        TYPE_OPS_ENGINE,
                         STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
                         METRONOME_ENGINE,
@@ -5411,6 +5445,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
                             METRONOME_ENGINE,
@@ -5495,6 +5530,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            TYPE_OPS_ENGINE,
                             STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
                             METRONOME_ENGINE,

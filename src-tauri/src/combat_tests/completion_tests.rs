@@ -9382,3 +9382,210 @@ fn completion_a49_moongeist_and_sunsteel_ignore_immunity_and_force_fields_but_no
     let c = a48_pending(&old, &a, vec![a.clone()], "Lock-On");
     assert!(a48_effect(&c, vec![]).is_err());
 }
+
+/// Declare a damaging move against `t` with enough successes, closing reactions.
+fn a50_hit(c: &Campaign, a: &str, t: &str, name: &str) -> Campaign {
+    let mut c = detection_attack(c, a, t, name);
+    while c.battle.as_ref().unwrap().flow.as_ref().unwrap().window {
+        c = pass(&c);
+    }
+    c
+}
+fn a50_pool(c: &Campaign) -> Result<rules::DamagePool> {
+    let mut temp = c.clone();
+    let q = q(c);
+    pm(&mut temp, &q.actor_id).pending_damage = Some(PendingDamage {
+        sequence: q.sequence,
+        target_id: q.target_id.clone(),
+        move_name: q.move_name.clone(),
+        critical: q.critical,
+    });
+    rules::damage_pool(&temp, &q.actor_id, q.sequence, 0, &catalog())
+}
+
+#[test]
+fn completion_a50_hidden_power_needs_a_saved_type_and_is_always_super_effective() {
+    let (mut c, a, t) = setup("Hidden Power");
+    a49_species(&mut c, &t, "Gengar");
+    let hit = a50_hit(&c, &a, &t, "Hidden Power");
+    let open = &hit
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .completion
+        .open_options;
+    assert_eq!(open[&q(&hit).sequence].len(), 18);
+    assert!(
+        a50_pool(&hit).is_err(),
+        "the type must be saved before damage"
+    );
+    assert!(a48_option(&hit, &p(&c, &a).owner_id, "Varies").is_err());
+    let chosen = a48_option(&hit, &p(&c, &a).owner_id, "Normal").unwrap();
+    let pool = a50_pool(&chosen).unwrap();
+    assert_eq!(pool.effectiveness, 1);
+    assert!(!pool.immune, "even Normal reaches a Ghost type");
+    let done = roll(&chosen, "gm", &damage_command(&chosen), 6);
+    assert!(q(&done).damage > 0);
+
+    // Only Unown may repeat Hidden Power within a round.
+    for (species, allowed) in [("Eevee", false), ("Unown", true)] {
+        let (mut c, a, t) = setup("Hidden Power");
+        a49_species(&mut c, &a, species);
+        pm(&mut c, &a).used_moves.push("Hidden Power".into());
+        let action = super::targeting_tests::attack(&a, vec![t.clone()], "Hidden Power");
+        let n = rules::dice_count(&c, &action, &catalog());
+        let ok = n.is_ok_and(|n| {
+            battle::transition(
+                &c,
+                &p(&c, &a).owner_id,
+                &action,
+                vec![6; n as usize],
+                &catalog(),
+            )
+            .is_ok()
+        });
+        assert_eq!(ok, allowed, "{species}");
+    }
+}
+#[test]
+fn completion_a50_physical_special_cards_use_the_saved_category() {
+    for name in ["Photon Geyser", "Tera Blast"] {
+        let (mut c, a, t) = setup(name);
+        a48_stats(&mut c, &a, &[("Strength", 2), ("Special", 5)]);
+        a48_stats(&mut c, &t, &[("Vitality", 3), ("Insight", 1)]);
+        let hit = a50_hit(&c, &a, &t, name);
+        assert!(a50_pool(&hit).is_err(), "{name} needs a category");
+        let owner = p(&c, &a).owner_id.clone();
+        let physical = a50_pool(&a48_option(&hit, &owner, "Physical").unwrap()).unwrap();
+        let special = a50_pool(&a48_option(&hit, &owner, "Special").unwrap()).unwrap();
+        assert_eq!((physical.attribute, physical.defense), (2, 3), "{name}");
+        assert_eq!((special.attribute, special.defense), (5, 1), "{name}");
+        assert_eq!(special.dice, physical.dice + 5, "{name}");
+    }
+}
+#[test]
+fn completion_a50_flying_press_and_foul_play_change_the_damage_pool() {
+    let (mut c, a, t) = setup("Flying Press");
+    a49_species(&mut c, &t, "Chikorita");
+    let pool = a50_pool(&a50_hit(&c, &a, &t, "Flying Press")).unwrap();
+    assert_eq!(
+        pool.effectiveness, 1,
+        "Fighting is neutral and Flying hits Grass"
+    );
+    a49_species(&mut c, &t, "Bulbasaur");
+    let pool = a50_pool(&a50_hit(&c, &a, &t, "Flying Press")).unwrap();
+    assert_eq!(
+        pool.effectiveness, 0,
+        "resisted Fighting plus super-effective Flying"
+    );
+
+    let (mut c, a, t) = setup("Foul Play");
+    a48_stats(&mut c, &a, &[("Strength", 1)]);
+    a48_stats(&mut c, &t, &[("Strength", 6), ("Special", 2)]);
+    let pool = a50_pool(&a50_hit(&c, &a, &t, "Foul Play")).unwrap();
+    assert_eq!(pool.attribute, 6, "the target's Strength is used");
+    a48_stats(&mut c, &t, &[("Strength", 2), ("Special", 5)]);
+    let pool = a50_pool(&a50_hit(&c, &a, &t, "Foul Play")).unwrap();
+    assert_eq!(
+        pool.attribute, 5,
+        "a slash picks the target's higher attribute"
+    );
+}
+#[test]
+fn completion_a50_tera_starstorm_retypes_damaged_targets_evenly() {
+    let (c, a, t) = setup("Tera Starstorm");
+    let hit = a50_hit(&c, &a, &t, "Tera Starstorm");
+    let chosen = a48_option(&hit, &p(&c, &a).owner_id, "Special").unwrap();
+    let damaged = roll(&chosen, "gm", &damage_command(&chosen), 6);
+    assert!(q(&damaged).damage > 0);
+    assert_eq!(
+        rules::dice_count(&damaged, &cmd(&damaged), &catalog()).unwrap(),
+        2
+    );
+    let done = a48_effect(&damaged, vec![1, 2]).unwrap();
+    assert_eq!(a49_types(&done, &t), vec!["Fire"]);
+    let done = a48_effect(&damaged, vec![6, 6]).unwrap();
+    assert_eq!(a49_types(&done, &t), vec!["Fairy"]);
+    assert_eq!(
+        a49_types(&done, &a),
+        vec!["Normal"],
+        "Tera types are not modelled"
+    );
+}
+#[test]
+fn completion_a50_conversion_2_offers_resisting_types_after_damage() {
+    let (c, a, t) = setup("Conversion 2");
+    let mut c = support_cast(&c, &a, vec![a.clone()], "Conversion 2");
+    turn(&mut c, &t, "Tackle");
+    let hit = ordinary_accuracy(&c, &t, &a, "Tackle");
+    let hit = roll(&hit, "gm", &damage_command(&hit), 6);
+    assert!(p(&hit, &a).hp < 100, "Tackle damaged the user");
+    let pending = &hit
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .completion
+        .conversion_choices;
+    assert_eq!(pending[&a], vec!["Rock", "Ghost", "Steel"]);
+    let convert = |c: &Campaign, actor: &str, type_name: &str| {
+        battle::transition(
+            c,
+            actor,
+            &Action::SpecialMove {
+                command: special::SpecialCommand::ConvertType {
+                    combatant_id: a.clone(),
+                    type_name: type_name.into(),
+                },
+                reason: "Conversion 2 choice".into(),
+            },
+            vec![],
+            &catalog(),
+        )
+        .map(|v| v.0)
+    };
+    assert!(convert(&hit, &p(&c, &a).owner_id, "Fire").is_err());
+    assert!(convert(&hit, "intruder", "Steel").is_err());
+    let done = convert(&hit, &p(&c, &a).owner_id, "Steel").unwrap();
+    assert_eq!(a49_types(&done, &a), vec!["Steel"]);
+    assert!(
+        convert(&done, &p(&c, &a).owner_id, "Rock").is_err(),
+        "one choice per hit"
+    );
+}
+#[test]
+fn completion_a50_techno_blast_completes_and_old_encounters_stay_manual() {
+    let (c, a, t) = setup("Techno Blast");
+    let done = resolve(&roll(
+        &a50_hit(&c, &a, &t, "Techno Blast"),
+        "gm",
+        &damage_command(&a50_hit(&c, &a, &t, "Techno Blast")),
+        6,
+    ));
+    assert!(done
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .queue
+        .is_empty());
+    let (mut old, a, _t) = setup("Conversion 2");
+    old.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .completion
+        .blocks
+        .remove("MOVE-A50");
+    let c = a48_pending(&old, &a, vec![a.clone()], "Conversion 2");
+    assert!(a48_effect(&c, vec![]).is_err());
+}

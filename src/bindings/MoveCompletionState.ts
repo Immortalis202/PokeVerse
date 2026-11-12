@@ -30,6 +30,10 @@ export type MoveCompletionState = {
    * Spectral Thief casts that already stole before damage.
    */
   stolen: Array<number>;
+  /**
+   * Conversion 2 types each combatant may still choose after being hit.
+   */
+  conversion_choices: { [key in string]?: Array<string> };
   blocks: Array<string>;
   uses: Array<CompletionMoveUse>;
   entered: { [key in string]?: number };

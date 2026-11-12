@@ -53,6 +53,7 @@ export default function AdvancedTargeting({
       "0.9.0-core",
       "0.10.0-core",
       "0.11.0-core",
+      "0.85.0-core",
       "0.84.0-core",
       "0.83.0-core",
       "0.82.0-core",

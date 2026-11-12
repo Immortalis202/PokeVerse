@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { Campaign } from "./bindings/Campaign";
 import type { Action } from "./bindings/Action";
 
-/** Saved owner choice a pending cast needs before its effect resolves. */
+/** Saved owner choices: the pending cast's open option and Conversion 2 types. */
 export default function MoveOptionControls({
   campaign,
   playerId,
@@ -15,48 +15,95 @@ export default function MoveOptionControls({
   disabled: boolean;
 }) {
   const [choice, setChoice] = useState("");
+  const [types, setTypes] = useState<Record<string, string>>({});
   const b = campaign.battle,
     f = b?.flow,
     q = f?.queue[0];
-  const options = q ? f?.completion?.open_options?.[q.sequence] : undefined;
-  if (!b?.active || !f || !q || !options?.length) return null;
-  const saved = f.completion.move_options?.[q.sequence];
-  const owns =
+  if (!b?.active || !f) return null;
+  const options = q ? f.completion?.open_options?.[q.sequence] : undefined;
+  const conversions = Object.entries(f.completion?.conversion_choices ?? {});
+  if (!options?.length && !conversions.length) return null;
+  const owns = (id: string) =>
     campaign.gm_id === playerId ||
-    b.combatants.some((p) => p.id === q.actor_id && p.owner_id === playerId);
-  const value = options.includes(choice) ? choice : options[0];
+    b.combatants.some((p) => p.id === id && p.owner_id === playerId);
+  const label = (o: string) => b.combatants.find((p) => p.id === o)?.name ?? o;
+  const value = options?.includes(choice) ? choice : options?.[0];
   return (
-    <section aria-label="Move choice">
-      <h4>{q.move_name}: choose</h4>
-      {saved && <p>Saved choice: {saved}</p>}
-      <select
-        aria-label={`${q.move_name} option`}
-        value={value}
-        disabled={disabled || !owns}
-        onChange={(e) => setChoice(e.target.value)}
-      >
-        {options.map((o) => (
-          <option key={o} value={o}>
-            {b.combatants.find((p) => p.id === o)?.name ?? o}
-          </option>
-        ))}
-      </select>
-      <button
-        disabled={disabled || !owns}
-        onClick={() =>
-          execute({
-            type: "special_move",
-            command: {
-              kind: "ChooseMoveOption",
-              sequence: q.sequence,
-              option: value,
-            },
-            reason: `Owner chooses ${value} for ${q.move_name}`,
-          })
-        }
-      >
-        Save choice
-      </button>
-    </section>
+    <>
+      {q && options?.length && value ? (
+        <section aria-label="Move choice">
+          <h4>{q.move_name}: choose</h4>
+          {f.completion.move_options?.[q.sequence] && (
+            <p>Saved choice: {label(f.completion.move_options[q.sequence]!)}</p>
+          )}
+          <select
+            aria-label={`${q.move_name} option`}
+            value={value}
+            disabled={disabled || !owns(q.actor_id)}
+            onChange={(e) => setChoice(e.target.value)}
+          >
+            {options.map((o) => (
+              <option key={o} value={o}>
+                {label(o)}
+              </option>
+            ))}
+          </select>
+          <button
+            disabled={disabled || !owns(q.actor_id)}
+            onClick={() =>
+              execute({
+                type: "special_move",
+                command: {
+                  kind: "ChooseMoveOption",
+                  sequence: q.sequence,
+                  option: value,
+                },
+                reason: `Owner chooses ${value} for ${q.move_name}`,
+              })
+            }
+          >
+            Save choice
+          </button>
+        </section>
+      ) : null}
+      {conversions.map(([id, list]) => {
+        const picked =
+          types[id] && list?.includes(types[id]) ? types[id] : list?.[0];
+        if (!list?.length || !picked) return null;
+        return (
+          <section key={id} aria-label="Conversion 2 choice">
+            <h4>Conversion 2: {label(id)}</h4>
+            <select
+              aria-label={`Conversion 2 type for ${label(id)}`}
+              value={picked}
+              disabled={disabled || !owns(id)}
+              onChange={(e) => setTypes({ ...types, [id]: e.target.value })}
+            >
+              {list.map((t) => (
+                <option key={t} value={t}>
+                  {t}
+                </option>
+              ))}
+            </select>
+            <button
+              disabled={disabled || !owns(id)}
+              onClick={() =>
+                execute({
+                  type: "special_move",
+                  command: {
+                    kind: "ConvertType",
+                    combatant_id: id,
+                    type_name: picked,
+                  },
+                  reason: `Conversion 2 changes the main type to ${picked}`,
+                })
+              }
+            >
+              Change type
+            </button>
+          </section>
+        );
+      })}
+    </>
   );
 }
