@@ -1,8 +1,8 @@
 {
   "version": 1,
   "date": "2026-11-10",
-  "release": "0.96.0",
-  "engine": "0.88.0-core",
+  "release": "0.97.0",
+  "engine": "0.89.0-core",
   "scope": "892-card effect-route inventory; focused semantic review of status infliction, cure and protection clauses. M2-A through M2-E battle status clauses and MOVE-A01 damaging attribute clauses plus MOVE-A02 entry hazards delivered; see scoped registries and retained choices.",
   "limits": [
     "An executable route is not full card coverage.",
@@ -19,10 +19,10 @@
   "counts": {
     "routes": {
       "excluded": 38,
-      "executable-scope": 786,
+      "executable-scope": 792,
       "gm-choice": 1,
       "input-required": 19,
-      "manual-effect-route": 48
+      "manual-effect-route": 42
     },
     "status_clauses": {
       "excluded": 6,
@@ -8820,22 +8820,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A54: Six delayed and damage-triggered cards. Future Sight and Doom Desire roll damage normally (existing shield, force-field and decoy bypass kept) but deal it when turns start next round; if the target has left, the combatant now in its slot, otherwise an active ally (by identity order), takes it. Doom Desire's discretionary extra effects stay with the GM. Rage: for the rest of the round, each Physical/Special hit by a foe raises the user's Strength by 1, stacking to 3. Destiny Bond: if the user faints to Physical/Special damage this round, the attacker's HP drops to 0; it fails when used in consecutive rounds. Pursuit marks a target it damages; if that target is later recalled, switched out (including by a Switcher) or uses Run Away, it takes 2 typeless damage once. Glaive Rush makes its user Vulnerable (existing +2 damage and barrier/Cover bypass) until the next Physical/Special move hits it.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -9488,22 +9505,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A54: Six delayed and damage-triggered cards. Future Sight and Doom Desire roll damage normally (existing shield, force-field and decoy bypass kept) but deal it when turns start next round; if the target has left, the combatant now in its slot, otherwise an active ally (by identity order), takes it. Doom Desire's discretionary extra effects stay with the GM. Rage: for the rest of the round, each Physical/Special hit by a foe raises the user's Strength by 1, stacking to 3. Destiny Bond: if the user faints to Physical/Special damage this round, the attacker's HP drops to 0; it fails when used in consecutive rounds. Pursuit marks a target it damages; if that target is later recalled, switched out (including by a Switcher) or uses Run Away, it takes 2 typeless damage once. Glaive Rush makes its user Vulnerable (existing +2 damage and barrier/Cover bypass) until the next Physical/Special move hits it.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -16061,22 +16095,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A54: Six delayed and damage-triggered cards. Future Sight and Doom Desire roll damage normally (existing shield, force-field and decoy bypass kept) but deal it when turns start next round; if the target has left, the combatant now in its slot, otherwise an active ally (by identity order), takes it. Doom Desire's discretionary extra effects stay with the GM. Rage: for the rest of the round, each Physical/Special hit by a foe raises the user's Strength by 1, stacking to 3. Destiny Bond: if the user faints to Physical/Special damage this round, the attacker's HP drops to 0; it fails when used in consecutive rounds. Pursuit marks a target it damages; if that target is later recalled, switched out (including by a Switcher) or uses Run Away, it takes 2 typeless damage once. Glaive Rush makes its user Vulnerable (existing +2 damage and barrier/Cover bypass) until the next Physical/Special move hits it.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -16642,24 +16693,41 @@
       },
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [
         "Optional lethal wounds are excluded; ordinary damage remains separate"
       ],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A54: Six delayed and damage-triggered cards. Future Sight and Doom Desire roll damage normally (existing shield, force-field and decoy bypass kept) but deal it when turns start next round; if the target has left, the combatant now in its slot, otherwise an active ally (by identity order), takes it. Doom Desire's discretionary extra effects stay with the GM. Rage: for the rest of the round, each Physical/Special hit by a foe raises the user's Strength by 1, stacking to 3. Destiny Bond: if the user faints to Physical/Special damage this round, the attacker's HP drops to 0; it fails when used in consecutive rounds. Pursuit marks a target it damages; if that target is later recalled, switched out (including by a Switcher) or uses Run Away, it takes 2 typeless damage once. Glaive Rush makes its user Vulnerable (existing +2 damage and barrier/Cover bypass) until the next Physical/Special move hits it.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -31786,22 +31854,39 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A54: Six delayed and damage-triggered cards. Future Sight and Doom Desire roll damage normally (existing shield, force-field and decoy bypass kept) but deal it when turns start next round; if the target has left, the combatant now in its slot, otherwise an active ally (by identity order), takes it. Doom Desire's discretionary extra effects stay with the GM. Rage: for the rest of the round, each Physical/Special hit by a foe raises the user's Strength by 1, stacking to 3. Destiny Bond: if the user faints to Physical/Special damage this round, the attacker's HP drops to 0; it fails when used in consecutive rounds. Pursuit marks a target it damages; if that target is later recalled, switched out (including by a Switcher) or uses Run Away, it takes 2 typeless damage once. Glaive Rush makes its user Vulnerable (existing +2 damage and barrier/Cover bypass) until the next Physical/Special move hits it.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -32202,22 +32287,39 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A54: Six delayed and damage-triggered cards. Future Sight and Doom Desire roll damage normally (existing shield, force-field and decoy bypass kept) but deal it when turns start next round; if the target has left, the combatant now in its slot, otherwise an active ally (by identity order), takes it. Doom Desire's discretionary extra effects stay with the GM. Rage: for the rest of the round, each Physical/Special hit by a foe raises the user's Strength by 1, stacking to 3. Destiny Bond: if the user faints to Physical/Special damage this round, the attacker's HP drops to 0; it fails when used in consecutive rounds. Pursuit marks a target it damages; if that target is later recalled, switched out (including by a Switcher) or uses Run Away, it takes 2 typeless damage once. Glaive Rush makes its user Vulnerable (existing +2 damage and barrier/Cover bypass) until the next Physical/Special move hits it.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },

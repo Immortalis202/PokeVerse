@@ -22730,10 +22730,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Destiny Bond.json",
       "sha256": "f2630c6861be5697dc6a8fba3860dc72952d0aaaf371c2aee299602a255c7c6f",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A54: Six delayed and damage-triggered cards. Future Sight and Doom Desire roll damage normally (existing shield, force-field and decoy bypass kept) but deal it when turns start next round; if the target has left, the combatant now in its slot, otherwise an active ally (by identity order), takes it. Doom Desire's discretionary extra effects stay with the GM. Rage: for the rest of the round, each Physical/Special hit by a foe raises the user's Strength by 1, stacking to 3. Destiny Bond: if the user faints to Physical/Special damage this round, the attacker's HP drops to 0; it fails when used in consecutive rounds. Pursuit marks a target it damages; if that target is later recalled, switched out (including by a Switcher) or uses Run Away, it takes 2 typeless damage once. Glaive Rush makes its user Vulnerable (existing +2 damage and barrier/Cover bypass) until the next Physical/Special move hits it.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -22743,9 +22750,15 @@
           "value": "Target Self. ",
           "start": 0,
           "end": 13,
-          "status": "pending",
+          "status": "automated",
           "batch": 7,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a54",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a54_rage_and_destiny_bond_answer_damage_this_round"
+            }
+          ]
         },
         {
           "id": "effect:13-167",
@@ -22753,9 +22766,15 @@
           "value": "If the user faints this Round due to damage frm a Physical or Special Move, the Pokemon who dealt the damage is dealt damage equal to their remaining Hp. ",
           "start": 13,
           "end": 167,
-          "status": "pending",
+          "status": "automated",
           "batch": 7,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a54",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a54_rage_and_destiny_bond_answer_damage_this_round"
+            }
+          ]
         },
         {
           "id": "effect:167-221",
@@ -22763,9 +22782,15 @@
           "value": "This Move will fail if it was used the previous Round.",
           "start": 167,
           "end": 221,
-          "status": "pending",
+          "status": "automated",
           "batch": 7,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a54",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a54_rage_and_destiny_bond_answer_damage_this_round"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -24492,10 +24517,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Doom Desire.json",
       "sha256": "6a875b2765f22a9f7b729111448db782e97f72c464d50980ac2af8fd5cb5f983",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A54: Six delayed and damage-triggered cards. Future Sight and Doom Desire roll damage normally (existing shield, force-field and decoy bypass kept) but deal it when turns start next round; if the target has left, the combatant now in its slot, otherwise an active ally (by identity order), takes it. Doom Desire's discretionary extra effects stay with the GM. Rage: for the rest of the round, each Physical/Special hit by a foe raises the user's Strength by 1, stacking to 3. Destiny Bond: if the user faints to Physical/Special damage this round, the attacker's HP drops to 0; it fails when used in consecutive rounds. Pursuit marks a target it damages; if that target is later recalled, switched out (including by a Switcher) or uses Run Away, it takes 2 typeless damage once. Glaive Rush makes its user Vulnerable (existing +2 damage and barrier/Cover bypass) until the next Physical/Special move hits it.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -24505,9 +24537,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 7,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a54",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a54_future_sight_and_doom_desire_hit_when_next_round_starts"
+            }
+          ]
         },
         {
           "id": "effect:15-23",
@@ -24525,9 +24563,15 @@
           "value": "This Move's damage is dealt at the beginning of the next Rund. ",
           "start": 23,
           "end": 86,
-          "status": "pending",
+          "status": "automated",
           "batch": 7,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a54",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a54_future_sight_and_doom_desire_hit_when_next_round_starts"
+            }
+          ]
         },
         {
           "id": "effect:86-147",
@@ -24545,9 +24589,15 @@
           "value": "If the target retires or switches out from battle, the damage will be dealt to the next opponent or to one of its allies. ",
           "start": 147,
           "end": 269,
-          "status": "pending",
+          "status": "automated",
           "batch": 7,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a54",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a54_future_sight_and_doom_desire_hit_when_next_round_starts"
+            }
+          ]
         },
         {
           "id": "effect:269-324",
@@ -41445,10 +41495,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Future Sight.json",
       "sha256": "61a5eac90f2590b597312b68a7c58d94fcd7c4a12c34a7970c57617301b1b8e8",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A54: Six delayed and damage-triggered cards. Future Sight and Doom Desire roll damage normally (existing shield, force-field and decoy bypass kept) but deal it when turns start next round; if the target has left, the combatant now in its slot, otherwise an active ally (by identity order), takes it. Doom Desire's discretionary extra effects stay with the GM. Rage: for the rest of the round, each Physical/Special hit by a foe raises the user's Strength by 1, stacking to 3. Destiny Bond: if the user faints to Physical/Special damage this round, the attacker's HP drops to 0; it fails when used in consecutive rounds. Pursuit marks a target it damages; if that target is later recalled, switched out (including by a Switcher) or uses Run Away, it takes 2 typeless damage once. Glaive Rush makes its user Vulnerable (existing +2 damage and barrier/Cover bypass) until the next Physical/Special move hits it.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -41458,9 +41515,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 7,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a54",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a54_future_sight_and_doom_desire_hit_when_next_round_starts"
+            }
+          ]
         },
         {
           "id": "effect:15-79",
@@ -41468,9 +41531,15 @@
           "value": "This Move's damage is dealt at the beginning of the next Round. ",
           "start": 15,
           "end": 79,
-          "status": "pending",
+          "status": "automated",
           "batch": 7,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a54",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a54_future_sight_and_doom_desire_hit_when_next_round_starts"
+            }
+          ]
         },
         {
           "id": "effect:79-133",
@@ -41488,9 +41557,15 @@
           "value": "If the target restires or switches out from battle, the damage will be dealt to the next opponent or to one of its allies.",
           "start": 133,
           "end": 255,
-          "status": "pending",
+          "status": "automated",
           "batch": 7,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a54",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a54_future_sight_and_doom_desire_hit_when_next_round_starts"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -43003,12 +43078,19 @@
       "source": "Pokerole-Data/v3.0/Moves/Glaive Rush.json",
       "sha256": "981414d19c75264f89dcd59a3844cd9c73e5c79ed0587c9121394d396f65396e",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [
         "Optional lethal wounds are excluded; ordinary damage remains separate"
       ],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A54: Six delayed and damage-triggered cards. Future Sight and Doom Desire roll damage normally (existing shield, force-field and decoy bypass kept) but deal it when turns start next round; if the target has left, the combatant now in its slot, otherwise an active ally (by identity order), takes it. Doom Desire's discretionary extra effects stay with the GM. Rage: for the rest of the round, each Physical/Special hit by a foe raises the user's Strength by 1, stacking to 3. Destiny Bond: if the user faints to Physical/Special damage this round, the attacker's HP drops to 0; it fails when used in consecutive rounds. Pursuit marks a target it damages; if that target is later recalled, switched out (including by a Switcher) or uses Run Away, it takes 2 typeless damage once. Glaive Rush makes its user Vulnerable (existing +2 damage and barrier/Cover bypass) until the next Physical/Special move hits it.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -43018,9 +43100,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 7,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a54",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a54_pursuit_and_glaive_rush_mark_their_targets"
+            }
+          ]
         },
         {
           "id": "effect:15-23",
@@ -43038,9 +43126,15 @@
           "value": "The User is now Vulnerable to: The Next Physical or Special Move that targets them.",
           "start": 23,
           "end": 106,
-          "status": "pending",
+          "status": "automated",
           "batch": 7,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a54",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a54_pursuit_and_glaive_rush_mark_their_targets"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -83711,10 +83805,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Pursuit.json",
       "sha256": "6bd8d4309c9479beb9ba5f76bdc8a4e1e6b74d8316d031f1621fff4aee810953",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A54: Six delayed and damage-triggered cards. Future Sight and Doom Desire roll damage normally (existing shield, force-field and decoy bypass kept) but deal it when turns start next round; if the target has left, the combatant now in its slot, otherwise an active ally (by identity order), takes it. Doom Desire's discretionary extra effects stay with the GM. Rage: for the rest of the round, each Physical/Special hit by a foe raises the user's Strength by 1, stacking to 3. Destiny Bond: if the user faints to Physical/Special damage this round, the attacker's HP drops to 0; it fails when used in consecutive rounds. Pursuit marks a target it damages; if that target is later recalled, switched out (including by a Switcher) or uses Run Away, it takes 2 typeless damage once. Glaive Rush makes its user Vulnerable (existing +2 damage and barrier/Cover bypass) until the next Physical/Special move hits it.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -83724,9 +83825,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 7,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a54",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a54_pursuit_and_glaive_rush_mark_their_targets"
+            }
+          ]
         },
         {
           "id": "effect:15-168",
@@ -83734,9 +83841,15 @@
           "value": "*If a Target hit by this Move is recalled, attempts to Run Away, uses a Switcher Move or is the Target of a Switcher Move, Deal 2 Typeless Damage to it. ",
           "start": 15,
           "end": 168,
-          "status": "pending",
+          "status": "automated",
           "batch": 7,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a54",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a54_pursuit_and_glaive_rush_mark_their_targets"
+            }
+          ]
         },
         {
           "id": "effect:168-220",
@@ -84898,10 +85011,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Rage.json",
       "sha256": "9d128b1ebac7d30f3ce2d87e4b95487d608577733f82ab93ef8a8b7951de5ffe",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A54: Six delayed and damage-triggered cards. Future Sight and Doom Desire roll damage normally (existing shield, force-field and decoy bypass kept) but deal it when turns start next round; if the target has left, the combatant now in its slot, otherwise an active ally (by identity order), takes it. Doom Desire's discretionary extra effects stay with the GM. Rage: for the rest of the round, each Physical/Special hit by a foe raises the user's Strength by 1, stacking to 3. Destiny Bond: if the user faints to Physical/Special damage this round, the attacker's HP drops to 0; it fails when used in consecutive rounds. Pursuit marks a target it damages; if that target is later recalled, switched out (including by a Switcher) or uses Run Away, it takes 2 typeless damage once. Glaive Rush makes its user Vulnerable (existing +2 damage and barrier/Cover bypass) until the next Physical/Special move hits it.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -84911,9 +85031,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 7,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a54",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a54_rage_and_destiny_bond_answer_damage_this_round"
+            }
+          ]
         },
         {
           "id": "effect:15-114",
@@ -84921,9 +85047,15 @@
           "value": "If a foe damages the User with a Physical or Special Move in the same round after using this Move. ",
           "start": 15,
           "end": 114,
-          "status": "pending",
+          "status": "automated",
           "batch": 7,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a54",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a54_rage_and_destiny_bond_answer_damage_this_round"
+            }
+          ]
         },
         {
           "id": "effect:114-149",
@@ -84931,9 +85063,15 @@
           "value": "Increase the User's Strength by 1. ",
           "start": 114,
           "end": 149,
-          "status": "pending",
+          "status": "automated",
           "batch": 7,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a54",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a54_rage_and_destiny_bond_answer_damage_this_round"
+            }
+          ]
         },
         {
           "id": "effect:149-185",
@@ -84941,9 +85079,15 @@
           "value": "This effect can stack up to 3 Times.",
           "start": 149,
           "end": 185,
-          "status": "pending",
+          "status": "automated",
           "batch": 7,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a54",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a54_rage_and_destiny_bond_answer_damage_this_round"
+            }
+          ]
         },
         {
           "id": "metadata:Type",

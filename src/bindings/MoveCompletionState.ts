@@ -2,6 +2,7 @@
 import type { AmbushState } from "./AmbushState";
 import type { CompletionMoveUse } from "./CompletionMoveUse";
 import type { CopiedCast } from "./CopiedCast";
+import type { DelayedHit } from "./DelayedHit";
 import type { HoldHandsDecision } from "./HoldHandsDecision";
 import type { InitiativeMark } from "./InitiativeMark";
 import type { JudgmentCast } from "./JudgmentCast";
@@ -106,6 +107,24 @@ export type MoveCompletionState = {
    * Combatants whose Round this round sings together with an ally.
    */
   round_chorus: { [key in string]?: number };
+  /**
+   * Future Sight/Doom Desire damage waiting for the next round.
+   */
+  delayed: Array<DelayedHit>;
+  /**
+   * Round in which each user used Rage / Destiny Bond.
+   */
+  rage: { [key in string]?: number };
+  destiny_bond: { [key in string]?: number };
+  destiny_casts: { [key in string]?: number };
+  /**
+   * Targets hit by Pursuit, with the Pursuit user.
+   */
+  pursued: { [key in string]?: string };
+  /**
+   * Glaive Rush users vulnerable to the next damaging move.
+   */
+  glaive: Array<string>;
   blocks: Array<string>;
   uses: Array<CompletionMoveUse>;
   entered: { [key in string]?: number };

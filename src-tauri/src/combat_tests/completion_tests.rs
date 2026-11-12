@@ -10389,3 +10389,114 @@ fn completion_a53_beat_up_and_round_add_dice_for_joining_allies() {
     let c = a48_pending(&old, &a, vec![ally], "Helping Hand");
     assert!(a48_effect(&c, vec![]).is_err());
 }
+
+fn a54_hit(c: &Campaign, a: &str, t: &str, name: &str) -> Campaign {
+    let mut c = c.clone();
+    turn(&mut c, a, name);
+    let hit = ordinary_accuracy(&c, a, t, name);
+    let done = roll(&hit, "gm", &damage_command(&hit), 6);
+    if done
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .queue
+        .is_empty()
+    {
+        done
+    } else {
+        resolve(&done)
+    }
+}
+
+#[test]
+fn completion_a54_future_sight_and_doom_desire_hit_when_next_round_starts() {
+    for name in ["Future Sight", "Doom Desire"] {
+        let (c, a, t) = setup(name);
+        let cast = a54_hit(&c, &a, &t, name);
+        assert_eq!(p(&cast, &t).hp, 100, "{name} deals nothing now");
+        let pending = a52_flow(&cast).completion.delayed.clone();
+        assert_eq!(pending.len(), 1);
+        let amount = pending[0].damage;
+        assert!(amount > 0);
+        let mut next = round_end(&cast);
+        crate::combat::delayed_ops::start_turns(&mut next).unwrap();
+        assert_eq!(p(&next, &t).hp, 100 - amount, "{name}");
+        assert!(a52_flow(&next).completion.delayed.is_empty());
+    }
+    // A departed target's replacement takes the hit.
+    let (mut c, a, t) = setup("Future Sight");
+    let incoming = reserve(&mut c, &t);
+    let cast = a54_hit(&c, &a, &t, "Future Sight");
+    let amount = a52_flow(&cast).completion.delayed[0].damage;
+    let swapped = spider_switch(&cast, &t, &incoming, false);
+    let mut next = round_end(&swapped);
+    crate::combat::delayed_ops::start_turns(&mut next).unwrap();
+    assert_eq!(p(&next, &t).hp, 100);
+    assert_eq!(p(&next, &incoming).hp, 100 - amount);
+}
+#[test]
+fn completion_a54_rage_and_destiny_bond_answer_damage_this_round() {
+    let (c, a, t) = setup("Rage");
+    let raged = a54_hit(&c, &a, &t, "Rage");
+    let once = a54_hit(&raged, &t, &a, "Tackle");
+    assert_eq!(stat(&once, &a, "Strength"), 1);
+    let twice = a54_hit(&once, &t, &a, "Tackle");
+    assert_eq!(stat(&twice, &a, "Strength"), 2);
+    let later = round_end(&twice);
+    let after = a54_hit(&later, &t, &a, "Tackle");
+    assert_eq!(
+        stat(&after, &a, "Strength"),
+        2,
+        "Rage lasts only for its round"
+    );
+
+    let (c, a, t) = setup("Destiny Bond");
+    let mut bonded = support_cast(&c, &a, vec![a.clone()], "Destiny Bond");
+    pm(&mut bonded, &a).hp = 1;
+    let fainted = a54_hit(&bonded, &t, &a, "Tackle");
+    assert_eq!(p(&fainted, &a).hp, 0);
+    assert_eq!(p(&fainted, &t).hp, 0, "the attacker loses its remaining HP");
+    let mut next = round_end(&bonded);
+    turn(&mut next, &a, "Destiny Bond");
+    let again = super::targeting_tests::attack(&a, vec![a.clone()], "Destiny Bond");
+    assert!(
+        rules::dice_count(&next, &again, &catalog()).is_err(),
+        "not in consecutive rounds"
+    );
+}
+#[test]
+fn completion_a54_pursuit_and_glaive_rush_mark_their_targets() {
+    let (mut c, a, t) = setup("Pursuit");
+    let incoming = reserve(&mut c, &t);
+    let hit = a54_hit(&c, &a, &t, "Pursuit");
+    let hp = p(&hit, &t).hp;
+    assert!(a52_flow(&hit).completion.pursued.contains_key(&t));
+    let gone = spider_switch(&hit, &t, &incoming, false);
+    assert_eq!(p(&gone, &t).hp, hp - 2, "recalled while pursued");
+    assert!(!a52_flow(&gone).completion.pursued.contains_key(&t));
+
+    let (c, a, t) = setup("Glaive Rush");
+    let rushed = a54_hit(&c, &a, &t, "Glaive Rush");
+    assert!(special::vulnerable(&rushed, &a, "Tackle"));
+    let hit = a54_hit(&rushed, &t, &a, "Tackle");
+    assert!(
+        !special::vulnerable(&hit, &a, "Tackle"),
+        "spent by the next damaging hit"
+    );
+
+    let (mut old, a, t) = setup("Rage");
+    old.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .completion
+        .blocks
+        .remove("MOVE-A54");
+    let c = pending(&old, &a, &t, "Rage");
+    assert!(a48_effect(&c, vec![]).is_err());
+}

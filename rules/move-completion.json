@@ -2329,6 +2329,49 @@
           "op": "round"
         }
       }
+    },
+    "MOVE-A54": {
+      "engine": "0.89.0-core",
+      "kind": "delayed-op",
+      "scope": "Six delayed and damage-triggered cards. Future Sight and Doom Desire roll damage normally (existing shield, force-field and decoy bypass kept) but deal it when turns start next round; if the target has left, the combatant now in its slot, otherwise an active ally (by identity order), takes it. Doom Desire's discretionary extra effects stay with the GM. Rage: for the rest of the round, each Physical/Special hit by a foe raises the user's Strength by 1, stacking to 3. Destiny Bond: if the user faints to Physical/Special damage this round, the attacker's HP drops to 0; it fails when used in consecutive rounds. Pursuit marks a target it damages; if that target is later recalled, switched out (including by a Switcher) or uses Run Away, it takes 2 typeless damage once. Glaive Rush makes its user Vulnerable (existing +2 damage and barrier/Cover bypass) until the next Physical/Special move hits it.",
+      "moves": {
+        "Future Sight": {
+          "source": "Pokerole-Data/v3.0/Moves/Future Sight.json",
+          "sha256": "61a5eac90f2590b597312b68a7c58d94fcd7c4a12c34a7970c57617301b1b8e8",
+          "effect": "Single Target. This Move's damage is dealt at the beginning of the next Round. Ignore Shield Moves, Force Field, Cover & Substitute. If the target restires or switches out from battle, the damage will be dealt to the next opponent or to one of its allies.",
+          "op": "delayed"
+        },
+        "Doom Desire": {
+          "source": "Pokerole-Data/v3.0/Moves/Doom Desire.json",
+          "sha256": "6a875b2765f22a9f7b729111448db782e97f72c464d50980ac2af8fd5cb5f983",
+          "effect": "Single Target. Unique. This Move's damage is dealt at the beginning of the next Rund. Ignore Shield Moves, Force Field, Cover & Substitute decoys. If the target retires or switches out from battle, the damage will be dealt to the next opponent or to one of its allies. Extra effects may be added at Storyteller's Discretion.",
+          "op": "delayed"
+        },
+        "Rage": {
+          "source": "Pokerole-Data/v3.0/Moves/Rage.json",
+          "sha256": "9d128b1ebac7d30f3ce2d87e4b95487d608577733f82ab93ef8a8b7951de5ffe",
+          "effect": "Single Target. If a foe damages the User with a Physical or Special Move in the same round after using this Move. Increase the User's Strength by 1. This effect can stack up to 3 Times.",
+          "op": "rage"
+        },
+        "Destiny Bond": {
+          "source": "Pokerole-Data/v3.0/Moves/Destiny Bond.json",
+          "sha256": "f2630c6861be5697dc6a8fba3860dc72952d0aaaf371c2aee299602a255c7c6f",
+          "effect": "Target Self. If the user faints this Round due to damage frm a Physical or Special Move, the Pokemon who dealt the damage is dealt damage equal to their remaining Hp. This Move will fail if it was used the previous Round.",
+          "op": "destiny-bond"
+        },
+        "Pursuit": {
+          "source": "Pokerole-Data/v3.0/Moves/Pursuit.json",
+          "sha256": "6bd8d4309c9479beb9ba5f76bdc8a4e1e6b74d8316d031f1621fff4aee810953",
+          "effect": "Single Target. *If a Target hit by this Move is recalled, attempts to Run Away, uses a Switcher Move or is the Target of a Switcher Move, Deal 2 Typeless Damage to it. Outside of battle, aid in catching a fleeing target.",
+          "op": "pursuit"
+        },
+        "Glaive Rush": {
+          "source": "Pokerole-Data/v3.0/Moves/Glaive Rush.json",
+          "sha256": "981414d19c75264f89dcd59a3844cd9c73e5c79ed0587c9121394d396f65396e",
+          "effect": "Single Target. Lethal. The User is now Vulnerable to: The Next Physical or Special Move that targets them.",
+          "op": "glaive"
+        }
+      }
     }
   },
   "printed_review": {

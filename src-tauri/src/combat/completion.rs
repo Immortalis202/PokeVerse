@@ -56,6 +56,16 @@ pub struct MoveCompletionState {
     pub beat_up: BTreeMap<u32, Vec<String>>,
     /// Combatants whose Round this round sings together with an ally.
     pub round_chorus: BTreeMap<String, u32>,
+    /// Future Sight/Doom Desire damage waiting for the next round.
+    pub delayed: Vec<delayed_ops::DelayedHit>,
+    /// Round in which each user used Rage / Destiny Bond.
+    pub rage: BTreeMap<String, u32>,
+    pub destiny_bond: BTreeMap<String, u32>,
+    pub destiny_casts: BTreeMap<String, u32>,
+    /// Targets hit by Pursuit, with the Pursuit user.
+    pub pursued: BTreeMap<String, String>,
+    /// Glaive Rush users vulnerable to the next damaging move.
+    pub glaive: BTreeSet<String>,
     pub blocks: BTreeSet<String>,
     pub uses: Vec<CompletionMoveUse>,
     pub entered: BTreeMap<String, u32>,
@@ -454,6 +464,9 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
         }
         "allied-op" => {
             allied_ops::effect(c, q, cat)?;
+        }
+        "delayed-op" => {
+            delayed_ops::effect(c, q)?;
         }
         "stat" => {
             return damaging_stats::effect(c, q, _dice, cat);
@@ -1068,6 +1081,7 @@ pub fn guard_move(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> Result<
     history_guard(c, p, m)?;
     condition_ops::guard(c, p, m)?;
     allied_ops::guard(c, m)?;
+    delayed_ops::guard(c, p, m)?;
     if definition(c, m["Name"].as_str().unwrap_or(""))
         .is_some_and(|(_, d)| d["requires_terrain"] == true)
         && !flow(c)?
@@ -1264,6 +1278,12 @@ pub fn observe(before: &Campaign, next: &mut Campaign, cat: &Catalog) -> Result<
         && battle(next).is_ok_and(|b| b.active)
     {
         allied_ops::lifecycle(next)?;
+    }
+    if flow(next).is_ok_and(|f| f.completion.blocks.contains("MOVE-A54"))
+        && battle(next).is_ok_and(|b| b.active)
+    {
+        delayed_ops::observe(before, next)?;
+        delayed_ops::lifecycle(next)?;
     }
     if definition(next, "Charge").is_some() {
         let sequences: BTreeSet<_> = flow(next)?

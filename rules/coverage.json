@@ -1288,6 +1288,17 @@
         "completion_a53_helping_hand_adds_two_accuracy_and_two_damage_dice_once"
       ],
       "scope": "Four allied contributions. Helping Hand gives its ally 2 extra dice on the next Accuracy roll and 2 extra dice on the next Physical/Special damage roll; recasting refreshes rather than stacks. Help Another is a command, not an ordinary cast: the helper spends an action and rolls the ally's intended move's Accuracy pool with its own scores as Chance dice; each 6 adds one die to the ally's next Accuracy roll, at most 3 helpers and 6 dice per action. Beat Up: while its damage is pending, up to 3 different active allies may each spend an action to join, adding 2 damage dice each. Round: while a Round's damage is pending, an active ally that knows Round may join; both combatants' Round damage pools gain 3 dice this round. Skill checks other than Accuracy are not modified."
+    },
+    {
+      "id": "move-completion-a54",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A54",
+      "fixtures": [
+        "completion_a54_future_sight_and_doom_desire_hit_when_next_round_starts",
+        "completion_a54_pursuit_and_glaive_rush_mark_their_targets",
+        "completion_a54_rage_and_destiny_bond_answer_damage_this_round"
+      ],
+      "scope": "Six delayed and damage-triggered cards. Future Sight and Doom Desire roll damage normally (existing shield, force-field and decoy bypass kept) but deal it when turns start next round; if the target has left, the combatant now in its slot, otherwise an active ally (by identity order), takes it. Doom Desire's discretionary extra effects stay with the GM. Rage: for the rest of the round, each Physical/Special hit by a foe raises the user's Strength by 1, stacking to 3. Destiny Bond: if the user faints to Physical/Special damage this round, the attacker's HP drops to 0; it fails when used in consecutive rounds. Pursuit marks a target it damages; if that target is later recalled, switched out (including by a Switcher) or uses Run Away, it takes 2 typeless damage once. Glaive Rush makes its user Vulnerable (existing +2 damage and barrier/Cover bypass) until the next Physical/Special move hits it."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -1304,5 +1315,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "2f8fbe248dd6ebb3d5ffd138869bb94cf1f191d592c6b539e2277f36086c5ed5"
+  "move_completion_registry_hash": "50e9ddfd58d7bc830cd4540bf995224317960a42f5e53f6439ceef02510ff7d3"
 }

@@ -2973,7 +2973,7 @@ pub fn vulnerable(c: &Campaign, id: &str, name: &str) -> bool {
     if !enabled(c) {
         return false;
     }
-    if compound::minimized(c, id, name) {
+    if compound::minimized(c, id, name) || delayed_ops::vulnerable(c, id) {
         return true;
     }
     if charge_for(c, id)
