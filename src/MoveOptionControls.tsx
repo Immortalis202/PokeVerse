@@ -17,6 +17,13 @@ export default function MoveOptionControls({
   const [choice, setChoice] = useState("");
   const [types, setTypes] = useState<Record<string, string>>({});
   const [help, setHelp] = useState({ helper: "", ally: "", move: "" });
+  const [copy, setCopy] = useState({
+    user: "",
+    origin: "",
+    source: "",
+    template: "",
+    target: "",
+  });
   const b = campaign.battle,
     f = b?.flow,
     q = f?.queue[0];
@@ -44,6 +51,48 @@ export default function MoveOptionControls({
     : [];
   const allied = f.completion?.blocks?.includes("MOVE-A53");
   const powder = Object.entries(f.completion?.powder_due ?? {});
+  const copying = f.completion?.blocks?.includes("MOVE-A59");
+  const COPIES = ["Copycat", "Mirror Move", "Instruct", "Assist", "Me First"];
+  const copyUsers = copying
+    ? b.combatants.filter(
+        (p) =>
+          p.deployed &&
+          p.hp > 0 &&
+          (campaign.sheets[p.sheet_id]?.moves ?? []).some((m) =>
+            COPIES.includes(m),
+          ),
+      )
+    : [];
+  const copyUser = copyUsers.find((p) => p.id === copy.user) ?? copyUsers[0];
+  const origins = copyUser
+    ? (campaign.sheets[copyUser.sheet_id]?.moves ?? []).filter((m) =>
+        COPIES.includes(m),
+      )
+    : [];
+  const origin = origins.includes(copy.origin) ? copy.origin : origins[0];
+  const others = copyUser
+    ? b.combatants.filter((p) => p.deployed && p.hp > 0 && p.id !== copyUser.id)
+    : [];
+  const source = others.find((p) => p.id === copy.source) ?? others[0];
+  const lastMove = source
+    ? [...(f.completion?.uses ?? [])]
+        .reverse()
+        .find((u) => u.actor === source.id)?.name
+    : undefined;
+  const templates =
+    origin === "Assist" && source
+      ? (campaign.sheets[source.sheet_id]?.moves ?? [])
+      : origin === "Me First"
+        ? q && q.actor_id === source?.id
+          ? [q.move_name]
+          : []
+        : lastMove
+          ? [lastMove]
+          : [];
+  const template = templates.includes(copy.template)
+    ? copy.template
+    : templates[0];
+  const copyTarget = others.find((p) => p.id === copy.target) ?? source;
   const active = b.combatants.filter((p) => p.deployed && p.hp > 0);
   const caster = q ? active.find((p) => p.id === q.actor_id) : undefined;
   const joiners =
@@ -74,6 +123,7 @@ export default function MoveOptionControls({
     !timed.length &&
     !joiners.length &&
     !powder.length &&
+    !copyUser &&
     !(helper && ally && move)
   )
     return null;
@@ -193,6 +243,94 @@ export default function MoveOptionControls({
             }
           >
             Roll help
+          </button>
+        </section>
+      )}
+      {copyUser && origin && (
+        <section aria-label="Copy move">
+          <h4>Copy move</h4>
+          <select
+            aria-label="Copy user"
+            value={copyUser.id}
+            onChange={(e) => setCopy({ ...copy, user: e.target.value })}
+          >
+            {copyUsers.map((p) => (
+              <option key={p.id} value={p.id}>
+                {p.name}
+              </option>
+            ))}
+          </select>
+          <select
+            aria-label="Copy move"
+            value={origin}
+            onChange={(e) => setCopy({ ...copy, origin: e.target.value })}
+          >
+            {origins.map((m) => (
+              <option key={m} value={m}>
+                {m}
+              </option>
+            ))}
+          </select>
+          <select
+            aria-label="Copy from"
+            value={source?.id ?? ""}
+            onChange={(e) => setCopy({ ...copy, source: e.target.value })}
+          >
+            {others.map((p) => (
+              <option key={p.id} value={p.id}>
+                {p.name}
+              </option>
+            ))}
+          </select>
+          <select
+            aria-label="Copied move"
+            value={template ?? ""}
+            onChange={(e) => setCopy({ ...copy, template: e.target.value })}
+          >
+            {templates.map((m) => (
+              <option key={m} value={m}>
+                {m}
+              </option>
+            ))}
+          </select>
+          <select
+            aria-label="Copy target"
+            value={copyTarget?.id ?? ""}
+            onChange={(e) => setCopy({ ...copy, target: e.target.value })}
+          >
+            {others.map((p) => (
+              <option key={p.id} value={p.id}>
+                {p.name}
+              </option>
+            ))}
+          </select>
+          <button
+            disabled={
+              disabled ||
+              !owns(copyUser.id) ||
+              !source ||
+              !template ||
+              !copyTarget
+            }
+            onClick={() =>
+              source &&
+              template &&
+              copyTarget &&
+              execute({
+                type: "special_move",
+                command: {
+                  kind: "CastCopy",
+                  combatant_id: copyUser.id,
+                  origin,
+                  source_id: source.id,
+                  template,
+                  target_ids: [copyTarget.id],
+                },
+                reason: `${origin} copies ${template}`,
+              })
+            }
+          >
+            Cast copy
           </button>
         </section>
       )}

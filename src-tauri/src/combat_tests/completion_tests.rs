@@ -11174,3 +11174,157 @@ fn completion_a58_ending_a_battle_with_stat_changes_does_not_crash() {
     crate::combat::extra::change_stat(&mut c, &a, &a, "Special", -2).unwrap();
     assert!(battle::transition(&c, "gm", &Action::EndBattle, vec![], &catalog()).is_ok());
 }
+
+fn a59_copy(
+    c: &Campaign,
+    a: &str,
+    origin: &str,
+    source: &str,
+    template: &str,
+    targets: Vec<String>,
+) -> Result<Campaign> {
+    let action = Action::SpecialMove {
+        command: special::SpecialCommand::CastCopy {
+            combatant_id: a.into(),
+            origin: origin.into(),
+            source_id: source.into(),
+            template: template.into(),
+            target_ids: targets,
+        },
+        reason: "Copy move".into(),
+    };
+    let n = rules::dice_count(c, &action, &catalog())?;
+    battle::transition(
+        c,
+        &p(c, a).owner_id,
+        &action,
+        vec![6; n as usize],
+        &catalog(),
+    )
+    .map(|v| v.0)
+}
+/// `t` performs Tackle on `a`, then it is `a`'s turn with `origin` learned.
+fn a59_after_tackle(name: &str) -> (Campaign, String, String) {
+    a59_after(name, "Tackle")
+}
+/// `t` performs `used` on `a`, then it is `a`'s turn with `name` learned.
+fn a59_after(name: &str, used: &str) -> (Campaign, String, String) {
+    let (c, a, t) = setup(name);
+    let mut c = a51_attack(&c, &t, &a, used).unwrap();
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .queue
+        .clear();
+    turn(&mut c, &a, name);
+    let sid = p(&c, &a).sheet_id.clone();
+    let mut seen = std::collections::BTreeSet::new();
+    c.sheets
+        .get_mut(&sid)
+        .unwrap()
+        .moves
+        .retain(|m| seen.insert(m.clone()));
+    (c, a, t)
+}
+
+#[test]
+fn completion_a59_copycat_mirror_move_and_instruct_cast_the_targets_last_move() {
+    for origin in ["Copycat", "Mirror Move", "Instruct"] {
+        let (c, a, t) = a59_after_tackle(origin);
+        assert!(
+            a51_attack(&c, &a, &t, origin).is_err(),
+            "{origin} uses the copy control"
+        );
+        assert!(
+            a59_copy(&c, &a, origin, &t, "Growl", vec![t.clone()]).is_err(),
+            "only the last move"
+        );
+        let copied = a59_copy(&c, &a, origin, &t, "Tackle", vec![t.clone()]).unwrap();
+        let q = q(&copied);
+        assert_eq!(
+            (q.actor_id.as_str(), q.move_name.as_str()),
+            (a.as_str(), "Tackle"),
+            "{origin}"
+        );
+        assert_eq!(
+            p(&copied, &a).used_moves.last().map(String::as_str),
+            Some(origin)
+        );
+    }
+}
+#[test]
+fn completion_a59_assist_copies_an_allys_move_and_refuses_unique_moves() {
+    let (mut c, a, t) = setup("Assist");
+    let ally = a49_second(&mut c, &a);
+    let sid = p(&c, &ally).sheet_id.clone();
+    c.sheets
+        .get_mut(&sid)
+        .unwrap()
+        .moves
+        .extend(["Ember".to_string(), "Judgment".into()]);
+    turn(&mut c, &a, "Assist");
+    let copied = a59_copy(&c, &a, "Assist", &ally, "Ember", vec![t.clone()]).unwrap();
+    assert_eq!(q(&copied).move_name, "Ember");
+    assert!(
+        a59_copy(&c, &a, "Assist", &ally, "Judgment", vec![t.clone()]).is_err(),
+        "Unique"
+    );
+    assert!(
+        a59_copy(&c, &a, "Assist", &ally, "Hyper Beam", vec![t.clone()]).is_err(),
+        "unknown to the party"
+    );
+}
+#[test]
+fn completion_a59_me_first_copies_the_incoming_damaging_move_as_a_reaction() {
+    let (mut c, a, t) = setup("Me First");
+    a52_tactics(&mut c);
+    let sid = p(&c, &t).sheet_id.clone();
+    c.sheets.get_mut(&sid).unwrap().moves.push("Growl".into());
+    let incoming = detection_attack(&c, &t, &a, "Tackle");
+    let copied = a59_copy(&incoming, &a, "Me First", &t, "Tackle", vec![t.clone()]).unwrap();
+    assert_eq!(q(&copied).move_name, "Tackle");
+    assert_eq!(q(&copied).actor_id, a, "the reaction resolves first");
+    let support = detection_attack(&c, &t, &a, "Growl");
+    if a52_flow(&support).window {
+        assert!(a59_copy(&support, &a, "Me First", &t, "Growl", vec![t.clone()]).is_err());
+    }
+}
+#[test]
+fn completion_a59_mimic_and_sketch_replace_themselves() {
+    let (c, a, t) = a59_after("Mimic", "Ember");
+    let mimicked = support_cast(&c, &a, vec![t.clone()], "Mimic");
+    let moves = rules::effective_sheet(&mimicked, p(&mimicked, &a))
+        .unwrap()
+        .moves;
+    assert!(moves.contains(&"Ember".to_string()) && !moves.contains(&"Mimic".to_string()));
+    assert!(
+        mimicked.sheets[&p(&mimicked, &a).sheet_id]
+            .moves
+            .contains(&"Mimic".to_string()),
+        "the sheet is unchanged"
+    );
+
+    let (c, a, t) = a59_after("Sketch", "Ember");
+    let sketched = support_cast(&c, &a, vec![t.clone()], "Sketch");
+    let sheet = &sketched.sheets[&p(&sketched, &a).sheet_id];
+    assert!(
+        sheet.moves.contains(&"Ember".to_string()) && !sheet.moves.contains(&"Sketch".to_string()),
+        "permanent"
+    );
+
+    let (mut old, a, t) = a59_after_tackle("Mimic");
+    old.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .completion
+        .blocks
+        .remove("MOVE-A59");
+    let c = a48_pending(&old, &a, vec![t], "Mimic");
+    assert!(a48_effect(&c, vec![]).is_err());
+}

@@ -10,6 +10,7 @@ pub fn transition(
 ) -> Result<(Campaign, String)> {
     if [
         ENGINE,
+        SCENE_OPS_ENGINE,
         ITEM_OPS_ENGINE,
         FIELD_OPS_ENGINE,
         TRIGGER_OPS_ENGINE,
@@ -459,6 +460,7 @@ pub fn transition(
             }
             if ![
                 ENGINE,
+                SCENE_OPS_ENGINE,
                 ITEM_OPS_ENGINE,
                 FIELD_OPS_ENGINE,
                 TRIGGER_OPS_ENGINE,

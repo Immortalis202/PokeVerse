@@ -2584,6 +2584,55 @@
           "op": "make-it-rain"
         }
       }
+    },
+    "MOVE-A59": {
+      "engine": "0.94.0-core",
+      "kind": "copy-op",
+      "scope": "Seven copy moves. Copycat, Mirror Move and Instruct copy the last Pokemon move their target performed this battle (Instruct may name an ally); Assist copies any move known by an ally on the field or a member of the user's party, active or not; Me First copies the incoming non-Support move it reacts to, as a Reaction 1. These five are cast with the Cast copy control (CastCopy): the user names the copied move and may choose new targets, and the copied move uses its own Accuracy, damage and effects through the shared copied-cast pipeline, spending one action and recording the copy move as used. Unique, Max/Z, Sappy Seed and other copy moves cannot be copied. Mimic replaces itself with its target's last move for the scene (until the user leaves battle); Sketch replaces itself on the user's sheet permanently, as printed. A move the user already knows is not copied again.",
+      "moves": {
+        "Copycat": {
+          "source": "Pokerole-Data/v3.0/Moves/Copycat.json",
+          "sha256": "e34e73d8d97bd14f5e31f15c066b63ad8a59e822b4e5800af0ab1cbbdba4dc3b",
+          "effect": "Single Target. Copy Move. Unique Moves can't be copied. You may choose another Target(s) for the copied Move.",
+          "op": "copy-last"
+        },
+        "Mirror Move": {
+          "source": "Pokerole-Data/v3.0/Moves/Mirror Move.json",
+          "sha256": "6f8bcad7851211e38ae7af146e56d6668cd00f22dbbef6b377c4626c184da0bf",
+          "effect": "Single Target. Copy Move. Unique Moves can't be copied. You may choose another Target(s) for the copied Move.",
+          "op": "copy-last"
+        },
+        "Instruct": {
+          "source": "Pokerole-Data/v3.0/Moves/Instruct.json",
+          "sha256": "4ff93843129520a74a60f27d69486b51442da20a3877b9c68e221f4dbf970308",
+          "effect": "Single Target. Copy Move. Unique Moves can't be copied. You may choose another Target(s) for the copied Move.",
+          "op": "copy-last"
+        },
+        "Assist": {
+          "source": "Pokerole-Data/v3.0/Moves/Assist.json",
+          "sha256": "8392ffdfad9f0ce1ee99d28383db951c7f29771380ef01a62f603dc936e916bd",
+          "effect": "Target One Ally. Copy Move. Choose one Move known by an Ally or member of your party, who may or may not be active in battle. You may choose another Target(s) for the Move. Unique Moves can't be copied.",
+          "op": "assist"
+        },
+        "Me First": {
+          "source": "Pokerole-Data/v3.0/Moves/Me First.json",
+          "sha256": "9d11124baca25b66ff00785cea008b641a86f777374c10e5da56c5358555d6e9",
+          "effect": "Single Target. Reaction 1. Copy Move. Support Moves can't be copied. Unique Moves can't be copied. You may choose another Target(s) for the copied Move.",
+          "op": "me-first"
+        },
+        "Mimic": {
+          "source": "Pokerole-Data/v3.0/Moves/Mimic.json",
+          "sha256": "d2c0c2551ee8a49c0d80007f86c0332004b900888e08409a78120a3d597017d4",
+          "effect": "Single Target. Copy Move. Replace \"Mimic\" with the copied Move. Whole Scene Duration.",
+          "op": "mimic"
+        },
+        "Sketch": {
+          "source": "Pokerole-Data/v3.0/Moves/Sketch.json",
+          "sha256": "13dbda352722a778c6b1f4944fed0387898f0cfe09026e1b888a46e162364fdb",
+          "effect": "Single Target. Copy Move. Replace \"Sketch\" with the copied Move. Permanent Duration.",
+          "op": "sketch"
+        }
+      }
     }
   },
   "printed_review": {

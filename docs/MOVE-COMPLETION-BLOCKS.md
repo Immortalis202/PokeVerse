@@ -66,6 +66,7 @@ The live source of remaining route work is `rules/move-effect-audit.json`. Its f
 | MOVE-A56 | Fire Pledge, Water Pledge, Grass Pledge, Mist, Lucky Chant, Court Change | Complete (Mist traits and Lucky Chant damage rerolls open) |
 | MOVE-A57 | Thief, Covet, Bestow, Trick, Switcheroo, Knock Off, Corrosive Gas, Incinerate, Embargo, Bug Bite, Pluck, Stuff Cheeks, Teatime | Complete (Teatime bag berries open) |
 | MOVE-A58 | Memento, Springtide Storm, Synchronoise, Nature Power, Camouflage, Pay Day, Make It Rain | Complete (money reported for the GM) |
+| MOVE-A59 | Copycat, Mirror Move, Instruct, Assist, Me First, Mimic, Sketch | Complete |
 | Later blocks | Ordinary attacks with existing attributes; remaining stat changes, resets and swaps; type/damage conversions; field changes; conditional damage; timing/action restrictions; items; copy/selection effects | Open |
 
 New block adoption is persisted in `TurnFlow.completion.blocks`. Every release records its engine in `rules/move-completion.json`; historical saves adopt no additional blocks automatically. The shared special-effect state is boxed while preserving its JSON shape to keep transition stack usage bounded.
@@ -155,3 +156,8 @@ See [held items](battle-held-items.md#held-item-moves-move-a57). Theft, gifts, e
 ### MOVE-A58: scene and consequence moves
 
 See [scene and consequence moves](battle-scene-moves.md). Persistent Memento reductions, Springtide/Synchronoise choices, environment-typed Nature Power and Camouflage, and battle-end money receipts. Also fixes a crash when a battle ended with active stat changes.
+
+
+### MOVE-A59: copy moves
+
+See [saved move decisions](battle-move-decisions.md#copy-moves-move-a59). CastCopy for last-move, party and incoming copies through the shared copied-cast pipeline; scene-long Mimic and permanent Sketch.

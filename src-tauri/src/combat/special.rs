@@ -180,6 +180,14 @@ pub enum SpecialCommand {
     ResolvePowder {
         combatant_id: String,
     },
+    /// Copycat, Mirror Move, Instruct, Assist or Me First: cast the copied template.
+    CastCopy {
+        combatant_id: String,
+        origin: String,
+        source_id: String,
+        template: String,
+        target_ids: Vec<String>,
+    },
     ResistHoldHands {
         sequence: u32,
         resist: bool,
@@ -318,6 +326,7 @@ pub fn dice(c: &Campaign, cmd: &SpecialCommand, cat: &Catalog) -> Result<u32> {
         SpecialCommand::ResolvePowder { combatant_id } => {
             trigger_ops::powder_dice(c, combatant_id)?
         }
+        SpecialCommand::CastCopy { .. } => copy_ops::dice(c, cmd, cat)?,
         SpecialCommand::HelpAnother {
             combatant_id,
             ally_id,
@@ -497,6 +506,9 @@ pub fn command(
             return Ok(format!(
                 "Help Another rolled {faces:?}: +{added} Accuracy dice for {move_name}. {r}"
             ));
+        }
+        SpecialCommand::CastCopy { .. } => {
+            return Err(error("Copied casts require the authoritative transition"));
         }
         SpecialCommand::ResolvePowder { combatant_id } => {
             owner(c, actor, combatant_id)?;

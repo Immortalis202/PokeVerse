@@ -1,6 +1,6 @@
 # Move-effect audit: milestone 1
 
-Snapshot refreshed: 12 November 2026, app **0.101.0**, engine **0.93.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
+Snapshot refreshed: 12 November 2026, app **0.102.0**, engine **0.94.0-core**. **Milestone 1 is complete at the scope below; M2-A through M2-E deliver all 107 queued battle-status cards (22 direct, 47 Chance-based, 28 compound/conditional, 6 recurring/sleep, 4 cure/protection).**
 
 ## Deliverables and limits
 
@@ -18,13 +18,13 @@ The diagnostic deliberately bypasses accuracy, damage, targeting expansion, acti
 
 | Effect-route result | Cards | Meaning |
 | --- | ---: | --- |
-| executable-scope | 820 | At least one probe resolves; only recorded scopes are asserted. |
+| executable-scope | 827 | At least one probe resolves; only recorded scopes are asserted. |
 | input-required | 21 | Existing handler requests a selection, resource, weather or other legitimate prerequisite. |
-| manual-effect-route | 12 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
+| manual-effect-route | 5 | Both unprotected probes reach the explicit no-reviewed-effect fallback. Ordinary damage and some attributes may still work. |
 | gm-choice | 1 | Hold Hands: narrative battle-ending decision remains with the storyteller. |
 | excluded | 38 | Supplied Max/Z cards and the user-excluded Sappy Seed. |
 
-These totals sum to 892. **12 manual-effect-route results remain after MOVE-A58. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
+These totals sum to 892. **5 manual-effect-route results remain after MOVE-A59. They are not a count of distinct missing mechanics.** The per-card source must still be divided into battle effects, excluded clauses, narrative clauses and already-supported components. Lethal wounds, outside-battle narrative effects and Dynamax-specific bonuses are separately marked and must not become automatic tasks.
 
 | Focused status result | Cards |
 | --- | ---: |
@@ -193,7 +193,7 @@ A six triggers the single printed Chance pool. Serene Grace, Wonder Skin, Loaded
 
 New 0.36.0-core encounters enable the boxed `damaging_stats` state. Missing saved state defaults disabled; 0.35.0-core remains accepted with its previous M3 behavior. Protocol 45 carries the new state. App version is 0.44.0.
 
-**The whole move catalog is not complete.** The 12 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
+**The whole move catalog is not complete.** The 5 remaining fallback routes still require clause review, including plain attacks with existing attributes, conditional damage, item/type/stat exchange, trapping/ongoing damage, action restrictions, copy moves and field effects. Existing routes can also have unsupported clauses. Continue in coherent batches, run regressions, refresh the probes and commit each batch. Narrative rulings, lethal wounds, automatic Will recovery, Sappy Seed and Max/Z exclusions remain in force.
 
 
 ### MOVE-A01 verification (1 November 2026)
@@ -630,3 +630,8 @@ Thief, Covet, Bestow, Trick, Switcheroo, Knock Off, Corrosive Gas, Incinerate, E
 ### MOVE-A58: scene and consequence moves (12 November 2026)
 
 Memento, Springtide Storm, Synchronoise, Nature Power, Camouflage, Pay Day and Make It Rain now resolve automatically; money is reported in the battle-end log because the app has no money field. Fixed a crash when ending a battle with active stat changes. Validation: five completion_a58 public-command tests and the full Rust suite pass except the seven encounter-generation tests that need the real habitat-review data; 93 frontend tests, TypeScript and the move ledger/audit checks pass.
+
+
+### MOVE-A59: copy moves (12 November 2026)
+
+Copycat, Mirror Move, Instruct, Assist, Me First, Mimic and Sketch now resolve automatically. Only Clash, Evasion, Run Away and Cover An Ally (maneuvers with their own actions) and Stabilize An Ally (lethal wounds, excluded) still reach the effect fallback. Validation: four completion_a59 public-command tests and the full Rust suite pass except the seven encounter-generation tests that need the real habitat-review data; 94 frontend tests, TypeScript and the move ledger/audit checks pass.

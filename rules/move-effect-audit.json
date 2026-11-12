@@ -1,8 +1,8 @@
 {
   "version": 1,
   "date": "2026-11-10",
-  "release": "0.101.0",
-  "engine": "0.93.0-core",
+  "release": "0.102.0",
+  "engine": "0.94.0-core",
   "scope": "892-card effect-route inventory; focused semantic review of status infliction, cure and protection clauses. M2-A through M2-E battle status clauses and MOVE-A01 damaging attribute clauses plus MOVE-A02 entry hazards delivered; see scoped registries and retained choices.",
   "limits": [
     "An executable route is not full card coverage.",
@@ -19,10 +19,10 @@
   "counts": {
     "routes": {
       "excluded": 38,
-      "executable-scope": 820,
+      "executable-scope": 827,
       "gm-choice": 1,
       "input-required": 21,
-      "manual-effect-route": 12
+      "manual-effect-route": 5
     },
     "status_clauses": {
       "excluded": 6,
@@ -1723,22 +1723,39 @@
       },
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A59: Seven copy moves. Copycat, Mirror Move and Instruct copy the last Pokemon move their target performed this battle (Instruct may name an ally); Assist copies any move known by an ally on the field or a member of the user's party, active or not; Me First copies the incoming non-Support move it reacts to, as a Reaction 1. These five are cast with the Cast copy control (CastCopy): the user names the copied move and may choose new targets, and the copied move uses its own Accuracy, damage and effects through the shared copied-cast pipeline, spending one action and recording the copy move as used. Unique, Max/Z, Sappy Seed and other copy moves cannot be copied. Mimic replaces itself with its target's last move for the scene (until the user leaves battle); Sketch replaces itself on the user's sheet permanently, as printed. A move the user already knows is not copied again.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -7406,22 +7423,39 @@
       },
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A59: Seven copy moves. Copycat, Mirror Move and Instruct copy the last Pokemon move their target performed this battle (Instruct may name an ally); Assist copies any move known by an ally on the field or a member of the user's party, active or not; Me First copies the incoming non-Support move it reacts to, as a Reaction 1. These five are cast with the Cast copy control (CastCopy): the user names the copied move and may choose new targets, and the copied move uses its own Accuracy, damage and effects through the shared copied-cast pipeline, spending one action and recording the copy move as used. Unique, Max/Z, Sappy Seed and other copy moves cannot be copied. Mimic replaces itself with its target's last move for the scene (until the user leaves battle); Sketch replaces itself on the user's sheet permanently, as printed. A move the user already knows is not copied again.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -21351,22 +21385,39 @@
       },
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A59: Seven copy moves. Copycat, Mirror Move and Instruct copy the last Pokemon move their target performed this battle (Instruct may name an ally); Assist copies any move known by an ally on the field or a member of the user's party, active or not; Me First copies the incoming non-Support move it reacts to, as a Reaction 1. These five are cast with the Cast copy control (CastCopy): the user names the copied move and may choose new targets, and the copied move uses its own Accuracy, damage and effects through the shared copied-cast pipeline, spending one action and recording the copy move as used. Unique, Max/Z, Sappy Seed and other copy moves cannot be copied. Mimic replaces itself with its target's last move for the scene (until the user leaves battle); Sketch replaces itself on the user's sheet permanently, as printed. A move the user already knows is not copied again.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -25276,22 +25327,39 @@
       },
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A59: Seven copy moves. Copycat, Mirror Move and Instruct copy the last Pokemon move their target performed this battle (Instruct may name an ally); Assist copies any move known by an ally on the field or a member of the user's party, active or not; Me First copies the incoming non-Support move it reacts to, as a Reaction 1. These five are cast with the Cast copy control (CastCopy): the user names the copied move and may choose new targets, and the copied move uses its own Accuracy, damage and effects through the shared copied-cast pipeline, spending one action and recording the copy move as used. Unique, Max/Z, Sappy Seed and other copy moves cannot be copied. Mimic replaces itself with its target's last move for the scene (until the user leaves battle); Sketch replaces itself on the user's sheet permanently, as printed. A move the user already knows is not copied again.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -26204,22 +26272,39 @@
       },
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A59: Seven copy moves. Copycat, Mirror Move and Instruct copy the last Pokemon move their target performed this battle (Instruct may name an ally); Assist copies any move known by an ally on the field or a member of the user's party, active or not; Me First copies the incoming non-Support move it reacts to, as a Reaction 1. These five are cast with the Cast copy control (CastCopy): the user names the copied move and may choose new targets, and the copied move uses its own Accuracy, damage and effects through the shared copied-cast pipeline, spending one action and recording the copy move as used. Unique, Max/Z, Sappy Seed and other copy moves cannot be copied. Mimic replaces itself with its target's last move for the scene (until the user leaves battle); Sketch replaces itself on the user's sheet permanently, as printed. A move the user already knows is not copied again.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -26511,22 +26596,39 @@
       },
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A59: Seven copy moves. Copycat, Mirror Move and Instruct copy the last Pokemon move their target performed this battle (Instruct may name an ally); Assist copies any move known by an ally on the field or a member of the user's party, active or not; Me First copies the incoming non-Support move it reacts to, as a Reaction 1. These five are cast with the Cast copy control (CastCopy): the user names the copied move and may choose new targets, and the copied move uses its own Accuracy, damage and effects through the shared copied-cast pipeline, spending one action and recording the copy move as used. Unique, Max/Z, Sappy Seed and other copy moves cannot be copied. Mimic replaces itself with its target's last move for the scene (until the user leaves battle); Sketch replaces itself on the user's sheet permanently, as printed. A move the user already knows is not copied again.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -37449,22 +37551,39 @@
       },
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A59: Seven copy moves. Copycat, Mirror Move and Instruct copy the last Pokemon move their target performed this battle (Instruct may name an ally); Assist copies any move known by an ally on the field or a member of the user's party, active or not; Me First copies the incoming non-Support move it reacts to, as a Reaction 1. These five are cast with the Cast copy control (CastCopy): the user names the copied move and may choose new targets, and the copied move uses its own Accuracy, damage and effects through the shared copied-cast pipeline, spending one action and recording the copy move as used. Unique, Max/Z, Sappy Seed and other copy moves cannot be copied. Mimic replaces itself with its target's last move for the scene (until the user leaves battle); Sketch replaces itself on the user's sheet permanently, as printed. A move the user already knows is not copied again.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },

@@ -143,6 +143,10 @@ export type MoveCompletionState = {
    * Pay Day / Make It Rain money owed at battle end.
    */
   money: Array<MoneyAward>;
+  /**
+   * Moves Mimic currently replaces itself with, by user.
+   */
+  mimicked: { [key in string]?: string };
   blocks: Array<string>;
   uses: Array<CompletionMoveUse>;
   entered: { [key in string]?: number };

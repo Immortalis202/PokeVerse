@@ -4300,10 +4300,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Assist.json",
       "sha256": "8392ffdfad9f0ce1ee99d28383db951c7f29771380ef01a62f603dc936e916bd",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A59: Seven copy moves. Copycat, Mirror Move and Instruct copy the last Pokemon move their target performed this battle (Instruct may name an ally); Assist copies any move known by an ally on the field or a member of the user's party, active or not; Me First copies the incoming non-Support move it reacts to, as a Reaction 1. These five are cast with the Cast copy control (CastCopy): the user names the copied move and may choose new targets, and the copied move uses its own Accuracy, damage and effects through the shared copied-cast pipeline, spending one action and recording the copy move as used. Unique, Max/Z, Sappy Seed and other copy moves cannot be copied. Mimic replaces itself with its target's last move for the scene (until the user leaves battle); Sketch replaces itself on the user's sheet permanently, as printed. A move the user already knows is not copied again.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -4313,9 +4320,15 @@
           "value": "Target One Ally. ",
           "start": 0,
           "end": 17,
-          "status": "pending",
+          "status": "automated",
           "batch": 10,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_assist_copies_an_allys_move_and_refuses_unique_moves"
+            }
+          ]
         },
         {
           "id": "effect:17-28",
@@ -4323,9 +4336,15 @@
           "value": "Copy Move. ",
           "start": 17,
           "end": 28,
-          "status": "pending",
+          "status": "automated",
           "batch": 10,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_assist_copies_an_allys_move_and_refuses_unique_moves"
+            }
+          ]
         },
         {
           "id": "effect:28-126",
@@ -4333,9 +4352,15 @@
           "value": "Choose one Move known by an Ally or member of your party, who may or may not be active in battle. ",
           "start": 28,
           "end": 126,
-          "status": "pending",
+          "status": "automated",
           "batch": 10,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_assist_copies_an_allys_move_and_refuses_unique_moves"
+            }
+          ]
         },
         {
           "id": "effect:126-173",
@@ -4343,9 +4368,15 @@
           "value": "You may choose another Target(s) for the Move. ",
           "start": 126,
           "end": 173,
-          "status": "pending",
+          "status": "automated",
           "batch": 10,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_assist_copies_an_allys_move_and_refuses_unique_moves"
+            }
+          ]
         },
         {
           "id": "effect:173-202",
@@ -4353,9 +4384,15 @@
           "value": "Unique Moves can't be copied.",
           "start": 173,
           "end": 202,
-          "status": "pending",
+          "status": "automated",
           "batch": 10,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_assist_copies_an_allys_move_and_refuses_unique_moves"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -18863,10 +18900,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Copycat.json",
       "sha256": "e34e73d8d97bd14f5e31f15c066b63ad8a59e822b4e5800af0ab1cbbdba4dc3b",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A59: Seven copy moves. Copycat, Mirror Move and Instruct copy the last Pokemon move their target performed this battle (Instruct may name an ally); Assist copies any move known by an ally on the field or a member of the user's party, active or not; Me First copies the incoming non-Support move it reacts to, as a Reaction 1. These five are cast with the Cast copy control (CastCopy): the user names the copied move and may choose new targets, and the copied move uses its own Accuracy, damage and effects through the shared copied-cast pipeline, spending one action and recording the copy move as used. Unique, Max/Z, Sappy Seed and other copy moves cannot be copied. Mimic replaces itself with its target's last move for the scene (until the user leaves battle); Sketch replaces itself on the user's sheet permanently, as printed. A move the user already knows is not copied again.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -18876,9 +18920,20 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 10,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_copycat_mirror_move_and_instruct_cast_the_targets_last_move"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_assist_copies_an_allys_move_and_refuses_unique_moves"
+            }
+          ]
         },
         {
           "id": "effect:15-26",
@@ -18886,9 +18941,20 @@
           "value": "Copy Move. ",
           "start": 15,
           "end": 26,
-          "status": "pending",
+          "status": "automated",
           "batch": 10,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_copycat_mirror_move_and_instruct_cast_the_targets_last_move"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_assist_copies_an_allys_move_and_refuses_unique_moves"
+            }
+          ]
         },
         {
           "id": "effect:26-56",
@@ -18896,9 +18962,20 @@
           "value": "Unique Moves can't be copied. ",
           "start": 26,
           "end": 56,
-          "status": "pending",
+          "status": "automated",
           "batch": 10,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_copycat_mirror_move_and_instruct_cast_the_targets_last_move"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_assist_copies_an_allys_move_and_refuses_unique_moves"
+            }
+          ]
         },
         {
           "id": "effect:56-109",
@@ -18906,9 +18983,20 @@
           "value": "You may choose another Target(s) for the copied Move.",
           "start": 56,
           "end": 109,
-          "status": "pending",
+          "status": "automated",
           "batch": 10,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_copycat_mirror_move_and_instruct_cast_the_targets_last_move"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_assist_copies_an_allys_move_and_refuses_unique_moves"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -55017,10 +55105,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Instruct.json",
       "sha256": "4ff93843129520a74a60f27d69486b51442da20a3877b9c68e221f4dbf970308",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A59: Seven copy moves. Copycat, Mirror Move and Instruct copy the last Pokemon move their target performed this battle (Instruct may name an ally); Assist copies any move known by an ally on the field or a member of the user's party, active or not; Me First copies the incoming non-Support move it reacts to, as a Reaction 1. These five are cast with the Cast copy control (CastCopy): the user names the copied move and may choose new targets, and the copied move uses its own Accuracy, damage and effects through the shared copied-cast pipeline, spending one action and recording the copy move as used. Unique, Max/Z, Sappy Seed and other copy moves cannot be copied. Mimic replaces itself with its target's last move for the scene (until the user leaves battle); Sketch replaces itself on the user's sheet permanently, as printed. A move the user already knows is not copied again.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -55030,9 +55125,20 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 10,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_copycat_mirror_move_and_instruct_cast_the_targets_last_move"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_assist_copies_an_allys_move_and_refuses_unique_moves"
+            }
+          ]
         },
         {
           "id": "effect:15-26",
@@ -55040,9 +55146,20 @@
           "value": "Copy Move. ",
           "start": 15,
           "end": 26,
-          "status": "pending",
+          "status": "automated",
           "batch": 10,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_copycat_mirror_move_and_instruct_cast_the_targets_last_move"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_assist_copies_an_allys_move_and_refuses_unique_moves"
+            }
+          ]
         },
         {
           "id": "effect:26-56",
@@ -55050,9 +55167,20 @@
           "value": "Unique Moves can't be copied. ",
           "start": 26,
           "end": 56,
-          "status": "pending",
+          "status": "automated",
           "batch": 10,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_copycat_mirror_move_and_instruct_cast_the_targets_last_move"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_assist_copies_an_allys_move_and_refuses_unique_moves"
+            }
+          ]
         },
         {
           "id": "effect:56-109",
@@ -55060,9 +55188,20 @@
           "value": "You may choose another Target(s) for the copied Move.",
           "start": 56,
           "end": 109,
-          "status": "pending",
+          "status": "automated",
           "batch": 10,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_copycat_mirror_move_and_instruct_cast_the_targets_last_move"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_assist_copies_an_allys_move_and_refuses_unique_moves"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -66123,10 +66262,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Me First.json",
       "sha256": "9d11124baca25b66ff00785cea008b641a86f777374c10e5da56c5358555d6e9",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A59: Seven copy moves. Copycat, Mirror Move and Instruct copy the last Pokemon move their target performed this battle (Instruct may name an ally); Assist copies any move known by an ally on the field or a member of the user's party, active or not; Me First copies the incoming non-Support move it reacts to, as a Reaction 1. These five are cast with the Cast copy control (CastCopy): the user names the copied move and may choose new targets, and the copied move uses its own Accuracy, damage and effects through the shared copied-cast pipeline, spending one action and recording the copy move as used. Unique, Max/Z, Sappy Seed and other copy moves cannot be copied. Mimic replaces itself with its target's last move for the scene (until the user leaves battle); Sketch replaces itself on the user's sheet permanently, as printed. A move the user already knows is not copied again.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -66136,9 +66282,20 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 10,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_me_first_copies_the_incoming_damaging_move_as_a_reaction"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_assist_copies_an_allys_move_and_refuses_unique_moves"
+            }
+          ]
         },
         {
           "id": "effect:15-27",
@@ -66146,9 +66303,20 @@
           "value": "Reaction 1. ",
           "start": 15,
           "end": 27,
-          "status": "pending",
+          "status": "automated",
           "batch": 10,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_me_first_copies_the_incoming_damaging_move_as_a_reaction"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_assist_copies_an_allys_move_and_refuses_unique_moves"
+            }
+          ]
         },
         {
           "id": "effect:27-38",
@@ -66156,9 +66324,20 @@
           "value": "Copy Move. ",
           "start": 27,
           "end": 38,
-          "status": "pending",
+          "status": "automated",
           "batch": 10,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_me_first_copies_the_incoming_damaging_move_as_a_reaction"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_assist_copies_an_allys_move_and_refuses_unique_moves"
+            }
+          ]
         },
         {
           "id": "effect:38-69",
@@ -66166,9 +66345,20 @@
           "value": "Support Moves can't be copied. ",
           "start": 38,
           "end": 69,
-          "status": "pending",
+          "status": "automated",
           "batch": 10,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_me_first_copies_the_incoming_damaging_move_as_a_reaction"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_assist_copies_an_allys_move_and_refuses_unique_moves"
+            }
+          ]
         },
         {
           "id": "effect:69-99",
@@ -66176,9 +66366,20 @@
           "value": "Unique Moves can't be copied. ",
           "start": 69,
           "end": 99,
-          "status": "pending",
+          "status": "automated",
           "batch": 10,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_me_first_copies_the_incoming_damaging_move_as_a_reaction"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_assist_copies_an_allys_move_and_refuses_unique_moves"
+            }
+          ]
         },
         {
           "id": "effect:99-152",
@@ -66186,9 +66387,20 @@
           "value": "You may choose another Target(s) for the copied Move.",
           "start": 99,
           "end": 152,
-          "status": "pending",
+          "status": "automated",
           "batch": 10,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_me_first_copies_the_incoming_damaging_move_as_a_reaction"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_assist_copies_an_allys_move_and_refuses_unique_moves"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -68613,10 +68825,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Mimic.json",
       "sha256": "d2c0c2551ee8a49c0d80007f86c0332004b900888e08409a78120a3d597017d4",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A59: Seven copy moves. Copycat, Mirror Move and Instruct copy the last Pokemon move their target performed this battle (Instruct may name an ally); Assist copies any move known by an ally on the field or a member of the user's party, active or not; Me First copies the incoming non-Support move it reacts to, as a Reaction 1. These five are cast with the Cast copy control (CastCopy): the user names the copied move and may choose new targets, and the copied move uses its own Accuracy, damage and effects through the shared copied-cast pipeline, spending one action and recording the copy move as used. Unique, Max/Z, Sappy Seed and other copy moves cannot be copied. Mimic replaces itself with its target's last move for the scene (until the user leaves battle); Sketch replaces itself on the user's sheet permanently, as printed. A move the user already knows is not copied again.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -68626,9 +68845,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 10,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_mimic_and_sketch_replace_themselves"
+            }
+          ]
         },
         {
           "id": "effect:15-26",
@@ -68636,9 +68861,15 @@
           "value": "Copy Move. ",
           "start": 15,
           "end": 26,
-          "status": "pending",
+          "status": "automated",
           "batch": 10,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_mimic_and_sketch_replace_themselves"
+            }
+          ]
         },
         {
           "id": "effect:26-64",
@@ -68646,9 +68877,15 @@
           "value": "Replace \"Mimic\" with the copied Move. ",
           "start": 26,
           "end": 64,
-          "status": "pending",
+          "status": "automated",
           "batch": 10,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_mimic_and_sketch_replace_themselves"
+            }
+          ]
         },
         {
           "id": "effect:64-85",
@@ -68656,9 +68893,15 @@
           "value": "Whole Scene Duration.",
           "start": 64,
           "end": 85,
-          "status": "pending",
+          "status": "automated",
           "batch": 10,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_mimic_and_sketch_replace_themselves"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -69556,10 +69799,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Mirror Move.json",
       "sha256": "6f8bcad7851211e38ae7af146e56d6668cd00f22dbbef6b377c4626c184da0bf",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A59: Seven copy moves. Copycat, Mirror Move and Instruct copy the last Pokemon move their target performed this battle (Instruct may name an ally); Assist copies any move known by an ally on the field or a member of the user's party, active or not; Me First copies the incoming non-Support move it reacts to, as a Reaction 1. These five are cast with the Cast copy control (CastCopy): the user names the copied move and may choose new targets, and the copied move uses its own Accuracy, damage and effects through the shared copied-cast pipeline, spending one action and recording the copy move as used. Unique, Max/Z, Sappy Seed and other copy moves cannot be copied. Mimic replaces itself with its target's last move for the scene (until the user leaves battle); Sketch replaces itself on the user's sheet permanently, as printed. A move the user already knows is not copied again.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -69569,9 +69819,20 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 10,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_copycat_mirror_move_and_instruct_cast_the_targets_last_move"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_assist_copies_an_allys_move_and_refuses_unique_moves"
+            }
+          ]
         },
         {
           "id": "effect:15-26",
@@ -69579,9 +69840,20 @@
           "value": "Copy Move. ",
           "start": 15,
           "end": 26,
-          "status": "pending",
+          "status": "automated",
           "batch": 10,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_copycat_mirror_move_and_instruct_cast_the_targets_last_move"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_assist_copies_an_allys_move_and_refuses_unique_moves"
+            }
+          ]
         },
         {
           "id": "effect:26-56",
@@ -69589,9 +69861,20 @@
           "value": "Unique Moves can't be copied. ",
           "start": 26,
           "end": 56,
-          "status": "pending",
+          "status": "automated",
           "batch": 10,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_copycat_mirror_move_and_instruct_cast_the_targets_last_move"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_assist_copies_an_allys_move_and_refuses_unique_moves"
+            }
+          ]
         },
         {
           "id": "effect:56-109",
@@ -69599,9 +69882,20 @@
           "value": "You may choose another Target(s) for the copied Move.",
           "start": 56,
           "end": 109,
-          "status": "pending",
+          "status": "automated",
           "batch": 10,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_copycat_mirror_move_and_instruct_cast_the_targets_last_move"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_assist_copies_an_allys_move_and_refuses_unique_moves"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -98116,10 +98410,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Sketch.json",
       "sha256": "13dbda352722a778c6b1f4944fed0387898f0cfe09026e1b888a46e162364fdb",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A59: Seven copy moves. Copycat, Mirror Move and Instruct copy the last Pokemon move their target performed this battle (Instruct may name an ally); Assist copies any move known by an ally on the field or a member of the user's party, active or not; Me First copies the incoming non-Support move it reacts to, as a Reaction 1. These five are cast with the Cast copy control (CastCopy): the user names the copied move and may choose new targets, and the copied move uses its own Accuracy, damage and effects through the shared copied-cast pipeline, spending one action and recording the copy move as used. Unique, Max/Z, Sappy Seed and other copy moves cannot be copied. Mimic replaces itself with its target's last move for the scene (until the user leaves battle); Sketch replaces itself on the user's sheet permanently, as printed. A move the user already knows is not copied again.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -98129,9 +98430,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 10,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_mimic_and_sketch_replace_themselves"
+            }
+          ]
         },
         {
           "id": "effect:15-26",
@@ -98139,9 +98446,15 @@
           "value": "Copy Move. ",
           "start": 15,
           "end": 26,
-          "status": "pending",
+          "status": "automated",
           "batch": 10,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_mimic_and_sketch_replace_themselves"
+            }
+          ]
         },
         {
           "id": "effect:26-65",
@@ -98149,9 +98462,15 @@
           "value": "Replace \"Sketch\" with the copied Move. ",
           "start": 26,
           "end": 65,
-          "status": "pending",
+          "status": "automated",
           "batch": 10,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_mimic_and_sketch_replace_themselves"
+            }
+          ]
         },
         {
           "id": "effect:65-84",
@@ -98159,9 +98478,15 @@
           "value": "Permanent Duration.",
           "start": 65,
           "end": 84,
-          "status": "pending",
+          "status": "automated",
           "batch": 10,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a59",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a59_mimic_and_sketch_replace_themselves"
+            }
+          ]
         },
         {
           "id": "metadata:Type",

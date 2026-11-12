@@ -372,11 +372,26 @@ pub fn grant(c: &Campaign, p: &Combatant, sheet: &mut Sheet) {
     }
 }
 pub fn move_data(c: &Campaign, p: &Combatant, m: &mut serde_json::Value) {
-    if matches(c, &p.id, m["Name"].as_str().unwrap_or("")) {
-        m["Accuracy1"] = "Insight".into();
-        m["Accuracy2"] = "Perform".into();
-        // Metronome explicitly retains a single target, including area templates.
-        m["Target"] = "Foe".into();
+    if !matches(c, &p.id, m["Name"].as_str().unwrap_or("")) {
+        return;
+    }
+    match identity(c, &p.id, m["Name"].as_str().unwrap_or("")) {
+        "Metronome" => {
+            m["Accuracy1"] = "Insight".into();
+            m["Accuracy2"] = "Perform".into();
+            // Metronome explicitly retains a single target, including area templates.
+            m["Target"] = "Foe".into();
+        }
+        // Me First copies the incoming move as its own Reaction 1.
+        "Me First" => {
+            if let Some(attrs) = m["Attributes"].as_object_mut() {
+                attrs.remove("LateReaction");
+                attrs.insert("Reaction".into(), "1".into());
+            } else {
+                m["Attributes"] = serde_json::json!({"Reaction": "1"});
+            }
+        }
+        _ => {}
     }
 }
 pub fn lifecycle(c: &mut Campaign) {

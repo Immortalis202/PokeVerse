@@ -38,6 +38,14 @@ export type SpecialCommand =
     }
   | { kind: "JoinMove"; combatant_id: string; sequence: number }
   | { kind: "ResolvePowder"; combatant_id: string }
+  | {
+      kind: "CastCopy";
+      combatant_id: string;
+      origin: string;
+      source_id: string;
+      template: string;
+      target_ids: Array<string>;
+    }
   | { kind: "ResistHoldHands"; sequence: number; resist: boolean }
   | { kind: "RuleHoldHands"; sequence: number; end_battle: boolean }
   | { kind: "GrudgeCheck"; target_id: string }

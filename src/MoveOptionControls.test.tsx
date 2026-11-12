@@ -182,4 +182,54 @@ describe("saved move choices", () => {
     expect(html).toContain("owes 2 Powder damage dice");
     expect(html).toContain("<button>Roll Powder damage</button>");
   });
+  it("offers a copied cast of the source's last move after MOVE-A59", () => {
+    const campaign = {
+      gm_id: "gm",
+      sheets: { s: { moves: ["Copycat"] }, t: { moves: ["Tackle"] } },
+      battle: {
+        active: true,
+        combatants: [
+          {
+            id: "a",
+            name: "Copier",
+            owner_id: "owner",
+            sheet_id: "s",
+            side: "x",
+            deployed: true,
+            hp: 5,
+          },
+          {
+            id: "b",
+            name: "Foe",
+            owner_id: "other",
+            sheet_id: "t",
+            side: "y",
+            deployed: true,
+            hp: 5,
+          },
+        ],
+        flow: {
+          window: false,
+          queue: [],
+          special: { effects: [] },
+          completion: {
+            blocks: ["MOVE-A59"],
+            uses: [{ actor: "b", name: "Tackle", round: 1 }],
+          },
+        },
+      },
+    } as unknown as Campaign;
+    const html = renderToStaticMarkup(
+      <MoveOptionControls
+        campaign={campaign}
+        playerId="owner"
+        execute={async () => true}
+        disabled={false}
+      />,
+    );
+    expect(html).toContain(
+      '<option value="Tackle" selected="">Tackle</option>',
+    );
+    expect(html).toContain("<button>Cast copy</button>");
+  });
 });

@@ -21,6 +21,7 @@ pub fn effective_sheet(c: &Campaign, p: &Combatant) -> Result<Sheet> {
     let mut s = base_sheet(c, p)?;
     crate::combat::apply_stats(c, p, &mut s);
     crate::combat::copies::grant(c, p, &mut s);
+    crate::combat::copy_ops::grant(c, p, &mut s);
     crate::combat::field::stats(c, p, &mut s);
     crate::combat::sequencing::apply_stats(c, p, &mut s);
     for key in crate::creation::ATTRS {
@@ -238,6 +239,7 @@ pub fn accuracy(
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
     if [
         ENGINE,
+        SCENE_OPS_ENGINE,
         ITEM_OPS_ENGINE,
         FIELD_OPS_ENGINE,
         TRIGGER_OPS_ENGINE,

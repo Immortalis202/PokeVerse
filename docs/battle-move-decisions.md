@@ -37,3 +37,17 @@ Judgment ignores defenses and anything that would prevent its damage: damage imm
 After damage the GM either begins recording consequences, applies them through the normal battle controls (stat, condition, field, equipment, Will or combatant-state changes, each saved as a receipt and undoable with the normal rollback) and then finishes, or explicitly declares that there are no extra effects. Rejected or no-op commands do not count as consequences. The typed SpecialCommand variants are PrepareJudgment, BeginJudgmentEffects and RuleJudgment.
 
 Verification references: completion_a47 public-command tests. The card's Unique clause and metadata remain under the whole-catalog review.
+
+## Copy moves (MOVE-A59)
+
+App 0.102.0 / engine 0.94.0-core / protocol 103. Copycat, Mirror Move, Instruct, Assist and Me First are cast with the "Cast copy" control (CastCopy), never as ordinary moves. The user names the source and the copied move and may choose new targets; the copied move then runs through the same copied-cast pipeline as Metronome, using its own Accuracy, damage and effects, spending one action and recording the copy move (not the template) as used.
+
+- **Copycat, Mirror Move, Instruct:** copy the last Pokemon move the source performed this battle. Copycat and Mirror Move copy a foe; Instruct may also name an ally.
+- **Assist:** copies any move known by an ally on the field or by a member of the user's party, active or not.
+- **Me First:** during a reaction window, copies the incoming move as a Reaction 1. Support moves cannot be copied.
+- Unique, Max/Z, Sappy Seed and other copy moves are never copied.
+- **Mimic:** replaces itself with its target's last move for the scene (until the user leaves battle); the sheet is unchanged.
+- **Sketch:** replaces itself on the user's sheet permanently, as printed.
+- A move the user already knows is not copied again by Mimic or Sketch.
+
+Verification references: completion_a59 public-command tests and MoveOptionControls.test.tsx.

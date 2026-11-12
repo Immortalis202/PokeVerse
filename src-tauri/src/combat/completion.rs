@@ -75,6 +75,8 @@ pub struct MoveCompletionState {
     pub memento: BTreeMap<String, Vec<String>>,
     /// Pay Day / Make It Rain money owed at battle end.
     pub money: Vec<scene_ops::MoneyAward>,
+    /// Moves Mimic currently replaces itself with, by user.
+    pub mimicked: BTreeMap<String, String>,
     pub blocks: BTreeSet<String>,
     pub uses: Vec<CompletionMoveUse>,
     pub entered: BTreeMap<String, u32>,
@@ -493,6 +495,9 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
         }
         "scene-op" => {
             scene_ops::effect(c, q, _dice, cat)?;
+        }
+        "copy-op" => {
+            copy_ops::effect(c, q, cat)?;
         }
         "stat" => {
             return damaging_stats::effect(c, q, _dice, cat);
@@ -1114,6 +1119,7 @@ pub fn guard_move(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> Result<
     allied_ops::guard(c, m)?;
     delayed_ops::guard(c, p, m)?;
     item_ops::guard(c, p, m)?;
+    copy_ops::guard(c, p, m)?;
     if definition(c, m["Name"].as_str().unwrap_or(""))
         .is_some_and(|(_, d)| d["requires_terrain"] == true)
         && !flow(c)?
@@ -1326,6 +1332,11 @@ pub fn observe(before: &Campaign, next: &mut Campaign, cat: &Catalog) -> Result<
         && battle(next).is_ok_and(|b| b.active)
     {
         field_ops::lifecycle(next, cat)?;
+    }
+    if flow(next).is_ok_and(|f| f.completion.blocks.contains("MOVE-A59"))
+        && battle(next).is_ok_and(|b| b.active)
+    {
+        copy_ops::lifecycle(next)?;
     }
     if definition(next, "Charge").is_some() {
         let sequences: BTreeSet<_> = flow(next)?
