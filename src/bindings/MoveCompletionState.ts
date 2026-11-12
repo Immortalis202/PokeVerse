@@ -89,6 +89,23 @@ export type MoveCompletionState = {
    * Evasions taken this round by Double Team/Minimize users: (round, count).
    */
   evasions: { [key in string]?: [number, number] };
+  /**
+   * Helping Hand bonuses still waiting for the next Accuracy and damage rolls.
+   */
+  helping_accuracy: Array<string>;
+  helping_damage: Array<string>;
+  /**
+   * Help Another dice for the next Accuracy roll: (dice, helpers).
+   */
+  help_dice: { [key in string]?: [number, number] };
+  /**
+   * Allies who spent an action joining each Beat Up cast.
+   */
+  beat_up: { [key in number]?: Array<string> };
+  /**
+   * Combatants whose Round this round sings together with an ally.
+   */
+  round_chorus: { [key in string]?: number };
   blocks: Array<string>;
   uses: Array<CompletionMoveUse>;
   entered: { [key in string]?: number };

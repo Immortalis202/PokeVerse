@@ -220,6 +220,7 @@ pub fn accuracy(
             )
         })
         .and_then(|v| v.checked_add(second))
+        .and_then(|v| v.checked_add(crate::combat::allied_ops::accuracy_dice(c, key)))
         .and_then(|v| v.checked_add(rank_bonus))
         .and_then(|v| v.checked_add(modifier))
         .ok_or_else(|| AppError::new("limit", "Pool overflow"))?;
@@ -237,6 +238,7 @@ pub fn accuracy(
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
     if [
         ENGINE,
+        INITIATIVE_OPS_ENGINE,
         CONDITION_OPS_ENGINE,
         DAMAGE_OPS_ENGINE,
         TYPE_OPS_ENGINE,

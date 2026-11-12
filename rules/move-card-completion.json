@@ -7262,10 +7262,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Beat Up.json",
       "sha256": "24b744f6fa253c8f986cbb3e22aefa587f4e78c8c637f3671c01507850a96a79",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A53: Four allied contributions. Helping Hand gives its ally 2 extra dice on the next Accuracy roll and 2 extra dice on the next Physical/Special damage roll; recasting refreshes rather than stacks. Help Another is a command, not an ordinary cast: the helper spends an action and rolls the ally's intended move's Accuracy pool with its own scores as Chance dice; each 6 adds one die to the ally's next Accuracy roll, at most 3 helpers and 6 dice per action. Beat Up: while its damage is pending, up to 3 different active allies may each spend an action to join, adding 2 damage dice each. Round: while a Round's damage is pending, an active ally that knows Round may join; both combatants' Round damage pools gain 3 dice this round. Skill checks other than Accuracy are not modified.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -7275,9 +7282,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 6,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a53",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a53_beat_up_and_round_add_dice_for_joining_allies"
+            }
+          ]
         },
         {
           "id": "effect:15-160",
@@ -7285,9 +7298,15 @@
           "value": "*Add 2 Extra Dice to the Damage Pool of this Move for every ally Pokemon that spends an action in addition to this Move, up to 3 allies may join.",
           "start": 15,
           "end": 160,
-          "status": "pending",
+          "status": "automated",
           "batch": 6,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a53",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a53_beat_up_and_round_add_dice_for_joining_allies"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -48514,10 +48533,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Help Another.json",
       "sha256": "5f52074738915c4118f67a193f17d24ea247228956d119cb91a5758c32140f0b",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A53: Four allied contributions. Helping Hand gives its ally 2 extra dice on the next Accuracy roll and 2 extra dice on the next Physical/Special damage roll; recasting refreshes rather than stacks. Help Another is a command, not an ordinary cast: the helper spends an action and rolls the ally's intended move's Accuracy pool with its own scores as Chance dice; each 6 adds one die to the ally's next Accuracy roll, at most 3 helpers and 6 dice per action. Beat Up: while its damage is pending, up to 3 different active allies may each spend an action to join, adding 2 damage dice each. Round: while a Round's damage is pending, an active ally that knows Round may join; both combatants' Round damage pools gain 3 dice this round. Skill checks other than Accuracy are not modified.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -48527,9 +48553,15 @@
           "value": "Target One Ally. ",
           "start": 0,
           "end": 17,
-          "status": "pending",
+          "status": "automated",
           "batch": 6,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a53",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a53_help_another_adds_one_die_per_six_up_to_six_dice_and_three_helpers"
+            }
+          ]
         },
         {
           "id": "effect:17-29",
@@ -48547,9 +48579,15 @@
           "value": "Roll your Accuracy as if it were Chance dice. ",
           "start": 29,
           "end": 75,
-          "status": "pending",
+          "status": "automated",
           "batch": 6,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a53",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a53_help_another_adds_one_die_per_six_up_to_six_dice_and_three_helpers"
+            }
+          ]
         },
         {
           "id": "effect:75-169",
@@ -48557,9 +48595,15 @@
           "value": "Add 1 die to the Accuracy Roll of your Ally for each Success (result of 6) obtained this way. ",
           "start": 75,
           "end": 169,
-          "status": "pending",
+          "status": "automated",
           "batch": 6,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a53",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a53_help_another_adds_one_die_per_six_up_to_six_dice_and_three_helpers"
+            }
+          ]
         },
         {
           "id": "effect:169-225",
@@ -48567,9 +48611,15 @@
           "value": "Up to 3 Characters may attempt to help a single Action. ",
           "start": 169,
           "end": 225,
-          "status": "pending",
+          "status": "automated",
           "batch": 6,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a53",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a53_help_another_adds_one_die_per_six_up_to_six_dice_and_three_helpers"
+            }
+          ]
         },
         {
           "id": "effect:225-260",
@@ -48577,9 +48627,15 @@
           "value": "Up to 6 Dice may be added this way.",
           "start": 225,
           "end": 260,
-          "status": "pending",
+          "status": "automated",
           "batch": 6,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a53",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a53_help_another_adds_one_die_per_six_up_to_six_dice_and_three_helpers"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -48671,10 +48727,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Helping Hand.json",
       "sha256": "6a8d93e286a8eab263bf6d21c877f4aec3d143e6ef8733d6bac9e252b5a73d08",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A53: Four allied contributions. Helping Hand gives its ally 2 extra dice on the next Accuracy roll and 2 extra dice on the next Physical/Special damage roll; recasting refreshes rather than stacks. Help Another is a command, not an ordinary cast: the helper spends an action and rolls the ally's intended move's Accuracy pool with its own scores as Chance dice; each 6 adds one die to the ally's next Accuracy roll, at most 3 helpers and 6 dice per action. Beat Up: while its damage is pending, up to 3 different active allies may each spend an action to join, adding 2 damage dice each. Round: while a Round's damage is pending, an active ally that knows Round may join; both combatants' Round damage pools gain 3 dice this round. Skill checks other than Accuracy are not modified.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -48684,9 +48747,15 @@
           "value": "Target One Ally. ",
           "start": 0,
           "end": 17,
-          "status": "pending",
+          "status": "automated",
           "batch": 6,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a53",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a53_helping_hand_adds_two_accuracy_and_two_damage_dice_once"
+            }
+          ]
         },
         {
           "id": "effect:17-29",
@@ -48704,9 +48773,15 @@
           "value": "The Target Gets 2 Extra Dice on their next Skill Check/Accuracy Roll, and 2 Extra Dice on their next Damage Roll. ",
           "start": 29,
           "end": 143,
-          "status": "pending",
+          "status": "automated",
           "batch": 6,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a53",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a53_helping_hand_adds_two_accuracy_and_two_damage_dice_once"
+            }
+          ]
         },
         {
           "id": "effect:143-170",
@@ -48714,9 +48789,15 @@
           "value": "This Effect does not Stack.",
           "start": 143,
           "end": 170,
-          "status": "pending",
+          "status": "automated",
           "batch": 6,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a53",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a53_helping_hand_adds_two_accuracy_and_two_damage_dice_once"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -90197,10 +90278,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Round.json",
       "sha256": "155ef5de738767be6544c9e1f720f8f682bdd79c81096955a176400538429af4",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A53: Four allied contributions. Helping Hand gives its ally 2 extra dice on the next Accuracy roll and 2 extra dice on the next Physical/Special damage roll; recasting refreshes rather than stacks. Help Another is a command, not an ordinary cast: the helper spends an action and rolls the ally's intended move's Accuracy pool with its own scores as Chance dice; each 6 adds one die to the ally's next Accuracy roll, at most 3 helpers and 6 dice per action. Beat Up: while its damage is pending, up to 3 different active allies may each spend an action to join, adding 2 damage dice each. Round: while a Round's damage is pending, an active ally that knows Round may join; both combatants' Round damage pools gain 3 dice this round. Skill checks other than Accuracy are not modified.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -90210,9 +90298,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 6,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a53",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a53_beat_up_and_round_add_dice_for_joining_allies"
+            }
+          ]
         },
         {
           "id": "effect:15-27",
@@ -90230,9 +90324,15 @@
           "value": "*If the user and an ally are able to use Round. ",
           "start": 27,
           "end": 75,
-          "status": "pending",
+          "status": "automated",
           "batch": 6,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a53",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a53_beat_up_and_round_add_dice_for_joining_allies"
+            }
+          ]
         },
         {
           "id": "effect:75-118",
@@ -90240,9 +90340,15 @@
           "value": "Both may choose to do it at the same time. ",
           "start": 75,
           "end": 118,
-          "status": "pending",
+          "status": "automated",
           "batch": 6,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a53",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a53_beat_up_and_round_add_dice_for_joining_allies"
+            }
+          ]
         },
         {
           "id": "effect:118-182",
@@ -90250,9 +90356,15 @@
           "value": "If they do, add 3 Extra Dice to the Damage Pool of both Pokemon.",
           "start": 118,
           "end": 182,
-          "status": "pending",
+          "status": "automated",
           "batch": 6,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a53",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a53_beat_up_and_round_add_dice_for_joining_allies"
+            }
+          ]
         },
         {
           "id": "metadata:Type",

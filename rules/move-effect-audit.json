@@ -1,8 +1,8 @@
 {
   "version": 1,
   "date": "2026-11-10",
-  "release": "0.95.0",
-  "engine": "0.87.0-core",
+  "release": "0.96.0",
+  "engine": "0.88.0-core",
   "scope": "892-card effect-route inventory; focused semantic review of status infliction, cure and protection clauses. M2-A through M2-E battle status clauses and MOVE-A01 damaging attribute clauses plus MOVE-A02 entry hazards delivered; see scoped registries and retained choices.",
   "limits": [
     "An executable route is not full card coverage.",
@@ -19,10 +19,10 @@
   "counts": {
     "routes": {
       "excluded": 38,
-      "executable-scope": 782,
+      "executable-scope": 786,
       "gm-choice": 1,
       "input-required": 19,
-      "manual-effect-route": 52
+      "manual-effect-route": 48
     },
     "status_clauses": {
       "excluded": 6,
@@ -2884,22 +2884,39 @@
       "attributes": {},
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A53: Four allied contributions. Helping Hand gives its ally 2 extra dice on the next Accuracy roll and 2 extra dice on the next Physical/Special damage roll; recasting refreshes rather than stacks. Help Another is a command, not an ordinary cast: the helper spends an action and rolls the ally's intended move's Accuracy pool with its own scores as Chance dice; each 6 adds one die to the ally's next Accuracy roll, at most 3 helpers and 6 dice per action. Beat Up: while its damage is pending, up to 3 different active allies may each spend an action to join, adding 2 damage dice each. Round: while a Round's damage is pending, an active ally that knows Round may join; both combatants' Round damage pools gain 3 dice this round. Skill checks other than Accuracy are not modified.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -18772,22 +18789,39 @@
       },
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A53: Four allied contributions. Helping Hand gives its ally 2 extra dice on the next Accuracy roll and 2 extra dice on the next Physical/Special damage roll; recasting refreshes rather than stacks. Help Another is a command, not an ordinary cast: the helper spends an action and rolls the ally's intended move's Accuracy pool with its own scores as Chance dice; each 6 adds one die to the ally's next Accuracy roll, at most 3 helpers and 6 dice per action. Beat Up: while its damage is pending, up to 3 different active allies may each spend an action to join, adding 2 damage dice each. Round: while a Round's damage is pending, an active ally that knows Round may join; both combatants' Round damage pools gain 3 dice this round. Skill checks other than Accuracy are not modified.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -18812,22 +18846,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A53: Four allied contributions. Helping Hand gives its ally 2 extra dice on the next Accuracy roll and 2 extra dice on the next Physical/Special damage roll; recasting refreshes rather than stacks. Help Another is a command, not an ordinary cast: the helper spends an action and rolls the ally's intended move's Accuracy pool with its own scores as Chance dice; each 6 adds one die to the ally's next Accuracy roll, at most 3 helpers and 6 dice per action. Beat Up: while its damage is pending, up to 3 different active allies may each spend an action to join, adding 2 damage dice each. Round: while a Round's damage is pending, an active ally that knows Round may join; both combatants' Round damage pools gain 3 dice this round. Skill checks other than Accuracy are not modified.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -34184,22 +34235,39 @@
       },
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A53: Four allied contributions. Helping Hand gives its ally 2 extra dice on the next Accuracy roll and 2 extra dice on the next Physical/Special damage roll; recasting refreshes rather than stacks. Help Another is a command, not an ordinary cast: the helper spends an action and rolls the ally's intended move's Accuracy pool with its own scores as Chance dice; each 6 adds one die to the ally's next Accuracy roll, at most 3 helpers and 6 dice per action. Beat Up: while its damage is pending, up to 3 different active allies may each spend an action to join, adding 2 damage dice each. Round: while a Round's damage is pending, an active ally that knows Round may join; both combatants' Round damage pools gain 3 dice this round. Skill checks other than Accuracy are not modified.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },

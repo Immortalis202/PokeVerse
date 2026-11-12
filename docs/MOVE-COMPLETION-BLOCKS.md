@@ -60,6 +60,7 @@ The live source of remaining route work is `rules/move-effect-audit.json`. Its f
 | MOVE-A50 | Hidden Power, Photon Geyser, Tera Blast, Tera Starstorm, Flying Press, Foul Play, Techno Blast, Conversion 2 | Complete (Tera types and Drives not modelled) |
 | MOVE-A51 | Belch, Last Resort, Lash Out, Revenge, Temper Flare, Stomping Tantrum, Poltergeist, Fell Stinger, Ruination; Chilly Reception fix | Complete |
 | MOVE-A52 | After You, Quash, Ambush, Encore, Sucker Punch, Thunderclap, Grapple, Double Team, Minimize, Chip Away | Complete |
+| MOVE-A53 | Helping Hand, Help Another, Beat Up, Round | Complete |
 | Later blocks | Ordinary attacks with existing attributes; remaining stat changes, resets and swaps; type/damage conversions; field changes; conditional damage; timing/action restrictions; items; copy/selection effects | Open |
 
 New block adoption is persisted in `TurnFlow.completion.blocks`. Every release records its engine in `rules/move-completion.json`; historical saves adopt no additional blocks automatically. The shared special-effect state is boxed while preserving its JSON shape to keep transition stack usage bounded.
@@ -119,3 +120,8 @@ See [history and condition moves](battle-condition-moves.md). Use guards from ba
 ### MOVE-A52: initiative, reaction and maneuver moves
 
 See [initiative, reaction and maneuver moves](battle-initiative-maneuvers.md). First/last initiative marks, pre-initiative Ambush with target resistance, Encore's repeated sequence, reaction-only Sucker Punch/Thunderclap with timing choice, Grapple Blocking with free release, five-Evasion Double Team/Minimize and Chip Away removal.
+
+
+### MOVE-A53: allied contribution moves
+
+See [allied contribution moves](battle-allied-moves.md). Non-stacking Helping Hand dice, Help Another's Chance-dice command (3 helpers, 6 dice), Beat Up and Round joins via JoinMove.

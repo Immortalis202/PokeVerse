@@ -30,6 +30,13 @@ export type SpecialCommand =
       late: boolean;
     }
   | { kind: "ReleaseGrapple"; combatant_id: string }
+  | {
+      kind: "HelpAnother";
+      combatant_id: string;
+      ally_id: string;
+      move_name: string;
+    }
+  | { kind: "JoinMove"; combatant_id: string; sequence: number }
   | { kind: "ResistHoldHands"; sequence: number; resist: boolean }
   | { kind: "RuleHoldHands"; sequence: number; end_battle: boolean }
   | { kind: "GrudgeCheck"; target_id: string }

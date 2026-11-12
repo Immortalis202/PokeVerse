@@ -10188,3 +10188,204 @@ fn completion_a52_double_team_minimize_and_chip_away_control_extra_evasions() {
     assert!(!marked(&done));
     let _ = t;
 }
+
+fn a53_accuracy_dice(c: &Campaign, a: &str, t: &str, name: &str) -> u32 {
+    let mut c = c.clone();
+    turn(&mut c, a, name);
+    rules::dice_count(
+        &c,
+        &super::targeting_tests::attack(a, vec![t.into()], name),
+        &catalog(),
+    )
+    .unwrap()
+}
+fn a53_special(
+    c: &Campaign,
+    actor: &str,
+    command: special::SpecialCommand,
+    face: u8,
+) -> Result<Campaign> {
+    let action = Action::SpecialMove {
+        command,
+        reason: "Allied contribution".into(),
+    };
+    let n = rules::dice_count(c, &action, &catalog())?;
+    battle::transition(c, actor, &action, vec![face; n as usize], &catalog()).map(|v| v.0)
+}
+
+#[test]
+fn completion_a53_helping_hand_adds_two_accuracy_and_two_damage_dice_once() {
+    let (mut c, a, t) = setup("Helping Hand");
+    let ally = a49_second(&mut c, &a);
+    let sid = p(&c, &ally).sheet_id.clone();
+    c.sheets.get_mut(&sid).unwrap().moves.push("Tackle".into());
+    let plain_accuracy = a53_accuracy_dice(&c, &ally, &t, "Tackle");
+    let plain_damage = queued_damage_pool(&ordinary_accuracy(
+        &{
+            let mut c = c.clone();
+            turn(&mut c, &ally, "Tackle");
+            c
+        },
+        &ally,
+        &t,
+        "Tackle",
+    ))
+    .dice;
+    let mut helped = support_cast(&c, &a, vec![ally.clone()], "Helping Hand");
+    turn(&mut helped, &a, "Helping Hand");
+    let helped = support_cast(&helped, &a, vec![ally.clone()], "Helping Hand");
+    assert_eq!(
+        a53_accuracy_dice(&helped, &ally, &t, "Tackle"),
+        plain_accuracy + 2,
+        "no stacking"
+    );
+    let mut attack = helped.clone();
+    turn(&mut attack, &ally, "Tackle");
+    let hit = ordinary_accuracy(&attack, &ally, &t, "Tackle");
+    assert_eq!(queued_damage_pool(&hit).dice, plain_damage + 2);
+    assert_eq!(
+        a53_accuracy_dice(&hit, &ally, &t, "Tackle"),
+        plain_accuracy,
+        "Accuracy bonus spent"
+    );
+    let done = roll(&hit, "gm", &damage_command(&hit), 6);
+    let mut again = done.clone();
+    again
+        .battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .queue
+        .clear();
+    turn(&mut again, &ally, "Tackle");
+    let hit = ordinary_accuracy(&again, &ally, &t, "Tackle");
+    assert_eq!(
+        queued_damage_pool(&hit).dice,
+        plain_damage,
+        "damage bonus spent"
+    );
+}
+#[test]
+fn completion_a53_help_another_adds_one_die_per_six_up_to_six_dice_and_three_helpers() {
+    let (mut c, a, t) = setup("Tackle");
+    let ally = a49_second(&mut c, &a);
+    let sid = p(&c, &ally).sheet_id.clone();
+    c.sheets.get_mut(&sid).unwrap().moves.push("Tackle".into());
+    let plain = a53_accuracy_dice(&c, &ally, &t, "Tackle");
+    let help = |c: &Campaign, helper: &str, face: u8| {
+        a53_special(
+            c,
+            &p(c, helper).owner_id,
+            special::SpecialCommand::HelpAnother {
+                combatant_id: helper.into(),
+                ally_id: ally.clone(),
+                move_name: "Tackle".into(),
+            },
+            face,
+        )
+    };
+    let missed = help(&c, &a, 5).unwrap();
+    assert_eq!(
+        a53_accuracy_dice(&missed, &ally, &t, "Tackle"),
+        plain,
+        "only sixes count"
+    );
+    assert_eq!(
+        p(&missed, &a).actions,
+        p(&c, &a).actions + 1,
+        "helping costs an action"
+    );
+    let once = help(&c, &a, 6).unwrap();
+    let pool = rules::dice_count(
+        &c,
+        &Action::SpecialMove {
+            command: special::SpecialCommand::HelpAnother {
+                combatant_id: a.clone(),
+                ally_id: ally.clone(),
+                move_name: "Tackle".into(),
+            },
+            reason: "x".into(),
+        },
+        &catalog(),
+    )
+    .unwrap();
+    let gained = pool.min(6);
+    assert_eq!(
+        a53_accuracy_dice(&once, &ally, &t, "Tackle"),
+        plain + gained
+    );
+    let twice = help(&once, &a, 6).unwrap();
+    assert_eq!(
+        a53_accuracy_dice(&twice, &ally, &t, "Tackle"),
+        plain + 6,
+        "at most six dice"
+    );
+    let thrice = help(&help(&missed, &a, 5).unwrap(), &a, 5).unwrap();
+    assert!(help(&thrice, &a, 6).is_err(), "at most three helpers");
+    assert!(help(&c, &t, 6).is_err(), "foes cannot help");
+    assert!(
+        a51_attack(&c, &a, &ally, "Help Another").is_err(),
+        "not an ordinary cast"
+    );
+}
+#[test]
+fn completion_a53_beat_up_and_round_add_dice_for_joining_allies() {
+    let (mut c, a, t) = setup("Beat Up");
+    let ally = a49_second(&mut c, &a);
+    let hit = ordinary_accuracy(&c, &a, &t, "Beat Up");
+    let base = queued_damage_pool(&hit).dice;
+    let join = |c: &Campaign, id: &str| {
+        a53_special(
+            c,
+            &p(c, id).owner_id,
+            special::SpecialCommand::JoinMove {
+                combatant_id: id.into(),
+                sequence: q(c).sequence,
+            },
+            6,
+        )
+    };
+    let joined = join(&hit, &ally).unwrap();
+    assert_eq!(queued_damage_pool(&joined).dice, base + 2);
+    assert_eq!(p(&joined, &ally).actions, p(&hit, &ally).actions + 1);
+    assert!(join(&joined, &ally).is_err(), "each ally joins once");
+    assert!(join(&hit, &t).is_err(), "foes cannot join");
+
+    let (mut c, a, t) = setup("Round");
+    let ally = a49_second(&mut c, &a);
+    let sid = p(&c, &ally).sheet_id.clone();
+    c.sheets
+        .get_mut(&sid)
+        .unwrap()
+        .moves
+        .retain(|m| m != "Round");
+    let hit = ordinary_accuracy(&c, &a, &t, "Round");
+    let base = queued_damage_pool(&hit).dice;
+    assert!(join(&hit, &ally).is_err(), "the ally must know Round");
+    let mut hit = hit;
+    hit.sheets.get_mut(&sid).unwrap().moves.push("Round".into());
+    let joined = join(&hit, &ally).unwrap();
+    assert_eq!(queued_damage_pool(&joined).dice, base + 3);
+    let round = joined.battle.as_ref().unwrap().round;
+    assert_eq!(
+        a52_flow(&joined).completion.round_chorus[&ally],
+        round,
+        "the ally's Round also gains 3"
+    );
+
+    let (mut old, a, _t) = setup("Helping Hand");
+    let ally = a49_second(&mut old, &a);
+    old.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .completion
+        .blocks
+        .remove("MOVE-A53");
+    let c = a48_pending(&old, &a, vec![ally], "Helping Hand");
+    assert!(a48_effect(&c, vec![]).is_err());
+}

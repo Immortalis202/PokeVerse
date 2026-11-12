@@ -1277,6 +1277,17 @@
         "completion_a52_sucker_punch_and_thunderclap_only_react_to_damaging_moves"
       ],
       "scope": "Ten initiative, reaction and maneuver cards. After You moves its ally to the front and Quash its target to the back of the initiative order from the next round's start, for the scene; recasting by the same user moves its mark, Quash persists across switching and After You ends when its target leaves. Ambush can be cast before the first round's turns start: the target resists with Insight + Alert against the user's successes; otherwise the user takes one surprise action before turns start that the target cannot Evade or Clash, and these pre-initiative actions are refunded when turns start. Encore (not usable in consecutive rounds) makes a target that acted last round repeat that round's moves in order and on the same targets for the rest of the round, refusing other moves and anything beyond the sequence; repeated Evasions/Clashes are not forced. Sucker Punch and Thunderclap can only react to a Physical or Special move, with an owner-saved early (Reaction 6, default) or late (Late Reaction 1) timing. Grapple: the target resists with its better of Strength/Dexterity against the user's successes; otherwise it is Blocked and the user cannot act or react until it releases (free) or either leaves. Double Team and Minimize allow up to five Evasions per round instead of one per turn; Minimize also halves weight and makes the user vulnerable to Stomp. Chip Away removes those evasion effects from a target it damages."
+    },
+    {
+      "id": "move-completion-a53",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A53",
+      "fixtures": [
+        "completion_a53_beat_up_and_round_add_dice_for_joining_allies",
+        "completion_a53_help_another_adds_one_die_per_six_up_to_six_dice_and_three_helpers",
+        "completion_a53_helping_hand_adds_two_accuracy_and_two_damage_dice_once"
+      ],
+      "scope": "Four allied contributions. Helping Hand gives its ally 2 extra dice on the next Accuracy roll and 2 extra dice on the next Physical/Special damage roll; recasting refreshes rather than stacks. Help Another is a command, not an ordinary cast: the helper spends an action and rolls the ally's intended move's Accuracy pool with its own scores as Chance dice; each 6 adds one die to the ally's next Accuracy roll, at most 3 helpers and 6 dice per action. Beat Up: while its damage is pending, up to 3 different active allies may each spend an action to join, adding 2 damage dice each. Round: while a Round's damage is pending, an active ally that knows Round may join; both combatants' Round damage pools gain 3 dice this round. Skill checks other than Accuracy are not modified."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -1293,5 +1304,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "1b332f65fe3402ca647c65c50d9d20c43bcd555217fa852f62c8f15998fe1dff"
+  "move_completion_registry_hash": "2f8fbe248dd6ebb3d5ffd138869bb94cf1f191d592c6b539e2277f36086c5ed5"
 }

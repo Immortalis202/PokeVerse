@@ -2298,6 +2298,37 @@
           "op": "chip-away"
         }
       }
+    },
+    "MOVE-A53": {
+      "engine": "0.88.0-core",
+      "kind": "allied-op",
+      "scope": "Four allied contributions. Helping Hand gives its ally 2 extra dice on the next Accuracy roll and 2 extra dice on the next Physical/Special damage roll; recasting refreshes rather than stacks. Help Another is a command, not an ordinary cast: the helper spends an action and rolls the ally's intended move's Accuracy pool with its own scores as Chance dice; each 6 adds one die to the ally's next Accuracy roll, at most 3 helpers and 6 dice per action. Beat Up: while its damage is pending, up to 3 different active allies may each spend an action to join, adding 2 damage dice each. Round: while a Round's damage is pending, an active ally that knows Round may join; both combatants' Round damage pools gain 3 dice this round. Skill checks other than Accuracy are not modified.",
+      "moves": {
+        "Helping Hand": {
+          "source": "Pokerole-Data/v3.0/Moves/Helping Hand.json",
+          "sha256": "6a8d93e286a8eab263bf6d21c877f4aec3d143e6ef8733d6bac9e252b5a73d08",
+          "effect": "Target One Ally. Reaction 5. The Target Gets 2 Extra Dice on their next Skill Check/Accuracy Roll, and 2 Extra Dice on their next Damage Roll. This Effect does not Stack.",
+          "op": "helping-hand"
+        },
+        "Help Another": {
+          "source": "Pokerole-Data/v3.0/Moves/Help Another.json",
+          "sha256": "5f52074738915c4118f67a193f17d24ea247228956d119cb91a5758c32140f0b",
+          "effect": "Target One Ally. Reaction 1. Roll your Accuracy as if it were Chance dice. Add 1 die to the Accuracy Roll of your Ally for each Success (result of 6) obtained this way. Up to 3 Characters may attempt to help a single Action. Up to 6 Dice may be added this way.",
+          "op": "help-another"
+        },
+        "Beat Up": {
+          "source": "Pokerole-Data/v3.0/Moves/Beat Up.json",
+          "sha256": "24b744f6fa253c8f986cbb3e22aefa587f4e78c8c637f3671c01507850a96a79",
+          "effect": "Single Target. *Add 2 Extra Dice to the Damage Pool of this Move for every ally Pokemon that spends an action in addition to this Move, up to 3 allies may join.",
+          "op": "beat-up"
+        },
+        "Round": {
+          "source": "Pokerole-Data/v3.0/Moves/Round.json",
+          "sha256": "155ef5de738767be6544c9e1f720f8f682bdd79c81096955a176400538429af4",
+          "effect": "Single Target. Sound Move. *If the user and an ally are able to use Round. Both may choose to do it at the same time. If they do, add 3 Extra Dice to the Damage Pool of both Pokemon.",
+          "op": "round"
+        }
+      }
     }
   },
   "printed_review": {

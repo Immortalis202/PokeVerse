@@ -47,6 +47,15 @@ pub struct MoveCompletionState {
     pub reaction_timing: BTreeMap<String, String>,
     /// Evasions taken this round by Double Team/Minimize users: (round, count).
     pub evasions: BTreeMap<String, (u32, u32)>,
+    /// Helping Hand bonuses still waiting for the next Accuracy and damage rolls.
+    pub helping_accuracy: BTreeSet<String>,
+    pub helping_damage: BTreeSet<String>,
+    /// Help Another dice for the next Accuracy roll: (dice, helpers).
+    pub help_dice: BTreeMap<String, (u32, u32)>,
+    /// Allies who spent an action joining each Beat Up cast.
+    pub beat_up: BTreeMap<u32, Vec<String>>,
+    /// Combatants whose Round this round sings together with an ally.
+    pub round_chorus: BTreeMap<String, u32>,
     pub blocks: BTreeSet<String>,
     pub uses: Vec<CompletionMoveUse>,
     pub entered: BTreeMap<String, u32>,
@@ -442,6 +451,9 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
         }
         "initiative-op" => {
             initiative_ops::effect(c, q, _dice, cat)?;
+        }
+        "allied-op" => {
+            allied_ops::effect(c, q, cat)?;
         }
         "stat" => {
             return damaging_stats::effect(c, q, _dice, cat);
@@ -1055,6 +1067,7 @@ pub fn guard_move(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> Result<
     restriction_guard(c, p, m)?;
     history_guard(c, p, m)?;
     condition_ops::guard(c, p, m)?;
+    allied_ops::guard(c, m)?;
     if definition(c, m["Name"].as_str().unwrap_or(""))
         .is_some_and(|(_, d)| d["requires_terrain"] == true)
         && !flow(c)?
@@ -1106,7 +1119,8 @@ fn contextual_type(c: &Campaign, p: &Combatant, m: &mut serde_json::Value) {
 }
 pub fn damage_bonus(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> i32 {
     let mut n = i32::from(abilities::contact(m) && self_support(c, p, "Victory Dance"))
-        + condition_ops::damage_bonus(c, p, m);
+        + condition_ops::damage_bonus(c, p, m)
+        + allied_ops::damage_bonus(c, p, m);
     if m["Type"] == "Electric"
         && ["Physical", "Special"].contains(&m["Category"].as_str().unwrap_or(""))
         && definition(c, "Charge").is_some()
@@ -1245,6 +1259,11 @@ pub fn observe(before: &Campaign, next: &mut Campaign, cat: &Catalog) -> Result<
         && battle(next).is_ok_and(|b| b.active)
     {
         initiative_ops::lifecycle(next)?;
+    }
+    if flow(next).is_ok_and(|f| f.completion.blocks.contains("MOVE-A53"))
+        && battle(next).is_ok_and(|b| b.active)
+    {
+        allied_ops::lifecycle(next)?;
     }
     if definition(next, "Charge").is_some() {
         let sequences: BTreeSet<_> = flow(next)?

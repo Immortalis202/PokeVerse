@@ -16,6 +16,7 @@ export default function MoveOptionControls({
 }) {
   const [choice, setChoice] = useState("");
   const [types, setTypes] = useState<Record<string, string>>({});
+  const [help, setHelp] = useState({ helper: "", ally: "", move: "" });
   const b = campaign.battle,
     f = b?.flow,
     q = f?.queue[0];
@@ -41,11 +42,37 @@ export default function MoveOptionControls({
           : [],
       )
     : [];
+  const allied = f.completion?.blocks?.includes("MOVE-A53");
+  const active = b.combatants.filter((p) => p.deployed && p.hp > 0);
+  const caster = q ? active.find((p) => p.id === q.actor_id) : undefined;
+  const joiners =
+    allied &&
+    q &&
+    caster &&
+    !q.damage_done &&
+    !f.window &&
+    ["Beat Up", "Round"].includes(q.move_name)
+      ? active.filter((p) => p.side === caster.side && p.id !== caster.id)
+      : [];
+  const helpers = allied
+    ? active.filter((p) =>
+        (campaign.sheets[p.sheet_id]?.moves ?? []).includes("Help Another"),
+      )
+    : [];
+  const helper = helpers.find((p) => p.id === help.helper) ?? helpers[0];
+  const allies = helper
+    ? active.filter((p) => p.side === helper.side && p.id !== helper.id)
+    : [];
+  const ally = allies.find((p) => p.id === help.ally) ?? allies[0];
+  const allyMoves = ally ? (campaign.sheets[ally.sheet_id]?.moves ?? []) : [];
+  const move = allyMoves.includes(help.move) ? help.move : allyMoves[0];
   if (
     !options?.length &&
     !conversions.length &&
     !grapplers.length &&
-    !timed.length
+    !timed.length &&
+    !joiners.length &&
+    !(helper && ally && move)
   )
     return null;
   const owns = (id: string) =>
@@ -91,6 +118,82 @@ export default function MoveOptionControls({
           </button>
         </section>
       ) : null}
+      {q &&
+        joiners.map((p) => (
+          <section key={`join-${p.id}`} aria-label={`Join ${q.move_name}`}>
+            <button
+              disabled={disabled || !owns(p.id)}
+              onClick={() =>
+                execute({
+                  type: "special_move",
+                  command: {
+                    kind: "JoinMove",
+                    combatant_id: p.id,
+                    sequence: q.sequence,
+                  },
+                  reason: `${p.name} joins ${q.move_name}`,
+                })
+              }
+            >
+              {p.name}: join {q.move_name}
+            </button>
+          </section>
+        ))}
+      {helper && ally && move && (
+        <section aria-label="Help Another">
+          <h4>Help Another</h4>
+          <select
+            aria-label="Helper"
+            value={helper.id}
+            onChange={(e) => setHelp({ ...help, helper: e.target.value })}
+          >
+            {helpers.map((p) => (
+              <option key={p.id} value={p.id}>
+                {p.name}
+              </option>
+            ))}
+          </select>
+          <select
+            aria-label="Ally to help"
+            value={ally.id}
+            onChange={(e) => setHelp({ ...help, ally: e.target.value })}
+          >
+            {allies.map((p) => (
+              <option key={p.id} value={p.id}>
+                {p.name}
+              </option>
+            ))}
+          </select>
+          <select
+            aria-label="Ally's intended move"
+            value={move}
+            onChange={(e) => setHelp({ ...help, move: e.target.value })}
+          >
+            {allyMoves.map((m) => (
+              <option key={m} value={m}>
+                {m}
+              </option>
+            ))}
+          </select>
+          <button
+            disabled={disabled || !owns(helper.id)}
+            onClick={() =>
+              execute({
+                type: "special_move",
+                command: {
+                  kind: "HelpAnother",
+                  combatant_id: helper.id,
+                  ally_id: ally.id,
+                  move_name: move,
+                },
+                reason: `${helper.name} helps ${ally.name} with ${move}`,
+              })
+            }
+          >
+            Roll help
+          </button>
+        </section>
+      )}
       {grapplers.map((id) => (
         <section key={`grapple-${id}`} aria-label="Grapple">
           <p>{label(id)} is Grappling and cannot act.</p>

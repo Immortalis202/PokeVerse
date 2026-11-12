@@ -424,6 +424,7 @@ pub fn react(
             + type_ops::accuracy_gain(&before, id, targets.first().map(String::as_str), true),
     );
     type_ops::consume_gain(c, id, &targets, true);
+    allied_ops::consume_accuracy(c, id);
     fighter_mut(c, id)?.runtime.pain_ignored = saved;
     fighter_mut(c, id)?.actions += 1;
     fighter_mut(c, id)?.reactions += 1;

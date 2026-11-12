@@ -165,6 +165,17 @@ pub enum SpecialCommand {
     ReleaseGrapple {
         combatant_id: String,
     },
+    /// Help Another: roll the ally's intended move's Accuracy pool as Chance dice.
+    HelpAnother {
+        combatant_id: String,
+        ally_id: String,
+        move_name: String,
+    },
+    /// Beat Up or Round: an ally joins the pending cast.
+    JoinMove {
+        combatant_id: String,
+        sequence: u32,
+    },
     ResistHoldHands {
         sequence: u32,
         resist: bool,
@@ -288,7 +299,14 @@ pub fn dice(c: &Campaign, cmd: &SpecialCommand, cat: &Catalog) -> Result<u32> {
             choices::move_option(c, *sequence, option)?;
             0
         }
-        SpecialCommand::ReactionTiming { .. } | SpecialCommand::ReleaseGrapple { .. } => 0,
+        SpecialCommand::ReactionTiming { .. }
+        | SpecialCommand::ReleaseGrapple { .. }
+        | SpecialCommand::JoinMove { .. } => 0,
+        SpecialCommand::HelpAnother {
+            combatant_id,
+            ally_id,
+            move_name,
+        } => allied_ops::help_dice(c, combatant_id, ally_id, move_name, cat)?,
         SpecialCommand::ConvertType { combatant_id, .. } => {
             if !flow(c)?
                 .completion
@@ -452,6 +470,31 @@ pub fn command(
             reason(r)?;
             initiative_ops::release(c, combatant_id)?;
             return Ok(format!("Grapple released. {r}"));
+        }
+        SpecialCommand::HelpAnother {
+            combatant_id,
+            ally_id,
+            move_name,
+        } => {
+            owner(c, actor, combatant_id)?;
+            reason(r)?;
+            let n = allied_ops::help_dice(c, combatant_id, ally_id, move_name, cat)?;
+            if faces.len() != n as usize || faces.iter().any(|d| !(1..=6).contains(d)) {
+                return Err(error("Invalid host dice results"));
+            }
+            let added = allied_ops::help(c, combatant_id, ally_id, faces)?;
+            return Ok(format!(
+                "Help Another rolled {faces:?}: +{added} Accuracy dice for {move_name}. {r}"
+            ));
+        }
+        SpecialCommand::JoinMove {
+            combatant_id,
+            sequence,
+        } => {
+            owner(c, actor, combatant_id)?;
+            reason(r)?;
+            let text = allied_ops::join(c, combatant_id, *sequence)?;
+            return Ok(format!("Ally {text}. {r}"));
         }
         SpecialCommand::ConvertType {
             combatant_id,

@@ -100,4 +100,59 @@ describe("saved move choices", () => {
     expect(html).toContain("Sucker Punch reacts late");
     expect(html).toContain("<button>React early</button>");
   });
+  it("offers Beat Up joins and Help Another after MOVE-A53", () => {
+    const campaign = {
+      gm_id: "gm",
+      sheets: {
+        s: { moves: ["Beat Up", "Help Another"] },
+        t: { moves: ["Tackle"] },
+      },
+      battle: {
+        active: true,
+        combatants: [
+          {
+            id: "a",
+            name: "Caster",
+            owner_id: "owner",
+            sheet_id: "s",
+            side: "x",
+            deployed: true,
+            hp: 5,
+          },
+          {
+            id: "b",
+            name: "Friend",
+            owner_id: "owner",
+            sheet_id: "t",
+            side: "x",
+            deployed: true,
+            hp: 5,
+          },
+        ],
+        flow: {
+          window: false,
+          queue: [
+            {
+              sequence: 9,
+              move_name: "Beat Up",
+              actor_id: "a",
+              damage_done: false,
+            },
+          ],
+          special: { effects: [] },
+          completion: { blocks: ["MOVE-A53"] },
+        },
+      },
+    } as unknown as Campaign;
+    const html = renderToStaticMarkup(
+      <MoveOptionControls
+        campaign={campaign}
+        playerId="owner"
+        execute={async () => true}
+        disabled={false}
+      />,
+    );
+    expect(html).toContain("Friend: join Beat Up");
+    expect(html).toContain("<button>Roll help</button>");
+  });
 });
