@@ -1,8 +1,8 @@
 {
   "version": 1,
   "date": "2026-11-10",
-  "release": "0.91.0",
-  "engine": "0.83.0-core",
+  "release": "0.92.0",
+  "engine": "0.84.0-core",
   "scope": "892-card effect-route inventory; focused semantic review of status infliction, cure and protection clauses. M2-A through M2-E battle status clauses and MOVE-A01 damaging attribute clauses plus MOVE-A02 entry hazards delivered; see scoped registries and retained choices.",
   "limits": [
     "An executable route is not full card coverage.",
@@ -19,10 +19,10 @@
   "counts": {
     "routes": {
       "excluded": 38,
-      "executable-scope": 747,
+      "executable-scope": 755,
       "gm-choice": 1,
       "input-required": 19,
-      "manual-effect-route": 87
+      "manual-effect-route": 79
     },
     "status_clauses": {
       "excluded": 6,
@@ -7205,22 +7205,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A49: Eight typing, accuracy and targeting cards. Conversion rolls two host dice for an even draw over the 18 types and replaces the user's main type (secondary kept) for the scene or until it leaves battle; Reflect Type copies a foe's current types, with a saved owner choice when several foes are active. Lock-On adds two automatic Accuracy successes to the user's next move; Mind Reader adds two unremovable successes to the user's next Accuracy or Evasion roll against its target. Miracle Eye lets the user's Psychic moves hit Dark types, prevents foes from Evading the user's moves and stops move, item and ability Accuracy reductions on the user for the scene; printed Low Accuracy and field effects still apply. Snipe Shot ignores redirection and cover. Moongeist Beam and Sunsteel Strike ignore type and ability immunities, shields, weather prevention and force-field reductions, and cannot be Clashed; defenses, cover, decoys and survival effects still apply. Sunsteel Strike's printed Single Target overrides its Foe's Battlefield metadata.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -22639,22 +22656,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A49: Eight typing, accuracy and targeting cards. Conversion rolls two host dice for an even draw over the 18 types and replaces the user's main type (secondary kept) for the scene or until it leaves battle; Reflect Type copies a foe's current types, with a saved owner choice when several foes are active. Lock-On adds two automatic Accuracy successes to the user's next move; Mind Reader adds two unremovable successes to the user's next Accuracy or Evasion roll against its target. Miracle Eye lets the user's Psychic moves hit Dark types, prevents foes from Evading the user's moves and stops move, item and ability Accuracy reductions on the user for the scene; printed Low Accuracy and field effects still apply. Snipe Shot ignores redirection and cover. Moongeist Beam and Sunsteel Strike ignore type and ability immunities, shields, weather prevention and force-field reductions, and cannot be Clashed; defenses, cover, decoys and survival effects still apply. Sunsteel Strike's printed Single Target overrides its Foe's Battlefield metadata.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -25633,22 +25667,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A49: Eight typing, accuracy and targeting cards. Conversion rolls two host dice for an even draw over the 18 types and replaces the user's main type (secondary kept) for the scene or until it leaves battle; Reflect Type copies a foe's current types, with a saved owner choice when several foes are active. Lock-On adds two automatic Accuracy successes to the user's next move; Mind Reader adds two unremovable successes to the user's next Accuracy or Evasion roll against its target. Miracle Eye lets the user's Psychic moves hit Dark types, prevents foes from Evading the user's moves and stops move, item and ability Accuracy reductions on the user for the scene; printed Low Accuracy and field effects still apply. Snipe Shot ignores redirection and cover. Moongeist Beam and Sunsteel Strike ignore type and ability immunities, shields, weather prevention and force-field reductions, and cannot be Clashed; defenses, cover, decoys and survival effects still apply. Sunsteel Strike's printed Single Target overrides its Foe's Battlefield metadata.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -25714,22 +25765,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A49: Eight typing, accuracy and targeting cards. Conversion rolls two host dice for an even draw over the 18 types and replaces the user's main type (secondary kept) for the scene or until it leaves battle; Reflect Type copies a foe's current types, with a saved owner choice when several foes are active. Lock-On adds two automatic Accuracy successes to the user's next move; Mind Reader adds two unremovable successes to the user's next Accuracy or Evasion roll against its target. Miracle Eye lets the user's Psychic moves hit Dark types, prevents foes from Evading the user's moves and stops move, item and ability Accuracy reductions on the user for the scene; printed Low Accuracy and field effects still apply. Snipe Shot ignores redirection and cover. Moongeist Beam and Sunsteel Strike ignore type and ability immunities, shields, weather prevention and force-field reductions, and cannot be Clashed; defenses, cover, decoys and survival effects still apply. Sunsteel Strike's printed Single Target overrides its Foe's Battlefield metadata.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -26151,24 +26219,41 @@
       },
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [
         "Optional lethal wounds are excluded; ordinary damage remains separate"
       ],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A49: Eight typing, accuracy and targeting cards. Conversion rolls two host dice for an even draw over the 18 types and replaces the user's main type (secondary kept) for the scene or until it leaves battle; Reflect Type copies a foe's current types, with a saved owner choice when several foes are active. Lock-On adds two automatic Accuracy successes to the user's next move; Mind Reader adds two unremovable successes to the user's next Accuracy or Evasion roll against its target. Miracle Eye lets the user's Psychic moves hit Dark types, prevents foes from Evading the user's moves and stops move, item and ability Accuracy reductions on the user for the scene; printed Low Accuracy and field effects still apply. Snipe Shot ignores redirection and cover. Moongeist Beam and Sunsteel Strike ignore type and ability immunities, shields, weather prevention and force-field reductions, and cannot be Clashed; defenses, cover, decoys and survival effects still apply. Sunsteel Strike's printed Single Target overrides its Foe's Battlefield metadata.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -32256,22 +32341,39 @@
         ]
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A49: Eight typing, accuracy and targeting cards. Conversion rolls two host dice for an even draw over the 18 types and replaces the user's main type (secondary kept) for the scene or until it leaves battle; Reflect Type copies a foe's current types, with a saved owner choice when several foes are active. Lock-On adds two automatic Accuracy successes to the user's next move; Mind Reader adds two unremovable successes to the user's next Accuracy or Evasion roll against its target. Miracle Eye lets the user's Psychic moves hit Dark types, prevents foes from Evading the user's moves and stops move, item and ability Accuracy reductions on the user for the scene; printed Low Accuracy and field effects still apply. Snipe Shot ignores redirection and cover. Moongeist Beam and Sunsteel Strike ignore type and ability immunities, shields, weather prevention and force-field reductions, and cannot be Clashed; defenses, cover, decoys and survival effects still apply. Sunsteel Strike's printed Single Target overrides its Foe's Battlefield metadata.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -37767,22 +37869,39 @@
       },
       "added_effects": {},
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A49: Eight typing, accuracy and targeting cards. Conversion rolls two host dice for an even draw over the 18 types and replaces the user's main type (secondary kept) for the scene or until it leaves battle; Reflect Type copies a foe's current types, with a saved owner choice when several foes are active. Lock-On adds two automatic Accuracy successes to the user's next move; Mind Reader adds two unremovable successes to the user's next Accuracy or Evasion roll against its target. Miracle Eye lets the user's Psychic moves hit Dark types, prevents foes from Evading the user's moves and stops move, item and ability Accuracy reductions on the user for the scene; printed Low Accuracy and field effects still apply. Snipe Shot ignores redirection and cover. Moongeist Beam and Sunsteel Strike ignore type and ability immunities, shields, weather prevention and force-field reductions, and cannot be Clashed; defenses, cover, decoys and survival effects still apply. Sunsteel Strike's printed Single Target overrides its Foe's Battlefield metadata.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },
@@ -40911,24 +41030,41 @@
         "IgnoreShield": true
       },
       "catalog_differences": {},
-      "route": "manual-effect-route",
+      "route": "executable-scope",
       "exclusion": null,
       "gm_choice": null,
       "excluded_clauses": [
         "Optional lethal wounds are excluded; ordinary damage remains separate"
       ],
-      "declared_scopes": [],
+      "declared_scopes": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A49: Eight typing, accuracy and targeting cards. Conversion rolls two host dice for an even draw over the 18 types and replaces the user's main type (secondary kept) for the scene or until it leaves battle; Reflect Type copies a foe's current types, with a saved owner choice when several foes are active. Lock-On adds two automatic Accuracy successes to the user's next move; Mind Reader adds two unremovable successes to the user's next Accuracy or Evasion roll against its target. Miracle Eye lets the user's Psychic moves hit Dark types, prevents foes from Evading the user's moves and stops move, item and ability Accuracy reductions on the user for the scene; printed Low Accuracy and field effects still apply. Snipe Shot ignores redirection and cover. Moongeist Beam and Sunsteel Strike ignore type and ability immunities, shields, weather prevention and force-field reductions, and cannot be Clashed; defenses, cover, decoys and survival effects still apply. Sunsteel Strike's printed Single Target overrides its Foe's Battlefield metadata.",
+          "dependencies": []
+        }
+      ],
       "status_audit": null,
       "probe": {
         "ailments": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ],
+          "user_statuses": [
+            "Burn 2",
+            "Poison",
+            "Paralysis",
+            "Sleep"
+          ]
         },
         "baseline": {
-          "code": "manual_rule",
-          "message": "Added effect has no reviewed executable definition; GM must adjudicate explicitly",
-          "result": "route_error"
+          "result": "route_resolved",
+          "target_statuses": [],
+          "user_statuses": []
         }
       }
     },

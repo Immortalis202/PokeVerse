@@ -887,6 +887,7 @@ pub fn guard_move(c: &Campaign, p: &Combatant, m: &serde_json::Value) -> Result<
     }
     let t = m["Type"].as_str().unwrap_or("");
     if !judgment::active(c, m)
+        && !type_ops::unstoppable(c, m)
         && matches!(
             (weather(c, Some(p)), t),
             (Some(Weather::Desolate), "Water") | (Some(Weather::Typhoon), "Fire")
@@ -1001,7 +1002,7 @@ pub fn reduction(
             .max()
             .unwrap_or(0);
     }
-    if judgment::active(c, m) {
+    if judgment::active(c, m) || type_ops::unstoppable(c, m) {
         n.min(0)
     } else {
         n

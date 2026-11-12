@@ -56,6 +56,7 @@ The live source of remaining route work is `rules/move-effect-audit.json`. Its f
 | MOVE-A46 | Metronome saved draw, matching template and shared copied cast | Delivered workflow; template closure open |
 | MOVE-A47 | Judgment saved GM Type/Power/Unique ruling and recorded consequences | Complete |
 | MOVE-A48 | Thirteen stat operations: splits, swaps, transfers, Acupressure and Mystical Power | Complete |
+| MOVE-A49 | Conversion, Reflect Type, Lock-On, Mind Reader, Miracle Eye, Snipe Shot, Moongeist Beam, Sunsteel Strike | Complete |
 | Later blocks | Ordinary attacks with existing attributes; remaining stat changes, resets and swaps; type/damage conversions; field changes; conditional damage; timing/action restrictions; items; copy/selection effects | Open |
 
 New block adoption is persisted in `TurnFlow.completion.blocks`. Every release records its engine in `rules/move-completion.json`; historical saves adopt no additional blocks automatically. The shared special-effect state is boxed while preserving its JSON shape to keep transition stack usage bounded.
@@ -95,3 +96,8 @@ See [saved move decisions](battle-move-decisions.md#judgment-move-a47). Saved GM
 ### MOVE-A48: stat operations
 
 See [stat channels](battle-stat-channels.md#stat-operations-move-a48). Scene base replacements for splits/swaps and Power Trick/Shift; Psych Up, Heart Swap, Topsy-Turvy and Spectral Thief move applied and triggered changes (not passive bonuses); Acupressure's unbiased seven-way draw; Mystical Power's lowest-Attribute increase with a saved owner choice on ties. Adds the general ChooseMoveOption command used by later blocks.
+
+
+### MOVE-A49: typing, accuracy and targeting
+
+See [typing, accuracy and targeting moves](battle-type-accuracy-moves.md). Even two-die type draw; foe type copy with saved choice; two-success Lock-On/Mind Reader gains; Miracle Eye's Dark hits, no-Evade and reduction immunity; Snipe Shot redirection bypass; Moongeist/Sunsteel immunity, shield, weather and force-field bypass without Clash; Sunsteel single-target correction.

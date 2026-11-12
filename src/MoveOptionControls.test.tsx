@@ -38,4 +38,10 @@ describe("saved move choices", () => {
     expect(view("gm")).toContain("<button>Save choice</button>");
     expect(view("other")).toContain('<button disabled="">Save choice</button>');
   });
+  it("labels combatant options by name", () => {
+    expect(view("owner", ["a", "Fire"])).toContain(">Caster</option>");
+    expect(view("owner", ["a", "Fire"])).toContain(
+      '<option value="Fire">Fire</option>',
+    );
+  });
 });

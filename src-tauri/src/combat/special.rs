@@ -1992,7 +1992,7 @@ fn recoil_immune(c: &Campaign, p: &Combatant) -> bool {
     }
 }
 fn bypass(c: &Campaign, q: &QueuedAction, m: &serde_json::Value) -> bool {
-    if judgment::active(c, m) {
+    if judgment::active(c, m) || type_ops::unstoppable(c, m) {
         return true;
     }
     if fighter(c, &q.actor_id).is_ok_and(|p| interactions::unseen(c, p, m)) {

@@ -1,6 +1,6 @@
 # PokeVerse - remaining work
 
-Snapshot: **12 November 2026**, application **0.91.0**, engine **0.83.0-core**, protocol **92**, user database schema **4**.
+Snapshot: **12 November 2026**, application **0.92.0**, engine **0.84.0-core**, protocol **93**, user database schema **4**.
 
 This is the current project backlog. Implemented foundations are summarized first; unfinished features, explicit GM rulings, verification gaps and excluded scope are distinguished below. Counts come from the checked-in registries and should be refreshed after catalog changes.
 

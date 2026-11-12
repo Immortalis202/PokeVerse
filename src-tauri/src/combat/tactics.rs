@@ -229,7 +229,7 @@ pub fn redirect_move(
     m: &serde_json::Value,
     cat: &Catalog,
 ) -> Result<Vec<String>> {
-    if judgment::active(c, m) {
+    if judgment::active(c, m) || type_ops::snipe(c, m) {
         return Ok(ids);
     }
     if !enabled(c) {
@@ -409,17 +409,21 @@ pub fn react(
         for target in &targets {
             let low =
                 reviewed::accuracy_penalty(&before, &p, fighter(&before, target)?, common_low);
-            let n = (raw + low).max(0) + i32::from(p.runtime.fate_pending);
+            let low = type_ops::accuracy_floor(&before, &p, &m, low);
+            let n = (raw + low).max(0)
+                + i32::from(p.runtime.fate_pending)
+                + type_ops::accuracy_gain(&before, id, Some(target), true);
             let critical = m["Category"] != "Support"
                 && n >= (p.actions + 1) as i32 + extra::critical_margin(&before, &p, &m);
             outcomes.insert(target.clone(), (n, critical));
         }
     }
-    let net = outcomes
-        .values()
-        .map(|(n, _)| *n)
-        .max()
-        .unwrap_or((raw + common_low).max(0) + i32::from(p.runtime.fate_pending));
+    let net = outcomes.values().map(|(n, _)| *n).max().unwrap_or(
+        (raw + type_ops::accuracy_floor(&before, &p, &m, common_low)).max(0)
+            + i32::from(p.runtime.fate_pending)
+            + type_ops::accuracy_gain(&before, id, targets.first().map(String::as_str), true),
+    );
+    type_ops::consume_gain(c, id, &targets, true);
     fighter_mut(c, id)?.runtime.pain_ignored = saved;
     fighter_mut(c, id)?.actions += 1;
     fighter_mut(c, id)?.reactions += 1;

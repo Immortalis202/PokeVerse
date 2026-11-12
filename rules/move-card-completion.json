@@ -18467,10 +18467,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Conversion.json",
       "sha256": "6531cb6c6a6b51ee1928a7e325526bd549b42bd9428ff01025e490e626c3e4cc",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A49: Eight typing, accuracy and targeting cards. Conversion rolls two host dice for an even draw over the 18 types and replaces the user's main type (secondary kept) for the scene or until it leaves battle; Reflect Type copies a foe's current types, with a saved owner choice when several foes are active. Lock-On adds two automatic Accuracy successes to the user's next move; Mind Reader adds two unremovable successes to the user's next Accuracy or Evasion roll against its target. Miracle Eye lets the user's Psychic moves hit Dark types, prevents foes from Evading the user's moves and stops move, item and ability Accuracy reductions on the user for the scene; printed Low Accuracy and field effects still apply. Snipe Shot ignores redirection and cover. Moongeist Beam and Sunsteel Strike ignore type and ability immunities, shields, weather prevention and force-field reductions, and cannot be Clashed; defenses, cover, decoys and survival effects still apply. Sunsteel Strike's printed Single Target overrides its Foe's Battlefield metadata.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -18480,9 +18487,15 @@
           "value": "Target Self. ",
           "start": 0,
           "end": 13,
-          "status": "pending",
+          "status": "automated",
           "batch": 3,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a49",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a49_conversion_and_reflect_type_replace_typing_until_departure"
+            }
+          ]
         },
         {
           "id": "effect:13-21",
@@ -18500,9 +18513,15 @@
           "value": "Change the User's Main Type at random. ",
           "start": 21,
           "end": 60,
-          "status": "pending",
+          "status": "automated",
           "batch": 3,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a49",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a49_conversion_and_reflect_type_replace_typing_until_departure"
+            }
+          ]
         },
         {
           "id": "effect:60-81",
@@ -18510,9 +18529,15 @@
           "value": "Whole Scene Duration.",
           "start": 60,
           "end": 81,
-          "status": "pending",
+          "status": "automated",
           "batch": 3,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a49",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a49_conversion_and_reflect_type_replace_typing_until_departure"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -59054,10 +59079,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Lock-On.json",
       "sha256": "41d478cf4d8af2bffbe10f56ba500055e707860aa1f62c1cac8b3eb9d6779b97",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A49: Eight typing, accuracy and targeting cards. Conversion rolls two host dice for an even draw over the 18 types and replaces the user's main type (secondary kept) for the scene or until it leaves battle; Reflect Type copies a foe's current types, with a saved owner choice when several foes are active. Lock-On adds two automatic Accuracy successes to the user's next move; Mind Reader adds two unremovable successes to the user's next Accuracy or Evasion roll against its target. Miracle Eye lets the user's Psychic moves hit Dark types, prevents foes from Evading the user's moves and stops move, item and ability Accuracy reductions on the user for the scene; printed Low Accuracy and field effects still apply. Snipe Shot ignores redirection and cover. Moongeist Beam and Sunsteel Strike ignore type and ability immunities, shields, weather prevention and force-field reductions, and cannot be Clashed; defenses, cover, decoys and survival effects still apply. Sunsteel Strike's printed Single Target overrides its Foe's Battlefield metadata.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -59067,9 +59099,15 @@
           "value": "Target Self. ",
           "start": 0,
           "end": 13,
-          "status": "pending",
+          "status": "automated",
           "batch": 3,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a49",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a49_lock_on_and_mind_reader_add_two_successes_once"
+            }
+          ]
         },
         {
           "id": "effect:13-100",
@@ -59077,9 +59115,15 @@
           "value": "The Next Move the User Performs has 2 automatic successes added on their Accuracy Roll.",
           "start": 13,
           "end": 100,
-          "status": "pending",
+          "status": "automated",
           "batch": 3,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a49",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a49_lock_on_and_mind_reader_add_two_successes_once"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -67918,10 +67962,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Mind Reader.json",
       "sha256": "cfbf1039b062a3a38dfc17e252cf7559ab6fe04d3b9bd741d8db35b30c499738",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A49: Eight typing, accuracy and targeting cards. Conversion rolls two host dice for an even draw over the 18 types and replaces the user's main type (secondary kept) for the scene or until it leaves battle; Reflect Type copies a foe's current types, with a saved owner choice when several foes are active. Lock-On adds two automatic Accuracy successes to the user's next move; Mind Reader adds two unremovable successes to the user's next Accuracy or Evasion roll against its target. Miracle Eye lets the user's Psychic moves hit Dark types, prevents foes from Evading the user's moves and stops move, item and ability Accuracy reductions on the user for the scene; printed Low Accuracy and field effects still apply. Snipe Shot ignores redirection and cover. Moongeist Beam and Sunsteel Strike ignore type and ability immunities, shields, weather prevention and force-field reductions, and cannot be Clashed; defenses, cover, decoys and survival effects still apply. Sunsteel Strike's printed Single Target overrides its Foe's Battlefield metadata.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -67931,9 +67982,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 3,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a49",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a49_lock_on_and_mind_reader_add_two_successes_once"
+            }
+          ]
         },
         {
           "id": "effect:15-122",
@@ -67941,9 +67998,15 @@
           "value": "The User has 2 automatic and unremovable successes on the next Accuracy or Evasion Roll against the Target.",
           "start": 15,
           "end": 122,
-          "status": "pending",
+          "status": "automated",
           "batch": 5,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a49",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a49_lock_on_and_mind_reader_add_two_successes_once"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -68195,10 +68258,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Miracle Eye.json",
       "sha256": "4dd95494229bdc7279a882740784953170cd3731185ac56a18eb9be351139cf2",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A49: Eight typing, accuracy and targeting cards. Conversion rolls two host dice for an even draw over the 18 types and replaces the user's main type (secondary kept) for the scene or until it leaves battle; Reflect Type copies a foe's current types, with a saved owner choice when several foes are active. Lock-On adds two automatic Accuracy successes to the user's next move; Mind Reader adds two unremovable successes to the user's next Accuracy or Evasion roll against its target. Miracle Eye lets the user's Psychic moves hit Dark types, prevents foes from Evading the user's moves and stops move, item and ability Accuracy reductions on the user for the scene; printed Low Accuracy and field effects still apply. Snipe Shot ignores redirection and cover. Moongeist Beam and Sunsteel Strike ignore type and ability immunities, shields, weather prevention and force-field reductions, and cannot be Clashed; defenses, cover, decoys and survival effects still apply. Sunsteel Strike's printed Single Target overrides its Foe's Battlefield metadata.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -68208,9 +68278,15 @@
           "value": "Target Self. ",
           "start": 0,
           "end": 13,
-          "status": "pending",
+          "status": "automated",
           "batch": 3,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a49",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a49_miracle_eye_hits_dark_blocks_evasion_and_accuracy_reductions"
+            }
+          ]
         },
         {
           "id": "effect:13-70",
@@ -68218,9 +68294,15 @@
           "value": "The User's Psychic-Type Moves ignore Dark-Type Immunity. ",
           "start": 13,
           "end": 70,
-          "status": "pending",
+          "status": "automated",
           "batch": 3,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a49",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a49_miracle_eye_hits_dark_blocks_evasion_and_accuracy_reductions"
+            }
+          ]
         },
         {
           "id": "effect:70-108",
@@ -68228,9 +68310,15 @@
           "value": "Target cannot Evade the User's Moves. ",
           "start": 70,
           "end": 108,
-          "status": "pending",
+          "status": "automated",
           "batch": 3,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a49",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a49_miracle_eye_hits_dark_blocks_evasion_and_accuracy_reductions"
+            }
+          ]
         },
         {
           "id": "effect:108-219",
@@ -68238,9 +68326,15 @@
           "value": "This Pokemon's Accuracy cannot be Reduced by Move's, Items or Abilities (ie Sand Attack, Bright Powder, etc.). ",
           "start": 108,
           "end": 219,
-          "status": "pending",
+          "status": "automated",
           "batch": 3,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a49",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a49_miracle_eye_hits_dark_blocks_evasion_and_accuracy_reductions"
+            }
+          ]
         },
         {
           "id": "effect:219-239",
@@ -68248,9 +68342,15 @@
           "value": "Whole Scene Duration",
           "start": 219,
           "end": 239,
-          "status": "pending",
+          "status": "automated",
           "batch": 3,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a49",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a49_miracle_eye_hits_dark_blocks_evasion_and_accuracy_reductions"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -69508,12 +69608,19 @@
       "source": "Pokerole-Data/v3.0/Moves/Moongeist Beam.json",
       "sha256": "93219c55e4836241149b785c51b933da5a7c8b52e8aa1a7da288319f18a27adb",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [
         "Optional lethal wounds are excluded; ordinary damage remains separate"
       ],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A49: Eight typing, accuracy and targeting cards. Conversion rolls two host dice for an even draw over the 18 types and replaces the user's main type (secondary kept) for the scene or until it leaves battle; Reflect Type copies a foe's current types, with a saved owner choice when several foes are active. Lock-On adds two automatic Accuracy successes to the user's next move; Mind Reader adds two unremovable successes to the user's next Accuracy or Evasion roll against its target. Miracle Eye lets the user's Psychic moves hit Dark types, prevents foes from Evading the user's moves and stops move, item and ability Accuracy reductions on the user for the scene; printed Low Accuracy and field effects still apply. Snipe Shot ignores redirection and cover. Moongeist Beam and Sunsteel Strike ignore type and ability immunities, shields, weather prevention and force-field reductions, and cannot be Clashed; defenses, cover, decoys and survival effects still apply. Sunsteel Strike's printed Single Target overrides its Foe's Battlefield metadata.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -69523,9 +69630,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 3,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a49",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a49_moongeist_and_sunsteel_ignore_immunity_and_force_fields_but_not_clash"
+            }
+          ]
         },
         {
           "id": "effect:15-23",
@@ -69553,9 +69666,15 @@
           "value": "If anything on the foe's side would prevent this move from dealing damage (Pokemon Type, Abilities, Shield Moves, Weather or Force Fields) ignore it. ",
           "start": 31,
           "end": 181,
-          "status": "pending",
+          "status": "automated",
           "batch": 3,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a49",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a49_moongeist_and_sunsteel_ignore_immunity_and_force_fields_but_not_clash"
+            }
+          ]
         },
         {
           "id": "effect:181-209",
@@ -69563,9 +69682,15 @@
           "value": "This Move cannot be clashed.",
           "start": 181,
           "end": 209,
-          "status": "pending",
+          "status": "automated",
           "batch": 3,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a49",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a49_moongeist_and_sunsteel_ignore_immunity_and_force_fields_but_not_clash"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -85591,10 +85716,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Reflect Type.json",
       "sha256": "ad710a25a05ae8d955cfcddb37cad71b39c079f6763193d28995f763619b9265",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A49: Eight typing, accuracy and targeting cards. Conversion rolls two host dice for an even draw over the 18 types and replaces the user's main type (secondary kept) for the scene or until it leaves battle; Reflect Type copies a foe's current types, with a saved owner choice when several foes are active. Lock-On adds two automatic Accuracy successes to the user's next move; Mind Reader adds two unremovable successes to the user's next Accuracy or Evasion roll against its target. Miracle Eye lets the user's Psychic moves hit Dark types, prevents foes from Evading the user's moves and stops move, item and ability Accuracy reductions on the user for the scene; printed Low Accuracy and field effects still apply. Snipe Shot ignores redirection and cover. Moongeist Beam and Sunsteel Strike ignore type and ability immunities, shields, weather prevention and force-field reductions, and cannot be Clashed; defenses, cover, decoys and survival effects still apply. Sunsteel Strike's printed Single Target overrides its Foe's Battlefield metadata.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -85604,9 +85736,20 @@
           "value": "Target Self. ",
           "start": 0,
           "end": 13,
-          "status": "pending",
+          "status": "automated",
           "batch": 3,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a49",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a49_conversion_and_reflect_type_replace_typing_until_departure"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a49",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a49_reflect_type_asks_which_foe_when_several_are_active"
+            }
+          ]
         },
         {
           "id": "effect:13-174",
@@ -85614,9 +85757,20 @@
           "value": "Change the User's Type to match the one(s) of a foe. (ie Staryu is battle vs Charizard, their type will become Fire/Flying intead of Water) Whole Scene Duration.",
           "start": 13,
           "end": 174,
-          "status": "pending",
+          "status": "automated",
           "batch": 3,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a49",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a49_conversion_and_reflect_type_replace_typing_until_departure"
+            },
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a49",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a49_reflect_type_asks_which_foe_when_several_are_active"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -99966,10 +100120,17 @@
       "source": "Pokerole-Data/v3.0/Moves/Snipe Shot.json",
       "sha256": "0e669cf8f7714df13213cedd28ef0f8638389223ac98a54cb1b911c404e2fbc5",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A49: Eight typing, accuracy and targeting cards. Conversion rolls two host dice for an even draw over the 18 types and replaces the user's main type (secondary kept) for the scene or until it leaves battle; Reflect Type copies a foe's current types, with a saved owner choice when several foes are active. Lock-On adds two automatic Accuracy successes to the user's next move; Mind Reader adds two unremovable successes to the user's next Accuracy or Evasion roll against its target. Miracle Eye lets the user's Psychic moves hit Dark types, prevents foes from Evading the user's moves and stops move, item and ability Accuracy reductions on the user for the scene; printed Low Accuracy and field effects still apply. Snipe Shot ignores redirection and cover. Moongeist Beam and Sunsteel Strike ignore type and ability immunities, shields, weather prevention and force-field reductions, and cannot be Clashed; defenses, cover, decoys and survival effects still apply. Sunsteel Strike's printed Single Target overrides its Foe's Battlefield metadata.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -99979,9 +100140,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 3,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a49",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a49_snipe_shot_ignores_redirection"
+            }
+          ]
         },
         {
           "id": "effect:15-30",
@@ -99999,9 +100166,15 @@
           "value": "Ignore effects from Moves, Items or Abilities that would prevent this Move from targeting the foe.",
           "start": 30,
           "end": 128,
-          "status": "pending",
+          "status": "automated",
           "batch": 3,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a49",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a49_snipe_shot_ignores_redirection"
+            }
+          ]
         },
         {
           "id": "metadata:Type",
@@ -108259,12 +108432,19 @@
       "source": "Pokerole-Data/v3.0/Moves/Sunsteel Strike.json",
       "sha256": "33301ba5b4b42f53e1708a308c2d2212e93df716d58a3a31f1371d07de35e02f",
       "semantic_review_complete": false,
-      "route_diagnostic": "manual-effect-route",
+      "route_diagnostic": "executable-scope",
       "exclusion": null,
       "excluded_clauses": [
         "Optional lethal wounds are excluded; ordinary damage remains separate"
       ],
-      "existing_scopes_to_verify": [],
+      "existing_scopes_to_verify": [
+        {
+          "registry": "rules/move-completion.json",
+          "status": "automated",
+          "scope": "MOVE-A49: Eight typing, accuracy and targeting cards. Conversion rolls two host dice for an even draw over the 18 types and replaces the user's main type (secondary kept) for the scene or until it leaves battle; Reflect Type copies a foe's current types, with a saved owner choice when several foes are active. Lock-On adds two automatic Accuracy successes to the user's next move; Mind Reader adds two unremovable successes to the user's next Accuracy or Evasion roll against its target. Miracle Eye lets the user's Psychic moves hit Dark types, prevents foes from Evading the user's moves and stops move, item and ability Accuracy reductions on the user for the scene; printed Low Accuracy and field effects still apply. Snipe Shot ignores redirection and cover. Moongeist Beam and Sunsteel Strike ignore type and ability immunities, shields, weather prevention and force-field reductions, and cannot be Clashed; defenses, cover, decoys and survival effects still apply. Sunsteel Strike's printed Single Target overrides its Foe's Battlefield metadata.",
+          "dependencies": []
+        }
+      ],
       "printed_review": null,
       "catalog_differences": {},
       "clauses": [
@@ -108274,9 +108454,15 @@
           "value": "Single Target. ",
           "start": 0,
           "end": 15,
-          "status": "pending",
+          "status": "automated",
           "batch": 3,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a49",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a49_moongeist_and_sunsteel_ignore_immunity_and_force_fields_but_not_clash"
+            }
+          ]
         },
         {
           "id": "effect:15-23",
@@ -108304,9 +108490,15 @@
           "value": "If anything on the foe's side would prevent this move frm dealing (Pokemon Type, Abilities, Shield Moves, Weather or Force Fields), ignore it. ",
           "start": 31,
           "end": 174,
-          "status": "pending",
+          "status": "automated",
           "batch": 3,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a49",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a49_moongeist_and_sunsteel_ignore_immunity_and_force_fields_but_not_clash"
+            }
+          ]
         },
         {
           "id": "effect:174-202",
@@ -108314,9 +108506,15 @@
           "value": "This Move cannot be Clashed.",
           "start": 174,
           "end": 202,
-          "status": "pending",
+          "status": "automated",
           "batch": 3,
-          "evidence": []
+          "evidence": [
+            {
+              "command": "cargo test --manifest-path src-tauri/Cargo.toml --lib completion_a49",
+              "file": "src-tauri/src/combat_tests/completion_tests.rs",
+              "test": "completion_a49_moongeist_and_sunsteel_ignore_immunity_and_force_fields_but_not_clash"
+            }
+          ]
         },
         {
           "id": "metadata:Type",

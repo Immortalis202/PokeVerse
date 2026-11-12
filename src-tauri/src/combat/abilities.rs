@@ -328,7 +328,7 @@ pub fn damage_immune_from(
     t: &Combatant,
     m: &serde_json::Value,
 ) -> bool {
-    if judgment::active(c, m) {
+    if judgment::active(c, m) || type_ops::unstoppable(c, m) {
         return false;
     }
     if completion::ignores_type_immunity(c, m) || completion::target_immunity_removed(c, t, m) {

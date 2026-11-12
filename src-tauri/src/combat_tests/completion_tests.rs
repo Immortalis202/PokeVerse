@@ -9065,3 +9065,320 @@ fn completion_a48_mystical_power_raises_the_lowest_with_owner_choice_and_six_lim
     let done = a48_effect(&chosen, vec![]).unwrap();
     assert_eq!(stat(&done, &a, "Strength"), 0, "a score of 6 or more fails");
 }
+
+fn a49_types(c: &Campaign, id: &str) -> Vec<String> {
+    crate::combat::field::types(c, p(c, id), &catalog()).unwrap()
+}
+fn a49_species(c: &mut Campaign, id: &str, species: &str) {
+    let sid = p(c, id).sheet_id.clone();
+    c.sheets.get_mut(&sid).unwrap().species_id = Some(
+        catalog().find("species", "Name", species).unwrap()["AppId"]
+            .as_str()
+            .unwrap()
+            .into(),
+    );
+}
+/// A second active combatant on `ally`'s side with its own sheet.
+fn a49_second(c: &mut Campaign, ally: &str) -> String {
+    let other = reserve(c, ally);
+    pm(c, &other).deployed = true;
+    pm(c, &other).field_slot = Some(1);
+    c.battle.as_mut().unwrap().slots_per_side = 2;
+    other
+}
+fn a49_effects(c: &Campaign, name: &str) -> usize {
+    c.battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .special
+        .effects
+        .iter()
+        .filter(|e| e.name == name)
+        .count()
+}
+/// Declare `name` against `t` with every die showing 1 and return the logged successes.
+fn a49_successes(c: &Campaign, a: &str, t: &str, name: &str) -> (Campaign, i32) {
+    let mut c = c.clone();
+    turn(&mut c, a, name);
+    let action = super::targeting_tests::attack(a, vec![t.into()], name);
+    let n = rules::dice_count(&c, &action, &catalog()).unwrap();
+    let (next, log) = battle::transition(
+        &c,
+        &p(&c, a).owner_id,
+        &action,
+        vec![1; n as usize],
+        &catalog(),
+    )
+    .unwrap();
+    let net = log
+        .split(" successes")
+        .next()
+        .and_then(|s| s.rsplit(' ').next())
+        .and_then(|s| s.parse().ok())
+        .unwrap();
+    (next, net)
+}
+
+#[test]
+fn completion_a49_conversion_and_reflect_type_replace_typing_until_departure() {
+    let (c, a, t) = setup("Conversion");
+    assert_eq!(a49_types(&c, &a), vec!["Normal"]);
+    let pending = a48_pending(&c, &a, vec![a.clone()], "Conversion");
+    assert_eq!(
+        rules::dice_count(&pending, &cmd(&pending), &catalog()).unwrap(),
+        2
+    );
+    for (dice, expected) in [
+        ([1, 1], "Normal"),
+        ([1, 2], "Fire"),
+        ([6, 6], "Fairy"),
+        ([4, 1], "Normal"),
+    ] {
+        let done = a48_effect(&pending, dice.to_vec()).unwrap();
+        assert_eq!(a49_types(&done, &a), vec![expected], "{dice:?}");
+    }
+    let (mut c, a, t2) = setup("Conversion");
+    a49_species(&mut c, &a, "Charizard");
+    let pending = a48_pending(&c, &a, vec![a.clone()], "Conversion");
+    let done = a48_effect(&pending, vec![1, 3]).unwrap();
+    assert_eq!(
+        a49_types(&done, &a),
+        vec!["Water", "Flying"],
+        "the secondary type is kept"
+    );
+    let _ = t2;
+
+    let (mut c, a, _t) = setup("Reflect Type");
+    let incoming = reserve(&mut c, &a);
+    let mut c = support_cast(&c, &a, vec![a.clone()], "Reflect Type");
+    assert_eq!(a49_types(&c, &a), vec!["Bug", "Rock"]);
+    c = spider_switch(&c, &a, &incoming, false);
+    let back = spider_switch(&c, &incoming, &a, false);
+    assert_eq!(
+        a49_types(&back, &a),
+        vec!["Normal"],
+        "typing ends when the user leaves battle"
+    );
+    let _ = t;
+}
+#[test]
+fn completion_a49_reflect_type_asks_which_foe_when_several_are_active() {
+    let (mut c, a, t) = setup("Reflect Type");
+    let other = a49_second(&mut c, &t);
+    a49_species(&mut c, &other, "Charizard");
+    let pending = a48_pending(&c, &a, vec![a.clone()], "Reflect Type");
+    let open = &pending
+        .battle
+        .as_ref()
+        .unwrap()
+        .flow
+        .as_ref()
+        .unwrap()
+        .completion
+        .open_options;
+    assert_eq!(open[&q(&pending).sequence].len(), 2);
+    assert!(a48_effect(&pending, vec![]).is_err());
+    let chosen = a48_option(&pending, &p(&c, &a).owner_id, &other).unwrap();
+    let done = a48_effect(&chosen, vec![]).unwrap();
+    assert_eq!(a49_types(&done, &a), vec!["Fire", "Flying"]);
+}
+#[test]
+fn completion_a49_lock_on_and_mind_reader_add_two_successes_once() {
+    let (c, a, t) = setup("Lock-On");
+    let (_, plain) = a49_successes(&c, &a, &t, "Tackle");
+    let c = support_cast(&c, &a, vec![a.clone()], "Lock-On");
+    let (after, locked) = a49_successes(&c, &a, &t, "Tackle");
+    assert_eq!(locked, plain + 2);
+    assert_eq!(a49_effects(&after, "Lock-On"), 0, "spent on the next move");
+
+    let (c, a, t) = setup("Mind Reader");
+    let c = support_cast(&c, &a, vec![t.clone()], "Mind Reader");
+    assert_eq!(a49_effects(&c, "Mind Reader"), 1);
+    let (after, read) = a49_successes(&c, &a, &t, "Tackle");
+    assert_eq!(read, plain + 2);
+    assert_eq!(a49_effects(&after, "Mind Reader"), 0);
+
+    // Mind Reader also helps the user's Evasion roll against its target.
+    let (mut c, a, t) = setup("Mind Reader");
+    turn(&mut c, &t, "Mind Reader");
+    let c = support_cast(&c, &t, vec![a.clone()], "Mind Reader");
+    let incoming = detection_attack(&c, &a, &t, "Tackle");
+    let evade = Action::React {
+        combatant_id: t.clone(),
+        kind: "evade".into(),
+        move_name: "Evasion".into(),
+        reason: "Mind Reader evasion".into(),
+    };
+    let n = rules::dice_count(&incoming, &evade, &catalog()).unwrap();
+    let (next, log) = battle::transition(
+        &incoming,
+        &p(&incoming, &t).owner_id,
+        &evade,
+        vec![1; n as usize],
+        &catalog(),
+    )
+    .unwrap();
+    assert!(
+        log.contains("2 successes") || log.contains("2 success"),
+        "{log}"
+    );
+    assert_eq!(a49_effects(&next, "Mind Reader"), 0);
+}
+#[test]
+fn completion_a49_miracle_eye_hits_dark_blocks_evasion_and_accuracy_reductions() {
+    use crate::combat::{completion, type_ops};
+    let (mut c, a, t) = setup("Miracle Eye");
+    a49_species(&mut c, &t, "Umbreon");
+    assert!(!completion::cannot_evade(&c, &a, &t));
+    assert!(!completion::ghost_pair(
+        &c,
+        p(&c, &a),
+        p(&c, &t),
+        "Psychic",
+        "Dark"
+    ));
+    let c = support_cast(&c, &a, vec![a.clone()], "Miracle Eye");
+    assert!(completion::cannot_evade(&c, &a, &t));
+    assert!(
+        !completion::cannot_evade(&c, &t, &a),
+        "only the user's moves"
+    );
+    assert!(completion::ghost_pair(
+        &c,
+        p(&c, &a),
+        p(&c, &t),
+        "Psychic",
+        "Dark"
+    ));
+    assert!(!completion::ghost_pair(
+        &c,
+        p(&c, &t),
+        p(&c, &a),
+        "Psychic",
+        "Dark"
+    ));
+    let tackle = catalog().find("moves", "Name", "Tackle").unwrap();
+    let hurricane = catalog().find("moves", "Name", "Hurricane").unwrap();
+    assert_eq!(type_ops::accuracy_floor(&c, p(&c, &a), &tackle, -2), 0);
+    assert_eq!(type_ops::accuracy_floor(&c, p(&c, &t), &tackle, -2), -2);
+    assert_eq!(
+        type_ops::accuracy_floor(&c, p(&c, &a), &hurricane, -4),
+        -2,
+        "printed Low Accuracy still applies"
+    );
+    let mut c = c;
+    turn(&mut c, &a, "Confusion");
+    let mut hit = ordinary_accuracy(&c, &a, &t, "Confusion");
+    hit = roll(&hit, "gm", &damage_command(&hit), 6);
+    assert!(q(&hit).damage > 0, "Psychic damage reaches the Dark target");
+}
+#[test]
+fn completion_a49_snipe_shot_ignores_redirection() {
+    let (mut c, a, t) = setup("Snipe Shot");
+    c.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .tactics
+        .enabled = true;
+    let drain = a49_second(&mut c, &t);
+    pm(&mut c, &drain).selected_ability = "Storm Drain".into();
+    let water = detection_attack(&c, &a, &t, "Water Gun");
+    assert_eq!(
+        q(&water).target_id,
+        drain,
+        "an ordinary Water move is redirected"
+    );
+    let snipe = detection_attack(&c, &a, &t, "Snipe Shot");
+    assert_eq!(q(&snipe).target_id, t);
+}
+#[test]
+fn completion_a49_moongeist_and_sunsteel_ignore_immunity_and_force_fields_but_not_clash() {
+    for (name, foil) in [
+        ("Moongeist Beam", "Shadow Ball"),
+        ("Sunsteel Strike", "Iron Head"),
+    ] {
+        let (mut c, a, t) = setup(name);
+        a49_species(
+            &mut c,
+            &t,
+            if name == "Moongeist Beam" {
+                "Eevee"
+            } else {
+                "Charizard"
+            },
+        );
+        let sid = p(&c, &a).sheet_id.clone();
+        c.sheets.get_mut(&sid).unwrap().moves.push(foil.into());
+        let hit = ordinary_accuracy(&c, &a, &t, name);
+        assert!(q(&hit).field_scope.is_none(), "{name} targets one foe");
+        assert!(!queued_damage_pool(&hit).immune, "{name}");
+        let blocked = ordinary_accuracy(&c, &a, &t, foil);
+        if name == "Moongeist Beam" {
+            assert!(
+                queued_damage_pool(&blocked).immune,
+                "Ghost cannot hit Normal"
+            );
+        }
+        let clash = Action::React {
+            combatant_id: t.clone(),
+            kind: "clash".into(),
+            move_name: "Tackle".into(),
+            reason: "Attempt Clash".into(),
+        };
+        let incoming = detection_attack(&c, &a, &t, name);
+        assert!(
+            rules::dice_count(&incoming, &clash, &catalog()).is_err(),
+            "{name}"
+        );
+        let damage = |field: bool, move_name: &str| {
+            let mut c = c.clone();
+            if field {
+                let scope = format!("side:{}", p(&c, &t).side);
+                let source = format!("field-user:{t}");
+                let kind = if move_name == "Sunsteel Strike" || move_name == "Iron Head" {
+                    "Reflect"
+                } else {
+                    "Light Screen"
+                };
+                saved_field_rule(&mut c, kind, &source, &scope, Some(4), 1);
+            }
+            let before = p(&c, &t).hp;
+            let c = roll(
+                &ordinary_accuracy(&c, &a, &t, move_name),
+                "gm",
+                &damage_command(&ordinary_accuracy(&c, &a, &t, move_name)),
+                6,
+            );
+            before - p(&c, &t).hp
+        };
+        assert_eq!(
+            damage(true, name),
+            damage(false, name),
+            "{name} ignores the force field"
+        );
+        if name == "Sunsteel Strike" {
+            assert!(
+                damage(true, foil) < damage(false, foil),
+                "an ordinary move is reduced"
+            );
+        }
+    }
+    let (mut old, a, _t) = setup("Lock-On");
+    old.battle
+        .as_mut()
+        .unwrap()
+        .flow
+        .as_mut()
+        .unwrap()
+        .completion
+        .blocks
+        .remove("MOVE-A49");
+    let c = a48_pending(&old, &a, vec![a.clone()], "Lock-On");
+    assert!(a48_effect(&c, vec![]).is_err());
+}

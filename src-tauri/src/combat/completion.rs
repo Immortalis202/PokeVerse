@@ -103,14 +103,16 @@ pub fn effect_dice(c: &Campaign, q: &QueuedAction) -> Result<Option<u32>> {
             .saturating_sub(2 * u32::from(!bypass && target.has_ability("Wonder Skin"))),
         ));
     }
-    if let Some(n) = stat_ops::effect_dice(c, q) {
+    if let Some(n) = stat_ops::effect_dice(c, q).or_else(|| type_ops::effect_dice(c, q)) {
         return Ok(Some(n));
     }
     Ok(definition(c, &q.move_name).map(|_| 0))
 }
 /// Owner choices the current cast needs before its effect resolves.
 pub fn options(c: &Campaign, q: &QueuedAction) -> Result<Vec<String>> {
-    stat_ops::options(c, q)
+    let mut options = stat_ops::options(c, q)?;
+    options.extend(type_ops::options(c, q)?);
+    Ok(options)
 }
 pub(super) fn immune_target(c: &Campaign, q: &QueuedAction, cat: &Catalog) -> Result<bool> {
     immune_target_with_fainted(c, q, cat, false)
@@ -393,6 +395,9 @@ pub fn effect(c: &mut Campaign, q: &QueuedAction, _dice: &[u8], cat: &Catalog) -
         }
         "stat-op" => {
             stat_ops::effect(c, q, _dice, d, cat)?;
+        }
+        "type-op" => {
+            type_ops::effect(c, q, _dice, cat)?;
         }
         "stat" => {
             return damaging_stats::effect(c, q, _dice, cat);
@@ -1174,6 +1179,11 @@ pub fn observe(before: &Campaign, next: &mut Campaign, cat: &Catalog) -> Result<
         stat_ops::lifecycle(next)?;
         stat_ops::before_damage(next, cat)?;
     }
+    if flow(next).is_ok_and(|f| f.completion.blocks.contains("MOVE-A49"))
+        && battle(next).is_ok_and(|b| b.active)
+    {
+        type_ops::lifecycle(next)?;
+    }
     if definition(next, "Charge").is_some() {
         let sequences: BTreeSet<_> = flow(next)?
             .queue
@@ -1671,6 +1681,9 @@ pub(super) fn reset_keys(
 }
 
 pub fn cannot_evade(c: &Campaign, source: &str, target: &str) -> bool {
+    if type_ops::miracle_eye(c, source) {
+        return true;
+    }
     flow(c).is_ok_and(|f| {
         f.special.effects.iter().any(|e| {
             e.target == target
@@ -1687,9 +1700,10 @@ pub fn ghost_pair(
     move_type: &str,
     target_type: &str,
 ) -> bool {
-    ((["Normal", "Fight", "Fighting"].contains(&move_type) && target_type == "Ghost")
+    (((["Normal", "Fight", "Fighting"].contains(&move_type) && target_type == "Ghost")
         || (move_type == "Ghost" && target_type == "Normal"))
-        && field::detected(c, &a.id, &t.id)
+        && field::detected(c, &a.id, &t.id))
+        || (move_type == "Psychic" && target_type == "Dark" && type_ops::miracle_eye(c, &a.id))
 }
 
 fn lifted_by(c: &Campaign, p: &Combatant, name: &str) -> bool {

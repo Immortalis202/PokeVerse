@@ -37,7 +37,7 @@ export default function MoveOptionControls({
       >
         {options.map((o) => (
           <option key={o} value={o}>
-            {o}
+            {b.combatants.find((p) => p.id === o)?.name ?? o}
           </option>
         ))}
       </select>

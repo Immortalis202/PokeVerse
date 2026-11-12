@@ -2045,6 +2045,62 @@
           "op": "steal"
         }
       }
+    },
+    "MOVE-A49": {
+      "engine": "0.84.0-core",
+      "kind": "type-op",
+      "scope": "Eight typing, accuracy and targeting cards. Conversion rolls two host dice for an even draw over the 18 types and replaces the user's main type (secondary kept) for the scene or until it leaves battle; Reflect Type copies a foe's current types, with a saved owner choice when several foes are active. Lock-On adds two automatic Accuracy successes to the user's next move; Mind Reader adds two unremovable successes to the user's next Accuracy or Evasion roll against its target. Miracle Eye lets the user's Psychic moves hit Dark types, prevents foes from Evading the user's moves and stops move, item and ability Accuracy reductions on the user for the scene; printed Low Accuracy and field effects still apply. Snipe Shot ignores redirection and cover. Moongeist Beam and Sunsteel Strike ignore type and ability immunities, shields, weather prevention and force-field reductions, and cannot be Clashed; defenses, cover, decoys and survival effects still apply. Sunsteel Strike's printed Single Target overrides its Foe's Battlefield metadata.",
+      "moves": {
+        "Conversion": {
+          "source": "Pokerole-Data/v3.0/Moves/Conversion.json",
+          "sha256": "6531cb6c6a6b51ee1928a7e325526bd549b42bd9428ff01025e490e626c3e4cc",
+          "effect": "Target Self. Unique. Change the User's Main Type at random. Whole Scene Duration.",
+          "op": "conversion"
+        },
+        "Reflect Type": {
+          "source": "Pokerole-Data/v3.0/Moves/Reflect Type.json",
+          "sha256": "ad710a25a05ae8d955cfcddb37cad71b39c079f6763193d28995f763619b9265",
+          "effect": "Target Self. Change the User's Type to match the one(s) of a foe. (ie Staryu is battle vs Charizard, their type will become Fire/Flying intead of Water) Whole Scene Duration.",
+          "op": "reflect-type"
+        },
+        "Lock-On": {
+          "source": "Pokerole-Data/v3.0/Moves/Lock-On.json",
+          "sha256": "41d478cf4d8af2bffbe10f56ba500055e707860aa1f62c1cac8b3eb9d6779b97",
+          "effect": "Target Self. The Next Move the User Performs has 2 automatic successes added on their Accuracy Roll.",
+          "op": "lock-on"
+        },
+        "Mind Reader": {
+          "source": "Pokerole-Data/v3.0/Moves/Mind Reader.json",
+          "sha256": "cfbf1039b062a3a38dfc17e252cf7559ab6fe04d3b9bd741d8db35b30c499738",
+          "effect": "Single Target. The User has 2 automatic and unremovable successes on the next Accuracy or Evasion Roll against the Target.",
+          "op": "mind-reader"
+        },
+        "Miracle Eye": {
+          "source": "Pokerole-Data/v3.0/Moves/Miracle Eye.json",
+          "sha256": "4dd95494229bdc7279a882740784953170cd3731185ac56a18eb9be351139cf2",
+          "effect": "Target Self. The User's Psychic-Type Moves ignore Dark-Type Immunity. Target cannot Evade the User's Moves. This Pokemon's Accuracy cannot be Reduced by Move's, Items or Abilities (ie Sand Attack, Bright Powder, etc.). Whole Scene Duration",
+          "op": "miracle-eye"
+        },
+        "Snipe Shot": {
+          "source": "Pokerole-Data/v3.0/Moves/Snipe Shot.json",
+          "sha256": "0e669cf8f7714df13213cedd28ef0f8638389223ac98a54cb1b911c404e2fbc5",
+          "effect": "Single Target. High Critical. Ignore effects from Moves, Items or Abilities that would prevent this Move from targeting the foe.",
+          "op": "snipe"
+        },
+        "Moongeist Beam": {
+          "source": "Pokerole-Data/v3.0/Moves/Moongeist Beam.json",
+          "sha256": "93219c55e4836241149b785c51b933da5a7c8b52e8aa1a7da288319f18a27adb",
+          "effect": "Single Target. Lethal. Unique. If anything on the foe's side would prevent this move from dealing damage (Pokemon Type, Abilities, Shield Moves, Weather or Force Fields) ignore it. This Move cannot be clashed.",
+          "op": "unstoppable"
+        },
+        "Sunsteel Strike": {
+          "source": "Pokerole-Data/v3.0/Moves/Sunsteel Strike.json",
+          "sha256": "33301ba5b4b42f53e1708a308c2d2212e93df716d58a3a31f1371d07de35e02f",
+          "effect": "Single Target. Lethal. Unique. If anything on the foe's side would prevent this move frm dealing (Pokemon Type, Abilities, Shield Moves, Weather or Force Fields), ignore it. This Move cannot be Clashed.",
+          "op": "unstoppable",
+          "target_override": "Foe"
+        }
+      }
     }
   },
   "printed_review": {

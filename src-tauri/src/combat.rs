@@ -35,6 +35,7 @@ pub(crate) mod stat_ops;
 pub(crate) mod tactics;
 mod targeting;
 pub(crate) mod transfers;
+pub(crate) mod type_ops;
 pub(crate) mod will;
 use targeting::*;
 #[derive(Debug, Clone, Default, Serialize, Deserialize, TS)]
@@ -646,6 +647,9 @@ fn reaction_pool(c: &Campaign, id: &str, kind: &str, name: &str, cat: &Catalog) 
         if kind == "clash" && judgment::active(c, &m) {
             return Err(error("Judgment cannot be Clashed"));
         }
+        if kind == "clash" && type_ops::unstoppable(c, &m) {
+            return Err(error("This move cannot be Clashed"));
+        }
         if incoming.timing == "after" || incoming.priority >= 6 {
             return Err(error(
                 "Reaction 6 cannot answer a late or higher/equal reaction",
@@ -1179,6 +1183,7 @@ pub fn transition(
     if let Some(setup) = field::start_setup(a) {
         if ![
             ENGINE,
+            STAT_OPS_ENGINE,
             JUDGMENT_ENGINE,
             METRONOME_ENGINE,
             HOLD_HANDS_ENGINE,
@@ -1250,6 +1255,7 @@ pub fn transition(
             setup,
             [
                 ENGINE,
+                STAT_OPS_ENGINE,
                 JUDGMENT_ENGINE,
                 METRONOME_ENGINE,
                 HOLD_HANDS_ENGINE,
@@ -1442,6 +1448,7 @@ pub fn preview(c: &Campaign, a: &Action, cat: &Catalog) -> Result<ActionPreview>
                 ids,
                 (house::enabled(c) && move_name == "Bide")
                     || judgment::active(c, &m)
+                    || type_ops::snipe(c, &m)
                     || interactions::cover_bypass(c, combatant_id, &m)
                     || m["Attributes"]["SoundMove"] == true
                     || ["Phantom Force", "Shadow Force"].contains(&move_name.as_str()),
@@ -2023,6 +2030,7 @@ fn transition_inner(
                 (house::enabled(c) && move_name == "Bide")
                     || interactions::cover_bypass(c, combatant_id, &m)
                     || judgment::active(c, &m)
+                    || type_ops::snipe(c, &m)
                     || m["Attributes"]["SoundMove"] == true
                     || ["Phantom Force", "Shadow Force"].contains(&move_name.as_str()),
             );
@@ -2081,7 +2089,11 @@ fn transition_inner(
             }
             let raw = action_success(&mut next, combatant_id, &dice, base) + success_modifier
                 - shield_penalty;
-            let net = (raw + low).max(0) + i32::from(p.runtime.fate_pending);
+            let low = type_ops::accuracy_floor(c, p, &m, low);
+            let net = (raw + low).max(0)
+                + i32::from(p.runtime.fate_pending)
+                + type_ops::accuracy_gain(c, combatant_id, Some(&target), true);
+            type_ops::consume_gain(&mut next, combatant_id, &targets, true);
             fighter_mut(&mut next, combatant_id)?.runtime.pain_ignored = saved_pain;
             let required = p.actions + 1;
             let net = if move_name == "Sky Uppercut" && special::vulnerable(c, &target, move_name) {
@@ -2104,7 +2116,10 @@ fn transition_inner(
                     } else {
                         raw
                     };
-                    let n = (target_raw + low).max(0) + i32::from(p.runtime.fate_pending);
+                    let low = type_ops::accuracy_floor(c, p, &m, low);
+                    let n = (target_raw + low).max(0)
+                        + i32::from(p.runtime.fate_pending)
+                        + type_ops::accuracy_gain(c, combatant_id, Some(id), true);
                     let critical = m["Category"] != "Support"
                         && n >= required as i32 + extra::critical_margin(c, p, &m);
                     target_outcomes.insert(id.clone(), (n, critical));
@@ -2242,7 +2257,14 @@ fn transition_inner(
                 0
             };
             let low = if kind == "move" {
-                reviewed::accuracy_penalty(c, p, fighter(c, &incoming.actor_id)?, low)
+                let penalty =
+                    reviewed::accuracy_penalty(c, p, fighter(c, &incoming.actor_id)?, low);
+                type_ops::accuracy_floor(
+                    c,
+                    p,
+                    &field::move_data(c, p, &move_entry(cat, move_name)?),
+                    penalty,
+                )
             } else {
                 low
             };
@@ -2268,7 +2290,19 @@ fn transition_inner(
             }
             let net = (action_success(&mut next, combatant_id, &dice, base) + low - shield_penalty)
                 .max(0)
-                + i32::from(p.runtime.fate_pending);
+                + i32::from(p.runtime.fate_pending)
+                + type_ops::accuracy_gain(
+                    c,
+                    combatant_id,
+                    Some(&incoming.actor_id),
+                    kind == "move",
+                );
+            type_ops::consume_gain(
+                &mut next,
+                combatant_id,
+                std::slice::from_ref(&incoming.actor_id),
+                kind == "move",
+            );
             fighter_mut(&mut next, combatant_id)?.runtime.pain_ignored = saved_pain;
             fighter_mut(&mut next, combatant_id)?.actions += 1;
             fighter_mut(&mut next, combatant_id)?.reactions += 1;
@@ -3342,6 +3376,7 @@ fn transition_inner(
                 b.flow = Some(TurnFlow {
                     identity_moves: [
                         ENGINE,
+                        STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
                         METRONOME_ENGINE,
                         HOLD_HANDS_ENGINE,
@@ -3403,6 +3438,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     status_escalation: [
                         ENGINE,
+                        STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
                         METRONOME_ENGINE,
                         HOLD_HANDS_ENGINE,
@@ -3463,6 +3499,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     spite: [
                         ENGINE,
+                        STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
                         METRONOME_ENGINE,
                         HOLD_HANDS_ENGINE,
@@ -3522,6 +3559,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     will_drains: [
                         ENGINE,
+                        STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
                         METRONOME_ENGINE,
                         HOLD_HANDS_ENGINE,
@@ -3580,6 +3618,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     direct_status: [
                         ENGINE,
+                        STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
                         METRONOME_ENGINE,
                         HOLD_HANDS_ENGINE,
@@ -3637,6 +3676,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     chance_status: [
                         ENGINE,
+                        STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
                         METRONOME_ENGINE,
                         HOLD_HANDS_ENGINE,
@@ -3693,6 +3733,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     battlefield_review: [
                         ENGINE,
+                        STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
                         METRONOME_ENGINE,
                         HOLD_HANDS_ENGINE,
@@ -3745,6 +3786,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     entry_hazards: [
                         ENGINE,
+                        STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
                         METRONOME_ENGINE,
                         HOLD_HANDS_ENGINE,
@@ -3797,6 +3839,7 @@ fn transition_inner(
                     damaging_stats: Box::new(damaging_stats::StatMoveState {
                         enabled: [
                             ENGINE,
+                            STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
                             METRONOME_ENGINE,
                             HOLD_HANDS_ENGINE,
@@ -3850,6 +3893,7 @@ fn transition_inner(
                     }),
                     cure_protection: [
                         ENGINE,
+                        STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
                         METRONOME_ENGINE,
                         HOLD_HANDS_ENGINE,
@@ -3904,6 +3948,7 @@ fn transition_inner(
                     recurring: Box::new(recurring::RecurringState {
                         enabled: [
                             ENGINE,
+                            STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
                             METRONOME_ENGINE,
                             HOLD_HANDS_ENGINE,
@@ -3961,6 +4006,7 @@ fn transition_inner(
                     compound: compound::CompoundState {
                         enabled: [
                             ENGINE,
+                            STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
                             METRONOME_ENGINE,
                             HOLD_HANDS_ENGINE,
@@ -4018,6 +4064,7 @@ fn transition_inner(
                     },
                     house_rules: [
                         ENGINE,
+                        STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
                         METRONOME_ENGINE,
                         HOLD_HANDS_ENGINE,
@@ -4081,6 +4128,7 @@ fn transition_inner(
                     .contains(&c.engine.as_str()),
                     interaction_rules: [
                         ENGINE,
+                        STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
                         METRONOME_ENGINE,
                         HOLD_HANDS_ENGINE,
@@ -4147,6 +4195,7 @@ fn transition_inner(
                     standalone: standalone::StandaloneState {
                         enabled: [
                             ENGINE,
+                            STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
                             METRONOME_ENGINE,
                             HOLD_HANDS_ENGINE,
@@ -4216,6 +4265,7 @@ fn transition_inner(
                     information: information::InformationState {
                         enabled: [
                             ENGINE,
+                            STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
                             METRONOME_ENGINE,
                             HOLD_HANDS_ENGINE,
@@ -4286,6 +4336,7 @@ fn transition_inner(
                     forms: forms::FormState {
                         enabled: [
                             ENGINE,
+                            STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
                             METRONOME_ENGINE,
                             HOLD_HANDS_ENGINE,
@@ -4358,6 +4409,7 @@ fn transition_inner(
                         completion: items::completion::CompletionState {
                             enabled: [
                                 ENGINE,
+                                STAT_OPS_ENGINE,
                                 JUDGMENT_ENGINE,
                                 METRONOME_ENGINE,
                                 HOLD_HANDS_ENGINE,
@@ -4424,6 +4476,7 @@ fn transition_inner(
                         },
                         enabled: [
                             ENGINE,
+                            STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
                             METRONOME_ENGINE,
                             HOLD_HANDS_ENGINE,
@@ -4496,6 +4549,7 @@ fn transition_inner(
                     events: events::EventState {
                         enabled: [
                             ENGINE,
+                            STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
                             METRONOME_ENGINE,
                             HOLD_HANDS_ENGINE,
@@ -4568,6 +4622,7 @@ fn transition_inner(
                     },
                     provenance_rules: [
                         ENGINE,
+                        STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
                         METRONOME_ENGINE,
                         HOLD_HANDS_ENGINE,
@@ -4640,6 +4695,7 @@ fn transition_inner(
                     sequencing: sequencing::SequencingState {
                         enabled: [
                             ENGINE,
+                            STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
                             METRONOME_ENGINE,
                             HOLD_HANDS_ENGINE,
@@ -4715,6 +4771,7 @@ fn transition_inner(
                     stat_channels: stat_channels::StatChannels {
                         enabled: [
                             ENGINE,
+                            STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
                             METRONOME_ENGINE,
                             HOLD_HANDS_ENGINE,
@@ -4790,6 +4847,7 @@ fn transition_inner(
                     },
                     reviewed_rules: [
                         ENGINE,
+                        STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
                         METRONOME_ENGINE,
                         HOLD_HANDS_ENGINE,
@@ -4865,6 +4923,7 @@ fn transition_inner(
                     transfers: transfers::TransferState {
                         enabled: [
                             ENGINE,
+                            STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
                             METRONOME_ENGINE,
                             HOLD_HANDS_ENGINE,
@@ -4943,6 +5002,7 @@ fn transition_inner(
                     ability_changes: ability_changes::AbilityChanges {
                         enabled: [
                             ENGINE,
+                            STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
                             METRONOME_ENGINE,
                             HOLD_HANDS_ENGINE,
@@ -5022,6 +5082,7 @@ fn transition_inner(
                     decoys: decoys::DecoyState {
                         enabled: [
                             ENGINE,
+                            STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
                             METRONOME_ENGINE,
                             HOLD_HANDS_ENGINE,
@@ -5102,6 +5163,7 @@ fn transition_inner(
                     tactics: tactics::TacticsState {
                         enabled: [
                             ENGINE,
+                            STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
                             METRONOME_ENGINE,
                             HOLD_HANDS_ENGINE,
@@ -5183,6 +5245,7 @@ fn transition_inner(
                     special: Box::new(special::SpecialState {
                         enabled: [
                             ENGINE,
+                            STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
                             METRONOME_ENGINE,
                             HOLD_HANDS_ENGINE,
@@ -5264,6 +5327,7 @@ fn transition_inner(
                     }),
                     ability_rules: [
                         ENGINE,
+                        STAT_OPS_ENGINE,
                         JUDGMENT_ENGINE,
                         METRONOME_ENGINE,
                         HOLD_HANDS_ENGINE,
@@ -5347,6 +5411,7 @@ fn transition_inner(
                     extra: extra::ExtraState {
                         enabled: [
                             ENGINE,
+                            STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
                             METRONOME_ENGINE,
                             HOLD_HANDS_ENGINE,
@@ -5430,6 +5495,7 @@ fn transition_inner(
                     battlefield: field::Battlefield {
                         enabled: [
                             ENGINE,
+                            STAT_OPS_ENGINE,
                             JUDGMENT_ENGINE,
                             METRONOME_ENGINE,
                             HOLD_HANDS_ENGINE,

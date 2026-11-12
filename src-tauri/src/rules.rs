@@ -227,6 +227,7 @@ pub fn accuracy(
 pub fn dice_count(c: &Campaign, action: &Action, catalog: &Catalog) -> Result<u32> {
     if [
         ENGINE,
+        STAT_OPS_ENGINE,
         JUDGMENT_ENGINE,
         METRONOME_ENGINE,
         HOLD_HANDS_ENGINE,
@@ -566,7 +567,7 @@ pub fn damage_pool(
         effectiveness = -1;
         immune = false;
     }
-    if !crate::combat::judgment::active(c, &m) {
+    if !crate::combat::judgment::active(c, &m) && !crate::combat::type_ops::unstoppable(c, &m) {
         crate::combat::reviewed::unique_damage_guard(c, attacker, target, effectiveness)?;
     }
     if crate::combat::field::weather(c, Some(target))
@@ -588,6 +589,9 @@ pub fn damage_pool(
     if crate::combat::completion::ignores_type_immunity(c, &m)
         || crate::combat::completion::target_immunity_removed(c, target, &m)
     {
+        immune = false;
+    }
+    if crate::combat::type_ops::unstoppable(c, &m) {
         immune = false;
     }
     if crate::combat::judgment::active(c, &m) {

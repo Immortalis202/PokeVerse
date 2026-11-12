@@ -1222,6 +1222,20 @@
         "completion_a48_splits_and_swaps_replace_scene_bases_and_keep_changes"
       ],
       "scope": "Thirteen stat operations. Splits and swaps replace scene base values (Strength, Dexterity, Special from the base sheet; Defense and Sp. Defense from the derived defenses), computed from current bases and rounded down for averages, until the scene ends or the combatant leaves battle; increases and reductions stay with their owner. Power Trick and Power Shift trade the user's own Strength/Defense and Special/Sp. Defense. Psych Up, Heart Swap, Topsy-Turvy and Spectral Thief act on applied move/stacking/copied changes and triggered-ability counters, not passive or field bonuses. Acupressure rolls two host dice for an unbiased draw among Strength, Dexterity, Special, Defense, Sp. Defense, Accuracy and Evasion pools (the one biased face pair is rerolled) and replaces its previous increase. Mystical Power raises the lowest of the five Attributes by 2 unless that score is already 6 or more; tied lowest Attributes require a saved owner choice. Spectral Thief steals target increases after reactions close and before damage. Ordinary Support protection, immunities and decoys apply to targeted cards."
+    },
+    {
+      "id": "move-completion-a49",
+      "status": "automated",
+      "source": "rules/move-completion.json: MOVE-A49",
+      "fixtures": [
+        "completion_a49_conversion_and_reflect_type_replace_typing_until_departure",
+        "completion_a49_lock_on_and_mind_reader_add_two_successes_once",
+        "completion_a49_miracle_eye_hits_dark_blocks_evasion_and_accuracy_reductions",
+        "completion_a49_moongeist_and_sunsteel_ignore_immunity_and_force_fields_but_not_clash",
+        "completion_a49_reflect_type_asks_which_foe_when_several_are_active",
+        "completion_a49_snipe_shot_ignores_redirection"
+      ],
+      "scope": "Eight typing, accuracy and targeting cards. Conversion rolls two host dice for an even draw over the 18 types and replaces the user's main type (secondary kept) for the scene or until it leaves battle; Reflect Type copies a foe's current types, with a saved owner choice when several foes are active. Lock-On adds two automatic Accuracy successes to the user's next move; Mind Reader adds two unremovable successes to the user's next Accuracy or Evasion roll against its target. Miracle Eye lets the user's Psychic moves hit Dark types, prevents foes from Evading the user's moves and stops move, item and ability Accuracy reductions on the user for the scene; printed Low Accuracy and field effects still apply. Snipe Shot ignores redirection and cover. Moongeist Beam and Sunsteel Strike ignore type and ability immunities, shields, weather prevention and force-field reductions, and cannot be Clashed; defenses, cover, decoys and survival effects still apply. Sunsteel Strike's printed Single Target overrides its Foe's Battlefield metadata."
     }
   ],
   "ability_registry_hash": "9e86f5fb99433a04aef397c11df252301c53286f292eef943dbb6e0be952ee16",
@@ -1238,5 +1252,5 @@
   "cure_protection_registry_hash": "e87c52e5a2e3d634fee2bec4d76729517b153ece9685c606419020a812899beb",
   "damaging_stats_registry_hash": "8efb04956d610230c5ba149234d2a4516aaa8b6853a480e631edf20f74001492",
   "entry_hazards_registry_hash": "ab636797b4dd469c981de007ba07ffa6e3e813ebe9b8f008a684289a2f3402c3",
-  "move_completion_registry_hash": "3e9777dfd307600edbdf80d7a22331bee00617e68e4dde4b98b37200d1c4832e"
+  "move_completion_registry_hash": "2de211a66fad9d507d1d46799fbcc307d420031faffead6cd5618391608bf5a5"
 }
